@@ -3,21 +3,116 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-dark: #000000;
+  --bg-navy: #152331;
+  --glass-bg: rgba(20, 30, 48, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --accent-blue: #4d9fff;
+  --accent-green: #39ff14;
+  --accent-orange: #ff9f0a;
+  --accent-red: #ff453a;
+  --accent-purple: #a78bfa;
+  --text-primary: #eeeeee;
+  --text-muted: #607080;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(to bottom, #000000, #152331);
+  background-attachment: fixed;
+  color: #eeeeee;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(77, 159, 255, 0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(77, 159, 255, 0.5);
+}
+
+/* Glass utility */
+.glass {
+  background: rgba(20, 30, 48, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+}
+
+.glass-sm {
+  background: rgba(20, 30, 48, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+}
+
+/* Glow orb utility */
+.glow-orb-blue {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(77, 159, 255, 0.18) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.glow-orb-green {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(57, 255, 20, 0.12) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+/* Ticker mask */
+.ticker-mask {
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    white 8%,
+    white 92%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    white 8%,
+    white 92%,
+    transparent 100%
+  );
 }
 
 @layer utilities {

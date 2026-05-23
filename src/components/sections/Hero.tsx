@@ -1,0 +1,211 @@
+"use client";
+
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import GlowButton from "@/components/ui/GlowButton";
+import AppWindow from "@/components/mockups/AppWindow";
+
+const words = ["Your", "personal", "command", "center."];
+
+export default function Hero() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const mockupY = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const mockupScale = useTransform(scrollYProgress, [0, 1], [1, 0.93]);
+  const textY = useTransform(scrollYProgress, [0, 1], [0, 40]);
+
+  return (
+    <section
+      ref={ref}
+      id="hero"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-24 pb-12 px-6"
+    >
+      {/* Background orbs */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          top: "10%",
+          left: "5%",
+          width: 700,
+          height: 700,
+          background: "radial-gradient(ellipse at center, rgba(77,159,255,0.10) 0%, transparent 65%)",
+          filter: "blur(60px)",
+        }}
+      />
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          bottom: "10%",
+          right: "5%",
+          width: 600,
+          height: 600,
+          background: "radial-gradient(ellipse at center, rgba(57,255,20,0.07) 0%, transparent 65%)",
+          filter: "blur(60px)",
+        }}
+      />
+
+      <div className="relative z-10 w-full max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left: text */}
+          <motion.div style={{ y: textY }} className="flex flex-col gap-6">
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <span
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium"
+                style={{
+                  background: "rgba(77,159,255,0.1)",
+                  border: "1px solid rgba(77,159,255,0.25)",
+                  color: "#4d9fff",
+                }}
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-accent-green animate-pulse" />
+                Now available for macOS
+              </span>
+            </motion.div>
+
+            {/* Headline */}
+            <h1 className="text-5xl sm:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight">
+              {words.map((word, i) => (
+                <motion.span
+                  key={word}
+                  className="inline-block mr-3"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  style={{
+                    color:
+                      word === "command" || word === "center."
+                        ? "#4d9fff"
+                        : "white",
+                  }}
+                >
+                  {word}
+                </motion.span>
+              ))}
+            </h1>
+
+            {/* Subheading */}
+            <motion.p
+              className="text-lg text-text-muted leading-relaxed max-w-lg"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              Bloombooard replaces scattered tools with one beautifully designed macOS app — tasks, KPIs, streaks, meetings, mood tracking, and hydration in a single glassy window.
+            </motion.p>
+
+            {/* CTA */}
+            <motion.div
+              className="flex items-center gap-4 flex-wrap"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.65 }}
+            >
+              <GlowButton label="Download Free" variant="primary" large href="#download" />
+              <a
+                href="https://buy.stripe.com/14AfZh00O28j5XT8li7bW05"
+                className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-sm transition-all duration-300 border border-accent-purple/40 text-accent-purple hover:bg-accent-purple/10 hover:border-accent-purple/70 hover:scale-105"
+              >
+                Start Pro Trial →
+              </a>
+            </motion.div>
+
+            {/* Badges row */}
+            <motion.div
+              className="flex flex-wrap gap-2 pt-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+            >
+              {[
+                "🍎 Built for Apple Silicon",
+                "💻 macOS only",
+                "🔒 100% local",
+                "∅ No account needed",
+              ].map((badge) => (
+                <span
+                  key={badge}
+                  className="text-xs px-3 py-1 rounded-full"
+                  style={{
+                    background: "rgba(255,255,255,0.04)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    color: "#607080",
+                  }}
+                >
+                  {badge}
+                </span>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Right: App window mockup */}
+          <div className="flex justify-center lg:justify-end">
+            <motion.div
+              style={{ y: mockupY, scale: mockupScale }}
+              className="animate-float"
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {/* Glow behind window */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: "radial-gradient(ellipse at 60% 50%, rgba(77,159,255,0.2) 0%, transparent 65%)",
+                  filter: "blur(40px)",
+                  transform: "scale(1.1)",
+                }}
+              />
+              <div
+                className="relative"
+                style={{
+                  transform: "perspective(1200px) rotateY(-6deg) rotateX(3deg)",
+                  transformStyle: "preserve-3d",
+                }}
+              >
+                <div
+                  className="hidden xl:block"
+                  style={{ transform: "scale(0.85)", transformOrigin: "top right" }}
+                >
+                  <AppWindow />
+                </div>
+                <div
+                  className="hidden lg:block xl:hidden"
+                  style={{ transform: "scale(0.65)", transformOrigin: "top right" }}
+                >
+                  <AppWindow />
+                </div>
+                <div
+                  className="lg:hidden"
+                  style={{ transform: "scale(0.45)", transformOrigin: "top center" }}
+                >
+                  <AppWindow />
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+
+      {/* Scroll cue */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
+      >
+        <span className="text-[10px] uppercase tracking-widest text-text-muted">Scroll</span>
+        <div
+          className="w-px h-8 rounded-full"
+          style={{
+            background: "linear-gradient(to bottom, rgba(77,159,255,0.5), transparent)",
+          }}
+        />
+      </motion.div>
+    </section>
+  );
+}
