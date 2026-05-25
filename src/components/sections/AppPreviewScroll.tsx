@@ -21,7 +21,7 @@ function FullAppPreviewImage() {
 
 export default function AppPreviewScroll() {
   return (
-    <section className="relative overflow-hidden px-4 sm:px-6">
+    <section id="hero" className="relative overflow-hidden px-4 sm:px-6">
       <div
         className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         style={{
@@ -33,22 +33,15 @@ export default function AppPreviewScroll() {
       />
       <ContainerScroll
         titleComponent={
-          <div className="mb-3 flex flex-col items-center gap-3 sm:mb-4 sm:gap-4">
-            <span
-              className="inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-widest"
-              style={{
-                color: "#4d9fff",
-                background: "rgba(77,159,255,0.1)",
-                border: "1px solid rgba(77,159,255,0.2)",
-              }}
-            >
-              Full App Preview
-            </span>
+          <div className="relative z-0 mb-0 flex translate-y-2 flex-col items-center gap-2 sm:translate-y-3 sm:gap-3 md:translate-y-[8px]">
+            <p className="text-sm font-medium tracking-wide text-text-muted sm:text-lg">
+              Tasks, goals, reminders, health &amp; streaks
+            </p>
             <h2
-              className="font-bold leading-tight text-text-primary"
-              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
+              className="font-bold leading-[0.92] tracking-normal text-text-primary md:whitespace-nowrap"
+              style={{ fontSize: "clamp(2.2rem, 5.2vw, 6.7rem)" }}
             >
-              Your entire day.{" "}
+              Your Day.{" "}
               <span
                 style={{
                   background: "linear-gradient(90deg, #4d9fff 0%, #a78bfa 38%, #f472b6 65%, #ff453a 100%)",
@@ -57,12 +50,9 @@ export default function AppPreviewScroll() {
                   backgroundClip: "text",
                 }}
               >
-                One window.
+                One Board
               </span>
             </h2>
-            <p className="max-w-xl text-sm leading-relaxed text-text-muted sm:text-lg">
-              Tasks, milestones, reminders, health, and streaks - all visible at a glance. No switching tabs.
-            </p>
           </div>
         }
       >

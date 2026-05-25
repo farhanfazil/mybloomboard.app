@@ -250,12 +250,60 @@ export const WALKTHROUGH_ITEMS = [
 ];
 
 export const STATS = [
-  { value: "16+", label: "Features" },
+  { value: "40+", label: "Features" },
   { value: "100%", label: "Local storage" },
   { value: "None", label: "Cloud required" },
   { value: "Zero", label: "Accounts needed" },
   { value: "macOS", label: "Platform" },
   { value: "Free", label: "To start" },
+];
+
+export const FAQS = [
+  {
+    question: "What is Bloombooard?",
+    answer:
+      "Bloombooard is a macOS productivity app that brings tasks, reminders, milestones, streaks, hydration, boards, KPIs, reports, and AI planning into one focused dashboard.",
+  },
+  {
+    question: "Is Bloombooard free to start?",
+    answer:
+      "Yes. The Free plan is available forever and includes the core task workflow, reminders, meetings, and limited boards so you can try the app before upgrading.",
+  },
+  {
+    question: "Does Bloombooard work offline?",
+    answer:
+      "Bloombooard is designed as a local-first desktop app. Your everyday workflow is built around fast access on your Mac without requiring a browser tab or cloud account.",
+  },
+  {
+    question: "Is the dashboard customizable?",
+    answer:
+      "Yes. You can customize the dashboard around the way you work, including boards, projects, priorities, reminders, task details, health tracking, and the views you rely on most.",
+  },
+  {
+    question: "What do Pro and Pro Max unlock?",
+    answer:
+      "Pro adds more power for daily work, including unlimited tasks, boards, AI task automation, email and message tools, meeting notes, and PDF report export. Pro Max expands the app with unlimited AI generations, KPI tools, advanced planning, and priority features.",
+  },
+  {
+    question: "Can teams use Bloombooard together?",
+    answer:
+      "Yes. The Team plan is built for managers and members who need shared boards, task assignment, member progress, reports, notifications, comments, and team performance tracking.",
+  },
+  {
+    question: "Can Bloombooard create reports?",
+    answer:
+      "Yes. Paid plans include PDF report export, and Pro Max adds deeper KPI tracking and work summary evaluation for people who need a clearer performance view.",
+  },
+  {
+    question: "What can the AI features do?",
+    answer:
+      "Bloom AI can help write emails and messages, turn meeting notes into tasks, plan your day, automate tasks, and support you when you are stuck or need a clearer next step.",
+  },
+  {
+    question: "Which devices are supported?",
+    answer:
+      "Bloombooard is designed for macOS 11 and later, including Apple Silicon and Intel Macs.",
+  },
 ];
 
 export const TECH_STACK = [

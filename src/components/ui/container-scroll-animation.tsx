@@ -29,10 +29,10 @@ export const ContainerScroll = ({
 
   return (
     <div
-      className="relative flex h-[44rem] items-center justify-center p-0 sm:h-[58rem] md:h-[90rem] md:p-20"
+      className="relative flex h-[40rem] items-start justify-center p-0 pt-16 sm:h-[56rem] sm:pt-20 md:h-[62rem] md:p-0 md:pt-28"
       ref={containerRef}
     >
-      <div className="relative w-full py-16 sm:py-20 md:py-40" style={{ perspective: "1000px" }}>
+      <div className="relative w-full py-8 sm:py-12 md:py-0" style={{ perspective: "1000px" }}>
         <Header translate={translate} titleComponent={titleComponent} />
         <Card rotate={rotate} translate={translate} scale={scale}>
           {children}
@@ -49,7 +49,7 @@ export const Header = ({
   translate: MotionValue<number>;
   titleComponent: React.ReactNode;
 }) => (
-  <motion.div style={{ translateY: translate }} className="max-w-5xl mx-auto text-center">
+  <motion.div style={{ translateY: translate }} className="mx-auto w-full max-w-[76rem] text-center">
     {titleComponent}
   </motion.div>
 );
@@ -217,8 +217,8 @@ export const Card = ({
 
       <motion.div
         ref={cardRef}
-        className="dd-glow-card relative mx-auto -mt-4 aspect-[2188/1710] w-full max-w-[94vw]
-                   rounded-[18px] p-[4px] sm:-mt-8 sm:max-w-3xl md:-mt-12 md:h-[46rem]
+        className="dd-glow-card relative z-10 mx-auto mt-3 aspect-[2188/1710] w-full max-w-[94vw]
+                   rounded-[18px] p-[4px] sm:-mt-7 sm:max-w-3xl md:-mt-10 md:h-[46rem]
                    md:max-w-5xl md:rounded-[24px] md:p-[6px]"
         style={{
           rotateX: rotate,

@@ -10,7 +10,7 @@ export default function StatsBar() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section className="relative py-16 px-6">
+    <section className="relative px-4 py-10 sm:px-6 sm:py-12">
       <div
         className="max-w-6xl mx-auto rounded-3xl overflow-hidden"
         style={{
@@ -32,7 +32,7 @@ export default function StatsBar() {
           {STATS.map((stat, i) => (
             <motion.div
               key={stat.label}
-              className="flex flex-col items-center justify-center gap-1 py-10 px-4 relative"
+              className="relative flex flex-col items-center justify-center gap-1 px-3 py-6 sm:px-4 sm:py-7"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.08 }}
@@ -46,7 +46,7 @@ export default function StatsBar() {
               )}
               <AnimatedCounter
                 value={stat.value}
-                className="text-3xl sm:text-4xl font-bold"
+                className="text-2xl font-bold sm:text-3xl"
                 style={{
                   color:
                     i === 0
