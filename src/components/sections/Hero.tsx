@@ -2,10 +2,35 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
 import GlowButton from "@/components/ui/GlowButton";
-import AppWindow from "@/components/mockups/AppWindow";
+import { useSpotlightBorder } from "@/components/ui/spotlight-border";
 
 const words = ["Your", "personal", "command", "center."];
+
+function HeroDashboardImage() {
+  const { cardRef, spotRef, spotStyle } = useSpotlightBorder({
+    radius: 420,
+    borderWidth: 2,
+    borderRadius: "28px",
+    brightness: 2.6,
+  });
+
+  return (
+    <div ref={cardRef as React.RefObject<HTMLDivElement>} className="relative overflow-hidden rounded-[28px]">
+      <div ref={spotRef} style={spotStyle} aria-hidden="true" />
+      <Image
+        src="/screenshots/hero-dashboard.png"
+        alt="Bloombooard dashboard preview"
+        width={2188}
+        height={1710}
+        priority
+        className="block w-[880px] max-w-none select-none"
+        unoptimized
+      />
+    </div>
+  );
+}
 
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -105,7 +130,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.65 }}
             >
-              <GlowButton label="Download Free" variant="primary" large href="#download" />
+              <GlowButton label="Download Free" variant="primary" large href="https://github.com/farhanfazil/bloombooard-releases/releases/download/v1.0.0/BloomBooard-Installer.dmg" />
               <a
                 href="https://buy.stripe.com/14AfZh00O28j5XT8li7bW05"
                 className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-sm transition-all duration-300 border border-accent-purple/40 text-accent-purple hover:bg-accent-purple/10 hover:border-accent-purple/70 hover:scale-105"
@@ -171,19 +196,19 @@ export default function Hero() {
                   className="hidden xl:block"
                   style={{ transform: "scale(0.85)", transformOrigin: "top right" }}
                 >
-                  <AppWindow />
+                  <HeroDashboardImage />
                 </div>
                 <div
                   className="hidden lg:block xl:hidden"
                   style={{ transform: "scale(0.65)", transformOrigin: "top right" }}
                 >
-                  <AppWindow />
+                  <HeroDashboardImage />
                 </div>
                 <div
                   className="lg:hidden"
                   style={{ transform: "scale(0.45)", transformOrigin: "top center" }}
                 >
-                  <AppWindow />
+                  <HeroDashboardImage />
                 </div>
               </div>
             </motion.div>

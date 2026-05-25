@@ -20,17 +20,19 @@ export const ContainerScroll = ({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const scaleDimensions = () => (isMobile ? [0.7, 0.9] : [1.05, 1]);
-  const rotate    = useTransform(scrollYProgress, [0, 1], [20, 0]);
+  const scaleDimensions = () => (isMobile ? [0.96, 1] : [1.05, 1]);
+  const rotateRange = isMobile ? [0, 0] : [20, 0];
+  const translateRange = isMobile ? [0, -35] : [0, -100];
+  const rotate    = useTransform(scrollYProgress, [0, 1], rotateRange);
   const scale     = useTransform(scrollYProgress, [0, 1], scaleDimensions());
-  const translate = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const translate = useTransform(scrollYProgress, [0, 1], translateRange);
 
   return (
     <div
-      className="h-[60rem] md:h-[80rem] flex items-center justify-center relative p-2 md:p-20"
+      className="relative flex h-[44rem] items-center justify-center p-0 sm:h-[58rem] md:h-[90rem] md:p-20"
       ref={containerRef}
     >
-      <div className="py-10 md:py-40 w-full relative" style={{ perspective: "1000px" }}>
+      <div className="relative w-full py-16 sm:py-20 md:py-40" style={{ perspective: "1000px" }}>
         <Header translate={translate} titleComponent={titleComponent} />
         <Card rotate={rotate} translate={translate} scale={scale}>
           {children}
@@ -69,6 +71,15 @@ const GLOW_CSS = `
       0 0 90px 20px rgba( 77,130, 255, 0.10),
       0 10px 22px rgba(0,0,0,0.50),
       0 40px 40px rgba(0,0,0,0.42);
+  }
+
+  @media (max-width: 767px) {
+    .dd-glow-card {
+      box-shadow:
+        0 0 0 1px rgba(77, 159, 255, 0.50),
+        0 0 20px 5px rgba(77, 159, 255, 0.28),
+        0 18px 40px rgba(0,0,0,0.48);
+    }
   }
 
   /* Static full-perimeter gradient border — diagonal gradient so top/left also glow */
@@ -206,8 +217,9 @@ export const Card = ({
 
       <motion.div
         ref={cardRef}
-        className="dd-glow-card max-w-5xl -mt-12 mx-auto h-[30rem] md:h-[40rem] w-full
-                   p-[6px] rounded-[24px] relative"
+        className="dd-glow-card relative mx-auto -mt-4 aspect-[2188/1710] w-full max-w-[94vw]
+                   rounded-[18px] p-[4px] sm:-mt-8 sm:max-w-3xl md:-mt-12 md:h-[46rem]
+                   md:max-w-5xl md:rounded-[24px] md:p-[6px]"
         style={{
           rotateX: rotate,
           scale,

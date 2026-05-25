@@ -11,6 +11,7 @@
 
 # next.js
 /.next/
+/.next-stale-cache-*/
 /out/
 
 # production
@@ -30,6 +31,11 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# deployment/local tool caches
+.netlify
+.wrangler
+.claude
 
 # typescript
 *.tsbuildinfo

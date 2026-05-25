@@ -3,11 +3,11 @@ export default function Footer() {
 
   return (
     <footer
-      className="relative px-6 py-12"
+      className="relative px-4 py-12 sm:px-6"
       style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
     >
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8">
+        <div className="mb-8 grid grid-cols-1 gap-8 text-center sm:grid-cols-3 sm:text-left">
           {/* Brand */}
           <div className="flex flex-col gap-2">
             <span className="text-base font-bold text-text-primary">Bloombooard</span>
@@ -37,7 +37,7 @@ export default function Footer() {
         </div>
 
         <div
-          className="pt-6 flex items-center justify-between"
+          className="flex flex-col items-center justify-between gap-3 pt-6 text-center sm:flex-row sm:text-left"
           style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}
         >
           <span className="text-xs text-text-muted">

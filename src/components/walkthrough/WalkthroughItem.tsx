@@ -1,9 +1,8 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef, Fragment } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { slideFromLeft, slideFromRight } from "@/lib/animations";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 interface WalkthroughItemProps {
   id: string;
@@ -15,6 +14,7 @@ interface WalkthroughItemProps {
   screenshot?: string;
   accentColor: string;
   index: number;
+  total: number;
 }
 
 // Per-feature config: maxWidth + which frame/mockup to render
@@ -25,7 +25,9 @@ const IMAGE_CONFIG: Record<string, { maxWidth: string; frame: string }> = {
   "streak":            { maxWidth: "360px", frame: "html-streak"     },
   "manage-projects":   { maxWidth: "560px", frame: "contain"         },
   "daily-quote":       { maxWidth: "560px", frame: "html-quote"      },
-  "ai-hub":            { maxWidth: "520px", frame: "html-ai-hub"    },
+  "ai-hub":            { maxWidth: "520px", frame: "html-ai-hub"     },
+  "bloom-ai":          { maxWidth: "400px", frame: "html-bloom-ai"   },
+  "ai-all":            { maxWidth: "660px", frame: "html-ai-all"     },
 };
 
 // ─── Glow Wrapper — sits behind every visual ─────────────────────────────────
@@ -563,6 +565,206 @@ function StreakBadgeMockup({ accentColor }: { accentColor: string }) {
   );
 }
 
+// ─── HTML Mockup: Combined AI (Bloom + Hub) ───────────────────────────────────
+function CombinedAIMockup({ accentColor }: { accentColor: string }) {
+  const tools = [
+    { icon: "✉️", iconBg: "rgba(59,130,246,0.25)", title: "Email & Messages", desc: "Fix, rewrite or generate emails and messages." },
+    { icon: "📋", iconBg: "rgba(34,197,94,0.22)",  title: "Meeting Notes → Tasks", desc: "Paste notes, AI extracts every action item." },
+    { icon: "🗓️", iconBg: "rgba(109,40,217,0.28)", title: "Plan My Day", desc: "Smart time-blocked schedule from your tasks." },
+    { icon: "🛟", iconBg: "rgba(139,92,246,0.25)", title: "I am Stuck", desc: "Personalised plan to break through any block." },
+  ];
+
+  return (
+    <div style={{
+      borderRadius: "20px",
+      background: "rgba(10,13,24,0.98)",
+      border: "1px solid rgba(255,255,255,0.09)",
+      overflow: "hidden",
+      boxShadow: `0 30px 80px rgba(0,0,0,0.60), 0 0 0 1px rgba(255,255,255,0.05), 0 0 70px ${accentColor}18`,
+      width: "100%",
+      fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    }}>
+      {/* ── Header bar ─────────────────────────────────────────────── */}
+      <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "14px 18px", borderBottom: "1px solid rgba(255,255,255,0.07)", background: "rgba(255,255,255,0.02)" }}>
+        <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "linear-gradient(135deg,#4f1fb5,#6d28d9)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", boxShadow: "0 0 10px rgba(109,40,217,0.5)" }}>🦋</div>
+        <span style={{ color: "#fff", fontSize: "13px", fontWeight: 700 }}>Bloom</span>
+        <span style={{ color: "rgba(255,255,255,0.2)", fontSize: "13px", margin: "0 4px" }}>·</span>
+        <span style={{ fontSize: "13px" }}>✨</span>
+        <span style={{ color: "#fff", fontSize: "13px", fontWeight: 700 }}>AI Assistant</span>
+        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "5px" }}>
+          <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#39FF14", boxShadow: "0 0 6px #39FF1470" }} />
+          <span style={{ color: "rgba(255,255,255,0.35)", fontSize: "10px" }}>Always ready</span>
+        </div>
+      </div>
+
+      {/* ── Split body ─────────────────────────────────────────────── */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0" }}>
+
+        {/* LEFT — Bloom chat ──────────────────────────────────────── */}
+        <div style={{ padding: "14px 16px 16px", borderRight: "1px solid rgba(255,255,255,0.06)" }}>
+          <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "9px", fontWeight: 700, letterSpacing: "1.5px", marginBottom: "10px" }}>YOUR AI COWORKER</div>
+
+          {/* Chat bubble */}
+          <div style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "12px", padding: "11px 13px", marginBottom: "12px" }}>
+            <p style={{ color: "rgba(255,255,255,0.82)", fontSize: "11px", lineHeight: 1.6, margin: 0 }}>
+              Good evening! 🌱 I&apos;m Bloom, your AI coworker. I can create tasks, schedule meetings, and help you plan your day — just ask.
+            </p>
+          </div>
+
+          {/* Chips */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "12px" }}>
+            {[
+              { l: "📅 My day",     c: "#a0c8ff", bg: "rgba(77,159,255,0.12)",  b: "rgba(77,159,255,0.25)"  },
+              { l: "⚠ Overdue",    c: "#ffa0a0", bg: "rgba(255,69,58,0.10)",   b: "rgba(255,69,58,0.22)"   },
+              { l: "🎯 Prioritize", c: "#ffd080", bg: "rgba(255,159,10,0.10)",  b: "rgba(255,159,10,0.22)"  },
+              { l: "+ Quick task",  c: "rgba(255,255,255,0.55)", bg: "rgba(255,255,255,0.05)", b: "rgba(255,255,255,0.12)" },
+            ].map((c) => (
+              <div key={c.l} style={{ background: c.bg, border: `1px solid ${c.b}`, borderRadius: "20px", padding: "4px 10px", color: c.c, fontSize: "10px", fontWeight: 500 }}>{c.l}</div>
+            ))}
+          </div>
+
+          {/* Input */}
+          <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+            <div style={{ flex: 1, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "12px", padding: "8px 11px", color: "rgba(255,255,255,0.28)", fontSize: "10px" }}>
+              Ask Bloom anything...
+            </div>
+            <div style={{ width: "32px", height: "32px", borderRadius: "9px", background: "linear-gradient(135deg,#4f46e5,#6d28d9)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px", flexShrink: 0 }}>➤</div>
+          </div>
+        </div>
+
+        {/* RIGHT — AI Hub tools ────────────────────────────────────── */}
+        <div style={{ padding: "14px 16px 16px" }}>
+          <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "9px", fontWeight: 700, letterSpacing: "1.5px", marginBottom: "10px" }}>AI ASSISTANT HUB</div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "7px" }}>
+            {tools.map((t) => (
+              <div key={t.title} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: "11px", padding: "10px 10px 9px" }}>
+                <div style={{ width: "28px", height: "28px", borderRadius: "8px", background: t.iconBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", marginBottom: "7px" }}>{t.icon}</div>
+                <div style={{ color: "#fff", fontSize: "10px", fontWeight: 700, marginBottom: "4px", lineHeight: 1.3 }}>{t.title}</div>
+                <div style={{ color: "rgba(255,255,255,0.38)", fontSize: "9px", lineHeight: 1.4 }}>{t.desc}</div>
+                <div style={{ color: accentColor, fontSize: "9px", marginTop: "7px", opacity: 0.8 }}>Open →</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Footer ─────────────────────────────────────────────────── */}
+      <div style={{ padding: "9px 18px", borderTop: "1px solid rgba(255,255,255,0.05)", background: "rgba(255,255,255,0.01)", display: "flex", alignItems: "center", gap: "6px" }}>
+        <span style={{ fontSize: "10px" }}>⚡</span>
+        <span style={{ color: "rgba(255,255,255,0.28)", fontSize: "9.5px" }}>Powered by Claude AI · Runs locally · No API key needed</span>
+      </div>
+    </div>
+  );
+}
+
+// ─── HTML Mockup: Bloom AI Coworker ──────────────────────────────────────────
+function BloomAIMockup({ accentColor }: { accentColor: string }) {
+  const chips = [
+    { label: "📅 My day",     bg: "rgba(77,159,255,0.12)",    border: "rgba(77,159,255,0.25)",    color: "#a0c8ff" },
+    { label: "⚠ Overdue",    bg: "rgba(255,69,58,0.10)",     border: "rgba(255,69,58,0.22)",     color: "#ffa0a0" },
+    { label: "🎯 Prioritize", bg: "rgba(255,159,10,0.10)",    border: "rgba(255,159,10,0.22)",    color: "#ffd080" },
+    { label: "+ Quick task",  bg: "rgba(255,255,255,0.06)",   border: "rgba(255,255,255,0.12)",   color: "rgba(255,255,255,0.6)" },
+  ];
+
+  return (
+    <div
+      style={{
+        borderRadius: "24px",
+        background: "rgba(10,13,24,0.98)",
+        border: "1px solid rgba(255,255,255,0.09)",
+        overflow: "hidden",
+        boxShadow: `0 30px 80px rgba(0,0,0,0.60), 0 0 0 1px rgba(255,255,255,0.05), 0 0 60px ${accentColor}18`,
+        width: "100%",
+        fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+      }}
+    >
+      {/* ── Header ───────────────────────────────────────────────────── */}
+      <div style={{ display: "flex", alignItems: "center", gap: "14px", padding: "20px 22px 16px", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+        {/* Butterfly avatar */}
+        <div
+          style={{
+            width: "52px", height: "52px", borderRadius: "50%",
+            background: "linear-gradient(135deg,#4f1fb5,#6d28d9)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: "24px", flexShrink: 0,
+            boxShadow: "0 0 20px rgba(109,40,217,0.55), 0 0 40px rgba(109,40,217,0.2)",
+          }}
+        >
+          🦋
+        </div>
+        <div>
+          <div style={{ color: "#fff", fontSize: "18px", fontWeight: 700, lineHeight: 1.2 }}>Bloom</div>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "3px" }}>
+            <div style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#39FF14", boxShadow: "0 0 6px #39FF1480" }} />
+            <span style={{ color: "rgba(255,255,255,0.45)", fontSize: "12px" }}>Your AI Coworker · Always ready</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Chat message ─────────────────────────────────────────────── */}
+      <div style={{ padding: "20px 22px 16px", display: "flex", gap: "12px", alignItems: "flex-start" }}>
+        <div
+          style={{
+            background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)",
+            borderRadius: "14px", padding: "14px 16px", flex: 1,
+          }}
+        >
+          <p style={{ color: "rgba(255,255,255,0.88)", fontSize: "14px", lineHeight: 1.65, margin: 0 }}>
+            Good evening, Farhan! 🌱 I&apos;m Bloom, your AI coworker. I can create tasks, schedule meetings, manage your boards, and help you plan your day — just ask, or use voice input. What can I help with?
+          </p>
+        </div>
+        <div
+          style={{
+            width: "38px", height: "38px", borderRadius: "10px", flexShrink: 0,
+            background: "linear-gradient(135deg,rgba(79,70,229,0.4),rgba(109,40,217,0.4))",
+            border: "1px solid rgba(167,139,250,0.2)",
+            display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px",
+          }}
+        >
+          🌱
+        </div>
+      </div>
+
+      {/* ── Quick action chips ───────────────────────────────────────── */}
+      <div style={{ padding: "0 22px 18px", display: "flex", flexWrap: "wrap", gap: "8px" }}>
+        {chips.map((c) => (
+          <div
+            key={c.label}
+            style={{
+              background: c.bg, border: `1px solid ${c.border}`,
+              borderRadius: "20px", padding: "7px 14px",
+              color: c.color, fontSize: "12.5px", fontWeight: 500,
+              cursor: "pointer",
+            }}
+          >
+            {c.label}
+          </div>
+        ))}
+      </div>
+
+      {/* ── Input bar ────────────────────────────────────────────────── */}
+      <div style={{ padding: "0 16px 18px", display: "flex", gap: "8px", alignItems: "center" }}>
+        <div
+          style={{
+            flex: 1, background: "rgba(255,255,255,0.05)",
+            border: "1px solid rgba(255,255,255,0.12)",
+            borderRadius: "16px", padding: "12px 16px",
+            color: "rgba(255,255,255,0.3)", fontSize: "13px",
+          }}
+        >
+          Ask Bloom to create tasks, schedule meetings, plan your day...
+        </div>
+        <div style={{ width: "42px", height: "42px", borderRadius: "12px", background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", flexShrink: 0 }}>
+          🎙️
+        </div>
+        <div style={{ width: "42px", height: "42px", borderRadius: "12px", background: "linear-gradient(135deg,#4f46e5,#6d28d9)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", flexShrink: 0, boxShadow: "0 0 14px rgba(79,70,229,0.5)" }}>
+          ➤
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── HTML Mockup: AI Assistant Hub ───────────────────────────────────────────
 function AIHubMockup({ accentColor }: { accentColor: string }) {
   const tools = [
@@ -697,15 +899,28 @@ export default function WalkthroughItem({
   screenshot,
   accentColor,
   index,
+  total,
 }: WalkthroughItemProps) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const container = useRef<HTMLDivElement | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const isEven = index % 2 === 0;
-
-  const textVariant = isEven ? slideFromLeft : slideFromRight;
-  const mockupVariant = isEven ? slideFromRight : slideFromLeft;
-
   const config = IMAGE_CONFIG[id] ?? { maxWidth: "520px", frame: "screenshot" };
+  const cardOffset = Math.min(index * 10, 80);
+  const targetScale = isMobile ? 1 : Math.max(0.86, 1 - (total - 1 - index) * 0.018);
+
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ["start end", "start start"],
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 1], [1, targetScale]);
+
+  useEffect(() => {
+    const updateViewport = () => setIsMobile(window.innerWidth < 640);
+    updateViewport();
+    window.addEventListener("resize", updateViewport);
+    return () => window.removeEventListener("resize", updateViewport);
+  }, []);
 
   function renderVisual() {
     switch (config.frame) {
@@ -715,6 +930,8 @@ export default function WalkthroughItem({
       case "html-streak":    return <StreakBadgeMockup        accentColor={accentColor} />;
       case "html-quote":     return <DailyQuoteMockup         accentColor={accentColor} />;
       case "html-ai-hub":    return <AIHubMockup              accentColor={accentColor} />;
+      case "html-bloom-ai":  return <BloomAIMockup            accentColor={accentColor} />;
+      case "html-ai-all":    return <CombinedAIMockup         accentColor={accentColor} />;
       case "window":
         return screenshot ? (
           <MacWindowFrame src={screenshot} alt={headline} title="Bloombooard" accentColor={accentColor} />
@@ -728,57 +945,55 @@ export default function WalkthroughItem({
 
   return (
     <div
-      ref={ref}
-      className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-20 items-center py-20 relative"
+      ref={container}
+      className="relative mb-8 min-h-0 sm:mb-0 sm:h-[88vh] sm:min-h-[760px]"
     >
-      {/* Separator */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent)" }}
-      />
-
-      {/* Text */}
-      <motion.div
-        className={`flex flex-col gap-5 ${isEven ? "lg:order-1" : "lg:order-2"}`}
-        variants={textVariant}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
+      <motion.article
+        className="grid min-h-0 grid-cols-1 items-center gap-8 overflow-hidden rounded-3xl border border-white/10 bg-[#080d19]/95 p-5 shadow-[0_24px_70px_rgba(0,0,0,0.38)] backdrop-blur sm:sticky sm:min-h-[620px] sm:gap-10 sm:rounded-[34px] sm:p-6 md:p-8 lg:grid-cols-2 lg:gap-14 xl:gap-20"
+        style={{
+          scale,
+          top: `calc(5rem + ${cardOffset}px)`,
+          zIndex: index + 1,
+          boxShadow: `0 35px 110px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.04), 0 0 70px ${accentColor}12`,
+        }}
       >
-        <div className="flex items-center gap-3">
-          <span
-            className="text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full"
-            style={{ background: `${accentColor}15`, color: accentColor, border: `1px solid ${accentColor}30` }}
-          >
-            {label}
-          </span>
+        {/* Text */}
+        <div
+          className={`flex flex-col gap-5 ${isEven ? "lg:order-1" : "lg:order-2"}`}
+        >
+          <div className="flex items-center gap-3">
+            <span
+              className="rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest"
+              style={{ background: `${accentColor}15`, color: accentColor, border: `1px solid ${accentColor}30` }}
+            >
+              {label}
+            </span>
+          </div>
+          <h3 className="text-2xl font-bold leading-tight text-text-primary sm:text-4xl">{headline}</h3>
+          <p className="text-sm leading-relaxed text-text-muted sm:text-base">{description}</p>
+          {bullets && bullets.length > 0 && (
+            <ul className="mt-1 flex flex-col gap-2.5">
+              {bullets.map((b) => (
+                <li key={b} className="flex items-start gap-3 text-sm text-text-muted">
+                  <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full" style={{ background: accentColor }} />
+                  {b}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
-        <h3 className="text-3xl sm:text-4xl font-bold text-text-primary leading-tight">{headline}</h3>
-        <p className="text-base text-text-muted leading-relaxed">{description}</p>
-        {bullets && bullets.length > 0 && (
-          <ul className="flex flex-col gap-2.5 mt-1">
-            {bullets.map((b) => (
-              <li key={b} className="flex items-start gap-3 text-sm text-text-muted">
-                <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: accentColor }} />
-                {b}
-              </li>
-            ))}
-          </ul>
-        )}
-      </motion.div>
 
-      {/* Visual — wrapped in GlowWrapper for every feature */}
-      <motion.div
-        className={`flex justify-center ${isEven ? "lg:order-2" : "lg:order-1"}`}
-        variants={mockupVariant}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-      >
-        <div style={{ width: "100%", maxWidth: config.maxWidth }}>
-          <GlowWrapper accentColor={accentColor}>
-            {renderVisual()}
-          </GlowWrapper>
+        {/* Visual */}
+        <div
+          className={`flex justify-center ${isEven ? "lg:order-2" : "lg:order-1"}`}
+        >
+          <div style={{ width: "100%", maxWidth: config.maxWidth }}>
+            <GlowWrapper accentColor={accentColor}>
+              {renderVisual()}
+            </GlowWrapper>
+          </div>
         </div>
-      </motion.div>
+      </motion.article>
     </div>
   );
 }

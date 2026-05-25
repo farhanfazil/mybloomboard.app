@@ -10,12 +10,12 @@ export default function Walkthrough() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="walkthrough" className="relative py-20 px-6">
+    <section id="walkthrough" className="relative px-4 py-16 sm:px-6 sm:py-20">
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
         <motion.div
           ref={ref}
-          className="text-center mb-8"
+          className="mb-10 text-center sm:mb-16"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
@@ -26,16 +26,21 @@ export default function Walkthrough() {
           >
             Deep Dive
           </span>
-          <h2 className="text-4xl sm:text-5xl font-bold text-text-primary mb-4">
+          <h2 className="mb-4 text-3xl font-bold text-text-primary sm:text-5xl">
             Built for the details.
           </h2>
-          <p className="text-lg text-text-muted max-w-xl mx-auto">
+          <p className="mx-auto max-w-xl text-sm leading-relaxed text-text-muted sm:text-lg">
             Eleven thoughtful features designed to make your workday feel effortless.
           </p>
         </motion.div>
 
         {WALKTHROUGH_ITEMS.map((item, index) => (
-          <WalkthroughItem key={item.id} {...item} index={index} />
+          <WalkthroughItem
+            key={item.id}
+            {...item}
+            index={index}
+            total={WALKTHROUGH_ITEMS.length}
+          />
         ))}
       </div>
     </section>
