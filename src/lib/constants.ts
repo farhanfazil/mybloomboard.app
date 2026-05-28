@@ -580,7 +580,7 @@ export const PRICING_PLANS = [
     accentColor: "#a78bfa",
     highlighted: false,
     cta: "Start Team Plan",
-    ctaHref: "#",
+    ctaHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_2p9qjn127usEg6vCfEv6kgUVatpK4wzKHMcXF2GU9K2/redirect",
     featureGroups: [
       {
         category: "Tasks & Planning",
