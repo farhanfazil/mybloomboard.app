@@ -1,9 +1,8 @@
 "use client";
 
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useScroll, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { FEATURES } from "@/lib/constants";
-import { useSpotlightBorder } from "@/components/ui/spotlight-border";
 
 function FeatureCard({
   icon,
@@ -27,23 +26,13 @@ function FeatureCard({
       title.toLowerCase().includes("bloom")
   );
 
-  const { cardRef, spotRef, spotStyle } = useSpotlightBorder({
-    radius:       220,
-    borderWidth:  highlight ? 1 : 1,
-    borderRadius: "16px",
-    brightness:   highlight ? 2.8 : 2.4,
-  });
-
   return (
     <div
-      ref={cardRef as React.RefObject<HTMLDivElement>}
-      className="group relative flex min-h-[220px] w-full shrink-0 cursor-pointer flex-col gap-3 rounded-2xl p-5 transition-all duration-300 hover:scale-[1.02] sm:h-[220px] sm:w-[340px]"
+      className="group relative flex min-h-[220px] w-full shrink-0 cursor-pointer flex-col gap-3 overflow-hidden rounded-2xl p-5 transition-transform duration-300 hover:scale-[1.01] sm:h-[220px] sm:w-[340px]"
       style={{
         background:           highlight
-          ? "linear-gradient(135deg, rgba(30,18,60,0.90) 0%, rgba(18,26,55,0.90) 100%)"
-          : "rgba(20, 30, 48, 0.72)",
-        backdropFilter:       "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
+          ? "linear-gradient(135deg, rgba(30,18,60,0.96) 0%, rgba(18,26,55,0.96) 100%)"
+          : "rgba(20, 30, 48, 0.92)",
         border:               highlight
           ? "1px solid rgba(167,139,250,0.30)"
           : "1px solid rgba(255,255,255,0.07)",
@@ -51,11 +40,9 @@ function FeatureCard({
           ? "1px solid rgba(167,139,250,0.50)"
           : `1px solid ${accentColor}35`,
         boxShadow:            "none",
+        contain:              "layout paint style",
       }}
     >
-      {/* Apple Intelligence spotlight border */}
-      <div ref={spotRef} style={spotStyle} aria-hidden="true" />
-
       {/* Hover glow */}
       <div
         className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
@@ -132,19 +119,20 @@ export default function FeatureGrid() {
     return () => window.removeEventListener("resize", updateViewport);
   }, []);
 
-  const topRowRange = isMobile ? [-170, 40] : [-720, 170];
-  const middleRowRange = isMobile ? [35, -185] : [130, -760];
-  const bottomRowRange = isMobile ? [-135, 55] : [-560, 240];
-  const topRowX = useTransform(scrollYProgress, [0, 1], topRowRange);
-  const middleRowX = useTransform(scrollYProgress, [0, 1], middleRowRange);
-  const bottomRowX = useTransform(scrollYProgress, [0, 1], bottomRowRange);
+  const topRowRange = isMobile ? [-220, 60] : [-1180, 340];
+  const middleRowRange = isMobile ? [-90, -262] : [-260, -1000];
+  const bottomRowRange = isMobile ? [-120, -340] : [-420, -1680];
+  const springConfig = { stiffness: 90, damping: 28, mass: 0.7 };
+  const topRowX = useSpring(useTransform(scrollYProgress, [0, 1], topRowRange), springConfig);
+  const middleRowX = useSpring(useTransform(scrollYProgress, [0, 1], middleRowRange), springConfig);
+  const bottomRowX = useSpring(useTransform(scrollYProgress, [0, 1], bottomRowRange), springConfig);
 
   const row1 = FEATURES.filter((_, index) => index % 3 === 0);
   const row2 = FEATURES.filter((_, index) => index % 3 === 1);
   const row3 = FEATURES.filter((_, index) => index % 3 === 2);
-  const repeatedRow1 = [...row1, ...row1, ...row1];
-  const repeatedRow2 = [...row2, ...row2, ...row2];
-  const repeatedRow3 = [...row3, ...row3, ...row3];
+  const repeatedRow1 = Array.from({ length: 2 }, () => row1).flat();
+  const repeatedRow2 = Array.from({ length: 2 }, () => row2).flat();
+  const repeatedRow3 = Array.from({ length: 2 }, () => row3).flat();
 
   return (
     <section ref={sectionRef} id="features" className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-24">
@@ -188,7 +176,7 @@ export default function FeatureGrid() {
         >
           <div className="flex flex-col gap-3">
             <motion.div
-              className="flex gap-5 pl-[max(1rem,calc((100vw-72rem)/2))] will-change-transform sm:pl-[max(1.5rem,calc((100vw-72rem)/2))]"
+              className="flex transform-gpu gap-5 pl-[max(1rem,calc((100vw-72rem)/2))] will-change-transform sm:pl-[max(1.5rem,calc((100vw-72rem)/2))]"
               style={{ x: topRowX }}
             >
               {repeatedRow1.map((feature, index) => (
@@ -197,7 +185,7 @@ export default function FeatureGrid() {
             </motion.div>
 
             <motion.div
-              className="flex gap-5 pl-[max(1rem,calc((100vw-72rem)/2))] will-change-transform sm:pl-[max(1.5rem,calc((100vw-72rem)/2))]"
+              className="flex transform-gpu gap-5 pl-[max(1rem,calc((100vw-72rem)/2))] will-change-transform sm:pl-[max(1.5rem,calc((100vw-72rem)/2))]"
               style={{ x: middleRowX }}
             >
               {repeatedRow2.map((feature, index) => (
@@ -206,7 +194,7 @@ export default function FeatureGrid() {
             </motion.div>
 
             <motion.div
-              className="flex gap-5 pl-[max(1rem,calc((100vw-72rem)/2))] will-change-transform sm:pl-[max(1.5rem,calc((100vw-72rem)/2))]"
+              className="flex transform-gpu gap-5 pl-[max(1rem,calc((100vw-72rem)/2))] will-change-transform sm:pl-[max(1.5rem,calc((100vw-72rem)/2))]"
               style={{ x: bottomRowX }}
             >
               {repeatedRow3.map((feature, index) => (

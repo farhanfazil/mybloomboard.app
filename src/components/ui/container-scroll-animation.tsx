@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useEffect } from "react";
-import { useScroll, useTransform, motion, MotionValue, type MotionStyle } from "framer-motion";
+import { useScroll, useSpring, useTransform, motion, MotionValue, type MotionStyle } from "framer-motion";
 
 export const ContainerScroll = ({
   titleComponent,
@@ -20,12 +20,13 @@ export const ContainerScroll = ({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const scaleDimensions = () => (isMobile ? [0.96, 1] : [1.05, 1]);
-  const rotateRange = isMobile ? [0, 0] : [20, 0];
-  const translateRange = isMobile ? [0, -35] : [0, -100];
-  const rotate    = useTransform(scrollYProgress, [0, 1], rotateRange);
-  const scale     = useTransform(scrollYProgress, [0, 1], scaleDimensions());
-  const translate = useTransform(scrollYProgress, [0, 1], translateRange);
+  const scaleDimensions = () => (isMobile ? [0.97, 1] : [1.035, 1]);
+  const rotateRange = isMobile ? [0, 0] : [12, 0];
+  const translateRange = isMobile ? [0, -28] : [0, -82];
+  const springConfig = { stiffness: 72, damping: 22, mass: 0.8 };
+  const rotate = useSpring(useTransform(scrollYProgress, [0, 1], rotateRange), springConfig);
+  const scale = useSpring(useTransform(scrollYProgress, [0, 1], scaleDimensions()), springConfig);
+  const translate = useSpring(useTransform(scrollYProgress, [0, 1], translateRange), springConfig);
 
   return (
     <div

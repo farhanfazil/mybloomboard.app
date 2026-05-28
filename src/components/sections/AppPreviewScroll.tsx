@@ -33,7 +33,7 @@ export default function AppPreviewScroll() {
       />
       <ContainerScroll
         titleComponent={
-          <div className="relative z-0 mb-0 flex translate-y-2 flex-col items-center gap-2 sm:translate-y-3 sm:gap-3 md:translate-y-[8px]">
+          <div className="relative z-0 mb-0 flex translate-y-2 flex-col items-center gap-2 sm:translate-y-3 sm:gap-3 md:-translate-y-[34px]">
             <p className="text-sm font-medium tracking-wide text-text-muted sm:text-lg">
               Tasks, goals, reminders, health &amp; streaks
             </p>

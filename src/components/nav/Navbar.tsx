@@ -55,7 +55,7 @@ export default function Navbar() {
 
         {/* CTA */}
         <a
-          href="https://github.com/farhanfazil/bloombooard-releases/releases/download/v1.0.0/BloomBooard-Installer.dmg"
+          href="https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBooard-Installer.dmg"
           className="hidden md:inline-flex items-center gap-2 px-5 py-2 rounded-full font-semibold text-sm transition-all duration-300 hover:scale-105 hover:brightness-105"
           style={{
             background: "rgba(255,255,255,0.92)",

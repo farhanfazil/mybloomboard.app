@@ -57,6 +57,70 @@ export const FEATURES = [
     mockupType: "teams",
   },
   {
+    icon: "💬",
+    title: "Team Chat",
+    description:
+      "Create group chats, message teammates individually, send voice notes, share images, and keep ideas connected to the work that matters.",
+    accentColor: "#4d9fff",
+    mockupType: "team-chat",
+  },
+  {
+    icon: "🎙️",
+    title: "Voice Messages",
+    description:
+      "Add voice messages directly inside board comments so teammates can explain decisions, updates, and feedback without typing everything out.",
+    accentColor: "#ff9f0a",
+    mockupType: "voice",
+  },
+  {
+    icon: "🙂",
+    title: "Mood Avatars",
+    description:
+      "Choose an avatar that matches your mood, energy, or focus state, giving your workspace a more personal and expressive daily feel.",
+    accentColor: "#f472b6",
+    mockupType: "avatar",
+  },
+  {
+    icon: "☁️",
+    title: "Cloud Data",
+    description:
+      "Your app data stays securely backed up in the cloud, so your tasks, boards, notes, and reports remain protected if your device changes.",
+    accentColor: "#4d9fff",
+    mockupType: "cloud",
+  },
+  {
+    icon: "🔐",
+    title: "Security",
+    description:
+      "Built with protected access, secure data handling, and privacy-minded workflows so teams can manage important work with confidence.",
+    accentColor: "#39FF14",
+    mockupType: "security",
+  },
+  {
+    icon: "📌",
+    title: "Quick Sticky Notes",
+    description:
+      "Create multiple sticky notes that stay visible on top of your workspace, highlighted for reminders, ideas, follow-ups, and urgent details.",
+    accentColor: "#ff9f0a",
+    mockupType: "sticky-notes",
+  },
+  {
+    icon: "🧑‍💼",
+    title: "Unlimited Team Members",
+    description:
+      "Invite members to join your workspace, keep everyone connected, and collaborate across boards, comments, tasks, reports, and shared updates.",
+    accentColor: "#a78bfa",
+    mockupType: "team-members",
+  },
+  {
+    icon: "🌓",
+    title: "Dark & Light Mode",
+    description:
+      "Switch between dark and light mode, tune board colors, and shape each workspace around the way your team likes to focus.",
+    accentColor: "#4d9fff",
+    mockupType: "themes",
+  },
+  {
     icon: "🔔",
     title: "Notification Bell",
     description:

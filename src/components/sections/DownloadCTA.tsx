@@ -52,7 +52,7 @@ export default function DownloadCTA() {
             <div className="flex items-center gap-4 flex-wrap justify-center">
               {/* Download button — clean white Apple style */}
               <a
-                href="https://github.com/farhanfazil/bloombooard-releases/releases/download/v1.0.0/BloomBooard-Installer.dmg"
+                href="https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBooard-Installer.dmg"
                 className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-4 text-base font-semibold transition-all duration-300 hover:scale-105 hover:brightness-105 sm:w-auto sm:px-8"
                 style={{
                   background: "rgba(255,255,255,0.93)",
