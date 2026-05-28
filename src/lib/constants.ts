@@ -465,7 +465,7 @@ export const PRICING_PLANS = [
     accentColor: "#4d9fff",
     highlighted: false,
     cta: "7 days trial",
-    ctaHref: "https://buy.stripe.com/14AfZh00O28j5XT8li7bW05",
+    ctaHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_TQSyTPGy63wMNw0r31v3GtyYNvU6YFgOmO7Rz3I5phX/redirect",
     yearlyHref: "https://buy.stripe.com/eVqbJ1fZM9AL3PL4527bW06",
     featureGroups: [
       {
@@ -524,7 +524,7 @@ export const PRICING_PLANS = [
     highlighted: true,
     badgeLabel: "Best Value",
     cta: "7 days trial",
-    ctaHref: "https://buy.stripe.com/4gM7sL3d0fZ95XTdFC7bW07",
+    ctaHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_tZmnylGTB2b9OizlujPnaSQe0y0HJRqG9IVfn0X241v/redirect",
     yearlyHref: "https://buy.stripe.com/28E4gz00OeV58618li7bW08",
     featureGroups: [
       {
