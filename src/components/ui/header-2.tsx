@@ -8,7 +8,7 @@ import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
 import { useScroll } from "@/components/ui/use-scroll";
 
 const DOWNLOAD_URL =
-  "https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBooard-Installer.dmg";
+  "https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBooard-Installer.pkg";
 
 export function Header() {
   const [open, setOpen] = React.useState(false);
