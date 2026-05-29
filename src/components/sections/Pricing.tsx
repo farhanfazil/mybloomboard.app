@@ -32,6 +32,16 @@ interface PricingPlan {
   accentColor: string;
 }
 
+function formatMonthlyEquivalent(yearlyPrice: string) {
+  const numericPrice = Number(yearlyPrice.replace(/[^0-9.]/g, ""));
+
+  if (!Number.isFinite(numericPrice)) {
+    return "";
+  }
+
+  return `$${(numericPrice / 12).toFixed(2)}`;
+}
+
 // ─── Single card ──────────────────────────────────────────────────────────────
 function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
   const { cardRef, spotRef, spotStyle } = useSpotlightBorder({
@@ -44,6 +54,7 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
   const showYearly = yearly && plan.yearlyPrice;
   const displayPrice   = showYearly ? plan.yearlyPrice! : plan.price;
   const displaySubtext = showYearly ? plan.yearlySubtext! : plan.subtext;
+  const monthlyEquivalent = showYearly ? formatMonthlyEquivalent(plan.yearlyPrice!) : "";
 
   return (
     <motion.div
@@ -110,7 +121,7 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
         )}
         {plan.yearlyPrice && yearly && (
           <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
-            {plan.price} / month
+            {monthlyEquivalent} / month
           </p>
         )}
         {!plan.yearlyPrice && (
@@ -189,27 +200,43 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
       <div className="px-6 pb-6 2xl:px-7">
         <a
           href={yearly && plan.yearlyHref ? plan.yearlyHref : plan.ctaHref}
-          className="block w-full py-3 rounded-xl text-sm font-semibold text-center transition-all duration-300 hover:scale-[1.02] hover:brightness-110"
+          className="block w-full rounded-xl border py-3 text-center text-sm font-semibold transition-all duration-300 ease-out bg-[var(--cta-bg)] text-[var(--cta-color)] border-[var(--cta-border)] shadow-[0_0_0_rgba(255,255,255,0)] hover:-translate-y-1 hover:scale-[1.025] hover:bg-[var(--cta-hover-bg)] hover:text-[var(--cta-hover-color)] hover:border-[var(--cta-hover-border)] hover:shadow-[0_18px_45px_var(--cta-glow)] active:translate-y-0 active:scale-[0.99]"
           style={{
-            background: plan.highlighted
+            ["--cta-bg" as string]: plan.highlighted
               ? plan.name === "Pro Max"
                 ? "rgba(167,139,250,0.24)"
                 : "#4d9fff"
               : plan.name === "Pro Max"
               ? "rgba(167,139,250,0.15)"
               : "rgba(255,255,255,0.06)",
-            color: plan.highlighted
+            ["--cta-color" as string]: plan.highlighted
               ? plan.name === "Pro Max"
                 ? "#c4b5fd"
                 : "white"
               : plan.name === "Pro Max"
               ? "#a78bfa"
               : "rgba(255,255,255,0.7)",
-            border: plan.highlighted
+            ["--cta-border" as string]: plan.highlighted
               ? plan.name === "Pro Max"
-                ? "1px solid rgba(167,139,250,0.45)"
-                : "none"
-              : `1px solid ${plan.name === "Pro Max" ? "rgba(167,139,250,0.3)" : "rgba(255,255,255,0.1)"}`,
+                ? "rgba(167,139,250,0.45)"
+                : "rgba(77,159,255,0.5)"
+              : plan.name === "Pro Max" ? "rgba(167,139,250,0.3)" : "rgba(255,255,255,0.1)",
+            ["--cta-hover-bg" as string]: plan.name === "Pro Max"
+              ? "rgba(167,139,250,0.34)"
+              : plan.name === "Pro"
+              ? "linear-gradient(135deg, #5ea8ff, #6d5dfc)"
+              : "rgba(255,255,255,0.12)",
+            ["--cta-hover-color" as string]: plan.name === "Pro Max" ? "#efe8ff" : "#ffffff",
+            ["--cta-hover-border" as string]: plan.name === "Pro Max"
+              ? "rgba(196,181,253,0.7)"
+              : plan.name === "Pro"
+              ? "rgba(125,184,255,0.8)"
+              : "rgba(255,255,255,0.22)",
+            ["--cta-glow" as string]: plan.name === "Pro Max"
+              ? "rgba(167,139,250,0.24)"
+              : plan.name === "Pro"
+              ? "rgba(77,159,255,0.24)"
+              : "rgba(255,255,255,0.08)",
           }}
         >
           {plan.cta}

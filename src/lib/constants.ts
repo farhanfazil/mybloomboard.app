@@ -192,7 +192,7 @@ export const WALKTHROUGH_ITEMS = [
     description:
       "A professional split-panel layout built for macOS. The sidebar holds your day's context — personalised greeting with avatar, live stats, upcoming events, health, and streak. The main area is your workspace.",
     mockupType: "screenshot",
-    screenshot: "/screenshots/greeting-stats.png",
+    screenshot: "/screenshots/feature-01.png",
     accentColor: "#4d9fff",
   },
   {
@@ -224,7 +224,7 @@ export const WALKTHROUGH_ITEMS = [
       "🧠 Mood selector per task",
     ],
     mockupType: "screenshot",
-    screenshot: "/screenshots/subtasks-complete.png",
+    screenshot: "/screenshots/feature-03.png",
     accentColor: "#39FF14",
   },
   {
@@ -244,7 +244,7 @@ export const WALKTHROUGH_ITEMS = [
     description:
       "The task creation modal is fast and frictionless. Set a title, description, priority, deadline, project, and mood tag — all in one clean form. Voice input supported for title and description.",
     mockupType: "screenshot",
-    screenshot: "/screenshots/new-task-modal.png",
+    screenshot: "/screenshots/feature-07.png",
     accentColor: "#4d9fff",
   },
   {
@@ -254,7 +254,7 @@ export const WALKTHROUGH_ITEMS = [
     description:
       "The Reminders & Meetings panel surfaces everything upcoming — meetings with 5-min alerts, leave dates with countdowns, and time-sensitive reminders glowing amber when due. Full-screen reminder popups for critical items.",
     mockupType: "screenshot",
-    screenshot: "/screenshots/reminders-meetings.png",
+    screenshot: "/screenshots/feature-08.png",
     accentColor: "#a78bfa",
   },
   {
@@ -298,7 +298,7 @@ export const WALKTHROUGH_ITEMS = [
     description:
       "Create custom projects with a name, colour, and emoji. Tasks group automatically under their project with colour-coded left borders. The project manager makes renaming and reordering effortless.",
     mockupType: "screenshot",
-    screenshot: "/screenshots/manage-projects.png",
+    screenshot: "/screenshots/feature-12.png",
     accentColor: "#39FF14",
   },
   {
@@ -308,7 +308,7 @@ export const WALKTHROUGH_ITEMS = [
     description:
       "Each session opens with a curated quote or Hadith on a deep ocean-gradient card. Tap Refresh to cycle to a new one. A quiet, daily nudge to keep perspective on what truly matters.",
     mockupType: "screenshot",
-    screenshot: "/screenshots/daily-quote.png",
+    screenshot: "/screenshots/feature-13.png",
     accentColor: "#4d9fff",
   },
 ];

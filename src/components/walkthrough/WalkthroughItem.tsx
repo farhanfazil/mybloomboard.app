@@ -1280,6 +1280,8 @@ export default function WalkthroughItem({
   const articleGridClass = isWideVisual
     ? "lg:grid-cols-[0.72fr_1.28fr] lg:gap-8 xl:gap-10"
     : "lg:grid-cols-2 lg:gap-14 xl:gap-20";
+  const glowColor = `${accentColor}20`;
+  const softGlowColor = `${accentColor}10`;
 
   const { scrollYProgress } = useScroll({
     target: container,
@@ -1324,31 +1326,60 @@ export default function WalkthroughItem({
       className="relative mb-8 min-h-0 sm:mb-0 sm:h-[88vh] sm:min-h-[760px]"
     >
       <motion.article
-        className={`grid min-h-0 grid-cols-1 items-center gap-8 overflow-hidden rounded-3xl border border-white/[0.09] bg-black/70 p-5 backdrop-blur-xl sm:sticky sm:min-h-[620px] sm:gap-10 sm:rounded-[34px] sm:p-6 md:p-8 ${articleGridClass}`}
+        className={`group relative grid min-h-0 grid-cols-1 items-center gap-8 overflow-hidden rounded-3xl border p-5 backdrop-blur-xl transition-all duration-500 ease-out hover:-translate-y-1 hover:border-white/[0.16] sm:sticky sm:min-h-[620px] sm:gap-10 sm:rounded-[34px] sm:p-6 md:p-8 ${articleGridClass}`}
         style={{
           scale,
           top: `calc(5rem + ${cardOffset}px)`,
           zIndex: index + 1,
+          background: `linear-gradient(145deg, rgba(8,8,10,0.94) 0%, rgba(3,3,5,0.88) 72%), radial-gradient(circle at ${isEven ? "88% 12%" : "14% 14%"}, ${glowColor}, transparent 40%), radial-gradient(circle at ${isEven ? "12% 88%" : "86% 86%"}, ${softGlowColor}, transparent 42%)`,
+          borderColor: "rgba(255,255,255,0.1)",
+          boxShadow: "none",
         }}
       >
+        <div
+          className="pointer-events-none absolute inset-px rounded-[33px] opacity-80"
+          style={{
+            background:
+              "linear-gradient(140deg, rgba(255,255,255,0.065) 0%, transparent 24%, transparent 72%, rgba(255,255,255,0.035) 100%)",
+            zIndex: 0,
+          }}
+        />
+        <div
+          className="pointer-events-none absolute inset-0 rounded-[34px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          style={{
+            background: `radial-gradient(circle at ${isEven ? "18% 16%" : "82% 18%"}, rgba(255,255,255,0.1), transparent 28%), radial-gradient(circle at ${isEven ? "82% 82%" : "18% 82%"}, ${glowColor}, transparent 44%)`,
+            zIndex: 0,
+          }}
+        />
+        <div
+          className="pointer-events-none absolute left-8 right-8 top-0 h-px opacity-80 transition-opacity duration-500 group-hover:opacity-100"
+          style={{
+            background: `linear-gradient(to right, transparent, ${accentColor}80, rgba(255,255,255,0.5), transparent)`,
+            zIndex: 1,
+          }}
+        />
         {/* Text */}
         <div
-          className={`flex flex-col gap-5 ${isEven ? "lg:order-1" : "lg:order-2"} ${isWideVisual ? "lg:max-w-[560px]" : ""}`}
+          className={`relative z-10 flex flex-col gap-5 ${isEven ? "lg:order-1" : "lg:order-2"} ${isWideVisual ? "lg:max-w-[560px]" : ""}`}
         >
           <div className="flex items-center gap-3">
             <span
-              className="rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest"
-              style={{ background: `${accentColor}15`, color: accentColor, border: `1px solid ${accentColor}30` }}
+              className="rounded-full px-3.5 py-1.5 text-xs font-bold uppercase tracking-widest transition-all duration-500 group-hover:-translate-y-0.5"
+              style={{
+                background: `linear-gradient(135deg, ${accentColor}20, rgba(255,255,255,0.045))`,
+                color: accentColor,
+                border: `1px solid ${accentColor}45`,
+              }}
             >
               {label}
             </span>
           </div>
-          <h3 className="text-2xl font-bold leading-tight text-text-primary sm:text-4xl">{headline}</h3>
-          <p className="text-sm leading-relaxed text-text-muted sm:text-base">{description}</p>
+          <h3 className="text-2xl font-bold leading-tight text-text-primary transition-colors duration-500 group-hover:text-white sm:text-4xl">{headline}</h3>
+          <p className="text-sm leading-relaxed text-text-muted transition-colors duration-500 group-hover:text-white/60 sm:text-base">{description}</p>
           {bullets && bullets.length > 0 && (
             <ul className="mt-1 flex flex-col gap-2.5">
               {bullets.map((b) => (
-                <li key={b} className="flex items-start gap-3 text-sm text-text-muted">
+                <li key={b} className="flex items-start gap-3 text-sm text-text-muted transition-colors duration-500 group-hover:text-white/58">
                   <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full" style={{ background: accentColor }} />
                   {b}
                 </li>
@@ -1359,7 +1390,7 @@ export default function WalkthroughItem({
 
         {/* Visual */}
         <div
-          className={`flex justify-center ${isEven ? "lg:order-2" : "lg:order-1"}`}
+          className={`relative z-10 flex justify-center transition-transform duration-500 ease-out group-hover:scale-[1.01] ${isEven ? "lg:order-2" : "lg:order-1"}`}
         >
           <div style={{ width: "100%", maxWidth: config.maxWidth }}>
             <VisualWrapper>
