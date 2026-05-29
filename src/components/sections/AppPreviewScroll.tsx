@@ -6,8 +6,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
 const SLIDES = [
-  { src: "/screenshots/hero-dashboard.jpg", alt: "Bloombooard dashboard – default" },
-  { src: "/screenshots/Card_Black.jpg",     alt: "Bloombooard dashboard – dark theme" },
+  { src: "/screenshots/Card_Black.jpg",     alt: "Bloombooard dashboard – black theme" },
+  { src: "/screenshots/hero-dashboard.jpg", alt: "Bloombooard dashboard – dark theme" },
   { src: "/screenshots/Card_Light.jpg",     alt: "Bloombooard dashboard – light theme" },
 ];
 
