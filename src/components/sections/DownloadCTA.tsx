@@ -53,6 +53,7 @@ export default function DownloadCTA() {
             <div className="relative flex items-center gap-4 flex-wrap justify-center">
               <motion.div
                 className="pointer-events-none absolute left-[68%] top-0 z-20 hidden lg:block"
+                style={{ willChange: "transform, opacity" }}
                 initial={{ opacity: 0, x: -420, y: -430, rotate: -28, scale: 0.46 }}
                 animate={
                   isInView
@@ -66,10 +67,14 @@ export default function DownloadCTA() {
                     : {}
                 }
                 transition={{
-                  duration: 2.15,
-                  ease: [0.22, 1, 0.36, 1],
+                  duration: 2.4,
                   delay: 0.05,
                   times: [0, 0.34, 0.72, 1],
+                  opacity: { ease: "easeOut", duration: 0.5 },
+                  x:       { ease: [0.25, 0.46, 0.45, 0.94], duration: 2.4 },
+                  y:       { ease: [0.25, 0.46, 0.45, 0.94], duration: 2.4 },
+                  rotate:  { ease: "easeInOut", duration: 2.4 },
+                  scale:   { ease: "easeInOut", duration: 2.4 },
                 }}
               >
                 <HolographicButterfly />

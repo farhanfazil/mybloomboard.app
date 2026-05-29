@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
 const SLIDES = [
@@ -62,43 +61,49 @@ export default function AppPreviewScroll() {
           </div>
         }
       >
-        {/* Slide images — fill the card without cropping */}
+        {/*
+         * All slides are always in the DOM so the browser loads every image
+         * on first paint — no on-demand fetch when the slide changes.
+         * CSS opacity transition is GPU-composited: zero layout/paint cost.
+         */}
         <div className="relative h-full w-full bg-[#0a0014]">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={current}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.6, ease: "easeInOut" }}
+          {SLIDES.map((slide, i) => (
+            <div
+              key={slide.src}
               className="absolute inset-0 flex items-center justify-center"
+              style={{
+                opacity: i === current ? 1 : 0,
+                transition: "opacity 0.55s ease-in-out",
+                willChange: "opacity",
+              }}
             >
               <Image
-                src={SLIDES[current].src}
-                alt={SLIDES[current].alt}
+                src={slide.src}
+                alt={slide.alt}
                 width={2188}
                 height={1638}
-                priority={current === 0}
+                priority
                 className="h-full w-full object-contain select-none"
                 unoptimized
               />
-            </motion.div>
-          </AnimatePresence>
+            </div>
+          ))}
         </div>
       </ContainerScroll>
 
-      {/* Dot navigation — sits just below the card */}
+      {/* Dot navigation */}
       <div className="flex items-center justify-center gap-2 pb-6 -mt-4 relative z-20">
         {SLIDES.map((_, i) => (
           <button
             key={i}
             onClick={() => goTo(i)}
             aria-label={`Go to slide ${i + 1}`}
-            className="transition-all duration-300 rounded-full"
+            className="rounded-full"
             style={{
-              width:  i === current ? 20 : 6,
-              height: 6,
+              width:      i === current ? 20 : 6,
+              height:     6,
               background: i === current ? "rgba(77,159,255,0.9)" : "rgba(255,255,255,0.25)",
+              transition: "width 0.3s ease, background 0.3s ease",
             }}
           />
         ))}

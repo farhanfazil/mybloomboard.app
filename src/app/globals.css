@@ -142,6 +142,8 @@ body {
   pointer-events: none;
   overflow: visible;
   contain: layout style;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .butterfly-shell::before {
