@@ -1,25 +1,31 @@
 "use client";
 
 import Image from "next/image";
+import { useState, useEffect, useRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
-function FullAppPreviewImage() {
-  return (
-    <div className="flex h-full w-full items-center justify-center bg-[#080d1a]">
-      <Image
-        src="/screenshots/hero-dashboard.png"
-        alt="Bloombooard dashboard preview"
-        width={2188}
-        height={1710}
-        priority
-        className="h-full w-full object-contain md:object-cover"
-        unoptimized
-      />
-    </div>
-  );
-}
+const SLIDES = [
+  { src: "/screenshots/hero-dashboard.jpg", alt: "Bloombooard dashboard – default" },
+  { src: "/screenshots/Card_Black.jpg",     alt: "Bloombooard dashboard – dark theme" },
+  { src: "/screenshots/Card_Light.jpg",     alt: "Bloombooard dashboard – light theme" },
+];
 
 export default function AppPreviewScroll() {
+  const [current, setCurrent] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const goTo = (index: number) => {
+    setCurrent(index);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setCurrent((i) => (i + 1) % SLIDES.length), 3000);
+  };
+
+  useEffect(() => {
+    timerRef.current = setTimeout(() => setCurrent((i) => (i + 1) % SLIDES.length), 3000);
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, [current]);
+
   return (
     <section id="hero" className="relative overflow-hidden px-4 sm:px-6">
       <div
@@ -56,8 +62,47 @@ export default function AppPreviewScroll() {
           </div>
         }
       >
-        <FullAppPreviewImage />
+        {/* Slide images — fill the card without cropping */}
+        <div className="relative h-full w-full bg-[#0a0014]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
+              className="absolute inset-0 flex items-center justify-center"
+            >
+              <Image
+                src={SLIDES[current].src}
+                alt={SLIDES[current].alt}
+                width={2188}
+                height={1638}
+                priority={current === 0}
+                className="h-full w-full object-contain select-none"
+                unoptimized
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </ContainerScroll>
+
+      {/* Dot navigation — sits just below the card */}
+      <div className="flex items-center justify-center gap-2 pb-6 -mt-4 relative z-20">
+        {SLIDES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => goTo(i)}
+            aria-label={`Go to slide ${i + 1}`}
+            className="transition-all duration-300 rounded-full"
+            style={{
+              width:  i === current ? 20 : 6,
+              height: 6,
+              background: i === current ? "rgba(77,159,255,0.9)" : "rgba(255,255,255,0.25)",
+            }}
+          />
+        ))}
+      </div>
     </section>
   );
 }

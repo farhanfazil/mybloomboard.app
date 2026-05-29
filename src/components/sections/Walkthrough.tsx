@@ -10,7 +10,7 @@ export default function Walkthrough() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="walkthrough" className="relative px-4 py-16 sm:px-6 sm:py-20">
+    <section id="walkthrough" className="relative border-y border-white/[0.04] bg-black px-4 py-16 sm:px-6 sm:py-20">
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
         <motion.div

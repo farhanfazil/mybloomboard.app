@@ -20,10 +20,10 @@ function HeroDashboardImage() {
     <div ref={cardRef as React.RefObject<HTMLDivElement>} className="relative overflow-hidden rounded-[28px]">
       <div ref={spotRef} style={spotStyle} aria-hidden="true" />
       <Image
-        src="/screenshots/hero-dashboard.png"
+        src="/screenshots/hero-dashboard.jpg"
         alt="Bloombooard dashboard preview"
         width={2188}
-        height={1710}
+        height={1638}
         priority
         className="block w-[880px] max-w-none select-none"
         unoptimized
