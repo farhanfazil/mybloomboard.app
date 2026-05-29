@@ -3,30 +3,30 @@
 @tailwind utilities;
 
 :root {
-  --background: 222 47% 5%;
-  --foreground: 0 0% 93%;
-  --border: 217 31% 17%;
-  --input: 217 31% 17%;
+  --background: 0 0% 0%;
+  --foreground: 0 0% 96%;
+  --border: 0 0% 12%;
+  --input: 0 0% 10%;
   --ring: 212 100% 65%;
   --primary: 212 100% 65%;
-  --primary-foreground: 222 47% 6%;
-  --secondary: 217 31% 14%;
-  --secondary-foreground: 0 0% 93%;
+  --primary-foreground: 0 0% 0%;
+  --secondary: 0 0% 8%;
+  --secondary-foreground: 0 0% 96%;
   --destructive: 4 100% 64%;
   --destructive-foreground: 0 0% 100%;
-  --accent: 217 31% 14%;
-  --accent-foreground: 0 0% 93%;
+  --accent: 0 0% 8%;
+  --accent-foreground: 0 0% 96%;
   --bg-dark: #000000;
-  --bg-navy: #152331;
-  --glass-bg: rgba(20, 30, 48, 0.72);
+  --bg-navy: #0a0a0a;
+  --glass-bg: rgba(255, 255, 255, 0.04);
   --glass-border: rgba(255, 255, 255, 0.08);
   --accent-blue: #4d9fff;
   --accent-green: #39ff14;
   --accent-orange: #ff9f0a;
   --accent-red: #ff453a;
   --accent-purple: #a78bfa;
-  --text-primary: #eeeeee;
-  --text-muted: #607080;
+  --text-primary: #f5f5f7;
+  --text-muted: #6e6e73;
 }
 
 * {
@@ -38,9 +38,9 @@ html {
 }
 
 body {
-  background: linear-gradient(to bottom, #000000, #152331);
+  background: #000000;
   background-attachment: fixed;
-  color: #eeeeee;
+  color: #f5f5f7;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
     "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -66,15 +66,15 @@ body {
 
 /* Glass utility */
 .glass {
-  background: rgba(20, 30, 48, 0.72);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
 }
 
 .glass-sm {
-  background: rgba(20, 30, 48, 0.6);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -131,5 +131,263 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+.butterfly-shell {
+  position: relative;
+  width: clamp(88px, 7.4vw, 124px);
+  height: clamp(82px, 6.9vw, 116px);
+  transform: translate3d(-50%, -50%, 0);
+  pointer-events: none;
+  overflow: visible;
+  contain: layout style;
+}
+
+.butterfly-shell::before {
+  content: "";
+  position: absolute;
+  inset: 8%;
+  z-index: 0;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.46), rgba(196, 181, 253, 0.28) 22%, rgba(124, 58, 237, 0.18) 50%, transparent 74%);
+  filter: blur(22px);
+  opacity: 0.74;
+  transform: translate3d(0, 0, 0);
+  animation: butterfly-aura 4.8s linear infinite;
+}
+
+.butterfly-svg {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 0 8px rgba(196, 181, 253, 0.42));
+  animation: butterfly-hover 3.6s linear infinite;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.butterfly-left-wing,
+.butterfly-right-wing {
+  transform-box: fill-box;
+  animation-duration: 1.04s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.butterfly-left-wing {
+  transform-origin: 100% 50%;
+  animation-name: butterfly-left-flap;
+}
+
+.butterfly-right-wing {
+  transform-origin: 0% 50%;
+  animation-name: butterfly-right-flap;
+}
+
+.butterfly-orb {
+  position: absolute;
+  inset: 18%;
+  z-index: 1;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.6), rgba(196, 181, 253, 0.34) 18%, rgba(124, 58, 237, 0.2) 44%, transparent 72%);
+  filter: blur(12px);
+  opacity: 0.5;
+  animation: butterfly-pulse 3.1s linear infinite;
+}
+
+.butterfly-trail {
+  position: absolute;
+  z-index: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(221, 214, 254, 0.78);
+  box-shadow:
+    0 0 10px rgba(196, 181, 253, 0.58),
+    0 0 20px rgba(124, 58, 237, 0.34);
+  opacity: 0.52;
+}
+
+.butterfly-trail-one {
+  left: 2%;
+  top: 66%;
+  animation: butterfly-spark-one 3.4s linear infinite;
+}
+
+.butterfly-trail-two {
+  right: 8%;
+  top: 22%;
+  animation: butterfly-spark-two 3.8s linear infinite;
+}
+
+.butterfly-trail-three {
+  left: 43%;
+  bottom: 0;
+  animation: butterfly-spark-three 3.2s linear infinite;
+}
+
+@keyframes butterfly-left-flap {
+  0% {
+    transform: scaleX(0.62) rotateZ(4deg) translateY(0);
+  }
+  12% {
+    transform: scaleX(0.76) rotateZ(2deg) translateY(-0.6px);
+  }
+  25% {
+    transform: scaleX(0.98) rotateZ(-1deg) translateY(-1px);
+  }
+  38% {
+    transform: scaleX(1.1) rotateZ(-3deg) translateY(-0.4px);
+  }
+  50% {
+    transform: scaleX(1.02) rotateZ(-2deg) translateY(0.5px);
+  }
+  62% {
+    transform: scaleX(0.84) rotateZ(0.5deg) translateY(1px);
+  }
+  75% {
+    transform: scaleX(0.64) rotateZ(4.5deg) translateY(0.4px);
+  }
+  88% {
+    transform: scaleX(0.52) rotateZ(6deg) translateY(-0.2px);
+  }
+  100% {
+    transform: scaleX(0.62) rotateZ(4deg) translateY(0);
+  }
+}
+
+@keyframes butterfly-right-flap {
+  0% {
+    transform: scaleX(0.62) rotateZ(-4deg) translateY(0);
+  }
+  12% {
+    transform: scaleX(0.76) rotateZ(-2deg) translateY(-0.6px);
+  }
+  25% {
+    transform: scaleX(0.98) rotateZ(1deg) translateY(-1px);
+  }
+  38% {
+    transform: scaleX(1.1) rotateZ(3deg) translateY(-0.4px);
+  }
+  50% {
+    transform: scaleX(1.02) rotateZ(2deg) translateY(0.5px);
+  }
+  62% {
+    transform: scaleX(0.84) rotateZ(-0.5deg) translateY(1px);
+  }
+  75% {
+    transform: scaleX(0.64) rotateZ(-4.5deg) translateY(0.4px);
+  }
+  88% {
+    transform: scaleX(0.52) rotateZ(-6deg) translateY(-0.2px);
+  }
+  100% {
+    transform: scaleX(0.62) rotateZ(-4deg) translateY(0);
+  }
+}
+
+@keyframes butterfly-hover {
+  0% {
+    transform: translate3d(0, 2px, 0) rotate(-1deg);
+  }
+  25% {
+    transform: translate3d(0, -5px, 0) rotate(1.2deg);
+  }
+  50% {
+    transform: translate3d(1px, -2px, 0) rotate(0.3deg);
+  }
+  75% {
+    transform: translate3d(-1px, 3px, 0) rotate(-1.4deg);
+  }
+  100% {
+    transform: translate3d(0, 2px, 0) rotate(-1deg);
+  }
+}
+
+@keyframes butterfly-pulse {
+  0% {
+    transform: scale(0.86);
+    opacity: 0.42;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.64;
+  }
+  100% {
+    transform: scale(0.86);
+    opacity: 0.42;
+  }
+}
+
+@keyframes butterfly-aura {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.9);
+    opacity: 0.54;
+  }
+  33% {
+    transform: translate3d(8px, -4px, 0) scale(1.04);
+    opacity: 0.72;
+  }
+  66% {
+    transform: translate3d(-6px, 5px, 0) scale(0.98);
+    opacity: 0.62;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.9);
+    opacity: 0.54;
+  }
+}
+
+@keyframes butterfly-spark-one {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.72);
+    opacity: 0.22;
+  }
+  50% {
+    transform: translate3d(-22px, 18px, 0) scale(1.1);
+    opacity: 0.74;
+  }
+}
+
+@keyframes butterfly-spark-two {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.7);
+    opacity: 0.18;
+  }
+  50% {
+    transform: translate3d(20px, -18px, 0) scale(1);
+    opacity: 0.62;
+  }
+}
+
+@keyframes butterfly-spark-three {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.58);
+    opacity: 0.16;
+  }
+  50% {
+    transform: translate3d(4px, 26px, 0) scale(0.95);
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .butterfly-svg,
+  .butterfly-left-wing,
+  .butterfly-right-wing,
+  .butterfly-orb,
+  .butterfly-trail {
+    animation: none;
   }
 }

@@ -30,43 +30,8 @@ const IMAGE_CONFIG: Record<string, { maxWidth: string; frame: string }> = {
   "ai-all":            { maxWidth: "660px", frame: "html-ai-all"     },
 };
 
-// ─── Glow Wrapper — sits behind every visual ─────────────────────────────────
-function GlowWrapper({
-  accentColor,
-  children,
-}: {
-  accentColor: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div style={{ position: "relative" }}>
-      {/* Outer ambient glow */}
-      <div
-        style={{
-          position: "absolute",
-          inset: "-60px",
-          borderRadius: "50%",
-          background: `radial-gradient(ellipse at center, ${accentColor}22 0%, ${accentColor}08 45%, transparent 70%)`,
-          filter: "blur(40px)",
-          pointerEvents: "none",
-          zIndex: 0,
-        }}
-      />
-      {/* Inner tight glow */}
-      <div
-        style={{
-          position: "absolute",
-          inset: "-20px",
-          borderRadius: "50%",
-          background: `radial-gradient(ellipse at center, ${accentColor}14 0%, transparent 60%)`,
-          filter: "blur(18px)",
-          pointerEvents: "none",
-          zIndex: 0,
-        }}
-      />
-      <div style={{ position: "relative", zIndex: 1 }}>{children}</div>
-    </div>
-  );
+function VisualWrapper({ children }: { children: React.ReactNode }) {
+  return <div style={{ position: "relative" }}>{children}</div>;
 }
 
 // ─── macOS Window Frame ───────────────────────────────────────────────────────
@@ -949,12 +914,11 @@ export default function WalkthroughItem({
       className="relative mb-8 min-h-0 sm:mb-0 sm:h-[88vh] sm:min-h-[760px]"
     >
       <motion.article
-        className="grid min-h-0 grid-cols-1 items-center gap-8 overflow-hidden rounded-3xl border border-white/10 bg-[#080d19]/95 p-5 shadow-[0_24px_70px_rgba(0,0,0,0.38)] backdrop-blur sm:sticky sm:min-h-[620px] sm:gap-10 sm:rounded-[34px] sm:p-6 md:p-8 lg:grid-cols-2 lg:gap-14 xl:gap-20"
+        className="grid min-h-0 grid-cols-1 items-center gap-8 overflow-hidden rounded-3xl border border-white/[0.09] bg-black/70 p-5 backdrop-blur-xl sm:sticky sm:min-h-[620px] sm:gap-10 sm:rounded-[34px] sm:p-6 md:p-8 lg:grid-cols-2 lg:gap-14 xl:gap-20"
         style={{
           scale,
           top: `calc(5rem + ${cardOffset}px)`,
           zIndex: index + 1,
-          boxShadow: `0 35px 110px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.04), 0 0 70px ${accentColor}12`,
         }}
       >
         {/* Text */}
@@ -988,9 +952,9 @@ export default function WalkthroughItem({
           className={`flex justify-center ${isEven ? "lg:order-2" : "lg:order-1"}`}
         >
           <div style={{ width: "100%", maxWidth: config.maxWidth }}>
-            <GlowWrapper accentColor={accentColor}>
+            <VisualWrapper>
               {renderVisual()}
-            </GlowWrapper>
+            </VisualWrapper>
           </div>
         </div>
       </motion.article>

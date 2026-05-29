@@ -2,23 +2,71 @@
 
 import { motion, useInView, useScroll, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import {
+  BarChart3,
+  Bell,
+  Bot,
+  CalendarClock,
+  CalendarDays,
+  CheckSquare2,
+  ClipboardList,
+  Cloud,
+  Droplets,
+  FileText,
+  Flame,
+  Mail,
+  MessageCircle,
+  Mic,
+  MoonStar,
+  Pin,
+  ShieldCheck,
+  Smile,
+  Sparkles,
+  Target,
+  UserPlus,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
 import { FEATURES } from "@/lib/constants";
 
+const FEATURE_ICONS: Record<string, LucideIcon> = {
+  "Smart Task Management": CheckSquare2,
+  "Daily Milestone Tracker": Target,
+  "KPI Goals & PDF Reports": BarChart3,
+  "Streak & Reward System": Flame,
+  "Bloom & AI Assistant": Bot,
+  Boards: ClipboardList,
+  Teams: Users,
+  "Team Chat": MessageCircle,
+  "Voice Messages": Mic,
+  "Mood Avatars": Smile,
+  "Cloud Data": Cloud,
+  Security: ShieldCheck,
+  "Quick Sticky Notes": Pin,
+  "Unlimited Team Members": UserPlus,
+  "Dark & Light Mode": MoonStar,
+  "Notification Bell": Bell,
+  "AI Email & Messages": Mail,
+  "AI Meeting Notes to Tasks": FileText,
+  "AI Plan My Day": CalendarClock,
+  "Reminders & Meetings": CalendarDays,
+  "Health & Hydration": Droplets,
+};
+
 function FeatureCard({
-  icon,
   title,
   description,
   accentColor,
   mockupType,
   highlight,
 }: {
-  icon: string;
   title: string;
   description: string;
   accentColor: string;
   mockupType?: string;
   highlight?: boolean;
 }) {
+  const Icon = FEATURE_ICONS[title] ?? Sparkles;
   const isAIFeature = Boolean(
     highlight ||
       mockupType?.startsWith("ai") ||
@@ -31,14 +79,14 @@ function FeatureCard({
       className="group relative flex min-h-[220px] w-full shrink-0 cursor-pointer flex-col gap-3 overflow-hidden rounded-2xl p-5 transition-transform duration-300 hover:scale-[1.01] sm:h-[220px] sm:w-[340px]"
       style={{
         background:           highlight
-          ? "linear-gradient(135deg, rgba(30,18,60,0.96) 0%, rgba(18,26,55,0.96) 100%)"
-          : "rgba(20, 30, 48, 0.92)",
+          ? "linear-gradient(145deg, rgba(12,12,16,0.94) 0%, rgba(22,15,34,0.88) 100%)"
+          : "linear-gradient(145deg, rgba(10,10,12,0.90) 0%, rgba(18,18,22,0.78) 100%)",
         border:               highlight
-          ? "1px solid rgba(167,139,250,0.30)"
-          : "1px solid rgba(255,255,255,0.07)",
+          ? "1px solid rgba(255,255,255,0.12)"
+          : "1px solid rgba(255,255,255,0.09)",
         borderTop:            highlight
-          ? "1px solid rgba(167,139,250,0.50)"
-          : `1px solid ${accentColor}35`,
+          ? "1px solid rgba(255,255,255,0.22)"
+          : "1px solid rgba(255,255,255,0.16)",
         boxShadow:            "none",
         contain:              "layout paint style",
       }}
@@ -47,7 +95,7 @@ function FeatureCard({
       <div
         className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at top left, ${accentColor}${highlight ? "14" : "08"} 0%, transparent 60%)`,
+          background: `radial-gradient(ellipse at top left, rgba(255,255,255,0.08) 0%, ${accentColor}${highlight ? "10" : "06"} 34%, transparent 64%)`,
           zIndex: 0,
         }}
       />
@@ -55,13 +103,17 @@ function FeatureCard({
       {/* Icon row + AI badge */}
       <div className="relative flex items-center justify-between" style={{ zIndex: 1 }}>
         <div
-          className="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
+          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl"
           style={{
-            background: highlight ? "rgba(167,139,250,0.15)" : `${accentColor}18`,
-            border:     highlight ? "1px solid rgba(167,139,250,0.35)" : `1px solid ${accentColor}30`,
+            background: highlight ? "rgba(255,255,255,0.065)" : "rgba(255,255,255,0.045)",
+            border:     highlight ? "1px solid rgba(255,255,255,0.18)" : "1px solid rgba(255,255,255,0.12)",
           }}
         >
-          {icon}
+          <Icon
+            aria-hidden="true"
+            className="h-5 w-5 text-white/90 transition-colors duration-300 group-hover:text-white"
+            strokeWidth={1.8}
+          />
         </div>
 
         {isAIFeature && (
@@ -135,7 +187,7 @@ export default function FeatureGrid() {
   const repeatedRow3 = Array.from({ length: 2 }, () => row3).flat();
 
   return (
-    <section ref={sectionRef} id="features" className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-24">
+    <section ref={sectionRef} id="features" className="relative overflow-hidden border-y border-white/[0.04] bg-black px-4 py-16 sm:px-6 sm:py-24">
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
         <motion.div

@@ -1,8 +1,8 @@
 import { Header } from "@/components/ui/header-2";
 import AppPreviewScroll from "@/components/sections/AppPreviewScroll";
-import FeatureTicker from "@/components/ui/FeatureTicker";
 import FeatureGrid from "@/components/sections/FeatureGrid";
 import Walkthrough from "@/components/sections/Walkthrough";
+import DeepDiveFlight from "@/components/sections/DeepDiveFlight";
 import StatsBar from "@/components/sections/StatsBar";
 import Pricing from "@/components/sections/Pricing";
 import FAQ from "@/components/sections/FAQ";
@@ -14,10 +14,11 @@ export default function Home() {
     <main>
       <Header />
       <AppPreviewScroll />
-      <FeatureTicker />
       <FeatureGrid />
-      <Walkthrough />
-      <StatsBar />
+      <DeepDiveFlight>
+        <Walkthrough />
+        <StatsBar />
+      </DeepDiveFlight>
       <Pricing />
       <FAQ />
       <DownloadCTA />

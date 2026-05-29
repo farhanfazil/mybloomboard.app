@@ -10,19 +10,14 @@ export default function StatsBar() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section className="relative px-4 py-10 sm:px-6 sm:py-12">
+    <section className="relative border-y border-white/[0.04] bg-black px-4 py-10 sm:px-6 sm:py-12">
       <div
-        className="max-w-6xl mx-auto rounded-3xl overflow-hidden"
-        style={{
-          background: "rgba(20, 30, 48, 0.6)",
-          border: "1px solid rgba(255,255,255,0.07)",
-          backdropFilter: "blur(16px)",
-        }}
+        className="mx-auto max-w-6xl overflow-hidden"
       >
         {/* Top glow line */}
         <div
           className="h-px w-full"
-          style={{ background: "linear-gradient(to right, transparent, rgba(77,159,255,0.5), rgba(57,255,20,0.5), transparent)" }}
+          style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent)" }}
         />
 
         <div

@@ -51,11 +51,13 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
       variants={fadeUp}
       className="relative rounded-2xl flex flex-col transition-all duration-300 h-full"
       style={{
-        background:           plan.highlighted ? "rgba(77,159,255,0.07)"           : "rgba(18, 26, 42, 0.80)",
-        backdropFilter:       "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
-        border:               plan.highlighted ? "1px solid rgba(77,159,255,0.40)" : "1px solid rgba(255,255,255,0.08)",
-        boxShadow:            plan.highlighted ? "0 0 60px rgba(77,159,255,0.10)"  : "0 8px 32px rgba(0,0,0,0.35)",
+        background:           plan.highlighted
+          ? "linear-gradient(145deg, rgba(12,12,16,0.92), rgba(18,15,28,0.86))"
+          : "linear-gradient(145deg, rgba(8,8,10,0.92), rgba(18,18,22,0.78))",
+        backdropFilter:       "blur(18px)",
+        WebkitBackdropFilter: "blur(18px)",
+        border:               plan.highlighted ? "1px solid rgba(255,255,255,0.16)" : "1px solid rgba(255,255,255,0.09)",
+        boxShadow:            "none",
       }}
     >
       {/* Apple Intelligence spotlight border */}
@@ -67,8 +69,9 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
           <span
             className="px-4 py-1 rounded-full text-xs font-semibold"
             style={{
-              background: plan.name === "Pro Max" ? "#a78bfa" : "#4d9fff",
+              background: plan.name === "Pro Max" ? "rgba(167,139,250,0.22)" : "rgba(255,255,255,0.12)",
               color: "white",
+              border: "1px solid rgba(255,255,255,0.18)",
             }}
           >
             {plan.badgeLabel ?? "Most popular"}
@@ -78,7 +81,7 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
 
       {/* ── Header ───────────────────────────────────────────────────────── */}
       <div
-        className="px-6 pt-7 pb-5"
+        className="px-6 pt-7 pb-5 2xl:px-7"
         style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
       >
         {/* Plan name */}
@@ -118,7 +121,7 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
       </div>
 
       {/* ── Feature groups ───────────────────────────────────────────────── */}
-      <div className="px-6 py-5 flex flex-col flex-1">
+      <div className="px-6 py-5 flex flex-col flex-1 2xl:px-7">
         {plan.featureGroups.map((group, index) => (
           <div
             key={group.category}
@@ -183,7 +186,7 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
       </div>
 
       {/* ── CTA ──────────────────────────────────────────────────────────── */}
-      <div className="px-6 pb-6">
+      <div className="px-6 pb-6 2xl:px-7">
         <a
           href={yearly && plan.yearlyHref ? plan.yearlyHref : plan.ctaHref}
           className="block w-full py-3 rounded-xl text-sm font-semibold text-center transition-all duration-300 hover:scale-[1.02] hover:brightness-110"
@@ -223,18 +226,18 @@ export default function Pricing() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="pricing" className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-28">
-      {/* Background glow */}
+    <section id="pricing" className="relative overflow-hidden border-y border-white/[0.04] bg-black px-4 py-16 sm:px-6 sm:py-28">
+      {/* Background sheen */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         style={{
           width: 800, height: 600,
-          background: "radial-gradient(ellipse at center, rgba(77,159,255,0.06) 0%, transparent 65%)",
+          background: "radial-gradient(ellipse at center, rgba(255,255,255,0.035) 0%, transparent 65%)",
           filter: "blur(60px)",
         }}
       />
 
-      <div className="max-w-6xl mx-auto relative">
+      <div className="mx-auto max-w-[94rem] relative">
         {/* Header */}
         <motion.div
           ref={ref}
@@ -289,7 +292,7 @@ export default function Pricing() {
 
         {/* Cards */}
         <motion.div
-          className="grid grid-cols-1 items-stretch gap-5 sm:grid-cols-2 xl:grid-cols-4"
+          className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 xl:grid-cols-4 2xl:gap-7"
           variants={staggerContainer}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}

@@ -433,10 +433,9 @@ export const PRICING_PLANS = [
       {
         category: "AI Assistant Hub",
         items: [
-          { text: "5 free trial generations", included: true },
           { text: "🦋 Bloom AI Coworker", included: false },
-          { text: "Email & Messages", included: false },
-          { text: "Meeting Notes → Tasks", included: false },
+          { text: "Email & Messages (5 / month)", included: true },
+          { text: "Meeting Notes → Tasks (5 / month)", included: true },
           { text: "I am Stuck", included: false },
           { text: "Plan My Day", included: false, badge: "Pro Max" },
         ],
@@ -491,11 +490,10 @@ export const PRICING_PLANS = [
       {
         category: "AI Assistant Hub",
         items: [
-          { text: "50 AI generations / month", included: true },
-          { text: "🦋 Bloom AI Coworker - 30 generations", included: true },
-          { text: "Email & Messages", included: true },
-          { text: "Meeting Notes - 30 generations", included: true },
-          { text: "I am Stuck", included: true },
+          { text: "🦋 Bloom AI Coworker (50 tasks / month)", included: true },
+          { text: "Email & Messages (50 / month)", included: true },
+          { text: "Meeting Notes → Tasks (20 / month)", included: true },
+          { text: "I am Stuck (20 / month)", included: true },
           { text: "Plan My Day", included: false, badge: "Pro Max" },
         ],
       },
@@ -550,11 +548,11 @@ export const PRICING_PLANS = [
       {
         category: "AI Assistant Hub",
         items: [
-          { text: "Unlimited AI generations", included: true },
-          { text: "🦋 Bloom AI Coworker - 30 generations", included: true },
-          { text: "Email & Messages", included: true },
-          { text: "Meeting Notes - 30 generations", included: true },
-          { text: "I am Stuck", included: true },
+          { text: "AI Assistance (Unlimited)", included: true },
+          { text: "🦋 Bloom AI Coworker (Unlimited)", included: true },
+          { text: "Email & Messages (Unlimited)", included: true },
+          { text: "Meeting Notes → Tasks (Unlimited)", included: true },
+          { text: "I am Stuck (Unlimited)", included: true },
           { text: "Plan My Day", included: true, badge: "Pro Max" },
         ],
       },
@@ -617,6 +615,10 @@ export const PRICING_PLANS = [
         category: "Team",
         items: [
           { text: "Team members reports and progress", included: true },
+          { text: "Voice messages in board comments", included: true },
+          { text: "Team chat for every workspace", included: true },
+          { text: "Group-based team conversations", included: true },
+          { text: "Member tagging in cards and comments", included: true },
         ],
       },
       {
@@ -625,7 +627,8 @@ export const PRICING_PLANS = [
           { text: "Admin dashboard & controls", included: true },
           { text: "Real-time task sync", included: true },
           { text: "In-task comments & feedback", included: true },
-          { text: "Up to 10 seats", included: true },
+          { text: "Up to 50 seats", included: true },
+          { text: "Custom plans for enterprises and large organizations", included: true },
         ],
       },
     ],

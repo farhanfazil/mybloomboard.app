@@ -2,10 +2,11 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { HolographicButterfly } from "@/components/sections/DeepDiveFlight";
 
 export default function DownloadCTA() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const isInView = useInView(ref, { once: true, margin: "0px 0px 260px 0px" });
 
   return (
     <section id="download" className="relative overflow-hidden px-4 py-20 sm:px-6 sm:py-32">
@@ -49,7 +50,31 @@ export default function DownloadCTA() {
           </p>
 
           <div className="flex flex-col items-center gap-4 mt-2">
-            <div className="flex items-center gap-4 flex-wrap justify-center">
+            <div className="relative flex items-center gap-4 flex-wrap justify-center">
+              <motion.div
+                className="pointer-events-none absolute left-[68%] top-0 z-20 hidden lg:block"
+                initial={{ opacity: 0, x: -420, y: -430, rotate: -28, scale: 0.46 }}
+                animate={
+                  isInView
+                    ? {
+                        opacity: [0, 1, 1, 1],
+                        x: [-420, -250, -82, 0],
+                        y: [-430, -300, -158, -56],
+                        rotate: [-28, 16, -10, 0],
+                        scale: [0.46, 0.72, 0.64, 0.58],
+                      }
+                    : {}
+                }
+                transition={{
+                  duration: 2.15,
+                  ease: [0.22, 1, 0.36, 1],
+                  delay: 0.05,
+                  times: [0, 0.34, 0.72, 1],
+                }}
+              >
+                <HolographicButterfly />
+              </motion.div>
+
               {/* Download button — clean white Apple style */}
               <a
                 href="https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBooard-Installer.dmg"
