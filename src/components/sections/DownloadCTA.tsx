@@ -59,22 +59,29 @@ export default function DownloadCTA() {
                   isInView
                     ? {
                         opacity: [0, 1, 1, 1],
-                        x: [-420, -250, -82, 0],
-                        y: [-430, -300, -158, -56],
-                        rotate: [-28, 16, -10, 0],
-                        scale: [0.46, 0.72, 0.64, 0.58],
+                        x: [-420, -240, -80, 0],
+                        y: [-430, -290, -150, -56],
+                        rotate: [-28, 18, -8, 0],
+                        scale: [0.46, 0.70, 0.63, 0.58],
                       }
                     : {}
                 }
                 transition={{
-                  duration: 2.4,
-                  delay: 0.05,
-                  times: [0, 0.34, 0.72, 1],
-                  opacity: { ease: "easeOut", duration: 0.5 },
-                  x:       { ease: [0.25, 0.46, 0.45, 0.94], duration: 2.4 },
-                  y:       { ease: [0.25, 0.46, 0.45, 0.94], duration: 2.4 },
-                  rotate:  { ease: "easeInOut", duration: 2.4 },
-                  scale:   { ease: "easeInOut", duration: 2.4 },
+                  duration: 2.8,
+                  delay: 0.1,
+                  times: [0, 0.32, 0.68, 1],
+                  /*
+                   * Per-segment easing:
+                   *  [0→0.32] easeIn  — butterfly accelerates out of the FAQ
+                   *  [0.32→0.68] linear — sustains speed through the arc
+                   *  [0.68→1]  easeOut — decelerates and lands softly
+                   * No slowdown at intermediate waypoints → no mid-flight lag.
+                   */
+                  x:      { ease: ["easeIn", "linear", "easeOut"], duration: 2.8 },
+                  y:      { ease: ["easeIn", "linear", "easeOut"], duration: 2.8 },
+                  rotate: { ease: ["easeIn", "linear", "easeOut"], duration: 2.8 },
+                  scale:  { ease: ["easeIn", "linear", "easeOut"], duration: 2.8 },
+                  opacity: { ease: "easeOut", duration: 0.45 },
                 }}
               >
                 <HolographicButterfly />
