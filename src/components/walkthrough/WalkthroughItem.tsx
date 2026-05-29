@@ -19,15 +19,17 @@ interface WalkthroughItemProps {
 
 // Per-feature config: maxWidth + which frame/mockup to render
 const IMAGE_CONFIG: Record<string, { maxWidth: string; frame: string }> = {
-  "greeting-stats":    { maxWidth: "340px", frame: "html-stats"      },
+  "greeting-stats":    { maxWidth: "340px", frame: "screenshot"      },
+  "task-list":         { maxWidth: "540px", frame: "html-task-list"  },
+  "subtasks":          { maxWidth: "680px", frame: "html-task-detail" },
   "milestone-tracker": { maxWidth: "560px", frame: "html-milestone"  },
   "add-event":         { maxWidth: "400px", frame: "html-calendar"   },
   "streak":            { maxWidth: "360px", frame: "html-streak"     },
   "manage-projects":   { maxWidth: "560px", frame: "contain"         },
-  "daily-quote":       { maxWidth: "560px", frame: "html-quote"      },
+  "daily-quote":       { maxWidth: "380px", frame: "html-quote"      },
   "ai-hub":            { maxWidth: "520px", frame: "html-ai-hub"     },
   "bloom-ai":          { maxWidth: "400px", frame: "html-bloom-ai"   },
-  "ai-all":            { maxWidth: "660px", frame: "html-ai-all"     },
+  "ai-all":            { maxWidth: "920px", frame: "html-ai-all"     },
 };
 
 function VisualWrapper({ children }: { children: React.ReactNode }) {
@@ -123,6 +125,442 @@ function ScreenshotFrame({ src, alt, accentColor }: { src: string; alt: string; 
         style={{ display: "block" }}
         unoptimized
       />
+    </div>
+  );
+}
+
+// ─── HTML Mockup: Task List (Feature 02) ─────────────────────────────────────
+function TaskListMockup({ accentColor }: { accentColor: string }) {
+  const tasks = [
+    { title: "Social Media Campaign", desc: "Starting a campaign about new coffee brand", status: "Done", tone: "#39ff14", muted: true },
+    { title: "Google Marketing", desc: "Design banners and prepare the metadata for the ads", status: "Ongoing", tone: "#4d9fff", muted: false },
+    { title: "Day & Day Tasks", desc: "Track the data from the sheets", status: "Pending", tone: "#a78bfa", muted: false },
+  ];
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        borderRadius: "28px",
+        background: "linear-gradient(145deg, rgba(12,17,29,0.98) 0%, rgba(8,11,20,0.98) 100%)",
+        border: "1px solid rgba(255,255,255,0.12)",
+        padding: "30px",
+        boxShadow: "0 30px 90px rgba(0,0,0,0.58), 0 0 0 1px rgba(255,255,255,0.05)",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "18px", marginBottom: "22px" }}>
+        <h4 style={{ color: "#fff", fontSize: "28px", fontWeight: 850, lineHeight: 1 }}>Tasks</h4>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <button
+            type="button"
+            style={{
+              borderRadius: "16px",
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(255,255,255,0.055)",
+              color: "rgba(255,255,255,0.72)",
+              padding: "12px 18px",
+              fontSize: "15px",
+              fontWeight: 800,
+            }}
+          >
+            Projects
+          </button>
+          <button
+            type="button"
+            style={{
+              borderRadius: "16px",
+              border: "1px solid rgba(77,159,255,0.32)",
+              background: "linear-gradient(135deg, rgba(77,159,255,0.88), rgba(79,70,229,0.86))",
+              color: "#fff",
+              padding: "12px 20px",
+              fontSize: "15px",
+              fontWeight: 850,
+            }}
+          >
+            + Add Task
+          </button>
+        </div>
+      </div>
+
+      <div
+        style={{
+          borderRadius: "18px",
+          border: "1px solid rgba(255,255,255,0.1)",
+          background: "rgba(255,255,255,0.045)",
+          color: "rgba(255,255,255,0.36)",
+          padding: "16px 20px",
+          fontSize: "16px",
+          marginBottom: "16px",
+        }}
+      >
+        Search tasks by keyword...
+      </div>
+
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "22px" }}>
+        {["All", "Due Today", "Due Tomorrow", "High Priority", "Pending"].map((filter, index) => (
+          <span
+            key={filter}
+            style={{
+              borderRadius: "999px",
+              border: index === 0 ? `1px solid ${accentColor}66` : "1px solid rgba(255,255,255,0.11)",
+              background: index === 0 ? accentColor : "rgba(255,255,255,0.045)",
+              color: index === 0 ? "#fff" : "rgba(255,255,255,0.58)",
+              padding: "10px 15px",
+              fontSize: "14px",
+              fontWeight: 800,
+            }}
+          >
+            {filter}
+          </span>
+        ))}
+      </div>
+
+      <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
+        <span style={{ width: "9px", height: "9px", borderRadius: "99px", background: "#39ff14" }} />
+        <p style={{ color: "#39ff14", fontSize: "13px", fontWeight: 900, letterSpacing: "4px" }}>PERSONAL</p>
+      </div>
+
+      <div style={{ display: "grid", gap: "14px" }}>
+        {tasks.map((task, index) => (
+          <div
+            key={task.title}
+            style={{
+              position: "relative",
+              overflow: "hidden",
+              borderRadius: "22px",
+              border: "1px solid rgba(255,255,255,0.1)",
+              background: index === 1 ? "rgba(255,255,255,0.07)" : "rgba(255,255,255,0.045)",
+              padding: "20px 22px 18px 30px",
+              minHeight: "118px",
+            }}
+          >
+            <span
+              style={{
+                position: "absolute",
+                left: 0,
+                top: 0,
+                bottom: 0,
+                width: "5px",
+                background: task.tone,
+                boxShadow: `0 0 22px ${task.tone}70`,
+              }}
+            />
+            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "18px" }}>
+              <div style={{ display: "flex", gap: "16px" }}>
+                <div
+                  style={{
+                    width: "46px",
+                    height: "46px",
+                    borderRadius: "16px",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    background: "rgba(255,255,255,0.06)",
+                    color: task.tone,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "20px",
+                    fontWeight: 900,
+                  }}
+                >
+                  {index + 1}
+                </div>
+                <div>
+                  <h5
+                    style={{
+                      color: task.muted ? "rgba(57,255,20,0.58)" : "#fff",
+                      textDecoration: task.muted ? "line-through" : "none",
+                      fontSize: "19px",
+                      fontWeight: 850,
+                      marginBottom: "7px",
+                    }}
+                  >
+                    {task.title}
+                  </h5>
+                  <p style={{ color: "rgba(255,255,255,0.48)", fontSize: "15px", marginBottom: "12px" }}>{task.desc}</p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                    {[
+                      task.status,
+                      index === 0 ? "Due today" : index === 1 ? "High Priority" : "Motivated",
+                      index === 1 ? "Deep Work" : "Creative",
+                    ].map((chip) => (
+                      <span
+                        key={chip}
+                        style={{
+                          borderRadius: "999px",
+                          border: "1px solid rgba(255,255,255,0.11)",
+                          background: "rgba(255,255,255,0.055)",
+                          color: "rgba(255,255,255,0.7)",
+                          padding: "6px 10px",
+                          fontSize: "12px",
+                          fontWeight: 800,
+                        }}
+                      >
+                        {chip}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <span style={{ color: "rgba(255,255,255,0.28)", fontSize: "24px", lineHeight: 1 }}>⋯</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── HTML Mockup: Expanded Task Detail (Feature 03) ──────────────────────────
+function TaskDetailMockup({ accentColor }: { accentColor: string }) {
+  const subtasks = [
+    { label: "Draft campaign outline", done: true },
+    { label: "Review creative assets", done: true },
+    { label: "Schedule launch checklist", done: false },
+  ];
+  const moods = ["Creative", "Focused", "Motivated", "Deep Work"];
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        borderRadius: "28px",
+        background: "linear-gradient(145deg, rgba(12,17,29,0.98) 0%, rgba(8,11,20,0.98) 100%)",
+        border: "1px solid rgba(255,255,255,0.12)",
+        padding: "30px",
+        boxShadow: "0 30px 90px rgba(0,0,0,0.58), 0 0 0 1px rgba(255,255,255,0.05)",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "22px", marginBottom: "26px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          <div
+            style={{
+              width: "56px",
+              height: "56px",
+              borderRadius: "18px",
+              border: "1px solid rgba(255,255,255,0.14)",
+              background: "rgba(255,255,255,0.06)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#fff",
+              fontSize: "24px",
+              fontWeight: 800,
+            }}
+          >
+            G
+          </div>
+          <div>
+            <h4 style={{ color: "#fff", fontSize: "24px", fontWeight: 800, lineHeight: 1.15, marginBottom: "10px" }}>
+              Google paid campaigns
+            </h4>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+              {["High Priority", "Overdue · May 25", "Creative"].map((chip, index) => (
+                <span
+                  key={chip}
+                  style={{
+                    borderRadius: "999px",
+                    border: index === 0 ? "1px solid rgba(255,92,92,0.35)" : index === 1 ? "1px solid rgba(255,159,10,0.32)" : "1px solid rgba(167,139,250,0.28)",
+                    background: index === 0 ? "rgba(255,92,92,0.14)" : index === 1 ? "rgba(255,159,10,0.12)" : "rgba(167,139,250,0.14)",
+                    color: index === 0 ? "#ff8a8a" : index === 1 ? "#ffd166" : "#c4b5fd",
+                    padding: "7px 12px",
+                    fontSize: "12px",
+                    fontWeight: 800,
+                  }}
+                >
+                  {chip}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div style={{ textAlign: "right" }}>
+          <p style={{ color: "rgba(255,255,255,0.42)", fontSize: "12px", fontWeight: 700, marginBottom: "8px" }}>
+            PROGRESS
+          </p>
+          <p style={{ color: "#fff", fontSize: "24px", fontWeight: 800 }}>67%</p>
+        </div>
+      </div>
+
+      <div
+        style={{
+          height: "8px",
+          borderRadius: "999px",
+          background: "rgba(255,255,255,0.08)",
+          overflow: "hidden",
+          marginBottom: "24px",
+        }}
+      >
+        <div
+          style={{
+            width: "67%",
+            height: "100%",
+            borderRadius: "999px",
+            background: `linear-gradient(90deg, ${accentColor}, #a78bfa)`,
+          }}
+        />
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: "18px", marginBottom: "20px" }}>
+        <div
+          style={{
+            borderRadius: "20px",
+            border: "1px solid rgba(255,255,255,0.1)",
+            background: "rgba(255,255,255,0.04)",
+            padding: "18px",
+          }}
+        >
+          <p style={{ color: "rgba(255,255,255,0.38)", fontSize: "11px", fontWeight: 800, letterSpacing: "3px", marginBottom: "12px" }}>
+            NOTES
+          </p>
+          <p style={{ color: "rgba(255,255,255,0.72)", fontSize: "15px", lineHeight: 1.55 }}>
+            Add campaign notes, links, client feedback, and blockers in one focused space.
+          </p>
+          <p style={{ color: "rgba(255,255,255,0.28)", fontSize: "12px", marginTop: "14px" }}>148 / 500</p>
+        </div>
+
+        <div
+          style={{
+            borderRadius: "20px",
+            border: "1px solid rgba(255,255,255,0.1)",
+            background: "rgba(255,255,255,0.04)",
+            padding: "18px",
+          }}
+        >
+          <p style={{ color: "rgba(255,255,255,0.38)", fontSize: "11px", fontWeight: 800, letterSpacing: "3px", marginBottom: "12px" }}>
+            ATTACHMENTS
+          </p>
+          <div
+            style={{
+              height: "86px",
+              borderRadius: "18px",
+              border: "1px dashed rgba(255,255,255,0.18)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "rgba(255,255,255,0.58)",
+              fontSize: "14px",
+              fontWeight: 700,
+            }}
+          >
+            Add file
+          </div>
+        </div>
+      </div>
+
+      <div
+        style={{
+          borderRadius: "20px",
+          border: "1px solid rgba(255,255,255,0.1)",
+          background: "rgba(255,255,255,0.035)",
+          padding: "18px",
+          marginBottom: "18px",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "14px" }}>
+          <p style={{ color: "#fff", fontSize: "16px", fontWeight: 800 }}>Subtasks</p>
+          <span
+            style={{
+              borderRadius: "999px",
+              border: "1px solid rgba(255,255,255,0.12)",
+              color: "rgba(255,255,255,0.64)",
+              padding: "5px 10px",
+              fontSize: "12px",
+              fontWeight: 800,
+            }}
+          >
+            2 / 3
+          </span>
+        </div>
+
+        <div style={{ display: "grid", gap: "9px" }}>
+          {subtasks.map((task) => (
+            <div
+              key={task.label}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "11px",
+                borderRadius: "14px",
+                border: "1px solid rgba(255,255,255,0.08)",
+                background: "rgba(255,255,255,0.035)",
+                padding: "12px 14px",
+              }}
+            >
+              <span
+                style={{
+                  width: "22px",
+                  height: "22px",
+                  borderRadius: "7px",
+                  border: task.done ? "1px solid rgba(57,255,20,0.55)" : "1px solid rgba(255,255,255,0.16)",
+                  background: task.done ? "rgba(57,255,20,0.12)" : "rgba(255,255,255,0.035)",
+                  color: task.done ? "#39ff14" : "rgba(255,255,255,0.34)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "13px",
+                  fontWeight: 900,
+                }}
+              >
+                {task.done ? "✓" : ""}
+              </span>
+              <span
+                style={{
+                  color: task.done ? "rgba(255,255,255,0.46)" : "rgba(255,255,255,0.82)",
+                  textDecoration: task.done ? "line-through" : "none",
+                  fontSize: "14px",
+                  fontWeight: 650,
+                }}
+              >
+                {task.label}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "22px" }}>
+        {moods.map((mood, index) => (
+          <span
+            key={mood}
+            style={{
+              borderRadius: "999px",
+              border: index === 0 ? "1px solid rgba(167,139,250,0.38)" : "1px solid rgba(255,255,255,0.11)",
+              background: index === 0 ? "rgba(167,139,250,0.16)" : "rgba(255,255,255,0.045)",
+              color: index === 0 ? "#d8b4fe" : "rgba(255,255,255,0.58)",
+              padding: "9px 13px",
+              fontSize: "13px",
+              fontWeight: 800,
+            }}
+          >
+            {mood}
+          </span>
+        ))}
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px" }}>
+        {[
+          { label: "Edit", color: "#60a5fa", border: "rgba(96,165,250,0.34)" },
+          { label: "Snooze", color: "#ffd166", border: "rgba(255,209,102,0.34)" },
+          { label: "Delete", color: "#ff6b6b", border: "rgba(255,107,107,0.34)" },
+        ].map((action) => (
+          <button
+            key={action.label}
+            type="button"
+            style={{
+              borderRadius: "16px",
+              border: `1px solid ${action.border}`,
+              background: "rgba(255,255,255,0.045)",
+              color: action.color,
+              padding: "14px",
+              fontSize: "14px",
+              fontWeight: 850,
+            }}
+          >
+            {action.label}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
@@ -402,52 +840,162 @@ function DailyQuoteMockup({ accentColor }: { accentColor: string }) {
   return (
     <div
       style={{
-        borderRadius: "20px",
-        background: "linear-gradient(135deg, rgba(12,28,48,0.98) 0%, rgba(8,18,36,0.98) 100%)",
-        border: "1px solid rgba(77,159,255,0.12)",
-        padding: "26px 30px",
-        boxShadow: `0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(77,159,255,0.08), 0 0 50px ${accentColor}20`,
+        borderRadius: "22px",
+        background: "linear-gradient(145deg, rgba(12,17,29,0.98) 0%, rgba(8,11,20,0.98) 100%)",
+        border: "1px solid rgba(255,255,255,0.12)",
+        padding: "22px",
+        boxShadow: `0 24px 70px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.05)`,
         width: "100%",
       }}
     >
-      {/* Header row */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", marginBottom: "20px" }}>
+        <button
+          type="button"
+          aria-label="Previous reminder"
+          style={{
+            width: "44px",
+            height: "44px",
+            borderRadius: "14px",
+            border: "1px solid rgba(255,255,255,0.12)",
+            background: "rgba(255,255,255,0.055)",
+            color: "rgba(255,255,255,0.78)",
+            fontSize: "22px",
+            lineHeight: 1,
+          }}
+        >
+          ‹
+        </button>
+
+        <div style={{ textAlign: "center" }}>
+          <p
+            style={{
+              color: "rgba(255,255,255,0.36)",
+              fontSize: "10px",
+              fontWeight: 800,
+              letterSpacing: "3px",
+              textTransform: "uppercase",
+              marginBottom: "5px",
+            }}
+          >
+            Daily Reminder
+          </p>
+          <h4 style={{ color: "#fff", fontSize: "20px", fontWeight: 800, lineHeight: 1.1 }}>
+            Today&apos;s Focus
+          </h4>
+        </div>
+
+        <button
+          type="button"
+          aria-label="Next reminder"
+          style={{
+            width: "44px",
+            height: "44px",
+            borderRadius: "14px",
+            border: "1px solid rgba(255,255,255,0.12)",
+            background: "rgba(255,255,255,0.055)",
+            color: "rgba(255,255,255,0.78)",
+            fontSize: "22px",
+            lineHeight: 1,
+          }}
+        >
+          ›
+        </button>
+      </div>
+
+      <div
+        style={{
+          borderRadius: "16px",
+          border: "1px solid rgba(255,255,255,0.1)",
+          background: "linear-gradient(135deg, rgba(255,255,255,0.075), rgba(255,255,255,0.035))",
+          padding: "18px",
+          marginBottom: "14px",
+        }}
+      >
         <span
           style={{
-            color: "#4d9fff", fontSize: "11px", fontWeight: 700,
-            letterSpacing: "3px", textTransform: "uppercase",
+            display: "inline-block",
+            color: "#8bbcff",
+            fontSize: "10px",
+            fontWeight: 800,
+            letterSpacing: "3px",
+            textTransform: "uppercase",
+            marginBottom: "12px",
           }}
         >
           ✦ DAILY REMINDER
         </span>
-        <span style={{ color: "rgba(255,255,255,0.18)", fontSize: "24px", fontFamily: "Georgia, serif", lineHeight: 1 }}>&ldquo;</span>
-      </div>
 
-      {/* Quote */}
-      <p
-        style={{
-          color: "rgba(255,255,255,0.82)", fontSize: "15px", fontStyle: "italic",
-          lineHeight: 1.7, marginBottom: "14px",
-        }}
-      >
-        &ldquo;It does not matter how slowly you go as long as you do not stop.&rdquo;
-      </p>
-
-      {/* Attribution */}
-      <p style={{ color: "#4d9fff", fontSize: "13px", marginBottom: "20px", opacity: 0.85 }}>— Confucius</p>
-
-      {/* Refresh */}
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <div
+        <p
           style={{
-            background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)",
-            borderRadius: "9px", padding: "7px 14px",
-            color: "rgba(255,255,255,0.4)", fontSize: "12px", cursor: "pointer",
-            display: "flex", alignItems: "center", gap: "5px",
+            color: "rgba(255,255,255,0.9)",
+            fontSize: "16px",
+            fontStyle: "italic",
+            lineHeight: 1.55,
+            marginBottom: "10px",
           }}
         >
-          <span style={{ fontSize: "11px" }}>↺</span> Refresh
-        </div>
+          &ldquo;Success is not final, failure is not fatal: it is the courage to continue that counts.&rdquo;
+        </p>
+
+        <p style={{ color: "rgba(255,255,255,0.48)", fontSize: "13px" }}>— Winston Churchill</p>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "12px" }}>
+        {["Islamic", "Motivational"].map((item, index) => (
+          <button
+            key={item}
+            type="button"
+            style={{
+              borderRadius: "12px",
+              border: index === 1 ? "1px solid rgba(255,255,255,0.22)" : "1px solid rgba(255,255,255,0.11)",
+              background: index === 1 ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.045)",
+              color: index === 1 ? "#fff" : "rgba(255,255,255,0.58)",
+              padding: "11px 14px",
+              fontSize: "13px",
+              fontWeight: 700,
+            }}
+          >
+            {index === 0 ? "☾ " : "✦ "}
+            {item}
+          </button>
+        ))}
+      </div>
+
+      <button
+        type="button"
+        style={{
+          width: "100%",
+          borderRadius: "14px",
+          border: "1px solid rgba(77,159,255,0.32)",
+          background: "linear-gradient(135deg, rgba(77,159,255,0.85), rgba(96,165,250,0.95))",
+          color: "#fff",
+          padding: "13px",
+          fontSize: "14px",
+          fontWeight: 800,
+        }}
+      >
+        Refresh Reminder
+      </button>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "8px",
+          marginTop: "18px",
+        }}
+      >
+        {[0, 1, 2].map((dot) => (
+          <span
+            key={dot}
+          style={{
+              width: dot === 1 ? "22px" : "8px",
+              height: "8px",
+              borderRadius: "99px",
+              background: dot === 1 ? accentColor : "rgba(255,255,255,0.18)",
+          }}
+          />
+        ))}
       </div>
     </div>
   );
@@ -533,32 +1081,31 @@ function StreakBadgeMockup({ accentColor }: { accentColor: string }) {
 // ─── HTML Mockup: Combined AI (Bloom + Hub) ───────────────────────────────────
 function CombinedAIMockup({ accentColor }: { accentColor: string }) {
   const tools = [
-    { icon: "✉️", iconBg: "rgba(59,130,246,0.25)", title: "Email & Messages", desc: "Fix, rewrite or generate emails and messages." },
-    { icon: "📋", iconBg: "rgba(34,197,94,0.22)",  title: "Meeting Notes → Tasks", desc: "Paste notes, AI extracts every action item." },
-    { icon: "🗓️", iconBg: "rgba(109,40,217,0.28)", title: "Plan My Day", desc: "Smart time-blocked schedule from your tasks." },
-    { icon: "🛟", iconBg: "rgba(139,92,246,0.25)", title: "I am Stuck", desc: "Personalised plan to break through any block." },
+    { mark: "M", iconBg: "rgba(59,130,246,0.25)", title: "Email & Messages", desc: "Fix, rewrite, or generate emails and messages." },
+    { mark: "N", iconBg: "rgba(34,197,94,0.22)",  title: "Meeting Notes to Tasks", desc: "Paste notes and extract every action item." },
+    { mark: "P", iconBg: "rgba(109,40,217,0.28)", title: "Plan My Day", desc: "Build a smart time-blocked schedule." },
+    { mark: "S", iconBg: "rgba(139,92,246,0.25)", title: "I am Stuck", desc: "Get a plan to break through any block." },
   ];
 
   return (
     <div style={{
-      borderRadius: "20px",
-      background: "rgba(10,13,24,0.98)",
-      border: "1px solid rgba(255,255,255,0.09)",
+      borderRadius: "28px",
+      background: "linear-gradient(145deg, rgba(12,17,29,0.98) 0%, rgba(8,11,20,0.98) 100%)",
+      border: "1px solid rgba(255,255,255,0.12)",
       overflow: "hidden",
-      boxShadow: `0 30px 80px rgba(0,0,0,0.60), 0 0 0 1px rgba(255,255,255,0.05), 0 0 70px ${accentColor}18`,
+      boxShadow: "0 30px 90px rgba(0,0,0,0.58), 0 0 0 1px rgba(255,255,255,0.05)",
       width: "100%",
       fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
     }}>
       {/* ── Header bar ─────────────────────────────────────────────── */}
-      <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "14px 18px", borderBottom: "1px solid rgba(255,255,255,0.07)", background: "rgba(255,255,255,0.02)" }}>
-        <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "linear-gradient(135deg,#4f1fb5,#6d28d9)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", boxShadow: "0 0 10px rgba(109,40,217,0.5)" }}>🦋</div>
-        <span style={{ color: "#fff", fontSize: "13px", fontWeight: 700 }}>Bloom</span>
-        <span style={{ color: "rgba(255,255,255,0.2)", fontSize: "13px", margin: "0 4px" }}>·</span>
-        <span style={{ fontSize: "13px" }}>✨</span>
-        <span style={{ color: "#fff", fontSize: "13px", fontWeight: 700 }}>AI Assistant</span>
+      <div style={{ display: "flex", alignItems: "center", gap: "14px", padding: "22px 26px", borderBottom: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.025)" }}>
+        <div style={{ width: "46px", height: "46px", borderRadius: "50%", background: "linear-gradient(135deg,#4f1fb5,#6d28d9)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: "20px", fontWeight: 900, boxShadow: "0 0 18px rgba(109,40,217,0.5)" }}>B</div>
+        <span style={{ color: "#fff", fontSize: "20px", fontWeight: 850 }}>Bloom</span>
+        <span style={{ color: "rgba(255,255,255,0.24)", fontSize: "18px", margin: "0 6px" }}>·</span>
+        <span style={{ color: "#c4b5fd", fontSize: "19px", fontWeight: 850 }}>AI Assistant</span>
         <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "5px" }}>
-          <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#39FF14", boxShadow: "0 0 6px #39FF1470" }} />
-          <span style={{ color: "rgba(255,255,255,0.35)", fontSize: "10px" }}>Always ready</span>
+          <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#39FF14", boxShadow: "0 0 9px #39FF1470" }} />
+          <span style={{ color: "rgba(255,255,255,0.42)", fontSize: "13px", fontWeight: 700 }}>Always ready</span>
         </div>
       </div>
 
@@ -566,47 +1113,47 @@ function CombinedAIMockup({ accentColor }: { accentColor: string }) {
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0" }}>
 
         {/* LEFT — Bloom chat ──────────────────────────────────────── */}
-        <div style={{ padding: "14px 16px 16px", borderRight: "1px solid rgba(255,255,255,0.06)" }}>
-          <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "9px", fontWeight: 700, letterSpacing: "1.5px", marginBottom: "10px" }}>YOUR AI COWORKER</div>
+        <div style={{ padding: "26px", borderRight: "1px solid rgba(255,255,255,0.07)" }}>
+          <div style={{ color: "rgba(255,255,255,0.34)", fontSize: "12px", fontWeight: 850, letterSpacing: "3px", marginBottom: "16px" }}>YOUR AI COWORKER</div>
 
           {/* Chat bubble */}
-          <div style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "12px", padding: "11px 13px", marginBottom: "12px" }}>
-            <p style={{ color: "rgba(255,255,255,0.82)", fontSize: "11px", lineHeight: 1.6, margin: 0 }}>
-              Good evening! 🌱 I&apos;m Bloom, your AI coworker. I can create tasks, schedule meetings, and help you plan your day — just ask.
+          <div style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: "18px", padding: "18px 20px", marginBottom: "18px" }}>
+            <p style={{ color: "rgba(255,255,255,0.86)", fontSize: "17px", lineHeight: 1.6, margin: 0 }}>
+              Good evening. I&apos;m Bloom, your AI coworker. I can create tasks, schedule meetings, and help you plan your day.
             </p>
           </div>
 
           {/* Chips */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "12px" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "9px", marginBottom: "18px" }}>
             {[
-              { l: "📅 My day",     c: "#a0c8ff", bg: "rgba(77,159,255,0.12)",  b: "rgba(77,159,255,0.25)"  },
-              { l: "⚠ Overdue",    c: "#ffa0a0", bg: "rgba(255,69,58,0.10)",   b: "rgba(255,69,58,0.22)"   },
-              { l: "🎯 Prioritize", c: "#ffd080", bg: "rgba(255,159,10,0.10)",  b: "rgba(255,159,10,0.22)"  },
+              { l: "My day",     c: "#a0c8ff", bg: "rgba(77,159,255,0.12)",  b: "rgba(77,159,255,0.25)"  },
+              { l: "Overdue",    c: "#ffa0a0", bg: "rgba(255,69,58,0.10)",   b: "rgba(255,69,58,0.22)"   },
+              { l: "Prioritize", c: "#ffd080", bg: "rgba(255,159,10,0.10)",  b: "rgba(255,159,10,0.22)"  },
               { l: "+ Quick task",  c: "rgba(255,255,255,0.55)", bg: "rgba(255,255,255,0.05)", b: "rgba(255,255,255,0.12)" },
             ].map((c) => (
-              <div key={c.l} style={{ background: c.bg, border: `1px solid ${c.b}`, borderRadius: "20px", padding: "4px 10px", color: c.c, fontSize: "10px", fontWeight: 500 }}>{c.l}</div>
+              <div key={c.l} style={{ background: c.bg, border: `1px solid ${c.b}`, borderRadius: "999px", padding: "8px 13px", color: c.c, fontSize: "13px", fontWeight: 800 }}>{c.l}</div>
             ))}
           </div>
 
           {/* Input */}
-          <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
-            <div style={{ flex: 1, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "12px", padding: "8px 11px", color: "rgba(255,255,255,0.28)", fontSize: "10px" }}>
+          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <div style={{ flex: 1, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "16px", padding: "15px 16px", color: "rgba(255,255,255,0.34)", fontSize: "14px" }}>
               Ask Bloom anything...
             </div>
-            <div style={{ width: "32px", height: "32px", borderRadius: "9px", background: "linear-gradient(135deg,#4f46e5,#6d28d9)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px", flexShrink: 0 }}>➤</div>
+            <div style={{ width: "48px", height: "48px", borderRadius: "15px", background: "linear-gradient(135deg,#4f46e5,#6d28d9)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "22px", flexShrink: 0 }}>›</div>
           </div>
         </div>
 
         {/* RIGHT — AI Hub tools ────────────────────────────────────── */}
-        <div style={{ padding: "14px 16px 16px" }}>
-          <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "9px", fontWeight: 700, letterSpacing: "1.5px", marginBottom: "10px" }}>AI ASSISTANT HUB</div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "7px" }}>
+        <div style={{ padding: "26px" }}>
+          <div style={{ color: "rgba(255,255,255,0.34)", fontSize: "12px", fontWeight: 850, letterSpacing: "3px", marginBottom: "16px" }}>AI ASSISTANT HUB</div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
             {tools.map((t) => (
-              <div key={t.title} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: "11px", padding: "10px 10px 9px" }}>
-                <div style={{ width: "28px", height: "28px", borderRadius: "8px", background: t.iconBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", marginBottom: "7px" }}>{t.icon}</div>
-                <div style={{ color: "#fff", fontSize: "10px", fontWeight: 700, marginBottom: "4px", lineHeight: 1.3 }}>{t.title}</div>
-                <div style={{ color: "rgba(255,255,255,0.38)", fontSize: "9px", lineHeight: 1.4 }}>{t.desc}</div>
-                <div style={{ color: accentColor, fontSize: "9px", marginTop: "7px", opacity: 0.8 }}>Open →</div>
+              <div key={t.title} style={{ background: "rgba(255,255,255,0.045)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "18px", padding: "18px" }}>
+                <div style={{ width: "42px", height: "42px", borderRadius: "13px", background: t.iconBg, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", fontWeight: 900, marginBottom: "14px" }}>{t.mark}</div>
+                <div style={{ color: "#fff", fontSize: "15px", fontWeight: 850, marginBottom: "7px", lineHeight: 1.25 }}>{t.title}</div>
+                <div style={{ color: "rgba(255,255,255,0.43)", fontSize: "13px", lineHeight: 1.45 }}>{t.desc}</div>
+                <div style={{ color: accentColor, fontSize: "12px", fontWeight: 800, marginTop: "12px", opacity: 0.9 }}>Open →</div>
               </div>
             ))}
           </div>
@@ -614,9 +1161,9 @@ function CombinedAIMockup({ accentColor }: { accentColor: string }) {
       </div>
 
       {/* ── Footer ─────────────────────────────────────────────────── */}
-      <div style={{ padding: "9px 18px", borderTop: "1px solid rgba(255,255,255,0.05)", background: "rgba(255,255,255,0.01)", display: "flex", alignItems: "center", gap: "6px" }}>
-        <span style={{ fontSize: "10px" }}>⚡</span>
-        <span style={{ color: "rgba(255,255,255,0.28)", fontSize: "9.5px" }}>Powered by Claude AI · Runs locally · No API key needed</span>
+      <div style={{ padding: "14px 26px", borderTop: "1px solid rgba(255,255,255,0.06)", background: "rgba(255,255,255,0.015)", display: "flex", alignItems: "center", gap: "8px" }}>
+        <span style={{ color: "#ffd166", fontSize: "14px", fontWeight: 900 }}>•</span>
+        <span style={{ color: "rgba(255,255,255,0.34)", fontSize: "13px", fontWeight: 650 }}>Powered by Claude AI · Runs locally · No API key needed</span>
       </div>
     </div>
   );
@@ -872,6 +1419,10 @@ export default function WalkthroughItem({
   const config = IMAGE_CONFIG[id] ?? { maxWidth: "520px", frame: "screenshot" };
   const cardOffset = Math.min(index * 10, 80);
   const targetScale = isMobile ? 1 : Math.max(0.86, 1 - (total - 1 - index) * 0.018);
+  const isWideVisual = id === "ai-all";
+  const articleGridClass = isWideVisual
+    ? "lg:grid-cols-[0.72fr_1.28fr] lg:gap-8 xl:gap-10"
+    : "lg:grid-cols-2 lg:gap-14 xl:gap-20";
 
   const { scrollYProgress } = useScroll({
     target: container,
@@ -888,7 +1439,9 @@ export default function WalkthroughItem({
   }, []);
 
   function renderVisual() {
-    switch (config.frame) {
+  switch (config.frame) {
+      case "html-task-detail": return <TaskDetailMockup        accentColor={accentColor} />;
+      case "html-task-list":   return <TaskListMockup          accentColor={accentColor} />;
       case "html-stats":     return <GreetingStatsMockup     accentColor={accentColor} />;
       case "html-milestone": return <MilestoneProgressMockup accentColor={accentColor} />;
       case "html-calendar":  return <CalendarPickerMockup    accentColor={accentColor} />;
@@ -914,7 +1467,7 @@ export default function WalkthroughItem({
       className="relative mb-8 min-h-0 sm:mb-0 sm:h-[88vh] sm:min-h-[760px]"
     >
       <motion.article
-        className="grid min-h-0 grid-cols-1 items-center gap-8 overflow-hidden rounded-3xl border border-white/[0.09] bg-black/70 p-5 backdrop-blur-xl sm:sticky sm:min-h-[620px] sm:gap-10 sm:rounded-[34px] sm:p-6 md:p-8 lg:grid-cols-2 lg:gap-14 xl:gap-20"
+        className={`grid min-h-0 grid-cols-1 items-center gap-8 overflow-hidden rounded-3xl border border-white/[0.09] bg-black/70 p-5 backdrop-blur-xl sm:sticky sm:min-h-[620px] sm:gap-10 sm:rounded-[34px] sm:p-6 md:p-8 ${articleGridClass}`}
         style={{
           scale,
           top: `calc(5rem + ${cardOffset}px)`,
@@ -923,7 +1476,7 @@ export default function WalkthroughItem({
       >
         {/* Text */}
         <div
-          className={`flex flex-col gap-5 ${isEven ? "lg:order-1" : "lg:order-2"}`}
+          className={`flex flex-col gap-5 ${isEven ? "lg:order-1" : "lg:order-2"} ${isWideVisual ? "lg:max-w-[560px]" : ""}`}
         >
           <div className="flex items-center gap-3">
             <span
