@@ -20,8 +20,8 @@ interface WalkthroughItemProps {
 // Per-feature config: maxWidth + which frame/mockup to render
 const IMAGE_CONFIG: Record<string, { maxWidth: string; frame: string }> = {
   "greeting-stats":    { maxWidth: "340px", frame: "screenshot"      },
-  "task-list":         { maxWidth: "460px", frame: "html-task-list"  },
-  "subtasks":          { maxWidth: "680px", frame: "html-task-detail" },
+  "task-list":         { maxWidth: "400px", frame: "html-task-list"  },
+  "subtasks":          { maxWidth: "520px", frame: "html-task-detail" },
   "milestone-tracker": { maxWidth: "560px", frame: "html-milestone"  },
   "add-event":         { maxWidth: "400px", frame: "html-calendar"   },
   "streak":            { maxWidth: "360px", frame: "html-streak"     },
@@ -141,25 +141,25 @@ function TaskListMockup({ accentColor }: { accentColor: string }) {
     <div
       style={{
         width: "100%",
-        borderRadius: "28px",
+        borderRadius: "20px",
         background: "linear-gradient(145deg, rgba(12,17,29,0.98) 0%, rgba(8,11,20,0.98) 100%)",
         border: "1px solid rgba(255,255,255,0.12)",
-        padding: "30px",
-        boxShadow: "0 30px 90px rgba(0,0,0,0.58), 0 0 0 1px rgba(255,255,255,0.05)",
+        padding: "18px",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.05)",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "18px", marginBottom: "22px" }}>
-        <h4 style={{ color: "#fff", fontSize: "28px", fontWeight: 850, lineHeight: 1 }}>Tasks</h4>
-        <div style={{ display: "flex", gap: "10px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px", marginBottom: "14px" }}>
+        <h4 style={{ color: "#fff", fontSize: "20px", fontWeight: 850, lineHeight: 1 }}>Tasks</h4>
+        <div style={{ display: "flex", gap: "7px" }}>
           <button
             type="button"
             style={{
-              borderRadius: "16px",
+              borderRadius: "10px",
               border: "1px solid rgba(255,255,255,0.12)",
               background: "rgba(255,255,255,0.055)",
               color: "rgba(255,255,255,0.72)",
-              padding: "12px 18px",
-              fontSize: "15px",
+              padding: "7px 12px",
+              fontSize: "12px",
               fontWeight: 800,
             }}
           >
@@ -168,12 +168,12 @@ function TaskListMockup({ accentColor }: { accentColor: string }) {
           <button
             type="button"
             style={{
-              borderRadius: "16px",
+              borderRadius: "10px",
               border: "1px solid rgba(77,159,255,0.32)",
               background: "linear-gradient(135deg, rgba(77,159,255,0.88), rgba(79,70,229,0.86))",
               color: "#fff",
-              padding: "12px 20px",
-              fontSize: "15px",
+              padding: "7px 12px",
+              fontSize: "12px",
               fontWeight: 850,
             }}
           >
@@ -184,19 +184,19 @@ function TaskListMockup({ accentColor }: { accentColor: string }) {
 
       <div
         style={{
-          borderRadius: "18px",
+          borderRadius: "12px",
           border: "1px solid rgba(255,255,255,0.1)",
           background: "rgba(255,255,255,0.045)",
           color: "rgba(255,255,255,0.36)",
-          padding: "16px 20px",
-          fontSize: "16px",
-          marginBottom: "16px",
+          padding: "10px 14px",
+          fontSize: "12px",
+          marginBottom: "12px",
         }}
       >
         Search tasks by keyword...
       </div>
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "22px" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "14px" }}>
         {["All", "Due Today", "Due Tomorrow", "High Priority", "Pending"].map((filter, index) => (
           <span
             key={filter}
@@ -205,8 +205,8 @@ function TaskListMockup({ accentColor }: { accentColor: string }) {
               border: index === 0 ? `1px solid ${accentColor}66` : "1px solid rgba(255,255,255,0.11)",
               background: index === 0 ? accentColor : "rgba(255,255,255,0.045)",
               color: index === 0 ? "#fff" : "rgba(255,255,255,0.58)",
-              padding: "10px 15px",
-              fontSize: "14px",
+              padding: "5px 10px",
+              fontSize: "11px",
               fontWeight: 800,
             }}
           >
@@ -215,51 +215,43 @@ function TaskListMockup({ accentColor }: { accentColor: string }) {
         ))}
       </div>
 
-      <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
-        <span style={{ width: "9px", height: "9px", borderRadius: "99px", background: "#39ff14" }} />
-        <p style={{ color: "#39ff14", fontSize: "13px", fontWeight: 900, letterSpacing: "4px" }}>PERSONAL</p>
+      <div style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "10px" }}>
+        <span style={{ width: "7px", height: "7px", borderRadius: "99px", background: "#39ff14" }} />
+        <p style={{ color: "#39ff14", fontSize: "10px", fontWeight: 900, letterSpacing: "3px" }}>PERSONAL</p>
       </div>
 
-      <div style={{ display: "grid", gap: "14px" }}>
+      <div style={{ display: "grid", gap: "9px" }}>
         {tasks.map((task, index) => (
           <div
             key={task.title}
             style={{
               position: "relative",
               overflow: "hidden",
-              borderRadius: "22px",
+              borderRadius: "14px",
               border: "1px solid rgba(255,255,255,0.1)",
               background: index === 1 ? "rgba(255,255,255,0.07)" : "rgba(255,255,255,0.045)",
-              padding: "20px 22px 18px 30px",
-              minHeight: "118px",
+              padding: "12px 14px 12px 20px",
             }}
           >
             <span
               style={{
                 position: "absolute",
-                left: 0,
-                top: 0,
-                bottom: 0,
-                width: "5px",
+                left: 0, top: 0, bottom: 0,
+                width: "4px",
                 background: task.tone,
-                boxShadow: `0 0 22px ${task.tone}70`,
+                boxShadow: `0 0 14px ${task.tone}70`,
               }}
             />
-            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "18px" }}>
-              <div style={{ display: "flex", gap: "16px" }}>
+            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "10px" }}>
+              <div style={{ display: "flex", gap: "10px" }}>
                 <div
                   style={{
-                    width: "46px",
-                    height: "46px",
-                    borderRadius: "16px",
+                    width: "32px", height: "32px", borderRadius: "10px", flexShrink: 0,
                     border: "1px solid rgba(255,255,255,0.12)",
                     background: "rgba(255,255,255,0.06)",
                     color: task.tone,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "20px",
-                    fontWeight: 900,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: "13px", fontWeight: 900,
                   }}
                 >
                   {index + 1}
@@ -269,15 +261,13 @@ function TaskListMockup({ accentColor }: { accentColor: string }) {
                     style={{
                       color: task.muted ? "rgba(57,255,20,0.58)" : "#fff",
                       textDecoration: task.muted ? "line-through" : "none",
-                      fontSize: "19px",
-                      fontWeight: 850,
-                      marginBottom: "7px",
+                      fontSize: "13px", fontWeight: 850, marginBottom: "3px",
                     }}
                   >
                     {task.title}
                   </h5>
-                  <p style={{ color: "rgba(255,255,255,0.48)", fontSize: "15px", marginBottom: "12px" }}>{task.desc}</p>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                  <p style={{ color: "rgba(255,255,255,0.48)", fontSize: "11px", marginBottom: "7px" }}>{task.desc}</p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
                     {[
                       task.status,
                       index === 0 ? "Due today" : index === 1 ? "High Priority" : "Motivated",
@@ -290,9 +280,8 @@ function TaskListMockup({ accentColor }: { accentColor: string }) {
                           border: "1px solid rgba(255,255,255,0.11)",
                           background: "rgba(255,255,255,0.055)",
                           color: "rgba(255,255,255,0.7)",
-                          padding: "6px 10px",
-                          fontSize: "12px",
-                          fontWeight: 800,
+                          padding: "3px 8px",
+                          fontSize: "10px", fontWeight: 800,
                         }}
                       >
                         {chip}
@@ -301,7 +290,7 @@ function TaskListMockup({ accentColor }: { accentColor: string }) {
                   </div>
                 </div>
               </div>
-              <span style={{ color: "rgba(255,255,255,0.28)", fontSize: "24px", lineHeight: 1 }}>⋯</span>
+              <span style={{ color: "rgba(255,255,255,0.28)", fontSize: "16px", lineHeight: 1, flexShrink: 0 }}>⋯</span>
             </div>
           </div>
         ))}
@@ -323,37 +312,31 @@ function TaskDetailMockup({ accentColor }: { accentColor: string }) {
     <div
       style={{
         width: "100%",
-        borderRadius: "28px",
+        borderRadius: "20px",
         background: "linear-gradient(145deg, rgba(12,17,29,0.98) 0%, rgba(8,11,20,0.98) 100%)",
         border: "1px solid rgba(255,255,255,0.12)",
-        padding: "30px",
-        boxShadow: "0 30px 90px rgba(0,0,0,0.58), 0 0 0 1px rgba(255,255,255,0.05)",
+        padding: "20px",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.05)",
       }}
     >
-      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "22px", marginBottom: "26px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "14px", marginBottom: "16px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <div
             style={{
-              width: "56px",
-              height: "56px",
-              borderRadius: "18px",
+              width: "40px", height: "40px", borderRadius: "13px", flexShrink: 0,
               border: "1px solid rgba(255,255,255,0.14)",
               background: "rgba(255,255,255,0.06)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#fff",
-              fontSize: "24px",
-              fontWeight: 800,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              color: "#fff", fontSize: "17px", fontWeight: 800,
             }}
           >
             G
           </div>
           <div>
-            <h4 style={{ color: "#fff", fontSize: "24px", fontWeight: 800, lineHeight: 1.15, marginBottom: "10px" }}>
+            <h4 style={{ color: "#fff", fontSize: "17px", fontWeight: 800, lineHeight: 1.15, marginBottom: "7px" }}>
               Google paid campaigns
             </h4>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
               {["High Priority", "Overdue · May 25", "Creative"].map((chip, index) => (
                 <span
                   key={chip}
@@ -362,9 +345,7 @@ function TaskDetailMockup({ accentColor }: { accentColor: string }) {
                     border: index === 0 ? "1px solid rgba(255,92,92,0.35)" : index === 1 ? "1px solid rgba(255,159,10,0.32)" : "1px solid rgba(167,139,250,0.28)",
                     background: index === 0 ? "rgba(255,92,92,0.14)" : index === 1 ? "rgba(255,159,10,0.12)" : "rgba(167,139,250,0.14)",
                     color: index === 0 ? "#ff8a8a" : index === 1 ? "#ffd166" : "#c4b5fd",
-                    padding: "7px 12px",
-                    fontSize: "12px",
-                    fontWeight: 800,
+                    padding: "4px 9px", fontSize: "11px", fontWeight: 800,
                   }}
                 >
                   {chip}
@@ -373,145 +354,44 @@ function TaskDetailMockup({ accentColor }: { accentColor: string }) {
             </div>
           </div>
         </div>
-
-        <div style={{ textAlign: "right" }}>
-          <p style={{ color: "rgba(255,255,255,0.42)", fontSize: "12px", fontWeight: 700, marginBottom: "8px" }}>
-            PROGRESS
-          </p>
-          <p style={{ color: "#fff", fontSize: "24px", fontWeight: 800 }}>67%</p>
+        <div style={{ textAlign: "right", flexShrink: 0 }}>
+          <p style={{ color: "rgba(255,255,255,0.42)", fontSize: "10px", fontWeight: 700, marginBottom: "4px" }}>PROGRESS</p>
+          <p style={{ color: "#fff", fontSize: "20px", fontWeight: 800 }}>67%</p>
         </div>
       </div>
 
-      <div
-        style={{
-          height: "8px",
-          borderRadius: "999px",
-          background: "rgba(255,255,255,0.08)",
-          overflow: "hidden",
-          marginBottom: "24px",
-        }}
-      >
-        <div
-          style={{
-            width: "67%",
-            height: "100%",
-            borderRadius: "999px",
-            background: `linear-gradient(90deg, ${accentColor}, #a78bfa)`,
-          }}
-        />
+      <div style={{ height: "6px", borderRadius: "999px", background: "rgba(255,255,255,0.08)", overflow: "hidden", marginBottom: "16px" }}>
+        <div style={{ width: "67%", height: "100%", borderRadius: "999px", background: `linear-gradient(90deg, ${accentColor}, #a78bfa)` }} />
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: "18px", marginBottom: "20px" }}>
-        <div
-          style={{
-            borderRadius: "20px",
-            border: "1px solid rgba(255,255,255,0.1)",
-            background: "rgba(255,255,255,0.04)",
-            padding: "18px",
-          }}
-        >
-          <p style={{ color: "rgba(255,255,255,0.38)", fontSize: "11px", fontWeight: 800, letterSpacing: "3px", marginBottom: "12px" }}>
-            NOTES
-          </p>
-          <p style={{ color: "rgba(255,255,255,0.72)", fontSize: "15px", lineHeight: 1.55 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: "12px", marginBottom: "12px" }}>
+        <div style={{ borderRadius: "14px", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.04)", padding: "13px" }}>
+          <p style={{ color: "rgba(255,255,255,0.38)", fontSize: "9px", fontWeight: 800, letterSpacing: "2.5px", marginBottom: "8px" }}>NOTES</p>
+          <p style={{ color: "rgba(255,255,255,0.72)", fontSize: "12px", lineHeight: 1.5 }}>
             Add campaign notes, links, client feedback, and blockers in one focused space.
           </p>
-          <p style={{ color: "rgba(255,255,255,0.28)", fontSize: "12px", marginTop: "14px" }}>148 / 500</p>
+          <p style={{ color: "rgba(255,255,255,0.28)", fontSize: "10px", marginTop: "10px" }}>148 / 500</p>
         </div>
-
-        <div
-          style={{
-            borderRadius: "20px",
-            border: "1px solid rgba(255,255,255,0.1)",
-            background: "rgba(255,255,255,0.04)",
-            padding: "18px",
-          }}
-        >
-          <p style={{ color: "rgba(255,255,255,0.38)", fontSize: "11px", fontWeight: 800, letterSpacing: "3px", marginBottom: "12px" }}>
-            ATTACHMENTS
-          </p>
-          <div
-            style={{
-              height: "86px",
-              borderRadius: "18px",
-              border: "1px dashed rgba(255,255,255,0.18)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "rgba(255,255,255,0.58)",
-              fontSize: "14px",
-              fontWeight: 700,
-            }}
-          >
+        <div style={{ borderRadius: "14px", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.04)", padding: "13px" }}>
+          <p style={{ color: "rgba(255,255,255,0.38)", fontSize: "9px", fontWeight: 800, letterSpacing: "2.5px", marginBottom: "8px" }}>ATTACHMENTS</p>
+          <div style={{ height: "60px", borderRadius: "12px", border: "1px dashed rgba(255,255,255,0.18)", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,0.58)", fontSize: "12px", fontWeight: 700 }}>
             Add file
           </div>
         </div>
       </div>
 
-      <div
-        style={{
-          borderRadius: "20px",
-          border: "1px solid rgba(255,255,255,0.1)",
-          background: "rgba(255,255,255,0.035)",
-          padding: "18px",
-          marginBottom: "18px",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "14px" }}>
-          <p style={{ color: "#fff", fontSize: "16px", fontWeight: 800 }}>Subtasks</p>
-          <span
-            style={{
-              borderRadius: "999px",
-              border: "1px solid rgba(255,255,255,0.12)",
-              color: "rgba(255,255,255,0.64)",
-              padding: "5px 10px",
-              fontSize: "12px",
-              fontWeight: 800,
-            }}
-          >
-            2 / 3
-          </span>
+      <div style={{ borderRadius: "14px", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.035)", padding: "13px", marginBottom: "12px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "10px" }}>
+          <p style={{ color: "#fff", fontSize: "13px", fontWeight: 800 }}>Subtasks</p>
+          <span style={{ borderRadius: "999px", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.64)", padding: "3px 8px", fontSize: "11px", fontWeight: 800 }}>2 / 3</span>
         </div>
-
-        <div style={{ display: "grid", gap: "9px" }}>
+        <div style={{ display: "grid", gap: "7px" }}>
           {subtasks.map((task) => (
-            <div
-              key={task.label}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "11px",
-                borderRadius: "14px",
-                border: "1px solid rgba(255,255,255,0.08)",
-                background: "rgba(255,255,255,0.035)",
-                padding: "12px 14px",
-              }}
-            >
-              <span
-                style={{
-                  width: "22px",
-                  height: "22px",
-                  borderRadius: "7px",
-                  border: task.done ? "1px solid rgba(57,255,20,0.55)" : "1px solid rgba(255,255,255,0.16)",
-                  background: task.done ? "rgba(57,255,20,0.12)" : "rgba(255,255,255,0.035)",
-                  color: task.done ? "#39ff14" : "rgba(255,255,255,0.34)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "13px",
-                  fontWeight: 900,
-                }}
-              >
+            <div key={task.label} style={{ display: "flex", alignItems: "center", gap: "9px", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.035)", padding: "9px 11px" }}>
+              <span style={{ width: "18px", height: "18px", borderRadius: "6px", flexShrink: 0, border: task.done ? "1px solid rgba(57,255,20,0.55)" : "1px solid rgba(255,255,255,0.16)", background: task.done ? "rgba(57,255,20,0.12)" : "rgba(255,255,255,0.035)", color: task.done ? "#39ff14" : "rgba(255,255,255,0.34)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: 900 }}>
                 {task.done ? "✓" : ""}
               </span>
-              <span
-                style={{
-                  color: task.done ? "rgba(255,255,255,0.46)" : "rgba(255,255,255,0.82)",
-                  textDecoration: task.done ? "line-through" : "none",
-                  fontSize: "14px",
-                  fontWeight: 650,
-                }}
-              >
+              <span style={{ color: task.done ? "rgba(255,255,255,0.46)" : "rgba(255,255,255,0.82)", textDecoration: task.done ? "line-through" : "none", fontSize: "12px", fontWeight: 650 }}>
                 {task.label}
               </span>
             </div>
@@ -519,44 +399,21 @@ function TaskDetailMockup({ accentColor }: { accentColor: string }) {
         </div>
       </div>
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "22px" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "7px", marginBottom: "14px" }}>
         {moods.map((mood, index) => (
-          <span
-            key={mood}
-            style={{
-              borderRadius: "999px",
-              border: index === 0 ? "1px solid rgba(167,139,250,0.38)" : "1px solid rgba(255,255,255,0.11)",
-              background: index === 0 ? "rgba(167,139,250,0.16)" : "rgba(255,255,255,0.045)",
-              color: index === 0 ? "#d8b4fe" : "rgba(255,255,255,0.58)",
-              padding: "9px 13px",
-              fontSize: "13px",
-              fontWeight: 800,
-            }}
-          >
+          <span key={mood} style={{ borderRadius: "999px", border: index === 0 ? "1px solid rgba(167,139,250,0.38)" : "1px solid rgba(255,255,255,0.11)", background: index === 0 ? "rgba(167,139,250,0.16)" : "rgba(255,255,255,0.045)", color: index === 0 ? "#d8b4fe" : "rgba(255,255,255,0.58)", padding: "6px 11px", fontSize: "11px", fontWeight: 800 }}>
             {mood}
           </span>
         ))}
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
         {[
           { label: "Edit", color: "#60a5fa", border: "rgba(96,165,250,0.34)" },
           { label: "Snooze", color: "#ffd166", border: "rgba(255,209,102,0.34)" },
           { label: "Delete", color: "#ff6b6b", border: "rgba(255,107,107,0.34)" },
         ].map((action) => (
-          <button
-            key={action.label}
-            type="button"
-            style={{
-              borderRadius: "16px",
-              border: `1px solid ${action.border}`,
-              background: "rgba(255,255,255,0.045)",
-              color: action.color,
-              padding: "14px",
-              fontSize: "14px",
-              fontWeight: 850,
-            }}
-          >
+          <button key={action.label} type="button" style={{ borderRadius: "11px", border: `1px solid ${action.border}`, background: "rgba(255,255,255,0.045)", color: action.color, padding: "10px", fontSize: "12px", fontWeight: 850 }}>
             {action.label}
           </button>
         ))}
