@@ -20,7 +20,7 @@ interface WalkthroughItemProps {
 // Per-feature config: maxWidth + which frame/mockup to render
 const IMAGE_CONFIG: Record<string, { maxWidth: string; frame: string }> = {
   "greeting-stats":    { maxWidth: "340px", frame: "screenshot"      },
-  "task-list":         { maxWidth: "540px", frame: "html-task-list"  },
+  "task-list":         { maxWidth: "460px", frame: "html-task-list"  },
   "subtasks":          { maxWidth: "680px", frame: "html-task-detail" },
   "milestone-tracker": { maxWidth: "560px", frame: "html-milestone"  },
   "add-event":         { maxWidth: "400px", frame: "html-calendar"   },
@@ -29,7 +29,7 @@ const IMAGE_CONFIG: Record<string, { maxWidth: string; frame: string }> = {
   "daily-quote":       { maxWidth: "380px", frame: "html-quote"      },
   "ai-hub":            { maxWidth: "520px", frame: "html-ai-hub"     },
   "bloom-ai":          { maxWidth: "400px", frame: "html-bloom-ai"   },
-  "ai-all":            { maxWidth: "920px", frame: "html-ai-all"     },
+  "ai-all":            { maxWidth: "800px", frame: "html-ai-all"     },
 };
 
 function VisualWrapper({ children }: { children: React.ReactNode }) {
@@ -1145,15 +1145,15 @@ function CombinedAIMockup({ accentColor }: { accentColor: string }) {
         </div>
 
         {/* RIGHT — AI Hub tools ────────────────────────────────────── */}
-        <div style={{ padding: "26px" }}>
-          <div style={{ color: "rgba(255,255,255,0.34)", fontSize: "12px", fontWeight: 850, letterSpacing: "3px", marginBottom: "16px" }}>AI ASSISTANT HUB</div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+        <div style={{ padding: "18px 20px" }}>
+          <div style={{ color: "rgba(255,255,255,0.34)", fontSize: "11px", fontWeight: 850, letterSpacing: "3px", marginBottom: "12px" }}>AI ASSISTANT HUB</div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "9px", alignItems: "start" }}>
             {tools.map((t) => (
-              <div key={t.title} style={{ background: "rgba(255,255,255,0.045)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "18px", padding: "18px" }}>
-                <div style={{ width: "42px", height: "42px", borderRadius: "13px", background: t.iconBg, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", fontWeight: 900, marginBottom: "14px" }}>{t.mark}</div>
-                <div style={{ color: "#fff", fontSize: "15px", fontWeight: 850, marginBottom: "7px", lineHeight: 1.25 }}>{t.title}</div>
-                <div style={{ color: "rgba(255,255,255,0.43)", fontSize: "13px", lineHeight: 1.45 }}>{t.desc}</div>
-                <div style={{ color: accentColor, fontSize: "12px", fontWeight: 800, marginTop: "12px", opacity: 0.9 }}>Open →</div>
+              <div key={t.title} style={{ background: "rgba(255,255,255,0.045)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "14px", padding: "13px" }}>
+                <div style={{ width: "34px", height: "34px", borderRadius: "10px", background: t.iconBg, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px", fontWeight: 900, marginBottom: "10px" }}>{t.mark}</div>
+                <div style={{ color: "#fff", fontSize: "13px", fontWeight: 850, marginBottom: "5px", lineHeight: 1.25 }}>{t.title}</div>
+                <div style={{ color: "rgba(255,255,255,0.43)", fontSize: "11px", lineHeight: 1.4 }}>{t.desc}</div>
+                <div style={{ color: accentColor, fontSize: "11px", fontWeight: 800, marginTop: "8px", opacity: 0.9 }}>Open →</div>
               </div>
             ))}
           </div>
