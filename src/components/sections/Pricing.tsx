@@ -311,7 +311,7 @@ export default function Pricing() {
                 className="text-[10px] px-1.5 py-0.5 rounded-full font-bold"
                 style={{ background: "rgba(57,255,20,0.15)", color: "#39FF14", border: "1px solid rgba(57,255,20,0.25)" }}
               >
-                Save 30%
+                2 months free
               </span>
             </button>
           </div>
