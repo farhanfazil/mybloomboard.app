@@ -59,8 +59,8 @@ const footerLinks: FooterSection[] = [
     label: "Plans",
     links: [
       { title: "Free", href: "#pricing" },
-      { title: "Pro", href: "#pricing" },
-      { title: "Pro Max", href: "#pricing" },
+      { title: "Flow", href: "#pricing" },
+      { title: "Bloom", href: "#pricing" },
       { title: "Team", href: "#pricing" },
     ],
   },

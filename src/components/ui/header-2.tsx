@@ -9,6 +9,8 @@ import { useScroll } from "@/components/ui/use-scroll";
 
 const DOWNLOAD_URL =
   "https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBooard-Installer.dmg";
+const CUSTOMER_PORTAL_URL = "https://sandbox.polar.sh/daily-dashboard/portal";
+const BLOOMBOARDS_URL = "https://app.mybloomboard.app";
 
 export function Header() {
   const [open, setOpen] = React.useState(false);
@@ -28,8 +30,9 @@ export function Header() {
       href: "#pricing",
     },
     {
-      label: "FAQ",
-      href: "#faq",
+      label: "Customer Portal",
+      href: CUSTOMER_PORTAL_URL,
+      external: true,
     },
   ];
 
@@ -77,10 +80,27 @@ export function Header() {
 
         <div className="hidden items-center gap-1 md:flex">
           {links.map((link) => (
-            <a key={link.label} className={buttonVariants({ variant: "ghost" })} href={link.href}>
+            <a
+              key={link.label}
+              className={buttonVariants({ variant: "ghost" })}
+              href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noreferrer" : undefined}
+            >
               {link.label}
             </a>
           ))}
+          <Button
+            asChild
+            className="gap-2 rounded-full bg-violet-600 px-5 text-white hover:bg-violet-500"
+          >
+            <a href={BLOOMBOARDS_URL} target="_blank" rel="noreferrer">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+              </svg>
+              Web App — Coming Soon
+            </a>
+          </Button>
           <Button
             asChild
             className="gap-2.5 rounded-full bg-white px-6 text-[#0a0f1c] hover:bg-white/90"
@@ -127,6 +147,8 @@ export function Header() {
                   className: "justify-start",
                 })}
                 href={link.href}
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noreferrer" : undefined}
                 onClick={() => setOpen(false)}
               >
                 {link.label}
@@ -134,6 +156,14 @@ export function Header() {
             ))}
           </div>
           <div className="flex flex-col gap-2">
+            <Button className="w-full gap-2 rounded-full bg-violet-600 text-white hover:bg-violet-500" asChild>
+              <a href={BLOOMBOARDS_URL} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+                </svg>
+                Web App — Coming Soon
+              </a>
+            </Button>
             <Button className="w-full gap-2.5 rounded-full bg-white text-[#0a0f1c] hover:bg-white/90" asChild>
               <a href={DOWNLOAD_URL} onClick={() => setOpen(false)}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

@@ -344,9 +344,9 @@ export const FAQS = [
       "Yes. You can customize the dashboard around the way you work, including boards, projects, priorities, reminders, task details, health tracking, and the views you rely on most.",
   },
   {
-    question: "What do Pro and Pro Max unlock?",
+    question: "What do Flow and Bloom unlock?",
     answer:
-      "Pro adds more power for daily work, including unlimited tasks, boards, AI task automation, email and message tools, meeting notes, and PDF report export. Pro Max expands the app with unlimited AI generations, KPI tools, advanced planning, and priority features.",
+      "Flow adds more power for daily work, including unlimited tasks, boards, AI task automation, email and message tools, meeting notes, and PDF report export. Bloom expands the app with unlimited AI generations, KPI tools, advanced planning, and priority features.",
   },
   {
     question: "Can teams use Bloombooard together?",
@@ -356,7 +356,7 @@ export const FAQS = [
   {
     question: "Can Bloombooard create reports?",
     answer:
-      "Yes. Paid plans include PDF report export, and Pro Max adds deeper KPI tracking and work summary evaluation for people who need a clearer performance view.",
+      "Yes. Paid plans include PDF report export, and Bloom adds deeper KPI tracking and work summary evaluation for people who need a clearer performance view.",
   },
   {
     question: "What can the AI features do?",
@@ -437,7 +437,7 @@ export const PRICING_PLANS = [
           { text: "Email & Messages (5 / month)", included: true },
           { text: "Meeting Notes → Tasks (5 / month)", included: true },
           { text: "I am Stuck", included: false },
-          { text: "Plan My Day", included: false, badge: "Pro Max" },
+          { text: "Plan My Day", included: false, badge: "Bloom" },
         ],
       },
       {
@@ -456,7 +456,7 @@ export const PRICING_PLANS = [
     ],
   },
   {
-    name: "Pro",
+    name: "Flow",
     price: "$7.99",
     subtext: "/ month",
     yearlyPrice: "$76.99",
@@ -465,7 +465,7 @@ export const PRICING_PLANS = [
     highlighted: false,
     cta: "7 days trial",
     ctaHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_TQSyTPGy63wMNw0r31v3GtyYNvU6YFgOmO7Rz3I5phX/redirect",
-    yearlyHref: "https://buy.stripe.com/eVqbJ1fZM9AL3PL4527bW06",
+    yearlyHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_PTRNqDJFKdiinLZkSM3oWu8rBSGaJjiERFhh70bsuvj/redirect",
     featureGroups: [
       {
         category: "Tasks & Planning",
@@ -481,8 +481,8 @@ export const PRICING_PLANS = [
       {
         category: "Goals & KPIs",
         items: [
-          { text: "Goals & KPIs tracking", included: false, badge: "Pro Max" },
-          { text: "Work Summary & KPI Evaluation", included: false, badge: "Pro Max" },
+          { text: "Goals & KPIs tracking", included: false, badge: "Bloom" },
+          { text: "Work Summary & KPI Evaluation", included: false, badge: "Bloom" },
           { text: "Detailed KPI AI evaluation", included: false },
           { text: "PDF report export", included: true },
         ],
@@ -494,7 +494,7 @@ export const PRICING_PLANS = [
           { text: "Email & Messages (50 / month)", included: true },
           { text: "Meeting Notes → Tasks (20 / month)", included: true },
           { text: "I am Stuck (20 / month)", included: true },
-          { text: "Plan My Day", included: false, badge: "Pro Max" },
+          { text: "Plan My Day", included: false, badge: "Bloom" },
         ],
       },
       {
@@ -513,7 +513,7 @@ export const PRICING_PLANS = [
     ],
   },
   {
-    name: "Pro Max",
+    name: "Bloom",
     price: "$15.99",
     subtext: "/ month",
     yearlyPrice: "$153.99",
@@ -523,7 +523,7 @@ export const PRICING_PLANS = [
     badgeLabel: "Best Value",
     cta: "7 days trial",
     ctaHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_tZmnylGTB2b9OizlujPnaSQe0y0HJRqG9IVfn0X241v/redirect",
-    yearlyHref: "https://buy.stripe.com/28E4gz00OeV58618li7bW08",
+    yearlyHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_EIbHh4jzESx721RcASjBJVu8cfFZGcP8yQLDV1TigcR/redirect",
     featureGroups: [
       {
         category: "Tasks & Planning",
@@ -553,7 +553,7 @@ export const PRICING_PLANS = [
           { text: "Email & Messages (Unlimited)", included: true },
           { text: "Meeting Notes → Tasks (Unlimited)", included: true },
           { text: "I am Stuck (Unlimited)", included: true },
-          { text: "Plan My Day", included: true, badge: "Pro Max" },
+          { text: "Plan My Day", included: true, badge: "Bloom" },
         ],
       },
       {
@@ -608,7 +608,7 @@ export const PRICING_PLANS = [
           { text: "Email & Messages", included: true },
           { text: "Meeting Notes → Tasks", included: true },
           { text: "I am Stuck", included: true },
-          { text: "Plan My Day", included: true, badge: "Pro Max" },
+          { text: "Plan My Day", included: true, badge: "Bloom" },
         ],
       },
       {

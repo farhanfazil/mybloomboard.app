@@ -61,7 +61,7 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
     <motion.div
       ref={cardRef as React.RefObject<HTMLDivElement>}
       variants={fadeUp}
-      className="relative flex flex-col transition-all duration-300 h-full"
+      className="relative flex h-full flex-col transition-all duration-300"
       style={{
         borderRadius: "18px",
         background: isBloom
@@ -185,58 +185,108 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
 
       {/* ── Feature groups ───────────────────────────────────────────────── */}
       <div className="px-6 py-5 flex flex-col flex-1 2xl:px-7 relative z-[1]">
-        {plan.featureGroups.map((group, index) => (
-          <div
-            key={group.category}
-            className={index > 0 ? "mt-5 border-t pt-5" : ""}
-            style={index > 0 ? { borderColor: isBloom ? "rgba(167,139,250,0.1)" : "rgba(255,255,255,0.06)" } : {}}
-          >
-            <p
-              className="text-[10px] font-semibold uppercase tracking-widest mb-2.5"
-              style={{ color: isBloom ? "rgba(196,181,253,0.4)" : "rgba(255,255,255,0.28)" }}
+        {plan.featureGroups.map((group, index) => {
+          const isAIGroup = group.category === "AI Assistant Hub";
+
+          return (
+            <div
+              key={group.category}
+              className={
+                isAIGroup
+                  ? "mt-5 rounded-2xl border p-4"
+                  : index > 0
+                    ? "mt-5 border-t pt-5"
+                    : ""
+              }
+              style={
+                isAIGroup
+                  ? {
+                      borderColor: isBloom ? "rgba(196,181,253,0.34)" : "rgba(255,255,255,0.11)",
+                      background: isBloom
+                        ? "linear-gradient(145deg, rgba(124,58,237,0.2), rgba(255,255,255,0.035))"
+                        : "linear-gradient(145deg, rgba(255,255,255,0.055), rgba(255,255,255,0.018))",
+                      boxShadow: isBloom
+                        ? "inset 0 1px 0 rgba(255,255,255,0.08), 0 16px 40px rgba(109,40,217,0.14)"
+                        : "inset 0 1px 0 rgba(255,255,255,0.06)",
+                    }
+                  : index > 0
+                    ? { borderColor: isBloom ? "rgba(167,139,250,0.1)" : "rgba(255,255,255,0.06)" }
+                    : {}
+              }
             >
-              {group.category}
-            </p>
-            <ul className="flex flex-col gap-2">
-              {group.items.map((item) => (
-                <li key={item.text} className="flex items-start gap-2.5">
-                  {item.included ? (
-                    <span className="mt-0.5 flex-shrink-0 text-xs font-bold" style={{ color: "#39FF14" }}>✓</span>
-                  ) : (
-                    <span className="mt-0.5 flex-shrink-0 text-xs font-bold" style={{ color: "rgba(255,255,255,0.2)" }}>✕</span>
-                  )}
-                  <span className="flex items-center gap-1.5 flex-wrap">
-                    <span
-                      className="text-sm leading-snug"
-                      style={{
-                        color: item.included ? (isBloom ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.75)") : "rgba(255,255,255,0.25)",
-                        textDecoration: item.included ? "none" : "line-through",
-                      }}
-                    >
-                      {item.text}
-                    </span>
-                    {item.badge && (
+              <div className="mb-2.5 flex items-center justify-between gap-3">
+                <p
+                  className="text-[10px] font-semibold uppercase tracking-widest"
+                  style={{
+                    color: isAIGroup
+                      ? (isBloom ? "#c4b5fd" : "rgba(255,255,255,0.42)")
+                      : isBloom
+                        ? "rgba(196,181,253,0.4)"
+                        : "rgba(255,255,255,0.28)",
+                  }}
+                >
+                  {group.category}
+                </p>
+                {isAIGroup && (
+                  <span
+                    className="rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider"
+                    style={isBloom
+                      ? {
+                          color: "#ede9fe",
+                          background: "rgba(124,58,237,0.22)",
+                          border: "1px solid rgba(196,181,253,0.28)",
+                        }
+                      : {
+                          color: "rgba(255,255,255,0.62)",
+                          background: "rgba(255,255,255,0.06)",
+                          border: "1px solid rgba(255,255,255,0.12)",
+                        }}
+                  >
+                    AI
+                  </span>
+                )}
+              </div>
+              <ul className="flex flex-col gap-2">
+                {group.items.map((item) => (
+                  <li key={item.text} className="flex items-start gap-2.5">
+                    {item.included ? (
+                      <span className="mt-0.5 flex-shrink-0 text-xs font-bold" style={{ color: "#39FF14" }}>✓</span>
+                    ) : (
+                      <span className="mt-0.5 flex-shrink-0 text-xs font-bold" style={{ color: "rgba(255,255,255,0.2)" }}>✕</span>
+                    )}
+                    <span className="flex items-center gap-1.5 flex-wrap">
                       <span
-                        className="text-[9px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0"
+                        className="text-sm leading-snug"
                         style={{
-                          background: "linear-gradient(135deg, rgba(109,40,217,0.35), rgba(79,70,229,0.35))",
-                          color: "#c4b5fd",
-                          border: "1px solid rgba(167,139,250,0.3)",
+                          color: item.included ? (isBloom ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.75)") : "rgba(255,255,255,0.25)",
+                          textDecoration: item.included ? "none" : "line-through",
                         }}
                       >
-                        {item.badge}
+                        {item.text}
                       </span>
-                    )}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+                      {item.badge && (
+                        <span
+                          className="text-[9px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0"
+                          style={{
+                            background: "linear-gradient(135deg, rgba(109,40,217,0.35), rgba(79,70,229,0.35))",
+                            color: "#c4b5fd",
+                            border: "1px solid rgba(167,139,250,0.3)",
+                          }}
+                        >
+                          {item.badge}
+                        </span>
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
       </div>
 
       {/* ── CTA ──────────────────────────────────────────────────────────── */}
-      <div className="px-6 pb-6 2xl:px-7 relative z-[1]">
+      <div className="relative z-[1] mt-auto px-6 pb-6 2xl:px-7">
         {isBloom && (
           <p className="text-center text-[10px] mb-2" style={{ color: "rgba(196,181,253,0.5)" }}>
             7-day free trial · Cancel anytime
@@ -336,8 +386,7 @@ export default function Pricing() {
 
         {/* Cards */}
         <motion.div
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4 2xl:gap-7"
-          style={{ alignItems: "start" }}
+          className="grid auto-rows-fr grid-cols-1 items-stretch gap-6 sm:grid-cols-2 xl:grid-cols-4 2xl:gap-7"
           variants={staggerContainer}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -345,7 +394,7 @@ export default function Pricing() {
           {PRICING_PLANS.map((plan) => (
             <div
               key={plan.name}
-              className={plan.name === "Bloom" ? "xl:-mt-5 xl:mb-5" : "xl:mt-3"}
+              className="h-full"
             >
               <PricingCard plan={plan as PricingPlan} yearly={yearly} />
             </div>

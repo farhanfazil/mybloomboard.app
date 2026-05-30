@@ -132,10 +132,10 @@ export default function Hero() {
             >
               <GlowButton label="Download Free" variant="primary" large href="https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBooard-Installer.dmg" />
               <a
-                href="https://buy.stripe.com/14AfZh00O28j5XT8li7bW05"
+                href="https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_TQSyTPGy63wMNw0r31v3GtyYNvU6YFgOmO7Rz3I5phX/redirect"
                 className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-sm transition-all duration-300 border border-accent-purple/40 text-accent-purple hover:bg-accent-purple/10 hover:border-accent-purple/70 hover:scale-105"
               >
-                Start Pro Trial →
+                Start Flow Trial →
               </a>
             </motion.div>
 

@@ -103,9 +103,9 @@ export default function DownloadCTA() {
                 Download Free for Mac
               </a>
 
-              {/* Pro button — matching weight, glass dark */}
+              {/* Flow button — matching weight, glass dark */}
               <a
-                href="https://buy.stripe.com/14AfZh00O28j5XT8li7bW05"
+                href="https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_TQSyTPGy63wMNw0r31v3GtyYNvU6YFgOmO7Rz3I5phX/redirect"
                 className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-4 text-base font-semibold transition-all duration-300 hover:scale-105 hover:brightness-110 sm:w-auto sm:px-8"
                 style={{
                   background: "rgba(255,255,255,0.06)",
@@ -116,7 +116,7 @@ export default function DownloadCTA() {
                   WebkitBackdropFilter: "blur(12px)",
                 }}
               >
-                Start Pro — $7.99/mo
+                Start Flow — $7.99/mo
               </a>
             </div>
             <p className="max-w-xs text-xs leading-relaxed text-text-muted sm:max-w-none">
