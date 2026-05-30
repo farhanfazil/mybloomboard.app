@@ -45,46 +45,70 @@ function formatMonthlyEquivalent(yearlyPrice: string) {
 // ─── Single card ──────────────────────────────────────────────────────────────
 function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
   const { cardRef, spotRef, spotStyle } = useSpotlightBorder({
-    radius:       300,
-    borderWidth:  1,
+    radius:       plan.name === "Bloom" ? 380 : 300,
+    borderWidth:  plan.name === "Bloom" ? 1.5 : 1,
     borderRadius: "16px",
-    brightness:   2.4,
+    brightness:   plan.name === "Bloom" ? 3.2 : 2.4,
   });
 
   const showYearly = yearly && plan.yearlyPrice;
   const displayPrice   = showYearly ? plan.yearlyPrice! : plan.price;
   const displaySubtext = showYearly ? plan.yearlySubtext! : plan.subtext;
   const monthlyEquivalent = showYearly ? formatMonthlyEquivalent(plan.yearlyPrice!) : "";
+  const isBloom = plan.name === "Bloom";
 
   return (
     <motion.div
       ref={cardRef as React.RefObject<HTMLDivElement>}
       variants={fadeUp}
-      className="relative rounded-2xl flex flex-col transition-all duration-300 h-full"
+      className="relative flex flex-col transition-all duration-300 h-full"
       style={{
-        background:           plan.highlighted
-          ? "linear-gradient(145deg, rgba(12,12,16,0.92), rgba(18,15,28,0.86))"
+        borderRadius: "18px",
+        background: isBloom
+          ? "linear-gradient(155deg, rgba(22,14,42,0.97) 0%, rgba(14,10,28,0.96) 50%, rgba(20,12,36,0.97) 100%)"
           : "linear-gradient(145deg, rgba(8,8,10,0.92), rgba(18,18,22,0.78))",
         backdropFilter:       "blur(18px)",
         WebkitBackdropFilter: "blur(18px)",
-        border:               plan.highlighted ? "1px solid rgba(255,255,255,0.16)" : "1px solid rgba(255,255,255,0.09)",
-        boxShadow:            "none",
+        border: isBloom
+          ? "1.5px solid rgba(167,139,250,0.35)"
+          : "1px solid rgba(255,255,255,0.09)",
+        boxShadow: isBloom
+          ? "0 0 0 1px rgba(167,139,250,0.12), 0 30px 80px rgba(109,40,217,0.22), 0 8px 32px rgba(167,139,250,0.12)"
+          : "none",
       }}
     >
+      {/* Purple ambient glow behind Bloom card */}
+      {isBloom && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -inset-px rounded-[18px]"
+          style={{
+            background: "radial-gradient(ellipse at 60% 0%, rgba(139,92,246,0.18) 0%, transparent 65%)",
+            zIndex: 0,
+          }}
+        />
+      )}
+
       {/* Apple Intelligence spotlight border */}
       <div ref={spotRef} style={spotStyle} aria-hidden="true" />
 
-      {/* Most Popular badge */}
+      {/* Badge */}
       {plan.highlighted && (
-        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
           <span
-            className="px-4 py-1 rounded-full text-xs font-semibold"
-            style={{
-              background: plan.name === "Pro Max" ? "rgba(167,139,250,0.22)" : "rgba(255,255,255,0.12)",
+            className="px-4 py-1.5 rounded-full text-xs font-bold tracking-wide flex items-center gap-1.5"
+            style={isBloom ? {
+              background: "linear-gradient(135deg, rgba(139,92,246,0.9), rgba(109,40,217,0.85))",
+              color: "#fff",
+              border: "1px solid rgba(196,181,253,0.4)",
+              boxShadow: "0 4px 20px rgba(109,40,217,0.5), 0 0 0 1px rgba(167,139,250,0.2)",
+            } : {
+              background: "rgba(255,255,255,0.12)",
               color: "white",
               border: "1px solid rgba(255,255,255,0.18)",
             }}
           >
+            {isBloom && <span>✦</span>}
             {plan.badgeLabel ?? "Most popular"}
           </span>
         </div>
@@ -92,22 +116,35 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
 
       {/* ── Header ───────────────────────────────────────────────────────── */}
       <div
-        className="px-6 pt-7 pb-5 2xl:px-7"
-        style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+        className="px-6 pt-7 pb-5 2xl:px-7 relative z-[1]"
+        style={{ borderBottom: isBloom ? "1px solid rgba(167,139,250,0.12)" : "1px solid rgba(255,255,255,0.06)" }}
       >
-        {/* Plan name */}
-        <div className="flex items-center gap-2 mb-4">
+        {/* Plan name + social proof for Bloom */}
+        <div className="flex items-center justify-between gap-2 mb-3">
           <span
             className="text-xs font-bold uppercase tracking-widest"
             style={{ color: plan.accentColor }}
           >
             {plan.name}
           </span>
+          {isBloom && (
+            <span
+              className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+              style={{ background: "rgba(57,255,20,0.1)", color: "#39FF14", border: "1px solid rgba(57,255,20,0.2)" }}
+            >
+              Most chosen
+            </span>
+          )}
         </div>
 
         {/* Price */}
         <div className="mb-1 flex flex-wrap items-baseline gap-x-1.5 gap-y-1">
-          <span className="text-4xl font-bold text-white">{displayPrice}</span>
+          <span
+            className="font-bold text-white"
+            style={{ fontSize: isBloom ? "2.75rem" : "2.25rem" }}
+          >
+            {displayPrice}
+          </span>
           <span className="text-sm" style={{ color: "rgba(255,255,255,0.4)" }}>
             {displaySubtext}
           </span>
@@ -115,62 +152,64 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
 
         {/* Yearly alt price line */}
         {plan.yearlyPrice && !yearly && (
-          <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
+          <p className="text-xs" style={{ color: isBloom ? "rgba(196,181,253,0.55)" : "rgba(255,255,255,0.3)" }}>
             or {plan.yearlyPrice}/yr
           </p>
         )}
         {plan.yearlyPrice && yearly && (
-          <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
+          <p className="text-xs" style={{ color: isBloom ? "rgba(196,181,253,0.55)" : "rgba(255,255,255,0.3)" }}>
             {monthlyEquivalent} / month
           </p>
         )}
         {!plan.yearlyPrice && (
-          <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
-            &nbsp;
-          </p>
+          <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>&nbsp;</p>
+        )}
+
+        {/* Bloom power-feature highlight strip */}
+        {isBloom && (
+          <div
+            className="mt-4 flex flex-wrap gap-1.5"
+          >
+            {["🦋 Bloom AI", "✨ AI Hub", "📊 KPI Reports", "🔒 Local"].map((tag) => (
+              <span
+                key={tag}
+                className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                style={{ background: "rgba(139,92,246,0.14)", color: "#c4b5fd", border: "1px solid rgba(167,139,250,0.22)" }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         )}
       </div>
 
       {/* ── Feature groups ───────────────────────────────────────────────── */}
-      <div className="px-6 py-5 flex flex-col flex-1 2xl:px-7">
+      <div className="px-6 py-5 flex flex-col flex-1 2xl:px-7 relative z-[1]">
         {plan.featureGroups.map((group, index) => (
           <div
             key={group.category}
-            className={index > 0 ? "mt-5 border-t border-white/10 pt-5" : ""}
+            className={index > 0 ? "mt-5 border-t pt-5" : ""}
+            style={index > 0 ? { borderColor: isBloom ? "rgba(167,139,250,0.1)" : "rgba(255,255,255,0.06)" } : {}}
           >
-            {/* Category label */}
             <p
               className="text-[10px] font-semibold uppercase tracking-widest mb-2.5"
-              style={{ color: "rgba(255,255,255,0.28)" }}
+              style={{ color: isBloom ? "rgba(196,181,253,0.4)" : "rgba(255,255,255,0.28)" }}
             >
               {group.category}
             </p>
-            {/* Items */}
             <ul className="flex flex-col gap-2">
               {group.items.map((item) => (
                 <li key={item.text} className="flex items-start gap-2.5">
                   {item.included ? (
-                    <span
-                      className="mt-0.5 flex-shrink-0 text-xs font-bold"
-                      style={{ color: "#39FF14" }}
-                    >
-                      ✓
-                    </span>
+                    <span className="mt-0.5 flex-shrink-0 text-xs font-bold" style={{ color: "#39FF14" }}>✓</span>
                   ) : (
-                    <span
-                      className="mt-0.5 flex-shrink-0 text-xs font-bold"
-                      style={{ color: "rgba(255,255,255,0.2)" }}
-                    >
-                      ✕
-                    </span>
+                    <span className="mt-0.5 flex-shrink-0 text-xs font-bold" style={{ color: "rgba(255,255,255,0.2)" }}>✕</span>
                   )}
                   <span className="flex items-center gap-1.5 flex-wrap">
                     <span
                       className="text-sm leading-snug"
                       style={{
-                        color: item.included
-                          ? "rgba(255,255,255,0.75)"
-                          : "rgba(255,255,255,0.25)",
+                        color: item.included ? (isBloom ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.75)") : "rgba(255,255,255,0.25)",
                         textDecoration: item.included ? "none" : "line-through",
                       }}
                     >
@@ -197,46 +236,24 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
       </div>
 
       {/* ── CTA ──────────────────────────────────────────────────────────── */}
-      <div className="px-6 pb-6 2xl:px-7">
+      <div className="px-6 pb-6 2xl:px-7 relative z-[1]">
+        {isBloom && (
+          <p className="text-center text-[10px] mb-2" style={{ color: "rgba(196,181,253,0.5)" }}>
+            7-day free trial · Cancel anytime
+          </p>
+        )}
         <a
           href={yearly && plan.yearlyHref ? plan.yearlyHref : plan.ctaHref}
-          className="block w-full rounded-xl border py-3 text-center text-sm font-semibold transition-all duration-300 ease-out bg-[var(--cta-bg)] text-[var(--cta-color)] border-[var(--cta-border)] shadow-[0_0_0_rgba(255,255,255,0)] hover:-translate-y-1 hover:scale-[1.025] hover:bg-[var(--cta-hover-bg)] hover:text-[var(--cta-hover-color)] hover:border-[var(--cta-hover-border)] hover:shadow-[0_18px_45px_var(--cta-glow)] active:translate-y-0 active:scale-[0.99]"
-          style={{
-            ["--cta-bg" as string]: plan.highlighted
-              ? plan.name === "Pro Max"
-                ? "rgba(167,139,250,0.24)"
-                : "#4d9fff"
-              : plan.name === "Pro Max"
-              ? "rgba(167,139,250,0.15)"
-              : "rgba(255,255,255,0.06)",
-            ["--cta-color" as string]: plan.highlighted
-              ? plan.name === "Pro Max"
-                ? "#c4b5fd"
-                : "white"
-              : plan.name === "Pro Max"
-              ? "#a78bfa"
-              : "rgba(255,255,255,0.7)",
-            ["--cta-border" as string]: plan.highlighted
-              ? plan.name === "Pro Max"
-                ? "rgba(167,139,250,0.45)"
-                : "rgba(77,159,255,0.5)"
-              : plan.name === "Pro Max" ? "rgba(167,139,250,0.3)" : "rgba(255,255,255,0.1)",
-            ["--cta-hover-bg" as string]: plan.name === "Pro Max"
-              ? "rgba(167,139,250,0.34)"
-              : plan.name === "Pro"
-              ? "linear-gradient(135deg, #5ea8ff, #6d5dfc)"
-              : "rgba(255,255,255,0.12)",
-            ["--cta-hover-color" as string]: plan.name === "Pro Max" ? "#efe8ff" : "#ffffff",
-            ["--cta-hover-border" as string]: plan.name === "Pro Max"
-              ? "rgba(196,181,253,0.7)"
-              : plan.name === "Pro"
-              ? "rgba(125,184,255,0.8)"
-              : "rgba(255,255,255,0.22)",
-            ["--cta-glow" as string]: plan.name === "Pro Max"
-              ? "rgba(167,139,250,0.24)"
-              : plan.name === "Pro"
-              ? "rgba(77,159,255,0.24)"
-              : "rgba(255,255,255,0.08)",
+          className="block w-full rounded-xl py-3.5 text-center text-sm font-bold transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.025] active:translate-y-0 active:scale-[0.99]"
+          style={isBloom ? {
+            background: "linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #5b21b6 100%)",
+            color: "#fff",
+            border: "1px solid rgba(196,181,253,0.3)",
+            boxShadow: "0 8px 30px rgba(109,40,217,0.45), 0 0 0 1px rgba(167,139,250,0.15)",
+          } : {
+            background: plan.highlighted ? "#4d9fff" : "rgba(255,255,255,0.06)",
+            color: plan.highlighted ? "white" : "rgba(255,255,255,0.7)",
+            border: plan.highlighted ? "1px solid rgba(77,159,255,0.5)" : "1px solid rgba(255,255,255,0.1)",
           }}
         >
           {plan.cta}
@@ -283,7 +300,7 @@ export default function Pricing() {
             Start free. Upgrade when ready.
           </h2>
           <p className="mx-auto mb-8 max-w-lg text-sm leading-relaxed text-text-muted sm:text-lg">
-            All plans include the core app. Pro and Pro Max unlock the full power.
+            All plans include the core app. Flow and Bloom unlock the full power.
           </p>
 
           {/* Billing toggle */}
@@ -319,13 +336,19 @@ export default function Pricing() {
 
         {/* Cards */}
         <motion.div
-          className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 xl:grid-cols-4 2xl:gap-7"
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4 2xl:gap-7"
+          style={{ alignItems: "start" }}
           variants={staggerContainer}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
           {PRICING_PLANS.map((plan) => (
-            <PricingCard key={plan.name} plan={plan as PricingPlan} yearly={yearly} />
+            <div
+              key={plan.name}
+              className={plan.name === "Bloom" ? "xl:-mt-5 xl:mb-5" : "xl:mt-3"}
+            >
+              <PricingCard plan={plan as PricingPlan} yearly={yearly} />
+            </div>
           ))}
         </motion.div>
 
