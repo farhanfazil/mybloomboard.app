@@ -229,14 +229,15 @@ export const WALKTHROUGH_ITEMS = [
   },
   {
     id: "daily-progress",
-    label: "Feature 04",
-    headline: "See today's progress at a glance.",
+    label: "AI Chief of Staff",
+    headline: "Your AI partner that works in the background for you.",
     description:
-      "The daily progress panel turns your due tasks into a clear completion view. See what is pending, what is in motion, and what is already done without opening another screen.",
+      "Pulse monitors everything important, filters the noise, and surfaces what truly needs your attention — so you can focus on what moves the needle.",
     bullets: [
-      "Live daily progress overview",
-      "Clear pending, ongoing, and completed states",
-      "A focused checkpoint for the work due today",
+      "Always watching — monitors tasks, boards, chat, deadlines, and workload in real time",
+      "Signals what matters — surfaces warnings, risks, and opportunities before they become problems",
+      "Actionable insights — clear, contextual updates with next best actions you can take",
+      "Private & personal — your data stays private, signals are for you, not your whole team",
     ],
     mockupType: "screenshot",
     screenshot: "/screenshots/feature-04.png",
