@@ -19,7 +19,7 @@ interface WalkthroughItemProps {
 
 // Per-feature config: maxWidth + which frame/mockup to render
 const IMAGE_CONFIG: Record<string, { maxWidth: string; frame: string }> = {
-  "greeting-stats":    { maxWidth: "460px", frame: "screenshot"      },
+  "greeting-stats":    { maxWidth: "480px", frame: "screenshot"      },
   "task-list":         { maxWidth: "400px", frame: "html-task-list"  },
   "subtasks":          { maxWidth: "520px", frame: "html-task-detail" },
   "daily-progress":    { maxWidth: "560px", frame: "screenshot"      },
@@ -123,8 +123,8 @@ function ScreenshotFrame({ src, alt, accentColor }: { src: string; alt: string; 
       <Image
         src={src}
         alt={alt}
-        width={800}
-        height={600}
+        width={1254}
+        height={1254}
         className="w-full h-auto rounded-2xl"
         style={{ display: "block" }}
         unoptimized
