@@ -5,9 +5,9 @@ import { useState, useEffect, useRef } from "react";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
 const SLIDES = [
-  { src: "/screenshots/Card_Black.jpg",     alt: "Bloombooard dashboard – black theme" },
-  { src: "/screenshots/hero-dashboard.jpg", alt: "Bloombooard dashboard – dark theme" },
-  { src: "/screenshots/Card_Light.jpg",     alt: "Bloombooard dashboard – light theme" },
+  { src: "/screenshots/hero-1-dark.jpg",  alt: "Bloombooard dashboard – dark theme" },
+  { src: "/screenshots/hero-2-light.jpg", alt: "Bloombooard dashboard – light theme" },
+  { src: "/screenshots/hero-3-blue.jpg",  alt: "Bloombooard dashboard – blue theme" },
 ];
 
 export default function AppPreviewScroll() {
@@ -80,10 +80,11 @@ export default function AppPreviewScroll() {
               <Image
                 src={slide.src}
                 alt={slide.alt}
-                width={2188}
-                height={1638}
+                width={2196}
+                height={1658}
                 priority
-                className="h-full w-full object-contain select-none"
+                className="h-full w-full scale-[1.17] object-contain select-none sm:scale-100"
+                style={{ transformOrigin: "center top" }}
                 unoptimized
               />
             </div>
@@ -92,7 +93,7 @@ export default function AppPreviewScroll() {
       </ContainerScroll>
 
       {/* Dot navigation */}
-      <div className="flex items-center justify-center gap-2 pb-6 -mt-4 relative z-20">
+      <div className="relative z-20 -mt-7 flex items-center justify-center gap-2 pb-2 sm:-mt-4 sm:pb-6">
         {SLIDES.map((_, i) => (
           <button
             key={i}

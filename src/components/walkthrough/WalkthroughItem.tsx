@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 
@@ -1286,6 +1286,22 @@ export default function WalkthroughItem({
     : "lg:grid-cols-2 lg:gap-14 xl:gap-20";
   const glowColor = `${accentColor}20`;
   const softGlowColor = `${accentColor}10`;
+  const isMobileAIMockup = isMobile && (id === "ai-all" || id === "ai-hub" || id === "bloom-ai");
+  const mobileAIMockupViewportStyle: CSSProperties | undefined = isMobileAIMockup
+    ? {
+        height: id === "bloom-ai" ? "360px" : "340px",
+        overflow: "hidden",
+        alignItems: "flex-start",
+      }
+    : undefined;
+  const mobileAIMockupInnerStyle: CSSProperties = isMobileAIMockup
+    ? {
+        width: id === "bloom-ai" ? "560px" : "680px",
+        maxWidth: "none",
+        transform: id === "bloom-ai" ? "scale(0.62)" : "scale(0.55)",
+        transformOrigin: "top center",
+      }
+    : { width: "100%", maxWidth: config.maxWidth };
 
   const { scrollYProgress } = useScroll({
     target: container,
@@ -1395,8 +1411,9 @@ export default function WalkthroughItem({
         {/* Visual */}
         <div
           className={`relative z-10 flex justify-center transition-transform duration-500 ease-out group-hover:scale-[1.01] ${isEven ? "lg:order-2" : "lg:order-1"}`}
+          style={mobileAIMockupViewportStyle}
         >
-          <div style={{ width: "100%", maxWidth: config.maxWidth }}>
+          <div style={mobileAIMockupInnerStyle}>
             <VisualWrapper>
               {renderVisual()}
             </VisualWrapper>
