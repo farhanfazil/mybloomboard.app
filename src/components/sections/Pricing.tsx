@@ -44,18 +44,21 @@ function formatMonthlyEquivalent(yearlyPrice: string) {
 
 // ─── Single card ──────────────────────────────────────────────────────────────
 function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
+  const isFlow = plan.name === "Flow";
+  const isBloom = plan.name === "Bloom";
+  const isFeaturedPlan = isFlow || isBloom;
+
   const { cardRef, spotRef, spotStyle } = useSpotlightBorder({
-    radius:       plan.name === "Bloom" ? 380 : 300,
-    borderWidth:  plan.name === "Bloom" ? 1.5 : 1,
+    radius:       isFeaturedPlan ? 380 : 300,
+    borderWidth:  isFeaturedPlan ? 1.5 : 1,
     borderRadius: "16px",
-    brightness:   plan.name === "Bloom" ? 3.2 : 2.4,
+    brightness:   isFeaturedPlan ? 3.2 : 2.4,
   });
 
   const showYearly = yearly && plan.yearlyPrice;
   const displayPrice   = showYearly ? plan.yearlyPrice! : plan.price;
   const displaySubtext = showYearly ? plan.yearlySubtext! : plan.subtext;
   const monthlyEquivalent = showYearly ? formatMonthlyEquivalent(plan.yearlyPrice!) : "";
-  const isBloom = plan.name === "Bloom";
 
   return (
     <motion.div
@@ -66,24 +69,32 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
         borderRadius: "18px",
         background: isBloom
           ? "linear-gradient(155deg, rgba(22,14,42,0.97) 0%, rgba(14,10,28,0.96) 50%, rgba(20,12,36,0.97) 100%)"
+          : isFlow
+            ? "linear-gradient(155deg, rgba(7,23,43,0.97) 0%, rgba(6,13,24,0.96) 50%, rgba(7,20,36,0.97) 100%)"
           : "linear-gradient(145deg, rgba(8,8,10,0.92), rgba(18,18,22,0.78))",
         backdropFilter:       "blur(18px)",
         WebkitBackdropFilter: "blur(18px)",
         border: isBloom
           ? "1.5px solid rgba(167,139,250,0.35)"
+          : isFlow
+            ? "1.5px solid rgba(77,159,255,0.38)"
           : "1px solid rgba(255,255,255,0.09)",
         boxShadow: isBloom
           ? "0 0 0 1px rgba(167,139,250,0.12), 0 30px 80px rgba(109,40,217,0.22), 0 8px 32px rgba(167,139,250,0.12)"
+          : isFlow
+            ? "0 0 0 1px rgba(77,159,255,0.12), 0 30px 80px rgba(30,120,255,0.18), 0 8px 32px rgba(77,159,255,0.1)"
           : "none",
       }}
     >
-      {/* Purple ambient glow behind Bloom card */}
-      {isBloom && (
+      {/* Ambient glow behind highlighted cards */}
+      {isFeaturedPlan && (
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -inset-px rounded-[18px]"
           style={{
-            background: "radial-gradient(ellipse at 60% 0%, rgba(139,92,246,0.18) 0%, transparent 65%)",
+            background: isBloom
+              ? "radial-gradient(ellipse at 60% 0%, rgba(139,92,246,0.18) 0%, transparent 65%)"
+              : "radial-gradient(ellipse at 52% 0%, rgba(77,159,255,0.2) 0%, transparent 65%)",
             zIndex: 0,
           }}
         />
@@ -97,18 +108,21 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
         <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
           <span
             className="px-4 py-1.5 rounded-full text-xs font-bold tracking-wide flex items-center gap-1.5"
-            style={isBloom ? {
-              background: "linear-gradient(135deg, rgba(139,92,246,0.9), rgba(109,40,217,0.85))",
-              color: "#fff",
-              border: "1px solid rgba(196,181,253,0.4)",
-              boxShadow: "0 4px 20px rgba(109,40,217,0.5), 0 0 0 1px rgba(167,139,250,0.2)",
-            } : {
-              background: "rgba(255,255,255,0.12)",
-              color: "white",
-              border: "1px solid rgba(255,255,255,0.18)",
-            }}
+            style={isFlow
+              ? {
+                  background: "linear-gradient(135deg, rgba(77,159,255,0.95), rgba(37,99,235,0.9))",
+                  color: "#fff",
+                  border: "1px solid rgba(147,197,253,0.45)",
+                  boxShadow: "0 4px 22px rgba(37,99,235,0.48), 0 0 0 1px rgba(77,159,255,0.22)",
+                }
+              : {
+                  background: "linear-gradient(135deg, rgba(139,92,246,0.9), rgba(109,40,217,0.85))",
+                  color: "#fff",
+                  border: "1px solid rgba(196,181,253,0.4)",
+                  boxShadow: "0 4px 20px rgba(109,40,217,0.5), 0 0 0 1px rgba(167,139,250,0.2)",
+                }}
           >
-            {isBloom && <span>✦</span>}
+            <span>✦</span>
             {plan.badgeLabel ?? "Most popular"}
           </span>
         </div>
@@ -117,9 +131,15 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
       {/* ── Header ───────────────────────────────────────────────────────── */}
       <div
         className="px-6 pt-7 pb-5 2xl:px-7 relative z-[1]"
-        style={{ borderBottom: isBloom ? "1px solid rgba(167,139,250,0.12)" : "1px solid rgba(255,255,255,0.06)" }}
+        style={{
+          borderBottom: isBloom
+            ? "1px solid rgba(167,139,250,0.12)"
+            : isFlow
+              ? "1px solid rgba(77,159,255,0.14)"
+              : "1px solid rgba(255,255,255,0.06)",
+        }}
       >
-        {/* Plan name + social proof for Bloom */}
+        {/* Plan name + plan signal */}
         <div className="flex items-center justify-between gap-2 mb-3">
           <span
             className="text-xs font-bold uppercase tracking-widest"
@@ -132,7 +152,7 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
               className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
               style={{ background: "rgba(57,255,20,0.1)", color: "#39FF14", border: "1px solid rgba(57,255,20,0.2)" }}
             >
-              Most chosen
+              AI Power
             </span>
           )}
         </div>
@@ -141,7 +161,7 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
         <div className="mb-1 flex flex-wrap items-baseline gap-x-1.5 gap-y-1">
           <span
             className="font-bold text-white"
-            style={{ fontSize: isBloom ? "2.75rem" : "2.25rem" }}
+            style={{ fontSize: isFeaturedPlan ? "2.75rem" : "2.25rem" }}
           >
             {displayPrice}
           </span>
@@ -152,12 +172,12 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
 
         {/* Yearly alt price line */}
         {plan.yearlyPrice && !yearly && (
-          <p className="text-xs" style={{ color: isBloom ? "rgba(196,181,253,0.55)" : "rgba(255,255,255,0.3)" }}>
+          <p className="text-xs" style={{ color: isBloom ? "rgba(196,181,253,0.55)" : isFlow ? "rgba(147,197,253,0.55)" : "rgba(255,255,255,0.3)" }}>
             or {plan.yearlyPrice}/yr
           </p>
         )}
         {plan.yearlyPrice && yearly && (
-          <p className="text-xs" style={{ color: isBloom ? "rgba(196,181,253,0.55)" : "rgba(255,255,255,0.3)" }}>
+          <p className="text-xs" style={{ color: isBloom ? "rgba(196,181,253,0.55)" : isFlow ? "rgba(147,197,253,0.55)" : "rgba(255,255,255,0.3)" }}>
             {monthlyEquivalent} / month
           </p>
         )}

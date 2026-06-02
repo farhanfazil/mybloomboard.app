@@ -30,7 +30,7 @@ export default function Walkthrough() {
             Built for the details.
           </h2>
           <p className="mx-auto max-w-xl text-sm leading-relaxed text-text-muted sm:text-lg">
-            Eleven thoughtful features designed to make your workday feel effortless.
+            Thoughtful features designed to make your workday feel effortless.
           </p>
         </motion.div>
 

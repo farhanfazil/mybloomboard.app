@@ -19,10 +19,14 @@ interface WalkthroughItemProps {
 
 // Per-feature config: maxWidth + which frame/mockup to render
 const IMAGE_CONFIG: Record<string, { maxWidth: string; frame: string }> = {
-  "greeting-stats":    { maxWidth: "340px", frame: "screenshot"      },
+  "greeting-stats":    { maxWidth: "460px", frame: "screenshot"      },
   "task-list":         { maxWidth: "400px", frame: "html-task-list"  },
   "subtasks":          { maxWidth: "520px", frame: "html-task-detail" },
+  "daily-progress":    { maxWidth: "560px", frame: "screenshot"      },
   "milestone-tracker": { maxWidth: "560px", frame: "html-milestone"  },
+  "avatar-chooser":    { maxWidth: "420px", frame: "contain"         },
+  "boards":            { maxWidth: "900px", frame: "contain"         },
+  "team-chat":         { maxWidth: "520px", frame: "contain"         },
   "add-event":         { maxWidth: "400px", frame: "html-calendar"   },
   "streak":            { maxWidth: "360px", frame: "html-streak"     },
   "manage-projects":   { maxWidth: "560px", frame: "contain"         },
@@ -1276,7 +1280,7 @@ export default function WalkthroughItem({
   const config = IMAGE_CONFIG[id] ?? { maxWidth: "520px", frame: "screenshot" };
   const cardOffset = Math.min(index * 10, 80);
   const targetScale = isMobile ? 1 : Math.max(0.86, 1 - (total - 1 - index) * 0.018);
-  const isWideVisual = id === "ai-all";
+  const isWideVisual = id === "ai-all" || id === "boards";
   const articleGridClass = isWideVisual
     ? "lg:grid-cols-[0.72fr_1.28fr] lg:gap-8 xl:gap-10"
     : "lg:grid-cols-2 lg:gap-14 xl:gap-20";

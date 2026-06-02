@@ -228,6 +228,21 @@ export const WALKTHROUGH_ITEMS = [
     accentColor: "#39FF14",
   },
   {
+    id: "daily-progress",
+    label: "Feature 04",
+    headline: "See today's progress at a glance.",
+    description:
+      "The daily progress panel turns your due tasks into a clear completion view. See what is pending, what is in motion, and what is already done without opening another screen.",
+    bullets: [
+      "Live daily progress overview",
+      "Clear pending, ongoing, and completed states",
+      "A focused checkpoint for the work due today",
+    ],
+    mockupType: "screenshot",
+    screenshot: "/screenshots/milestone-progress.png",
+    accentColor: "#39FF14",
+  },
+  {
     id: "milestone-tracker",
     label: "Feature 05",
     headline: "Watch your day unfold in real time.",
@@ -236,6 +251,21 @@ export const WALKTHROUGH_ITEMS = [
     mockupType: "screenshot",
     screenshot: "/screenshots/milestone-complete.png",
     accentColor: "#39FF14",
+  },
+  {
+    id: "avatar-chooser",
+    label: "Feature 06",
+    headline: "Choose the avatar that matches your energy.",
+    description:
+      "Personalise your dashboard with mood-based avatars for focus, creativity, leadership, late-night work, and more. Dark and light avatar modes help the workspace feel tailored to how you want to show up that day.",
+    bullets: [
+      "Mood-based avatar collection",
+      "Dark and light avatar modes",
+      "A more personal daily workspace",
+    ],
+    mockupType: "screenshot",
+    screenshot: "/screenshots/avatar-chooser.png",
+    accentColor: "#a78bfa",
   },
   {
     id: "new-task",
@@ -248,8 +278,23 @@ export const WALKTHROUGH_ITEMS = [
     accentColor: "#4d9fff",
   },
   {
-    id: "reminders-meetings",
+    id: "boards",
     label: "Feature 08",
+    headline: "Dedicated boards for every project.",
+    description:
+      "Create visual boards for each project, organise them by category, and keep work moving with real-time progress tracking from the main dashboard. Teams can collaborate inside boards with comments, images, member tagging, and shared updates.",
+    bullets: [
+      "Project-specific boards with visual covers",
+      "Real-time board progress on the main dashboard",
+      "Team comments, image sharing, and member tagging",
+    ],
+    mockupType: "screenshot",
+    screenshot: "/screenshots/boards.png",
+    accentColor: "#4d9fff",
+  },
+  {
+    id: "reminders-meetings",
+    label: "Feature 09",
     headline: "Never miss a meeting or reminder.",
     description:
       "The Reminders & Meetings panel surfaces everything upcoming — meetings with 5-min alerts, leave dates with countdowns, and time-sensitive reminders glowing amber when due. Full-screen reminder popups for critical items.",
@@ -258,18 +303,23 @@ export const WALKTHROUGH_ITEMS = [
     accentColor: "#a78bfa",
   },
   {
-    id: "add-event",
-    label: "Feature 09",
-    headline: "Log events with full context.",
+    id: "team-chat",
+    label: "Feature 10",
+    headline: "Team chat built into the work.",
     description:
-      "Add Leave, Meeting, or Reminder events with a start date, optional end date, time, and notes. Meeting time triggers an automatic 5-minute native macOS alert so you're never caught off-guard.",
+      "Create direct messages and group conversations without leaving the workspace. Share images, send quick updates, start team discussions, and keep project context connected to the people doing the work.",
+    bullets: [
+      "Direct messages and group chats",
+      "Image sharing for fast visual feedback",
+      "Team conversations connected to project work",
+    ],
     mockupType: "screenshot",
-    screenshot: "/screenshots/add-event.png",
+    screenshot: "/screenshots/team-chat.png",
     accentColor: "#4d9fff",
   },
   {
     id: "streak",
-    label: "Feature 10",
+    label: "Feature 11",
     headline: "Build a habit. Earn your badge.",
     description:
       "Complete at least one task per day to keep your streak alive. The streak card shows your count, a progress bar to the next badge, and a Milestones panel with all earned achievements.",
@@ -283,7 +333,7 @@ export const WALKTHROUGH_ITEMS = [
   },
   {
     id: "kpi-goals",
-    label: "Feature 11",
+    label: "Feature 12",
     headline: "Track KPIs. Measure what matters.",
     description:
       "Set yearly KPI targets with weightings, log your actual results, and get an auto-calculated performance score. View a full breakdown — weekly, monthly, quarterly, or yearly.",
@@ -293,7 +343,7 @@ export const WALKTHROUGH_ITEMS = [
   },
   {
     id: "manage-projects",
-    label: "Feature 12",
+    label: "Feature 13",
     headline: "Colour-coded projects. Zero chaos.",
     description:
       "Create custom projects with a name, colour, and emoji. Tasks group automatically under their project with colour-coded left borders. The project manager makes renaming and reordering effortless.",
@@ -303,7 +353,7 @@ export const WALKTHROUGH_ITEMS = [
   },
   {
     id: "daily-quote",
-    label: "Feature 13",
+    label: "Feature 14",
     headline: "Start every session with perspective.",
     description:
       "Each session opens with a curated quote or Hadith on a deep ocean-gradient card. Tap Refresh to cycle to a new one. A quiet, daily nudge to keep perspective on what truly matters.",
@@ -436,6 +486,9 @@ export const PRICING_PLANS = [
           { text: "🦋 Bloom AI Coworker", included: false },
           { text: "Email & Messages (5 / month)", included: true },
           { text: "Meeting Notes → Tasks (5 / month)", included: true },
+          { text: "AI Chief of Staff (3 critical-attention signals)", included: true },
+          { text: "Daily Recap (last 1 day)", included: true },
+          { text: "Workload Health", included: false },
           { text: "I am Stuck", included: false },
           { text: "Plan My Day", included: false, badge: "Bloom" },
         ],
@@ -462,7 +515,8 @@ export const PRICING_PLANS = [
     yearlyPrice: "$76.99",
     yearlySubtext: "/ year",
     accentColor: "#4d9fff",
-    highlighted: false,
+    highlighted: true,
+    badgeLabel: "Most popular",
     cta: "7 days trial",
     ctaHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_TQSyTPGy63wMNw0r31v3GtyYNvU6YFgOmO7Rz3I5phX/redirect",
     yearlyHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_PTRNqDJFKdiinLZkSM3oWu8rBSGaJjiERFhh70bsuvj/redirect",
@@ -493,6 +547,9 @@ export const PRICING_PLANS = [
           { text: "🦋 Bloom AI Coworker (50 tasks / month)", included: true },
           { text: "Email & Messages (50 / month)", included: true },
           { text: "Meeting Notes → Tasks (20 / month)", included: true },
+          { text: "AI Chief of Staff (10 critical-attention signals)", included: true },
+          { text: "Daily Recap (last 30 days)", included: true },
+          { text: "Workload Health", included: false, badge: "Team" },
           { text: "I am Stuck (20 / month)", included: true },
           { text: "Plan My Day", included: false, badge: "Bloom" },
         ],
@@ -552,6 +609,9 @@ export const PRICING_PLANS = [
           { text: "🦋 Bloom AI Coworker (Unlimited)", included: true },
           { text: "Email & Messages (Unlimited)", included: true },
           { text: "Meeting Notes → Tasks (Unlimited)", included: true },
+          { text: "AI Chief of Staff (unlimited critical-attention signals)", included: true },
+          { text: "Daily Recap (last 180 days)", included: true },
+          { text: "Workload Health", included: false, badge: "Team" },
           { text: "I am Stuck (Unlimited)", included: true },
           { text: "Plan My Day", included: true, badge: "Bloom" },
         ],
@@ -607,6 +667,9 @@ export const PRICING_PLANS = [
           { text: "🦋 Bloom AI Coworker", included: true },
           { text: "Email & Messages", included: true },
           { text: "Meeting Notes → Tasks", included: true },
+          { text: "AI Chief of Staff (unlimited critical-attention signals)", included: true },
+          { text: "Daily Recap (last 180 days)", included: true },
+          { text: "Workload Health with private manager signals", included: true },
           { text: "I am Stuck", included: true },
           { text: "Plan My Day", included: true, badge: "Bloom" },
         ],
