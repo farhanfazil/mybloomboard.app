@@ -185,24 +185,6 @@ export default function AIFeatureCarousel() {
                     className="pointer-events-none absolute inset-0 z-20 bg-black transition-opacity duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
                     style={{ opacity: `var(--dim-opacity, ${isActive ? "0" : "0.22"})` }}
                   />
-                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-30 flex items-end justify-between gap-4 bg-gradient-to-t from-black/70 via-black/10 to-transparent p-5 sm:p-8">
-                    <p
-                      className={`text-lg font-bold transition duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] sm:text-2xl ${
-                        isActive ? "text-white" : "text-white/55"
-                      }`}
-                    >
-                      {card.title}
-                    </p>
-                    <span
-                      className={`hidden rounded-full border px-3 py-1 text-xs font-semibold backdrop-blur transition duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] sm:inline-flex ${
-                        isActive
-                          ? "border-white/18 bg-white/12 text-white/78"
-                          : "border-white/8 bg-white/5 text-white/38"
-                      }`}
-                    >
-                      {String(index + 1).padStart(2, "0")} / {String(aiCards.length).padStart(2, "0")}
-                    </span>
-                  </div>
                 </article>
               );
             })()
