@@ -188,9 +188,15 @@ export const WALKTHROUGH_ITEMS = [
   {
     id: "greeting-stats",
     label: "Feature 01",
-    headline: "Your personal command center.",
+    headline: "Your profile. Your presence.",
     description:
-      "A professional split-panel layout built for macOS. The sidebar holds your day's context — personalised greeting with avatar, live stats, upcoming events, health, and streak. The main area is your workspace.",
+      "Personalise your experience with Bloom. Keep your info up to date so your team always knows how to reach you and collaborate better.",
+    bullets: [
+      "Show who you are — your profile helps your team recognise and connect with you",
+      "Share your role — let others know what you do and how you contribute",
+      "Set your status — help others know when you're available",
+      "Personalise your avatar — choose a color that reflects your vibe",
+    ],
     mockupType: "screenshot",
     screenshot: "/screenshots/feature-01.png",
     accentColor: "#4d9fff",
