@@ -239,7 +239,7 @@ export const WALKTHROUGH_ITEMS = [
       "A focused checkpoint for the work due today",
     ],
     mockupType: "screenshot",
-    screenshot: "/screenshots/milestone-progress.png",
+    screenshot: "/screenshots/feature-04.png",
     accentColor: "#39FF14",
   },
   {

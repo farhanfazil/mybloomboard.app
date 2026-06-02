@@ -22,7 +22,7 @@ const IMAGE_CONFIG: Record<string, { maxWidth: string; frame: string }> = {
   "greeting-stats":    { maxWidth: "480px", frame: "screenshot"      },
   "task-list":         { maxWidth: "400px", frame: "html-task-list"  },
   "subtasks":          { maxWidth: "520px", frame: "html-task-detail" },
-  "daily-progress":    { maxWidth: "560px", frame: "screenshot"      },
+  "daily-progress":    { maxWidth: "480px", frame: "screenshot"      },
   "milestone-tracker": { maxWidth: "560px", frame: "html-milestone"  },
   "avatar-chooser":    { maxWidth: "420px", frame: "contain"         },
   "boards":            { maxWidth: "900px", frame: "contain"         },
