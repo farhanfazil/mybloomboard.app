@@ -225,6 +225,13 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
           <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>&nbsp;</p>
         )}
 
+        {/* Team 3-seat minimum note */}
+        {isTeam && (
+          <p className="mt-2 text-xs font-medium" style={{ color: accentMutedColor }}>
+            3-seat minimum
+          </p>
+        )}
+
         {/* Bloom power-feature highlight strip */}
         {isBloom && (
           <div
