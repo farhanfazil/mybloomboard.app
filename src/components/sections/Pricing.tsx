@@ -39,7 +39,9 @@ function formatMonthlyEquivalent(yearlyPrice: string) {
     return "";
   }
 
-  return `$${(numericPrice / 12).toFixed(2)}`;
+  const monthly = (numericPrice / 12).toFixed(2);
+  // Strip trailing .00 for clean whole numbers (e.g. $6.00 → $6)
+  return `$${monthly.replace(/\.00$/, "")}`;
 }
 
 // ─── Single card ──────────────────────────────────────────────────────────────
@@ -55,6 +57,8 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
     borderRadius: "16px",
     brightness:   isFeaturedPlan ? 3.2 : 2.4,
   });
+
+  const [seats, setSeats] = useState(3);
 
   const showYearly = yearly && Boolean(plan.yearlyPrice);
   // Monthly equivalent is always the BIG hero number when yearly is selected
@@ -370,8 +374,62 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
             7-day free trial · Cancel anytime
           </p>
         )}
+
+        {/* ── Team seat picker ───────────────────────────────────────────── */}
+        {isTeam && (
+          <div className="mb-4">
+            {/* Seat counter row */}
+            <div
+              className="flex items-center justify-between rounded-xl px-4 py-3 mb-2"
+              style={{ background: "rgba(20,184,166,0.08)", border: "1px solid rgba(45,212,191,0.18)" }}
+            >
+              <span className="text-sm font-medium" style={{ color: "rgba(153,246,228,0.85)" }}>
+                Seats
+              </span>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setSeats((s) => Math.max(3, s - 1))}
+                  disabled={seats === 3}
+                  className="flex h-7 w-7 items-center justify-center rounded-lg text-base font-bold transition-all duration-200 hover:scale-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-30"
+                  style={{ background: "rgba(20,184,166,0.2)", color: "#5eead4" }}
+                  aria-label="Remove seat"
+                >
+                  −
+                </button>
+                <span className="w-6 text-center text-base font-bold text-white">{seats}</span>
+                <button
+                  type="button"
+                  onClick={() => setSeats((s) => s + 1)}
+                  className="flex h-7 w-7 items-center justify-center rounded-lg text-base font-bold transition-all duration-200 hover:scale-110 active:scale-95"
+                  style={{ background: "rgba(20,184,166,0.2)", color: "#5eead4" }}
+                  aria-label="Add seat"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            {/* Dynamic total */}
+            <div className="flex items-baseline justify-between px-1 mb-3">
+              <span className="text-xs" style={{ color: "rgba(153,246,228,0.5)" }}>
+                {seats} seat{seats > 1 ? "s" : ""} × ${showYearly ? "12" : "14.99"}/mo
+              </span>
+              <span className="text-sm font-bold" style={{ color: "#99f6e4" }}>
+                ${showYearly
+                  ? (seats * 12).toFixed(0)
+                  : (seats * 14.99 % 1 === 0 ? seats * 14.99 : (seats * 14.99).toFixed(2))
+                }/mo
+              </span>
+            </div>
+          </div>
+        )}
+
         <a
-          href={yearly && plan.yearlyHref ? plan.yearlyHref : plan.ctaHref}
+          href={isTeam
+            ? `/api/team-checkout?quantity=${seats}${showYearly ? "&yearly=1" : ""}`
+            : yearly && plan.yearlyHref ? plan.yearlyHref : plan.ctaHref
+          }
           className="block w-full rounded-xl py-3.5 text-center text-sm font-bold transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.025] active:translate-y-0 active:scale-[0.99]"
           style={
             isBloom
