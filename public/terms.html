@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — Bloombooard</title>
+  <meta name="description" content="Terms of Service for Bloombooard macOS productivity app." />
+  <link rel="icon" href="https://mybloomboard.app/logo.png" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0f;
+      color: #e2e8f0;
+      line-height: 1.7;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .nav-logo img { width: 28px; height: 28px; border-radius: 6px; }
+    nav a.nav-link {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    nav a.nav-link:hover { color: #fff; }
+
+    .hero {
+      text-align: center;
+      padding: 80px 2rem 60px;
+      background: linear-gradient(135deg, #0a0a0f 0%, #0f1629 50%, #0a0a0f 100%);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(99,102,241,0.15);
+      border: 1px solid rgba(99,102,241,0.3);
+      color: #818cf8;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      color: #94a3b8;
+      font-size: 1.05rem;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+    .last-updated {
+      margin-top: 16px;
+      font-size: 0.82rem;
+      color: #64748b;
+    }
+
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 60px 2rem 100px;
+    }
+
+    .section {
+      margin-bottom: 48px;
+    }
+
+    .section h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section h2 .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(99,102,241,0.2);
+      border: 1px solid rgba(99,102,241,0.35);
+      color: #818cf8;
+      font-size: 0.75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .section p {
+      color: #94a3b8;
+      margin-bottom: 12px;
+    }
+
+    .section ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 12px 0;
+    }
+    .section ul li {
+      color: #94a3b8;
+      padding: 5px 0 5px 20px;
+      position: relative;
+    }
+    .section ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: #6366f1;
+      font-size: 0.85rem;
+    }
+
+    .highlight-box {
+      background: rgba(99,102,241,0.07);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 16px 0;
+    }
+    .highlight-box p { margin: 0; color: #c7d2fe; }
+
+    .plan-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.9rem;
+    }
+    .plan-table th {
+      text-align: left;
+      padding: 10px 14px;
+      background: rgba(99,102,241,0.1);
+      color: #c7d2fe;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(99,102,241,0.2);
+    }
+    .plan-table td {
+      padding: 10px 14px;
+      color: #94a3b8;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .plan-table tr:last-child td { border-bottom: none; }
+
+    a { color: #818cf8; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 40px 2rem;
+      text-align: center;
+      color: #475569;
+      font-size: 0.85rem;
+    }
+    footer a { color: #6366f1; }
+    footer .footer-links {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="https://mybloomboard.app/">
+    <img src="https://mybloomboard.app/logo.png" alt="Bloombooard logo" />
+    Bloombooard
+  </a>
+  <a class="nav-link" href="https://mybloomboard.app/">← Back to Home</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">Legal</div>
+  <h1>Terms of Service</h1>
+  <p>Please read these terms carefully before using Bloombooard. They govern your use of the app and website.</p>
+  <p class="last-updated">Last updated: June 5, 2026 &nbsp;·&nbsp; Effective: June 5, 2026</p>
+</div>
+
+<div class="container">
+
+  <div class="highlight-box">
+    <p>By downloading, installing, or using Bloombooard, you agree to these Terms of Service. If you do not agree, please do not use the app.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">1</span> About Bloombooard</h2>
+    <p>Bloombooard is a macOS productivity desktop application developed by Farhan F ("we", "us", "our"), based in the United Arab Emirates. The app provides task management, goal tracking, AI assistance, team collaboration, and connected productivity tools.</p>
+    <p>Contact: <a href="mailto:farhan.fazil89@gmail.com">farhan.fazil89@gmail.com</a></p>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">2</span> Eligibility</h2>
+    <p>You must be at least 13 years old to use Bloombooard. By using the app, you confirm that you meet this requirement. If you are using the app on behalf of an organisation, you confirm you have authority to bind that organisation to these terms.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">3</span> License to Use</h2>
+    <p>We grant you a personal, non-exclusive, non-transferable, revocable license to install and use Bloombooard on your Mac devices, subject to your compliance with these Terms and the plan you are on.</p>
+    <p>You may not:</p>
+    <ul>
+      <li>Reverse engineer, decompile, or disassemble the app</li>
+      <li>Redistribute or resell the app or any part of it</li>
+      <li>Use the app for any unlawful purpose</li>
+      <li>Share your license key with others (each key is for one user)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">4</span> Plans and Pricing</h2>
+    <p>Bloombooard is available on the following plans:</p>
+    <table class="plan-table">
+      <thead>
+        <tr>
+          <th>Plan</th>
+          <th>Price</th>
+          <th>Summary</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Free</td>
+          <td>$0 forever</td>
+          <td>Core task workflow, limited boards and AI</td>
+        </tr>
+        <tr>
+          <td>Flow</td>
+          <td>$6/mo (billed yearly)</td>
+          <td>Unlimited tasks, boards, AI tools, PDF reports</td>
+        </tr>
+        <tr>
+          <td>BloomAI Power</td>
+          <td>$13/mo (billed yearly)</td>
+          <td>Unlimited everything including KPI, AI, reports</td>
+        </tr>
+        <tr>
+          <td>Team</td>
+          <td>$12/user/mo (min. 3 seats)</td>
+          <td>Shared boards, team management, collaboration</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Prices may change. You will be notified before any changes affect your active subscription. All paid plans include a 7-day free trial.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">5</span> Billing and Cancellation</h2>
+    <p>Payments are processed securely through Polar.sh. By subscribing to a paid plan:</p>
+    <ul>
+      <li>You authorise recurring billing at the selected interval (monthly or yearly)</li>
+      <li>You can cancel at any time — access continues until the end of the billing period</li>
+      <li>No refunds are issued for partial periods, except where required by applicable law</li>
+      <li>Free trial cancellations before the trial ends will not be charged</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">6</span> Third-Party Integrations</h2>
+    <p>Bloombooard integrates with third-party services that have their own terms and privacy policies. By using these integrations, you also agree to their respective terms:</p>
+    <ul>
+      <li><strong>Google (Gmail)</strong> — <a href="https://policies.google.com/terms" target="_blank">Google Terms of Service</a></li>
+      <li><strong>Anthropic (Claude AI)</strong> — <a href="https://www.anthropic.com/legal/consumer-terms" target="_blank">Anthropic Terms</a></li>
+      <li><strong>Polar.sh (Payments)</strong> — <a href="https://polar.sh/legal/terms" target="_blank">Polar Terms</a></li>
+    </ul>
+    <p>We are not responsible for the availability, accuracy, or conduct of these third-party services.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">7</span> Your Data</h2>
+    <p>You own all content you create in Bloombooard (tasks, notes, boards, etc.). We do not claim any ownership over your data. For details on how data is handled, see our <a href="/privacy.html">Privacy Policy</a>.</p>
+    <p>You are responsible for maintaining backups of your local data. We are not liable for data loss due to device failure, accidental deletion, or app uninstallation.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">8</span> Acceptable Use</h2>
+    <p>You agree not to use Bloombooard to:</p>
+    <ul>
+      <li>Harass, abuse, or harm others</li>
+      <li>Violate any applicable law or regulation</li>
+      <li>Attempt to gain unauthorised access to our systems or any third-party service</li>
+      <li>Introduce malware, viruses, or harmful code</li>
+      <li>Misuse the AI features to generate illegal, hateful, or harmful content</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">9</span> Disclaimers</h2>
+    <p>Bloombooard is provided "as is" without warranties of any kind. We do not guarantee that the app will be error-free, uninterrupted, or meet your specific requirements. AI-generated content may be inaccurate — always review before using.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">10</span> Limitation of Liability</h2>
+    <p>To the maximum extent permitted by law, we shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of Bloombooard, including but not limited to data loss, lost profits, or business interruption.</p>
+    <p>Our total liability to you for any claim shall not exceed the amount you paid us in the 12 months prior to the claim.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">11</span> Termination</h2>
+    <p>We reserve the right to suspend or terminate your access to Bloombooard if you violate these Terms. You may stop using the app at any time by uninstalling it and cancelling your subscription.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">12</span> Changes to These Terms</h2>
+    <p>We may update these Terms from time to time. We will notify you of material changes via the app or email. Continued use after changes take effect constitutes acceptance of the updated Terms.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">13</span> Governing Law</h2>
+    <p>These Terms are governed by the laws of the United Arab Emirates. Any disputes shall be resolved in the courts of the UAE, unless otherwise required by applicable local consumer protection law.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">14</span> Contact</h2>
+    <p>Questions about these Terms? Contact us at:</p>
+    <p>📧 <a href="mailto:farhan.fazil89@gmail.com">farhan.fazil89@gmail.com</a><br />
+    🌐 <a href="https://mybloomboard.app">mybloomboard.app</a></p>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="https://mybloomboard.app/">Home</a>
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/terms.html">Terms of Service</a>
+    <a href="mailto:farhan.fazil89@gmail.com">Contact</a>
+  </div>
+  <p>© 2026 Bloombooard. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

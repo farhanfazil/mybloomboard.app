@@ -259,15 +259,15 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
         {plan.featureGroups.map((group, index) => {
           const isAIGroup = group.category === "AI Assistant Hub";
           const isTeamGroup = isTeam && group.category === "Team";
+          const isFreelanceGroup = group.category === "Freelance";
+          const isPersonalGroup = !isTeam && group.category === "Tasks & Planning";
 
           return (
             <div
               key={group.category}
               className={
-                isAIGroup
+                isAIGroup || isTeamGroup || isFreelanceGroup || isPersonalGroup
                   ? "mt-5 rounded-2xl border p-4"
-                  : isTeamGroup
-                    ? "mt-5 rounded-2xl border p-4"
                   : index > 0
                     ? "mt-5 border-t pt-5"
                     : ""
@@ -289,6 +289,28 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
                         background: "linear-gradient(145deg, rgba(20,184,166,0.13), rgba(255,255,255,0.025))",
                         boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06)",
                       }
+                  : isFreelanceGroup
+                    ? {
+                        borderColor: isBloom ? "rgba(251,191,36,0.38)" : "rgba(251,191,36,0.2)",
+                        background: isBloom
+                          ? "linear-gradient(145deg, rgba(217,119,6,0.18), rgba(255,255,255,0.03))"
+                          : "linear-gradient(145deg, rgba(217,119,6,0.1), rgba(255,255,255,0.018))",
+                        boxShadow: isBloom
+                          ? "inset 0 1px 0 rgba(255,255,255,0.07), 0 12px 32px rgba(217,119,6,0.15)"
+                          : "inset 0 1px 0 rgba(255,255,255,0.05)",
+                      }
+                  : isPersonalGroup
+                    ? {
+                        borderColor: isBloom ? "rgba(77,159,255,0.32)" : isFlow ? "rgba(77,159,255,0.28)" : "rgba(77,159,255,0.18)",
+                        background: isBloom
+                          ? "linear-gradient(145deg, rgba(30,80,180,0.16), rgba(255,255,255,0.025))"
+                          : isFlow
+                            ? "linear-gradient(145deg, rgba(30,80,180,0.13), rgba(255,255,255,0.02))"
+                            : "linear-gradient(145deg, rgba(30,80,180,0.08), rgba(255,255,255,0.015))",
+                        boxShadow: isBloom
+                          ? "inset 0 1px 0 rgba(255,255,255,0.07), 0 12px 32px rgba(30,120,255,0.12)"
+                          : "inset 0 1px 0 rgba(255,255,255,0.05)",
+                      }
                   : index > 0
                     ? { borderColor: isBloom ? "rgba(167,139,250,0.1)" : isTeam ? "rgba(45,212,191,0.08)" : "rgba(255,255,255,0.06)" }
                     : {}
@@ -302,6 +324,10 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
                       ? (isBloom ? "#c4b5fd" : "rgba(255,255,255,0.42)")
                       : isTeamGroup
                         ? "#5eead4"
+                      : isFreelanceGroup
+                        ? (isBloom ? "#fde68a" : "rgba(251,191,36,0.7)")
+                      : isPersonalGroup
+                        ? (isBloom ? "#93c5fd" : isFlow ? "rgba(147,197,253,0.75)" : "rgba(147,197,253,0.6)")
                       : isBloom
                         ? "rgba(196,181,253,0.4)"
                         : "rgba(255,255,255,0.28)",
@@ -325,6 +351,30 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
                         }}
                   >
                     AI
+                  </span>
+                )}
+                {isFreelanceGroup && (
+                  <span
+                    className="rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider"
+                    style={{
+                      color: isBloom ? "#fde68a" : "rgba(251,191,36,0.85)",
+                      background: isBloom ? "rgba(217,119,6,0.22)" : "rgba(217,119,6,0.12)",
+                      border: `1px solid ${isBloom ? "rgba(251,191,36,0.3)" : "rgba(251,191,36,0.18)"}`,
+                    }}
+                  >
+                    💼 Hive
+                  </span>
+                )}
+                {isPersonalGroup && (
+                  <span
+                    className="rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider"
+                    style={{
+                      color: isBloom ? "#93c5fd" : isFlow ? "rgba(147,197,253,0.9)" : "rgba(147,197,253,0.75)",
+                      background: isBloom ? "rgba(30,80,180,0.22)" : "rgba(30,80,180,0.14)",
+                      border: `1px solid ${isBloom ? "rgba(77,159,255,0.3)" : "rgba(77,159,255,0.2)"}`,
+                    }}
+                  >
+                    ✦ Personal
                   </span>
                 )}
               </div>

@@ -10,30 +10,32 @@ import { useScroll } from "@/components/ui/use-scroll";
 const DOWNLOAD_URL =
   "https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBooard-Installer.dmg";
 const CUSTOMER_PORTAL_URL = "https://sandbox.polar.sh/daily-dashboard/portal";
-const BLOOMBOARDS_URL = "https://app.mybloomboard.app";
+const WEB_APP_URL =
+  process.env.NEXT_PUBLIC_WEB_APP_URL ?? "https://app.mybloomboard.app";
 
-export function Header() {
+interface NavLink {
+  label: string;
+  href: string;
+  external?: boolean;
+}
+
+export function Header({
+  customLinks,
+  logoHref,
+}: {
+  customLinks?: NavLink[];
+  logoHref?: string;
+} = {}) {
   const [open, setOpen] = React.useState(false);
+  const [webAppHref, setWebAppHref] = React.useState(WEB_APP_URL);
   const scrolled = useScroll(10);
+  const isExternalWebApp = webAppHref.startsWith("http");
 
-  const links = [
-    {
-      label: "Features",
-      href: "#features",
-    },
-    {
-      label: "Deep Dive",
-      href: "#walkthrough",
-    },
-    {
-      label: "Pricing",
-      href: "#pricing",
-    },
-    {
-      label: "Customer Portal",
-      href: CUSTOMER_PORTAL_URL,
-      external: true,
-    },
+  const links: NavLink[] = customLinks ?? [
+    { label: "Features", href: "#features" },
+    { label: "Deep Dive", href: "#walkthrough" },
+    { label: "Pricing", href: "#pricing" },
+    { label: "Customer Portal", href: CUSTOMER_PORTAL_URL, external: true },
   ];
 
   React.useEffect(() => {
@@ -47,6 +49,12 @@ export function Header() {
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  React.useEffect(() => {
+    if (["localhost", "127.0.0.1"].includes(window.location.hostname)) {
+      setWebAppHref("/app");
+    }
+  }, []);
 
   return (
     <header
@@ -67,7 +75,7 @@ export function Header() {
           },
         )}
       >
-        <a href="#hero" className="flex items-center gap-2.5">
+        <a href={logoHref ?? "#hero"} className="flex items-center gap-2.5">
           <Image
             src="/logo.png"
             alt="Bloombooard logo"
@@ -90,11 +98,27 @@ export function Header() {
               {link.label}
             </a>
           ))}
+          <a
+            href="/freelance"
+            className="flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-semibold transition-all duration-200 hover:scale-[1.03]"
+            style={{
+              background: "linear-gradient(135deg, rgba(217,119,6,0.18), rgba(180,83,9,0.12))",
+              color: "#fbbf24",
+              border: "1px solid rgba(251,191,36,0.28)",
+            }}
+          >
+            <span>💼</span>
+            For Freelancers
+          </a>
           <Button
             asChild
             className="gap-2 rounded-full bg-violet-600 px-5 text-white hover:bg-violet-500"
           >
-            <a href={BLOOMBOARDS_URL} target="_blank" rel="noreferrer">
+            <a
+              href={webAppHref}
+              target={isExternalWebApp ? "_blank" : undefined}
+              rel={isExternalWebApp ? "noreferrer" : undefined}
+            >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
               </svg>
@@ -156,8 +180,26 @@ export function Header() {
             ))}
           </div>
           <div className="flex flex-col gap-2">
+            <a
+              href="/freelance"
+              onClick={() => setOpen(false)}
+              className="flex w-full items-center justify-center gap-1.5 rounded-full py-2.5 text-sm font-semibold transition-all"
+              style={{
+                background: "linear-gradient(135deg, rgba(217,119,6,0.18), rgba(180,83,9,0.12))",
+                color: "#fbbf24",
+                border: "1px solid rgba(251,191,36,0.28)",
+              }}
+            >
+              <span>💼</span>
+              For Freelancers
+            </a>
             <Button className="w-full gap-2 rounded-full bg-violet-600 text-white hover:bg-violet-500" asChild>
-              <a href={BLOOMBOARDS_URL} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>
+              <a
+                href={webAppHref}
+                target={isExternalWebApp ? "_blank" : undefined}
+                rel={isExternalWebApp ? "noreferrer" : undefined}
+                onClick={() => setOpen(false)}
+              >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
                 </svg>

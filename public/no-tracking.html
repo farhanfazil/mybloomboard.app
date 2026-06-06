@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>No Tracking — Bloombooard</title>
+  <meta name="description" content="Bloombooard doesn't track you. Here's exactly what stays on your device and what doesn't." />
+  <link rel="icon" href="https://mybloomboard.app/logo.png" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0f;
+      color: #e2e8f0;
+      line-height: 1.75;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,15,0.9);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .nav-logo img { width: 28px; height: 28px; border-radius: 6px; }
+    nav a.nav-link {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    nav a.nav-link:hover { color: #fff; }
+
+    .hero {
+      text-align: center;
+      padding: 80px 2rem 64px;
+      background: linear-gradient(160deg, #0a0a0f 0%, #0c1428 55%, #0a0a0f 100%);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.25);
+      color: #4ade80;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 22px;
+    }
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #4ade80;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    }
+    .hero h1 span { color: #4ade80; }
+    .hero p {
+      color: #94a3b8;
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 60px 2rem 100px;
+    }
+
+    /* Summary row */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 56px;
+    }
+    .summary-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 20px 20px 18px;
+      text-align: center;
+    }
+    .summary-card .icon {
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+    }
+    .summary-card .label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .summary-card .desc {
+      font-size: 0.78rem;
+      color: #64748b;
+    }
+
+    /* Sections */
+    .section { margin-bottom: 44px; }
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title .icon { font-size: 1rem; }
+
+    .section p { color: #94a3b8; margin-bottom: 10px; font-size: 0.95rem; }
+
+    /* Item list */
+    .item-list { display: flex; flex-direction: column; gap: 8px; }
+    .item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .item-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .item-body { flex: 1; min-width: 0; }
+    .item-label { font-size: 0.88rem; font-weight: 600; color: #e2e8f0; margin-bottom: 2px; }
+    .item-desc { font-size: 0.8rem; color: #64748b; }
+
+    /* Status pills */
+    .pill {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 100px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .pill-green  { background: rgba(34,197,94,.12);  color: #4ade80;  border: 1px solid rgba(34,197,94,.25); }
+    .pill-blue   { background: rgba(96,165,250,.12); color: #93c5fd;  border: 1px solid rgba(96,165,250,.25); }
+    .pill-yellow { background: rgba(251,191,36,.1);  color: #fbbf24;  border: 1px solid rgba(251,191,36,.25); }
+
+    /* Never box */
+    .never-box {
+      background: rgba(239,68,68,0.05);
+      border: 1px solid rgba(239,68,68,0.15);
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin-bottom: 44px;
+    }
+    .never-box h3 {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #fca5a5;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+    .never-list { display: flex; flex-direction: column; gap: 7px; }
+    .never-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .never-item::before {
+      content: '✕';
+      color: #f87171;
+      font-weight: 700;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    a { color: #818cf8; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 36px 2rem;
+      text-align: center;
+      color: #475569;
+      font-size: 0.82rem;
+    }
+    footer a { color: #6366f1; }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="https://mybloomboard.app/">
+    <img src="https://mybloomboard.app/logo.png" alt="Bloombooard" />
+    Bloombooard
+  </a>
+  <a class="nav-link" href="https://mybloomboard.app/">← Back to Home</a>
+</nav>
+
+<div class="hero">
+  <div class="badge"><span class="badge-dot"></span> Active policy</div>
+  <h1>We don't<br/><span>track you.</span></h1>
+  <p>No analytics. No telemetry. No advertising. Here's exactly where your data goes — and where it doesn't.</p>
+</div>
+
+<div class="container">
+
+  <!-- Summary cards -->
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="icon">💾</div>
+      <div class="label">Local first</div>
+      <div class="desc">Tasks, boards & notes stay on your Mac</div>
+    </div>
+    <div class="summary-card">
+      <div class="icon">🚫</div>
+      <div class="label">Zero analytics</div>
+      <div class="desc">No Mixpanel, Amplitude, or any tracker</div>
+    </div>
+    <div class="summary-card">
+      <div class="icon">🔒</div>
+      <div class="label">No data sales</div>
+      <div class="desc">Your data is never sold or rented</div>
+    </div>
+    <div class="summary-card">
+      <div class="icon">✋</div>
+      <div class="label">Opt-in only</div>
+      <div class="desc">Cloud features require your explicit action</div>
+    </div>
+  </div>
+
+  <!-- What stays on device -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🖥️</span> Stays on your device only</div>
+    <p>All of this is stored in your Mac's local storage and never leaves your machine.</p>
+    <div class="item-list">
+      <div class="item">
+        <div class="item-icon">✅</div>
+        <div class="item-body">
+          <div class="item-label">Tasks, projects & boards<span class="pill pill-green">local</span></div>
+          <div class="item-desc">All your tasks, subtasks, kanban boards, notes, KPIs, streaks, and time tracking data.</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">✅</div>
+        <div class="item-body">
+          <div class="item-label">Calendar & reminders<span class="pill pill-green">local</span></div>
+          <div class="item-desc">Events, deadlines, vacation/leave entries, and meeting reminders.</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">✅</div>
+        <div class="item-body">
+          <div class="item-label">App settings & preferences<span class="pill pill-green">local</span></div>
+          <div class="item-desc">Theme, avatar, profile name, workspace mode, and all personalisation.</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">✅</div>
+        <div class="item-body">
+          <div class="item-label">Freelance Hub data<span class="pill pill-green">local</span></div>
+          <div class="item-desc">Clients, invoices, quotes, and income records in the Freelance Hub.</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">✅</div>
+        <div class="item-body">
+          <div class="item-label">Email cache<span class="pill pill-green">local</span></div>
+          <div class="item-desc">Email history shown in the app is cached locally and never uploaded.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional cloud features -->
+  <div class="section">
+    <div class="section-title"><span class="icon">☁️</span> Optional features that use the internet</div>
+    <p>These only activate when you explicitly connect a service or trigger an action. Nothing runs in the background without your knowledge.</p>
+    <div class="item-list">
+      <div class="item">
+        <div class="item-icon">💬</div>
+        <div class="item-body">
+          <div class="item-label">Team chat sync<span class="pill pill-blue">your supabase</span></div>
+          <div class="item-desc">If you use the Team workspace, chat messages sync to your own Supabase project so team members can communicate. This is your database — we don't have access to it.</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">📄</div>
+        <div class="item-body">
+          <div class="item-label">Shared invoices & quotes<span class="pill pill-blue">your supabase</span></div>
+          <div class="item-desc">When you share a Freelance Hub invoice link, the invoice data is stored in your Supabase database so clients can view and confirm payment. No one else can access it.</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">📧</div>
+        <div class="item-body">
+          <div class="item-label">Google / Gmail integration<span class="pill pill-yellow">opt-in</span></div>
+          <div class="item-desc">If you connect your Google account, we read your inbox and can send emails on your behalf — only when you explicitly trigger it. OAuth tokens are stored locally only. You can disconnect at any time in Settings → Connected Apps.</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🤖</div>
+        <div class="item-body">
+          <div class="item-label">AI assistant (Bloom AI)<span class="pill pill-yellow">opt-in</span></div>
+          <div class="item-desc">When you use AI features, your prompt and relevant context (tasks, events) is sent to Anthropic's Claude API to generate a response. We don't store this on our servers. See <a href="https://www.anthropic.ic/privacy" target="_blank">Anthropic's privacy policy</a>.</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">💳</div>
+        <div class="item-body">
+          <div class="item-label">Stripe (payment status checks)<span class="pill pill-yellow">opt-in</span></div>
+          <div class="item-desc">When you check whether a client has paid an invoice, the app queries the Stripe API using your own Stripe key. No payment card data ever passes through our systems.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Never -->
+  <div class="never-box">
+    <h3>We never, ever do this</h3>
+    <div class="never-list">
+      <div class="never-item">Use advertising trackers, pixels, or fingerprinting</div>
+      <div class="never-item">Install analytics tools (Mixpanel, Amplitude, PostHog, Google Analytics, etc.)</div>
+      <div class="never-item">Read your tasks, notes, or boards on our end</div>
+      <div class="never-item">Record keystrokes or take screenshots in the background</div>
+      <div class="never-item">Sell or share your data with advertisers or data brokers</div>
+      <div class="never-item">Store your Google OAuth tokens on our servers</div>
+      <div class="never-item">Send any data without you triggering an explicit action</div>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div class="section">
+    <div class="section-title"><span class="icon">✉️</span> Questions?</div>
+    <p>If you have any questions about how your data is handled, reach out directly.</p>
+    <p>📧 <a href="mailto:farhan.fazil89@gmail.com">farhan.fazil89@gmail.com</a></p>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="https://mybloomboard.app/">Home</a>
+    <a href="/privacy.html">Full Privacy Policy</a>
+    <a href="/terms.html">Terms of Service</a>
+    <a href="mailto:farhan.fazil89@gmail.com">Contact</a>
+  </div>
+  <p>© 2026 Bloombooard. Built with privacy in mind.</p>
+</footer>
+
+</body>
+</html>

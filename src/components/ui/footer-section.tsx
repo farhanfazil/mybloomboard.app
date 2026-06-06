@@ -49,10 +49,11 @@ const footerLinks: FooterSection[] = [
   {
     label: "Trust",
     links: [
-      { title: "Local-first", href: "#faq", icon: ShieldCheckIcon },
-      { title: "No tracking", href: "#faq", icon: ShieldCheckIcon },
+      { title: "Local-first", href: "/local-first.html", icon: ShieldCheckIcon },
+      { title: "No Tracking", href: "/no-tracking.html", icon: ShieldCheckIcon },
       { title: "FAQ", href: "#faq", icon: FileQuestionIcon },
-      { title: "macOS support", href: "#download", icon: DownloadIcon },
+      { title: "Privacy Policy", href: "/privacy.html", icon: ShieldCheckIcon },
+      { title: "Terms of Service", href: "/terms.html", icon: FileQuestionIcon },
     ],
   },
   {

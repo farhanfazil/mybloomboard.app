@@ -195,12 +195,18 @@ export default function AIFeatureCarousel() {
         <div className="pointer-events-none absolute inset-y-0 right-0 w-[12vw] bg-gradient-to-l from-[#050505] to-transparent" />
       </div>
 
-      <div className="mx-auto flex w-fit items-center gap-4 rounded-full border border-white/10 bg-white/[0.08] px-4 py-3 backdrop-blur-xl">
+      <div className="mx-auto flex w-fit items-center gap-4 px-4 py-3">
         <button
           type="button"
           aria-label="Previous AI feature"
           onClick={() => scrollToCard(Math.max(activeIndex - 1, 0))}
-          className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition duration-300 hover:scale-105 hover:bg-white/18 active:scale-95 disabled:opacity-40"
+          className="grid h-10 w-10 place-items-center rounded-full transition duration-300 hover:scale-105 active:scale-95"
+          style={{
+            background: "rgba(255,255,255,0.22)",
+            border: "none",
+            color: "rgba(255,255,255,0.95)",
+            opacity: activeIndex === 0 ? 0.35 : 1,
+          }}
           disabled={activeIndex === 0}
         >
           <ChevronLeft className="h-5 w-5" />
@@ -213,9 +219,11 @@ export default function AIFeatureCarousel() {
               type="button"
               aria-label={`Go to ${card.title}`}
               onClick={() => scrollToCard(index)}
-              className={`h-2.5 rounded-full transition-all duration-300 ${
-                activeIndex === index ? "w-10 bg-white" : "w-2.5 bg-white/42 hover:bg-white/70"
-              }`}
+              className="h-2.5 rounded-full transition-all duration-300"
+              style={{
+                width: activeIndex === index ? "2.5rem" : "0.625rem",
+                background: activeIndex === index ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.2)",
+              }}
             />
           ))}
         </div>
@@ -224,7 +232,13 @@ export default function AIFeatureCarousel() {
           type="button"
           aria-label="Next AI feature"
           onClick={() => scrollToCard(Math.min(activeIndex + 1, aiCards.length - 1))}
-          className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition duration-300 hover:scale-105 hover:bg-white/18 active:scale-95 disabled:opacity-40"
+          className="grid h-10 w-10 place-items-center rounded-full transition duration-300 hover:scale-105 active:scale-95"
+          style={{
+            background: "rgba(255,255,255,0.22)",
+            border: "none",
+            color: "rgba(255,255,255,0.95)",
+            opacity: activeIndex === aiCards.length - 1 ? 0.35 : 1,
+          }}
           disabled={activeIndex === aiCards.length - 1}
         >
           <ChevronRight className="h-5 w-5" />
