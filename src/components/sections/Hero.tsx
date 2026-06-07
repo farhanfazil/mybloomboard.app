@@ -1,10 +1,11 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
 import GlowButton from "@/components/ui/GlowButton";
 import { useSpotlightBorder } from "@/components/ui/spotlight-border";
+import { HolographicButterfly } from "@/components/sections/DeepDiveFlight";
 
 const words = ["Your", "personal", "command", "center."];
 
@@ -34,10 +35,12 @@ function HeroDashboardImage() {
 
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const mockupY = useTransform(scrollYProgress, [0, 1], [0, 80]);
   const mockupScale = useTransform(scrollYProgress, [0, 1], [1, 0.93]);
   const textY = useTransform(scrollYProgress, [0, 1], [0, 40]);
+  const isCtaInView = useInView(ctaRef, { once: true, margin: "0px 0px 80px 0px" });
 
   return (
     <section
@@ -125,15 +128,54 @@ export default function Hero() {
 
             {/* CTA */}
             <motion.div
-              className="flex items-center gap-4 flex-wrap"
+              ref={ctaRef}
+              className="relative flex items-center gap-4 flex-wrap"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.65 }}
             >
+              {/* Butterfly — lands near the Start Flow button */}
+              <motion.div
+                className="pointer-events-none absolute left-[55%] top-0 z-20 hidden lg:block"
+                style={{ willChange: "transform, opacity" }}
+                initial={{ opacity: 0, x: -380, y: -400, rotate: -28, scale: 0.46 }}
+                animate={
+                  isCtaInView
+                    ? {
+                        opacity: [0, 1, 1, 1],
+                        x: [-380, -200, -60, 0],
+                        y: [-400, -260, -130, -52],
+                        rotate: [-28, 18, -8, 0],
+                        scale: [0.46, 0.70, 0.63, 0.58],
+                      }
+                    : {}
+                }
+                transition={{
+                  duration: 2.8,
+                  delay: 0.9,
+                  times: [0, 0.32, 0.68, 1],
+                  x:      { ease: ["easeIn", "linear", "easeOut"], duration: 2.8 },
+                  y:      { ease: ["easeIn", "linear", "easeOut"], duration: 2.8 },
+                  rotate: { ease: ["easeIn", "linear", "easeOut"], duration: 2.8 },
+                  scale:  { ease: ["easeIn", "linear", "easeOut"], duration: 2.8 },
+                  opacity: { ease: "easeOut", duration: 0.45 },
+                }}
+              >
+                <HolographicButterfly />
+              </motion.div>
+
               <GlowButton label="Download Free" variant="primary" large href="https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBooard-Installer.dmg" />
               <a
                 href="https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_TQSyTPGy63wMNw0r31v3GtyYNvU6YFgOmO7Rz3I5phX/redirect"
-                className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-sm transition-all duration-300 border border-accent-purple/40 text-accent-purple hover:bg-accent-purple/10 hover:border-accent-purple/70 hover:scale-105"
+                className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-sm transition-all duration-300 hover:scale-[1.04] hover:brightness-110 active:scale-[0.98]"
+                style={{
+                  background: "linear-gradient(155deg, rgba(7,23,43,0.97) 0%, rgba(6,13,24,0.96) 50%, rgba(7,20,36,0.97) 100%)",
+                  color: "#e8f4ff",
+                  border: "1.5px solid rgba(77,159,255,0.45)",
+                  boxShadow: "0 0 0 1px rgba(77,159,255,0.12), 0 8px 32px rgba(30,120,255,0.28), 0 2px 12px rgba(77,159,255,0.18)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                }}
               >
                 Start Flow Trial →
               </a>

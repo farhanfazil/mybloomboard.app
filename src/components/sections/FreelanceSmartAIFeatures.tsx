@@ -81,6 +81,9 @@ export default function FreelanceSmartAIFeatures() {
       block: "nearest",
       inline: "center",
     });
+
+    // Signal butterfly to jump to a new spot
+    window.dispatchEvent(new CustomEvent("carouselNav"));
   };
 
   useEffect(() => {

@@ -2,6 +2,183 @@
 
 import { motion, useInView, useScroll, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+
+// ─── Mini animated previews ───────────────────────────────────────────────────
+function BloomFeaturePreview({ title, color }: { title: string; color: string }) {
+  const c30 = `${color}4d`;
+  const c60 = `${color}99`;
+
+  if (title === "Smart Task Management") return (
+    <div className="flex flex-col gap-1.5" style={{ width: 38 }}>
+      {[1, 0.6, 0.35].map((op, i) => (
+        <div key={i} className="flex items-center gap-1">
+          <motion.div className="rounded-sm flex-shrink-0" style={{ width: 6, height: 6, background: op === 1 ? color : c30, border: `1px solid ${c60}` }}
+            animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 1.4, delay: i * 0.3, repeat: Infinity }} />
+          <motion.div className="rounded-full h-[2px]" style={{ background: c30, flex: 1 }}
+            animate={{ opacity: [0.4, 1, 0.4] }} transition={{ duration: 1.4, delay: i * 0.3, repeat: Infinity }} />
+        </div>
+      ))}
+    </div>
+  );
+
+  if (title === "Daily Milestone Tracker") return (
+    <div className="relative flex items-center justify-center" style={{ width: 30, height: 30 }}>
+      <svg viewBox="0 0 30 30" fill="none" style={{ width: 30, height: 30 }}>
+        <circle cx="15" cy="15" r="12" stroke={c30} strokeWidth="2.5" />
+        <motion.circle cx="15" cy="15" r="12" stroke={color} strokeWidth="2.5" strokeLinecap="round"
+          strokeDasharray="75.4" strokeDashoffset="75.4"
+          animate={{ strokeDashoffset: [75.4, 18, 75.4] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+          style={{ transformOrigin: "15px 15px", rotate: "-90deg" }}
+        />
+      </svg>
+      <motion.span className="absolute text-[7px] font-bold" style={{ color }}
+        animate={{ opacity: [0.6, 1, 0.6] }} transition={{ duration: 2.5, repeat: Infinity }}>75%</motion.span>
+    </div>
+  );
+
+  if (title === "KPI Goals & PDF Reports") return (
+    <div className="flex items-end gap-[3px]" style={{ height: 28 }}>
+      {[40, 70, 55, 90, 65].map((h, i) => (
+        <motion.div key={i} className="w-[5px] rounded-sm" style={{ background: i === 3 ? color : c30, originY: 1, height: `${h}%` }}
+          animate={{ scaleY: [1, 1.2, 0.9, 1.1, 1] }}
+          transition={{ duration: 2.2, delay: i * 0.15, repeat: Infinity, ease: "easeInOut" }}
+        />
+      ))}
+    </div>
+  );
+
+  if (title === "Streak & Reward System") return (
+    <motion.div style={{ color, fontSize: 20 }}
+      animate={{ scale: [1, 1.25, 1], filter: [`drop-shadow(0 0 2px ${color}00)`, `drop-shadow(0 0 6px ${color})`, `drop-shadow(0 0 2px ${color}00)`] }}
+      transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}>🔥</motion.div>
+  );
+
+  if (title === "Bloom & AI Assistant") return (
+    <div className="flex flex-col gap-1" style={{ width: 38 }}>
+      {[100, 70, 45].map((w, i) => (
+        <motion.div key={i} className="rounded-full" style={{ height: 2.5, background: i === 0 ? color : c30, width: `${w}%` }}
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 1.5, delay: i * 0.2, repeat: Infinity }} />
+      ))}
+    </div>
+  );
+
+  if (title === "Boards") return (
+    <div className="grid grid-cols-2 gap-1" style={{ width: 28 }}>
+      {[0, 1, 2, 3].map(i => (
+        <motion.div key={i} className="rounded-sm" style={{ height: 10, background: i < 2 ? color : c30 }}
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 1.6, delay: i * 0.2, repeat: Infinity }} />
+      ))}
+    </div>
+  );
+
+  if (title === "Teams" || title === "Unlimited Team Members") return (
+    <div className="flex -space-x-1.5">
+      {["#4d9fff","#a78bfa","#34d399"].map((c, i) => (
+        <motion.div key={i} className="rounded-full border" style={{ width: 12, height: 12, background: `${c}33`, borderColor: c }}
+          animate={{ y: [0, -3, 0] }}
+          transition={{ duration: 1.4, delay: i * 0.2, repeat: Infinity }} />
+      ))}
+    </div>
+  );
+
+  if (title === "Team Chat") return (
+    <div className="flex flex-col gap-1.5">
+      {[1, 0].map(align => (
+        <motion.div key={align} className="rounded-full" style={{ height: 7, width: align ? 28 : 20, background: align ? color : c30, alignSelf: align ? "flex-start" : "flex-end" }}
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 1.4, delay: align * 0.4, repeat: Infinity }} />
+      ))}
+    </div>
+  );
+
+  if (title === "Voice Messages") return (
+    <div className="flex items-end gap-0.5" style={{ height: 22 }}>
+      {[30, 60, 100, 70, 45, 80, 35].map((h, i) => (
+        <motion.div key={i} className="w-[3px] rounded-full" style={{ background: color, height: `${h}%` }}
+          animate={{ scaleY: [1, 1.4, 0.6, 1.2, 1] }}
+          transition={{ duration: 1.2, delay: i * 0.08, repeat: Infinity, ease: "easeInOut" }} />
+      ))}
+    </div>
+  );
+
+  if (title === "Mood Avatars") return (
+    <motion.div style={{ fontSize: 20 }}
+      animate={{ rotate: [0, 10, -10, 0] }}
+      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}>😊</motion.div>
+  );
+
+  if (title === "Cloud Data") return (
+    <motion.div style={{ color, fontSize: 18 }}
+      animate={{ y: [0, -3, 0], opacity: [0.7, 1, 0.7] }}
+      transition={{ duration: 2, repeat: Infinity }}>☁</motion.div>
+  );
+
+  if (title === "Security") return (
+    <motion.div style={{ color, fontSize: 18 }}
+      animate={{ scale: [1, 1.15, 1], filter: [`drop-shadow(0 0 0px ${color}00)`, `drop-shadow(0 0 5px ${color})`, `drop-shadow(0 0 0px ${color}00)`] }}
+      transition={{ duration: 2, repeat: Infinity }}>🔒</motion.div>
+  );
+
+  if (title === "Quick Sticky Notes") return (
+    <div className="flex flex-col gap-1" style={{ width: 30 }}>
+      {[80, 60, 40].map((w, i) => (
+        <motion.div key={i} className="rounded-sm" style={{ height: 3, width: `${w}%`, background: color, opacity: 0.6 + i * 0.15 }}
+          animate={{ opacity: [0.4 + i*0.1, 0.9, 0.4 + i*0.1] }}
+          transition={{ duration: 1.5, delay: i * 0.25, repeat: Infinity }} />
+      ))}
+    </div>
+  );
+
+  if (title === "Dark & Light Mode") return (
+    <motion.div className="rounded-full" style={{ width: 28, height: 14, background: c30, border: `1px solid ${c60}`, position: "relative" }}>
+      <motion.div className="rounded-full absolute top-0.5" style={{ width: 11, height: 11, background: color }}
+        animate={{ x: [2, 14, 2] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} />
+    </motion.div>
+  );
+
+  if (title === "Notification Bell") return (
+    <motion.div style={{ color, fontSize: 18 }}
+      animate={{ rotate: [-12, 12, -8, 8, 0] }}
+      transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1 }}>🔔</motion.div>
+  );
+
+  if (title === "AI Email & Messages" || title === "AI Meeting Notes to Tasks" || title === "AI Plan My Day") return (
+    <div className="flex flex-col gap-1" style={{ width: 36 }}>
+      {[100, 75, 50].map((w, i) => (
+        <motion.div key={i} className="rounded-full" style={{ height: 2.5, background: i === 0 ? color : c30, width: `${w}%` }}
+          animate={{ scaleX: [1, 0.6, 1] }}
+          transition={{ duration: 1.6, delay: i * 0.2, repeat: Infinity, ease: "easeInOut" }} />
+      ))}
+    </div>
+  );
+
+  if (title === "Reminders & Meetings") return (
+    <motion.div style={{ color, fontSize: 17 }}
+      animate={{ scale: [1, 1.2, 1] }}
+      transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 0.5 }}>📅</motion.div>
+  );
+
+  if (title === "Health & Hydration") return (
+    <div className="flex items-end gap-1">
+      {[60, 80, 100, 70].map((h, i) => (
+        <motion.div key={i} className="w-[5px] rounded-t-sm" style={{ background: color, opacity: 0.4 + i * 0.15, height: `${h}%` }}
+          animate={{ scaleY: [1, 1.15, 0.9, 1] }}
+          transition={{ duration: 1.8, delay: i * 0.2, repeat: Infinity, ease: "easeInOut" }} />
+      ))}
+    </div>
+  );
+
+  // fallback
+  return (
+    <motion.div className="h-2 w-2 rounded-full" style={{ background: color }}
+      animate={{ scale: [1, 1.6, 1], opacity: [0.5, 1, 0.5] }}
+      transition={{ duration: 1.4, repeat: Infinity }} />
+  );
+}
 import {
   BarChart3,
   Bell,
@@ -161,6 +338,15 @@ function FeatureCard({
           {highlight && title}
         </h3>
         <p className="text-sm leading-relaxed text-text-muted transition-colors duration-500 group-hover:text-white/58">{description}</p>
+      </div>
+
+      {/* Mini animated preview — bottom-right on hover */}
+      <div
+        className="absolute bottom-5 right-5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none"
+        style={{ zIndex: 1 }}
+        aria-hidden="true"
+      >
+        <BloomFeaturePreview title={title} color={accentColor} />
       </div>
 
       {/* Bottom accent line */}

@@ -86,11 +86,11 @@ export function Header({
           <span className="text-sm font-semibold text-text-primary">Bloombooard</span>
         </a>
 
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-2 md:flex">
           {links.map((link) => (
             <a
               key={link.label}
-              className={buttonVariants({ variant: "ghost" })}
+              className={buttonVariants({ variant: "ghost", className: "px-3 text-sm" })}
               href={link.href}
               target={link.external ? "_blank" : undefined}
               rel={link.external ? "noreferrer" : undefined}
@@ -100,7 +100,7 @@ export function Header({
           ))}
           <a
             href="/freelance"
-            className="flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-semibold transition-all duration-200 hover:scale-[1.03]"
+            className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-semibold transition-all duration-200 hover:scale-[1.03]"
             style={{
               background: "linear-gradient(135deg, rgba(217,119,6,0.18), rgba(180,83,9,0.12))",
               color: "#fbbf24",
@@ -108,26 +108,34 @@ export function Header({
             }}
           >
             <span>💼</span>
-            For Freelancers
+            Freelancers
           </a>
-          <Button
-            asChild
-            className="gap-2 rounded-full bg-violet-600 px-5 text-white hover:bg-violet-500"
-          >
-            <a
-              href={webAppHref}
-              target={isExternalWebApp ? "_blank" : undefined}
-              rel={isExternalWebApp ? "noreferrer" : undefined}
+          <div className="relative shrink-0">
+            <Button
+              asChild
+              className="gap-1.5 rounded-full bg-violet-600 px-4 text-sm text-white hover:bg-violet-500"
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
-              </svg>
-              Web App — Coming Soon
-            </a>
-          </Button>
+              <a
+                href={webAppHref}
+                target={isExternalWebApp ? "_blank" : undefined}
+                rel={isExternalWebApp ? "noreferrer" : undefined}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+                </svg>
+                Web App
+              </a>
+            </Button>
+            <span
+              className="pointer-events-none absolute -right-1 -top-2 rounded-full px-1.5 py-px text-[9px] font-bold uppercase tracking-wide"
+              style={{ background: "#f59e0b", color: "#000" }}
+            >
+              Soon
+            </span>
+          </div>
           <Button
             asChild
-            className="gap-2.5 rounded-full bg-white px-6 text-[#0a0f1c] hover:bg-white/90"
+            className="shrink-0 gap-2 rounded-full bg-white px-5 text-sm text-[#0a0f1c] hover:bg-white/90"
           >
             <a href={DOWNLOAD_URL}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -193,19 +201,27 @@ export function Header({
               <span>💼</span>
               For Freelancers
             </a>
-            <Button className="w-full gap-2 rounded-full bg-violet-600 text-white hover:bg-violet-500" asChild>
-              <a
-                href={webAppHref}
-                target={isExternalWebApp ? "_blank" : undefined}
-                rel={isExternalWebApp ? "noreferrer" : undefined}
-                onClick={() => setOpen(false)}
+            <div className="relative w-full">
+              <Button className="w-full gap-2 rounded-full bg-violet-600 text-white hover:bg-violet-500" asChild>
+                <a
+                  href={webAppHref}
+                  target={isExternalWebApp ? "_blank" : undefined}
+                  rel={isExternalWebApp ? "noreferrer" : undefined}
+                  onClick={() => setOpen(false)}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+                  </svg>
+                  Web App
+                </a>
+              </Button>
+              <span
+                className="pointer-events-none absolute -right-1 -top-2 rounded-full px-1.5 py-px text-[9px] font-bold uppercase tracking-wide"
+                style={{ background: "#f59e0b", color: "#000" }}
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
-                </svg>
-                Web App — Coming Soon
-              </a>
-            </Button>
+                Soon
+              </span>
+            </div>
             <Button className="w-full gap-2.5 rounded-full bg-white text-[#0a0f1c] hover:bg-white/90" asChild>
               <a href={DOWNLOAD_URL} onClick={() => setOpen(false)}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

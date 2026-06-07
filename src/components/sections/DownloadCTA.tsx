@@ -103,15 +103,15 @@ export default function DownloadCTA() {
                 Download Free for Mac
               </a>
 
-              {/* Flow button — matching weight, glass dark */}
+              {/* Flow button — soft light style matching pricing card */}
               <a
                 href="https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_TQSyTPGy63wMNw0r31v3GtyYNvU6YFgOmO7Rz3I5phX/redirect"
-                className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-4 text-base font-semibold transition-all duration-300 hover:scale-105 hover:brightness-110 sm:w-auto sm:px-8"
+                className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-4 text-base font-semibold transition-all duration-300 hover:scale-[1.04] hover:brightness-110 active:scale-[0.98] sm:w-auto sm:px-8"
                 style={{
-                  background: "rgba(255,255,255,0.06)",
-                  color: "rgba(255,255,255,0.88)",
-                  border: "1px solid rgba(255,255,255,0.16)",
-                  boxShadow: "0 2px 20px rgba(0,0,0,0.25)",
+                  background: "linear-gradient(155deg, rgba(7,23,43,0.97) 0%, rgba(6,13,24,0.96) 50%, rgba(7,20,36,0.97) 100%)",
+                  color: "#e8f4ff",
+                  border: "1.5px solid rgba(77,159,255,0.45)",
+                  boxShadow: "0 0 0 1px rgba(77,159,255,0.12), 0 8px 32px rgba(30,120,255,0.28), 0 2px 12px rgba(77,159,255,0.18)",
                   backdropFilter: "blur(12px)",
                   WebkitBackdropFilter: "blur(12px)",
                 }}

@@ -449,7 +449,7 @@ function GreetingStatsMockup({ accentColor }: { accentColor: string }) {
         <div>
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "12px", marginBottom: "2px" }}>12:55 AM</p>
           <p style={{ color: "rgba(255,255,255,0.55)", fontSize: "15px" }}>Good morning,</p>
-          <p style={{ color: "#ffffff", fontSize: "32px", fontWeight: 700, lineHeight: 1.15 }}>Farhan.</p>
+          <p style={{ color: "#ffffff", fontSize: "32px", fontWeight: 700, lineHeight: 1.15 }}>James.</p>
         </div>
         <div
           style={{
@@ -1083,7 +1083,7 @@ function BloomAIMockup({ accentColor }: { accentColor: string }) {
           }}
         >
           <p style={{ color: "rgba(255,255,255,0.88)", fontSize: "14px", lineHeight: 1.65, margin: 0 }}>
-            Good evening, Farhan! 🌱 I&apos;m Bloom, your AI coworker. I can create tasks, schedule meetings, manage your boards, and help you plan your day — just ask, or use voice input. What can I help with?
+            Good evening, James! 🌱 I&apos;m Bloom, your AI coworker. I can create tasks, schedule meetings, manage your boards, and help you plan your day — just ask, or use voice input. What can I help with?
           </p>
         </div>
         <div

@@ -52,7 +52,7 @@ export default function AppWindow() {
           {/* Time & Date */}
           <div className="px-1 pt-1">
             <p className="text-[18px] font-bold text-text-primary leading-none">04:12 PM</p>
-            <p className="text-[9px] text-text-muted mt-0.5">Good afternoon, <span className="text-text-primary font-semibold">Farhan.</span></p>
+            <p className="text-[9px] text-text-muted mt-0.5">Good afternoon, <span className="text-text-primary font-semibold">James.</span></p>
             <p className="text-[8px] font-semibold uppercase tracking-widest text-text-muted mt-1">SATURDAY</p>
             <p className="text-[11px] font-bold text-text-primary">May 16, 2026</p>
           </div>

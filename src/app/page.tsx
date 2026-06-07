@@ -6,6 +6,8 @@ import Walkthrough from "@/components/sections/Walkthrough";
 import DeepDiveFlight from "@/components/sections/DeepDiveFlight";
 import StatsBar from "@/components/sections/StatsBar";
 import Pricing from "@/components/sections/Pricing";
+import Testimonials from "@/components/sections/Testimonials";
+import PlanQuiz from "@/components/sections/PlanQuiz";
 import FAQ from "@/components/sections/FAQ";
 import DownloadCTA from "@/components/sections/DownloadCTA";
 import Footer from "@/components/sections/Footer";
@@ -21,6 +23,8 @@ export default function Home() {
         <Walkthrough />
         <StatsBar />
       </DeepDiveFlight>
+      <Testimonials />
+      <PlanQuiz />
       <Pricing />
       <FAQ />
       <DownloadCTA />

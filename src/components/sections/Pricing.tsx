@@ -12,6 +12,7 @@ interface FeatureItem {
   text: string;
   included: boolean;
   badge?: string;
+  badges?: string[];
 }
 interface FeatureGroup {
   category: string;
@@ -386,29 +387,76 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
                     ) : (
                       <span className="mt-0.5 flex-shrink-0 text-xs font-bold" style={{ color: "rgba(255,255,255,0.2)" }}>✕</span>
                     )}
-                    <span className="flex items-center gap-1.5 flex-wrap">
-                      <span
-                        className="text-sm leading-snug"
-                        style={{
-                          color: item.included ? (isBloom ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.75)") : "rgba(255,255,255,0.25)",
-                          textDecoration: item.included ? "none" : "line-through",
-                        }}
-                      >
-                        {item.text}
-                      </span>
-                      {item.badge && (
+                    <div className="flex flex-col gap-1.5 min-w-0">
+                      <span className="flex items-center gap-1.5 flex-wrap">
                         <span
-                          className="text-[9px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0"
+                          className="text-sm leading-snug"
                           style={{
-                            background: "linear-gradient(135deg, rgba(109,40,217,0.35), rgba(79,70,229,0.35))",
-                            color: "#c4b5fd",
-                            border: "1px solid rgba(167,139,250,0.3)",
+                            color: item.included ? (isBloom ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.75)") : "rgba(255,255,255,0.25)",
+                            textDecoration: item.included ? "none" : "line-through",
                           }}
                         >
-                          {item.badge}
+                          {item.text}
                         </span>
+                        {item.badge && (
+                          <span
+                            className="text-[9px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0"
+                            style={{
+                              background: "linear-gradient(135deg, rgba(109,40,217,0.35), rgba(79,70,229,0.35))",
+                              color: "#c4b5fd",
+                              border: "1px solid rgba(167,139,250,0.3)",
+                            }}
+                          >
+                            {item.badge}
+                          </span>
+                        )}
+                      </span>
+                      {item.badges && item.badges.length > 0 && (
+                        <div className="flex flex-wrap gap-1">
+                          {item.badges.map((b) => {
+                            const BADGE_COLORS: Record<string, { bg: string; color: string; border: string }> = {
+                              // AI Coworker
+                              "Ask anything":     { bg: "rgba(30,80,160,0.18)",   color: "#93c5fd", border: "rgba(77,159,255,0.28)" },
+                              "Create tasks":     { bg: "rgba(20,120,80,0.18)",   color: "#6ee7b7", border: "rgba(52,211,153,0.28)" },
+                              "Automation":       { bg: "rgba(109,40,217,0.18)",  color: "#c4b5fd", border: "rgba(167,139,250,0.28)" },
+                              "Write emails":     { bg: "rgba(180,100,20,0.18)",  color: "#fcd34d", border: "rgba(251,191,36,0.28)" },
+                              "and more...":      { bg: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.38)", border: "rgba(255,255,255,0.1)" },
+                              // Email & Messages
+                              "Grammar fix":      { bg: "rgba(20,150,160,0.16)",  color: "#67e8f9", border: "rgba(34,211,238,0.28)" },
+                              "Rewrite emails":   { bg: "rgba(30,80,160,0.18)",   color: "#93c5fd", border: "rgba(77,159,255,0.28)" },
+                              "Professional":     { bg: "rgba(20,120,80,0.18)",   color: "#6ee7b7", border: "rgba(52,211,153,0.28)" },
+                              "Formal":           { bg: "rgba(109,40,217,0.18)",  color: "#c4b5fd", border: "rgba(167,139,250,0.28)" },
+                              "Friendly":         { bg: "rgba(180,100,20,0.18)",  color: "#fcd34d", border: "rgba(251,191,36,0.28)" },
+                              // AI Chief of Staff
+                              "24/7 Watch":       { bg: "rgba(220,38,38,0.15)",   color: "#fca5a5", border: "rgba(248,113,113,0.28)" },
+                              "Risk Alerts":      { bg: "rgba(234,88,12,0.15)",   color: "#fdba74", border: "rgba(251,146,60,0.28)" },
+                              "Live Intelligence":{ bg: "rgba(30,80,160,0.18)",   color: "#93c5fd", border: "rgba(77,159,255,0.28)" },
+                              "Critical Signals": { bg: "rgba(220,38,38,0.15)",   color: "#fca5a5", border: "rgba(248,113,113,0.28)" },
+                              "Pulse AI":         { bg: "rgba(109,40,217,0.18)",  color: "#c4b5fd", border: "rgba(167,139,250,0.28)" },
+                              // Daily Recap
+                              "Daily":            { bg: "rgba(20,120,80,0.18)",   color: "#6ee7b7", border: "rgba(52,211,153,0.28)" },
+                              "30 days":          { bg: "rgba(30,80,160,0.18)",   color: "#93c5fd", border: "rgba(77,159,255,0.28)" },
+                              "180 days":         { bg: "rgba(109,40,217,0.18)",  color: "#c4b5fd", border: "rgba(167,139,250,0.28)" },
+                              "Copy to chat":     { bg: "rgba(180,100,20,0.18)",  color: "#fcd34d", border: "rgba(251,191,36,0.28)" },
+                              // I am Stuck
+                              "AI Support":       { bg: "rgba(30,80,160,0.18)",   color: "#93c5fd", border: "rgba(77,159,255,0.28)" },
+                              "AI Planning":      { bg: "rgba(109,40,217,0.18)",  color: "#c4b5fd", border: "rgba(167,139,250,0.28)" },
+                              "Smart Plan":       { bg: "rgba(20,120,80,0.18)",   color: "#6ee7b7", border: "rgba(52,211,153,0.28)" },
+                            };
+                            const s = BADGE_COLORS[b] ?? { bg: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.4)", border: "rgba(255,255,255,0.1)" };
+                            return (
+                              <span
+                                key={b}
+                                className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full"
+                                style={{ background: s.bg, color: s.color, border: `1px solid ${s.border}` }}
+                              >
+                                {b}
+                              </span>
+                            );
+                          })}
+                        </div>
                       )}
-                    </span>
+                    </div>
                   </li>
                 ))}
               </ul>
