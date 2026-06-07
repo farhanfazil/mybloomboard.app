@@ -40,7 +40,7 @@ export default function AppPreviewScroll() {
         titleComponent={
           <div className="relative z-0 mb-0 flex translate-y-2 flex-col items-center gap-3 sm:translate-y-3 sm:gap-4 md:-translate-y-[34px]">
             <p className="text-sm font-medium tracking-wide text-text-muted sm:text-lg">
-              Freelancers, individuals &amp; teams — all in one board
+              Whether you work solo or lead a team — one place to run it all.
             </p>
             <h2
               className="font-bold tracking-normal text-text-primary text-center"
