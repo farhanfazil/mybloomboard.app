@@ -3,6 +3,19 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, useReducedMotion, useInView } from "framer-motion";
+import { HolographicButterfly } from "@/components/sections/DeepDiveFlight";
+
+// One fly-to position per card
+const BUTTERFLY_POSITIONS = [
+  { left: "50%", top: "12%" },  // 0 AI Features     — upper centre
+  { left: "72%", top: "8%"  },  // 1 AI Chief         — upper right
+  { left: "22%", top: "55%" },  // 2 Mood Avatars     — lower left
+  { left: "68%", top: "50%" },  // 3 Bloom AI         — lower right
+  { left: "38%", top: "6%"  },  // 4 Daily Recap      — upper left
+  { left: "16%", top: "28%" },  // 5 Email & Messages — mid left
+  { left: "74%", top: "42%" },  // 6 I am Stuck       — mid right
+];
 
 const aiCards = [
   {
@@ -44,7 +57,10 @@ const aiCards = [
 
 export default function AIFeatureCarousel() {
   const scrollerRef = useRef<HTMLDivElement | null>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const shouldReduceMotion = useReducedMotion();
+  const isInView = useInView(sectionRef, { once: false, margin: "-10% 0px" });
 
   const scrollToCard = (index: number) => {
     const scroller = scrollerRef.current;
@@ -115,8 +131,30 @@ export default function AIFeatureCarousel() {
     };
   }, []);
 
+  const pos = BUTTERFLY_POSITIONS[activeIndex] ?? BUTTERFLY_POSITIONS[0];
+
   return (
-    <section id="ai-features" className="relative overflow-hidden bg-[#050505] py-16 sm:py-24">
+    <section ref={sectionRef} id="ai-features" className="relative overflow-hidden bg-[#050505] py-16 sm:py-24">
+      {/* Butterfly — moves to a new position on each card change */}
+      {!shouldReduceMotion && (
+        <div className="pointer-events-none absolute inset-0 z-20 hidden lg:block">
+          <motion.div
+            className="absolute -translate-x-1/2 -translate-y-1/2"
+            animate={isInView
+              ? { left: pos.left, top: pos.top, opacity: 1, scale: 0.72 }
+              : { opacity: 0, scale: 0.6 }
+            }
+            transition={{
+              left:    { type: "spring", stiffness: 22, damping: 16, mass: 1.2 },
+              top:     { type: "spring", stiffness: 22, damping: 16, mass: 1.2 },
+              opacity: { duration: 0.7, ease: "easeOut" },
+              scale:   { duration: 0.5 },
+            }}
+          >
+            <HolographicButterfly />
+          </motion.div>
+        </div>
+      )}
       <style jsx>{`
         .ai-carousel-scroll {
           scrollbar-width: none;
