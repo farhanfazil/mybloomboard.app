@@ -6,15 +6,15 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, useReducedMotion, useInView } from "framer-motion";
 import { HolographicButterfly } from "@/components/sections/DeepDiveFlight";
 
-// One fly-to position per card
+// Positions within the card area only (top 45–82%, left 14–84%)
+// Card 0 is intentionally absent — butterfly is hidden until first navigation
 const BUTTERFLY_POSITIONS = [
-  { left: "50%", top: "12%" },  // 0 AI Features     — upper centre
-  { left: "72%", top: "8%"  },  // 1 AI Chief         — upper right
-  { left: "22%", top: "55%" },  // 2 Mood Avatars     — lower left
-  { left: "68%", top: "50%" },  // 3 Bloom AI         — lower right
-  { left: "38%", top: "6%"  },  // 4 Daily Recap      — upper left
-  { left: "16%", top: "28%" },  // 5 Email & Messages — mid left
-  { left: "74%", top: "42%" },  // 6 I am Stuck       — mid right
+  { left: "72%", top: "52%" },  // 1 AI Chief         — right mid-card
+  { left: "18%", top: "62%" },  // 2 Mood Avatars     — left lower-card
+  { left: "68%", top: "48%" },  // 3 Bloom AI         — right upper-card
+  { left: "22%", top: "55%" },  // 4 Daily Recap      — left mid-card
+  { left: "76%", top: "68%" },  // 5 Email & Messages — right lower-card
+  { left: "16%", top: "48%" },  // 6 I am Stuck       — left upper-card
 ];
 
 const aiCards = [
@@ -131,24 +131,26 @@ export default function AIFeatureCarousel() {
     };
   }, []);
 
-  const pos = BUTTERFLY_POSITIONS[activeIndex] ?? BUTTERFLY_POSITIONS[0];
+  // Index into positions array: card 0 → hidden, card 1+ → positions[activeIndex-1]
+  const pos = activeIndex > 0 ? BUTTERFLY_POSITIONS[activeIndex - 1] : null;
+  const butterflyVisible = isInView && activeIndex > 0;
 
   return (
     <section ref={sectionRef} id="ai-features" className="relative overflow-hidden bg-[#050505] py-16 sm:py-24">
-      {/* Butterfly — moves to a new position on each card change */}
+      {/* Butterfly — hidden on card 0, flies into card area from card 1 onwards */}
       {!shouldReduceMotion && (
         <div className="pointer-events-none absolute inset-0 z-20 hidden lg:block">
           <motion.div
             className="absolute -translate-x-1/2 -translate-y-1/2"
-            animate={isInView
+            animate={butterflyVisible && pos
               ? { left: pos.left, top: pos.top, opacity: 1, scale: 0.72 }
               : { opacity: 0, scale: 0.6 }
             }
             transition={{
               left:    { type: "spring", stiffness: 22, damping: 16, mass: 1.2 },
               top:     { type: "spring", stiffness: 22, damping: 16, mass: 1.2 },
-              opacity: { duration: 0.7, ease: "easeOut" },
-              scale:   { duration: 0.5 },
+              opacity: { duration: 0.5, ease: "easeOut" },
+              scale:   { duration: 0.4 },
             }}
           >
             <HolographicButterfly />
