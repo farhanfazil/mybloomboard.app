@@ -38,16 +38,17 @@ export default function AppPreviewScroll() {
       />
       <ContainerScroll
         titleComponent={
-          <div className="relative z-0 mb-0 flex translate-y-2 flex-col items-center gap-2 sm:translate-y-3 sm:gap-3 md:-translate-y-[34px]">
+          <div className="relative z-0 mb-0 flex translate-y-2 flex-col items-center gap-3 sm:translate-y-3 sm:gap-4 md:-translate-y-[34px]">
             <p className="text-sm font-medium tracking-wide text-text-muted sm:text-lg">
               Freelancers, individuals &amp; teams — all in one board
             </p>
             <h2
-              className="font-bold leading-[0.92] tracking-normal text-text-primary md:whitespace-nowrap"
-              style={{ fontSize: "clamp(2.2rem, 5.2vw, 6.7rem)" }}
+              className="font-bold tracking-normal text-text-primary text-center"
+              style={{ fontSize: "clamp(2rem, 4.4vw, 5.8rem)", lineHeight: 1.08 }}
             >
-              Your Day.{" "}
+              <span className="block">Productivity app that</span>
               <span
+                className="block"
                 style={{
                   background: "linear-gradient(90deg, #4d9fff 0%, #a78bfa 38%, #f472b6 65%, #ff453a 100%)",
                   WebkitBackgroundClip: "text",
@@ -55,7 +56,7 @@ export default function AppPreviewScroll() {
                   backgroundClip: "text",
                 }}
               >
-                One Board
+                thinks with you.
               </span>
             </h2>
           </div>

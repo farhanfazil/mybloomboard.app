@@ -3,7 +3,7 @@ export const FEATURES = [
     icon: "✅",
     title: "Smart Task Management",
     description:
-      "Rich task cards with priority, mood tags, deadlines, subtasks, and status evolution icons. Cycle Pending → Ongoing → Done with one click.",
+      "Tasks pile up with no clarity on what to do first. Cards with priority, mood, deadlines, and one-click status keep work visible and moving.",
     accentColor: "#4d9fff",
     mockupType: "task",
   },
@@ -11,7 +11,7 @@ export const FEATURES = [
     icon: "🎯",
     title: "Daily Milestone Tracker",
     description:
-      "Tasks due today appear as a visual dot timeline. Hit 100% and get a personalised completion message — great work today!",
+      "You work all day but can't tell if it was enough. Today's tasks become a live progress bar — hit 100% and feel the win.",
     accentColor: "#39FF14",
     mockupType: "milestone",
   },
@@ -19,7 +19,7 @@ export const FEATURES = [
     icon: "📊",
     title: "KPI Goals & PDF Reports",
     description:
-      "Set business KPI targets, log actuals, and generate a professional PDF performance report — weekly, monthly, or yearly.",
+      "Hard work that nobody sees. Set KPI targets, log actuals, and export a professional PDF report — weekly, monthly, or yearly.",
     accentColor: "#a78bfa",
     mockupType: "stats",
   },
@@ -27,7 +27,7 @@ export const FEATURES = [
     icon: "🔥",
     title: "Streak & Reward System",
     description:
-      "Build daily consistency. Earn badges at 3, 7, 14, 30, 60, and 100 days. Miss a day and it resets — so stay sharp.",
+      "Starting is easy. Staying consistent isn't. Earn streak badges at 3, 7, 14, 30, 60, and 100 days — miss one and it resets.",
     accentColor: "#ff9f0a",
     mockupType: "streak",
   },
@@ -35,7 +35,7 @@ export const FEATURES = [
     icon: "🦋",
     title: "Bloom & AI Assistant",
     description:
-      "Your full AI layer — Bloom, your always-on AI coworker, plus four specialist tools for email, tasks, planning, and breakthroughs. All powered by Claude AI, all 100% local.",
+      "Drowning in decisions? Bloom thinks with you — emails, planning, task breakdowns, and daily recaps. All on-device, none of your data leaves.",
     accentColor: "#a78bfa",
     mockupType: "ai-all",
     highlight: true,
@@ -44,7 +44,7 @@ export const FEATURES = [
     icon: "📋",
     title: "Boards",
     description:
-      "Dedicated boards for each project with real-time progress tracking on the main dashboard, team notifications, comments, images, and member tagging.",
+      "Projects scattered across your head and 5 apps. Each board brings progress, chat, comments, and member tagging into one place.",
     accentColor: "#a78bfa",
     mockupType: "boards",
   },
@@ -52,7 +52,7 @@ export const FEATURES = [
     icon: "👥",
     title: "Teams",
     description:
-      "Managers and members can collaborate in one workspace, add teammates, track performance, monitor progress, review tasks, and generate reports.",
+      "Managing a team means managing too many tools. One workspace for tasks, progress, reports, and collaboration — nothing lost.",
     accentColor: "#39FF14",
     mockupType: "teams",
   },
@@ -60,7 +60,7 @@ export const FEATURES = [
     icon: "💬",
     title: "Team Chat",
     description:
-      "Create group chats, message teammates individually, send voice notes, share images, and keep ideas connected to the work that matters.",
+      "Context gets lost between chat apps and your work. Group chats, DMs, voice notes, and images — all inside your board.",
     accentColor: "#4d9fff",
     mockupType: "team-chat",
   },
@@ -68,7 +68,7 @@ export const FEATURES = [
     icon: "🎙️",
     title: "Voice Messages",
     description:
-      "Add voice messages directly inside board comments so teammates can explain decisions, updates, and feedback without typing everything out.",
+      "Typing feedback takes too long and loses tone. Drop a voice note inside any board comment — teammates hear exactly what you mean.",
     accentColor: "#ff9f0a",
     mockupType: "voice",
   },
@@ -76,7 +76,7 @@ export const FEATURES = [
     icon: "🙂",
     title: "Mood Avatars",
     description:
-      "Choose an avatar that matches your mood, energy, or focus state, giving your workspace a more personal and expressive daily feel.",
+      "Work feels the same every day. Pick an avatar that matches your energy — your workspace, your vibe.",
     accentColor: "#f472b6",
     mockupType: "avatar",
   },
@@ -84,7 +84,7 @@ export const FEATURES = [
     icon: "☁️",
     title: "Cloud Data",
     description:
-      "Your app data stays securely backed up in the cloud, so your tasks, boards, notes, and reports remain protected if your device changes.",
+      "Changed devices and lost everything? Tasks, boards, notes, and reports stay backed up and ready wherever you are.",
     accentColor: "#4d9fff",
     mockupType: "cloud",
   },
@@ -92,7 +92,7 @@ export const FEATURES = [
     icon: "🔐",
     title: "Security",
     description:
-      "Built with protected access, secure data handling, and privacy-minded workflows so teams can manage important work with confidence.",
+      "Trust matters when your work is sensitive. Private access, secure data handling, and privacy-first workflows — built for serious teams.",
     accentColor: "#39FF14",
     mockupType: "security",
   },
@@ -100,7 +100,7 @@ export const FEATURES = [
     icon: "📌",
     title: "Quick Sticky Notes",
     description:
-      "Create multiple sticky notes that stay visible on top of your workspace, highlighted for reminders, ideas, follow-ups, and urgent details.",
+      "Important things get forgotten in the noise. Sticky notes float above your workspace — always visible, always reminding you.",
     accentColor: "#ff9f0a",
     mockupType: "sticky-notes",
   },
@@ -108,7 +108,7 @@ export const FEATURES = [
     icon: "🧑‍💼",
     title: "Unlimited Team Members",
     description:
-      "Invite members to join your workspace, keep everyone connected, and collaborate across boards, comments, tasks, reports, and shared updates.",
+      "Growing fast and hitting seat limits? Invite everyone — no caps, no upgrade walls, just one connected workspace.",
     accentColor: "#a78bfa",
     mockupType: "team-members",
   },
@@ -116,7 +116,7 @@ export const FEATURES = [
     icon: "🌓",
     title: "Dark & Light Mode",
     description:
-      "Switch between dark and light mode, tune board colors, and shape each workspace around the way your team likes to focus.",
+      "One theme doesn't fit everyone. Tune colors, switch modes, and shape Bloombooard around the way your team focuses best.",
     accentColor: "#4d9fff",
     mockupType: "themes",
   },
@@ -124,7 +124,7 @@ export const FEATURES = [
     icon: "🔔",
     title: "Notification Bell",
     description:
-      "Never miss a task, request, board update, or team mention. Members receive timely notifications so work keeps moving.",
+      "Missed task requests cost momentum. Get notified the moment a task, mention, or board update needs your attention.",
     accentColor: "#ff9f0a",
     mockupType: "notifications",
   },
@@ -132,7 +132,7 @@ export const FEATURES = [
     icon: "✉️",
     title: "AI Email & Messages",
     description:
-      "Fix, rewrite, and generate professional emails plus casual messages for WhatsApp and Slack in seconds.",
+      "Staring at a blank message wastes time. AI rewrites, fixes, or drafts professional emails and casual messages in seconds.",
     accentColor: "#4d9fff",
     mockupType: "ai-email",
   },
@@ -140,7 +140,7 @@ export const FEATURES = [
     icon: "📝",
     title: "AI Meeting Notes to Tasks",
     description:
-      "Paste meeting notes and AI extracts every action item, then adds the tasks directly into your daily workflow.",
+      "Meetings generate chaos, not action. Paste your notes and AI turns every action item directly into your task list.",
     accentColor: "#a78bfa",
     mockupType: "ai-notes",
   },
@@ -148,7 +148,7 @@ export const FEATURES = [
     icon: "🗓️",
     title: "AI Plan My Day",
     description:
-      "AI reads your tasks, priorities, due dates, and workload to build a smart time-blocked schedule for today.",
+      "Don't know where to start? AI reads your tasks, priorities, and workload — then builds your time-blocked schedule for today.",
     accentColor: "#39FF14",
     mockupType: "ai-plan",
   },
@@ -156,7 +156,7 @@ export const FEATURES = [
     icon: "📅",
     title: "Reminders & Meetings",
     description:
-      "Log leave, meetings, and custom reminders with countdown timers. Get a 5-minute alert before meetings start automatically.",
+      "Missing meetings is embarrassing. Set reminders with countdowns and get a 5-minute alert automatically before every meeting.",
     accentColor: "#a78bfa",
     mockupType: "events",
   },
@@ -164,7 +164,7 @@ export const FEATURES = [
     icon: "💧",
     title: "Health & Hydration",
     description:
-      "A configurable hydration timer lives in your sidebar. Tap to log it or snooze 10 minutes. Stay focused, stay healthy.",
+      "You forget to drink water when you're deep in focus. A hydration timer lives in your sidebar — one tap to log it.",
     accentColor: "#4d9fff",
     mockupType: "hydration",
   },
