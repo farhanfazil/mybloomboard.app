@@ -70,6 +70,14 @@ const freelanceSmartCards = [
 export default function FreelanceSmartAIFeatures() {
   const scrollerRef = useRef<HTMLDivElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const scrollToCard = (index: number) => {
     const scroller = scrollerRef.current;
@@ -234,7 +242,7 @@ export default function FreelanceSmartAIFeatures() {
           <ChevronLeft className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
         </button>
 
-        <div className="flex shrink-0 items-center gap-1">
+        <div className="flex shrink-0 items-center gap-1 sm:gap-1.5">
           {freelanceSmartCards.map((card, index) => (
             <button
               key={card.src}
@@ -243,7 +251,7 @@ export default function FreelanceSmartAIFeatures() {
               onClick={() => scrollToCard(index)}
               className="h-1.5 rounded-full transition-all duration-300 sm:h-2.5"
               style={{
-                width: activeIndex === index ? "1.25rem" : "0.375rem",
+                width: activeIndex === index ? (isDesktop ? "2rem" : "1.25rem") : (isDesktop ? "0.5rem" : "0.375rem"),
                 background: activeIndex === index ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.2)",
               }}
             />

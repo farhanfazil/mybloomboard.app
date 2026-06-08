@@ -59,8 +59,16 @@ export default function AIFeatureCarousel() {
   const scrollerRef = useRef<HTMLDivElement | null>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
   const shouldReduceMotion = useReducedMotion();
   const isInView = useInView(sectionRef, { once: false, margin: "-10% 0px" });
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const scrollToCard = (index: number) => {
     const scroller = scrollerRef.current;
@@ -235,12 +243,12 @@ export default function AIFeatureCarousel() {
         <div className="pointer-events-none absolute inset-y-0 right-0 w-[12vw] bg-gradient-to-l from-[#050505] to-transparent" />
       </div>
 
-      <div className="mx-auto flex w-fit items-center gap-3 px-4 py-2">
+      <div className={`mx-auto flex w-fit items-center px-4 py-2 ${isDesktop ? "gap-4" : "gap-3"}`}>
         <button
           type="button"
           aria-label="Previous AI feature"
           onClick={() => scrollToCard(Math.max(activeIndex - 1, 0))}
-          className="grid h-6 w-6 place-items-center rounded-full transition duration-300 hover:scale-105 active:scale-95"
+          className={`grid place-items-center rounded-full transition duration-300 hover:scale-105 active:scale-95 ${isDesktop ? "h-9 w-9" : "h-6 w-6"}`}
           style={{
             background: "rgba(255,255,255,0.15)",
             border: "none",
@@ -249,10 +257,10 @@ export default function AIFeatureCarousel() {
           }}
           disabled={activeIndex === 0}
         >
-          <ChevronLeft className="h-3.5 w-3.5" />
+          <ChevronLeft className={isDesktop ? "h-5 w-5" : "h-3.5 w-3.5"} />
         </button>
 
-        <div className="flex items-center gap-1.5">
+        <div className={`flex items-center ${isDesktop ? "gap-2" : "gap-1.5"}`}>
           {aiCards.map((card, index) => (
             <button
               key={card.src}
@@ -261,8 +269,8 @@ export default function AIFeatureCarousel() {
               onClick={() => scrollToCard(index)}
               className="rounded-full transition-all duration-300"
               style={{
-                width:      activeIndex === index ? "1.5rem" : "0.375rem",
-                height:     "0.375rem",
+                width:      activeIndex === index ? (isDesktop ? "2rem" : "1.5rem") : (isDesktop ? "0.5rem" : "0.375rem"),
+                height:     isDesktop ? "0.5rem" : "0.375rem",
                 background: activeIndex === index ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.2)",
               }}
             />
@@ -273,7 +281,7 @@ export default function AIFeatureCarousel() {
           type="button"
           aria-label="Next AI feature"
           onClick={() => scrollToCard(Math.min(activeIndex + 1, aiCards.length - 1))}
-          className="grid h-6 w-6 place-items-center rounded-full transition duration-300 hover:scale-105 active:scale-95"
+          className={`grid place-items-center rounded-full transition duration-300 hover:scale-105 active:scale-95 ${isDesktop ? "h-9 w-9" : "h-6 w-6"}`}
           style={{
             background: "rgba(255,255,255,0.15)",
             border: "none",
@@ -282,7 +290,7 @@ export default function AIFeatureCarousel() {
           }}
           disabled={activeIndex === aiCards.length - 1}
         >
-          <ChevronRight className="h-3.5 w-3.5" />
+          <ChevronRight className={isDesktop ? "h-5 w-5" : "h-3.5 w-3.5"} />
         </button>
       </div>
     </section>
