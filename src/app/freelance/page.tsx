@@ -1723,7 +1723,7 @@ export default function FreelancePage() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.7, ease: "easeInOut" }}
-          className="mx-auto mb-7 sm:mb-10 max-w-2xl text-center text-sm leading-relaxed sm:text-base lg:text-lg px-3 sm:px-0"
+          className="mx-auto mb-5 sm:mb-10 max-w-2xl text-center text-sm leading-relaxed sm:text-base lg:text-lg px-3 sm:px-0"
           style={{ color: lampOn ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.25)" }}
         >
           {lampOn
@@ -1736,7 +1736,7 @@ export default function FreelancePage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.6 }}
-          className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-14"
+          className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-5 sm:mb-14"
         >
           <button
             onClick={() => setLampOn(!lampOn)}

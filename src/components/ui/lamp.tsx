@@ -15,12 +15,12 @@ export const LampContainer = ({
   return (
     <div
       className={cn(
-        "relative flex min-h-[92vh] sm:min-h-[85vh] flex-col items-center justify-center overflow-hidden bg-black w-full z-0 pt-28 sm:pt-32 lg:pt-44",
+        "relative flex min-h-[100svh] sm:min-h-[85vh] flex-col items-center justify-center overflow-hidden bg-black w-full z-0 pt-0 pb-12 sm:pt-32 sm:pb-0 lg:pt-44",
         className
       )}
     >
       {/* ── Beam (all sizes — scaled to fit mobile, full size on sm+) ── */}
-      <div className="flex relative w-full flex-1 items-center justify-center isolate z-0 origin-top [transform:scaleX(0.4)_scaleY(0.72)] sm:origin-center sm:[transform:scaleX(1)_scaleY(1.25)]">
+      <div className="flex relative w-full h-[22vh] sm:flex-1 sm:h-auto items-center justify-center isolate z-0 origin-top [transform:scaleX(0.4)_scaleY(0.72)] sm:origin-center sm:[transform:scaleX(1)_scaleY(1.25)]">
         {/* Left conic */}
         <motion.div
           initial={{ opacity: 0.5, width: "15rem" }}
@@ -78,7 +78,7 @@ export const LampContainer = ({
       </div>
 
       {/* Content */}
-      <div className="relative z-50 flex -translate-y-24 sm:-translate-y-12 lg:-translate-y-20 flex-col items-center px-5 w-full">
+      <div className="relative z-50 flex -translate-y-10 sm:-translate-y-12 lg:-translate-y-20 flex-col items-center px-5 w-full">
         {children}
       </div>
     </div>
