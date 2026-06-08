@@ -1331,59 +1331,12 @@ function AIHubMockup({ accentColor }: { accentColor: string }) {
 
 // ─── Mobile-only card (carousel) — no scroll animations ──────────────────────
 export function WalkthroughMobileCard({
-  id,
   label,
   headline,
   description,
   bullets,
-  screenshot,
   accentColor,
 }: Omit<WalkthroughItemProps, "index" | "total">) {
-  const config = IMAGE_CONFIG[id] ?? { maxWidth: "520px", frame: "screenshot" };
-  const isMobileAIMockup = id === "ai-all" || id === "ai-hub" || id === "bloom-ai";
-
-  const viewportStyle: React.CSSProperties | undefined = isMobileAIMockup
-    ? {
-        height: id === "bloom-ai" ? "290px" : id === "ai-hub" ? "260px" : "auto",
-        overflow: id === "ai-all" ? "visible" : "hidden",
-        alignItems: "flex-start",
-        width: "100%",
-      }
-    : undefined;
-
-  const innerStyle: React.CSSProperties = isMobileAIMockup
-    ? id === "ai-all"
-      ? { width: "100%", maxWidth: "none" }
-      : {
-          width: id === "bloom-ai" ? "560px" : "680px",
-          maxWidth: "none",
-          transform: id === "bloom-ai" ? "scale(0.50)" : "scale(0.42)",
-          transformOrigin: "top center",
-        }
-    : { width: "100%", maxWidth: config.maxWidth };
-
-  function renderVisual() {
-    switch (config.frame) {
-      case "html-task-detail": return <TaskDetailMockup        accentColor={accentColor} />;
-      case "html-task-list":   return <TaskListMockup          accentColor={accentColor} />;
-      case "html-stats":       return <GreetingStatsMockup     accentColor={accentColor} />;
-      case "html-milestone":   return <MilestoneProgressMockup accentColor={accentColor} />;
-      case "html-calendar":    return <CalendarPickerMockup    accentColor={accentColor} />;
-      case "html-streak":      return <StreakBadgeMockup       accentColor={accentColor} />;
-      case "html-quote":       return <DailyQuoteMockup        accentColor={accentColor} />;
-      case "html-ai-hub":      return <AIHubMockup             accentColor={accentColor} />;
-      case "html-bloom-ai":    return <BloomAIMockup           accentColor={accentColor} />;
-      case "html-ai-all":      return <CombinedAIMockup        accentColor={accentColor} isMobile />;
-      case "window":
-        return screenshot ? <MacWindowFrame src={screenshot} alt={headline} title="Bloombooard" accentColor={accentColor} /> : null;
-      case "contain":
-        return screenshot ? <ContainFrame src={screenshot} alt={headline} accentColor={accentColor} /> : null;
-      default:
-        return screenshot ? <ScreenshotFrame src={screenshot} alt={headline} accentColor={accentColor} /> : null;
-    }
-  }
-
-  const visual = renderVisual();
 
   return (
     <div

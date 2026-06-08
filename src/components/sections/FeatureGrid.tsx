@@ -433,19 +433,11 @@ function MobileFeatureSwiper() {
 export default function FeatureGrid() {
   const ref = useRef(null);
   const sectionRef = useRef<HTMLElement | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
   });
-
-  useEffect(() => {
-    const updateViewport = () => setIsMobile(window.innerWidth < 640);
-    updateViewport();
-    window.addEventListener("resize", updateViewport);
-    return () => window.removeEventListener("resize", updateViewport);
-  }, []);
 
   const topRowRange = [-1180, 340];
   const middleRowRange = [-260, -1000];
