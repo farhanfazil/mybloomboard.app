@@ -83,9 +83,10 @@ export default function AppPreviewScroll() {
                 alt={slide.alt}
                 width={2196}
                 height={1658}
-                priority
+                priority={i === 0}
                 className="h-full w-full object-contain select-none"
-                unoptimized
+                sizes="(max-width: 640px) 96vw, (max-width: 1024px) 80vw, 900px"
+                quality={85}
               />
             </div>
           ))}

@@ -1,13 +1,15 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, useInView, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { Header } from "@/components/ui/header-2";
 import { HolographicButterfly } from "@/components/sections/DeepDiveFlight";
 import { LampContainer } from "@/components/ui/lamp";
-import FreelanceSmartAIFeatures from "@/components/sections/FreelanceSmartAIFeatures";
-import HowItWorks from "@/components/sections/HowItWorks";
 import { Footer } from "@/components/ui/footer-section";
+
+const FreelanceSmartAIFeatures = dynamic(() => import("@/components/sections/FreelanceSmartAIFeatures"));
+const HowItWorks = dynamic(() => import("@/components/sections/HowItWorks"));
 import {
   BadgeCheck,
   BadgeDollarSign,

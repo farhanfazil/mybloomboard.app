@@ -227,7 +227,7 @@ export default function AIFeatureCarousel() {
                       filter: `brightness(var(--image-brightness, ${isActive ? "1" : "0.72"})) saturate(var(--image-saturation, ${isActive ? "1" : "0.78"}))`,
                     }}
                     sizes="(max-width: 640px) 86vw, (max-width: 1024px) 78vw, 68vw"
-                    unoptimized
+                    quality={80}
                   />
                   <div
                     className="pointer-events-none absolute inset-0 z-20 bg-black transition-opacity duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]"

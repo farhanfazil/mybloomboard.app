@@ -81,7 +81,7 @@ function MacWindowFrame({
           </span>
         )}
       </div>
-      <Image src={src} alt={alt} width={800} height={600} className="w-full h-auto block" unoptimized />
+      <Image src={src} alt={alt} width={800} height={600} className="w-full h-auto block" sizes="(max-width: 640px) 90vw, 50vw" quality={80} />
     </div>
   );
 }
@@ -105,7 +105,8 @@ function ContainFrame({ src, alt, accentColor }: { src: string; alt: string; acc
         height={800}
         className="w-full h-auto block rounded-xl"
         style={{ objectFit: "contain" }}
-        unoptimized
+        sizes="(max-width: 640px) 90vw, 50vw"
+        quality={80}
       />
     </div>
   );
@@ -127,7 +128,8 @@ function ScreenshotFrame({ src, alt, accentColor }: { src: string; alt: string; 
         height={1254}
         className="w-full h-auto rounded-2xl"
         style={{ display: "block" }}
-        unoptimized
+        sizes="(max-width: 640px) 90vw, 50vw"
+        quality={80}
       />
     </div>
   );
