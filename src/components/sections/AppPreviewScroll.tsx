@@ -26,7 +26,7 @@ export default function AppPreviewScroll() {
   }, [current]);
 
   return (
-    <section id="hero" className="relative px-4 sm:px-6">
+    <section id="hero" className="relative px-4 sm:px-6 [overflow-x:clip]">
       <div
         className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         style={{
