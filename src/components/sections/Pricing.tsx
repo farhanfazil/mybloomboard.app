@@ -82,7 +82,7 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
     <motion.div
       ref={cardRef as React.RefObject<HTMLDivElement>}
       variants={fadeUp}
-      className="relative flex h-full flex-col transition-all duration-300"
+      className="relative flex flex-col transition-all duration-300 sm:h-full"
       style={{
         borderRadius: "18px",
         background: isBloom
@@ -631,7 +631,7 @@ export default function Pricing() {
 
         {/* Cards */}
         <motion.div
-          className="grid auto-rows-fr grid-cols-1 items-stretch gap-6 overflow-visible sm:grid-cols-2 xl:grid-cols-4 2xl:gap-7"
+          className="grid grid-cols-1 gap-6 overflow-visible sm:auto-rows-fr sm:grid-cols-2 sm:items-stretch xl:grid-cols-4 2xl:gap-7"
           variants={staggerContainer}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -639,7 +639,7 @@ export default function Pricing() {
           {PRICING_PLANS.map((plan) => (
             <div
               key={plan.name}
-              className="h-full overflow-visible pt-4"
+              className="overflow-visible pt-4 sm:h-full"
             >
               <PricingCard plan={plan as PricingPlan} yearly={yearly} />
             </div>

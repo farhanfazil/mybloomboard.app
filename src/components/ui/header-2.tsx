@@ -57,6 +57,7 @@ export function Header({
   }, []);
 
   return (
+    <>
     <header
       className={cn(
         "sticky top-0 z-50 mx-auto w-full max-w-6xl border-b border-transparent md:rounded-xl md:border md:transition-all md:ease-out",
@@ -157,83 +158,94 @@ export function Header({
         </Button>
       </nav>
 
+    </header>
+
+    {/* ── Mobile drawer ── */}
+    {open && (
       <div
-        className={cn(
-          "fixed inset-x-0 bottom-0 top-16 z-50 flex flex-col overflow-hidden border-y bg-background/95 md:hidden",
-          open ? "block" : "hidden",
-        )}
+        className="fixed bottom-0 top-16 z-[49] flex flex-col bg-black md:hidden"
+        style={{ left: 0, right: 0, width: "100vw" }}
       >
-        <div
-          data-slot={open ? "open" : "closed"}
-          className={cn(
-            "data-[slot=open]:animate-in data-[slot=open]:zoom-in-95 data-[slot=closed]:animate-out data-[slot=closed]:zoom-out-95 ease-out",
-            "flex h-full w-full flex-col justify-between gap-y-2 p-4",
-          )}
-        >
-          <div className="grid gap-y-2">
-            {links.map((link) => (
-              <a
-                key={link.label}
-                className={buttonVariants({
-                  variant: "ghost",
-                  className: "justify-start",
-                })}
-                href={link.href}
-                target={link.external ? "_blank" : undefined}
-                rel={link.external ? "noreferrer" : undefined}
-                onClick={() => setOpen(false)}
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-          <div className="flex flex-col gap-2">
+        {/* Nav links */}
+        <nav style={{ padding: "24px 16px 16px" }}>
+          {links.map((link) => (
             <a
-              href="/freelance"
+              key={link.label}
+              href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noreferrer" : undefined}
               onClick={() => setOpen(false)}
-              className="flex w-full items-center justify-center gap-1.5 rounded-full py-2.5 text-sm font-semibold transition-all"
+              style={{ display: "flex", alignItems: "center", padding: "14px 12px", borderRadius: "12px", fontSize: "16px", fontWeight: 500, color: "#f5f5f7", textDecoration: "none", width: "100%", boxSizing: "border-box" }}
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+
+        {/* Divider */}
+        <div style={{ margin: "0 16px", borderTop: "1px solid rgba(255,255,255,0.08)" }} />
+
+        {/* Action buttons */}
+        <div style={{ padding: "20px 16px 32px", display: "flex", flexDirection: "column", gap: "12px" }}>
+          <a
+            href="/freelance"
+            onClick={() => setOpen(false)}
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
+              borderRadius: "999px", padding: "12px 0", width: "100%", boxSizing: "border-box",
+              fontSize: "14px", fontWeight: 600, textDecoration: "none",
+              background: "linear-gradient(135deg, rgba(217,119,6,0.18), rgba(180,83,9,0.12))",
+              color: "#fbbf24", border: "1px solid rgba(251,191,36,0.28)",
+            }}
+          >
+            <span>💼</span>
+            For Freelancers
+          </a>
+
+          <div style={{ position: "relative" }}>
+            <a
+              href={webAppHref}
+              target={isExternalWebApp ? "_blank" : undefined}
+              rel={isExternalWebApp ? "noreferrer" : undefined}
+              onClick={() => setOpen(false)}
               style={{
-                background: "linear-gradient(135deg, rgba(217,119,6,0.18), rgba(180,83,9,0.12))",
-                color: "#fbbf24",
-                border: "1px solid rgba(251,191,36,0.28)",
+                display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
+                borderRadius: "999px", padding: "12px 0", width: "100%", boxSizing: "border-box",
+                fontSize: "14px", fontWeight: 600, textDecoration: "none",
+                background: "#7c3aed", color: "#fff",
               }}
             >
-              <span>💼</span>
-              For Freelancers
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+              </svg>
+              Web App
             </a>
-            <div className="relative w-full">
-              <Button className="w-full gap-2 rounded-full bg-violet-600 text-white hover:bg-violet-500" asChild>
-                <a
-                  href={webAppHref}
-                  target={isExternalWebApp ? "_blank" : undefined}
-                  rel={isExternalWebApp ? "noreferrer" : undefined}
-                  onClick={() => setOpen(false)}
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
-                  </svg>
-                  Web App
-                </a>
-              </Button>
-              <span
-                className="pointer-events-none absolute -right-1 -top-2 rounded-full px-1.5 py-px text-[9px] font-bold uppercase tracking-wide"
-                style={{ background: "#f59e0b", color: "#000" }}
-              >
-                Soon
-              </span>
-            </div>
-            <Button className="w-full gap-2.5 rounded-full bg-white text-[#0a0f1c] hover:bg-white/90" asChild>
-              <a href={DOWNLOAD_URL} onClick={() => setOpen(false)}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-                </svg>
-                Download
-              </a>
-            </Button>
+            <span
+              style={{ position: "absolute", top: "-8px", right: "-4px", background: "#f59e0b", color: "#000", borderRadius: "999px", padding: "1px 6px", fontSize: "9px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", pointerEvents: "none" }}
+            >
+              Soon
+            </span>
           </div>
+
+          <a
+            href={DOWNLOAD_URL}
+            onClick={() => setOpen(false)}
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
+              borderRadius: "999px", padding: "12px 0", width: "100%", boxSizing: "border-box",
+              fontSize: "14px", fontWeight: 600, textDecoration: "none",
+              background: "#fff", color: "#0a0f1c",
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>
+            Download
+          </a>
         </div>
       </div>
-    </header>
+    )}
+    </>
   );
 }
 

@@ -125,7 +125,7 @@ export default function DeepDiveFlight({ children }: DeepDiveFlightProps) {
 
   return (
     <div ref={ref} className="relative">
-      <div className="pointer-events-none absolute inset-0 z-30 hidden overflow-visible lg:block">
+      <div className="pointer-events-none absolute inset-0 z-30 block overflow-visible">
         <div className="sticky top-0 h-screen overflow-visible">
           <motion.div
             className="absolute left-1/2 top-1/2 will-change-transform"

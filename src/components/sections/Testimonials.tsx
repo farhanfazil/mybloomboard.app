@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const BLOOM_TESTIMONIALS = [
   {
@@ -57,6 +57,21 @@ const BLOOM_TESTIMONIALS = [
 export default function Testimonials() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [activePage, setActivePage] = useState(0);
+
+  const pages = Array.from(
+    { length: Math.ceil(BLOOM_TESTIMONIALS.length / 3) },
+    (_, pi) => BLOOM_TESTIMONIALS.slice(pi * 3, pi * 3 + 3)
+  );
+
+  useEffect(() => {
+    const el = carouselRef.current;
+    if (!el) return;
+    const onScroll = () => setActivePage(Math.round(el.scrollLeft / el.clientWidth));
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <section
@@ -80,14 +95,84 @@ export default function Testimonials() {
           <h2 className="text-3xl font-bold sm:text-4xl">What they&apos;re saying</h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Mobile: paginated carousel — 3 per page, full width */}
+        <div
+          ref={carouselRef}
+          className="sm:hidden flex overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
+          style={{ scrollbarWidth: "none" }}
+        >
+          {pages.map((page, pi) => (
+            <div key={pi} className="w-full shrink-0 snap-start flex flex-col gap-3">
+              {page.map((t) => (
+                <div
+                  key={t.name}
+                  className="flex flex-col gap-3 rounded-2xl p-4"
+                  style={{
+                    background: "linear-gradient(145deg, rgba(12,12,16,0.95), rgba(6,6,10,0.88))",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    borderTop: "1px solid rgba(255,255,255,0.14)",
+                  }}
+                >
+                  <div className="flex items-center justify-between">
+                    <span
+                      className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full"
+                      style={
+                        t.tag === "Team"
+                          ? { background: "rgba(251,191,36,0.1)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.2)" }
+                          : { background: "rgba(77,159,255,0.08)", color: "#93c5fd", border: "1px solid rgba(77,159,255,0.2)" }
+                      }
+                    >
+                      {t.tag}
+                    </span>
+                    <span style={{ color: t.color, fontSize: 18, lineHeight: 1 }}>&ldquo;</span>
+                  </div>
+                  <p className="text-xs leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.72)" }}>
+                    {t.quote}
+                  </p>
+                  <div className="mt-auto flex items-center gap-3 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                    <div
+                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-bold"
+                      style={{ background: `${t.color}22`, border: `1px solid ${t.color}55`, color: t.color }}
+                    >
+                      {t.avatar}
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold text-white">{t.name}</p>
+                      <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.38)" }}>{t.role}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile dots */}
+        <div className="sm:hidden mt-4 flex items-center justify-center gap-2">
+          {pages.map((_, i) => (
+            <button
+              key={i}
+              aria-label={`Go to page ${i + 1}`}
+              onClick={() => carouselRef.current?.scrollTo({ left: i * carouselRef.current.clientWidth, behavior: "smooth" })}
+              className="rounded-full transition-all duration-300"
+              style={{
+                width: activePage === i ? "1.5rem" : "0.375rem",
+                height: "0.375rem",
+                background: activePage === i ? "rgba(77,159,255,0.9)" : "rgba(255,255,255,0.2)",
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Desktop: original grid — untouched */}
+        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {BLOOM_TESTIMONIALS.map((t, i) => (
             <motion.div
               key={t.name}
               initial={{ opacity: 0, y: 24 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col gap-4 rounded-2xl p-6"
+              className="flex flex-col gap-3 rounded-2xl p-5"
               style={{
                 background: "linear-gradient(145deg, rgba(12,12,16,0.95), rgba(6,6,10,0.88))",
                 border: "1px solid rgba(255,255,255,0.08)",
@@ -107,15 +192,10 @@ export default function Testimonials() {
                 </span>
                 <span style={{ color: t.color, fontSize: 18, lineHeight: 1 }}>&ldquo;</span>
               </div>
-
               <p className="text-sm leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.72)" }}>
                 {t.quote}
               </p>
-
-              <div
-                className="mt-auto flex items-center gap-3 pt-2 border-t"
-                style={{ borderColor: "rgba(255,255,255,0.06)" }}
-              >
+              <div className="mt-auto flex items-center gap-3 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                 <div
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold"
                   style={{ background: `${t.color}22`, border: `1px solid ${t.color}55`, color: t.color }}

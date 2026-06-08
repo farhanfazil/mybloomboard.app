@@ -29,9 +29,9 @@ const aiCards = [
     alt: "AI Chief of Staff card",
   },
   {
-    title: "Mood Avatars",
+    title: "Choose Your Avatar",
     src: "/ai-cards/03-avatars.png",
-    alt: "Avatar selection card",
+    alt: "Choose your avatar — dark and light mode avatars",
   },
   {
     title: "Bloom AI",
@@ -139,7 +139,7 @@ export default function AIFeatureCarousel() {
     <section ref={sectionRef} id="ai-features" className="relative overflow-hidden bg-[#050505] py-16 sm:py-24">
       {/* Butterfly — hidden on card 0, flies into card area from card 1 onwards */}
       {!shouldReduceMotion && (
-        <div className="pointer-events-none absolute inset-0 z-20 hidden lg:block">
+        <div className="pointer-events-none absolute inset-0 z-20 block">
           <motion.div
             className="absolute -translate-x-1/2 -translate-y-1/2"
             animate={butterflyVisible && pos
@@ -235,34 +235,35 @@ export default function AIFeatureCarousel() {
         <div className="pointer-events-none absolute inset-y-0 right-0 w-[12vw] bg-gradient-to-l from-[#050505] to-transparent" />
       </div>
 
-      <div className="mx-auto flex w-fit items-center gap-4 px-4 py-3">
+      <div className="mx-auto flex w-fit items-center gap-3 px-4 py-2">
         <button
           type="button"
           aria-label="Previous AI feature"
           onClick={() => scrollToCard(Math.max(activeIndex - 1, 0))}
-          className="grid h-10 w-10 place-items-center rounded-full transition duration-300 hover:scale-105 active:scale-95"
+          className="grid h-6 w-6 place-items-center rounded-full transition duration-300 hover:scale-105 active:scale-95"
           style={{
-            background: "rgba(255,255,255,0.22)",
+            background: "rgba(255,255,255,0.15)",
             border: "none",
-            color: "rgba(255,255,255,0.95)",
-            opacity: activeIndex === 0 ? 0.35 : 1,
+            color: "rgba(255,255,255,0.9)",
+            opacity: activeIndex === 0 ? 0.3 : 1,
           }}
           disabled={activeIndex === 0}
         >
-          <ChevronLeft className="h-5 w-5" />
+          <ChevronLeft className="h-3.5 w-3.5" />
         </button>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           {aiCards.map((card, index) => (
             <button
               key={card.src}
               type="button"
               aria-label={`Go to ${card.title}`}
               onClick={() => scrollToCard(index)}
-              className="h-2.5 rounded-full transition-all duration-300"
+              className="rounded-full transition-all duration-300"
               style={{
-                width: activeIndex === index ? "2.5rem" : "0.625rem",
-                background: activeIndex === index ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.2)",
+                width:      activeIndex === index ? "1.5rem" : "0.375rem",
+                height:     "0.375rem",
+                background: activeIndex === index ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.2)",
               }}
             />
           ))}
@@ -272,16 +273,16 @@ export default function AIFeatureCarousel() {
           type="button"
           aria-label="Next AI feature"
           onClick={() => scrollToCard(Math.min(activeIndex + 1, aiCards.length - 1))}
-          className="grid h-10 w-10 place-items-center rounded-full transition duration-300 hover:scale-105 active:scale-95"
+          className="grid h-6 w-6 place-items-center rounded-full transition duration-300 hover:scale-105 active:scale-95"
           style={{
-            background: "rgba(255,255,255,0.22)",
+            background: "rgba(255,255,255,0.15)",
             border: "none",
-            color: "rgba(255,255,255,0.95)",
-            opacity: activeIndex === aiCards.length - 1 ? 0.35 : 1,
+            color: "rgba(255,255,255,0.9)",
+            opacity: activeIndex === aiCards.length - 1 ? 0.3 : 1,
           }}
           disabled={activeIndex === aiCards.length - 1}
         >
-          <ChevronRight className="h-5 w-5" />
+          <ChevronRight className="h-3.5 w-3.5" />
         </button>
       </div>
     </section>

@@ -940,14 +940,81 @@ function StreakBadgeMockup({ accentColor }: { accentColor: string }) {
 }
 
 // ─── HTML Mockup: Combined AI (Bloom + Hub) ───────────────────────────────────
-function CombinedAIMockup({ accentColor }: { accentColor: string }) {
+function CombinedAIMockup({ accentColor, isMobile = false }: { accentColor: string; isMobile?: boolean }) {
   const tools = [
-    { mark: "M", iconBg: "rgba(59,130,246,0.25)", title: "Email & Messages", desc: "Fix, rewrite, or generate emails and messages." },
-    { mark: "N", iconBg: "rgba(34,197,94,0.22)",  title: "Meeting Notes to Tasks", desc: "Paste notes and extract every action item." },
-    { mark: "P", iconBg: "rgba(109,40,217,0.28)", title: "Plan My Day", desc: "Build a smart time-blocked schedule." },
-    { mark: "S", iconBg: "rgba(139,92,246,0.25)", title: "I am Stuck", desc: "Get a plan to break through any block." },
+    { mark: "M", iconBg: "rgba(59,130,246,0.25)", title: "Email & Messages", desc: "Fix, rewrite, or generate emails." },
+    { mark: "N", iconBg: "rgba(34,197,94,0.22)",  title: "Meeting Notes", desc: "Extract every action item." },
+    { mark: "P", iconBg: "rgba(109,40,217,0.28)", title: "Plan My Day", desc: "Smart time-blocked schedule." },
+    { mark: "S", iconBg: "rgba(139,92,246,0.25)", title: "I am Stuck", desc: "Break through any block." },
   ];
 
+  // ── Mobile layout — full-size, purpose-built ─────────────────────────────
+  if (isMobile) {
+    return (
+      <div style={{
+        borderRadius: "20px",
+        background: "linear-gradient(145deg, rgba(12,17,29,0.98), rgba(8,11,20,0.98))",
+        border: "1px solid rgba(255,255,255,0.12)",
+        overflow: "hidden",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.55)",
+        width: "100%",
+        fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+      }}>
+        {/* Header */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "14px 16px", borderBottom: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)" }}>
+          <div style={{ width: "34px", height: "34px", borderRadius: "50%", background: "linear-gradient(135deg,#4f1fb5,#6d28d9)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: "15px", fontWeight: 900, flexShrink: 0, boxShadow: "0 0 12px rgba(109,40,217,0.5)" }}>B</div>
+          <span style={{ color: "#fff", fontSize: "15px", fontWeight: 700 }}>Bloom</span>
+          <span style={{ color: "rgba(255,255,255,0.25)", fontSize: "13px", margin: "0 2px" }}>·</span>
+          <span style={{ color: "#c4b5fd", fontSize: "14px", fontWeight: 700 }}>AI Assistant</span>
+          <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "4px" }}>
+            <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#39FF14", boxShadow: "0 0 6px #39FF1470" }} />
+            <span style={{ color: "rgba(255,255,255,0.38)", fontSize: "11px" }}>Ready</span>
+          </div>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0" }}>
+          {/* LEFT — Bloom chat */}
+          <div style={{ padding: "14px", borderRight: "1px solid rgba(255,255,255,0.07)" }}>
+            <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "9px", fontWeight: 800, letterSpacing: "2px", marginBottom: "10px" }}>YOUR AI COWORKER</div>
+            <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "12px", padding: "10px 12px", marginBottom: "10px" }}>
+              <p style={{ color: "rgba(255,255,255,0.82)", fontSize: "12px", lineHeight: 1.55, margin: 0 }}>
+                I&apos;m Bloom — create tasks, schedule meetings, and plan your day by voice or text.
+              </p>
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "10px" }}>
+              {[
+                { l: "My day",     c: "#a0c8ff", bg: "rgba(77,159,255,0.12)",  b: "rgba(77,159,255,0.25)"  },
+                { l: "Overdue",    c: "#ffa0a0", bg: "rgba(255,69,58,0.10)",   b: "rgba(255,69,58,0.22)"   },
+                { l: "Prioritize", c: "#ffd080", bg: "rgba(255,159,10,0.10)",  b: "rgba(255,159,10,0.22)"  },
+              ].map((c) => (
+                <div key={c.l} style={{ background: c.bg, border: `1px solid ${c.b}`, borderRadius: "999px", padding: "5px 9px", color: c.c, fontSize: "10px", fontWeight: 700 }}>{c.l}</div>
+              ))}
+            </div>
+            <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: "10px", padding: "9px 11px", color: "rgba(255,255,255,0.28)", fontSize: "11px" }}>
+              Ask Bloom anything…
+            </div>
+          </div>
+
+          {/* RIGHT — AI Hub */}
+          <div style={{ padding: "14px" }}>
+            <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "9px", fontWeight: 800, letterSpacing: "2px", marginBottom: "10px" }}>AI ASSISTANT HUB</div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "7px" }}>
+              {tools.map((t) => (
+                <div key={t.title} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "10px", padding: "9px 10px" }}>
+                  <div style={{ width: "24px", height: "24px", borderRadius: "7px", background: t.iconBg, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", fontWeight: 900, marginBottom: "6px" }}>{t.mark}</div>
+                  <div style={{ color: "#fff", fontSize: "10px", fontWeight: 700, lineHeight: 1.3, marginBottom: "4px" }}>{t.title}</div>
+                  <div style={{ color: "rgba(255,255,255,0.38)", fontSize: "9px", lineHeight: 1.4, marginBottom: "5px" }}>{t.desc}</div>
+                  <div style={{ color: accentColor, fontSize: "9px", fontWeight: 800 }}>Open →</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Desktop layout (unchanged) ───────────────────────────────────────────
   return (
     <div style={{
       borderRadius: "28px",
@@ -1262,6 +1329,105 @@ function AIHubMockup({ accentColor }: { accentColor: string }) {
   );
 }
 
+// ─── Mobile-only card (carousel) — no scroll animations ──────────────────────
+export function WalkthroughMobileCard({
+  id,
+  label,
+  headline,
+  description,
+  bullets,
+  screenshot,
+  accentColor,
+}: Omit<WalkthroughItemProps, "index" | "total">) {
+  const config = IMAGE_CONFIG[id] ?? { maxWidth: "520px", frame: "screenshot" };
+  const isMobileAIMockup = id === "ai-all" || id === "ai-hub" || id === "bloom-ai";
+
+  const viewportStyle: React.CSSProperties | undefined = isMobileAIMockup
+    ? {
+        height: id === "bloom-ai" ? "290px" : id === "ai-hub" ? "260px" : "auto",
+        overflow: id === "ai-all" ? "visible" : "hidden",
+        alignItems: "flex-start",
+        width: "100%",
+      }
+    : undefined;
+
+  const innerStyle: React.CSSProperties = isMobileAIMockup
+    ? id === "ai-all"
+      ? { width: "100%", maxWidth: "none" }
+      : {
+          width: id === "bloom-ai" ? "560px" : "680px",
+          maxWidth: "none",
+          transform: id === "bloom-ai" ? "scale(0.50)" : "scale(0.42)",
+          transformOrigin: "top center",
+        }
+    : { width: "100%", maxWidth: config.maxWidth };
+
+  function renderVisual() {
+    switch (config.frame) {
+      case "html-task-detail": return <TaskDetailMockup        accentColor={accentColor} />;
+      case "html-task-list":   return <TaskListMockup          accentColor={accentColor} />;
+      case "html-stats":       return <GreetingStatsMockup     accentColor={accentColor} />;
+      case "html-milestone":   return <MilestoneProgressMockup accentColor={accentColor} />;
+      case "html-calendar":    return <CalendarPickerMockup    accentColor={accentColor} />;
+      case "html-streak":      return <StreakBadgeMockup       accentColor={accentColor} />;
+      case "html-quote":       return <DailyQuoteMockup        accentColor={accentColor} />;
+      case "html-ai-hub":      return <AIHubMockup             accentColor={accentColor} />;
+      case "html-bloom-ai":    return <BloomAIMockup           accentColor={accentColor} />;
+      case "html-ai-all":      return <CombinedAIMockup        accentColor={accentColor} isMobile />;
+      case "window":
+        return screenshot ? <MacWindowFrame src={screenshot} alt={headline} title="Bloombooard" accentColor={accentColor} /> : null;
+      case "contain":
+        return screenshot ? <ContainFrame src={screenshot} alt={headline} accentColor={accentColor} /> : null;
+      default:
+        return screenshot ? <ScreenshotFrame src={screenshot} alt={headline} accentColor={accentColor} /> : null;
+    }
+  }
+
+  const visual = renderVisual();
+
+  return (
+    <div
+      className="flex flex-col gap-4 rounded-3xl p-5"
+      style={{
+        background: `linear-gradient(145deg, rgba(8,8,10,0.94) 0%, rgba(3,3,5,0.88) 72%), radial-gradient(circle at 88% 12%, ${accentColor}18, transparent 40%)`,
+        border: "1px solid rgba(255,255,255,0.1)",
+        borderTop: `1px solid ${accentColor}40`,
+      }}
+    >
+      {/* Label */}
+      <span
+        className="self-start rounded-full px-3.5 py-1.5 text-xs font-bold uppercase tracking-widest"
+        style={{
+          background: `linear-gradient(135deg, ${accentColor}20, rgba(255,255,255,0.045))`,
+          color: accentColor,
+          border: `1px solid ${accentColor}45`,
+        }}
+      >
+        {label}
+      </span>
+
+      {/* Headline */}
+      <h3 className="text-xl font-bold leading-tight text-white">{headline}</h3>
+
+      {/* Description */}
+      <p className="text-sm leading-relaxed text-text-muted">{description}</p>
+
+      {/* Bullets */}
+      {bullets && bullets.length > 0 && (
+        <ul className="flex flex-col gap-2">
+          {bullets.map((b) => (
+            <li key={b} className="flex items-start gap-2.5 text-sm text-text-muted">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: accentColor }} />
+              {b}
+            </li>
+          ))}
+        </ul>
+      )}
+
+    </div>
+  );
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function WalkthroughItem({
   id,
@@ -1289,18 +1455,24 @@ export default function WalkthroughItem({
   const isMobileAIMockup = isMobile && (id === "ai-all" || id === "ai-hub" || id === "bloom-ai");
   const mobileAIMockupViewportStyle: CSSProperties | undefined = isMobileAIMockup
     ? {
-        height: id === "bloom-ai" ? "360px" : "340px",
-        overflow: "hidden",
+        // ai-all renders its own mobile layout — no clipping needed
+        height: id === "bloom-ai" ? "290px" : id === "ai-hub" ? "260px" : "auto",
+        overflow: id === "ai-all" ? "visible" : "hidden",
         alignItems: "flex-start",
+        width: "100%",
       }
     : undefined;
   const mobileAIMockupInnerStyle: CSSProperties = isMobileAIMockup
-    ? {
-        width: id === "bloom-ai" ? "560px" : "680px",
-        maxWidth: "none",
-        transform: id === "bloom-ai" ? "scale(0.62)" : "scale(0.55)",
-        transformOrigin: "top center",
-      }
+    ? id === "ai-all"
+      // ai-all: native mobile layout — no scale transform, just full width
+      ? { width: "100%", maxWidth: "none" }
+      // bloom-ai / ai-hub: scaled-down desktop mockups
+      : {
+          width: id === "bloom-ai" ? "560px" : "680px",
+          maxWidth: "none",
+          transform: id === "bloom-ai" ? "scale(0.50)" : "scale(0.42)",
+          transformOrigin: "top center",
+        }
     : { width: "100%", maxWidth: config.maxWidth };
 
   const { scrollYProgress } = useScroll({
@@ -1328,7 +1500,7 @@ export default function WalkthroughItem({
       case "html-quote":     return <DailyQuoteMockup         accentColor={accentColor} />;
       case "html-ai-hub":    return <AIHubMockup              accentColor={accentColor} />;
       case "html-bloom-ai":  return <BloomAIMockup            accentColor={accentColor} />;
-      case "html-ai-all":    return <CombinedAIMockup         accentColor={accentColor} />;
+      case "html-ai-all":    return <CombinedAIMockup         accentColor={accentColor} isMobile={isMobile} />;
       case "window":
         return screenshot ? (
           <MacWindowFrame src={screenshot} alt={headline} title="Bloombooard" accentColor={accentColor} />

@@ -67,7 +67,7 @@ function StickyCTABar() {
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: 120, opacity: 0 }}
           transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed bottom-5 right-5 z-[100] flex items-center gap-3 rounded-full px-3 py-2"
+          className="fixed bottom-5 right-5 z-[100] hidden sm:flex items-center gap-3 rounded-full px-3 py-2"
           style={{
             background: "linear-gradient(155deg, rgba(7,23,43,0.97) 0%, rgba(4,12,32,0.97) 50%, rgba(6,18,48,0.97) 100%)",
             border: "1.5px solid rgba(77,159,255,0.35)",
@@ -349,10 +349,10 @@ const HIVE_FEATURE_ICONS: Record<string, LucideIcon> = {
 function CountUpStat({ target, suffix, label, startDelay = 800 }: { target: number; suffix: string; label: string; startDelay?: number }) {
   const count = useCountUp(target, 900, startDelay);
   return (
-    <div className="text-center">
-      <span className="text-sm font-bold leading-tight text-white sm:text-2xl tabular-nums">
+    <div className="flex flex-col items-center text-center">
+      <p className="text-xs font-bold leading-tight text-white sm:text-2xl tabular-nums">
         {count}{suffix}
-      </span>
+      </p>
       <p className="mt-0.5 text-[9px] leading-tight sm:text-xs" style={{ color: "rgba(255,255,255,0.36)" }}>{label}</p>
     </div>
   );
@@ -365,9 +365,9 @@ function TextRevealStat({ value, label, startDelay = 800 }: { value: string; lab
     return () => clearTimeout(t);
   }, [startDelay]);
   return (
-    <div className="text-center">
+    <div className="flex flex-col items-center text-center">
       <motion.p
-        className="text-sm font-bold leading-tight text-white sm:text-2xl"
+        className="text-xs font-bold leading-tight text-white whitespace-nowrap sm:text-2xl"
         initial={{ opacity: 0, filter: "blur(6px)", y: 6 }}
         animate={show ? { opacity: 1, filter: "blur(0px)", y: 0 } : {}}
         transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
@@ -434,6 +434,18 @@ const TESTIMONIALS = [
 function FreelanceTestimonials() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [activePage, setActivePage] = useState(0);
+  const pageCount = Math.ceil(TESTIMONIALS.length / 3);
+
+  useEffect(() => {
+    const el = carouselRef.current;
+    if (!el) return;
+    const onScroll = () => setActivePage(Math.round(el.scrollLeft / el.clientWidth));
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <section ref={ref} className="px-4 py-16 sm:py-24 border-t" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
       <div className="mx-auto max-w-6xl">
@@ -449,14 +461,80 @@ function FreelanceTestimonials() {
           </span>
           <h2 className="text-3xl font-bold sm:text-4xl">What they&apos;re saying</h2>
         </motion.div>
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Mobile: paginated carousel — 3 per page, full width */}
+        <div
+          ref={carouselRef}
+          className="sm:hidden flex overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
+          style={{ scrollbarWidth: "none" }}
+        >
+          {Array.from({ length: Math.ceil(TESTIMONIALS.length / 3) }, (_, pi) =>
+            TESTIMONIALS.slice(pi * 3, pi * 3 + 3)
+          ).map((page, pi) => (
+            <div key={pi} className="w-full shrink-0 snap-start flex flex-col gap-3">
+              {page.map((t) => (
+                <div
+                  key={t.name}
+                  className="flex flex-col gap-3 rounded-2xl p-4"
+                  style={{
+                    background: "linear-gradient(145deg, rgba(12,12,16,0.95), rgba(6,6,10,0.88))",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    borderTop: "1px solid rgba(255,255,255,0.14)",
+                  }}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full"
+                      style={t.tag === "Team"
+                        ? { background: "rgba(251,191,36,0.1)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.2)" }
+                        : { background: "rgba(77,159,255,0.08)", color: "#93c5fd", border: "1px solid rgba(77,159,255,0.2)" }}>
+                      {t.tag}
+                    </span>
+                    <span style={{ color: t.color, fontSize: 18, lineHeight: 1 }}>&ldquo;</span>
+                  </div>
+                  <p className="text-xs leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.72)" }}>
+                    {t.quote}
+                  </p>
+                  <div className="mt-auto flex items-center gap-2.5 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-bold"
+                      style={{ background: `${t.color}22`, border: `1px solid ${t.color}55`, color: t.color }}>
+                      {t.avatar}
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold text-white">{t.name}</p>
+                      <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.38)" }}>{t.role}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile dots */}
+        <div className="sm:hidden mt-4 flex items-center justify-center gap-2">
+          {Array.from({ length: pageCount }).map((_, i) => (
+            <button
+              key={i}
+              aria-label={`Go to page ${i + 1}`}
+              onClick={() => carouselRef.current?.scrollTo({ left: i * carouselRef.current.clientWidth, behavior: "smooth" })}
+              className="rounded-full transition-all duration-300"
+              style={{
+                width: activePage === i ? "1.5rem" : "0.375rem",
+                height: "0.375rem",
+                background: activePage === i ? "rgba(251,191,36,0.9)" : "rgba(255,255,255,0.2)",
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Desktop: grid */}
+        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {TESTIMONIALS.map((t, i) => (
             <motion.div
               key={t.name}
               initial={{ opacity: 0, y: 24 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col gap-4 rounded-2xl p-6"
+              className="flex flex-col gap-3 rounded-2xl p-5"
               style={{
                 background: "linear-gradient(145deg, rgba(12,12,16,0.95), rgba(6,6,10,0.88))",
                 border: "1px solid rgba(255,255,255,0.08)",
@@ -475,7 +553,7 @@ function FreelanceTestimonials() {
               <p className="text-sm leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.72)" }}>
                 {t.quote}
               </p>
-              <div className="mt-auto flex items-center gap-3 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+              <div className="mt-auto flex items-center gap-2.5 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold"
                   style={{ background: `${t.color}22`, border: `1px solid ${t.color}55`, color: t.color }}>
                   {t.avatar}
@@ -807,7 +885,7 @@ function FreelanceDownloadCTA() {
               {/* Download button — clean white Apple style */}
               <a
                 href={DOWNLOAD_URL}
-                className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-4 text-base font-semibold transition-all duration-300 hover:scale-105 hover:brightness-105 sm:w-auto sm:px-8"
+                className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-3 text-sm font-semibold transition-all duration-300 hover:scale-105 hover:brightness-105 sm:w-auto sm:px-8"
                 style={{
                   background: "rgba(255,255,255,0.93)",
                   color: "#0a0f1c",
@@ -824,7 +902,7 @@ function FreelanceDownloadCTA() {
               <a
                 data-butterfly-cta="true"
                 href="https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_KsSFkKNSMVQkYBrIhqsorYTZmBP4luGuK5Usl3rh2iy/redirect"
-                className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-4 text-base font-semibold transition-all duration-300 hover:scale-[1.04] hover:brightness-110 active:scale-[0.98] sm:w-auto sm:px-8"
+                className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.04] hover:brightness-110 active:scale-[0.98] sm:w-auto sm:px-8"
                 style={{
                   background: "linear-gradient(155deg, rgba(7,23,43,0.97) 0%, rgba(6,13,24,0.96) 50%, rgba(7,20,36,0.97) 100%)",
                   color: "#e8f4ff",
@@ -1172,7 +1250,7 @@ function FreelancePricingCard({ plan, yearly }: { plan: typeof FREELANCE_PLANS[0
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
       whileHover={isFeatured ? { scale: 1.018, transition: { duration: 0.22 } } : { scale: 1.01, transition: { duration: 0.22 } }}
-      className="relative flex h-full w-full flex-col transition-shadow duration-500 cursor-default"
+      className="relative flex w-full flex-col transition-shadow duration-500 cursor-default sm:h-full"
       style={{
         borderRadius: "18px",
         background: isBloom
@@ -1494,6 +1572,101 @@ function FreelancePricingCard({ plan, yearly }: { plan: typeof FREELANCE_PLANS[0
   );
 }
 
+// ─── Hive Features Mobile Carousel ───────────────────────────────────────────
+function HiveFeaturesCarousel() {
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [activePage, setActivePage] = useState(0);
+  const pages = Array.from(
+    { length: Math.ceil(HIVE_FEATURES.length / 3) },
+    (_, pi) => HIVE_FEATURES.slice(pi * 3, pi * 3 + 3)
+  );
+
+  useEffect(() => {
+    const el = carouselRef.current;
+    if (!el) return;
+    const onScroll = () => setActivePage(Math.round(el.scrollLeft / el.clientWidth));
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <div className="sm:hidden">
+      <div
+        ref={carouselRef}
+        className="flex overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
+        style={{ scrollbarWidth: "none" }}
+      >
+        {pages.map((page, pi) => (
+          <div key={pi} className="w-full shrink-0 snap-start flex flex-col gap-3">
+            {page.map((f) => {
+              const Icon = HIVE_FEATURE_ICONS[f.title] ?? BarChart3;
+              const glowColor = `${f.color}24`;
+              const softGlowColor = `${f.color}12`;
+              const isAI = f.title.includes("AI") || f.title.includes("Pricing");
+              return (
+                <div
+                  key={f.title}
+                  className="relative flex min-h-[100px] flex-col gap-2.5 overflow-hidden rounded-[20px] p-4 pb-5"
+                  style={{
+                    background: `linear-gradient(145deg, rgba(12,12,14,0.94) 0%, rgba(6,6,8,0.86) 72%), radial-gradient(circle at 86% 10%, ${softGlowColor}, transparent 42%)`,
+                    border: "1px solid rgba(255,255,255,0.11)",
+                    borderTop: "1px solid rgba(255,255,255,0.2)",
+                  }}
+                >
+                  <div
+                    className="pointer-events-none absolute inset-px rounded-[25px] opacity-80"
+                    style={{ background: "linear-gradient(140deg, rgba(255,255,255,0.07) 0%, transparent 28%, transparent 70%, rgba(255,255,255,0.035) 100%)", zIndex: 0 }}
+                  />
+                  <div className="relative flex items-center justify-between" style={{ zIndex: 1 }}>
+                    <div
+                      className="relative flex h-9 w-9 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl"
+                      style={{
+                        background: `linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.035)), radial-gradient(circle at 50% 0%, ${glowColor}, transparent 62%)`,
+                        border: "1px solid rgba(255,255,255,0.15)",
+                      }}
+                    >
+                      <Icon aria-hidden="true" className="relative h-4 w-4 text-white/90" strokeWidth={1.9} />
+                    </div>
+                    {isAI && (
+                      <span
+                        className="rounded-full px-2.5 py-1 text-[10px] font-bold tracking-wider"
+                        style={{ background: "linear-gradient(135deg, #6d28d9, #4f46e5)", color: "#fff", boxShadow: "0 10px 24px rgba(109,40,217,0.35)" }}
+                      >
+                        AI
+                      </span>
+                    )}
+                  </div>
+                  <div className="relative flex flex-col gap-1.5" style={{ zIndex: 1 }}>
+                    <h3 className="text-sm font-semibold leading-tight text-text-primary">{f.title}</h3>
+                    <p className="text-xs leading-relaxed text-text-muted">{f.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+
+      {/* Dots */}
+      <div className="mt-4 flex items-center justify-center gap-2">
+        {pages.map((_, i) => (
+          <button
+            key={i}
+            aria-label={`Go to page ${i + 1}`}
+            onClick={() => carouselRef.current?.scrollTo({ left: i * carouselRef.current.clientWidth, behavior: "smooth" })}
+            className="rounded-full transition-all duration-300"
+            style={{
+              width: activePage === i ? "1.5rem" : "0.375rem",
+              height: "0.375rem",
+              background: activePage === i ? "rgba(251,191,36,0.9)" : "rgba(255,255,255,0.2)",
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function FreelancePage() {
   const [yearly, setYearly] = useState(true);
@@ -1567,7 +1740,7 @@ export default function FreelancePage() {
         >
           <button
             onClick={() => setLampOn(!lampOn)}
-            className="flex items-center gap-2.5 rounded-full px-5 py-3 text-sm font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
+            className="flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
             style={{
               background: lampOn ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.04)",
               color: lampOn ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.3)",
@@ -1587,7 +1760,7 @@ export default function FreelancePage() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3 }}
               href={DOWNLOAD_URL}
-              className="flex items-center gap-2.5 rounded-full px-7 py-3.5 text-sm font-bold transition-all hover:-translate-y-0.5 hover:scale-[1.03]"
+              className="flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold transition-all hover:-translate-y-0.5 hover:scale-[1.03]"
               style={{ background: "linear-gradient(135deg, #ffffff, #d1d5db)", color: "#000", boxShadow: "0 8px 28px rgba(255,255,255,0.15)" }}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -1604,13 +1777,19 @@ export default function FreelancePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7, duration: 0.5 }}
-            className="grid grid-cols-3 gap-x-4 gap-y-5 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-8 w-full max-w-xs sm:max-w-none px-4 sm:px-0"
+            className="flex flex-col items-center gap-4 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-8 w-full max-w-xs sm:max-w-none px-4 sm:px-0"
           >
-            <CountUpStat target={10} suffix="+" label="Freelance modules" startDelay={700} />
-            <TextRevealStat value="Free" label="To start" startDelay={850} />
-            <TextRevealStat value="AI" label="Invoices & Proposals" startDelay={950} />
-            <TextRevealStat value="Smart Pricing" label="AI powered pricing" startDelay={1050} />
-            <CountUpStat target={0} suffix="" label="Extra tools needed" startDelay={900} />
+            {/* Row 1 — 3 stats */}
+            <div className="grid grid-cols-3 gap-x-6 w-full items-end sm:contents">
+              <CountUpStat target={10} suffix="+" label="Modules" startDelay={700} />
+              <TextRevealStat value="Free" label="To start" startDelay={850} />
+              <TextRevealStat value="AI" label="Invoices" startDelay={950} />
+            </div>
+            {/* Row 2 — 2 stats centered */}
+            <div className="grid grid-cols-2 gap-x-6 items-end sm:contents">
+              <TextRevealStat value="Smart Pricing" label="AI pricing" startDelay={1050} />
+              <CountUpStat target={0} suffix="" label="Extra tools" startDelay={900} />
+            </div>
           </motion.div>
         )}
       </LampContainer>
@@ -1631,7 +1810,11 @@ export default function FreelancePage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Mobile only: paginated swipe carousel — 3 cards per page */}
+          <HiveFeaturesCarousel />
+
+          {/* Desktop only: original grid — untouched */}
+          <div className="hidden sm:grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {HIVE_FEATURES.map((f, i) => (
               (() => {
                 const Icon = HIVE_FEATURE_ICONS[f.title] ?? BarChart3;
@@ -1647,7 +1830,7 @@ export default function FreelancePage() {
                     viewport={{ once: true, margin: "0px 0px -40px 0px" }}
                     transition={{ duration: 0.5, delay: i * 0.055, ease: [0.22, 1, 0.36, 1] }}
                     whileHover={{ y: -6, scale: 1.015, transition: { duration: 0.22, ease: "easeOut" } }}
-                    className="group relative flex min-h-[200px] cursor-pointer flex-col gap-3.5 overflow-hidden rounded-[24px] p-6 pb-7"
+                    className="group relative flex min-h-[160px] cursor-pointer flex-col gap-2.5 overflow-hidden rounded-[20px] p-4 pb-5 sm:p-5 sm:pb-6"
                     style={{
                       background: `linear-gradient(145deg, rgba(12,12,14,0.94) 0%, rgba(6,6,8,0.86) 72%), radial-gradient(circle at 86% 10%, ${softGlowColor}, transparent 42%)`,
                       border: "1px solid rgba(255,255,255,0.11)",
@@ -1677,7 +1860,7 @@ export default function FreelancePage() {
 
                     <div className="relative flex items-center justify-between" style={{ zIndex: 1 }}>
                       <div
-                        className="relative flex h-12 w-12 flex-shrink-0 items-center justify-center overflow-hidden rounded-2xl transition-all duration-500 group-hover:-translate-y-0.5"
+                        className="relative flex h-9 w-9 sm:h-12 sm:w-12 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl sm:rounded-2xl transition-all duration-500 group-hover:-translate-y-0.5"
                         style={{
                           background: `linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.035)), radial-gradient(circle at 50% 0%, ${glowColor}, transparent 62%)`,
                           border: "1px solid rgba(255,255,255,0.15)",
@@ -1689,7 +1872,7 @@ export default function FreelancePage() {
                         />
                         <Icon
                           aria-hidden="true"
-                          className="relative h-5 w-5 text-white/90 transition-all duration-500 group-hover:scale-110 group-hover:text-white"
+                          className="relative h-4 w-4 sm:h-5 sm:w-5 text-white/90 transition-all duration-500 group-hover:scale-110 group-hover:text-white"
                           strokeWidth={1.9}
                         />
                       </div>
@@ -1709,10 +1892,10 @@ export default function FreelancePage() {
                     </div>
 
                     <div className="relative flex flex-col gap-2.5" style={{ zIndex: 1 }}>
-                      <h3 className="text-base font-semibold leading-tight text-text-primary transition-colors group-hover:text-white">
+                      <h3 className="text-sm sm:text-base font-semibold leading-tight text-text-primary transition-colors group-hover:text-white">
                         {f.title}
                       </h3>
-                      <p className="text-sm leading-relaxed text-text-muted transition-colors duration-500 group-hover:text-white/58">
+                      <p className="text-xs sm:text-sm leading-relaxed text-text-muted transition-colors duration-500 group-hover:text-white/58">
                         {f.desc}
                       </p>
                     </div>
@@ -1753,7 +1936,7 @@ export default function FreelancePage() {
             >
               Freelance Pricing
             </span>
-            <h2 className="text-3xl font-bold sm:text-5xl mb-4">Start free. Unlock as you grow.</h2>
+            <h2 className="text-3xl font-bold sm:text-5xl mb-4">Start free.<br />Unlock as you grow.</h2>
             <p className="mx-auto max-w-lg text-base mb-8" style={{ color: "rgba(255,255,255,0.45)" }}>
               All plans include the full productivity suite. Hive unlocks the freelance business layer.
             </p>
@@ -1780,9 +1963,9 @@ export default function FreelancePage() {
             </div>
           </motion.div>
 
-          <div className="grid grid-cols-1 items-stretch gap-6 pt-6 sm:grid-cols-[repeat(3,minmax(0,1fr))]">
+          <div className="grid grid-cols-1 gap-6 pt-6 sm:items-stretch sm:grid-cols-[repeat(3,minmax(0,1fr))]">
             {FREELANCE_PLANS.map((plan) => (
-              <div key={plan.name} className="flex h-full min-w-0 w-full pt-4">
+              <div key={plan.name} className="flex min-w-0 w-full pt-4 sm:h-full">
                 <FreelancePricingCard plan={plan} yearly={yearly} />
               </div>
             ))}

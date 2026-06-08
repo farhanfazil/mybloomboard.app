@@ -208,9 +208,6 @@ export default function FreelanceSmartAIFeatures() {
                   className="pointer-events-none absolute inset-0 z-20 bg-black transition-opacity duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
                   style={{ opacity: `var(--dim-opacity, ${isActive ? "0" : "0.24"})` }}
                 />
-                <div className="pointer-events-none absolute bottom-5 left-5 z-30 rounded-full border border-white/22 bg-black/45 px-4 py-1.5 text-sm font-semibold text-white/90 backdrop-blur-md sm:bottom-7 sm:left-7 sm:text-base">
-                  {card.title}
-                </div>
               </article>
             );
           })}
@@ -220,12 +217,12 @@ export default function FreelanceSmartAIFeatures() {
         <div className="pointer-events-none absolute inset-y-0 right-0 w-[12vw] bg-gradient-to-l from-[#050505] to-transparent" />
       </div>
 
-      <div className="mx-auto flex w-fit items-center gap-4 px-4 py-3">
+      <div className="mx-auto flex w-fit items-center gap-3 px-4 py-3 sm:gap-4">
         <button
           type="button"
           aria-label="Previous freelance AI feature"
           onClick={() => scrollToCard(Math.max(activeIndex - 1, 0))}
-          className="grid h-10 w-10 place-items-center rounded-full transition duration-300 hover:scale-105 active:scale-95"
+          className="grid h-7 w-7 place-items-center rounded-full transition duration-300 hover:scale-105 active:scale-95 sm:h-10 sm:w-10"
           style={{
             background: "rgba(255,255,255,0.22)",
             border: "none",
@@ -234,19 +231,19 @@ export default function FreelanceSmartAIFeatures() {
           }}
           disabled={activeIndex === 0}
         >
-          <ChevronLeft className="h-5 w-5" />
+          <ChevronLeft className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
         </button>
 
-        <div className="flex shrink-0 items-center gap-1.5">
+        <div className="flex shrink-0 items-center gap-1">
           {freelanceSmartCards.map((card, index) => (
             <button
               key={card.src}
               type="button"
               aria-label={`Go to ${card.title}`}
               onClick={() => scrollToCard(index)}
-              className="h-2.5 rounded-full transition-all duration-300"
+              className="h-1.5 rounded-full transition-all duration-300 sm:h-2.5"
               style={{
-                width: activeIndex === index ? "2.5rem" : "0.625rem",
+                width: activeIndex === index ? "1.25rem" : "0.375rem",
                 background: activeIndex === index ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.2)",
               }}
             />
@@ -257,7 +254,7 @@ export default function FreelanceSmartAIFeatures() {
           type="button"
           aria-label="Next freelance AI feature"
           onClick={() => scrollToCard(Math.min(activeIndex + 1, freelanceSmartCards.length - 1))}
-          className="grid h-10 w-10 place-items-center rounded-full transition duration-300 hover:scale-105 active:scale-95"
+          className="grid h-7 w-7 place-items-center rounded-full transition duration-300 hover:scale-105 active:scale-95 sm:h-10 sm:w-10"
           style={{
             background: "rgba(255,255,255,0.22)",
             border: "none",
@@ -266,7 +263,7 @@ export default function FreelanceSmartAIFeatures() {
           }}
           disabled={activeIndex === freelanceSmartCards.length - 1}
         >
-          <ChevronRight className="h-5 w-5" />
+          <ChevronRight className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
         </button>
       </div>
     </section>

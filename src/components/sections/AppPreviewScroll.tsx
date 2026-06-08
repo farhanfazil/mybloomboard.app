@@ -26,7 +26,7 @@ export default function AppPreviewScroll() {
   }, [current]);
 
   return (
-    <section id="hero" className="relative overflow-hidden px-4 sm:px-6">
+    <section id="hero" className="relative px-4 sm:px-6">
       <div
         className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         style={{
@@ -39,8 +39,8 @@ export default function AppPreviewScroll() {
       <ContainerScroll
         titleComponent={
           <div className="relative z-0 mb-0 flex translate-y-2 flex-col items-center gap-3 sm:translate-y-3 sm:gap-4 md:-translate-y-[34px]">
-            <p className="text-sm font-medium tracking-wide text-text-muted sm:text-lg">
-              Whether you work solo or lead a team — one place to run it all.
+            <p className="text-sm font-medium tracking-wide text-text-muted text-center sm:text-lg">
+              Whether you work solo or lead a team<br />one place to run it all.
             </p>
             <h2
               className="font-bold tracking-normal text-text-primary text-center"
@@ -84,8 +84,7 @@ export default function AppPreviewScroll() {
                 width={2196}
                 height={1658}
                 priority
-                className="h-full w-full scale-[1.17] object-contain select-none sm:scale-100"
-                style={{ transformOrigin: "center top" }}
+                className="h-full w-full object-contain select-none"
                 unoptimized
               />
             </div>
@@ -94,7 +93,7 @@ export default function AppPreviewScroll() {
       </ContainerScroll>
 
       {/* Dot navigation */}
-      <div className="relative z-20 -mt-7 flex items-center justify-center gap-2 pb-2 sm:-mt-4 sm:pb-6">
+      <div className="relative z-20 mt-6 flex items-center justify-center gap-2 pb-2 sm:-mt-4 sm:pb-6">
         {SLIDES.map((_, i) => (
           <button
             key={i}

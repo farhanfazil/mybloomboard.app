@@ -230,18 +230,26 @@ const FEATURE_ICONS: Record<string, LucideIcon> = {
   "Health & Hydration": Droplets,
 };
 
+function chunkArray<T>(arr: T[], size: number): T[][] {
+  return Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
+    arr.slice(i * size, i * size + size)
+  );
+}
+
 function FeatureCard({
   title,
   description,
   accentColor,
   mockupType,
   highlight,
+  compact = false,
 }: {
   title: string;
   description: string;
   accentColor: string;
   mockupType?: string;
   highlight?: boolean;
+  compact?: boolean;
 }) {
   const Icon = FEATURE_ICONS[title] ?? Sparkles;
   const glowColor = `${accentColor}24`;
@@ -255,7 +263,10 @@ function FeatureCard({
 
   return (
     <div
-      className="group relative flex min-h-[180px] w-full shrink-0 cursor-pointer flex-col gap-2.5 overflow-hidden rounded-[20px] p-4 pb-5 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:scale-[1.012] sm:h-[180px] sm:w-[280px]"
+      className={compact
+        ? "group relative flex w-full shrink-0 cursor-pointer flex-col gap-2 overflow-hidden rounded-[16px] p-3 pb-4 transition-all duration-300 ease-out"
+        : "group relative flex h-[180px] w-[220px] shrink-0 cursor-pointer flex-col gap-2.5 overflow-hidden rounded-[20px] p-4 pb-5 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:scale-[1.012] sm:h-[180px] sm:w-[280px]"
+      }
       style={{
         background:           highlight
           ? `linear-gradient(145deg, rgba(16,13,24,0.96) 0%, rgba(9,9,12,0.9) 64%), radial-gradient(circle at 82% 12%, ${glowColor}, transparent 38%)`
@@ -337,7 +348,7 @@ function FeatureCard({
           {!highlight && <span className="text-text-primary group-hover:text-white">{title}</span>}
           {highlight && title}
         </h3>
-        <p className="text-xs leading-relaxed text-text-muted transition-colors duration-500 group-hover:text-white/58">{description}</p>
+        <p className="line-clamp-3 text-xs leading-relaxed text-text-muted transition-colors duration-500 group-hover:text-white/58 sm:line-clamp-none">{description}</p>
       </div>
 
       {/* Mini animated preview — bottom-right on hover */}
@@ -361,6 +372,64 @@ function FeatureCard({
   );
 }
 
+function MobileFeatureSwiper() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activePage, setActivePage] = useState(0);
+  const pages = chunkArray(FEATURES, 6);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const page = Math.round(el.scrollLeft / el.clientWidth);
+      setActivePage(page);
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <div className="sm:hidden">
+      <div
+        ref={scrollRef}
+        className="flex snap-x snap-mandatory overflow-x-auto"
+        style={{ scrollbarWidth: "none" }}
+      >
+        {pages.map((pageFeatures, pageIndex) => (
+          <div
+            key={pageIndex}
+            className="w-[calc(100vw-2rem)] shrink-0 snap-center mx-4 py-1"
+          >
+            <div className="grid grid-cols-2 gap-3">
+              {pageFeatures.map((feature) => (
+                <FeatureCard key={feature.title} {...feature} compact />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Page dots */}
+      <div className="mt-5 flex items-center justify-center gap-2">
+        {pages.map((_, i) => (
+          <button
+            key={i}
+            aria-label={`Go to page ${i + 1}`}
+            onClick={() => {
+              scrollRef.current?.scrollTo({ left: i * scrollRef.current.clientWidth, behavior: "smooth" });
+            }}
+            className="h-1.5 rounded-full transition-all duration-300"
+            style={{
+              width: activePage === i ? "1.5rem" : "0.375rem",
+              background: activePage === i ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.2)",
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function FeatureGrid() {
   const ref = useRef(null);
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -378,9 +447,9 @@ export default function FeatureGrid() {
     return () => window.removeEventListener("resize", updateViewport);
   }, []);
 
-  const topRowRange = isMobile ? [-220, 60] : [-1180, 340];
-  const middleRowRange = isMobile ? [-90, -262] : [-260, -1000];
-  const bottomRowRange = isMobile ? [-120, -340] : [-420, -1680];
+  const topRowRange = [-1180, 340];
+  const middleRowRange = [-260, -1000];
+  const bottomRowRange = [-420, -1680];
   const springConfig = { stiffness: 90, damping: 28, mass: 0.7 };
   const topRowX = useSpring(useTransform(scrollYProgress, [0, 1], topRowRange), springConfig);
   const middleRowX = useSpring(useTransform(scrollYProgress, [0, 1], middleRowRange), springConfig);
@@ -411,21 +480,17 @@ export default function FeatureGrid() {
             Features
           </span>
           <h2 className="mb-3 text-3xl font-bold text-text-primary sm:text-5xl">
-            One app. Everything you need.
+            One app.<br />Everything you need.
           </h2>
           <p className="mx-auto max-w-xl text-sm leading-relaxed text-text-muted sm:text-lg">
             Tasks, KPIs, streaks, mood, hydration, meetings, and AI — all in one glassy window. Built for focus, not friction.
           </p>
         </motion.div>
 
-        {/* Mobile cards: no clipping, every feature readable */}
-        <div className="grid grid-cols-1 gap-4 sm:hidden">
-          {FEATURES.map((feature) => (
-            <FeatureCard key={`${feature.title}-mobile`} {...feature} />
-          ))}
-        </div>
+        {/* ── Mobile: swipe carousel — 2 cards per row, 3 rows per page ── */}
+        <MobileFeatureSwiper />
 
-        {/* Sliding rows */}
+        {/* ── Desktop: sliding rows (unchanged) ── */}
         <div
           className="relative left-1/2 hidden w-screen -translate-x-1/2 overflow-hidden py-3 sm:block sm:py-4"
           style={{
@@ -435,7 +500,7 @@ export default function FeatureGrid() {
         >
           <div className="flex flex-col gap-3">
             <motion.div
-              className="flex transform-gpu gap-5 pl-[max(1rem,calc((100vw-72rem)/2))] will-change-transform sm:pl-[max(1.5rem,calc((100vw-72rem)/2))]"
+              className="flex transform-gpu gap-5 pl-[max(1.5rem,calc((100vw-72rem)/2))] will-change-transform"
               style={{ x: topRowX }}
             >
               {repeatedRow1.map((feature, index) => (
@@ -444,7 +509,7 @@ export default function FeatureGrid() {
             </motion.div>
 
             <motion.div
-              className="flex transform-gpu gap-5 pl-[max(1rem,calc((100vw-72rem)/2))] will-change-transform sm:pl-[max(1.5rem,calc((100vw-72rem)/2))]"
+              className="flex transform-gpu gap-5 pl-[max(1.5rem,calc((100vw-72rem)/2))] will-change-transform"
               style={{ x: middleRowX }}
             >
               {repeatedRow2.map((feature, index) => (
@@ -453,7 +518,7 @@ export default function FeatureGrid() {
             </motion.div>
 
             <motion.div
-              className="flex transform-gpu gap-5 pl-[max(1rem,calc((100vw-72rem)/2))] will-change-transform sm:pl-[max(1.5rem,calc((100vw-72rem)/2))]"
+              className="flex transform-gpu gap-5 pl-[max(1.5rem,calc((100vw-72rem)/2))] will-change-transform"
               style={{ x: bottomRowX }}
             >
               {repeatedRow3.map((feature, index) => (

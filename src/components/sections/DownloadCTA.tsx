@@ -42,17 +42,17 @@ export default function DownloadCTA() {
             className="font-bold leading-[1.05] tracking-tight text-text-primary"
             style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)" }}
           >
-            Take control of your day.
+            Take control of<br />your day.
           </h2>
 
           <p className="max-w-lg text-sm leading-relaxed text-text-muted sm:text-lg">
             Free to start. No cloud. No account. Local-first and beautifully designed for macOS.
           </p>
 
-          <div className="flex flex-col items-center gap-4 mt-2">
-            <div className="relative flex items-center gap-4 flex-wrap justify-center">
+          <div className="flex flex-col items-center gap-4 mt-2 w-full sm:w-auto">
+            <div className="relative flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
               <motion.div
-                className="pointer-events-none absolute left-[68%] top-0 z-20 hidden lg:block"
+                className="pointer-events-none absolute left-[55%] top-0 z-20 block lg:left-[68%]"
                 style={{ willChange: "transform, opacity" }}
                 initial={{ opacity: 0, x: -420, y: -430, rotate: -28, scale: 0.46 }}
                 animate={
@@ -62,7 +62,7 @@ export default function DownloadCTA() {
                         x: [-420, -240, -80, 0],
                         y: [-430, -290, -150, -56],
                         rotate: [-28, 18, -8, 0],
-                        scale: [0.46, 0.70, 0.63, 0.58],
+                        scale: [0.46, 0.60, 0.52, 0.44],
                       }
                     : {}
                 }
@@ -70,13 +70,6 @@ export default function DownloadCTA() {
                   duration: 2.8,
                   delay: 0.1,
                   times: [0, 0.32, 0.68, 1],
-                  /*
-                   * Per-segment easing:
-                   *  [0→0.32] easeIn  — butterfly accelerates out of the FAQ
-                   *  [0.32→0.68] linear — sustains speed through the arc
-                   *  [0.68→1]  easeOut — decelerates and lands softly
-                   * No slowdown at intermediate waypoints → no mid-flight lag.
-                   */
                   x:      { ease: ["easeIn", "linear", "easeOut"], duration: 2.8 },
                   y:      { ease: ["easeIn", "linear", "easeOut"], duration: 2.8 },
                   rotate: { ease: ["easeIn", "linear", "easeOut"], duration: 2.8 },
@@ -90,7 +83,7 @@ export default function DownloadCTA() {
               {/* Download button — clean white Apple style */}
               <a
                 href="https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBooard-Installer.dmg"
-                className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-4 text-base font-semibold transition-all duration-300 hover:scale-105 hover:brightness-105 sm:w-auto sm:px-8"
+                className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-3 text-sm font-semibold transition-all duration-300 hover:scale-105 hover:brightness-105 sm:w-auto sm:px-8"
                 style={{
                   background: "rgba(255,255,255,0.93)",
                   color: "#0a0f1c",
@@ -106,7 +99,7 @@ export default function DownloadCTA() {
               {/* Flow button — soft light style matching pricing card */}
               <a
                 href="https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_TQSyTPGy63wMNw0r31v3GtyYNvU6YFgOmO7Rz3I5phX/redirect"
-                className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-4 text-base font-semibold transition-all duration-300 hover:scale-[1.04] hover:brightness-110 active:scale-[0.98] sm:w-auto sm:px-8"
+                className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.04] hover:brightness-110 active:scale-[0.98] sm:w-auto sm:px-8"
                 style={{
                   background: "linear-gradient(155deg, rgba(7,23,43,0.97) 0%, rgba(6,13,24,0.96) 50%, rgba(7,20,36,0.97) 100%)",
                   color: "#e8f4ff",

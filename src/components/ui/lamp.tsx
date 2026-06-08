@@ -15,44 +15,12 @@ export const LampContainer = ({
   return (
     <div
       className={cn(
-        "relative flex min-h-[85vh] flex-col items-center justify-center overflow-hidden bg-black w-full z-0 pt-20 sm:pt-32 lg:pt-44",
+        "relative flex min-h-[92vh] sm:min-h-[85vh] flex-col items-center justify-center overflow-hidden bg-black w-full z-0 pt-28 sm:pt-32 lg:pt-44",
         className
       )}
     >
-      {/* ── Mobile beam (< sm) ── */}
-      <div
-        aria-hidden="true"
-        className="sm:hidden absolute inset-x-0 top-0 pointer-events-none"
-        style={{ height: "260px", zIndex: 2, opacity: isOn ? 1 : 0, transition: "opacity 0.8s ease" }}
-      >
-        {/* Narrow V-beam — 12% wide at lamp, 58% wide at bottom, subtle opacity */}
-        <div style={{
-          position: "absolute", inset: 0,
-          background: "linear-gradient(to bottom, rgba(240,236,228,0.38) 0%, rgba(240,236,228,0.06) 72%, transparent 100%)",
-          clipPath: "polygon(44% 0%, 56% 0%, 79% 100%, 21% 100%)",
-        }} />
-        {/* Soft glow at lamp origin */}
-        <div style={{
-          position: "absolute", top: 0, left: "50%",
-          transform: "translateX(-50%)", width: "55%", height: "110px",
-          background: "radial-gradient(ellipse 60% 70% at 50% 0%, rgba(248,244,236,0.42) 0%, rgba(240,236,228,0.10) 55%, transparent 100%)",
-        }} />
-        {/* Lamp line */}
-        <div style={{
-          position: "absolute", top: "2px", left: "50%",
-          transform: "translateX(-50%)", width: "96px", height: "1.5px",
-          background: "rgba(240,236,228,0.88)",
-          boxShadow: "0 0 6px rgba(240,236,228,0.55), 0 0 14px rgba(240,236,228,0.28)",
-        }} />
-        {/* Bottom fade */}
-        <div style={{
-          position: "absolute", bottom: 0, left: 0, right: 0, height: "100px",
-          background: "linear-gradient(to top, #000 0%, transparent 100%)",
-        }} />
-      </div>
-
-      {/* ── Desktop beam (sm+) ── */}
-      <div className="hidden sm:flex relative w-full flex-1 scale-y-125 items-center justify-center isolate z-0">
+      {/* ── Beam (all sizes — scaled to fit mobile, full size on sm+) ── */}
+      <div className="flex relative w-full flex-1 items-center justify-center isolate z-0 origin-top [transform:scaleX(0.4)_scaleY(0.72)] sm:origin-center sm:[transform:scaleX(1)_scaleY(1.25)]">
         {/* Left conic */}
         <motion.div
           initial={{ opacity: 0.5, width: "15rem" }}
@@ -110,7 +78,7 @@ export const LampContainer = ({
       </div>
 
       {/* Content */}
-      <div className="relative z-50 flex -translate-y-4 sm:-translate-y-12 lg:-translate-y-20 flex-col items-center px-5 w-full">
+      <div className="relative z-50 flex -translate-y-24 sm:-translate-y-12 lg:-translate-y-20 flex-col items-center px-5 w-full">
         {children}
       </div>
     </div>
