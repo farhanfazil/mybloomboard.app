@@ -31,7 +31,7 @@ export const ContainerScroll = ({
 
   return (
     <div
-      className="relative flex h-[32rem] items-start justify-center p-0 pt-14 sm:h-[64rem] sm:pt-20 md:h-[72rem] md:p-0 md:pt-28"
+      className="relative flex h-[38rem] items-start justify-center p-0 pt-12 sm:h-[64rem] sm:pt-20 md:h-[72rem] md:p-0 md:pt-28"
       ref={containerRef}
     >
       <div className="relative w-full py-8 sm:py-12 md:py-0" style={{ perspective: "1000px" }}>
@@ -70,23 +70,23 @@ export const Card = ({
 }) => {
   return (
     <motion.div
-      className="relative z-10 mx-auto mt-6 aspect-[2196/1658] w-full max-w-[96vw]
-                 sm:mt-3 rounded-[18px] sm:-mt-7 sm:max-w-3xl md:-mt-10
+      className="relative z-10 mx-auto mt-1 aspect-[2196/1658] w-full max-w-[96vw]
+                 sm:mt-3
+                 rounded-[18px] sm:-mt-7 sm:max-w-3xl md:-mt-10
                  md:max-w-5xl md:rounded-[24px]"
+      style={{
+        rotateX: rotate,
+        scale,
+      } as MotionStyle}
     >
-      <motion.div
-        className="h-full w-full rounded-[18px] md:rounded-[24px]"
-        style={{ rotateX: rotate, scale } as MotionStyle}
-      >
-        <GlowingShadow>
-          <div
-            className="relative h-full w-full overflow-hidden rounded-[16px] md:rounded-[20px]"
-            style={{ background: "#0a0014", zIndex: 4 }}
-          >
-            {children}
-          </div>
-        </GlowingShadow>
-      </motion.div>
+      <GlowingShadow>
+        <div
+          className="relative h-full w-full overflow-hidden rounded-[16px] md:rounded-[20px]"
+          style={{ background: "#0a0014", zIndex: 4 }}
+        >
+          {children}
+        </div>
+      </GlowingShadow>
     </motion.div>
   );
 };
