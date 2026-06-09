@@ -35,7 +35,7 @@ export default function AppWindow() {
           <div className="w-3 h-3 rounded-full" style={{ background: "#febc2e" }} />
           <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
         </div>
-        <span className="text-[11px] text-text-muted font-medium mx-auto">Bloombooard</span>
+        <span className="text-[11px] text-text-muted font-medium mx-auto">BloomBoard</span>
       </div>
 
       {/* Content */}

@@ -1458,7 +1458,7 @@ export default function WalkthroughItem({
       case "html-ai-all":    return <CombinedAIMockup         accentColor={accentColor} isMobile={isMobile} />;
       case "window":
         return screenshot ? (
-          <MacWindowFrame src={screenshot} alt={headline} title="Bloombooard" accentColor={accentColor} />
+          <MacWindowFrame src={screenshot} alt={headline} title="BloomBoard" accentColor={accentColor} />
         ) : null;
       case "contain":
         return screenshot ? <ContainFrame src={screenshot} alt={headline} accentColor={accentColor} /> : null;

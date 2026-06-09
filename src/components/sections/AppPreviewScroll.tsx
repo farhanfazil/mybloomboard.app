@@ -5,9 +5,9 @@ import { useState, useEffect, useRef } from "react";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
 const SLIDES = [
-  { src: "/screenshots/hero-1-dark.jpg",  alt: "Bloombooard dashboard – dark theme" },
-  { src: "/screenshots/hero-2-light.jpg", alt: "Bloombooard dashboard – light theme" },
-  { src: "/screenshots/hero-3-blue.jpg",  alt: "Bloombooard dashboard – blue theme" },
+  { src: "/screenshots/hero-1-dark.jpg",  alt: "BloomBoard dashboard – dark theme" },
+  { src: "/screenshots/hero-2-light.jpg", alt: "BloomBoard dashboard – light theme" },
+  { src: "/screenshots/hero-3-blue.jpg",  alt: "BloomBoard dashboard – blue theme" },
 ];
 
 export default function AppPreviewScroll() {

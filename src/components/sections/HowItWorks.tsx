@@ -76,8 +76,7 @@ export default function HowItWorks() {
         style={{
           width: 700,
           height: 500,
-          background:
-            "radial-gradient(ellipse at center, rgba(167,139,250,0.04) 0%, transparent 65%)",
+          background: "radial-gradient(ellipse at center, rgba(167,139,250,0.04) 0%, transparent 65%)",
           filter: "blur(60px)",
         }}
       />
@@ -85,7 +84,7 @@ export default function HowItWorks() {
       <div className="relative mx-auto max-w-5xl">
         {/* Header */}
         <motion.div
-          className="mb-10 text-center sm:mb-14"
+          className="mb-10 text-center sm:mb-16"
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
@@ -93,9 +92,9 @@ export default function HowItWorks() {
           <span
             className="mb-4 inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-widest"
             style={{
-              color: "#a78bfa",
-              background: "rgba(167,139,250,0.08)",
-              border: "1px solid rgba(167,139,250,0.2)",
+              color: "#ffffff",
+              background: "rgba(255,255,255,0.06)",
+              border: "1.5px solid rgba(255,255,255,0.25)",
             }}
           >
             How It Works
@@ -108,66 +107,95 @@ export default function HowItWorks() {
           </p>
         </motion.div>
 
-        {/* Steps grid */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 lg:gap-4">
+        {/* ── Mobile: stacked cards (unchanged) ── */}
+        <div className="flex flex-col gap-4 lg:hidden">
           {STEPS.map((step, i) => {
             const Icon = step.icon;
             return (
               <motion.div
                 key={step.number}
-                initial={{ opacity: 0, y: 32 }}
+                initial={{ opacity: 0, y: 28 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="relative flex flex-col gap-4 rounded-[20px] p-5 sm:p-6"
+                className="flex flex-col gap-4 rounded-[20px] p-5"
                 style={{
-                  background:
-                    "linear-gradient(145deg, rgba(18,18,22,0.96) 0%, rgba(10,10,14,0.92) 100%)",
-                  border: `1px solid ${step.colorBorder}`,
-                  backdropFilter: "blur(12px)",
+                  background: "linear-gradient(145deg, rgba(18,18,22,0.96) 0%, rgba(10,10,14,0.92) 100%)",
+                  border: "1px solid rgba(255,255,255,0.15)",
                 }}
               >
-                {/* Step number */}
                 <div className="flex items-center justify-between">
                   <div
                     className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
-                    style={{
-                      background: step.colorBg,
-                      border: `1px solid ${step.colorBorder}`,
-                    }}
+                    style={{ background: "rgba(255,255,255,0.06)", border: "1.5px solid rgba(255,255,255,0.15)" }}
                   >
-                    <Icon
-                      className="h-5 w-5"
-                      style={{ color: step.color }}
-                      strokeWidth={1.8}
-                    />
+                    <Icon className="h-5 w-5 text-white" strokeWidth={1.8} />
                   </div>
-                  <span
-                    className="text-2xl font-black tabular-nums"
-                    style={{ color: `${step.color}30` }}
-                  >
-                    {step.number}
-                  </span>
                 </div>
-
-                {/* Content */}
                 <div className="flex flex-col gap-2">
-                  <h3 className="text-sm font-semibold leading-snug text-white sm:text-base">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-white/50">
-                    {step.description}
-                  </p>
+                  <h3 className="text-sm font-semibold leading-snug text-white">{step.title}</h3>
+                  <p className="text-sm leading-relaxed text-white/50">{step.description}</p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* ── Desktop: horizontal timeline rows ── */}
+        <div className="hidden lg:flex lg:flex-col lg:gap-0">
+          {STEPS.map((step, i) => {
+            const Icon = step.icon;
+            const isLast = i === STEPS.length - 1;
+            return (
+              <motion.div
+                key={step.number}
+                initial={{ opacity: 0, x: -24 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: i * 0.12 }}
+                className="relative flex items-start gap-8"
+              >
+                {/* Left: timeline spine — connector line only */}
+                <div className="flex flex-col items-center" style={{ width: 2, flexShrink: 0, alignSelf: "stretch" }}>
+                  {!isLast && (
+                    <div
+                      className="w-px flex-1"
+                      style={{
+                        background: `linear-gradient(to bottom, rgba(255,255,255,0.18), rgba(255,255,255,0.03))`,
+                      }}
+                    />
+                  )}
                 </div>
 
-                {/* Connector line — hidden on mobile + last item */}
-                {i < STEPS.length - 1 && (
+                {/* Right: content row */}
+                <div
+                  className="flex flex-1 items-center gap-6 rounded-2xl mb-4"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(18,18,24,0.92) 0%, rgba(12,12,16,0.88) 100%)",
+                    border: "1px solid rgba(255,255,255,0.15)",
+                    padding: "20px 28px",
+                    backdropFilter: "blur(10px)",
+                  }}
+                >
+                  {/* Icon in place of number */}
                   <div
-                    className="pointer-events-none absolute -right-[0.6rem] top-1/2 hidden h-px w-[1.2rem] -translate-y-1/2 lg:block"
-                    style={{
-                      background: `linear-gradient(to right, ${step.colorBorder}, rgba(255,255,255,0.06))`,
-                    }}
-                  />
-                )}
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+                    style={{ background: "rgba(255,255,255,0.06)", border: "1.5px solid rgba(255,255,255,0.15)" }}
+                  >
+                    <Icon className="h-5 w-5 text-white" strokeWidth={1.8} />
+                  </div>
+
+                  {/* Divider */}
+                  <div className="h-12 w-px shrink-0" style={{ background: "rgba(255,255,255,0.12)" }} />
+
+                  {/* Title + description */}
+                  <div className="flex flex-1 items-center gap-8">
+                    <h3 className="text-lg font-bold text-white shrink-0 w-56 leading-snug">
+                      {step.title}
+                    </h3>
+                    <p className="text-sm leading-relaxed text-white/55 flex-1">
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
               </motion.div>
             );
           })}

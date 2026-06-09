@@ -22,7 +22,7 @@ function HeroDashboardImage() {
       <div ref={spotRef} style={spotStyle} aria-hidden="true" />
       <Image
         src="/screenshots/hero-dashboard.jpg"
-        alt="Bloombooard dashboard preview"
+        alt="BloomBoard dashboard preview"
         width={2188}
         height={1638}
         priority
@@ -123,7 +123,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              Bloombooard replaces scattered tools with one beautifully designed macOS app — tasks, KPIs, streaks, meetings, mood tracking, and hydration in a single glassy window.
+              BloomBoard replaces scattered tools with one beautifully designed macOS app — tasks, KPIs, streaks, meetings, mood tracking, and hydration in a single glassy window.
             </motion.p>
 
             {/* CTA */}

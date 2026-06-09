@@ -34,13 +34,13 @@ export default function TeamWaitlist() {
         <Link href="/" className="flex items-center gap-2.5 group">
           <Image
             src="/logo.png"
-            alt="Bloombooard logo"
+            alt="BloomBoard logo"
             width={34}
             height={34}
             className="rounded-xl transition-all group-hover:scale-110"
           />
           <span className="font-semibold text-sm" style={{ color: "var(--text-primary)" }}>
-            Bloombooard
+            BloomBoard
           </span>
         </Link>
         <Link
@@ -93,7 +93,7 @@ export default function TeamWaitlist() {
             className="text-base sm:text-lg mb-10 leading-relaxed"
             style={{ color: "var(--text-muted)" }}
           >
-            Bloombooard is being built for teams. Join the waitlist and be first
+            BloomBoard is being built for teams. Join the waitlist and be first
             to know when collaborative workspaces, shared KPIs, and team
             dashboards launch.
           </p>
@@ -193,7 +193,7 @@ export default function TeamWaitlist() {
 
       {/* Footer note */}
       <footer className="px-6 py-6 text-center text-xs" style={{ color: "var(--text-muted)" }}>
-        <span>© {new Date().getFullYear()} Bloombooard · </span>
+        <span>© {new Date().getFullYear()} BloomBoard · </span>
         <Link href="/" className="hover:text-white transition-colors">bloombooard.com</Link>
       </footer>
     </div>

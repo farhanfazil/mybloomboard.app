@@ -79,12 +79,12 @@ export function Header({
         <a href={logoHref ?? "#hero"} className="flex items-center gap-2.5">
           <Image
             src="/logo.png"
-            alt="Bloombooard logo"
+            alt="BloomBoard logo"
             width={38}
             height={38}
             className="rounded-xl"
           />
-          <span className="text-sm font-semibold text-text-primary">Bloombooard</span>
+          <span className="text-sm font-semibold text-text-primary">BloomBoard</span>
         </a>
 
         <div className="hidden items-center gap-2 md:flex">
@@ -114,7 +114,8 @@ export function Header({
           <div className="relative shrink-0">
             <Button
               asChild
-              className="gap-1.5 rounded-full bg-violet-600 px-4 text-sm text-white hover:bg-violet-500"
+              className="gap-1.5 rounded-full px-4 text-sm text-white"
+              style={{ background: "linear-gradient(155deg, rgba(20,80,160,0.95) 0%, rgba(10,50,120,0.95) 50%, rgba(15,70,150,0.95) 100%)", border: "1.5px solid rgba(77,159,255,0.7)", boxShadow: "0 4px 16px rgba(30,120,255,0.3)" }}
             >
               <a
                 href={webAppHref}
@@ -212,7 +213,7 @@ export function Header({
                 display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
                 borderRadius: "999px", padding: "12px 0", width: "100%", boxSizing: "border-box",
                 fontSize: "14px", fontWeight: 600, textDecoration: "none",
-                background: "#7c3aed", color: "#fff",
+                background: "linear-gradient(155deg, rgba(20,80,160,0.95) 0%, rgba(10,50,120,0.95) 50%, rgba(15,70,150,0.95) 100%)", border: "1.5px solid rgba(77,159,255,0.7)", color: "#fff", boxShadow: "0 4px 16px rgba(30,120,255,0.3)",
               }}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

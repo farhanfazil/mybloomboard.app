@@ -183,7 +183,7 @@ export default function AIFeatureCarousel() {
           Intelligence, beautifully built in.
         </h2>
         <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-text-muted sm:text-lg">
-          Swipe through Bloombooard&apos;s AI layer for recaps, signals, planning, writing, and focused support.
+          Swipe through BloomBoard&apos;s AI layer for recaps, signals, planning, writing, and focused support.
         </p>
       </div>
 

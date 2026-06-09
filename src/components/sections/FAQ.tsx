@@ -40,7 +40,7 @@ export default function FAQ() {
             Frequently asked questions
           </h2>
           <p className="max-w-md text-sm leading-relaxed text-text-muted sm:text-base">
-            Clear answers about Bloombooard, pricing, privacy, AI, teams, and how the dashboard fits into your daily workflow.
+            Clear answers about BloomBoard, pricing, privacy, AI, teams, and how the dashboard fits into your daily workflow.
           </p>
           <div className="mt-8 hidden rounded-2xl border border-white/[0.09] bg-black/60 p-5 backdrop-blur-xl lg:block">
             <p className="text-sm font-semibold text-text-primary">Still deciding?</p>

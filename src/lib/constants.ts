@@ -116,7 +116,7 @@ export const FEATURES = [
     icon: "🌓",
     title: "Dark & Light Mode",
     description:
-      "One theme doesn't fit everyone. Tune colors, switch modes, and shape Bloombooard around the way your team focuses best.",
+      "One theme doesn't fit everyone. Tune colors, switch modes, and shape BloomBoard around the way your team focuses best.",
     accentColor: "#4d9fff",
     mockupType: "themes",
   },
@@ -381,19 +381,19 @@ export const STATS = [
 
 export const FAQS = [
   {
-    question: "What is Bloombooard?",
+    question: "What is BloomBoard?",
     answer:
-      "Bloombooard is a macOS productivity app that brings tasks, reminders, milestones, streaks, hydration, boards, KPIs, reports, and AI planning into one focused dashboard.",
+      "BloomBoard is a macOS productivity app that brings tasks, reminders, milestones, streaks, hydration, boards, KPIs, reports, and AI planning into one focused dashboard.",
   },
   {
-    question: "Is Bloombooard free to start?",
+    question: "Is BloomBoard free to start?",
     answer:
       "Yes. The Free plan is available forever and includes the core task workflow, reminders, meetings, and limited boards so you can try the app before upgrading.",
   },
   {
-    question: "Does Bloombooard work offline?",
+    question: "Does BloomBoard work offline?",
     answer:
-      "Bloombooard is designed as a local-first desktop app. Your everyday workflow is built around fast access on your Mac without requiring a browser tab or cloud account.",
+      "BloomBoard is designed as a local-first desktop app. Your everyday workflow is built around fast access on your Mac without requiring a browser tab or cloud account.",
   },
   {
     question: "Is the dashboard customizable?",
@@ -406,12 +406,12 @@ export const FAQS = [
       "Flow adds more power for daily work, including unlimited tasks, boards, AI task automation, email and message tools, meeting notes, and PDF report export. Bloom expands the app with unlimited AI generations, KPI tools, advanced planning, and priority features.",
   },
   {
-    question: "Can teams use Bloombooard together?",
+    question: "Can teams use BloomBoard together?",
     answer:
       "Yes. The Team plan is built for managers and members who need shared boards, task assignment, member progress, reports, notifications, comments, and team performance tracking.",
   },
   {
-    question: "Can Bloombooard create reports?",
+    question: "Can BloomBoard create reports?",
     answer:
       "Yes. Paid plans include PDF report export, and Bloom adds deeper KPI tracking and work summary evaluation for people who need a clearer performance view.",
   },
@@ -423,7 +423,7 @@ export const FAQS = [
   {
     question: "Which devices are supported?",
     answer:
-      "Bloombooard is designed for macOS 11 and later, including Apple Silicon and Intel Macs.",
+      "BloomBoard is designed for macOS 11 and later, including Apple Silicon and Intel Macs.",
   },
 ];
 

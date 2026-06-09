@@ -42,7 +42,7 @@ export default function DownloadCTA() {
             className="font-bold leading-[1.05] tracking-tight text-text-primary"
             style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)" }}
           >
-            Take control of<br />your day.
+            <span className="sm:whitespace-nowrap">Take control of your day.</span>
           </h2>
 
           <p className="max-w-lg text-sm leading-relaxed text-text-muted sm:text-lg">

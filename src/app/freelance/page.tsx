@@ -10,6 +10,7 @@ import { Footer } from "@/components/ui/footer-section";
 
 const FreelanceSmartAIFeatures = dynamic(() => import("@/components/sections/FreelanceSmartAIFeatures"));
 const HowItWorks = dynamic(() => import("@/components/sections/HowItWorks"));
+const ComparisonSection = dynamic(() => import("@/components/sections/ComparisonSection"));
 import {
   BadgeCheck,
   BadgeDollarSign,
@@ -81,7 +82,7 @@ function StickyCTABar() {
           }}
         >
           <span className="hidden text-xs font-medium sm:block" style={{ color: "rgba(147,197,253,0.7)" }}>
-            Bloombooard Freelance
+            BloomBoard Freelance
           </span>
           <div className="hidden sm:block h-3.5 w-px" style={{ background: "rgba(77,159,255,0.22)" }} />
           <a
@@ -385,7 +386,7 @@ function TextRevealStat({ value, label, startDelay = 800 }: { value: string; lab
 // ─── Testimonials ─────────────────────────────────────────────────────────────
 const TESTIMONIALS = [
   {
-    quote: "I replaced 4 different tools with Bloombooard. My client portal alone saves me hours every week.",
+    quote: "I replaced 4 different tools with BloomBoard. My client portal alone saves me hours every week.",
     name: "Sara M.",
     role: "Brand Designer, Dubai",
     avatar: "SM",
@@ -409,7 +410,7 @@ const TESTIMONIALS = [
     tag: "Individual",
   },
   {
-    quote: "Our whole small studio runs on Bloombooard. Every designer has their own board, and we share project files through the portal without any back-and-forth.",
+    quote: "Our whole small studio runs on BloomBoard. Every designer has their own board, and we share project files through the portal without any back-and-forth.",
     name: "Lena & Tom",
     role: "Co-founders, Twocraft Studio",
     avatar: "LT",
@@ -717,7 +718,7 @@ function FreelancePlanQuiz() {
 // ─── Freelance FAQ ─────────────────────────────────────────────────────────────
 const FREELANCE_FAQS = [
   {
-    question: "Is Bloombooard really free to start?",
+    question: "Is BloomBoard really free to start?",
     answer: "Yes — the Free plan is free forever. No credit card, no trial expiry. You get 2 clients, 2 projects, and the full productivity dashboard. Upgrade only when you need more.",
   },
   {
@@ -726,7 +727,7 @@ const FREELANCE_FAQS = [
   },
   {
     question: "Does it work offline? Is my data stored in the cloud?",
-    answer: "Bloombooard is local-first — all your data lives on your Mac. No cloud sync, no account required for the core app. Asset Delivery files are the only exception (uploaded via Cloudflare R2 for client sharing), and they auto-delete after 3 days.",
+    answer: "BloomBoard is local-first — all your data lives on your Mac. No cloud sync, no account required for the core app. Asset Delivery files are the only exception (uploaded via Cloudflare R2 for client sharing), and they auto-delete after 3 days.",
   },
   {
     question: "How does the Client Portal work for my clients?",
@@ -738,7 +739,7 @@ const FREELANCE_FAQS = [
   },
   {
     question: "Does it work on Intel Macs?",
-    answer: "Yes. Bloombooard supports both Apple Silicon (M1/M2/M3/M4) and Intel Macs running macOS 11 Big Sur or later.",
+    answer: "Yes. BloomBoard supports both Apple Silicon (M1/M2/M3/M4) and Intel Macs running macOS 11 Big Sur or later.",
   },
 ];
 
@@ -766,7 +767,7 @@ function FreelanceFAQ() {
             Frequently asked questions
           </h2>
           <p className="max-w-md text-sm leading-relaxed text-text-muted sm:text-base">
-            Common questions about plans, privacy, the client portal, and how Bloombooard fits your freelance workflow.
+            Common questions about plans, privacy, the client portal, and how BloomBoard fits your freelance workflow.
           </p>
           <div className="mt-8 hidden rounded-2xl border border-white/[0.09] bg-black/60 p-5 backdrop-blur-xl lg:block">
             <p className="text-sm font-semibold text-text-primary">Still deciding?</p>
@@ -1979,6 +1980,9 @@ export default function FreelancePage() {
           </p>
         </div>
       </section>
+
+      {/* ── Comparison ───────────────────────────────────────────────── */}
+      <ComparisonSection />
 
       {/* ── How It Works ─────────────────────────────────────────────── */}
       <HowItWorks />

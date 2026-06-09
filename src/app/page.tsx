@@ -16,6 +16,7 @@ const TrustBar          = dynamic(() => import("@/components/sections/TrustBar")
 const Pricing           = dynamic(() => import("@/components/sections/Pricing"));
 const HowItWorks        = dynamic(() => import("@/components/sections/HowItWorks"));
 const FAQ               = dynamic(() => import("@/components/sections/FAQ"));
+const ComparisonSection = dynamic(() => import("@/components/sections/ComparisonSection"));
 const DownloadCTA       = dynamic(() => import("@/components/sections/DownloadCTA"));
 const Footer            = dynamic(() => import("@/components/sections/Footer"));
 
@@ -34,6 +35,7 @@ export default function Home() {
       <PlanQuiz />
       <TrustBar />
       <Pricing />
+      <ComparisonSection />
       <HowItWorks />
       <FAQ />
       <DownloadCTA />

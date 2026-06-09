@@ -77,13 +77,13 @@ export function Footer() {
           <div className="flex items-center gap-3">
             <Image
               src="/logo.png"
-              alt="Bloombooard logo"
+              alt="BloomBoard logo"
               width={40}
               height={40}
               className="rounded-xl"
             />
             <div>
-              <p className="text-sm font-semibold text-text-primary">Bloombooard</p>
+              <p className="text-sm font-semibold text-text-primary">BloomBoard</p>
               <p className="text-xs text-text-muted">Your Day. One Board.</p>
             </div>
           </div>
@@ -91,7 +91,7 @@ export function Footer() {
             A focused macOS dashboard for tasks, goals, reminders, health, streaks, boards, reports, and AI.
           </p>
           <p className="text-sm text-text-muted">
-            © {new Date().getFullYear()} Bloombooard. All rights reserved.
+            © {new Date().getFullYear()} BloomBoard. All rights reserved.
           </p>
         </AnimatedContainer>
 

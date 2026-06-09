@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 const BLOOM_TESTIMONIALS = [
   {
-    quote: "I've tried every productivity app on the market. Bloombooard is the first one that actually stuck — everything I need is in one window.",
+    quote: "I've tried every productivity app on the market. BloomBoard is the first one that actually stuck — everything I need is in one window.",
     name: "Alex T.",
     role: "Product Manager, Berlin",
     avatar: "AT",
