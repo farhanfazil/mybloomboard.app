@@ -509,17 +509,65 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
             </div>
 
             {/* Dynamic total */}
-            <div className="flex items-baseline justify-between px-1 mb-3">
-              <span className="text-xs" style={{ color: "rgba(153,246,228,0.5)" }}>
-                {seats} seat{seats > 1 ? "s" : ""} × ${showYearly ? "12" : "14.99"}/mo
-              </span>
-              <span className="text-sm font-bold" style={{ color: "#99f6e4" }}>
-                ${showYearly
-                  ? (seats * 12).toFixed(0)
-                  : (seats * 14.99 % 1 === 0 ? seats * 14.99 : (seats * 14.99).toFixed(2))
-                }/mo
-              </span>
-            </div>
+            {(() => {
+              const monthlyTiers = [
+                { label: "3–9 seats", min: 3, max: 9, price: 14.99 },
+                { label: "10–19 seats", min: 10, max: 19, price: 12.99 },
+                { label: "20+ seats", min: 20, max: Infinity, price: 10.99 },
+              ];
+              const yearlyTiers = [
+                { label: "3–9 seats", min: 3, max: 9, price: 12 },
+                { label: "10–19 seats", min: 10, max: 19, price: 10 },
+                { label: "20+ seats", min: 20, max: Infinity, price: 8 },
+              ];
+              const tiers = showYearly ? yearlyTiers : monthlyTiers;
+              const activeTier = tiers.find((t) => seats >= t.min && seats <= t.max)!;
+              const total = (seats * activeTier.price).toFixed(2).replace(/\.00$/, "");
+              return (
+                <>
+                  <div className="flex items-baseline justify-between px-1 mb-3">
+                    <span className="text-xs" style={{ color: "rgba(153,246,228,0.5)" }}>
+                      {seats} seat{seats > 1 ? "s" : ""} × ${activeTier.price}/mo
+                    </span>
+                    <span className="text-sm font-bold" style={{ color: "#99f6e4" }}>
+                      ${total}/mo
+                    </span>
+                  </div>
+
+                  {/* Volume discount breakdown */}
+                  <div
+                    className="rounded-xl overflow-hidden mb-3"
+                    style={{ border: "1px solid rgba(45,212,191,0.12)", background: "rgba(20,184,166,0.04)" }}
+                  >
+                    <div className="px-3 py-1.5 border-b" style={{ borderColor: "rgba(45,212,191,0.1)" }}>
+                      <span className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: "rgba(153,246,228,0.45)" }}>
+                        Volume Discount
+                      </span>
+                    </div>
+                    {tiers.map((tier) => {
+                      const isActive = tier === activeTier;
+                      return (
+                        <div
+                          key={tier.label}
+                          className="flex items-center justify-between px-3 py-1.5"
+                          style={{
+                            background: isActive ? "rgba(20,184,166,0.12)" : "transparent",
+                            borderLeft: isActive ? "2px solid #2dd4bf" : "2px solid transparent",
+                          }}
+                        >
+                          <span className="text-[11px]" style={{ color: isActive ? "#99f6e4" : "rgba(153,246,228,0.4)" }}>
+                            {tier.label}
+                          </span>
+                          <span className="text-[11px] font-semibold" style={{ color: isActive ? "#5eead4" : "rgba(153,246,228,0.35)" }}>
+                            ${tier.price}/seat/mo
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </>
+              );
+            })()}
           </div>
         )}
 
