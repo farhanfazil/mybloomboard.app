@@ -164,9 +164,9 @@ export default function Hero() {
                 <HolographicButterfly />
               </motion.div>
 
-              <GlowButton label="Download Free" variant="primary" large href="https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBooard-Installer.dmg" />
+              <GlowButton label="Download Free" variant="primary" large href="https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg" />
               <a
-                href="https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_TQSyTPGy63wMNw0r31v3GtyYNvU6YFgOmO7Rz3I5phX/redirect"
+                href="https://buy.polar.sh/polar_cl_bcGVnrH6RUJvB6pVEhW0kRdOJ1wa82yn9xuPK480cmt"
                 className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-sm transition-all duration-300 hover:scale-[1.04] hover:brightness-110 active:scale-[0.98]"
                 style={{
                   background: "linear-gradient(155deg, rgba(7,23,43,0.97) 0%, rgba(6,13,24,0.96) 50%, rgba(7,20,36,0.97) 100%)",

@@ -8,8 +8,8 @@ import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
 import { useScroll } from "@/components/ui/use-scroll";
 
 const DOWNLOAD_URL =
-  "https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBooard-Installer.dmg";
-const CUSTOMER_PORTAL_URL = "https://sandbox.polar.sh/daily-dashboard/portal";
+  "https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg";
+const CUSTOMER_PORTAL_URL = "https://polar.sh/daily-dashboard/portal";
 const WEB_APP_URL =
   process.env.NEXT_PUBLIC_WEB_APP_URL ?? "https://app.mybloomboard.app";
 

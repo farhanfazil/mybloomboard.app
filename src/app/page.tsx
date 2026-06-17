@@ -31,11 +31,11 @@ export default function Home() {
         <Walkthrough />
         <StatsBar />
       </DeepDiveFlight>
+      <ComparisonSection />
       <Testimonials />
       <PlanQuiz />
       <TrustBar />
       <Pricing />
-      <ComparisonSection />
       <HowItWorks />
       <FAQ />
       <DownloadCTA />

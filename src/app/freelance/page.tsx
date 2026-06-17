@@ -28,7 +28,7 @@ import {
 } from "lucide-react";
 
 const DOWNLOAD_URL =
-  "https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBooard-Installer.dmg";
+  "https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg";
 
 // ─── Count-up hook (mount-based — hero stats are above fold, IntersectionObserver
 //     inside overflow:hidden LampContainer is unreliable) ──────────────────────
@@ -86,7 +86,7 @@ function StickyCTABar() {
           </span>
           <div className="hidden sm:block h-3.5 w-px" style={{ background: "rgba(77,159,255,0.22)" }} />
           <a
-            href="https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBooard-Installer.dmg"
+            href="https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg"
             className="text-xs font-medium px-3.5 py-1.5 rounded-full transition-all hover:scale-[1.04]"
             style={{
               background: "rgba(255,255,255,0.06)",
@@ -97,7 +97,7 @@ function StickyCTABar() {
             Download Free
           </a>
           <a
-            href="https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_KsSFkKNSMVQkYBrIhqsorYTZmBP4luGuK5Usl3rh2iy/redirect"
+            href="https://buy.polar.sh/polar_cl_vlLVUrxnBszMR59XsC2pmP5R3rmcqAgll5B501xt17D"
             className="text-xs font-semibold px-4 py-1.5 rounded-full transition-all hover:scale-[1.04] hover:brightness-110"
             style={{
               background: "linear-gradient(155deg, rgba(7,23,43,0.97) 0%, rgba(4,12,32,0.97) 50%, rgba(6,18,48,0.97) 100%)",
@@ -170,8 +170,8 @@ const FREELANCE_PLANS = [
     highlighted: true,
     badge: "Most Popular" as string | null,
     cta: "7 days free trial",
-    ctaHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_KsSFkKNSMVQkYBrIhqsorYTZmBP4luGuK5Usl3rh2iy/redirect",
-    yearlyHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_Ops3GjZ02QsxzFxuRwcFaxXeZELuXdm0gUoJW0St1XN/redirect" as string | null,
+    ctaHref: "https://buy.polar.sh/polar_cl_vlLVUrxnBszMR59XsC2pmP5R3rmcqAgll5B501xt17D",
+    yearlyHref: "https://buy.polar.sh/polar_cl_Zv3lKA51r16R0wsXOHm31nViCwIVJaxdJQcHx11AKNu" as string | null,
     featureGroups: [
       {
         category: "Workspace",
@@ -217,8 +217,8 @@ const FREELANCE_PLANS = [
     highlighted: true,
     badge: "Best Value" as string | null,
     cta: "7 days free trial",
-    ctaHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_U53DGC4Pwzmq9ALPYbokhmZBnk0aJZF9uQHGS0zU6XE/redirect",
-    yearlyHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_F7MRKX3baA0yTUxApdpWlh5r221IRM3PCG5TS4I9VJd/redirect" as string | null,
+    ctaHref: "https://buy.polar.sh/polar_cl_6OVDu8uzWINVJcKoprQ4ZArcfNFLvYCYUDwG30A45DS",
+    yearlyHref: "https://buy.polar.sh/polar_cl_mPrYs7EnmqJLA6bDr5eDfUTt5wrogcEBK5dDm0gTV3O" as string | null,
     featureGroups: [
       {
         category: "Workspace",
@@ -597,8 +597,8 @@ const QUIZ_STEPS = [
 
 const PLAN_RESULT: Record<string, { name: string; color: string; desc: string; href: string }> = {
   free:  { name: "Free",  color: "#607080", desc: "Perfect to get started — 2 clients, full productivity suite, no card needed.", href: "#pricing" },
-  flow:  { name: "Flow",  color: "#4d9fff", desc: "Built for growing freelancers — client portal, smart pricing, 10 clients.", href: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_KsSFkKNSMVQkYBrIhqsorYTZmBP4luGuK5Usl3rh2iy/redirect" },
-  bloom: { name: "Bloom", color: "#a78bfa", desc: "Unlimited clients, AI proposals & contracts, full automation suite.", href: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_U53DGC4Pwzmq9ALPYbokhmZBnk0aJZF9uQHGS0zU6XE/redirect" },
+  flow:  { name: "Flow",  color: "#4d9fff", desc: "Built for growing freelancers — client portal, smart pricing, 10 clients.", href: "https://buy.polar.sh/polar_cl_vlLVUrxnBszMR59XsC2pmP5R3rmcqAgll5B501xt17D" },
+  bloom: { name: "Bloom", color: "#a78bfa", desc: "Unlimited clients, AI proposals & contracts, full automation suite.", href: "https://buy.polar.sh/polar_cl_6OVDu8uzWINVJcKoprQ4ZArcfNFLvYCYUDwG30A45DS" },
 };
 
 function FreelancePlanQuiz() {
@@ -905,7 +905,7 @@ function FreelanceDownloadCTA() {
               {/* Flow button — soft light style matching pricing card */}
               <a
                 data-butterfly-cta="true"
-                href="https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_KsSFkKNSMVQkYBrIhqsorYTZmBP4luGuK5Usl3rh2iy/redirect"
+                href="https://buy.polar.sh/polar_cl_vlLVUrxnBszMR59XsC2pmP5R3rmcqAgll5B501xt17D"
                 className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.04] hover:brightness-110 active:scale-[0.98] sm:w-auto sm:px-8"
                 style={{
                   background: "linear-gradient(155deg, rgba(7,23,43,0.97) 0%, rgba(6,13,24,0.96) 50%, rgba(7,20,36,0.97) 100%)",
@@ -1686,7 +1686,7 @@ export default function FreelancePage() {
           { label: "Features", href: "#features" },
           { label: "Deep Dive", href: "#freelance-smart-ai" },
           { label: "Pricing", href: "#pricing" },
-          { label: "Customer Portal", href: "https://sandbox.polar.sh/daily-dashboard/portal", external: true },
+          { label: "Customer Portal", href: "https://polar.sh/daily-dashboard/portal", external: true },
         ]}
       />
 
@@ -1930,6 +1930,9 @@ export default function FreelancePage() {
 
       <FreelanceSmartAIFeatures />
 
+      {/* ── Comparison ───────────────────────────────────────────────── */}
+      <ComparisonSection />
+
       {/* ── Pricing ──────────────────────────────────────────────────────── */}
       <section id="pricing" className="px-4 py-20 sm:py-28 border-t" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
         <div className="mx-auto max-w-6xl">
@@ -1980,9 +1983,6 @@ export default function FreelancePage() {
           </p>
         </div>
       </section>
-
-      {/* ── Comparison ───────────────────────────────────────────────── */}
-      <ComparisonSection />
 
       {/* ── How It Works ─────────────────────────────────────────────── */}
       <HowItWorks />

@@ -65,6 +65,13 @@ const footerLinks: FooterSection[] = [
       { title: "Team", href: "#pricing" },
     ],
   },
+  {
+    label: "Contact",
+    links: [
+      { title: "support@mybloomboard.app", href: "mailto:support@mybloomboard.app" },
+      { title: "hello@mybloomboard.app", href: "mailto:hello@mybloomboard.app" },
+    ],
+  },
 ];
 
 export function Footer() {

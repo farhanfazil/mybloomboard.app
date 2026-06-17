@@ -82,7 +82,7 @@ export default function DownloadCTA() {
 
               {/* Download button — clean white Apple style */}
               <a
-                href="https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBooard-Installer.dmg"
+                href="https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg"
                 className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-3 text-sm font-semibold transition-all duration-300 hover:scale-105 hover:brightness-105 sm:w-auto sm:px-8"
                 style={{
                   background: "rgba(255,255,255,0.93)",
@@ -98,7 +98,7 @@ export default function DownloadCTA() {
 
               {/* Flow button — soft light style matching pricing card */}
               <a
-                href="https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_TQSyTPGy63wMNw0r31v3GtyYNvU6YFgOmO7Rz3I5phX/redirect"
+                href="https://buy.polar.sh/polar_cl_bcGVnrH6RUJvB6pVEhW0kRdOJ1wa82yn9xuPK480cmt"
                 className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.04] hover:brightness-110 active:scale-[0.98] sm:w-auto sm:px-8"
                 style={{
                   background: "linear-gradient(155deg, rgba(7,23,43,0.97) 0%, rgba(6,13,24,0.96) 50%, rgba(7,20,36,0.97) 100%)",

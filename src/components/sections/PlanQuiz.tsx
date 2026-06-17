@@ -28,19 +28,19 @@ const PLAN_RESULT: Record<string, { name: string; color: string; desc: string; h
     name: "Free",
     color: "#607080",
     desc: "Perfect to start — tasks, streaks, KPI cards, hydration, mood tracking. Forever free, no card needed.",
-    href: "https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBooard-Installer.dmg",
+    href: "https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg",
   },
   flow: {
     name: "Flow",
     color: "#4d9fff",
     desc: "Built for professionals — AI assistant, multiple boards, advanced KPIs, and priority support.",
-    href: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_TQSyTPGy63wMNw0r31v3GtyYNvU6YFgOmO7Rz3I5phX/redirect",
+    href: "https://buy.polar.sh/polar_cl_bcGVnrH6RUJvB6pVEhW0kRdOJ1wa82yn9xuPK480cmt",
   },
   bloom: {
     name: "Bloom",
     color: "#a78bfa",
     desc: "Full power — AI reports, unlimited boards, advanced analytics, and everything Flow includes.",
-    href: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_tZmnylGTB2b9OizlujPnaSQe0y0HJRqG9IVfn0X241v/redirect",
+    href: "https://buy.polar.sh/polar_cl_QgWTHuRDKTmL1Zbv5H71gx43pQz4xslZjF11r3KRCqH",
   },
 };
 

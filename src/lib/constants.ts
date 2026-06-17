@@ -525,8 +525,8 @@ export const PRICING_PLANS = [
     highlighted: true,
     badgeLabel: "Most popular",
     cta: "7 days trial",
-    ctaHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_TQSyTPGy63wMNw0r31v3GtyYNvU6YFgOmO7Rz3I5phX/redirect",
-    yearlyHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_PTRNqDJFKdiinLZkSM3oWu8rBSGaJjiERFhh70bsuvj/redirect",
+    ctaHref: "https://buy.polar.sh/polar_cl_bcGVnrH6RUJvB6pVEhW0kRdOJ1wa82yn9xuPK480cmt",
+    yearlyHref: "https://buy.polar.sh/polar_cl_TR8K6wPc4hCj2kNq0t1zD136OvQzQeOGQbZAj4cpFkF",
     featureGroups: [
       {
         category: "Tasks & Planning",
@@ -586,8 +586,8 @@ export const PRICING_PLANS = [
     highlighted: true,
     badgeLabel: "Best Value",
     cta: "7 days trial",
-    ctaHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_tZmnylGTB2b9OizlujPnaSQe0y0HJRqG9IVfn0X241v/redirect",
-    yearlyHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_EIbHh4jzESx721RcASjBJVu8cfFZGcP8yQLDV1TigcR/redirect",
+    ctaHref: "https://buy.polar.sh/polar_cl_QgWTHuRDKTmL1Zbv5H71gx43pQz4xslZjF11r3KRCqH",
+    yearlyHref: "https://buy.polar.sh/polar_cl_1MhCbpAQ3cRR1IzSYH1kP9KtgrmMo218m0Cd84eKXG6",
     featureGroups: [
       {
         category: "Tasks & Planning",
@@ -647,7 +647,7 @@ export const PRICING_PLANS = [
     accentColor: "#a78bfa",
     highlighted: false,
     cta: "Start Team Plan",
-    ctaHref: "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_2p9qjn127usEg6vCfEv6kgUVatpK4wzKHMcXF2GU9K2/redirect",
+    ctaHref: `/api/team-checkout?quantity=3`,
     featureGroups: [
       {
         category: "Tasks & Planning",
