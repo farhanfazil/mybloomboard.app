@@ -264,8 +264,8 @@ function FeatureCard({
   return (
     <div
       className={compact
-        ? "group relative flex w-full shrink-0 cursor-pointer flex-col gap-2 overflow-hidden rounded-[16px] p-3 pb-4 transition-all duration-300 ease-out"
-        : "group relative flex h-[180px] w-[220px] shrink-0 cursor-pointer flex-col gap-2.5 overflow-hidden rounded-[20px] p-4 pb-5 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:scale-[1.012] sm:h-[180px] sm:w-[280px]"
+        ? "theme-card group relative flex w-full shrink-0 cursor-pointer flex-col gap-2 overflow-hidden rounded-[16px] p-3 pb-4 transition-all duration-300 ease-out"
+        : "theme-card group relative flex h-[180px] w-[220px] shrink-0 cursor-pointer flex-col gap-2.5 overflow-hidden rounded-[20px] p-4 pb-5 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:scale-[1.012] sm:h-[180px] sm:w-[280px]"
       }
       style={{
         background:           highlight

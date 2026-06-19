@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { ThemeProvider } from "@/lib/theme";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -49,7 +50,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased overflow-x-hidden">{children}</body>
+      <body className="antialiased overflow-x-hidden"><ThemeProvider>{children}</ThemeProvider></body>
     </html>
   );
 }
