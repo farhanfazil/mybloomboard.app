@@ -76,10 +76,29 @@ export default function Testimonials() {
   return (
     <section
       ref={ref}
-      className="px-4 py-16 sm:py-24 border-t"
-      style={{ borderColor: "rgba(255,255,255,0.05)" }}
+      className="relative px-4 py-16 sm:py-24"
+      style={{
+        background: "linear-gradient(160deg, #080c18 0%, #0a0d1f 40%, #060810 70%, #080c18 100%)",
+        borderTop: "1px solid rgba(255,255,255,0.06)",
+        borderBottom: "1px solid rgba(255,255,255,0.06)",
+      }}
     >
-      <div className="mx-auto max-w-6xl">
+      {/* Ambient glow blobs */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div
+          className="absolute left-1/4 top-0 h-[400px] w-[600px] -translate-x-1/2 opacity-20"
+          style={{ background: "radial-gradient(ellipse, rgba(77,159,255,0.5) 0%, transparent 70%)", filter: "blur(80px)" }}
+        />
+        <div
+          className="absolute right-0 bottom-0 h-[350px] w-[400px] opacity-15"
+          style={{ background: "radial-gradient(circle, rgba(167,139,250,0.6) 0%, transparent 70%)", filter: "blur(80px)" }}
+        />
+        <div
+          className="absolute left-0 bottom-1/3 h-[250px] w-[300px] opacity-10"
+          style={{ background: "radial-gradient(circle, rgba(52,211,153,0.5) 0%, transparent 70%)", filter: "blur(70px)" }}
+        />
+      </div>
+      <div className="relative mx-auto max-w-6xl">
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -108,9 +127,12 @@ export default function Testimonials() {
                   key={t.name}
                   className="flex flex-col gap-3 rounded-2xl p-4"
                   style={{
-                    background: "linear-gradient(145deg, rgba(12,12,16,0.95), rgba(6,6,10,0.88))",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                    borderTop: "1px solid rgba(255,255,255,0.14)",
+                    background: "linear-gradient(145deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    borderTop: "1px solid rgba(255,255,255,0.18)",
+                    backdropFilter: "blur(20px)",
+                    WebkitBackdropFilter: "blur(20px)",
+                    boxShadow: "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)",
                   }}
                 >
                   <div className="flex items-center justify-between">
@@ -174,9 +196,12 @@ export default function Testimonials() {
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col gap-3 rounded-2xl p-5"
               style={{
-                background: "linear-gradient(145deg, rgba(12,12,16,0.95), rgba(6,6,10,0.88))",
-                border: "1px solid rgba(255,255,255,0.08)",
-                borderTop: "1px solid rgba(255,255,255,0.14)",
+                background: "linear-gradient(145deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                borderTop: "1px solid rgba(255,255,255,0.18)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)",
               }}
             >
               <div className="flex items-center justify-between">
@@ -214,3 +239,4 @@ export default function Testimonials() {
     </section>
   );
 }
+
