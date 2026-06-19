@@ -151,7 +151,7 @@ function ComparisonTable({
         className="overflow-x-auto overflow-y-auto rounded-2xl"
         style={{
           border: "1px solid rgba(77,159,255,0.25)",
-          maxHeight: "520px",
+          maxHeight: "900px",
           boxShadow: "0 0 40px rgba(30,80,255,0.12), inset 0 1px 0 rgba(255,255,255,0.06)",
           background: "rgba(8,18,50,0.6)",
           backdropFilter: "blur(8px)",
