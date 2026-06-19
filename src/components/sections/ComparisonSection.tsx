@@ -149,7 +149,13 @@ function ComparisonTable({
 
       <div
         className="overflow-x-auto overflow-y-auto rounded-2xl"
-        style={{ border: "1px solid rgba(255,255,255,0.08)", maxHeight: "520px" }}
+        style={{
+          border: "1px solid rgba(77,159,255,0.25)",
+          maxHeight: "520px",
+          boxShadow: "0 0 40px rgba(30,80,255,0.12), inset 0 1px 0 rgba(255,255,255,0.06)",
+          background: "rgba(8,18,50,0.6)",
+          backdropFilter: "blur(8px)",
+        }}
       >
         <table className="w-full border-collapse text-sm">
           {/* Header */}
@@ -226,7 +232,7 @@ function ComparisonTable({
 // ─── EXPORTED SECTION ─────────────────────────────────────────────────────────
 
 export default function ComparisonSection() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   const handleToggle = () => {
@@ -234,7 +240,6 @@ export default function ComparisonSection() {
       setOpen(false);
     } else {
       setOpen(true);
-      // Scroll to section smoothly after opening
       setTimeout(() => {
         sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 80);
@@ -244,21 +249,47 @@ export default function ComparisonSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative border-t border-white/[0.05] bg-black px-3 py-12 sm:px-6 sm:py-16"
+      className="relative px-3 py-16 sm:px-6 sm:py-24"
+      style={{
+        background: "linear-gradient(160deg, #0d1a3a 0%, #0a1128 35%, #0e0a2e 65%, #0d1a3a 100%)",
+        borderTop: "1px solid rgba(77,159,255,0.2)",
+        borderBottom: "1px solid rgba(167,139,250,0.2)",
+      }}
     >
+      {/* Ambient glow blobs */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div
+          className="absolute -left-40 top-1/4 h-[500px] w-[500px] rounded-full opacity-20"
+          style={{ background: "radial-gradient(circle, rgba(77,159,255,0.7) 0%, transparent 70%)", filter: "blur(90px)" }}
+        />
+        <div
+          className="absolute -right-40 bottom-1/4 h-[400px] w-[400px] rounded-full opacity-15"
+          style={{ background: "radial-gradient(circle, rgba(167,139,250,0.8) 0%, transparent 70%)", filter: "blur(90px)" }}
+        />
+        <div
+          className="absolute left-1/2 top-0 h-[200px] w-[700px] -translate-x-1/2 opacity-10"
+          style={{ background: "radial-gradient(ellipse, rgba(99,179,237,0.6) 0%, transparent 70%)", filter: "blur(60px)" }}
+        />
+      </div>
+
       {/* Heading + toggle button */}
-      <div className="mx-auto max-w-5xl">
+      <div className="relative mx-auto max-w-5xl">
         <div className="flex flex-col items-center gap-4 text-center">
           <span
-            className="inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-widest"
-            style={{ color: "#ffffff", background: "rgba(255,255,255,0.06)", border: "1.5px solid rgba(255,255,255,0.25)" }}
+            className="inline-block rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest"
+            style={{
+              color: "#93c5fd",
+              background: "rgba(59,130,246,0.15)",
+              border: "1.5px solid rgba(77,159,255,0.5)",
+              boxShadow: "0 0 16px rgba(77,159,255,0.2)",
+            }}
           >
             How We Stack Up
           </span>
           <h2 className="text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
             See how BloomBoard compares.
           </h2>
-          <p className="max-w-lg text-sm leading-relaxed text-white/50 sm:text-base">
+          <p className="max-w-lg text-sm leading-relaxed text-white/60 sm:text-base">
             BloomBoard vs Notion, Trello, ClickUp, Moxie, HoneyBook and more.
           </p>
 
@@ -309,3 +340,4 @@ export default function ComparisonSection() {
     </section>
   );
 }
+

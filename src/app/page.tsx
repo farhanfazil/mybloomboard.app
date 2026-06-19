@@ -26,12 +26,12 @@ export default function Home() {
       <Header />
       <AppPreviewScroll />
       <FeatureGrid />
+      <ComparisonSection />
       <AIFeatureCarousel />
       <DeepDiveFlight>
         <Walkthrough />
         <StatsBar />
       </DeepDiveFlight>
-      <ComparisonSection />
       <Testimonials />
       <PlanQuiz />
       <TrustBar />
