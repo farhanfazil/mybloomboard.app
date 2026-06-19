@@ -106,7 +106,7 @@ export default function Testimonials() {
               {page.map((t) => (
                 <div
                   key={t.name}
-                  className="theme-card flex flex-col gap-3 rounded-2xl p-4"
+                  className="flex flex-col gap-3 rounded-2xl p-4"
                   style={{
                     background: "linear-gradient(145deg, rgba(12,12,16,0.95), rgba(6,6,10,0.88))",
                     border: "1px solid rgba(255,255,255,0.08)",
@@ -172,7 +172,7 @@ export default function Testimonials() {
               initial={{ opacity: 0, y: 24 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="theme-card flex flex-col gap-3 rounded-2xl p-5"
+              className="flex flex-col gap-3 rounded-2xl p-5"
               style={{
                 background: "linear-gradient(145deg, rgba(12,12,16,0.95), rgba(6,6,10,0.88))",
                 border: "1px solid rgba(255,255,255,0.08)",

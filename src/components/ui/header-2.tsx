@@ -6,7 +6,6 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
 import { useScroll } from "@/components/ui/use-scroll";
-import { useTheme } from "@/lib/theme";
 
 const DOWNLOAD_URL =
   "https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg";
@@ -30,8 +29,6 @@ export function Header({
   const [open, setOpen] = React.useState(false);
   const [webAppHref, setWebAppHref] = React.useState(WEB_APP_URL);
   const scrolled = useScroll(10);
-  const { theme, toggle } = useTheme();
-  const isLight = theme === "light";
   const isExternalWebApp = webAppHref.startsWith("http");
 
   const links: NavLink[] = customLinks ?? [
@@ -138,31 +135,6 @@ export function Header({
               Soon
             </span>
           </div>
-          {/* Theme toggle */}
-          <button
-            onClick={toggle}
-            aria-label={isLight ? "Switch to dark mode" : "Switch to light mode"}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-200 hover:scale-110 active:scale-95"
-            style={{
-              background: isLight ? "rgba(10,22,40,0.06)" : "rgba(255,255,255,0.08)",
-              border: isLight ? "1px solid rgba(10,22,40,0.12)" : "1px solid rgba(255,255,255,0.14)",
-              color: isLight ? "#334d6e" : "rgba(255,255,255,0.8)",
-            }}
-          >
-            {isLight ? (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-              </svg>
-            ) : (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-              </svg>
-            )}
-          </button>
-
           <Button
             asChild
             className="shrink-0 gap-2 rounded-full bg-white px-5 text-sm text-[#0a0f1c] hover:bg-white/90"
@@ -192,8 +164,8 @@ export function Header({
     {/* ── Mobile drawer ── */}
     {open && (
       <div
-        className="theme-drawer fixed bottom-0 top-16 z-[49] flex flex-col md:hidden"
-        style={{ left: 0, right: 0, width: "100vw", background: isLight ? "#f5f8ff" : "#000" }}
+        className="fixed bottom-0 top-16 z-[49] flex flex-col bg-black md:hidden"
+        style={{ left: 0, right: 0, width: "100vw" }}
       >
         {/* Nav links */}
         <nav style={{ padding: "24px 16px 16px" }}>
@@ -204,7 +176,7 @@ export function Header({
               target={link.external ? "_blank" : undefined}
               rel={link.external ? "noreferrer" : undefined}
               onClick={() => setOpen(false)}
-              style={{ display: "flex", alignItems: "center", padding: "14px 12px", borderRadius: "12px", fontSize: "16px", fontWeight: 500, color: isLight ? "#0a1628" : "#f5f5f7", textDecoration: "none", width: "100%", boxSizing: "border-box" }}
+              style={{ display: "flex", alignItems: "center", padding: "14px 12px", borderRadius: "12px", fontSize: "16px", fontWeight: 500, color: "#f5f5f7", textDecoration: "none", width: "100%", boxSizing: "border-box" }}
             >
               {link.label}
             </a>
@@ -212,28 +184,10 @@ export function Header({
         </nav>
 
         {/* Divider */}
-        <div style={{ margin: "0 16px", borderTop: isLight ? "1px solid rgba(10,22,40,0.08)" : "1px solid rgba(255,255,255,0.08)" }} />
+        <div style={{ margin: "0 16px", borderTop: "1px solid rgba(255,255,255,0.08)" }} />
 
         {/* Action buttons */}
         <div style={{ padding: "20px 16px 32px", display: "flex", flexDirection: "column", gap: "12px" }}>
-          {/* Theme toggle */}
-          <button
-            onClick={toggle}
-            style={{
-              display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-              borderRadius: "999px", padding: "12px 0", width: "100%", boxSizing: "border-box",
-              fontSize: "14px", fontWeight: 600, cursor: "pointer",
-              background: isLight ? "rgba(10,22,40,0.05)" : "rgba(255,255,255,0.07)",
-              border: isLight ? "1px solid rgba(10,22,40,0.12)" : "1px solid rgba(255,255,255,0.12)",
-              color: isLight ? "#334d6e" : "rgba(255,255,255,0.8)",
-            }}
-          >
-            {isLight ? (
-              <><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> Switch to Dark</>
-            ) : (
-              <><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> Switch to Light</>
-            )}
-          </button>
           <a
             href="/freelance"
             onClick={() => setOpen(false)}
