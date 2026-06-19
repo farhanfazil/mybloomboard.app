@@ -76,23 +76,10 @@ export default function Testimonials() {
   return (
     <section
       ref={ref}
-      className="relative px-4 py-16 sm:py-24"
-      style={{
-        background: "linear-gradient(180deg, #000000 0%, #050508 50%, #000000 100%)",
-        borderTop: "1px solid rgba(255,255,255,0.06)",
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
-      }}
+      className="px-4 py-16 sm:py-24 border-t"
+      style={{ borderColor: "rgba(255,255,255,0.05)" }}
     >
-      {/* Subtle noise texture overlay */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E\")",
-          opacity: 0.4,
-        }}
-      />
-      <div className="relative mx-auto max-w-6xl">
+      <div className="mx-auto max-w-6xl">
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -121,12 +108,9 @@ export default function Testimonials() {
                   key={t.name}
                   className="flex flex-col gap-3 rounded-2xl p-4"
                   style={{
-                    background: "linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)",
-                    border: "1px solid rgba(255,255,255,0.09)",
-                    borderTop: "1px solid rgba(255,255,255,0.16)",
-                    backdropFilter: "blur(24px)",
-                    WebkitBackdropFilter: "blur(24px)",
-                    boxShadow: "0 4px 24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.07)",
+                    background: "linear-gradient(145deg, rgba(12,12,16,0.95), rgba(6,6,10,0.88))",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    borderTop: "1px solid rgba(255,255,255,0.14)",
                   }}
                 >
                   <div className="flex items-center justify-between">
@@ -190,12 +174,9 @@ export default function Testimonials() {
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col gap-3 rounded-2xl p-5"
               style={{
-                background: "linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)",
-                border: "1px solid rgba(255,255,255,0.09)",
-                borderTop: "1px solid rgba(255,255,255,0.16)",
-                backdropFilter: "blur(24px)",
-                WebkitBackdropFilter: "blur(24px)",
-                boxShadow: "0 4px 24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.07)",
+                background: "linear-gradient(145deg, rgba(12,12,16,0.95), rgba(6,6,10,0.88))",
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderTop: "1px solid rgba(255,255,255,0.14)",
               }}
             >
               <div className="flex items-center justify-between">
@@ -233,4 +214,3 @@ export default function Testimonials() {
     </section>
   );
 }
-
