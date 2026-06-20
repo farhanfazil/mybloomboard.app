@@ -32,8 +32,10 @@ export default function Home() {
         <Walkthrough />
         <StatsBar />
       </DeepDiveFlight>
-      <Testimonials />
-      <PlanQuiz />
+      <div style={{ background: "linear-gradient(to top, #243B55, #141E30)" }}>
+        <Testimonials />
+        <PlanQuiz />
+      </div>
       <TrustBar />
       <Pricing />
       <HowItWorks />

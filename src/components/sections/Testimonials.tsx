@@ -76,8 +76,7 @@ export default function Testimonials() {
   return (
     <section
       ref={ref}
-      className="px-4 py-16 sm:py-24 border-t"
-      style={{ borderColor: "rgba(255,255,255,0.05)" }}
+      className="px-4 py-16 sm:py-24"
     >
       <div className="mx-auto max-w-6xl">
         <motion.div
