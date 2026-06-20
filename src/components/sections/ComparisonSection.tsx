@@ -252,8 +252,6 @@ export default function ComparisonSection() {
       className="relative px-3 py-16 sm:px-6 sm:py-24"
       style={{
         background: "linear-gradient(to top, #152331, #000000)",
-        borderTop: "1px solid rgba(77,159,255,0.1)",
-        borderBottom: "1px solid rgba(77,159,255,0.1)",
       }}
     >
       {/* Heading + toggle button */}
