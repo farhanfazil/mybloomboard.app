@@ -251,9 +251,9 @@ export default function ComparisonSection() {
       ref={sectionRef}
       className="relative px-3 py-16 sm:px-6 sm:py-24"
       style={{
-        background: "linear-gradient(160deg, #0d1a3a 0%, #0a1128 35%, #0e0a2e 65%, #0d1a3a 100%)",
-        borderTop: "1px solid rgba(77,159,255,0.2)",
-        borderBottom: "1px solid rgba(167,139,250,0.2)",
+        background: "linear-gradient(to top, #152331, #000000)",
+        borderTop: "1px solid rgba(77,159,255,0.1)",
+        borderBottom: "1px solid rgba(77,159,255,0.1)",
       }}
     >
       {/* Ambient glow blobs */}
