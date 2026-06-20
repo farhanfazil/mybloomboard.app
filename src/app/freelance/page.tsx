@@ -451,7 +451,7 @@ function FreelanceTestimonials() {
   }, []);
 
   return (
-    <section ref={ref} className="px-4 py-16 sm:py-24 border-t" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
+    <section ref={ref} className="px-4 py-16 sm:py-24">
       <div className="mx-auto max-w-6xl">
         <motion.div
           className="text-center mb-12"
@@ -625,7 +625,7 @@ function FreelancePlanQuiz() {
   const plan = result ? PLAN_RESULT[result] : null;
 
   return (
-    <section ref={ref} className="px-4 py-16 sm:py-24 border-t" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
+    <section ref={ref} className="px-4 py-16 sm:py-24">
       <div className="mx-auto max-w-2xl">
         <motion.div
           className="text-center mb-10"
@@ -1987,11 +1987,11 @@ export default function FreelancePage() {
       {/* ── How It Works ─────────────────────────────────────────────── */}
       <HowItWorks />
 
-      {/* ── Testimonials ─────────────────────────────────────────────── */}
-      <FreelanceTestimonials />
-
-      {/* ── Plan Quiz ────────────────────────────────────────────────── */}
-      <FreelancePlanQuiz />
+      {/* ── Testimonials + Plan Quiz ─────────────────────────────────── */}
+      <div style={{ background: "linear-gradient(to top, #152331, #000000)" }}>
+        <FreelanceTestimonials />
+        <FreelancePlanQuiz />
+      </div>
 
       {/* ── FAQ ──────────────────────────────────────────────────────── */}
       <FreelanceFAQ />
