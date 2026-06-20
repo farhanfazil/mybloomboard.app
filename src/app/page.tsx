@@ -32,7 +32,7 @@ export default function Home() {
         <Walkthrough />
         <StatsBar />
       </DeepDiveFlight>
-      <div style={{ background: "linear-gradient(to right, #152331, #000000)" }}>
+      <div style={{ background: "linear-gradient(to top, #152331, #000000)" }}>
         <Testimonials />
         <PlanQuiz />
       </div>
