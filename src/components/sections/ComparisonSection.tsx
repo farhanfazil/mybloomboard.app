@@ -256,22 +256,6 @@ export default function ComparisonSection() {
         borderBottom: "1px solid rgba(77,159,255,0.1)",
       }}
     >
-      {/* Ambient glow blobs */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div
-          className="absolute -left-40 top-1/4 h-[500px] w-[500px] rounded-full opacity-20"
-          style={{ background: "radial-gradient(circle, rgba(77,159,255,0.7) 0%, transparent 70%)", filter: "blur(90px)" }}
-        />
-        <div
-          className="absolute -right-40 bottom-1/4 h-[400px] w-[400px] rounded-full opacity-15"
-          style={{ background: "radial-gradient(circle, rgba(167,139,250,0.8) 0%, transparent 70%)", filter: "blur(90px)" }}
-        />
-        <div
-          className="absolute left-1/2 top-0 h-[200px] w-[700px] -translate-x-1/2 opacity-10"
-          style={{ background: "radial-gradient(ellipse, rgba(99,179,237,0.6) 0%, transparent 70%)", filter: "blur(60px)" }}
-        />
-      </div>
-
       {/* Heading + toggle button */}
       <div className="relative mx-auto max-w-5xl">
         <div className="flex flex-col items-center gap-4 text-center">
