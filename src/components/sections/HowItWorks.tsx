@@ -35,7 +35,7 @@ const STEPS = [
         <strong className="font-semibold text-white/90">Access Purchase</strong>{" "}
         button. Open it to go to your{" "}
         <a
-          href="https://polar.sh/daily-dashboard/portal"
+          href="https://polar.sh/bloombooard/portal"
           target="_blank"
           rel="noopener noreferrer"
           className="underline underline-offset-2 text-white/80 hover:text-white transition-colors"

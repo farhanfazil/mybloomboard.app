@@ -1686,7 +1686,7 @@ export default function FreelancePage() {
           { label: "Features", href: "#features" },
           { label: "Deep Dive", href: "#freelance-smart-ai" },
           { label: "Pricing", href: "#pricing" },
-          { label: "Customer Portal", href: "https://polar.sh/daily-dashboard/portal", external: true },
+          { label: "Customer Portal", href: "https://polar.sh/bloombooard/portal", external: true },
         ]}
       />
 
