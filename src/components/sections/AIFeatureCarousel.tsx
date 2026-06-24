@@ -176,7 +176,7 @@ export default function AIFeatureCarousel() {
       `}</style>
 
       <div className="mx-auto mb-10 max-w-5xl px-4 text-center sm:mb-14 sm:px-6">
-        <span className="mb-4 inline-flex rounded-full border border-violet-400/25 bg-violet-400/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.24em] text-violet-200">
+        <span className="mb-4 inline-flex text-xs font-bold uppercase tracking-[0.24em] text-violet-200">
           AI Feature
         </span>
         <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
