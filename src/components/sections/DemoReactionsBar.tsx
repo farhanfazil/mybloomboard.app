@@ -102,7 +102,7 @@ export default function DemoReactionsBar({ className }: DemoReactionsBarProps) {
                 "group relative flex cursor-pointer flex-col items-center rounded-full px-3 py-2 transition-all duration-300",
                 "before:absolute before:-top-7 before:hidden before:h-4 before:rounded-lg before:bg-white/90 before:px-1 before:text-[.6rem] before:text-black",
                 "before:content-[attr(data-label)] hover:before:flex hover:before:items-center hover:before:justify-center",
-                "hover:-translate-y-5 hover:scale-125",
+                "hover:scale-125",
                 (votedId && !isSelected) || isPending ? "pointer-events-none opacity-50" : "",
               )}
               style={{
