@@ -50,23 +50,37 @@ export default function DemoReactionsBar({ className }: DemoReactionsBarProps) {
     return () => window.clearInterval(timer);
   }, [loadCounts]);
 
-  // On mount: fire a staggered burst of floating emojis
+  // On mount: continuously spawn floating emojis for 20 seconds
   useEffect(() => {
     const emojis = DEMO_REACTIONS.map((r) => r.emoji);
-    const burst: FloatingEmoji[] = [];
+    const timers: ReturnType<typeof setTimeout>[] = [];
 
-    for (let i = 0; i < 6; i++) {
-      burst.push({
+    const spawn = () => {
+      const floater: FloatingEmoji = {
         id: floaterIdRef.current++,
-        emoji: emojis[i % emojis.length],
-        x: 20 + Math.random() * 60, // spread across 20–80% width
-        delay: i * 180,
-      });
-    }
+        emoji: emojis[Math.floor(Math.random() * emojis.length)],
+        x: 10 + Math.random() * 80,
+        delay: 0,
+      };
+      setFloaters((prev) => [...prev, floater]);
+      // remove it after its animation completes
+      const remove = setTimeout(() => {
+        setFloaters((prev) => prev.filter((f) => f.id !== floater.id));
+      }, 2200);
+      timers.push(remove);
+    };
 
-    setFloaters(burst);
-    const cleanup = setTimeout(() => setFloaters([]), 2400);
-    return () => clearTimeout(cleanup);
+    // spawn every 400ms for 20 seconds = ~50 emojis total
+    const interval = window.setInterval(spawn, 400);
+    const stop = setTimeout(() => {
+      clearInterval(interval);
+    }, 20_000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(stop);
+      timers.forEach(clearTimeout);
+    };
   }, []);
 
   const handleReact = async (emojiId: DemoReactionId) => {
@@ -107,11 +121,11 @@ export default function DemoReactionsBar({ className }: DemoReactionsBarProps) {
           <span
             key={f.id}
             aria-hidden
-            className="pointer-events-none absolute bottom-full text-sm"
+            className="pointer-events-none absolute bottom-full text-2xl"
             style={{
               left: `${f.x}%`,
               animationDelay: `${f.delay}ms`,
-              animation: "floatUp 1.6s ease-out forwards",
+              animation: "floatUp 2s ease-out forwards",
             }}
           >
             {f.emoji}
@@ -122,7 +136,7 @@ export default function DemoReactionsBar({ className }: DemoReactionsBarProps) {
           @keyframes floatUp {
             0%   { transform: translateY(0) scale(0.7); opacity: 0.9; }
             60%  { opacity: 0.6; }
-            100% { transform: translateY(-52px) scale(0.4); opacity: 0; }
+            100% { transform: translateY(-90px) scale(0.5); opacity: 0; }
           }
         `}</style>
 
