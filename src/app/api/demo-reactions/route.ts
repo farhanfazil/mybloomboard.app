@@ -7,9 +7,13 @@ import {
   type DemoReactionId,
   isDemoReactionId,
 } from "@/lib/demo-reactions";
-import { getSupabaseAdmin } from "@/lib/supabase-server";
+import { getSupabaseAdmin, getSupabaseAnon } from "@/lib/supabase-server";
 
 const DATA_FILE = path.join(process.cwd(), "data", "demo-reactions.json");
+
+function getSupabaseClient() {
+  return getSupabaseAdmin() ?? getSupabaseAnon();
+}
 
 async function readLocalCounts(): Promise<DemoReactionCounts> {
   try {
@@ -27,7 +31,7 @@ async function writeLocalCounts(counts: DemoReactionCounts) {
 }
 
 async function fetchSupabaseCounts(): Promise<DemoReactionCounts | null> {
-  const supabase = getSupabaseAdmin();
+  const supabase = getSupabaseClient();
   if (!supabase) return null;
 
   const { data, error } = await supabase
@@ -46,27 +50,14 @@ async function fetchSupabaseCounts(): Promise<DemoReactionCounts | null> {
 }
 
 async function incrementSupabaseCount(emojiId: DemoReactionId): Promise<DemoReactionCounts | null> {
-  const supabase = getSupabaseAdmin();
+  const supabase = getSupabaseClient();
   if (!supabase) return null;
 
   const { error: rpcError } = await supabase.rpc("increment_demo_emoji_reaction", {
     p_emoji_id: emojiId,
   });
 
-  if (rpcError) {
-    const { data: existing } = await supabase
-      .from("demo_emoji_reactions")
-      .select("count")
-      .eq("emoji_id", emojiId)
-      .maybeSingle();
-
-    const next = (existing?.count ?? 0) + 1;
-    const { error: upsertError } = await supabase
-      .from("demo_emoji_reactions")
-      .upsert({ emoji_id: emojiId, count: next });
-
-    if (upsertError) return null;
-  }
+  if (rpcError) return null;
 
   return fetchSupabaseCounts();
 }
