@@ -1,6 +1,7 @@
 [build]
   command = "npm run build"
   publish = ".next"
+  # force rebuild to pick up corrected SUPABASE_URL env var
 
 [[headers]]
   for = "/*"
