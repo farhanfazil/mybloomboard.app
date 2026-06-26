@@ -90,12 +90,7 @@ export default function HowItWorks() {
           transition={{ duration: 0.6 }}
         >
           <span
-            className="mb-4 inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-widest"
-            style={{
-              color: "#ffffff",
-              background: "rgba(255,255,255,0.06)",
-              border: "1.5px solid rgba(255,255,255,0.25)",
-            }}
+            className="mb-4 inline-block text-xs font-semibold uppercase tracking-widest text-white"
           >
             How It Works
           </span>

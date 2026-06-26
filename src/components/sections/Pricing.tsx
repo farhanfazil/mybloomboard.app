@@ -634,8 +634,7 @@ export default function Pricing() {
           transition={{ duration: 0.6 }}
         >
           <span
-            className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-            style={{ color: "#a78bfa", background: "rgba(167,139,250,0.08)", border: "1px solid rgba(167,139,250,0.2)" }}
+            className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 text-white"
           >
             Pricing
           </span>

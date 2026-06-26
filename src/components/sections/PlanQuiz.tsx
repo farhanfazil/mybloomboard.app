@@ -89,8 +89,7 @@ export default function PlanQuiz() {
           transition={{ duration: 0.6 }}
         >
           <span
-            className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-            style={{ color: "rgba(255,255,255,0.82)", background: "rgba(255,255,255,0.055)", border: "1px solid rgba(255,255,255,0.12)" }}
+            className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 text-white"
           >
             Find your plan
           </span>

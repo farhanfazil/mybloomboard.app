@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "sync-demo": "node scripts/sync-app-demo.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",

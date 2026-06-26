@@ -27,12 +27,7 @@ export default function FAQ() {
           transition={{ duration: 0.6 }}
         >
           <span
-            className="mb-5 inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-widest"
-            style={{
-              color: "rgba(255,255,255,0.82)",
-              background: "rgba(255,255,255,0.055)",
-              border: "1px solid rgba(255,255,255,0.12)",
-            }}
+            className="mb-5 inline-block text-xs font-semibold uppercase tracking-widest text-white"
           >
             FAQ
           </span>

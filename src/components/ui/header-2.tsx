@@ -10,8 +10,6 @@ import { useScroll } from "@/components/ui/use-scroll";
 const DOWNLOAD_URL =
   "https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg";
 const CUSTOMER_PORTAL_URL = "https://polar.sh/bloombooard/portal";
-const WEB_APP_URL =
-  process.env.NEXT_PUBLIC_WEB_APP_URL ?? "https://app.mybloomboard.app";
 
 interface NavLink {
   label: string;
@@ -27,9 +25,7 @@ export function Header({
   logoHref?: string;
 } = {}) {
   const [open, setOpen] = React.useState(false);
-  const [webAppHref, setWebAppHref] = React.useState(WEB_APP_URL);
   const scrolled = useScroll(10);
-  const isExternalWebApp = webAppHref.startsWith("http");
 
   const links: NavLink[] = customLinks ?? [
     { label: "Features", href: "#features" },
@@ -49,12 +45,6 @@ export function Header({
       document.body.style.overflow = "";
     };
   }, [open]);
-
-  React.useEffect(() => {
-    if (["localhost", "127.0.0.1"].includes(window.location.hostname)) {
-      setWebAppHref("/app");
-    }
-  }, []);
 
   return (
     <>
@@ -111,39 +101,12 @@ export function Header({
             <span>💼</span>
             Freelancers
           </a>
-          <div className="relative shrink-0">
-            <Button
-              asChild
-              className="gap-1.5 rounded-full px-4 text-sm text-white"
-              style={{ background: "linear-gradient(155deg, rgba(20,80,160,0.95) 0%, rgba(10,50,120,0.95) 50%, rgba(15,70,150,0.95) 100%)", border: "1.5px solid rgba(77,159,255,0.7)", boxShadow: "0 4px 16px rgba(30,120,255,0.3)" }}
-            >
-              <a
-                href={webAppHref}
-                target={isExternalWebApp ? "_blank" : undefined}
-                rel={isExternalWebApp ? "noreferrer" : undefined}
-              >
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
-                </svg>
-                Web App
-              </a>
-            </Button>
-            <span
-              className="pointer-events-none absolute -right-1 -top-2 rounded-full px-1.5 py-px text-[9px] font-bold uppercase tracking-wide"
-              style={{ background: "#f59e0b", color: "#000" }}
-            >
-              Soon
-            </span>
-          </div>
           <Button
             asChild
-            className="shrink-0 gap-2 rounded-full bg-white px-5 text-sm text-[#0a0f1c] hover:bg-white/90"
+            className="h-auto shrink-0 gap-1.5 rounded-full border border-transparent bg-white px-3 py-1.5 text-sm font-semibold text-[#0a0f1c] hover:bg-white/90"
           >
             <a href={DOWNLOAD_URL}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-              </svg>
-              Download
+              Free Trial
             </a>
           </Button>
         </div>
@@ -203,31 +166,6 @@ export function Header({
             For Freelancers
           </a>
 
-          <div style={{ position: "relative" }}>
-            <a
-              href={webAppHref}
-              target={isExternalWebApp ? "_blank" : undefined}
-              rel={isExternalWebApp ? "noreferrer" : undefined}
-              onClick={() => setOpen(false)}
-              style={{
-                display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-                borderRadius: "999px", padding: "12px 0", width: "100%", boxSizing: "border-box",
-                fontSize: "14px", fontWeight: 600, textDecoration: "none",
-                background: "linear-gradient(155deg, rgba(20,80,160,0.95) 0%, rgba(10,50,120,0.95) 50%, rgba(15,70,150,0.95) 100%)", border: "1.5px solid rgba(77,159,255,0.7)", color: "#fff", boxShadow: "0 4px 16px rgba(30,120,255,0.3)",
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
-              </svg>
-              Web App
-            </a>
-            <span
-              style={{ position: "absolute", top: "-8px", right: "-4px", background: "#f59e0b", color: "#000", borderRadius: "999px", padding: "1px 6px", fontSize: "9px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", pointerEvents: "none" }}
-            >
-              Soon
-            </span>
-          </div>
-
           <a
             href={DOWNLOAD_URL}
             onClick={() => setOpen(false)}
@@ -238,10 +176,7 @@ export function Header({
               background: "#fff", color: "#0a0f1c",
             }}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>
-            Download
+            Free Trial
           </a>
         </div>
       </div>

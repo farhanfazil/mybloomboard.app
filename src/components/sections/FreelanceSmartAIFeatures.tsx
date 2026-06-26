@@ -164,7 +164,7 @@ export default function FreelanceSmartAIFeatures() {
       `}</style>
 
       <div className="mx-auto mb-10 max-w-5xl px-4 text-center sm:mb-14 sm:px-6">
-        <span className="mb-4 inline-flex text-xs font-bold uppercase tracking-[0.24em] text-violet-200">
+        <span className="mb-4 inline-flex text-xs font-bold uppercase tracking-[0.24em] text-white">
           Smart AI Features
         </span>
         <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">

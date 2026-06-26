@@ -86,8 +86,7 @@ export default function Testimonials() {
           transition={{ duration: 0.6 }}
         >
           <span
-            className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-            style={{ color: "#4d9fff", background: "rgba(77,159,255,0.08)", border: "1px solid rgba(77,159,255,0.2)" }}
+            className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 text-white"
           >
             From our users
           </span>

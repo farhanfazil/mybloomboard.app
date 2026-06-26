@@ -466,8 +466,7 @@ export default function FeatureGrid() {
           transition={{ duration: 0.6 }}
         >
           <span
-            className="mb-4 inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-widest"
-            style={{ color: "#4d9fff", background: "rgba(77,159,255,0.1)", border: "1px solid rgba(77,159,255,0.2)" }}
+            className="mb-4 inline-block text-xs font-semibold uppercase tracking-widest text-white"
           >
             Features
           </span>

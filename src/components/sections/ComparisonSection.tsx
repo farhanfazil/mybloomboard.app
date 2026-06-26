@@ -249,22 +249,13 @@ export default function ComparisonSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative px-3 py-16 sm:px-6 sm:py-24"
-      style={{
-        background: "linear-gradient(to top, #152331, #000000)",
-      }}
+      className="relative bg-black px-3 py-16 sm:px-6 sm:py-24"
     >
       {/* Heading + toggle button */}
       <div className="relative mx-auto max-w-5xl">
         <div className="flex flex-col items-center gap-4 text-center">
           <span
-            className="inline-block rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest"
-            style={{
-              color: "#93c5fd",
-              background: "rgba(59,130,246,0.15)",
-              border: "1.5px solid rgba(77,159,255,0.5)",
-              boxShadow: "0 0 16px rgba(77,159,255,0.2)",
-            }}
+            className="inline-block text-xs font-bold uppercase tracking-widest text-white"
           >
             How We Stack Up
           </span>

@@ -459,8 +459,7 @@ function FreelanceTestimonials() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-            style={{ color: "#fbbf24", background: "rgba(217,119,6,0.1)", border: "1px solid rgba(251,191,36,0.2)" }}>
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 text-white">
             From freelancers & teams
           </span>
           <h2 className="text-3xl font-bold sm:text-4xl">What they&apos;re saying</h2>
@@ -633,8 +632,7 @@ function FreelancePlanQuiz() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-            style={{ color: "rgba(255,255,255,0.82)", background: "rgba(255,255,255,0.055)", border: "1px solid rgba(255,255,255,0.12)" }}>
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 text-white">
             Find your plan
           </span>
           <h2 className="text-3xl font-bold sm:text-4xl">Which plan is right for you?</h2>
@@ -759,8 +757,7 @@ function FreelanceFAQ() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className="mb-5 inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-widest"
-            style={{ color: "rgba(255,255,255,0.82)", background: "rgba(255,255,255,0.055)", border: "1px solid rgba(255,255,255,0.12)" }}>
+          <span className="mb-5 inline-block text-xs font-semibold uppercase tracking-widest text-white">
             FAQ
           </span>
           <h2 className="mb-5 max-w-xl text-3xl font-bold leading-tight text-text-primary sm:text-4xl">
@@ -1803,8 +1800,7 @@ export default function FreelancePage() {
         <div className="mx-auto max-w-[1280px]">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-14">
             <span
-              className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-              style={{ color: "#fbbf24", background: "rgba(217,119,6,0.1)", border: "1px solid rgba(251,191,36,0.2)" }}
+              className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 text-white"
             >
               Everything you need
             </span>
@@ -1938,8 +1934,7 @@ export default function FreelancePage() {
         <div className="mx-auto max-w-6xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-12">
             <span
-              className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-              style={{ color: "#fbbf24", background: "rgba(217,119,6,0.1)", border: "1px solid rgba(251,191,36,0.2)" }}
+              className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 text-white"
             >
               Freelance Pricing
             </span>
