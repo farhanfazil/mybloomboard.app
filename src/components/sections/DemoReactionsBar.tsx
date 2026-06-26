@@ -75,7 +75,7 @@ export default function DemoReactionsBar({ className }: DemoReactionsBarProps) {
     <div className={cn("flex flex-col items-center gap-2", className)}>
       <div
         className={cn(
-          "z-10 flex items-center justify-start gap-2 rounded-full p-2 text-2xl",
+          "z-10 flex items-center justify-start gap-2 rounded-full p-2 text-lg",
           "transition-all duration-300 hover:scale-x-105",
         )}
         style={{
