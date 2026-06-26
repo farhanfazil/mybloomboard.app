@@ -5,5 +5,11 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "DENY"
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/bloomboard-demo/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
