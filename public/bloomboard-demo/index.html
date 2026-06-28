@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <!-- bb-web-demo-patched -->
-  <script src="demo-seed.js?v=29"></script>
-  <script src="demo-boot.js?v=29"></script>
+  <script src="demo-seed.js?v=30"></script>
+  <script src="demo-boot.js?v=30"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BloomBoard — Demo</title>
@@ -5655,6 +5655,111 @@
       display:flex;align-items:center;justify-content:center;padding:0 3px;display:none;
     }
 
+    /* ── Bloom whisper popup ── */
+    .bloom-whisper {
+      position:fixed;bottom:98px;right:16px;
+      max-width:215px;
+      background:rgba(10,28,72,.52);
+      border:1px solid rgba(99,179,255,.28);
+      border-radius:14px 14px 4px 14px;
+      padding:10px 14px;
+      font-size:12px;line-height:1.6;color:#93c5fd;
+      font-weight:500;
+      pointer-events:none;
+      opacity:0;
+      transform:translateY(10px) scale(.96);
+      transition:opacity .45s ease, transform .45s ease;
+      backdrop-filter:blur(18px) saturate(160%);
+      -webkit-backdrop-filter:blur(18px) saturate(160%);
+      z-index:99998;
+      box-shadow:0 6px 28px rgba(37,99,235,.22),0 1px 8px rgba(59,130,246,.15),inset 0 1px 0 rgba(147,210,255,.18),inset 0 0 22px rgba(59,130,246,.08);
+    }
+    .bloom-whisper.show { opacity:1;transform:translateY(0) scale(1); }
+    .bloom-whisper::after {
+      content:'';position:absolute;bottom:-7px;right:20px;
+      border-left:7px solid transparent;
+      border-right:7px solid transparent;
+      border-top:7px solid rgba(10,28,72,.52);
+    }
+    body.light-mode .bloom-whisper {
+      background:rgba(239,246,255,.72);
+      border-color:rgba(59,130,246,.3);
+      color:#1d4ed8;
+      box-shadow:0 6px 24px rgba(37,99,235,.15),inset 0 1px 0 rgba(255,255,255,.6),inset 0 0 18px rgba(59,130,246,.06);
+    }
+    body.light-mode .bloom-whisper::after { border-top-color:rgba(239,246,255,.72); }
+
+    /* ── Thought to Task — dashboard widget ── */
+    .t2t-card {
+      background:rgba(77,159,255,.07);border:1px solid rgba(77,159,255,.2);
+      border-radius:16px;padding:16px 18px;margin-bottom:14px;
+    }
+    body.light-mode .t2t-card { background:#fff;border-color:rgba(0,0,0,.1); }
+    body.black-mode .t2t-card { background:transparent!important;border-color:transparent!important; }
+    .t2t-card-hd { display:flex;align-items:center;justify-content:space-between;margin-bottom:10px; }
+    .t2t-toggle-btn { background:none;border:none;cursor:pointer;padding:3px;display:flex;align-items:center;justify-content:center;border-radius:5px;color:rgba(125,211,252,.5);transition:color .15s,background .15s; }
+    .t2t-toggle-btn:hover { color:#7dd3fc;background:rgba(77,159,255,.12); }
+    .t2t-toggle-btn svg { width:14px;height:14px;transition:transform .2s ease; }
+    .t2t-card.collapsed .t2t-card-hd { margin-bottom:0; }
+    .t2t-card.collapsed #t2t-chevron { transform:rotate(180deg); }
+    .t2t-card.collapsed .t2t-input,
+    .t2t-card.collapsed .t2t-footer,
+    .t2t-card.collapsed .t2t-results { display:none !important; }
+    body.light-mode .t2t-toggle-btn { color:rgba(0,0,0,.3); }
+    body.light-mode .t2t-toggle-btn:hover { color:#111;background:rgba(0,0,0,.06); }
+    .t2t-card-title { display:flex;align-items:center;gap:7px;font-size:12px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#7dd3fc; }
+    .t2t-card-title svg { width:13px;height:13px; }
+    body.light-mode .t2t-card-title { color:#111827; }
+    .t2t-input {
+      width:100%;resize:none;min-height:72px;
+      background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);
+      border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.6;
+      color:#d8e8f4;font-family:inherit;outline:none;box-sizing:border-box;
+      transition:border-color .18s;
+    }
+    .t2t-input:focus { border-color:rgba(77,159,255,.6); }
+    .t2t-input::placeholder { color:#6a8faa; }
+    body.light-mode .t2t-input { background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.09);color:#1a2535; }
+    body.light-mode .t2t-input::placeholder { color:#94a3b8; }
+    body.black-mode .t2t-input { background:#1e1e1e!important;border-color:#2e2e2e!important; }
+    .t2t-footer { display:flex;align-items:center;justify-content:space-between;margin-top:8px; }
+    .t2t-hint { font-size:11px;color:#3a5060; }
+    body.light-mode .t2t-hint { color:#6b7280; }
+    .t2t-btn {
+      display:flex;align-items:center;gap:6px;
+      padding:7px 14px;border-radius:9px;border:none;cursor:pointer;font-size:12px;font-weight:700;
+      background:rgba(77,159,255,.18);color:#93c5fd;border:1px solid rgba(77,159,255,.35);
+      transition:background .15s,transform .1s;white-space:nowrap;
+    }
+    .t2t-btn:hover { background:rgba(77,159,255,.28);transform:translateY(-1px); }
+    .t2t-btn:disabled { opacity:.5;cursor:not-allowed;transform:none; }
+    .t2t-btn svg { width:12px;height:12px; }
+    body.light-mode .t2t-btn { background:#e2e8f0!important;color:#111827!important;border-color:rgba(0,0,0,.15)!important; }
+    body.light-mode .t2t-btn:hover { background:#cbd5e1!important; }
+    .t2t-results { display:none;flex-direction:column;gap:6px;margin-top:10px; }
+    .t2t-results.show { display:flex; }
+    .t2t-results-hd { display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#4a6a8a;font-weight:700;text-transform:uppercase;letter-spacing:.05em; }
+    body.light-mode .t2t-results-hd { color:#64748b; }
+    .t2t-add-all { font-size:11px;font-weight:700;padding:3px 9px;border-radius:7px;border:1px solid rgba(77,159,255,.3);background:rgba(77,159,255,.12);color:#93c5fd;cursor:pointer;transition:background .14s; }
+    .t2t-add-all:hover { background:rgba(77,159,255,.22); }
+    .t2t-add-all:disabled { opacity:.4;cursor:default; }
+    body.light-mode .t2t-add-all { background:rgba(101,163,13,.18)!important;color:#3f6212!important;border-color:rgba(101,163,13,.4)!important; }
+    .t2t-task-row { display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:9px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07); }
+    .t2t-task-row.added { opacity:.45;pointer-events:none; }
+    .t2t-task-pri { font-size:10px;font-weight:800;padding:2px 6px;border-radius:5px;flex-shrink:0;text-transform:uppercase;letter-spacing:.04em; }
+    .t2t-task-pri.high   { background:rgba(248,113,113,.15);color:#f87171;border:1px solid rgba(248,113,113,.25); }
+    .t2t-task-pri.medium { background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.22); }
+    .t2t-task-pri.low    { background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.22); }
+    .t2t-task-title { flex:1;font-size:13px;color:#d0dde8;line-height:1.4; }
+    body.light-mode .t2t-task-row { background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.08); }
+    body.light-mode .t2t-task-title { color:#1a2535; }
+    .t2t-task-add { flex-shrink:0;font-size:11px;font-weight:700;padding:4px 10px;border-radius:8px;border:1px solid rgba(77,159,255,.35);background:rgba(77,159,255,.12);color:#7ec8ff;cursor:pointer;transition:background .15s,transform .1s;white-space:nowrap; }
+    .t2t-task-add:hover { background:rgba(77,159,255,.22);transform:scale(1.04); }
+    .t2t-task-add.done { background:rgba(74,222,128,.12);color:#4ade80;border-color:rgba(74,222,128,.3);cursor:default;transform:none; }
+    body.light-mode .t2t-task-add { background:rgba(37,99,235,.1)!important;color:#1d4ed8!important;border-color:rgba(37,99,235,.3)!important; }
+    .t2t-task-del { flex-shrink:0;background:none;border:none;color:rgba(255,255,255,.2);font-size:14px;cursor:pointer;padding:0 2px;line-height:1;transition:color .14s; }
+    .t2t-task-del:hover { color:#f87171; }
+
     /* Side panel */
     .bloom-panel {
       position:fixed;top:0;right:0;bottom:0;width:370px;
@@ -9052,6 +9157,34 @@
           <div class="chief-signals" id="chief-signals"></div>
         </div>
       </section>
+
+      <!-- Thought to Task — quick capture widget -->
+      <div class="t2t-card" id="t2t-dashboard-card">
+        <div class="t2t-card-hd">
+          <div class="t2t-card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 3.1-2 5.7-4.8 6.6V17a1 1 0 0 1-1 1h-2.4a1 1 0 0 1-1-1v-1.4C6 14.7 5 12.1 5 9a7 7 0 0 1 7-7z"/><line x1="9" y1="21" x2="15" y2="21"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+            Thought to Task
+          </div>
+          <button class="t2t-toggle-btn" id="t2t-toggle" onclick="toggleT2T()" title="Collapse / Expand">
+            <svg id="t2t-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+          </button>
+        </div>
+        <textarea class="t2t-input" id="t2t-input" placeholder="Type anything on your mind — messy is fine. AI will sort it into tasks." rows="3"></textarea>
+        <div class="t2t-footer">
+          <span class="t2t-hint">No structure needed. Just type.</span>
+          <button class="t2t-btn" id="t2t-btn" onclick="runT2TDemo()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Organise
+          </button>
+        </div>
+        <div class="t2t-results" id="t2t-results">
+          <div class="t2t-results-hd">
+            <span id="t2t-count"></span>
+            <button class="t2t-add-all" id="t2t-add-all" onclick="t2tAddAllDemo()">+ Add All</button>
+          </div>
+          <div id="t2t-task-list"></div>
+        </div>
+      </div>
 
       <!-- Today's Progress — goal bar + milestone timeline (shown when tasks due today exist) -->
       <div class="today-progress-card" id="today-progress-card">
@@ -18438,6 +18571,8 @@ function clearPickerField(event, fieldId) {
     </svg>
     <div class="bloom-bubble-badge" id="bloom-badge">1</div>
   </div>
+
+  <div class="bloom-whisper" id="bloom-whisper"></div>
 
   <!-- Side panel -->
   <div class="bloom-panel" id="bloom-panel">
@@ -32824,6 +32959,195 @@ if (document.readyState !== 'loading') {
   bbLoadOAuthState();
 }
 
+})();
+
+/* ── Thought to Task — demo version ── */
+(function() {
+  var _t2tTasks = [];
+
+  window.toggleT2T = function() {
+    var card = document.getElementById('t2t-dashboard-card');
+    if (card) card.classList.toggle('collapsed');
+  };
+
+  window.runT2TDemo = function() {
+    var input = (document.getElementById('t2t-input').value || '').trim();
+    if (!input) { if (typeof showToast === 'function') showToast('Type something first'); return; }
+    var btn = document.getElementById('t2t-btn');
+    var results = document.getElementById('t2t-results');
+    btn.disabled = true;
+    btn.innerHTML = '…';
+    results.classList.remove('show');
+
+    // Simulate AI with a short delay then show demo tasks extracted from input
+    setTimeout(function() {
+      var demoSets = [
+        [
+          { title: 'Review project proposal', priority: 'high' },
+          { title: 'Send follow-up email to client', priority: 'medium' },
+          { title: 'Update task board', priority: 'low' },
+          { title: 'Schedule team standup', priority: 'medium' },
+        ],
+        [
+          { title: 'Finish design mockups', priority: 'high' },
+          { title: 'Call back Sarah re: budget', priority: 'high' },
+          { title: 'Book lunch for Friday', priority: 'low' },
+          { title: 'Read through contract draft', priority: 'medium' },
+          { title: 'Push latest code changes', priority: 'medium' },
+        ],
+        [
+          { title: 'Prepare weekly report', priority: 'high' },
+          { title: 'Fix homepage bug', priority: 'high' },
+          { title: 'Reply to investor email', priority: 'medium' },
+          { title: 'Order office supplies', priority: 'low' },
+        ],
+      ];
+      var set = demoSets[Math.floor(Math.random() * demoSets.length)];
+      _t2tTasks = set.map(function(t, i) { return { title: t.title, priority: t.priority, _idx: i, _added: false }; });
+      renderT2TDemoTasks();
+      results.classList.add('show');
+      btn.disabled = false;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Organise';
+    }, 900);
+  };
+
+  function renderT2TDemoTasks() {
+    var list = document.getElementById('t2t-task-list');
+    var count = document.getElementById('t2t-count');
+    if (!list) return;
+    count.textContent = 'Found ' + _t2tTasks.length + ' task' + (_t2tTasks.length !== 1 ? 's' : '');
+    list.innerHTML = '';
+    _t2tTasks.forEach(function(t) {
+      var row = document.createElement('div');
+      row.className = 't2t-task-row' + (t._added ? ' added' : '');
+      row.id = 't2t-row-' + t._idx;
+
+      var pri = document.createElement('span');
+      pri.className = 't2t-task-pri ' + (t.priority || 'medium');
+      pri.textContent = (t.priority || 'medium').toUpperCase();
+      pri.title = 'Click to change priority';
+      if (!t._added) {
+        (function(task, priEl) {
+          priEl.style.cursor = 'pointer';
+          priEl.onclick = function(e) {
+            e.stopPropagation();
+            var cycle = { high: 'medium', medium: 'low', low: 'high' };
+            task.priority = cycle[task.priority] || 'medium';
+            priEl.className = 't2t-task-pri ' + task.priority;
+            priEl.textContent = task.priority.toUpperCase();
+          };
+        })(t, pri);
+      }
+
+      var title = document.createElement('span');
+      title.className = 't2t-task-title';
+      title.textContent = t.title;
+
+      var addBtn = document.createElement('button');
+      addBtn.className = 't2t-task-add' + (t._added ? ' done' : '');
+      addBtn.textContent = t._added ? '✓' : '+ Add';
+      if (!t._added) {
+        (function(idx) { addBtn.onclick = function() { t2tAddDemoTask(idx); }; })(t._idx);
+      }
+
+      var delBtn = document.createElement('button');
+      delBtn.className = 't2t-task-del';
+      delBtn.innerHTML = '&times;';
+      delBtn.title = 'Remove';
+      if (!t._added) {
+        (function(idx) {
+          delBtn.onclick = function() {
+            _t2tTasks = _t2tTasks.filter(function(x) { return x._idx !== idx; });
+            renderT2TDemoTasks();
+          };
+        })(t._idx);
+      }
+
+      row.appendChild(pri); row.appendChild(title); row.appendChild(addBtn); row.appendChild(delBtn);
+      list.appendChild(row);
+    });
+  }
+
+  function t2tAddDemoTask(idx) {
+    var t = _t2tTasks[idx];
+    if (!t || t._added) return;
+    // Add to real task list if available
+    var newTask = { id: 't2t-' + Date.now() + '-' + Math.floor(Math.random() * 9999), title: t.title, desc: '', priority: t.priority || 'medium', status: 'pending', createdAt: new Date().toISOString(), source: 'thought-to-task' };
+    try {
+      var all = JSON.parse(localStorage.getItem('farhan-dash-tasks') || '[]');
+      all.push(newTask);
+      localStorage.setItem('farhan-dash-tasks', JSON.stringify(all));
+      if (typeof renderTaskList === 'function') renderTaskList();
+      if (typeof updateStats === 'function') updateStats();
+    } catch(e) {}
+    _t2tTasks[idx]._added = true;
+    var row = document.getElementById('t2t-row-' + idx);
+    if (row) {
+      row.classList.add('added');
+      var b = row.querySelector('.t2t-task-add');
+      if (b) { b.textContent = '✓'; b.className = 't2t-task-add done'; b.onclick = null; }
+    }
+    if (_t2tTasks.every(function(x) { return x._added; })) {
+      var ab = document.getElementById('t2t-add-all');
+      if (ab) { ab.disabled = true; ab.textContent = '✓ All Added'; }
+    }
+    if (typeof showToast === 'function') showToast('✅ Task added!');
+  }
+
+  window.t2tAddAllDemo = function() {
+    _t2tTasks.forEach(function(t) { if (!t._added) t2tAddDemoTask(t._idx); });
+    if (typeof showToast === 'function') showToast('✅ All tasks added!');
+  };
+})();
+
+/* ── Bloom whisper popup messages ── */
+(function() {
+  var messages = [
+    "I can create tasks for you — just tell me what's on your mind.",
+    "Need a new board? Just say the word.",
+    "I remember your meetings. Ask me what's coming up.",
+    "Feeling stuck? I can help you break things down.",
+    "I can write emails for you — fast and polished.",
+    "Ask me to plan your day and I'll sort your priorities.",
+    "Got a messy to-do list? I'll organise it into tasks.",
+    "I can schedule meetings, set reminders, or just chat.",
+    "You can ask me anything — I'm always here.",
+    "I'm tracking your tasks. Want a quick summary?",
+    "Say 'I'm stuck on X' — I'll help you get unstuck.",
+    "I can add cards to any board directly from chat.",
+    "Want to know what's overdue? Just ask.",
+    "I work best when you think out loud. Try me.",
+    "Need to draft something? I'll write it for you.",
+  ];
+
+  var hideTimer = null;
+  var lastIdx = -1;
+
+  function nextMsg() {
+    var idx;
+    do { idx = Math.floor(Math.random() * messages.length); } while (idx === lastIdx);
+    lastIdx = idx;
+    return messages[idx];
+  }
+
+  function showBloomWhisper() {
+    var panel = document.getElementById('bloom-panel');
+    if (panel && panel.classList.contains('open')) return;
+    var el = document.getElementById('bloom-whisper');
+    if (!el) return;
+    el.textContent = nextMsg();
+    el.classList.add('show');
+    hideTimer = setTimeout(function() {
+      el.classList.remove('show');
+    }, 6000);
+  }
+
+  function scheduleNext() {
+    var delay = 18000 + Math.random() * 22000;
+    setTimeout(function() { showBloomWhisper(); scheduleNext(); }, delay);
+  }
+
+  setTimeout(function() { showBloomWhisper(); scheduleNext(); }, 8000);
 })();
 </script>
 
