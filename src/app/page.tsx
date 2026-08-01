@@ -25,8 +25,8 @@ export default function Home() {
     <main>
       <Header />
       <AppPreviewScroll />
-      <FeatureGrid />
       <ComparisonSection />
+      <FeatureGrid />
       <AIFeatureCarousel />
       <DeepDiveFlight>
         <Walkthrough />
