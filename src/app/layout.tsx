@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     images: ["/screenshots/Card_Black.jpg"],
   },
   icons: {
-    icon: "/logo.png",
+    icon: "/favicon.png",
     apple: "/apple-touch-icon.png",
   },
 };
