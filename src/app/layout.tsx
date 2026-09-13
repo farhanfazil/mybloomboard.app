@@ -20,21 +20,12 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://mybloomboard.app",
     siteName: "BloomBoard",
-    images: [
-      {
-        url: "/screenshots/Card_Black.jpg",
-        width: 2188,
-        height: 1638,
-        alt: "BloomBoard — macOS productivity app",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "BloomBoard — Your day. Organised. Beautiful.",
     description:
       "A beautiful macOS productivity app for tasks, streaks, milestones, and hydration. 100% local. No account. Free.",
-    images: ["/screenshots/Card_Black.jpg"],
   },
   icons: {
     icon: "/favicon.png",
