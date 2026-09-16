@@ -1115,8 +1115,221 @@
       'body.light-mode .bb-demo-ws-transition{background:rgba(248,250,252,.78)}' +
       'body.bb-has-ws-switcher .sidebar,body.bb-has-ws-switcher .main-area{position:relative;z-index:1}' +
       'body.bb-workspace-personal .sb-section:has(#sb-hydration){display:none!important}' +
-      'body.bb-has-ws-switcher #hydration-popup{display:none!important}';
+      'body.bb-has-ws-switcher #hydration-popup{display:none!important}' +
+      /* Chat read receipts */
+      '.chat-receipt{display:flex;align-items:center;gap:5px;margin-top:3px;min-height:16px;font-size:10.5px;font-weight:600;color:#7d93b0;user-select:none}' +
+      '.chat-receipt:empty{display:none}' +
+      '.chat-receipt .rc-ic{width:14px;height:14px;flex:0 0 14px;overflow:visible;color:#7d93b0}' +
+      '.chat-receipt .rc-petals circle{fill:#f9a8d4}' +
+      '.chat-receipt .rc-core{fill:#fcd34d;transform-box:fill-box;transform-origin:center}' +
+      '.chat-receipt .rc-petals{transform-box:fill-box;transform-origin:center}' +
+      '.chat-receipt[data-state="part"] .rc-petals circle{fill:#f9a8d4;opacity:.55}' +
+      '.chat-receipt[data-state="seen"] .rc-lbl,.chat-receipt[data-state="part"] .rc-lbl{color:#f9a8d4}' +
+      '.chat-receipt .rc-avs{display:inline-flex}' +
+      '.chat-receipt .rc-av{width:15px;height:15px;border-radius:50%;margin-left:-4px;border:1.5px solid #0f1a2c;background-size:cover;background-position:center;display:inline-grid;place-items:center;font-size:7px;font-weight:800;color:#fff;overflow:hidden}' +
+      '.chat-receipt .rc-av:first-child{margin-left:0}' +
+      '.chat-receipt.rc-bloom .rc-petals{animation:rcBloom .8s cubic-bezier(.2,.9,.3,1.3)}' +
+      '.chat-receipt.rc-bloom .rc-core{animation:rcCore .8s ease-out}' +
+      '@keyframes rcBloom{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.15);opacity:1}100%{transform:scale(1)}}' +
+      '@keyframes rcCore{0%{transform:scale(0);opacity:0}70%{transform:scale(1.3)}100%{transform:scale(1);opacity:1}}' +
+      'body.light-mode .chat-receipt .rc-petals circle{fill:#db2777}' +
+      'body.light-mode .chat-receipt .rc-core{fill:#f59e0b}' +
+      'body.light-mode .chat-receipt .rc-av{border-color:#fff}' +
+      '@media (prefers-reduced-motion:reduce){.chat-receipt.rc-bloom .rc-petals,.chat-receipt.rc-bloom .rc-core{animation:none}}' +
+      /* What's New dialog */
+      '.bb-whatsnew-list{display:grid;gap:8px;margin:12px 0 0;padding:0;list-style:none}' +
+      '.bb-whatsnew-list li{position:relative;padding-left:16px;color:#e8f5ff;font-size:13px;line-height:1.45}' +
+      '.bb-whatsnew-list li::before{content:"";position:absolute;left:1px;top:.55em;width:6px;height:6px;border-radius:50%;background:#7dd3fc;box-shadow:0 0 8px rgba(125,211,252,.65)}' +
+      'body.light-mode .bb-whatsnew-list li{color:#123e5a}' +
+      'body.light-mode .bb-whatsnew-list li::before{background:#0e7490;box-shadow:none}' +
+      '.bb-whatsnew-sheet{max-width:440px}' +
+      '.bb-whatsnew-emoji{font-size:26px;margin-bottom:2px}' +
+      /* Resizable kanban columns */
+      '.kanban-col{position:relative}' +
+      '.bb-col-resize-handle{position:absolute;top:0;right:-4px;width:8px;height:100%;cursor:col-resize;z-index:5}' +
+      '.bb-col-resize-handle::after{content:"";position:absolute;top:0;right:3px;width:2px;height:100%;background:transparent;transition:background .15s}' +
+      '.bb-col-resize-handle:hover::after,.bb-col-resize-handle.resizing::after{background:#4d9fff}' +
+      /* @mention autocomplete for task notes */
+      '.bb-mention-menu{position:fixed;z-index:99999;min-width:200px;max-height:220px;overflow-y:auto;padding:5px;background:#16213a;border:1px solid rgba(255,255,255,.12);border-radius:11px;box-shadow:0 12px 32px rgba(0,0,0,.45)}' +
+      '.bb-mention-opt{display:flex;align-items:center;gap:8px;width:100%;padding:7px 9px;border:none;border-radius:7px;background:transparent;text-align:left;font:inherit;font-size:12.5px;font-weight:600;color:#cbd5e1;cursor:pointer}' +
+      '.bb-mention-opt:hover,.bb-mention-opt.active{background:rgba(96,165,250,.14);color:#fff}' +
+      '.bb-mention-av{width:20px;height:20px;border-radius:50%;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff}' +
+      'body.light-mode .bb-mention-menu{background:#fff;border-color:rgba(0,0,0,.1);box-shadow:0 12px 32px rgba(15,23,42,.18)}' +
+      'body.light-mode .bb-mention-opt{color:#334155}' +
+      'body.light-mode .bb-mention-opt:hover,body.light-mode .bb-mention-opt.active{background:rgba(59,130,246,.12);color:#0f172a}';
     document.head.appendChild(style);
+  }
+
+  /* ── @Mention autocomplete in task notes ── */
+  var MENTION_PEOPLE = [
+    { name: 'Sarah Chen', color: '#ef4444' }, { name: 'Marcus Lee', color: '#f97316' },
+    { name: 'Priya Patel', color: '#f59e0b' }, { name: 'James Okonkwo', color: '#10b981' },
+    { name: 'Elena Vasquez', color: '#06b6d4' }, { name: 'David Kim', color: '#3b82f6' },
+    { name: 'Rachel Brooks', color: '#8b5cf6' }, { name: 'Tom Nguyen', color: '#ec4899' },
+    { name: 'Aisha Rahman', color: '#84cc16' },
+  ];
+  var _mentionState = null; // { textarea, start, end }
+
+  function mentionInitials(name) {
+    return name.split(/\s+/).map(function (p) { return p[0]; }).join('').slice(0, 2).toUpperCase();
+  }
+  function closeMentionMenu() {
+    var m = document.getElementById('bb-mention-menu');
+    if (m) m.remove();
+    _mentionState = null;
+  }
+  function applyMention(person) {
+    if (!_mentionState) return;
+    var ta = _mentionState.textarea;
+    var val = ta.value;
+    var before = val.slice(0, _mentionState.start);
+    var after = val.slice(_mentionState.end);
+    var insert = '@' + person.name + ' ';
+    ta.value = before + insert + after;
+    var caret = (before + insert).length;
+    ta.setSelectionRange(caret, caret);
+    ta.focus();
+    closeMentionMenu();
+    ta.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+  function openMentionMenu(textarea, query, start, end) {
+    closeMentionMenu();
+    var matches = MENTION_PEOPLE.filter(function (p) { return p.name.toLowerCase().indexOf(query.toLowerCase()) === 0 || !query; });
+    if (!matches.length) return;
+    _mentionState = { textarea: textarea, start: start, end: end };
+    var menu = document.createElement('div');
+    menu.id = 'bb-mention-menu';
+    menu.className = 'bb-mention-menu';
+    matches.slice(0, 6).forEach(function (p, idx) {
+      var opt = document.createElement('button');
+      opt.type = 'button';
+      opt.className = 'bb-mention-opt' + (idx === 0 ? ' active' : '');
+      opt.innerHTML = '<span class="bb-mention-av" style="background:' + p.color + '">' + mentionInitials(p.name) + '</span><span>' + p.name + '</span>';
+      opt.onmousedown = function (e) { e.preventDefault(); applyMention(p); };
+      menu.appendChild(opt);
+    });
+    document.body.appendChild(menu);
+    var r = textarea.getBoundingClientRect();
+    menu.style.left = Math.round(r.left) + 'px';
+    var top = r.top - menu.offsetHeight - 6;
+    menu.style.top = (top > 0 ? top : r.bottom + 6) + 'px';
+  }
+  function checkMentionTrigger(textarea) {
+    var val = textarea.value;
+    var caret = textarea.selectionStart;
+    var upToCaret = val.slice(0, caret);
+    var m = upToCaret.match(/@([a-zA-Z]*)$/);
+    if (!m) { closeMentionMenu(); return; }
+    openMentionMenu(textarea, m[1], caret - m[1].length - 1, caret);
+  }
+  function installMentionListeners() {
+    document.addEventListener('input', function (e) {
+      if (e.target && e.target.classList && e.target.classList.contains('task-notes-area')) {
+        checkMentionTrigger(e.target);
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeMentionMenu();
+    });
+    document.addEventListener('mousedown', function (e) {
+      var menu = document.getElementById('bb-mention-menu');
+      if (menu && !menu.contains(e.target) && !(e.target.classList && e.target.classList.contains('task-notes-area'))) closeMentionMenu();
+    });
+  }
+
+  /* ── Resizable kanban columns (pure DOM, works regardless of render internals) ── */
+  var COL_WIDTH_KEY = 'bb-demo-col-widths';
+  function loadColWidths() {
+    try { return JSON.parse(localStorage.getItem(COL_WIDTH_KEY) || '{}'); } catch (e) { return {}; }
+  }
+  function saveColWidth(colId, width) {
+    var m = loadColWidths(); m[colId] = width;
+    try { localStorage.setItem(COL_WIDTH_KEY, JSON.stringify(m)); } catch (e) {}
+  }
+  function startColResize(handle, colEl, colId) {
+    handle.addEventListener('mousedown', function (e) {
+      e.preventDefault(); e.stopPropagation();
+      var startX = e.clientX;
+      var startWidth = colEl.getBoundingClientRect().width;
+      handle.classList.add('resizing');
+      document.body.style.userSelect = 'none';
+      function onMove(ev) {
+        var w = Math.max(220, Math.min(520, startWidth + (ev.clientX - startX)));
+        colEl.style.width = w + 'px';
+        colEl.style.flexBasis = w + 'px';
+      }
+      function onUp() {
+        handle.classList.remove('resizing');
+        document.body.style.userSelect = '';
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+        saveColWidth(colId, parseFloat(colEl.style.width) || startWidth);
+      }
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+    });
+  }
+  function decorateKanbanColumns() {
+    var wrap = document.getElementById('kanban-wrap');
+    if (!wrap) return;
+    var widths = loadColWidths();
+    wrap.querySelectorAll('.kanban-col[data-col-id]').forEach(function (colEl) {
+      var colId = colEl.getAttribute('data-col-id');
+      if (widths[colId]) {
+        colEl.style.width = widths[colId] + 'px';
+        colEl.style.flexBasis = widths[colId] + 'px';
+      }
+      if (colEl.querySelector('.bb-col-resize-handle')) return;
+      var handle = document.createElement('div');
+      handle.className = 'bb-col-resize-handle';
+      handle.title = 'Drag to resize column';
+      colEl.appendChild(handle);
+      startColResize(handle, colEl, colId);
+    });
+  }
+  function watchKanbanWrap() {
+    var wrap = document.getElementById('kanban-wrap');
+    if (!wrap) { setTimeout(watchKanbanWrap, 700); return; }
+    decorateKanbanColumns();
+    var mo = new MutationObserver(function () { decorateKanbanColumns(); });
+    mo.observe(wrap, { childList: true, subtree: false });
+  }
+
+  /* ── "What's New" dialog (one-time, demo highlights) ── */
+  var WHATSNEW_KEY = 'bb-demo-whatsnew-seen-v1';
+  var WHATSNEW_ITEMS = [
+    'Colored task cards — pick a vivid surface color per task',
+    'Live status pill — show teammates you’re Available, Busy, or DND',
+    'Read receipts — see when teammates have seen your chat messages',
+    'Typing indicators in Team Chat',
+    '@Mention teammates directly in task notes',
+    'Resizable task board columns',
+    '“Knock” a teammate — a friendly nudge when you need them',
+  ];
+  window.closeDemoWhatsNew = function () {
+    var m = document.getElementById('bb-whatsnew-modal');
+    if (m) m.classList.remove('visible');
+  };
+  function showDemoWhatsNew() {
+    try { if (localStorage.getItem(WHATSNEW_KEY)) return; } catch (e) {}
+    if (document.querySelector('.modal-overlay.visible')) return;
+    var wrap = document.createElement('div');
+    wrap.className = 'modal-overlay';
+    wrap.id = 'bb-whatsnew-modal';
+    wrap.onclick = function (e) { if (e.target === wrap) window.closeDemoWhatsNew(); };
+    wrap.innerHTML =
+      '<div class="modal-sheet bb-whatsnew-sheet">' +
+      '<div class="modal-topbar"><button class="modal-x-btn" onclick="closeDemoWhatsNew()">✕</button></div>' +
+      '<div class="bb-whatsnew-emoji">🌿</div>' +
+      '<div class="modal-title">What’s new in BloomBoard</div>' +
+      '<ul class="bb-whatsnew-list">' + WHATSNEW_ITEMS.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>' +
+      '<div style="display:flex;justify-content:center;margin-top:18px">' +
+      '<button class="task-color-clear" onclick="closeDemoWhatsNew()">Got it</button>' +
+      '</div>' +
+      '</div>';
+    document.body.appendChild(wrap);
+    requestAnimationFrame(function () { wrap.classList.add('visible'); });
+    try { localStorage.setItem(WHATSNEW_KEY, '1'); } catch (e) {}
   }
 
   function injectDemoBanner() {
@@ -1242,6 +1455,221 @@
     }, 120);
   }
 
+  /* ── Sidebar status pill (Available / Busy / DND / etc) ── */
+  var SB_STATUSES = [
+    ['available', 'Available'], ['busy', 'Busy'], ['dnd', 'Do not disturb'],
+    ['brb', 'Be right back'], ['away', 'Appear away'], ['offline', 'Appear offline']
+  ];
+  var SB_STATUS_KEY = 'bb-demo-my-status';
+  function sbStatusKey(s) {
+    s = String(s || '').toLowerCase();
+    for (var i = 0; i < SB_STATUSES.length; i++) { if (SB_STATUSES[i][0] === s) return s; }
+    return 'available';
+  }
+  function sbStatusLabel(s) {
+    var k = sbStatusKey(s);
+    for (var i = 0; i < SB_STATUSES.length; i++) { if (SB_STATUSES[i][0] === k) return SB_STATUSES[i][1]; }
+    return 'Available';
+  }
+  function sbGetMyStatus() {
+    try { return sbStatusKey(localStorage.getItem(SB_STATUS_KEY) || 'available'); } catch (e) { return 'available'; }
+  }
+  function sbSetMyStatus(k) {
+    try { localStorage.setItem(SB_STATUS_KEY, sbStatusKey(k)); } catch (e) {}
+    renderDemoStatusPill();
+  }
+  function sbCloseStatusMenu() {
+    var m = document.getElementById('sb-status-menu');
+    if (m) m.remove();
+    document.removeEventListener('mousedown', sbStatusOutside, true);
+    document.removeEventListener('keydown', sbStatusEsc, true);
+  }
+  function sbStatusOutside(e) {
+    var m = document.getElementById('sb-status-menu');
+    if (m && !m.contains(e.target) && !e.target.closest('.sb-status-btn')) sbCloseStatusMenu();
+  }
+  function sbStatusEsc(e) { if (e.key === 'Escape') sbCloseStatusMenu(); }
+
+  window.sbToggleStatusMenu = function (ev) {
+    if (ev) ev.stopPropagation();
+    if (document.getElementById('sb-status-menu')) { sbCloseStatusMenu(); return; }
+    var current = sbGetMyStatus();
+    var btn = ev && ev.currentTarget;
+    var menu = document.createElement('div');
+    menu.id = 'sb-status-menu';
+    menu.className = 'sb-status-menu';
+    menu.setAttribute('role', 'menu');
+    menu.innerHTML = SB_STATUSES.map(function (s) {
+      return '<button type="button" role="menuitemradio" aria-checked="' + (s[0] === current) + '"' +
+        ' class="sb-status-opt' + (s[0] === current ? ' active' : '') + '" data-status="' + s[0] + '">' +
+        '<span class="team-status-dot ' + s[0] + '"></span><span>' + s[1] + '</span></button>';
+    }).join('');
+    menu.addEventListener('click', function (e) {
+      var opt = e.target.closest('.sb-status-opt');
+      if (!opt) return;
+      sbCloseStatusMenu();
+      sbSetMyStatus(opt.getAttribute('data-status'));
+    });
+    document.body.appendChild(menu);
+    if (btn) {
+      var r = btn.getBoundingClientRect();
+      menu.style.left = Math.round(r.left) + 'px';
+      menu.style.top = Math.round(r.bottom + 6) + 'px';
+    }
+    setTimeout(function () {
+      document.addEventListener('mousedown', sbStatusOutside, true);
+      document.addEventListener('keydown', sbStatusEsc, true);
+    }, 0);
+  };
+
+  function renderDemoStatusPill() {
+    var statusEl = document.getElementById('sb-profile-status');
+    if (!statusEl) return;
+    var key = sbGetMyStatus();
+    statusEl.innerHTML =
+      '<button type="button" class="sb-status-btn" onclick="sbToggleStatusMenu(event)" title="Change your status">' +
+      '<span class="team-status-dot ' + key + '"></span>' +
+      '<span>' + sbStatusLabel(key) + '</span>' +
+      '<svg class="sb-status-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>' +
+      '</button>';
+    statusEl.style.display = 'flex';
+  }
+
+  /* ── Chat read receipts (simulated — no real backend) ── */
+  var RC_BUD = '<svg class="rc-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.6c2.3 1.7 3.3 3.8 3.3 5.9A3.3 3.3 0 0 1 8 11.8a3.3 3.3 0 0 1-3.3-3.3c0-2.1 1-4.2 3.3-5.9z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 11.8v2.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
+  var RC_BLOOM = '<svg class="rc-ic" viewBox="0 0 16 16" aria-hidden="true"><g class="rc-petals"><circle cx="8" cy="4.3" r="2.7"/><circle cx="11.5" cy="6.9" r="2.7"/><circle cx="10.2" cy="11" r="2.7"/><circle cx="5.8" cy="11" r="2.7"/><circle cx="4.5" cy="6.9" r="2.7"/></g><circle class="rc-core" cx="8" cy="8" r="2.1"/></svg>';
+  var _demoReceiptState = {};
+
+  function paintSeenReceipt(receipt, convId, animate) {
+    var conv = (typeof chatLoadConvs === 'function' ? chatLoadConvs() : []).find(function (c) { return c.id === convId; });
+    var me = typeof chatGetMe === 'function' ? chatGetMe() : { id: '' };
+    var others = ((conv && conv.members) || []).map(String).filter(function (id) { return id !== String(me.id); });
+    if (!others.length) return;
+    var seenId = others[Math.floor(Math.random() * others.length)];
+    var member = typeof chatMemberById === 'function' ? chatMemberById(seenId) : null;
+    var name = typeof chatMemberDisplayName === 'function' ? chatMemberDisplayName(member) : 'Teammate';
+    var isGroup = conv && conv.type === 'group';
+    receipt.dataset.state = 'seen';
+    receipt.title = 'Seen by ' + name;
+    receipt.innerHTML = RC_BLOOM + '<span class="rc-lbl">' + (isGroup ? 'Seen by' : 'Seen') + '</span>' + (isGroup ? '<span class="rc-avs"></span>' : '');
+    var avsWrap = receipt.querySelector('.rc-avs');
+    if (avsWrap) {
+      var av = document.createElement('span');
+      av.className = 'rc-av';
+      av.style.background = typeof chatAvatarColor === 'function' ? chatAvatarColor(seenId) : '#4d9fff';
+      av.textContent = typeof chatInitials === 'function' ? chatInitials(name) : '?';
+      avsWrap.appendChild(av);
+    }
+    if (animate) {
+      receipt.classList.add('rc-bloom');
+      setTimeout(function () { receipt.classList.remove('rc-bloom'); }, 900);
+    }
+  }
+
+  function addDemoReceipt(convId) {
+    var area = document.getElementById('chat-msgs-area');
+    if (!area || typeof chatLoadMsgs !== 'function' || typeof chatGetMe !== 'function') return;
+    var msgs = chatLoadMsgs(convId);
+    var me = chatGetMe();
+    var lastOwnIdx = -1;
+    for (var i = msgs.length - 1; i >= 0; i--) { if (msgs[i].senderId === me.id) { lastOwnIdx = i; break; } }
+    if (lastOwnIdx < 0) return;
+    var rows = area.querySelectorAll('.chat-msg-row');
+    var row = rows[lastOwnIdx];
+    if (!row) return;
+    var main = row.querySelector('.chat-msg-main');
+    if (!main || main.querySelector('.chat-receipt')) return;
+    var receipt = document.createElement('div');
+    receipt.className = 'chat-receipt';
+    receipt.dataset.state = 'sent';
+    receipt.innerHTML = RC_BUD + '<span class="rc-lbl">Sent</span>';
+    main.appendChild(receipt);
+
+    if (_demoReceiptState[convId] === 'seen') {
+      paintSeenReceipt(receipt, convId, false);
+      return;
+    }
+    var delay = 1600 + Math.random() * 2200;
+    setTimeout(function () {
+      _demoReceiptState[convId] = 'seen';
+      paintSeenReceipt(receipt, convId, true);
+    }, delay);
+  }
+
+  function patchChatReceipts() {
+    if (typeof window.renderChatMessages !== 'function' || window.renderChatMessages._demoPatched) return;
+    var orig = window.renderChatMessages;
+    var patched = function (convId) {
+      orig.apply(this, arguments);
+      try { addDemoReceipt(convId); } catch (e) {}
+    };
+    patched._demoPatched = true;
+    window.renderChatMessages = patched;
+  }
+
+  /* ── Typing indicator simulation ── */
+  var TYPING_NAMES = ['Sarah Chen', 'Marcus Lee', 'Priya Patel', 'James Cole', 'Elena Vasquez'];
+  function scheduleDemoTyping() {
+    var delay = 14000 + Math.random() * 20000;
+    setTimeout(function () {
+      var area = document.getElementById('chat-msgs-area');
+      if (area && area.offsetParent !== null && typeof window.chatShowPeerTyping === 'function') {
+        var name = TYPING_NAMES[Math.floor(Math.random() * TYPING_NAMES.length)];
+        window.chatShowPeerTyping('demo-typer-' + name.replace(/\s+/g, ''), name);
+      }
+      scheduleDemoTyping();
+    }, delay);
+  }
+
+  /* ── "Knock" — nudge a teammate (Team page) ── */
+  var KNOCK_REPLIES = ['Hey! Give me a sec 👋', 'On it — be right there', 'Sure, what’s up?', '👍 omw'];
+  var KNOCK_NAMES = ['Sarah Chen', 'Marcus Lee', 'Priya Patel', 'James Cole', 'Elena Vasquez'];
+
+  window.demoKnockMember = function (name) {
+    if (typeof showToast !== 'function') return;
+    showToast('👋 Knocked on ' + name);
+    var reply = KNOCK_REPLIES[Math.floor(Math.random() * KNOCK_REPLIES.length)];
+    setTimeout(function () {
+      showToast(name + ': ' + reply, 3200);
+    }, 1800 + Math.random() * 1600);
+  };
+
+  function decorateTeamKnockButtons() {
+    var grid = document.getElementById('team-members-grid');
+    if (!grid) return;
+    grid.querySelectorAll('.team-member-card').forEach(function (card) {
+      if (card.classList.contains('team-card-me')) return;
+      var actions = card.querySelector('.team-member-actions');
+      if (!actions || actions.querySelector('.demo-knock-btn')) return;
+      var nameEl = card.querySelector('.team-member-name');
+      var name = nameEl ? nameEl.textContent.trim() : 'Teammate';
+      var btn = document.createElement('button');
+      btn.className = 'team-mem-btn demo-knock-btn';
+      btn.style.color = '#4d9fff';
+      btn.textContent = '👋 Knock';
+      btn.onclick = function (e) { e.stopPropagation(); window.demoKnockMember(name); };
+      actions.appendChild(btn);
+    });
+  }
+  function watchTeamGrid() {
+    var grid = document.getElementById('team-members-grid');
+    if (!grid) { setTimeout(watchTeamGrid, 700); return; }
+    decorateTeamKnockButtons();
+    var mo = new MutationObserver(function () { decorateTeamKnockButtons(); });
+    mo.observe(grid, { childList: true, subtree: false });
+  }
+  function scheduleIncomingKnock() {
+    var delay = 32000 + Math.random() * 38000;
+    setTimeout(function () {
+      var grid = document.getElementById('team-members-grid');
+      if (grid && grid.offsetParent !== null && typeof showToast === 'function') {
+        var name = KNOCK_NAMES[Math.floor(Math.random() * KNOCK_NAMES.length)];
+        showToast('👋 ' + name + ' knocked on you — got a minute?', 4200);
+      }
+      scheduleIncomingKnock();
+    }, delay);
+  }
+
   function initDemoUI() {
     injectDemoStyles();
     if (!/[?&]embed=home/.test(location.search)) {
@@ -1262,6 +1690,14 @@
     var drag = document.getElementById('drag-strip');
     if (drag) drag.style.display = 'none';
     fixBloomBubble();
+    renderDemoStatusPill();
+    patchChatReceipts();
+    scheduleDemoTyping();
+    watchTeamGrid();
+    scheduleIncomingKnock();
+    watchKanbanWrap();
+    installMentionListeners();
+    setTimeout(showDemoWhatsNew, 2600);
     syncDemoSwitcherOffset();
     window.addEventListener('resize', syncDemoSwitcherOffset);
     window.addEventListener('load', function () {

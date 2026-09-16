@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <!-- bb-web-demo-patched -->
-  <script src="demo-seed.js?v=30"></script>
-  <script src="demo-boot.js?v=30"></script>
+  <script src="demo-seed.js?v=31"></script>
+  <script src="demo-boot.js?v=31"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BloomBoard — Demo</title>
@@ -2631,6 +2631,34 @@
       color:#8ea4be;margin-top:4px;
     }
     .sb-profile-status .team-status-dot { width:10px;height:10px; }
+    .sb-status-btn {
+      display:inline-flex;align-items:center;gap:6px;margin:-3px 0 -3px -6px;padding:3px 6px;
+      border:1px solid transparent;border-radius:7px;background:transparent;
+      font:inherit;font-size:11px;font-weight:700;color:inherit;cursor:pointer;
+      transition:background .15s,border-color .15s;
+    }
+    .sb-status-btn:hover { background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1); }
+    .sb-status-btn:focus-visible { outline:2px solid rgba(96,165,250,.7);outline-offset:1px; }
+    .sb-status-caret { width:11px;height:11px;opacity:.55;transition:opacity .15s; }
+    .sb-status-btn:hover .sb-status-caret { opacity:1; }
+    .sb-status-menu {
+      position:fixed;z-index:99999;min-width:190px;padding:5px;
+      background:#16213a;border:1px solid rgba(255,255,255,.12);border-radius:11px;
+      box-shadow:0 12px 32px rgba(0,0,0,.45);display:flex;flex-direction:column;gap:1px;
+    }
+    .sb-status-opt {
+      display:flex;align-items:center;gap:9px;width:100%;padding:8px 10px;
+      border:none;border-radius:7px;background:transparent;text-align:left;
+      font:inherit;font-size:13px;font-weight:600;color:#cbd5e1;cursor:pointer;
+    }
+    .sb-status-opt:hover { background:rgba(255,255,255,.07);color:#fff; }
+    .sb-status-opt.active { background:rgba(96,165,250,.14);color:#fff; }
+    .sb-status-opt .team-status-dot { width:10px;height:10px;flex-shrink:0; }
+    body.light-mode .sb-status-btn:hover { background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.08); }
+    body.light-mode .sb-status-menu { background:#fff;border-color:rgba(0,0,0,.1);box-shadow:0 12px 32px rgba(15,23,42,.18); }
+    body.light-mode .sb-status-opt { color:#334155; }
+    body.light-mode .sb-status-opt:hover { background:rgba(0,0,0,.05);color:#0f172a; }
+    body.light-mode .sb-status-opt.active { background:rgba(59,130,246,.12);color:#0f172a; }
     .sb-profile-name-input {
       font-size:14px;font-weight:700;color:#fff;letter-spacing:-.2px;margin-bottom:3px;
       background:transparent;border:none;border-bottom:1.5px solid rgba(255,255,255,.4);
@@ -3010,6 +3038,40 @@
     .task-card.priority-high:not(.status-done):hover,
     .task-card.overdue:not(.status-done):not(.priority-high):hover { border-left-color:#ff453a; }
 
+    /* User-selected task colours tint the complete card while retaining contrast */
+    .task-card.has-card-color,
+    body.light-mode .task-card.has-card-color,
+    body.black-mode .task-card.has-card-color {
+      background:var(--task-card-bg)!important;
+      border-color:rgba(255,255,255,.13)!important;
+      border-left-color:var(--task-card-accent)!important;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 10px 30px rgba(1,8,18,.18);
+    }
+    .task-card.has-card-color:not(.status-done):hover,
+    body.light-mode .task-card.has-card-color:not(.status-done):hover,
+    body.black-mode .task-card.has-card-color:not(.status-done):hover {
+      border-color:var(--task-card-accent)!important;
+      box-shadow:0 0 0 2px var(--task-card-accent),0 12px 34px rgba(1,8,18,.42)!important;
+    }
+    .task-card.has-card-color .task-title { color:#f8fbff; }
+    .task-card.has-card-color .task-desc,
+    .task-card.has-card-color .task-date-stamp { color:rgba(232,243,252,.72); }
+    .task-card.has-card-color.status-done { opacity:.82; }
+    .task-card.has-card-color.status-done .task-title { color:rgba(239,255,245,.62); }
+    .tm-card-colors { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px; }
+    .tm-card-color {
+      min-width:0;height:52px;padding:0;border-radius:12px;border:2px solid transparent;position:relative;overflow:hidden;
+      cursor:pointer;background:var(--swatch-bg);box-shadow:inset 0 1px 0 rgba(255,255,255,.12);transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;
+    }
+    .tm-card-color:hover { transform:translateY(-2px); }
+    .tm-card-color.selected { border-color:#fff;box-shadow:0 0 0 2px rgba(104,196,255,.56),0 8px 20px rgba(0,0,0,.2); }
+    .tm-card-color::after { content:attr(data-label);position:absolute;left:7px;right:7px;bottom:5px;color:#fff;font:750 9px/1.1 inherit;text-align:left;text-shadow:0 1px 4px rgba(0,0,0,.7);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+    .task-color-sheet { width:min(460px,92vw);background:#123e5a!important; }
+    .task-color-modal-copy { color:#bad0df;font-size:12px;line-height:1.5;text-align:center;margin:-4px 0 18px; }
+    .task-color-modal-actions { display:flex;justify-content:center;margin-top:16px; }
+    .task-color-clear { border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.07);color:#fff;border-radius:10px;padding:8px 14px;font:700 11px inherit;cursor:pointer; }
+    body.light-mode .tm-card-color.selected { border-color:#123e5a;box-shadow:0 0 0 2px rgba(18,62,90,.25),0 8px 20px rgba(0,0,0,.13); }
+
     /* Search bar */
     .search-wrap { position:relative;margin-bottom:10px; }
     .search-icon { position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none;color:#555; }
@@ -3274,12 +3336,15 @@
 
     /* Expanded action row */
     .expand-actions { display:flex;gap:8px;margin-top:10px;align-items:center; }
-    .expand-edit-btn, .expand-snooze-btn, .expand-delete-btn {
+    .expand-edit-btn, .expand-snooze-btn, .expand-delete-btn, .expand-color-btn {
       font-size:11px;font-weight:600;border:1px solid;border-radius:8px;
       padding:5px 12px;cursor:pointer;font-family:inherit;transition:all .15s;background:transparent;
     }
     .expand-edit-btn   { color:#4d9fff;border-color:#1a3a6e; }
     .expand-edit-btn:hover { background:#0d1f3a; }
+    .expand-color-btn  { color:#bd7cff;border-color:#3a1a6e; }
+    .expand-color-btn:hover { background:#1f0d3a; }
+    body.light-mode .expand-color-btn { color:#7c3aed;border-color:rgba(124,58,237,.3); }
     .expand-snooze-btn { color:#ffd60a;border-color:#3a3000; }
     .expand-snooze-btn:hover { background:#2a2200; }
     .expand-delete-btn { color:#ff453a;border-color:#4a1a1a; }
@@ -9420,6 +9485,17 @@
     </div>
   </div>
 
+  <!-- ── QUICK TASK COLOR PICKER ── -->
+  <div class="modal-overlay" id="task-color-modal" onclick="if(event.target===this)closeTaskColorPicker()">
+    <div class="modal-sheet task-color-sheet">
+      <div class="modal-topbar"><button class="modal-x-btn" onclick="closeTaskColorPicker()">✕</button></div>
+      <div class="modal-title">Color This Task</div>
+      <div class="task-color-modal-copy">Choose a vivid, polished surface color. Labels and task details remain readable automatically.</div>
+      <div class="tm-card-colors" id="task-color-quick-grid"></div>
+      <div class="task-color-modal-actions"><button class="task-color-clear" onclick="applyTaskCardColor('')">Use Classic Card</button></div>
+    </div>
+  </div>
+
   <!-- ── PROJECT MODAL ── -->
   <div class="modal-overlay" id="proj-modal">
     <div class="modal-sheet">
@@ -10095,6 +10171,39 @@ const MOOD_MAP = {
 };
 const PROJ_COLORS = ['#4d9fff','#ff9f0a','#ff453a','#39FF14','#a78bfa','#ffd60a','#ff6caf','#30b5ff'];
 const PROJ_EMOJIS = ['📁','💼','🚀','🎯','💡','🔧','🏆','⚽','🧠','🎨'];
+const TASK_CARD_COLORS = [
+  { id:'',         label:'Classic',  accent:'#6f8ca6', bg:'linear-gradient(145deg,#18263b 0%,#121d2f 100%)' },
+  { id:'electric', label:'Electric', accent:'#36c5ff', bg:'linear-gradient(135deg,#0f2948 0%,#155b7b 55%,#11283e 100%)' },
+  { id:'violet',   label:'Violet',   accent:'#bd7cff', bg:'linear-gradient(135deg,#281843 0%,#512a75 56%,#241936 100%)' },
+  { id:'coral',    label:'Coral',    accent:'#ff6b79', bg:'linear-gradient(135deg,#3b1725 0%,#69243a 56%,#2b1723 100%)' },
+  { id:'emerald',  label:'Emerald',  accent:'#28e0ae', bg:'linear-gradient(135deg,#0c302f 0%,#125847 56%,#0d292b 100%)' },
+  { id:'sunset',   label:'Sunset',   accent:'#ffad3d', bg:'linear-gradient(135deg,#42200f 0%,#71371a 54%,#302018 100%)' },
+  { id:'fuchsia',  label:'Fuchsia',  accent:'#ff5dcd', bg:'linear-gradient(135deg,#40162f 0%,#702052 56%,#2b1729 100%)' },
+  { id:'cobalt',   label:'Cobalt',   accent:'#6d8cff', bg:'linear-gradient(135deg,#172447 0%,#263f83 56%,#171f3a 100%)' },
+];
+let taskColorTargetId = '';
+function validTaskCardColor(id) {
+  return TASK_CARD_COLORS.some(color => color.id === String(id || '')) ? String(id || '') : '';
+}
+function taskCardColorChoicesHtml(selected, handler) {
+  const active = validTaskCardColor(selected);
+  return TASK_CARD_COLORS.map(color => `<button type="button" class="tm-card-color${color.id===active?' selected':''}" data-label="${esc(color.label)}" aria-label="${esc(color.label)} task color" style="--swatch-bg:${color.bg}" onclick="${handler}('${esc(color.id)}')"></button>`).join('');
+}
+window.openTaskColorPicker = function(taskId) {
+  const task = tasks.find(item => item.id === taskId); if (!task) return;
+  taskColorTargetId = task.id;
+  const grid = document.getElementById('task-color-quick-grid');
+  if (grid) grid.innerHTML = taskCardColorChoicesHtml(task.cardColor || '', 'applyTaskCardColor');
+  document.getElementById('task-color-modal')?.classList.add('visible');
+};
+window.closeTaskColorPicker = function() {
+  document.getElementById('task-color-modal')?.classList.remove('visible'); taskColorTargetId = '';
+};
+window.applyTaskCardColor = function(id) {
+  const task = tasks.find(item => item.id === taskColorTargetId); if (!task) return;
+  task.cardColor = validTaskCardColor(id); saveTasks(); closeTaskColorPicker(); renderAll();
+  if (typeof showToast === 'function') showToast(task.cardColor ? 'Task color updated' : 'Classic task color restored');
+};
 const GOAL_KEY = () => 'dailyGoal_' + todayStr();
 
 // ── State ─────────────────────────────────────────────────────────────────
@@ -12729,7 +12838,7 @@ function renderCard(task) {
     ondragleave="onTaskExpandDragLeave(event)"
     ondrop="onTaskExpandDrop(event,'${esc(task.id)}')">
     <div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#555;margin-bottom:6px;">Notes</div>
-    <textarea class="task-notes-area" maxlength="500" placeholder="Add notes…" id="notes-${esc(task.id)}"
+    <textarea class="task-notes-area" maxlength="500" placeholder="Add notes… type @ to mention a teammate" id="notes-${esc(task.id)}"
       oninput="onNotesInput('${esc(task.id)}',this.value)">${esc(task.notes)}</textarea>
     <div class="notes-counter" id="notes-counter-${esc(task.id)}">${(task.notes||'').length}/500</div>
     ${subtaskSection}
@@ -12740,14 +12849,19 @@ function renderCard(task) {
     ${renderTaskAttachmentStrip(task.id)}
     <div class="expand-actions">
       <button class="expand-edit-btn"   onclick="openEditTask('${esc(task.id)}')">✎ Edit</button>
+      <button class="expand-color-btn"  onclick="openTaskColorPicker('${esc(task.id)}')">◉ Color</button>
       <button class="expand-snooze-btn" onclick="snoozeTask('${esc(task.id)}')"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Snooze</button>
       <button class="expand-delete-btn" onclick="deleteTask('${esc(task.id)}')">✕ Delete</button>
     </div>
   </div>`;
 
+  const selectedCardColor = TASK_CARD_COLORS.find(color => color.id && color.id === task.cardColor);
+  const cardColorClass = selectedCardColor ? ' has-card-color' : '';
+  const cardColorStyle = selectedCardColor ? ` style="--task-card-bg:${selectedCardColor.bg};--task-card-accent:${selectedCardColor.accent}"` : '';
+
   return `<div class="swipe-outer" data-taskid="${esc(task.id)}">
     <div class="swipe-bg-right"><span class="swipe-bg-right-label">✓ Done</span></div>
-    <div class="task-card status-${esc(task.status)}${task.priority==='high'&&task.status!=='done'?' priority-high':''}${isOver?' overdue':''}${isExpanded?' expanded':''}" onclick="onCardClick(event,'${esc(task.id)}')">
+    <div class="task-card status-${esc(task.status)}${task.priority==='high'&&task.status!=='done'?' priority-high':''}${isOver?' overdue':''}${isExpanded?' expanded':''}${cardColorClass}"${cardColorStyle} onclick="onCardClick(event,'${esc(task.id)}')">
       <div class="drag-handle" draggable="true" onmousedown="event.stopPropagation()" title="Drag to reorder">⠿</div>
       <div class="task-icon${isEvolving?' evolving':''}" style="color:${evoColor};--evo-glow:${evoGlow};" onclick="cycleStatus('${esc(task.id)}')" title="${evoTip}">${evoSvg}</div>
       <div class="task-body">
@@ -12798,6 +12912,7 @@ function onTaskCtx(e, taskId) {
     { label:'Snooze to Tomorrow', icon:'<svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>', action:() => snoozeTask(taskId) },
     { sep:true },
     { label:'Edit Task', icon:'✎', action:() => openEditTask(taskId) },
+    { label:'Card Color', icon:'◉', action:() => openTaskColorPicker(taskId) },
     { sep:true },
     { label:'Delete', icon:'✕', danger:true, action:() => deleteTask(taskId) },
   ]);

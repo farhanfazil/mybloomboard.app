@@ -79,6 +79,7 @@
             done: false,
             status: 'pending',
             priority: 'high',
+            cardColor: 'electric',
             deadline: today,
             project: null,
             subtasks: [
@@ -96,6 +97,7 @@
             done: false,
             status: 'ongoing',
             priority: 'high',
+            cardColor: 'violet',
             deadline: isoDate(1),
             project: null,
             subtasks: [],
