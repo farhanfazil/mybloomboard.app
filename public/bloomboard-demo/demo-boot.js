@@ -120,6 +120,48 @@
     }
   }
 
+  function seedDemoNotes() {
+    var now = Date.now();
+    var hour = 3600000;
+    try {
+      localStorage.setItem(
+        'bloomboard-notes-v1',
+        JSON.stringify([
+          {
+            id: 'demo-note-1', title: 'Onboarding checklist ideas',
+            body: '• Welcome email with quick-start video\n• Sample workspace pre-loaded with tasks\n• Highlight AI assistant on day 1\n• Follow-up nudge after 3 days if no boards created',
+            pinned: true, pinHash: '', createdAt: now - hour * 5, updatedAt: now - hour * 2,
+          },
+          {
+            id: 'demo-note-2', title: 'Client call notes — Acme Corp',
+            body: 'Discussed Q3 renewal. They want:\n• Custom reporting export\n• SSO support\n• Dedicated Slack channel\nFollow up with pricing by Friday.',
+            pinned: false, pinHash: '', createdAt: now - hour * 30, updatedAt: now - hour * 28,
+          },
+          {
+            id: 'demo-note-3', title: 'Password vault (try locking me)',
+            body: 'Server: 10.0.4.12\nAdmin panel creds are in 1Password under "Infra".\n\nClick the lock icon above to set a PIN on this note.',
+            pinned: false, pinHash: '', createdAt: now - hour * 50, updatedAt: now - hour * 48,
+          },
+        ])
+      );
+      localStorage.setItem(
+        'bb-trash-v1',
+        JSON.stringify([
+          {
+            id: 'demo-trash-1', type: 'task', label: 'Old landing page copy draft',
+            deletedAt: now - hour * 6,
+            restoreData: { task: { id: 'demo-restored-1', title: 'Old landing page copy draft', desc: 'Superseded by v2 messaging.', notes: '', done: false, status: 'pending', priority: 'low', deadline: null, project: null, subtasks: [], createdAt: now - hour * 200, comments: [] } },
+          },
+          {
+            id: 'demo-trash-2', type: 'task', label: 'Duplicate onboarding task',
+            deletedAt: now - hour * 30,
+            restoreData: { task: { id: 'demo-restored-2', title: 'Duplicate onboarding task', desc: '', notes: '', done: false, status: 'pending', priority: 'medium', deadline: null, project: null, subtasks: [], createdAt: now - hour * 220, comments: [] } },
+          },
+        ])
+      );
+    } catch (e) {}
+  }
+
   function ensureDemoData() {
     try {
       var mode = getDemoWorkspaceMode();
@@ -134,6 +176,7 @@
         window.bbSeedTeamWorkspace(DEMO_MEMBERS);
         mode = 'team';
       }
+      seedDemoNotes();
 
       localStorage.setItem('bb-workspace-mode', mode);
       localStorage.setItem('bb-workspace-onboarded', '1');
@@ -1116,6 +1159,7 @@
       'body.bb-has-ws-switcher .sidebar,body.bb-has-ws-switcher .main-area{position:relative;z-index:1}' +
       'body.bb-workspace-personal .sb-section:has(#sb-hydration){display:none!important}' +
       'body.bb-has-ws-switcher #hydration-popup{display:none!important}' +
+      'body.bb-workspace-personal #tl-strip,body.bb-workspace-freelance #tl-strip{display:none!important}' +
       /* Chat read receipts */
       '.chat-receipt{display:flex;align-items:center;gap:5px;margin-top:3px;min-height:16px;font-size:10.5px;font-weight:600;color:#7d93b0;user-select:none}' +
       '.chat-receipt:empty{display:none}' +
@@ -1269,6 +1313,186 @@
       document.addEventListener('mouseup', onUp);
     });
   }
+  /* ── Team Live strip ── */
+  var TL_PEOPLE = [
+    { name: 'Sarah Chen', role: 'Design Lead', status: 'live', color: '#ef4444' },
+    { name: 'Marcus Lee', role: 'Engineering', status: 'live', color: '#f97316' },
+    { name: 'Priya Patel', role: 'Marketing', status: 'live', color: '#f59e0b' },
+    { name: 'James Okonkwo', role: 'QA', status: 'away', color: '#10b981' },
+    { name: 'Elena Vasquez', role: 'Customer Success', status: 'away', color: '#06b6d4' },
+    { name: 'David Kim', role: 'Data & Analytics', status: 'off', color: '#3b82f6' },
+    { name: 'Rachel Brooks', role: 'Operations', status: 'off', color: '#8b5cf6' },
+  ];
+  var TL_STATUS_COLOR = { live: '#34d399', away: '#fbbf24', off: '#64748b' };
+  function tlInitials(name) {
+    return name.split(/\s+/).map(function (p) { return p[0]; }).join('').slice(0, 2).toUpperCase();
+  }
+  function renderTeamLiveStrip() {
+    var strip = document.getElementById('tl-strip');
+    var peopleEl = document.getElementById('tl-people');
+    var countEl = document.getElementById('tl-count');
+    if (!strip || !peopleEl) return;
+    var liveCount = TL_PEOPLE.filter(function (p) { return p.status === 'live'; }).length;
+    if (countEl) countEl.textContent = liveCount + ' online';
+    peopleEl.innerHTML = TL_PEOPLE.map(function (p) {
+      return '<div class="tl-person s-' + (p.status === 'live' ? 'live' : p.status === 'off' ? 'off' : '') + '" title="' + p.name + ' — ' + p.role + '">' +
+        '<div class="tl-avwrap" style="--tl-c:' + TL_STATUS_COLOR[p.status] + '">' +
+        '<div class="tl-av" style="background:' + p.color + '">' + tlInitials(p.name) + '</div>' +
+        '<span class="tl-status" style="background:' + TL_STATUS_COLOR[p.status] + '"></span>' +
+        '</div>' +
+        '<span class="tl-name">' + p.name.split(' ')[0] + '</span>' +
+        '<span class="tl-sub">' + (p.status === 'live' ? 'Active now' : p.status === 'away' ? 'Away' : 'Offline') + '</span>' +
+        '</div>';
+    }).join('');
+  }
+  window.tlToggleCollapsed = function () {
+    var strip = document.getElementById('tl-strip');
+    if (!strip) return;
+    var collapsed = strip.classList.toggle('tl-collapsed');
+    var btn = document.getElementById('tl-collapse');
+    if (btn) btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+  };
+  window.tlOpenChat = function () {
+    if (typeof window.openChat === 'function') window.openChat();
+  };
+  var TL_CATCHUP_LINES = [
+    'Sarah shipped the new onboarding screens — ready for your review.',
+    'Marcus merged the API changes for the dashboard refresh.',
+    'Priya scheduled the Q3 campaign kickoff for Monday.',
+    '2 tasks were marked done since you were last online.',
+  ];
+  window.tlCatchUp = function () {
+    if (typeof showToast !== 'function') return;
+    var line = TL_CATCHUP_LINES[Math.floor(Math.random() * TL_CATCHUP_LINES.length)];
+    showToast('✨ ' + line, 4200);
+  };
+
+  /* ── Handover hub ── */
+  var HO_KEY = 'bb-demo-handover-v1';
+  function hoEsc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function hoInitials(name) { return name.split(/\s+/).map(function (p) { return p[0]; }).join('').slice(0, 2).toUpperCase(); }
+  function hoLoad() {
+    try {
+      var raw = localStorage.getItem(HO_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    var seed = {
+      needsYou: [
+        {
+          id: 'ho-need-1', ownerName: 'Sarah Chen', ownerColor: '#ef4444', range: 'Away Sep 20 – Sep 24',
+          items: [
+            { id: 'hi-1', title: 'Review launch checklist', priority: 'high', status: 'pending' },
+            { id: 'hi-2', title: 'Approve homepage copy', priority: 'medium', status: 'pending' },
+            { id: 'hi-3', title: 'Update sprint board', priority: 'low', status: 'pending' },
+          ],
+        },
+      ],
+      covering: [
+        { ownerName: 'James Okonkwo', ownerColor: '#10b981', count: 2, until: 'Until Sep 18' },
+      ],
+      sent: [
+        { range: 'Away Sep 10 – Sep 12', chips: [{ type: 'cover', name: 'Marcus Lee', n: 2 }, { type: 'pending', name: 'Priya Patel', n: 1 }] },
+      ],
+    };
+    hoSave(seed);
+    return seed;
+  }
+  function hoSave(d) { try { localStorage.setItem(HO_KEY, JSON.stringify(d)); } catch (e) {} }
+  function hoUpdateBadge() {
+    var d = hoLoad();
+    var pending = d.needsYou.reduce(function (n, g) { return n + g.items.filter(function (i) { return i.status === 'pending'; }).length; }, 0);
+    var badge = document.getElementById('ho-badge');
+    if (badge) badge.textContent = pending ? String(pending) : '';
+  }
+  window.hoOpenHub = function () {
+    renderHoHub();
+    document.getElementById('ho-overlay').classList.add('open');
+  };
+  window.hoCloseSheet = function () {
+    document.getElementById('ho-overlay').classList.remove('open');
+  };
+  function renderHoHub() {
+    var d = hoLoad();
+    var body = document.getElementById('ho-body');
+    if (!body) return;
+    var needsYou = d.needsYou.filter(function (g) { return g.items.some(function (i) { return i.status === 'pending'; }); });
+    var needsHtml = needsYou.map(function (g) {
+      var pendingCount = g.items.filter(function (i) { return i.status === 'pending'; }).length;
+      return '<div class="ho-card need"><div class="ho-card-top">' +
+        '<span class="ho-av" style="background:' + g.ownerColor + '">' + hoInitials(g.ownerName) + '</span>' +
+        '<div class="ho-main"><div class="ho-it-title">' + hoEsc(g.ownerName) + ' · ' + pendingCount + ' item' + (pendingCount === 1 ? '' : 's') + '</div>' +
+        '<div class="ho-meta">' + hoEsc(g.range) + '</div></div>' +
+        '<button class="ho-btn teal" onclick="hoReviewGroup(\'' + g.id + '\')">Review</button>' +
+        '</div></div>';
+    }).join('');
+    var coveringHtml = d.covering.map(function (c) {
+      return '<div class="ho-card"><div class="ho-card-top">' +
+        '<span class="ho-av" style="background:' + c.ownerColor + '">' + hoInitials(c.ownerName) + '</span>' +
+        '<div class="ho-main"><div class="ho-it-title">Covering for ' + hoEsc(c.ownerName) + ' · ' + c.count + ' item' + (c.count === 1 ? '' : 's') + '</div>' +
+        '<div class="ho-meta">' + hoEsc(c.until) + '</div></div>' +
+        '</div></div>';
+    }).join('');
+    var sentHtml = d.sent.map(function (s) {
+      var chips = s.chips.map(function (c) {
+        var cls = c.type === 'cover' ? 'cover' : c.type === 'pending' ? 'pending' : 'declined';
+        var icon = c.type === 'cover' ? '🤝' : c.type === 'pending' ? '⏳' : '✕';
+        return '<span class="ho-chip ' + cls + '">' + icon + ' ' + hoEsc(c.name) + ' · ' + c.n + '</span>';
+      }).join('');
+      return '<div class="ho-card"><div class="ho-it-title">' + hoEsc(s.range) + '</div><div class="ho-meta" style="margin-top:6px">' + chips + '</div></div>';
+    }).join('');
+    var empty = !needsHtml && !coveringHtml && !sentHtml;
+    body.innerHTML =
+      (empty ? '<div class="ho-empty">No active hand-overs. Start one from an upcoming leave.</div>' : '') +
+      (needsHtml ? '<div class="ho-group">Needs your response</div>' + needsHtml : '') +
+      (coveringHtml ? '<div class="ho-group">You’re covering</div>' + coveringHtml : '') +
+      (sentHtml ? '<div class="ho-group">You handed over</div>' + sentHtml : '');
+    hoUpdateBadge();
+  }
+  window.hoReviewGroup = function (gid) {
+    var d = hoLoad();
+    var group = d.needsYou.find(function (g) { return g.id === gid; });
+    var body = document.getElementById('ho-body');
+    if (!group || !body) return;
+    var priTag = { high: 'p-high', medium: 'p-medium', low: 'p-low' };
+    body.innerHTML = '<button class="ho-btn" style="margin-bottom:10px" onclick="renderHoHubGlobal()">← Back</button>' +
+      '<div class="ho-group">' + hoEsc(group.ownerName) + ' · ' + hoEsc(group.range) + '</div>' +
+      group.items.map(function (it) {
+        if (it.status !== 'pending') {
+          return '<div class="ho-row"><div class="ho-main"><div class="ho-it-title">' + hoEsc(it.title) + '</div></div>' +
+            '<span class="ho-chip ' + (it.status === 'accepted' ? 'cover' : 'declined') + '">' + (it.status === 'accepted' ? '✓ Accepted' : '✕ Declined') + '</span></div>';
+        }
+        return '<div class="ho-row"><div class="ho-main"><div class="ho-it-title">' + hoEsc(it.title) + '</div>' +
+          '<div class="ho-meta"><span class="ho-chip ' + priTag[it.priority] + '">' + it.priority + '</span></div></div>' +
+          '<button class="ho-btn teal" onclick="hoRespondItem(\'' + group.id + '\',\'' + it.id + '\',\'accepted\')">Accept</button>' +
+          '<button class="ho-btn red" onclick="hoRespondItem(\'' + group.id + '\',\'' + it.id + '\',\'declined\')">Decline</button>' +
+          '</div>';
+      }).join('');
+  };
+  window.hoRespondItem = function (gid, itemId, status) {
+    var d = hoLoad();
+    var group = d.needsYou.find(function (g) { return g.id === gid; });
+    if (!group) return;
+    var item = group.items.find(function (i) { return i.id === itemId; });
+    if (!item) return;
+    item.status = status;
+    if (status === 'accepted') {
+      var existing = d.covering.find(function (c) { return c.ownerName === group.ownerName; });
+      if (existing) existing.count += 1;
+      else {
+        var endPart = group.range.split('–')[1];
+        d.covering.push({ ownerName: group.ownerName, ownerColor: group.ownerColor, count: 1, until: endPart ? ('Until' + endPart) : group.range });
+      }
+    }
+    hoSave(d);
+    hoUpdateBadge();
+    if (typeof showToast === 'function') showToast(status === 'accepted' ? '✅ Task accepted' : 'Declined');
+    window.hoReviewGroup(gid);
+  };
+  window.renderHoHubGlobal = function () { renderHoHub(); };
+  window.hoStartNew = function () {
+    if (typeof showToast === 'function') showToast('Starting a hand-over works from an upcoming leave in the Mac app.');
+  };
+
   function decorateKanbanColumns() {
     var wrap = document.getElementById('kanban-wrap');
     if (!wrap) return;
@@ -1697,6 +1921,8 @@
     scheduleIncomingKnock();
     watchKanbanWrap();
     installMentionListeners();
+    renderTeamLiveStrip();
+    hoUpdateBadge();
     setTimeout(showDemoWhatsNew, 2600);
     syncDemoSwitcherOffset();
     window.addEventListener('resize', syncDemoSwitcherOffset);
