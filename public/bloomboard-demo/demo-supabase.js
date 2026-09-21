@@ -10,18 +10,23 @@
 (function () {
   'use strict';
 
+  /* Fictional team — the seed (demo-seed.js) gives these ids names and faces. */
   var IDS = {
     team: 'b1f0a0d0-0000-4000-8000-0000000000aa',
     me: 'b1f0a0d0-0000-4000-8000-000000000001',
-    yasmin: 'b1f0a0d0-0000-4000-8000-000000000002',
-    omar: 'b1f0a0d0-0000-4000-8000-000000000003',
-    lina: 'b1f0a0d0-0000-4000-8000-000000000004',
+    maya: 'b1f0a0d0-0000-4000-8000-000000000002',
+    daniel: 'b1f0a0d0-0000-4000-8000-000000000003',
+    priya: 'b1f0a0d0-0000-4000-8000-000000000004',
+    leo: 'b1f0a0d0-0000-4000-8000-000000000005',
+    nora: 'b1f0a0d0-0000-4000-8000-000000000006',
+    ethan: 'b1f0a0d0-0000-4000-8000-000000000007',
+    chloe: 'b1f0a0d0-0000-4000-8000-000000000008',
   };
 
   var ME_USER = {
     id: IDS.me,
-    email: 'farhan@mybloomboard.app',
-    user_metadata: { full_name: 'Farhan Fazil' },
+    email: 'sam@lumen.studio',
+    user_metadata: { full_name: 'Sam Rivera' },
     app_metadata: {},
     aud: 'authenticated',
     created_at: '2026-05-01T09:00:00.000Z',

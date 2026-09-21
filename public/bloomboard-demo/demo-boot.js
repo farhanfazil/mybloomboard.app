@@ -908,6 +908,10 @@
       '#drag-strip{display:none!important}' +
       /* Sits beside the macOS window buttons; the workspace pills replace it in the browser. */
       '#global-home-btn{display:none!important}' +
+      /* Dashboard knock row: no banner, the answer buttons sit right after the name. */
+      '#tl-strip .tl-knock{background:none!important;border:none!important;padding:2px 0!important;justify-content:flex-start;gap:10px}' +
+      '#tl-strip .tl-knock-main{flex:0 0 auto}' +
+      '#tl-strip .tl-knock-acts{justify-content:flex-start;flex-wrap:nowrap}' +
       '.bb-web-demo-lock{margin-left:auto;font-size:10px;opacity:.85;flex-shrink:0}' +
       '.bb-web-demo-lock-bubble{position:absolute;top:-4px;right:-4px;font-size:11px;pointer-events:none}' +
       '.layout{position:relative!important}' +

@@ -12,12 +12,10 @@
 
   var ID = demo.IDS;
   var ME = ID.me;
-  var MATES = [
-    { id: ID.yasmin, name: 'Yasmin Khan' },
-    { id: ID.omar, name: 'Omar Saleh' },
-    { id: ID.lina, name: 'Lina Marker' },
-  ];
-  var ROOM = 'grp_khaleeji_cup';
+  /* Roster and rooms come from the team seed (demo-seed.js). */
+  var MATES = demo.roster || [];
+  var ROOMS = demo.rooms || [];
+  if (!MATES.length) return;
   var LINES = [
     '🎉', 'Can you check the latest export?', '🔥🔥', 'Approved 👍', 'Sending the file now', '😂',
     'Call in 5?', '❤️', 'The banner looks great 👏', 'Updated the sheet', '🚀',
@@ -66,7 +64,7 @@
   /* ── Ambient chatter: every 7–12 s, into a chat the visitor isn't reading ── */
   function ambientChat() {
     var from = pick(MATES.filter(function (m) { return isOnline(m.id); })) || MATES[0];
-    var options = [dmId(from.id), ROOM].filter(function (c) { return c !== activeConvId(); });
+    var options = [dmId(from.id)].concat(ROOMS).filter(function (c) { return c !== activeConvId(); });
     if (options.length) {
       postMessage(pick(options), from, LINES[lineIdx % LINES.length]);
       lineIdx++;
@@ -74,11 +72,19 @@
     later(rand(7000, 12000), ambientChat);
   }
 
-  /* ── A teammate knocks roughly every 45 s ── */
+  /* ── A teammate knocks every 75–95 s ── */
   function incomingKnock() {
     var from = pick(MATES.filter(function (m) { return isOnline(m.id); }));
-    if (from) demo.broadcast('team_live_', 'knock', { id: demo.uuid(), from: from.id, to: ME, at: Date.now() });
-    later(rand(40000, 52000), incomingKnock);
+    if (from) {
+      var knockId = demo.uuid();
+      demo.broadcast('team_live_', 'knock', { id: knockId, from: from.id, to: ME, at: Date.now() });
+      /* Unanswered knocks withdraw after a minute so they never pile up on the dashboard. */
+      setTimeout(function () {
+        demo.broadcast('team_live_', 'knock_reply', { id: knockId, from: from.id, to: ME, answer: 'cancel' });
+      }, 60000);
+    }
+    /* Longer than the 1-minute lifetime, so knocks never stack up. */
+    later(rand(75000, 95000), incomingKnock);
   }
 
   /* ── Visitor knocks a teammate: 70% come in, 20% five minutes, 10% silence ── */

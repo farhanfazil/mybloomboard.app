@@ -109,7 +109,44 @@ function patchIndexHtml(html) {
     'LiveKit <script>'
   );
 
-  return patched;
+  return scrubPersonalData(patched);
+}
+
+/**
+ * The desktop app carries its owner's name, location and client projects in a
+ * few visible strings. The public demo must show only fictional data (persona:
+ * Sam Rivera). Storage keys are lowercase (`farhan-dash-tasks`, `farhan_…`) and
+ * are left alone — only the capitalised, user-facing text is replaced.
+ */
+function scrubPersonalData(html) {
+  const swaps = [
+    [/Farhan Fazil/g, 'Sam Rivera'],
+    [/\bFarhan\b/g, 'Sam'],
+    [/FARHAN'S/g, "SAM'S"],
+    [/farhan_fazil/g, 'sam_rivera'],
+    [/ · Sharjah, UAE/g, ''],
+    // Internal project ids / legacy migration keys — never shown, but readable in page source.
+    [/\bproj-stctv\b/g, 'proj-web'],
+    [/\bproj-jawwy\b/g, 'proj-mobile'],
+    [/\bproj-serieA\b/g, 'proj-campaign'],
+    [/'stctv'/g, "'web'"],
+    [/'jawwy'/g, "'mobile'"],
+    [/'serieA'/g, "'campaign'"],
+    // App fallback projects, used only when no project list exists.
+    [/name:'stc tv \/ U21', colorHex:'#4d9fff', emoji:'📺'/g, "name:'Website Relaunch', colorHex:'#4d9fff', emoji:'🌐'"],
+    [/name:'Jawwy TV',      colorHex:'#ff9f0a', emoji:'📡'/g, "name:'Mobile App v2', colorHex:'#ff9f0a', emoji:'📱'"],
+    [/name:'Serie A',       colorHex:'#a78bfa', emoji:'⚽'/g, "name:'Spring Campaign', colorHex:'#a78bfa', emoji:'🌸'"],
+  ];
+  let out = html;
+  for (const [pattern, replacement] of swaps) {
+    const next = out.replace(pattern, replacement);
+    if (next === out) console.warn(`Scrub pattern not found (app text changed?): ${pattern}`);
+    out = next;
+  }
+  // Lowercase `farhan-…` storage keys are expected; anything else is worth a look.
+  const leftovers = out.replace(/(['"`])farhan[-_][\w-]*/g, '').match(/Farhan|Fazil|Sharjah|stc ?tv|Jawwy|Khaleeji|Intigral|Serie ?A/gi) || [];
+  if (leftovers.length) console.warn('Possible personal data left in demo:', [...new Set(leftovers)].join(', '));
+  return out;
 }
 
 function main() {

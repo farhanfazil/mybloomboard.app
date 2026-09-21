@@ -3,10 +3,10 @@
 <head>
   <!-- bb-web-demo-patched -->
   <script>window.BB_APP_VERSION = "1.2.30";</script>
-  <script src="demo-supabase.js?v=mub8j92t"></script>
-  <script src="demo-seed.js?v=mub8j92t"></script>
-  <script src="demo-boot.js?v=mub8j92t"></script>
-  <script src="demo-sim.js?v=mub8j92t"></script>
+  <script src="demo-supabase.js?v=mub90hh3"></script>
+  <script src="demo-seed.js?v=mub90hh3"></script>
+  <script src="demo-boot.js?v=mub90hh3"></script>
+  <script src="demo-sim.js?v=mub90hh3"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BloomBoard — Demo</title>
@@ -7581,7 +7581,7 @@ body.light-mode .cd-cmt-action-btn { color:#64748b; }
     }
     .ba-more:hover { background:rgba(255,255,255,.08);color:#cfe2f7; }
 
-    /* "Farhan assigned farhan_fazil" — assignee is the prominent part */
+    /* "Sam assigned sam_rivera" — assignee is the prominent part */
     .bb-assign-line, .ba-tile-assign {
       display:flex;align-items:center;gap:6px;min-width:0;font-size:12px;line-height:1.3;
     }
@@ -11103,7 +11103,7 @@ body.light-mode .col-menu-x,body.light-mode .lpp-x { color:#64748b; }
         </div>
         <div class="tp-bar-bg"><div class="tp-bar-fill" id="tp-bar" style="width:0%"></div></div>
         <div class="tp-timeline" id="tp-timeline"></div>
-        <div class="tp-complete-msg" id="tp-complete-msg">🎉 All done for today — great work, Farhan!</div>
+        <div class="tp-complete-msg" id="tp-complete-msg">🎉 All done for today — great work, Sam!</div>
       </div>
 
       <!-- Team Live — presence, knocks, live replies and rooms on the dashboard -->
@@ -12376,18 +12376,18 @@ function loadProjects() {
   try { projects = JSON.parse(localStorage.getItem('farhan-dash-projects')||'null'); } catch(e) { projects=null; }
   if (!projects || !Array.isArray(projects) || projects.length === 0) {
     projects = [
-      { id:'proj-stctv',    name:'stc tv / U21', colorHex:'#4d9fff', emoji:'📺', sortOrder:0 },
-      { id:'proj-jawwy',    name:'Jawwy TV',      colorHex:'#ff9f0a', emoji:'📡', sortOrder:1 },
-      { id:'proj-serieA',   name:'Serie A',       colorHex:'#a78bfa', emoji:'⚽', sortOrder:2 },
+      { id:'proj-web',    name:'Website Relaunch', colorHex:'#4d9fff', emoji:'🌐', sortOrder:0 },
+      { id:'proj-mobile',    name:'Mobile App v2', colorHex:'#ff9f0a', emoji:'📱', sortOrder:1 },
+      { id:'proj-campaign',   name:'Spring Campaign', colorHex:'#a78bfa', emoji:'🌸', sortOrder:2 },
       { id:'proj-personal', name:'Personal',      colorHex:'#39FF14', emoji:'🌱', sortOrder:3 },
     ];
     saveProjects();
     // Migrate old string-key tasks → first project UUID
     tasks.forEach(t => {
       if (typeof t.project === 'string' && !t.project.startsWith('proj-')) {
-        if (t.project === 'stctv')    t.project = 'proj-stctv';
-        else if (t.project === 'jawwy')  t.project = 'proj-jawwy';
-        else if (t.project === 'serieA') t.project = 'proj-serieA';
+        if (t.project === 'web')    t.project = 'proj-web';
+        else if (t.project === 'mobile')  t.project = 'proj-mobile';
+        else if (t.project === 'campaign') t.project = 'proj-campaign';
         else if (t.project === 'personal') t.project = 'proj-personal';
         else t.project = '';
       }
@@ -12900,7 +12900,7 @@ function showToast(msg, dur=2200) {
   el.classList.add('visible');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => el.classList.remove('visible'), dur);
-  // Bounce dock icon so Farhan notices even when the app is in the background
+  // Bounce dock icon so Sam notices even when the app is in the background
   if (window.electronAPI?.bounceDock) window.electronAPI.bounceDock();
 }
 
@@ -16055,7 +16055,7 @@ document.addEventListener('click', e => {
 function showReward(streak) {
   const milestones = {
     1:  { emoji:'⚡', title:'First task done!',      sub:'Every journey starts with one step.' },
-    3:  { emoji:'🔥', title:'3-day streak!',          sub:'You\'re building momentum, Farhan.' },
+    3:  { emoji:'🔥', title:'3-day streak!',          sub:'You\'re building momentum, Sam.' },
     5:  { emoji:'💪', title:'5-day streak!',          sub:'Half a week of consistency. Legendary.' },
     7:  { emoji:'🏆', title:'One full week!',         sub:'7 days straight. Unstoppable.' },
     14: { emoji:'👑', title:'Two-week warrior!',      sub:'14 days. This is a habit now.' },
@@ -16092,7 +16092,7 @@ function initStreak() {
   renderStreak(s.count);
 }
 
-/* "Farhan assigned  farhan_fazil" — who handed the task to whom, with the
+/* "Sam assigned  sam_rivera" — who handed the task to whom, with the
    assignee emphasised. Names come from the synced team roster. */
 /* Task avatars mirror the chat roster: real photo when the member has one,
    coloured initials otherwise. Same source (`member.avatar`) chat reads. */
@@ -17014,7 +17014,7 @@ function showWeeklyReport() {
     <div class="weekly-stat-card"><span class="weekly-stat-num c-yellow">${daysActive}</span><div class="weekly-stat-label">Active Days</div></div>
     <div class="weekly-stat-card"><span class="weekly-stat-num c-orange">${bestDay}</span><div class="weekly-stat-label">Best Day</div></div>`;
   const lines = [
-    rate>=80 ? "Incredible week, Farhan. You were unstoppable. Keep this energy going!" :
+    rate>=80 ? "Incredible week, Sam. You were unstoppable. Keep this energy going!" :
     rate>=60 ? "Solid week. You showed up and got things done. Build on this momentum." :
     rate>=40 ? "A decent week with room to grow. Small wins add up — keep pushing." :
     "Every week is a fresh start. You've got this — let's make next week count."
@@ -17039,7 +17039,7 @@ function scheduleEODNotif() {
   const day = new Date().getDay(), isWork = [0,1,2,3,4].includes(day);
   if (!isWork) return;
   setTimeout(() => {
-    try { new Notification('🏁 Time to head out, Farhan!', { body:"It's 5:00 PM — pack your bags and call it a day. Great work today!", tag:'eod' }); } catch(e) {}
+    try { new Notification('🏁 Time to head out, Sam!', { body:"It's 5:00 PM — pack your bags and call it a day. Great work today!", tag:'eod' }); } catch(e) {}
   }, ms);
 }
 if (Notification && Notification.permission === 'granted') scheduleEODNotif();
@@ -17688,7 +17688,7 @@ function vacMemberInitials(member) {
     .replace(/[_.-]+/g, ' ').trim().split(/\s+/).filter(Boolean)
     .map(part => part[0]).join('').slice(0, 2).toUpperCase();
   const stored = String((member && member.initials) || '').trim().slice(0, 2).toUpperCase();
-  // A single stored initial (e.g. "F" for farhan_fazil) is less useful in a
+  // A single stored initial (e.g. "F" for sam_rivera) is less useful in a
   // tiny calendar avatar than the clear two-letter name-derived version.
   return nameInitials.length > 1 ? nameInitials : (stored || nameInitials || '?');
 }
@@ -19249,7 +19249,7 @@ async function generatePDF() {
       <div class="rpt-logo">D</div>
       <div class="rpt-title-block">
         <div class="rpt-title">Performance Report</div>
-        <div class="rpt-subtitle">${ev.label} · Farhan's BloomBooard</div>
+        <div class="rpt-subtitle">${ev.label} · Sam's BloomBooard</div>
       </div>
     </div>
     <div class="rpt-meta">
@@ -19321,7 +19321,7 @@ async function generatePDF() {
 
   <!-- Footer -->
   <div class="rpt-footer">
-    <span>BloomBooard · Farhan's Performance Report</span>
+    <span>BloomBooard · Sam's Performance Report</span>
     <span>Generated ${dateStr}</span>
   </div>
 </div>
@@ -19642,7 +19642,7 @@ function clearPickerField(event, fieldId) {
           <div class="taub-info" style="flex:1;min-width:0">
             <!-- Editable name: click pencil to edit inline -->
             <div style="display:flex;align-items:center;gap:5px">
-              <span class="taub-name" id="taub-name" style="cursor:default">Farhan</span>
+              <span class="taub-name" id="taub-name" style="cursor:default">Sam</span>
               <span id="taub-name-edit-btn" onclick="supaEditName()" title="Edit name"
                     style="font-size:11px;cursor:pointer;opacity:.5;hover:opacity:1"><svg class="ui-icon" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span>
             </div>
@@ -19685,7 +19685,7 @@ function clearPickerField(event, fieldId) {
             <div class="ta-error" id="signup-error"></div>
             <div class="ta-success" id="signup-success"></div>
             <div class="ta-label">Your Name</div>
-            <input class="ta-input" id="signup-name" type="text" placeholder="e.g. Farhan Fazil">
+            <input class="ta-input" id="signup-name" type="text" placeholder="e.g. Sam Rivera">
             <div class="ta-label">Work Email</div>
             <input class="ta-input" id="signup-email" type="email" placeholder="you@company.com">
             <div class="ta-label">Password</div>
@@ -26917,7 +26917,7 @@ ${input}`;
       card.assigneeId  = newIds[0] || null; // keep legacy field for backward compat
       // Notify newly added assignees
       const addedIds = newIds.filter(id => !prevIds.includes(id));
-      /* Remember who assigned it, for the "Farhan assigned farhan_fazil" line. */
+      /* Remember who assigned it, for the "Sam assigned sam_rivera" line. */
       if (addedIds.length) card.assignedBy = bbCurrentMemberId();
       if (!newIds.length) delete card.assignedBy;
       if (addedIds.length && typeof window.createNotification === 'function') {
@@ -27690,7 +27690,7 @@ ${input}`;
       const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
       chatHistory.push({
         role: 'bloom',
-        text: `${greet}, Farhan! 🌱 I'm Bloom, your AI coworker. I can create tasks, schedule meetings, manage your boards, and help you plan your day — just ask, or use voice input. What can I help with?`,
+        text: `${greet}, Sam! 🌱 I'm Bloom, your AI coworker. I can create tasks, schedule meetings, manage your boards, and help you plan your day — just ask, or use voice input. What can I help with?`,
         actions: [], ts: Date.now()
       });
     }
@@ -27727,7 +27727,7 @@ ${input}`;
         `- ${b.icon||'📋'} ${b.title} [columns: ${(b.columns||[]).map(c=>c.title).join(' | ')}]`)
         .join('\n') || 'No boards yet.';
 
-      return `You are Bloom — an AI assistant with Claude Haiku-style behavior, built into BloomBooard for Farhan. Answer like the Claude app: fast, direct, useful, and polished.
+      return `You are Bloom — an AI assistant with Claude Haiku-style behavior, built into BloomBooard for Sam. Answer like the Claude app: fast, direct, useful, and polished.
 
 ## CORE BEHAVIOUR (highest priority — always apply this)
 - Lead with the answer immediately. The first sentence must answer the user's question.
@@ -27736,12 +27736,12 @@ ${input}`;
 - For ambiguous titles or names, give the most likely/common answer first, then briefly mention alternatives only after the main answer.
 - If the answer is genuinely uncertain after search, still start with the best answer or best match, then add one short "Note:" sentence. Never ask the user to narrow it down before giving a useful answer.
 - Keep responses concise unless the user asks for detail. No long preambles.
-- Be warm, sharp, and direct. Address Farhan by name occasionally.
+- Be warm, sharp, and direct. Address Sam by name occasionally.
 
 ## TODAY'S CONTEXT
 Date: ${dateStr} · Time: ${timeStr}
 
-## FARHAN'S ACTIVE TASKS (${active.length} total · ${overdue.length} overdue · ${dueToday.length} due today)
+## SAM'S ACTIVE TASKS (${active.length} total · ${overdue.length} overdue · ${dueToday.length} due today)
 ${taskLines}
 
 ## UPCOMING EVENTS
@@ -27878,21 +27878,21 @@ Good opening examples:
       const upcoming = active.filter(t => dl(t) && dl(t) > today).sort((a,b)=>dl(a).localeCompare(dl(b))).slice(0,3);
       const events   = getEvents().filter(e => e.type==='reminder'||(e.dateStart||'')>=today).slice(0,4);
 
-      let msg = `Good ${new Date().getHours()<12?'morning':new Date().getHours()<17?'afternoon':'evening'}, Farhan! Here's your day:\n\n`;
+      let msg = `Good ${new Date().getHours()<12?'morning':new Date().getHours()<17?'afternoon':'evening'}, Sam! Here's your day:\n\n`;
 
       if (overdue.length)  msg += `⚠️ **Overdue (${overdue.length}):** ${overdue.slice(0,3).map(t=>`"${t.title}"`).join(', ')}${overdue.length>3?'…':''}\n\n`;
       if (dueToday.length) msg += `🎯 **Due today (${dueToday.length}):** ${dueToday.map(t=>`"${t.title}"`).join(', ')}\n\n`;
       else                 msg += `✅ Nothing due today.\n\n`;
       if (upcoming.length) msg += `📋 **Up next:** ${upcoming.map(t=>`"${t.title}" (${fmtDate(dl(t))})`).join(', ')}\n\n`;
       if (events.length)   msg += `📅 **Events:** ${events.map(e=>`${e.title}${e.dateStart&&e.type!=='reminder'?` (${fmtDate(e.dateStart)})`:''}${e.time?` @ ${e.time}`:''}`).join(', ')}`;
-      if (!overdue.length && !dueToday.length && !upcoming.length) msg = `Great news, Farhan — you have no pending tasks right now! Want to add something new?`;
+      if (!overdue.length && !dueToday.length && !upcoming.length) msg = `Great news, Sam — you have no pending tasks right now! Want to add something new?`;
       return msg.trim();
     }
 
     function localOverdue() {
       const dl = t => t.deadline || t.dueDate || '';
       const tasks = getTasks().filter(t => t.status!=='done' && dl(t) && dl(t) < todayISO());
-      if (!tasks.length) return `You have no overdue tasks, Farhan — you're all caught up! 🎉`;
+      if (!tasks.length) return `You have no overdue tasks, Sam — you're all caught up! 🎉`;
       return `⚠️ You have ${tasks.length} overdue task${tasks.length>1?'s':''}:\n\n` +
         tasks.slice(0,10).map((t,i)=>`${i+1}. "${t.title}" — was due ${fmtDate(dl(t))} [${t.priority||'medium'} priority]`).join('\n');
     }
@@ -27901,14 +27901,14 @@ Good opening examples:
       const dl = t => t.deadline || t.dueDate || '';
       const today = todayISO();
       const tasks = getTasks().filter(t => t.status!=='done' && dl(t)===today);
-      if (!tasks.length) return `Nothing is due today, Farhan! Free schedule 🙌`;
+      if (!tasks.length) return `Nothing is due today, Sam! Free schedule 🙌`;
       return `🎯 ${tasks.length} task${tasks.length>1?'s':''} due today:\n\n` +
         tasks.map((t,i)=>`${i+1}. "${t.title}" [${t.priority||'medium'} priority]`).join('\n');
     }
 
     function localListTasks() {
       const active = getTasks().filter(t => t.status!=='done');
-      if (!active.length) return `Your task list is empty, Farhan! Want me to add something?`;
+      if (!active.length) return `Your task list is empty, Sam! Want me to add something?`;
       const byP = { high:[], medium:[], low:[] };
       active.forEach(t => (byP[t.priority||'medium']||byP.medium).push(t));
       let msg = `📋 You have ${active.length} active tasks:\n\n`;
@@ -27920,7 +27920,7 @@ Good opening examples:
 
     function localListBoards() {
       const boards = getBoards();
-      if (!boards.length) return `No boards yet, Farhan. Want me to create one?`;
+      if (!boards.length) return `No boards yet, Sam. Want me to create one?`;
       return `📋 Your boards (${boards.length}):\n\n` +
         boards.map(b=>`${b.icon||'📋'} **${b.title}** — ${(b.columns||[]).map(c=>c.title).join(' → ')}`).join('\n');
     }
@@ -28050,12 +28050,12 @@ Good opening examples:
         const a = getTasks().filter(t=>t.status!=='done');
         const dl = t=>t.deadline||t.dueDate||'';
         const od = a.filter(t=>dl(t)&&dl(t)<todayISO()).length;
-        return { reply: `You have ${a.length} active task${a.length!==1?'s':''}${od?` (${od} overdue)`:''}. Anything you'd like to add or update, Farhan?`, chips: [] };
+        return { reply: `You have ${a.length} active task${a.length!==1?'s':''}${od?` (${od} overdue)`:''}. Anything you'd like to add or update, Sam?`, chips: [] };
       }
 
       // Greetings
       if (/^(hi|hey|hello|good morning|good afternoon|good evening|howdy)\b/.test(t))
-        return { reply:`Hey Farhan! 🌱 I'm right here. What can I help you with? You can ask me to create tasks, schedule meetings, show your day, or just ask a question — I'll handle simple things instantly and use AI for the complex stuff.`, chips: [] };
+        return { reply:`Hey Sam! 🌱 I'm right here. What can I help you with? You can ask me to create tasks, schedule meetings, show your day, or just ask a question — I'll handle simple things instantly and use AI for the complex stuff.`, chips: [] };
 
       // Not handled locally → return null to trigger API
       return null;
@@ -36111,7 +36111,7 @@ Good opening examples:
         <button class="fl-user-avatar" id="fl-user-avatar" type="button" onclick="openAvatarPicker()" title="Change avatar">F</button>
         <div class="fl-profile-copy">
           <div class="fl-profile-name-row">
-            <button class="fl-user-name" id="fl-user-name" type="button" onclick="flOpenProfileEditor()" title="Edit profile" style="padding:0;border:0;background:transparent;text-align:left;cursor:pointer">Farhan</button>
+            <button class="fl-user-name" id="fl-user-name" type="button" onclick="flOpenProfileEditor()" title="Edit profile" style="padding:0;border:0;background:transparent;text-align:left;cursor:pointer">Sam</button>
             <button class="fl-profile-edit" type="button" onclick="flOpenProfileEditor()" title="Edit profile">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
             </button>
@@ -36642,12 +36642,12 @@ function flUserDisplayName() {
   const settings = getSettings();
   let sharedName = '';
   try { sharedName = localStorage.getItem('bloom-profile-name') || ''; } catch(e) {}
-  const name = sharedName || settings.name || settings.businessName || (typeof currentUser !== 'undefined' && currentUser && (currentUser.user_metadata && currentUser.user_metadata.full_name || currentUser.email)) || 'Farhan';
+  const name = sharedName || settings.name || settings.businessName || (typeof currentUser !== 'undefined' && currentUser && (currentUser.user_metadata && currentUser.user_metadata.full_name || currentUser.email)) || 'Sam';
   return String(name).split('@')[0];
 }
 function flCurrentDateLine() {
   const dt = new Date();
-  return dt.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}) + ' · Sharjah, UAE';
+  return dt.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}) + '';
 }
 function flSetShell(section) {
   const settings = getSettings();
@@ -36695,7 +36695,7 @@ function flSetShell(section) {
     renderAvatar();
     if (!avatar.querySelector('img')) avatar.textContent = (name.trim()[0] || 'F').toUpperCase();
   }
-  if (userName) userName.textContent = name || 'Farhan';
+  if (userName) userName.textContent = name || 'Sam';
   if (userBusiness) userBusiness.textContent = settings.businessName || 'Bloom Studio';
   if (badge) {
     const count = getInvoices().filter(function(i) { return i.status === 'sent' || flInvoiceIsOverdue(i); }).length;
@@ -36821,7 +36821,7 @@ window.flOpenProfileEditor = function() {
 window.flSaveProfile = function() {
   const nameInput = document.getElementById('fl-profile-name-input');
   const businessInput = document.getElementById('fl-profile-business-input');
-  const name = ((nameInput && nameInput.value) || '').trim() || 'Farhan';
+  const name = ((nameInput && nameInput.value) || '').trim() || 'Sam';
   const businessName = ((businessInput && businessInput.value) || '').trim();
   const settings = getSettings();
   settings.name = name;
@@ -44594,7 +44594,7 @@ if (document.readyState !== 'loading') {
     display:flex;align-items:center;pointer-events:none;
   }
   /* Reserve exactly as much as the stack actually needs, so short lines like
-     "Farhan assigned Yasmin" don't get ellipsised for space that isn't used. */
+     "Sam assigned Yasmin" don't get ellipsised for space that isn't used. */
   .task-card:has(.task-people) .bb-assign-line,
   .task-card:has(.task-people) .milestone-bar-row { padding-right:40px; }
   .task-card:has(.task-people > :nth-child(2)) .bb-assign-line,

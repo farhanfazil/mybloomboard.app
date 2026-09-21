@@ -56,7 +56,7 @@
         },
       ])
     );
-    localStorage.setItem('bloom-profile-name', 'You');
+    localStorage.setItem('bloom-profile-name', 'Sam Rivera');
   }
 
   window.bbPurgeNonDemoChats = purgeNonDemoChats;
@@ -392,9 +392,9 @@
         targetRate: 95,
         experience: 'mid',
         region: 'US',
-        name: 'You',
-        businessName: 'Your Studio',
-        email: 'you@demo.studio',
+        name: 'Sam Rivera',
+        businessName: 'Rivera Design Co.',
+        email: 'hello@riveradesign.co',
         revisions: 3,
         paymentTerms: 14,
       });
@@ -604,9 +604,10 @@
     }
   };
 
-  /* ── Team Workspace (spec §16) ──
-     Local data the app reads directly, plus the fake Supabase rows the app pulls
-     as the signed-in team: roster, conversations, messages, shared leave. */
+  /* ── Team Workspace ──
+     Entirely fictional: Lumen Studio, a small product team. Local data the
+     app reads directly, plus the fake Supabase rows it pulls as the signed-in
+     team (roster, conversations, messages, shared leave). */
   window.bbSeedTeamWorkspace = function () {
     var now = Date.now();
     var hour = 3600000;
@@ -619,12 +620,20 @@
     }
     var ID = demo.IDS;
 
+    /* A mix of real-looking profile photos and the app's own illustrated avatars. */
+    function face(file) { return 'avatars/dark/' + encodeURIComponent(file); }
+    function photo(path) { return 'https://randomuser.me/api/portraits/' + path + '.jpg'; }
     var PEOPLE = [
-      { id: ID.me, name: 'Farhan Fazil', email: 'farhan@mybloomboard.app', role: 'owner', status: 'available', color: '#7c3aed', position: 'Designer', avatar: 'avatars/blooms-arctic/Winking.png' },
-      { id: ID.yasmin, name: 'Yasmin Khan', email: 'yasmin@mybloomboard.app', role: 'manager', status: 'available', color: '#14b8a6', position: 'Editor', avatar: '' },
-      { id: ID.omar, name: 'Omar Saleh', email: 'omar@mybloomboard.app', role: 'member', status: 'busy', color: '#dc2626', position: 'Motion', avatar: '' },
-      { id: ID.lina, name: 'Lina Marker', email: 'lina@mybloomboard.app', role: 'member', status: 'available', color: '#16a34a', position: 'Producer', avatar: '' },
+      { id: ID.me, name: 'Sam Rivera', email: 'sam@lumen.studio', role: 'owner', status: 'available', color: '#7c3aed', position: 'Product Designer', avatar: 'avatars/blooms-arctic/Winking.png' },
+      { id: ID.maya, name: 'Maya Chen', email: 'maya@lumen.studio', role: 'manager', status: 'available', color: '#14b8a6', position: 'Product Manager', avatar: photo('women/44') },
+      { id: ID.daniel, name: 'Daniel Brooks', email: 'daniel@lumen.studio', role: 'member', status: 'busy', color: '#dc2626', position: 'Frontend Engineer', avatar: photo('men/32') },
+      { id: ID.priya, name: 'Priya Nair', email: 'priya@lumen.studio', role: 'member', status: 'available', color: '#f59e0b', position: 'Marketing Lead', avatar: photo('women/68') },
+      { id: ID.leo, name: 'Leo Hartmann', email: 'leo@lumen.studio', role: 'member', status: 'available', color: '#3b82f6', position: 'Backend Engineer', avatar: photo('men/75') },
+      { id: ID.nora, name: 'Nora Haddad', email: 'nora@lumen.studio', role: 'member', status: 'available', color: '#ec4899', position: 'Content Writer', avatar: face('HIJAB GIRL.png') },
+      { id: ID.ethan, name: 'Ethan Cole', email: 'ethan@lumen.studio', role: 'member', status: 'dnd', color: '#8b5cf6', position: 'Motion Designer', avatar: face('CREATIVE FLOW.png') },
+      { id: ID.chloe, name: 'Chloe Park', email: 'chloe@lumen.studio', role: 'member', status: 'available', color: '#16a34a', position: 'QA Lead', avatar: photo('women/65') },
     ];
+    var ME = PEOPLE[0];
     var byId = {};
     PEOPLE.forEach(function (p) { byId[p.id] = p; });
     function initials(name) {
@@ -633,22 +642,22 @@
 
     try {
       /* ── Fake backend: team + roster ── */
-      demo.seed('teams', { id: ID.team, name: 'Bloom Studio', owner_id: ID.me, plan: 'team' });
+      demo.seed('teams', { id: ID.team, name: 'Lumen Studio', owner_id: ID.me, plan: 'team' });
       demo.seed('team_members', PEOPLE.map(function (p, i) {
         return {
           team_id: ID.team, user_id: p.id, email: p.email, name: p.name, role: p.role,
-          color: p.color, position: p.position, status: p.status, avatar_url: p.avatar || null,
-          joined_at: new Date(now - (40 - i) * 24 * hour).toISOString(),
+          color: p.color, position: p.position, status: p.status, avatar_url: p.avatar,
+          joined_at: new Date(now - (60 - i * 4) * 24 * hour).toISOString(),
         };
       }));
 
-      /* Lina's leave next week, visible to the team (spec: back Sep 30). */
+      /* Chloe is off next week, visible to the whole team. */
       demo.seed('shared_leaves', {
-        id: 'demo-leave-lina', team_id: ID.team, owner_id: ID.lina, title: 'Family trip', vac_type: 'Vacation',
+        id: 'demo-leave-chloe', team_id: ID.team, owner_id: ID.chloe, title: 'Family trip', vac_type: 'Vacation',
         date_start: isoDate(6), date_end: isoDate(9), deleted: false,
       });
 
-      /* Local roster so names render before the first pull lands. */
+      /* Local roster so names and faces render before the first pull lands. */
       localStorage.setItem('bloomboard-team-v1', JSON.stringify({
         currentMemberId: ID.me,
         members: PEOPLE.map(function (p) {
@@ -659,13 +668,12 @@
         }),
       }));
       localStorage.setItem('bloom-avatar-v3', 'arctic:blooms-arctic/Winking.png');
-      localStorage.setItem('bloom-profile-name', 'Farhan Fazil');
 
       /* ── Projects & tasks ── */
       localStorage.setItem('farhan-dash-projects', JSON.stringify([
-        { id: 'proj-stctv', name: 'stc tv / U21', colorHex: '#4d9fff', emoji: '📺', sortOrder: 0 },
-        { id: 'proj-jawwy', name: 'Jawwy TV', colorHex: '#ff9f0a', emoji: '📡', sortOrder: 1 },
-        { id: 'proj-serieA', name: 'Serie A', colorHex: '#a78bfa', emoji: '⚽', sortOrder: 2 },
+        { id: 'proj-website', name: 'Website Relaunch', colorHex: '#4d9fff', emoji: '🌐', sortOrder: 0 },
+        { id: 'proj-mobile', name: 'Mobile App v2', colorHex: '#ff9f0a', emoji: '📱', sortOrder: 1 },
+        { id: 'proj-brand', name: 'Spring Campaign', colorHex: '#a78bfa', emoji: '🌸', sortOrder: 2 },
         { id: 'proj-personal', name: 'Personal', colorHex: '#39FF14', emoji: '🌱', sortOrder: 3 },
       ]));
 
@@ -677,120 +685,164 @@
         }, o);
       }
       localStorage.setItem('farhan-dash-tasks', JSON.stringify([
-        task({ id: 'demo-t-u21', title: 'U21 fixture posters', project: 'proj-stctv', priority: 'urgent',
+        task({ id: 'demo-t-hero', title: 'Homepage hero redesign', project: 'proj-website', priority: 'urgent',
           deadline: isoDate(-1), createdAt: now - 30 * hour, iconColorIdx: 0 }),
-        task({ id: 'demo-t-jawwy', title: 'Jawwy promo cut-downs', desc: '15s and 6s', project: 'proj-jawwy',
+        task({ id: 'demo-t-screens', title: 'App Store screenshots', desc: '6.7" and 5.5" sizes', project: 'proj-mobile',
           priority: 'low', cardColor: 'violet', createdAt: now - 28 * hour, iconColorIdx: 4 }),
-        task({ id: 'demo-t-serieA', title: 'Serie A Round 12 banners', project: 'proj-serieA', priority: 'high',
+        task({ id: 'demo-t-banners', title: 'Spring campaign banners', project: 'proj-brand', priority: 'high',
           deadline: isoDate(2), createdAt: now - 20 * hour, iconColorIdx: 3,
-          assigneeId: ID.yasmin, assigneeIds: [ID.yasmin],
+          assigneeId: ID.maya, assigneeIds: [ID.maya],
           subtasks: [
-            { id: 'demo-st-1', text: 'Key visual', done: true, completedBy: ID.yasmin, completedByName: 'Yasmin Khan' },
+            { id: 'demo-st-1', text: 'Key visual', done: true, completedBy: ID.maya, completedByName: 'Maya Chen' },
             { id: 'demo-st-2', text: 'Social sizes', done: false },
-            { id: 'demo-st-3', text: 'Arabic copy', done: false },
+            { id: 'demo-st-3', text: 'Copy review', done: false },
           ] }),
-        task({ id: 'demo-t-template', title: 'Match graphics template', project: 'proj-serieA', status: 'ongoing',
+        task({ id: 'demo-t-onboard', title: 'Onboarding flow prototype', project: 'proj-mobile', status: 'ongoing',
           priority: 'high', cardColor: 'electric', createdAt: now - 50 * hour, iconColorIdx: 6,
           subtasks: [
-            { id: 'demo-st-4', text: 'Scoreboard layout', done: true, completedBy: ID.me, completedByName: 'Farhan Fazil' },
-            { id: 'demo-st-5', text: 'Lineup card', done: true, completedBy: ID.omar, completedByName: 'Omar Saleh' },
+            { id: 'demo-st-4', text: 'Welcome screens', done: true, completedBy: ID.me, completedByName: ME.name },
+            { id: 'demo-st-5', text: 'Permission prompts', done: true, completedBy: ID.daniel, completedByName: 'Daniel Brooks' },
           ] }),
         task({ id: 'demo-t-weekly', title: 'Weekly planning', project: 'proj-personal', status: 'ongoing',
           priority: 'medium', deadline: today, createdAt: now - 6 * hour, iconColorIdx: 1 }),
-        task({ id: 'demo-t-ident', title: 'Channel ident refresh', project: 'proj-stctv', status: 'done', done: true,
+        task({ id: 'demo-t-pricing', title: 'Pricing page copy', project: 'proj-website', status: 'done', done: true,
           priority: 'medium', createdAt: now - 72 * hour, completedAt: now - 3 * hour, completedBy: ID.me, iconColorIdx: 2 }),
         task({ id: 'demo-t-gym', title: 'Gym', project: 'proj-personal', status: 'done', done: true,
           priority: 'low', createdAt: now - 10 * hour, completedAt: now - 2 * hour, completedBy: ID.me, iconColorIdx: 5 }),
       ]));
 
       /* ── Boards ── */
-      function col(id, title, color, order) { return { id: id, title: title, color: color, order: order }; }
-      function card(id, boardId, columnId, title, priority, order, assigneeId, dueOffset) {
+      function cols(prefix) {
+        return [
+          { id: prefix + '-todo', title: 'To Do', color: '#6b7280', order: 0 },
+          { id: prefix + '-doing', title: 'In Progress', color: '#3b82f6', order: 1 },
+          { id: prefix + '-done', title: 'Done', color: '#10b981', order: 2 },
+        ];
+      }
+      function board(id, title, desc, icon, color, ageH) {
+        return { id: id, title: title, desc: desc, icon: icon, color: color, bgImage: null, categoryId: null,
+          labels: [], createdAt: new Date(now - ageH * hour).toISOString(), columns: cols(id) };
+      }
+      var cardN = 0;
+      function card(boardId, col, title, priority, order, assigneeId, dueOffset) {
+        cardN++;
         return {
-          id: id, boardId: boardId, columnId: columnId, title: title, desc: '', priority: priority,
-          dueDate: dueOffset == null ? null : isoDate(dueOffset), order: order, assigneeId: assigneeId || null,
-          createdAt: new Date(now - (order + 2) * 5 * hour).toISOString(), comments: [],
+          id: 'demo-c-' + cardN, boardId: boardId, columnId: boardId + '-' + col, title: title, desc: '',
+          priority: priority, dueDate: dueOffset == null ? null : isoDate(dueOffset), order: order,
+          assigneeId: assigneeId || null, createdAt: new Date(now - (cardN + 2) * 5 * hour).toISOString(), comments: [],
         };
       }
       localStorage.setItem('bloombooard-boards-v1', JSON.stringify({
         categories: [],
         boards: [
-          { id: 'demo-b-serieA', title: 'Serie A Matchday', desc: 'Round 12 graphics package', icon: '⚽', color: 'bc-blue',
-            bgImage: null, categoryId: null, labels: [], createdAt: new Date(now - 120 * hour).toISOString(),
-            columns: [col('demo-bc-1', 'To Do', '#6b7280', 0), col('demo-bc-2', 'In Progress', '#3b82f6', 1), col('demo-bc-3', 'Done', '#10b981', 2)] },
-          { id: 'demo-b-brand', title: 'Brand Refresh', desc: 'New identity rollout', icon: '🎨', color: 'bc-purple',
-            bgImage: null, categoryId: null, labels: [], createdAt: new Date(now - 90 * hour).toISOString(),
-            columns: [col('demo-bc-4', 'To Do', '#6b7280', 0), col('demo-bc-5', 'In Progress', '#3b82f6', 1), col('demo-bc-6', 'Done', '#10b981', 2)] },
-          { id: 'demo-b-launch', title: 'Launch Plan', desc: 'App launch checklist', icon: '🚀', color: 'bc-green',
-            bgImage: null, categoryId: null, labels: [], createdAt: new Date(now - 60 * hour).toISOString(),
-            columns: [col('demo-bc-7', 'To Do', '#6b7280', 0), col('demo-bc-8', 'In Progress', '#3b82f6', 1), col('demo-bc-9', 'Done', '#10b981', 2)] },
+          board('demo-b-launch', 'Product Launch', 'Everything for launch day', '🚀', 'bc-blue', 120),
+          board('demo-b-brand', 'Brand Refresh', 'New identity rollout', '🎨', 'bc-purple', 90),
+          board('demo-b-mobile', 'Mobile App v2', 'iOS & Android release', '📱', 'bc-green', 60),
+          board('demo-b-roadmap', 'Q4 Roadmap', 'Planning for next quarter', '🗺️', 'bc-orange', 30),
         ],
         cards: [
-          card('demo-c-1', 'demo-b-serieA', 'demo-bc-1', 'Home kit graphics', 'high', 0, ID.yasmin, 2),
-          card('demo-c-2', 'demo-b-serieA', 'demo-bc-2', 'Lineup template', 'medium', 0, ID.omar, 1),
-          card('demo-c-3', 'demo-b-serieA', 'demo-bc-2', 'Score overlay', 'low', 1, ID.me, 3),
-          card('demo-c-4', 'demo-b-serieA', 'demo-bc-3', 'Fixture poster', 'medium', 0, ID.lina, null),
-          card('demo-c-5', 'demo-b-brand', 'demo-bc-4', 'Logo lockups', 'high', 0, ID.me, 4),
-          card('demo-c-6', 'demo-b-brand', 'demo-bc-5', 'Colour palette', 'medium', 0, ID.yasmin, 2),
-          card('demo-c-7', 'demo-b-brand', 'demo-bc-6', 'Moodboard', 'low', 0, ID.omar, null),
-          card('demo-c-8', 'demo-b-launch', 'demo-bc-7', 'App Store screenshots', 'high', 0, ID.lina, 5),
-          card('demo-c-9', 'demo-b-launch', 'demo-bc-8', 'Launch video', 'medium', 0, ID.omar, 3),
-          card('demo-c-10', 'demo-b-launch', 'demo-bc-9', 'Press kit', 'low', 0, ID.me, null),
+          card('demo-b-launch', 'todo', 'Landing page', 'high', 0, ID.priya, 2),
+          card('demo-b-launch', 'doing', 'Press kit', 'medium', 0, ID.nora, 1),
+          card('demo-b-launch', 'doing', 'Launch video', 'low', 1, ID.ethan, 3),
+          card('demo-b-launch', 'done', 'Beta feedback round', 'medium', 0, ID.chloe, null),
+          card('demo-b-brand', 'todo', 'Logo lockups', 'high', 0, ID.me, 4),
+          card('demo-b-brand', 'doing', 'Colour palette', 'medium', 0, ID.maya, 2),
+          card('demo-b-brand', 'done', 'Moodboard', 'low', 0, ID.ethan, null),
+          card('demo-b-mobile', 'todo', 'Push notifications', 'high', 0, ID.leo, 5),
+          card('demo-b-mobile', 'doing', 'Dark mode QA', 'medium', 0, ID.chloe, 3),
+          card('demo-b-mobile', 'doing', 'Onboarding screens', 'high', 1, ID.me, 2),
+          card('demo-b-mobile', 'done', 'Crash reporting', 'medium', 0, ID.daniel, null),
+          card('demo-b-roadmap', 'todo', 'Hiring plan', 'medium', 0, ID.maya, 7),
+          card('demo-b-roadmap', 'doing', 'Roadmap draft', 'high', 0, ID.maya, 4),
+          card('demo-b-roadmap', 'done', 'Customer survey', 'low', 0, ID.priya, null),
         ],
       }));
 
-      /* ── Chat: DMs with Yasmin, Omar, Lina + the Khaleeji Cup room ── */
+      /* ── Chat: a DM with every teammate + two rooms ── */
       function dmId(other) { return 'dm_' + [ID.me, other].sort().join('_'); }
-      var ROOM = 'grp_khaleeji_cup';
+      var LAUNCH = 'grp_launch_squad';
+      var CRIT = 'grp_design_crit';
       var CONVS = [
-        { id: dmId(ID.yasmin), type: 'dm', name: null, members: [ID.me, ID.yasmin], unread: 3, script: [
-          [ID.yasmin, 'Morning! Did you see the new Serie A brief?'],
+        { id: dmId(ID.maya), type: 'dm', members: [ID.me, ID.maya], unread: 3, script: [
+          [ID.maya, 'Morning! Did you see the new campaign brief?'],
           [ID.me, 'Yes — starting the key visual now'],
-          [ID.yasmin, 'Amazing 🙌'],
+          [ID.maya, 'Amazing 🙌'],
           [ID.me, 'Sending the file now'],
-          [ID.yasmin, 'The banner looks great 👏'],
+          [ID.maya, 'The banner looks great 👏'],
           [ID.me, 'Thanks! Social sizes next'],
-          [ID.yasmin, 'Call in 5?'],
+          [ID.maya, 'Call in 5?'],
           [ID.me, 'Sure'],
-          [ID.yasmin, 'Approved 👍'],
-          [ID.yasmin, 'Can you check the latest export?'],
-          [ID.yasmin, '🔥🔥'],
+          [ID.maya, 'Approved 👍'],
+          [ID.maya, 'Can you check the latest export?'],
+          [ID.maya, '🔥🔥'],
         ] },
-        { id: dmId(ID.omar), type: 'dm', name: null, members: [ID.me, ID.omar], unread: 3, script: [
-          [ID.omar, 'Motion pass on the lineup card is up'],
+        { id: dmId(ID.daniel), type: 'dm', members: [ID.me, ID.daniel], unread: 3, script: [
+          [ID.daniel, 'Onboarding screens are wired up on staging'],
           [ID.me, 'Looks smooth 😍'],
-          [ID.omar, 'Need the logo in white please'],
+          [ID.daniel, 'Need the icons exported as SVG please'],
           [ID.me, 'Sending the file now'],
-          [ID.omar, 'Got it, thanks'],
-          [ID.me, 'Can we tighten the intro to 2s?'],
-          [ID.omar, 'On it'],
-          [ID.omar, 'Done ✅'],
-          [ID.omar, '🎉'],
-          [ID.omar, 'Updated the sheet'],
+          [ID.daniel, 'Got it, thanks'],
+          [ID.me, 'Can we shorten the intro animation?'],
+          [ID.daniel, 'On it'],
+          [ID.daniel, 'Done ✅'],
+          [ID.daniel, '🎉'],
+          [ID.daniel, 'Pushed the fix to staging'],
         ] },
-        { id: dmId(ID.lina), type: 'dm', name: null, members: [ID.me, ID.lina], unread: 0, script: [
-          [ID.lina, "Heads up — I'm off next week"],
-          [ID.me, 'Enjoy! Hand the Launch Plan cards over before you go?'],
-          [ID.lina, "Will do. I'll send a hand-over Thursday"],
+        { id: dmId(ID.priya), type: 'dm', members: [ID.me, ID.priya], unread: 0, script: [
+          [ID.priya, 'Launch email goes out Thursday'],
+          [ID.me, "I'll have the header image by Wednesday"],
+          [ID.priya, 'Perfect 🙏'],
+          [ID.priya, 'Can we A/B the subject line too?'],
+          [ID.me, 'Good idea 👍'],
+          [ID.priya, 'Thanks!'],
+        ] },
+        { id: dmId(ID.leo), type: 'dm', members: [ID.me, ID.leo], unread: 0, script: [
+          [ID.leo, 'API for the new pricing tiers is live'],
+          [ID.me, "Great, I'll hook up the pricing page"],
+          [ID.leo, 'Ping me if anything looks off'],
+          [ID.me, 'Will do 🙌'],
+        ] },
+        { id: dmId(ID.nora), type: 'dm', members: [ID.me, ID.nora], unread: 0, script: [
+          [ID.nora, 'First draft of the press release is in the doc'],
+          [ID.me, 'Reading it now 👀'],
+          [ID.me, 'Love the opening line'],
+          [ID.nora, '❤️'],
+          [ID.nora, "I'll tighten the quotes this afternoon"],
+        ] },
+        { id: dmId(ID.ethan), type: 'dm', members: [ID.me, ID.ethan], unread: 0, script: [
+          [ID.ethan, 'Launch video rough cut is ready'],
+          [ID.me, 'Watching now'],
+          [ID.me, 'The ending is 🔥'],
+          [ID.ethan, "Thanks! I'll polish the transitions"],
+          [ID.ethan, 'Heads-down till 4, on DND'],
+        ] },
+        { id: dmId(ID.chloe), type: 'dm', members: [ID.me, ID.chloe], unread: 0, script: [
+          [ID.chloe, "Heads up — I'm off next week"],
+          [ID.me, 'Enjoy! Hand over the QA cards before you go?'],
+          [ID.chloe, "Will do. I'll send a hand-over Thursday"],
           [ID.me, 'Perfect 👍'],
-          [ID.lina, 'Fixture poster is final'],
-          [ID.me, 'Approved 👍'],
-          [ID.lina, '❤️'],
-          [ID.me, 'Thanks!'],
-          [ID.lina, 'Uploading the stills to the board'],
+          [ID.chloe, 'Dark mode pass is 80% done'],
           [ID.me, '🚀'],
         ] },
-        { id: ROOM, type: 'group', name: 'Khaleeji Cup', members: [ID.me, ID.yasmin, ID.omar, ID.lina], unread: 0, script: [
-          [ID.lina, 'Khaleeji Cup schedule just dropped'],
-          [ID.yasmin, "Let's get the poster series going"],
-          [ID.omar, "I'll take the animated teasers"],
-          [ID.me, "I'll do the key art 🎨"],
-          [ID.yasmin, 'Call in 5?'],
-          [ID.lina, '👀'],
-          [ID.omar, 'The banner looks great 👏'],
-          [ID.me, 'Sending the file now'],
-          [ID.yasmin, 'Approved 👍'],
-          [ID.lina, '🎉'],
+        { id: LAUNCH, type: 'group', name: 'Launch Squad', members: PEOPLE.map(function (p) { return p.id; }), unread: 0, script: [
+          [ID.maya, 'Launch is two weeks out — status check 👇'],
+          [ID.priya, 'Email + socials scheduled'],
+          [ID.daniel, 'Web build is green'],
+          [ID.leo, 'Backend ready, load test tomorrow'],
+          [ID.me, 'Final visuals land Wednesday 🎨'],
+          [ID.nora, 'Press kit copy is in review'],
+          [ID.chloe, '👀'],
+          [ID.ethan, 'The banner looks great 👏'],
+          [ID.maya, 'Approved 👍'],
+          [ID.priya, '🎉'],
+        ] },
+        { id: CRIT, type: 'group', name: 'Design Crit', members: [ID.me, ID.maya, ID.ethan, ID.nora], unread: 0, script: [
+          [ID.ethan, 'Crit at 3? Bringing the motion studies'],
+          [ID.me, "I'll share the new onboarding screens"],
+          [ID.maya, 'Call in 5?'],
+          [ID.nora, 'Joining!'],
+          [ID.maya, 'Great session today 🙌'],
+          [ID.ethan, '🔥🔥'],
         ] },
       ];
 
@@ -798,7 +850,7 @@
       var localConvs = [];
       CONVS.forEach(function (c, ci) {
         var n = c.script.length;
-        var start = now - (6 + ci * 3) * hour;
+        var start = now - (6 + ci * 2) * hour;
         var step = Math.floor((5 * hour) / n);
         var msgs = c.script.map(function (line, i) {
           var who = byId[line[0]];
@@ -811,7 +863,7 @@
         });
         var last = msgs[msgs.length - 1];
         demo.seed('conversations', {
-          id: c.id, type: c.type, name: c.name, members: c.members,
+          id: c.id, type: c.type, name: c.name || null, members: c.members,
           last_msg_text: last.text_content, last_msg_ts: last.ts,
           created_at: new Date(start - hour).toISOString(),
         });
@@ -819,7 +871,7 @@
         lastRead[c.id] = c.unread ? msgs[n - c.unread - 1].ts + 1 : last.ts + 1;
 
         localConvs.push({
-          id: c.id, type: c.type, name: c.name, members: c.members,
+          id: c.id, type: c.type, name: c.name || null, members: c.members,
           createdAt: start - hour, lastMsgTime: last.ts, lastMsgText: last.text_content,
         });
         localStorage.setItem('bloom_chat_msgs_' + c.id, JSON.stringify(msgs.map(function (m) {
@@ -832,19 +884,23 @@
       localStorage.setItem('bloom_chat_convs', JSON.stringify(localConvs));
       localStorage.setItem('bloom_chat_last_read', JSON.stringify(lastRead));
 
+      /* The simulation (demo-sim.js) talks as these people in these rooms. */
+      demo.roster = PEOPLE.slice(1).map(function (p) { return { id: p.id, name: p.name }; });
+      demo.rooms = [LAUNCH, CRIT];
+
       /* ── Meetings & reminders ── */
       function ev(o) {
         return Object.assign({ dateEnd: o.dateStart, time: '', notes: '', createdAt: now - 24 * hour,
           reminderFreq: '', reminderTime: '', reminderNextFire: 0, reminderSnoozedUntil: 0 }, o);
       }
       localStorage.setItem('farhan-events', JSON.stringify([
-        ev({ id: 'demo-ev-review', type: 'meeting', title: 'Serie A graphics review', dateStart: today, time: '15:00' }),
-        ev({ id: 'demo-ev-kickoff', type: 'meeting', title: 'Khaleeji Cup kickoff', dateStart: isoDate(2), time: '11:00' }),
-        ev({ id: 'demo-ev-export', type: 'reminder', title: 'Export Round 12 social sizes', dateStart: isoDate(1), reminderFreq: '1h', reminderTime: '10:00' }),
+        ev({ id: 'demo-ev-review', type: 'meeting', title: 'Sprint review', dateStart: today, time: '15:00' }),
+        ev({ id: 'demo-ev-kickoff', type: 'meeting', title: 'Launch kickoff', dateStart: isoDate(2), time: '11:00' }),
+        ev({ id: 'demo-ev-export', type: 'reminder', title: 'Export launch assets', dateStart: isoDate(1), reminderFreq: '1h', reminderTime: '10:00' }),
       ]));
 
       seedBloomWelcome(now);
-      localStorage.setItem('bloom-profile-name', 'Farhan Fazil');
+      localStorage.setItem('bloom-profile-name', ME.name);
       localStorage.setItem('bb-demo-seeded-v1', '1');
     } catch (e) {
       console.warn('[BB Demo] team seed failed', e);
