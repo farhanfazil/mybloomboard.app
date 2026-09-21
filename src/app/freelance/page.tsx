@@ -612,7 +612,7 @@ function FreelanceFAQ() {
           <p className="max-w-md text-sm leading-relaxed text-text-muted sm:text-base">
             Common questions about plans, privacy, the client portal, and how BloomBoard fits your freelance workflow.
           </p>
-          <div className="mt-8 hidden rounded-xl border border-white/10 bg-[#0b0d10] p-5 lg:block">
+          <div className="mt-8 hidden border-l-2 border-white/15 pl-4 lg:block">
             <p className="text-sm font-semibold text-text-primary">Still deciding?</p>
             <p className="mt-2 text-sm leading-relaxed text-text-muted">
               Start free, explore the dashboard, then upgrade when your client list grows.
@@ -621,7 +621,7 @@ function FreelanceFAQ() {
         </motion.div>
 
         <motion.div
-          className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0d10]"
+          className="border-t border-white/10"
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1 }}
@@ -629,16 +629,16 @@ function FreelanceFAQ() {
           {FREELANCE_FAQS.map((item, index) => (
             <details
               key={item.question}
-              className="group border-b border-white/[0.08] px-5 py-5 transition-colors last:border-b-0 open:bg-white/[0.035] sm:px-7"
+              className="group border-b border-white/10 py-5"
               open={index === 0}
             >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-5 text-left text-base font-semibold text-text-primary sm:text-lg">
                 <span className="leading-snug">{item.question}</span>
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/[0.10] bg-white/[0.035] text-lg text-text-muted transition-all group-open:rotate-45 group-open:border-white/20 group-open:text-white">
+                <span aria-hidden className="shrink-0 text-2xl font-light leading-none text-white/50 transition-transform duration-200 group-open:rotate-45 group-open:text-white">
                   +
                 </span>
               </summary>
-              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-text-muted sm:text-base">
+              <p className="mt-3 max-w-2xl pr-8 text-sm leading-relaxed text-white/65 sm:text-base">
                 {item.answer}
               </p>
             </details>
