@@ -11,6 +11,7 @@ import { Footer } from "@/components/ui/footer-section";
 const FreelanceSmartAIFeatures = dynamic(() => import("@/components/sections/FreelanceSmartAIFeatures"));
 const HowItWorks = dynamic(() => import("@/components/sections/HowItWorks"));
 const PlanQuiz = dynamic(() => import("@/components/sections/PlanQuiz"));
+const LiveDemoFrame = dynamic(() => import("@/components/sections/LiveDemoFrame"));
 import type { QuizStep, PlanResult } from "@/components/sections/PlanQuiz";
 const ComparisonSection = dynamic(() => import("@/components/sections/ComparisonSection"));
 import {
@@ -1232,6 +1233,7 @@ export default function FreelancePage() {
       <Header
         logoHref="https://mybloomboard.app"
         customLinks={[
+          { label: "Live Demo", href: "#live-demo" },
           { label: "Features", href: "#features" },
           { label: "Deep Dive", href: "#freelance-smart-ai" },
           { label: "Pricing", href: "#pricing" },
@@ -1338,6 +1340,11 @@ export default function FreelancePage() {
           </motion.div>
         )}
       </LampContainer>
+
+      {/* ── Live demo: the freelance workspace only ─────────────────────── */}
+      <section id="live-demo" className="mx-auto w-full max-w-6xl px-4 pb-10 sm:px-6">
+        <LiveDemoFrame workspaces="freelance" className="mx-auto" />
+      </section>
 
       {/* ── Features grid ────────────────────────────────────────────────── */}
       <section id="features" className="px-4 py-20 sm:py-28">

@@ -45,11 +45,12 @@
   };
 
   function getDemoWorkspaceMode() {
+    var allowed = window.__bbDemoWorkspaces || ['personal', 'freelance', 'team'];
     try {
       var m = sessionStorage.getItem(DEMO_WS_KEY);
-      if (m === 'personal' || m === 'freelance' || m === 'team') return m;
+      if (allowed.indexOf(m) >= 0) return m;
     } catch (e) {}
-    return 'team';
+    return allowed.indexOf('team') >= 0 ? 'team' : allowed[0];
   }
 
   window.getDemoWorkspaceMode = getDemoWorkspaceMode;
@@ -338,10 +339,12 @@
   }
 
   var DEMO_WS_OPTIONS = [
-    { mode: 'personal', label: 'Bloom — Personal Productivity' },
-    { mode: 'freelance', label: 'Bloom — Freelance Business' },
-    { mode: 'team', label: 'Team Workspace' },
-  ];
+    { mode: 'personal', label: 'Personal' },
+    { mode: 'freelance', label: 'Freelance' },
+    { mode: 'team', label: 'Team' },
+  ].filter(function (o) {
+    return (window.__bbDemoWorkspaces || ['personal', 'freelance', 'team']).indexOf(o.mode) >= 0;
+  });
 
   var _demoWsBooted = false;
   var _demoWsBootStarted = false;
@@ -447,14 +450,11 @@
     el.innerHTML =
       '<div class="bb-demo-ws-switcher-inner">' +
       '<div class="bb-demo-ws-switcher-head">' +
-      '<span class="bb-demo-ws-kicker">Browser demo</span>' +
-      '<span class="bb-demo-ws-title">Switch workspace</span>' +
-      '<span class="bb-demo-ws-hint">Preview solo productivity, freelance business, or team collaboration.</span>' +
+      '<span class="bb-demo-ws-title">Live demo</span>' +
+      '<span class="bb-demo-ws-hint">Try anything. It resets when you leave.</span>' +
       '</div>' +
       '<div class="bb-demo-ws-right-group">' +
-      '<div class="bb-demo-ws-pills">' +
-      pills +
-      '</div>' +
+      (DEMO_WS_OPTIONS.length > 1 ? '<div class="bb-demo-ws-pills" role="tablist">' + pills + '</div>' : '') +
       '<div id="bb-demo-ws-theme-slot"></div>' +
       '</div>' +
       '</div>';
@@ -934,33 +934,28 @@
       'body.bb-has-ws-switcher .chat-topbar,' +
       'body.bb-has-ws-switcher .team-topbar,' +
       'body.bb-has-ws-switcher .boards-topbar{padding-top:14px!important}' +
-      'body.bb-web-demo-embed .bb-demo-ws-hint{display:none}' +
-      '.bb-demo-ws-switcher-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 14px;padding:0;border:none;border-radius:0;background:transparent;box-shadow:none;position:relative;z-index:1;pointer-events:auto}' +
-      '.bb-demo-ws-switcher-head{display:flex;flex-direction:column;gap:2px;min-width:200px;flex:1}' +
-      '.bb-demo-ws-kicker{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4d9fff;opacity:.9}' +
-      '.bb-demo-ws-title{font-size:15px;font-weight:800;color:#e8f4ff;letter-spacing:-.02em}' +
-      '.bb-demo-ws-hint{font-size:11px;color:rgba(200,220,255,.72);line-height:1.35;max-width:420px}' +
-      '.bb-demo-ws-right-group{display:flex;align-items:center;gap:12px}' +
-      '.bb-demo-ws-pills{display:flex;flex-wrap:wrap;gap:8px;align-items:center}' +
-      '.bb-demo-ws-pill{appearance:none;border:1px solid rgba(255,255,255,.16);background:#1a2438;color:#dbeafe;font-size:11px;font-weight:650;padding:8px 13px;border-radius:999px;cursor:pointer;white-space:nowrap;pointer-events:auto;position:relative;z-index:3;transition:border-color .22s ease,background .22s ease,color .22s ease,box-shadow .22s ease,opacity .22s ease}' +
-      '.bb-demo-ws-pill:hover:not(:disabled){background:#243352;border-color:rgba(77,159,255,.45)}' +
-      '.bb-demo-ws-pill:disabled{opacity:.65;cursor:wait}' +
-      '.bb-demo-ws-pill.switching{opacity:.75}' +
-      '.bb-demo-ws-pill.active{background:linear-gradient(135deg,rgba(77,159,255,.35),rgba(37,99,235,.28));border-color:rgba(96,165,250,.65);color:#fff;box-shadow:0 0 0 1px rgba(77,159,255,.25),0 6px 18px rgba(37,99,235,.22)}' +
-      '.bb-demo-ws-pill[data-mode="freelance"].active{background:linear-gradient(135deg,rgba(124,58,237,.38),rgba(96,165,250,.24));border-color:rgba(167,139,250,.6);box-shadow:0 0 0 1px rgba(124,58,237,.22),0 6px 18px rgba(124,58,237,.2)}' +
-      '.bb-demo-ws-pill[data-mode="team"].active{background:linear-gradient(135deg,rgba(20,184,166,.35),rgba(15,118,110,.28));border-color:rgba(45,212,191,.6);box-shadow:0 0 0 1px rgba(20,184,166,.22),0 6px 18px rgba(20,184,166,.18)}' +
-      'body.light-mode .bb-demo-ws-switcher.bb-demo-ws-fixed{background:transparent;border:none}' +
-      'body.light-mode .bb-demo-ws-switcher-inner{background:transparent;border:none}' +
-      'body.light-mode .bb-demo-ws-kicker{color:#2563eb;opacity:1}' +
+      /* Flat bar, matching the app's own controls: one segmented switch, no glows. */
+      '.bb-demo-ws-switcher-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 14px;position:relative;z-index:1;pointer-events:auto}' +
+      '.bb-demo-ws-switcher-head{display:flex;align-items:baseline;gap:10px;min-width:0;flex:1}' +
+      '.bb-demo-ws-title{font-size:13px;font-weight:600;color:#e6edf3}' +
+      '.bb-demo-ws-hint{font-size:12px;color:rgba(230,237,243,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
+      '.bb-demo-ws-right-group{display:flex;align-items:center;gap:10px}' +
+      '.bb-demo-ws-pills{display:inline-flex;gap:2px;padding:2px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08)}' +
+      '.bb-demo-ws-pill{appearance:none;border:0;background:transparent;color:rgba(230,237,243,.7);font:inherit;font-size:13px;font-weight:500;height:28px;padding:0 14px;border-radius:6px;cursor:pointer;white-space:nowrap;pointer-events:auto;transition:background .15s ease,color .15s ease}' +
+      '.bb-demo-ws-pill:hover:not(:disabled):not(.active){color:#fff}' +
+      '.bb-demo-ws-pill:disabled{cursor:wait}' +
+      '.bb-demo-ws-pill.active{background:rgba(255,255,255,.16);color:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25)}' +
       'body.light-mode .bb-demo-ws-title{color:#0f172a}' +
-      'body.light-mode .bb-demo-ws-hint{color:#475569}' +
-      'body.light-mode .bb-demo-ws-switcher .bb-demo-ws-pill{border:1px solid rgba(15,23,42,.14);box-shadow:0 1px 2px rgba(15,23,42,.06)}' +
-      'body.light-mode .bb-demo-ws-switcher .bb-demo-ws-pill:not(.active){color:#1e293b!important;background:#fff!important}' +
-      'body.light-mode .bb-demo-ws-switcher .bb-demo-ws-pill:hover:not(:disabled):not(.active){background:#f1f5f9!important;color:#0f172a!important;border-color:rgba(37,99,235,.35)!important}' +
-      'body.light-mode .bb-demo-ws-switcher .bb-demo-ws-pill.active{background:linear-gradient(135deg,#2563eb,#1d4ed8)!important;border-color:#1d4ed8!important;color:#fff!important;box-shadow:0 2px 10px rgba(37,99,235,.28)}' +
-      'body.light-mode .bb-demo-ws-switcher .bb-demo-ws-pill[data-mode="freelance"].active{background:linear-gradient(135deg,#7c3aed,#6d28d9)!important;border-color:#6d28d9!important;color:#fff!important;box-shadow:0 2px 10px rgba(124,58,237,.28)}' +
-      'body.light-mode .bb-demo-ws-switcher .bb-demo-ws-pill[data-mode="team"].active{background:linear-gradient(135deg,#0d9488,#0f766e)!important;border-color:#0f766e!important;color:#fff!important;box-shadow:0 2px 10px rgba(13,148,136,.28)}' +
-      'body.bb-workspace-freelance:not(.light-mode) .bb-demo-ws-switcher.bb-demo-ws-fixed{background:transparent}' +
+      'body.light-mode .bb-demo-ws-hint{color:#64748b}' +
+      'body.light-mode .bb-demo-ws-pills{background:#eef0f3;border-color:rgba(15,23,42,.08)}' +
+      'body.light-mode .bb-demo-ws-pill{color:#475569}' +
+      'body.light-mode .bb-demo-ws-pill:hover:not(:disabled):not(.active){color:#0f172a}' +
+      'body.light-mode .bb-demo-ws-pill.active{background:#fff;color:#0f172a;box-shadow:0 1px 2px rgba(15,23,42,.12)}' +
+      /* In the freelance workspace the page behind the bar matches the freelance hub. */
+      'body.bb-has-ws-switcher.bb-workspace-freelance:not(.light-mode){background:#0d0f14!important}' +
+      'body.bb-has-ws-switcher.bb-workspace-freelance:not(.light-mode) .bb-demo-ws-switcher.bb-demo-ws-fixed{border-bottom:1px solid rgba(255,255,255,.06)}' +
+      /* The app's quote card sits just under the window top; the demo bar pushes the app down. */
+      'body.bb-has-ws-switcher #quote-card{top:calc(var(--bb-demo-ws-total-offset,88px) + 12px)!important}' +
       '.bb-demo-ws-transition{position:fixed;inset:0;z-index:49999;background:rgba(8,12,20,.5);opacity:0;pointer-events:none;transition:opacity .28s ease;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}' +
       '.bb-demo-ws-transition.visible{opacity:1;pointer-events:auto}' +
       'body.light-mode .bb-demo-ws-transition{background:rgba(248,250,252,.78)}' +

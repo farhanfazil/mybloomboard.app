@@ -32,6 +32,24 @@
     created_at: '2026-05-01T09:00:00.000Z',
   };
 
+  /* Which workspaces this embed offers: ?ws=personal,team on the home page,
+     ?ws=freelance on the freelance page. The remembered choice (per tab) is
+     corrected here, before anything reads it, if this page doesn't offer it. */
+  (function resolveWorkspaces() {
+    var ALL = ['personal', 'freelance', 'team'];
+    var asked = (new URLSearchParams(location.search).get('ws') || '').split(',').filter(function (m) {
+      return ALL.indexOf(m) >= 0;
+    });
+    var allowed = asked.length ? asked : ALL;
+    window.__bbDemoWorkspaces = allowed;
+    try {
+      var cur = sessionStorage.getItem('bb-demo-workspace-mode');
+      if (allowed.indexOf(cur) < 0) {
+        sessionStorage.setItem('bb-demo-workspace-mode', allowed.indexOf('team') >= 0 ? 'team' : allowed[0]);
+      }
+    } catch (e) {}
+  })();
+
   /* Team features only exist in the Team workspace; Personal and Freelance run signed out. */
   function signedIn() {
     try {

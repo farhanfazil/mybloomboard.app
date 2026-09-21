@@ -235,11 +235,13 @@
 
   /* ── Styles ──────────────────────────────────────────────────────────── */
   var css =
-    '.bb-demo-ws-dl{appearance:none;display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(96,165,250,.7);' +
-    'background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;font:inherit;font-size:11px;font-weight:700;padding:8px 13px;' +
-    'border-radius:999px;cursor:pointer;white-space:nowrap;box-shadow:0 6px 18px rgba(37,99,235,.3);transition:filter .2s,transform .2s}' +
-    '.bb-demo-ws-dl:hover{filter:brightness(1.1);transform:translateY(-1px)}' +
-    '.bb-demo-ws-dl svg{width:13px;height:13px}' +
+    '.bb-demo-ws-dl{appearance:none;display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border:0;' +
+    'border-radius:6px;background:#fff;color:#0b1220;font:inherit;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;' +
+    'box-shadow:0 1px 2px rgba(0,0,0,.2);transition:background .15s ease}' +
+    '.bb-demo-ws-dl:hover{background:#e8edf2}' +
+    '.bb-demo-ws-dl svg{width:14px;height:14px}' +
+    'body.light-mode .bb-demo-ws-dl{background:#123e5a;color:#fff}' +
+    'body.light-mode .bb-demo-ws-dl:hover{background:#0d2f45}' +
     '#bb-demo-nudge{position:fixed;left:50%;bottom:78px;z-index:60000;display:flex;align-items:center;gap:10px;max-width:min(640px,92vw);' +
     'padding:10px 10px 10px 16px;border-radius:14px;background:rgba(15,28,46,.96);border:1px solid rgba(96,165,250,.35);color:#dbeafe;' +
     'font-size:12.5px;line-height:1.4;box-shadow:0 18px 40px rgba(0,0,0,.45);opacity:0;transform:translate(-50%,12px);' +

@@ -41,7 +41,7 @@ export default function DemoPage() {
 
       <iframe
         title="BloomBoard live demo"
-        src="/bloomboard-demo/index.html?v=29"
+        src="/bloomboard-demo/index.html?ws=personal,team&v=30"
         className="min-h-0 w-full flex-1 border-0 bg-[#0a1520]"
         allow="clipboard-write"
       />

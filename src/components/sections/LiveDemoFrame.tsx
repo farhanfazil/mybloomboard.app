@@ -13,6 +13,8 @@ type LiveDemoFrameProps = {
   peekHeight?: number;
   className?: string;
   eager?: boolean;
+  /** Workspaces the demo offers, e.g. "personal,team" (home) or "freelance" (freelance page). */
+  workspaces?: string;
 };
 
 export default function LiveDemoFrame({
@@ -20,6 +22,7 @@ export default function LiveDemoFrame({
   peekHeight = 260,
   className = "",
   eager = false,
+  workspaces = "personal,team",
 }: LiveDemoFrameProps) {
   const frameRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0.72);
@@ -99,7 +102,7 @@ export default function LiveDemoFrame({
           ) : (
             <iframe
               title="BloomBoard interactive demo"
-              src="/bloomboard-demo/index.html?embed=home&v=29"
+              src={`/bloomboard-demo/index.html?embed=home&ws=${workspaces}&v=30`}
               className="absolute left-0 top-0 border-0 bg-[#0a1520]"
               style={{
                 width: APP_W,
