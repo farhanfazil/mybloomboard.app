@@ -10,6 +10,8 @@ import { Footer } from "@/components/ui/footer-section";
 
 const FreelanceSmartAIFeatures = dynamic(() => import("@/components/sections/FreelanceSmartAIFeatures"));
 const HowItWorks = dynamic(() => import("@/components/sections/HowItWorks"));
+const PlanQuiz = dynamic(() => import("@/components/sections/PlanQuiz"));
+import type { QuizStep, PlanResult } from "@/components/sections/PlanQuiz";
 const ComparisonSection = dynamic(() => import("@/components/sections/ComparisonSection"));
 import {
   BadgeCheck,
@@ -538,8 +540,8 @@ function FreelanceTestimonials() {
   );
 }
 
-// ─── Plan Quiz ────────────────────────────────────────────────────────────────
-const QUIZ_STEPS = [
+// ─── Plan Quiz (shared component, freelance questions) ───────────────────────
+const FREELANCE_QUIZ_STEPS: QuizStep[] = [
   {
     question: "How many active clients do you have?",
     options: [
@@ -558,110 +560,11 @@ const QUIZ_STEPS = [
   },
 ];
 
-const PLAN_RESULT: Record<string, { name: string; color: string; desc: string; href: string }> = {
-  free:  { name: "Free",  color: "#607080", desc: "Perfect to get started — 2 clients, full productivity suite, no card needed.", href: "#pricing" },
-  flow:  { name: "Flow",  color: "#4d9fff", desc: "Built for growing freelancers — client portal, smart pricing, 10 clients.", href: "https://buy.polar.sh/polar_cl_vlLVUrxnBszMR59XsC2pmP5R3rmcqAgll5B501xt17D" },
-  bloom: { name: "Bloom", color: "#a78bfa", desc: "Unlimited clients, AI proposals & contracts, full automation suite.", href: "https://buy.polar.sh/polar_cl_6OVDu8uzWINVJcKoprQ4ZArcfNFLvYCYUDwG30A45DS" },
+const FREELANCE_QUIZ_RESULTS: Record<"free" | "flow" | "bloom", PlanResult> = {
+  free:  { name: "Free",  desc: "Perfect to get started — 2 clients, full productivity suite, no card needed.", href: "#pricing" },
+  flow:  { name: "Flow",  desc: "Built for growing freelancers — client portal, smart pricing, 10 clients.", href: "https://buy.polar.sh/polar_cl_vlLVUrxnBszMR59XsC2pmP5R3rmcqAgll5B501xt17D" },
+  bloom: { name: "Bloom", desc: "Unlimited clients, AI proposals & contracts, full automation suite.", href: "https://buy.polar.sh/polar_cl_6OVDu8uzWINVJcKoprQ4ZArcfNFLvYCYUDwG30A45DS" },
 };
-
-function FreelancePlanQuiz() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
-  const [step, setStep] = useState(0);
-  const [scores, setScores] = useState({ free: 0, flow: 0, bloom: 0 });
-  const [result, setResult] = useState<string | null>(null);
-
-  const pick = (points: { free: number; flow: number; bloom: number }) => {
-    const next = { free: scores.free + points.free, flow: scores.flow + points.flow, bloom: scores.bloom + points.bloom };
-    setScores(next);
-    if (step + 1 < QUIZ_STEPS.length) {
-      setStep(step + 1);
-    } else {
-      const winner = (Object.keys(next) as Array<"free" | "flow" | "bloom">)
-        .reduce((a, b) => next[a] >= next[b] ? a : b);
-      setResult(winner);
-    }
-  };
-
-  const reset = () => { setStep(0); setScores({ free: 0, flow: 0, bloom: 0 }); setResult(null); };
-
-  const plan = result ? PLAN_RESULT[result] : null;
-
-  return (
-    <section ref={ref} className="px-4 py-16 sm:py-24">
-      <div className="mx-auto max-w-2xl">
-        <motion.div
-          className="text-center mb-10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-3xl font-bold sm:text-4xl">Which plan is right for you?</h2>
-          <p className="mt-3 text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>Two quick questions and we&apos;ll point you to the right plan.</p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          className="rounded-2xl overflow-hidden"
-          style={{ background: "#0b0d10", border: "1px solid rgba(255,255,255,0.1)" }}
-        >
-          <AnimatePresence mode="wait">
-            {!result ? (
-              <motion.div key={`step-${step}`} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} transition={{ duration: 0.25 }} className="p-8">
-                <div className="flex items-center gap-2 mb-6">
-                  {QUIZ_STEPS.map((_, i) => (
-                    <div key={i} className="h-1 flex-1 rounded-full transition-all duration-500"
-                      style={{ background: i <= step ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.12)" }} />
-                  ))}
-                </div>
-                <p className="text-sm mb-2" style={{ color: "rgba(255,255,255,0.5)" }}>
-                  Question {step + 1} of {QUIZ_STEPS.length}
-                </p>
-                <h3 className="text-xl font-bold text-white mb-6 leading-snug">{QUIZ_STEPS[step].question}</h3>
-                <div className="flex flex-col gap-3">
-                  {QUIZ_STEPS[step].options.map((opt) => (
-                    <button
-                      key={opt.label}
-                      onClick={() => pick(opt.points)}
-                      className="w-full text-left px-5 py-4 rounded-lg text-sm font-medium transition-colors duration-150"
-                      style={{
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.1)",
-                        color: "rgba(255,255,255,0.8)",
-                      }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.border = "1px solid rgba(255,255,255,0.3)"; (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,255,255,0.07)"; }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.border = "1px solid rgba(255,255,255,0.1)"; (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,255,255,0.04)"; }}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </motion.div>
-            ) : (
-              <motion.div key="result" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.35 }} className="p-8 text-center">
-                <p className="text-sm mb-2" style={{ color: "rgba(255,255,255,0.5)" }}>We&apos;d suggest</p>
-                <p className="text-3xl font-bold text-white mb-4">{plan!.name}</p>
-                <p className="text-sm leading-relaxed mb-8 max-w-sm mx-auto" style={{ color: "rgba(255,255,255,0.6)" }}>{plan!.desc}</p>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <a href={plan!.href}
-                    className="px-5 py-2.5 rounded-lg bg-white text-sm font-semibold text-black transition-colors hover:bg-white/90">
-                    Get started with {plan!.name}
-                  </a>
-                  <button onClick={reset}
-                    className="px-5 py-2.5 rounded-lg border border-white/20 text-sm font-medium text-white/80 transition-colors hover:bg-white/[0.06]">
-                    Retake quiz
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
 
 // ─── Freelance FAQ ─────────────────────────────────────────────────────────────
 const FREELANCE_FAQS = [
@@ -1819,9 +1722,14 @@ export default function FreelancePage() {
       <HowItWorks />
 
       {/* ── Testimonials + Plan Quiz ─────────────────────────────────── */}
-      <div style={{ background: "linear-gradient(to top, #152331, #000000)" }}>
+      {/* Soft tinted band that fades in and out of black, so there is no hard edge */}
+      <div style={{ background: "linear-gradient(to bottom, #000 0%, #07121a 22%, #0a1822 50%, #07121a 78%, #000 100%)" }}>
         <FreelanceTestimonials />
-        <FreelancePlanQuiz />
+        <PlanQuiz
+          steps={FREELANCE_QUIZ_STEPS}
+          results={FREELANCE_QUIZ_RESULTS}
+          note="Every plan includes the full productivity suite. Upgrade only when your client list grows."
+        />
       </div>
 
       {/* ── FAQ ──────────────────────────────────────────────────────── */}

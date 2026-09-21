@@ -6,11 +6,9 @@ import FeatureGrid from "@/components/sections/FeatureGrid";
 // Above-fold sections load immediately ↑
 // Below-fold sections are lazy-loaded — don't block initial paint ↓
 
-const AIFeatureCarousel = dynamic(() => import("@/components/sections/AIFeatureCarousel"));
-const DeepDiveFlight    = dynamic(() => import("@/components/sections/DeepDiveFlight"));
-const Walkthrough       = dynamic(() => import("@/components/sections/Walkthrough"));
-const StatsBar          = dynamic(() => import("@/components/sections/StatsBar"));
-const Testimonials      = dynamic(() => import("@/components/sections/Testimonials"));
+// Hidden for now (see the comment in the JSX); to bring them back, re-add:
+//   AIFeatureCarousel, DeepDiveFlight, Walkthrough, StatsBar  (all in @/components/sections)
+const Testimonials     = dynamic(() => import("@/components/sections/Testimonials"));
 const PlanQuiz          = dynamic(() => import("@/components/sections/PlanQuiz"));
 const TrustBar          = dynamic(() => import("@/components/sections/TrustBar"));
 const Pricing           = dynamic(() => import("@/components/sections/Pricing"));
@@ -26,15 +24,16 @@ export default function Home() {
       <Header />
       <AppPreviewScroll />
       <ComparisonSection tables={["teams"]} />
-      {/* Hidden while the live demo carries the product story — restore by uncommenting.
       <FeatureGrid />
+      {/* Hidden while the live demo carries the product story — restore by uncommenting.
       <AIFeatureCarousel />
       <DeepDiveFlight>
         <Walkthrough />
         <StatsBar />
       </DeepDiveFlight>
       */}
-      <div style={{ background: "linear-gradient(to top, #152331, #000000)" }}>
+      {/* Soft tinted band that fades in and out of black, so there is no hard edge */}
+      <div style={{ background: "linear-gradient(to bottom, #000 0%, #07121a 22%, #0a1822 50%, #07121a 78%, #000 100%)" }}>
         <Testimonials />
         <PlanQuiz />
       </div>

@@ -65,6 +65,14 @@ export const FEATURES = [
     mockupType: "team-chat",
   },
   {
+    icon: "📹",
+    title: "Voice & Video Calls",
+    description:
+      "Jumping to Zoom breaks the flow. Call any teammate in one click from Team Live or chat, with voice or video built in.",
+    accentColor: "#34d399",
+    mockupType: "team-chat",
+  },
+  {
     icon: "🎙️",
     title: "Voice Messages",
     description:
