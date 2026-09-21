@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { ChevronDown, BarChart2, Check, Minus } from "lucide-react";
+import { ChevronDown, BarChart2, Check, Minus, Video } from "lucide-react";
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
@@ -23,6 +23,7 @@ const TEAMS_ROWS: (string[] | { section: string })[] = [
   ["Streak & badge rewards",      "✅", "❌", "❌", "❌", "❌", "❌"],
 
   { section: "Team & Collaboration" },
+  ["Voice & video calls",         "✅ Built-in", "❌ Via add-on", "❌ Via add-on", "✅", "❌ Via add-on", "❌ Via add-on"],
   ["Team collaboration",          "✅", "✅", "✅", "✅", "✅", "✅"],
   ["Built-in team chat",          "✅", "❌", "❌", "✅", "❌", "❌"],
   ["Voice messages in boards",    "✅", "❌", "❌", "❌", "❌", "❌"],
@@ -84,6 +85,11 @@ const FREELANCE_ROWS: (string[] | { section: string })[] = [
   { section: "Pricing" },
   ["Free plan",                   "✅", "❌", "❌", "⚠️ Trial only", "❌"],
 ];
+
+/** Headline features get a highlighted row with a badge. */
+const FEATURED: Record<string, string> = {
+  "Voice & video calls": "New",
+};
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
 
@@ -213,13 +219,32 @@ function ComparisonTable({
               }
 
               const [feature, ...cols] = row as string[];
+              const badge = FEATURED[feature];
 
               return (
                 <tr
                   key={`row-${ri}`}
-                  className="border-t border-slate-100 transition-colors odd:bg-white even:bg-slate-50/60 hover:bg-[#f3f8fb]"
+                  className={`border-t border-slate-100 transition-colors ${
+                    badge ? "" : "odd:bg-white even:bg-slate-50/60 hover:bg-[#f3f8fb]"
+                  }`}
+                  style={badge ? { background: "linear-gradient(90deg, #e3f5ec 0%, #f1faf5 60%, #f7fcf9 100%)" } : undefined}
                 >
-                  <td className="whitespace-nowrap border-r border-slate-200 px-3 py-3 text-sm font-medium text-slate-800">{feature}</td>
+                  <td
+                    className={`whitespace-nowrap border-r border-slate-200 px-3 text-sm ${
+                      badge ? "py-4 font-bold text-[#123e5a]" : "py-3 font-medium text-slate-800"
+                    }`}
+                    style={badge ? { boxShadow: "inset 4px 0 0 #123e5a" } : undefined}
+                  >
+                    {badge ? (
+                      <span className="inline-flex items-center gap-2">
+                        <Video className="h-4 w-4 text-emerald-600" strokeWidth={2.4} />
+                        {feature}
+                        <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                          {badge}
+                        </span>
+                      </span>
+                    ) : feature}
+                  </td>
                   {cols.map((val, ci) => (
                     <DataCell key={ci} value={val} isBloom={ci === 0} />
                   ))}
