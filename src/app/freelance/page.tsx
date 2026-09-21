@@ -17,12 +17,14 @@ import {
   BadgeCheck,
   BadgeDollarSign,
   BarChart3,
+  Check,
   CreditCard,
   FilePenLine,
   FileSignature,
   FolderKanban,
   Layers,
   Link2,
+  Minus,
   Package,
   Palette,
   RefreshCw,
@@ -113,7 +115,7 @@ const FREELANCE_PLANS = [
     accentColor: "#607080",
     highlighted: false,
     badge: null as string | null,
-    cta: "Download Free",
+    cta: "Download free",
     ctaHref: DOWNLOAD_URL,
     yearlyHref: null as string | null,
     featureGroups: [
@@ -157,8 +159,8 @@ const FREELANCE_PLANS = [
     subtext: "/ month",
     accentColor: "#4d9fff",
     highlighted: true,
-    badge: "Most Popular" as string | null,
-    cta: "7 days free trial",
+    badge: "Most popular" as string | null,
+    cta: "Start 7-day trial",
     ctaHref: "https://buy.polar.sh/polar_cl_vlLVUrxnBszMR59XsC2pmP5R3rmcqAgll5B501xt17D",
     yearlyHref: "https://buy.polar.sh/polar_cl_Zv3lKA51r16R0wsXOHm31nViCwIVJaxdJQcHx11AKNu" as string | null,
     featureGroups: [
@@ -204,8 +206,8 @@ const FREELANCE_PLANS = [
     subtext: "/ month",
     accentColor: "#a78bfa",
     highlighted: true,
-    badge: "Best Value" as string | null,
-    cta: "7 days free trial",
+    badge: "Best value" as string | null,
+    cta: "Start 7-day trial",
     ctaHref: "https://buy.polar.sh/polar_cl_6OVDu8uzWINVJcKoprQ4ZArcfNFLvYCYUDwG30A45DS",
     yearlyHref: "https://buy.polar.sh/polar_cl_mPrYs7EnmqJLA6bDr5eDfUTt5wrogcEBK5dDm0gTV3O" as string | null,
     featureGroups: [
@@ -1025,345 +1027,100 @@ function FreelanceButterfly() {
 }
 
 // ─── Pricing card ─────────────────────────────────────────────────────────────
+/** Who each freelance plan is for, in plain words. */
+const FREELANCE_TAGLINES: Record<string, string> = {
+  Free: "Try the freelance tools with up to two clients.",
+  Flow: "For growing freelancers with up to ten clients.",
+  Bloom: "Unlimited clients, with AI proposals and contracts.",
+};
+
 function FreelancePricingCard({ plan, yearly }: { plan: typeof FREELANCE_PLANS[0]; yearly: boolean }) {
-  const isBloom = plan.name === "Bloom";
-  const isFlow  = plan.name === "Flow";
-  const isFeatured = isBloom || isFlow;
+  const isPopular = plan.name === "Flow";
+  const hasTrial = plan.name === "Flow" || plan.name === "Bloom";
   const showYearly = yearly && Boolean(plan.yearlyPrice);
   const monthlyEquiv = showYearly && plan.yearlyPrice
     ? `$${(Number(plan.yearlyPrice.replace(/\D/g, "")) / 12).toFixed(2).replace(/\.00$/, "")}`
     : null;
   const displayPrice = monthlyEquiv ?? plan.price;
-  const accentMuted = isBloom
-    ? "rgba(196,181,253,0.55)"
-    : isFlow
-      ? "rgba(147,197,253,0.55)"
-      : "rgba(255,255,255,0.3)";
+  const billingLine = showYearly && plan.yearlyPrice
+    ? `Billed ${plan.yearlyPrice} / year`
+    : plan.yearlyPrice
+      ? `or ${plan.yearlyPrice} / year`
+      : "\u00a0";
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      whileHover={isFeatured ? { scale: 1.018, transition: { duration: 0.22 } } : { scale: 1.01, transition: { duration: 0.22 } }}
-      className="relative flex w-full flex-col transition-shadow duration-500 cursor-default sm:h-full"
-      style={{
-        borderRadius: "18px",
-        background: isBloom
-          ? "linear-gradient(155deg, rgba(22,14,42,0.97) 0%, rgba(14,10,28,0.96) 50%, rgba(20,12,36,0.97) 100%)"
-          : isFlow
-            ? "linear-gradient(155deg, rgba(7,23,43,0.97) 0%, rgba(6,13,24,0.96) 50%, rgba(7,20,36,0.97) 100%)"
-            : "linear-gradient(145deg, rgba(8,8,10,0.92), rgba(18,18,22,0.78))",
-        backdropFilter: "blur(18px)",
-        WebkitBackdropFilter: "blur(18px)",
-        border: isBloom
-          ? "1.5px solid rgba(167,139,250,0.35)"
-          : isFlow
-            ? "1.5px solid rgba(77,159,255,0.38)"
-            : "1px solid rgba(255,255,255,0.09)",
-        boxShadow: isBloom
-          ? "0 0 0 1px rgba(167,139,250,0.12), 0 30px 80px rgba(109,40,217,0.22), 0 8px 32px rgba(167,139,250,0.12)"
-          : isFlow
-            ? "0 0 0 1px rgba(77,159,255,0.12), 0 30px 80px rgba(30,120,255,0.18), 0 8px 32px rgba(77,159,255,0.1)"
-            : "none",
-      }}
+      className={`relative flex w-full flex-col rounded-2xl border sm:h-full ${
+        isPopular ? "border-white/35 bg-[#0f151c]" : "border-white/10 bg-[#0b0f14]"
+      }`}
     >
-      {/* Hover glow pulse overlay */}
-      {isFeatured && (
-        <motion.div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 rounded-[18px]"
-          initial={{ opacity: 0 }}
-          whileHover={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          style={{
-            background: isBloom
-              ? "radial-gradient(ellipse at 50% 0%, rgba(167,139,250,0.18) 0%, transparent 65%)"
-              : "radial-gradient(ellipse at 50% 0%, rgba(77,159,255,0.18) 0%, transparent 65%)",
-            zIndex: 0,
-          }}
-        />
-      )}
-
-      {/* Ambient glow behind featured cards */}
-      {isFeatured && (
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -inset-px"
-          style={{
-            borderRadius: "18px",
-            background: isBloom
-              ? "radial-gradient(ellipse at 60% 0%, rgba(139,92,246,0.18) 0%, transparent 65%)"
-              : "radial-gradient(ellipse at 52% 0%, rgba(77,159,255,0.2) 0%, transparent 65%)",
-            zIndex: 0,
-          }}
-        />
-      )}
-
-      {/* Badge */}
-      {plan.badge && (
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-          <span
-            className="px-4 py-1.5 rounded-full text-xs font-bold tracking-wide flex items-center gap-1.5"
-            style={isFlow
-              ? {
-                  background: "linear-gradient(135deg, rgba(77,159,255,0.95), rgba(37,99,235,0.9))",
-                  color: "#fff",
-                  border: "1px solid rgba(147,197,253,0.45)",
-                  boxShadow: "0 4px 22px rgba(37,99,235,0.48), 0 0 0 1px rgba(77,159,255,0.22)",
-                }
-              : {
-                  background: "linear-gradient(135deg, rgba(139,92,246,0.9), rgba(109,40,217,0.85))",
-                  color: "#fff",
-                  border: "1px solid rgba(196,181,253,0.4)",
-                  boxShadow: "0 4px 20px rgba(109,40,217,0.5), 0 0 0 1px rgba(167,139,250,0.2)",
-                }}
-          >
-            <span>✦</span>
-            {plan.badge}
-          </span>
-        </div>
-      )}
-
       {/* ── Header ── */}
-      <div
-        className="px-6 pt-7 pb-5 relative z-[1] min-h-[12rem]"
-        style={{
-          borderBottom: isBloom
-            ? "1px solid rgba(167,139,250,0.12)"
-            : isFlow
-              ? "1px solid rgba(77,159,255,0.14)"
-              : "1px solid rgba(255,255,255,0.06)",
-        }}
-      >
-        <div className="flex items-center justify-between gap-2 mb-3">
-          <span className="text-xs font-bold uppercase tracking-widest" style={{ color: plan.accentColor }}>
-            {plan.name}
-          </span>
-          {isBloom && (
-            <span
-              className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
-              style={{ background: "rgba(57,255,20,0.1)", color: "#39FF14", border: "1px solid rgba(57,255,20,0.2)" }}
-            >
-              AI Power
-            </span>
+      <div className="p-6">
+        <div className="flex items-center justify-between gap-2">
+          <h3 className="text-lg font-semibold text-white">{plan.name}</h3>
+          {isPopular && (
+            <span className="rounded-md bg-white px-2 py-0.5 text-xs font-semibold text-black">Most popular</span>
+          )}
+          {!isPopular && plan.badge && (
+            <span className="text-xs font-medium text-white/55">{plan.badge}</span>
           )}
         </div>
+        <p className="mt-1.5 min-h-[2.5rem] text-sm leading-snug text-white/55">{FREELANCE_TAGLINES[plan.name]}</p>
 
-        <div className="mb-1 flex flex-wrap items-baseline gap-x-1.5 gap-y-1">
-          <span className="font-bold text-white" style={{ fontSize: isFeatured ? "2.75rem" : "2.25rem" }}>
-            {displayPrice}
-          </span>
-          <span className="text-sm" style={{ color: "rgba(255,255,255,0.4)" }}>{plan.subtext}</span>
+        <div className="mt-5 flex flex-wrap items-baseline gap-x-1.5">
+          <span className="text-4xl font-bold tracking-tight text-white">{displayPrice}</span>
+          <span className="text-sm text-white/50">{plan.subtext}</span>
         </div>
+        <p className="mt-1 text-sm text-white/45">{billingLine}</p>
 
-        {plan.yearlyPrice && !showYearly && (
-          <p className="text-xs" style={{ color: accentMuted }}>or {plan.yearlyPrice} / yr</p>
-        )}
-        {showYearly && plan.yearlyPrice && (
-          <p className="text-xs" style={{ color: accentMuted }}>Billed {plan.yearlyPrice} / year</p>
-        )}
-        {!plan.yearlyPrice && (
-          <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>&nbsp;</p>
-        )}
-
-        {isBloom && (
-          <div className="mt-4 flex flex-wrap gap-1.5">
-            {["🤖 AI Contracts", "📄 AI Proposals", "📊 Full KPIs", "🔗 Portal"].map((tag) => (
-              <span
-                key={tag}
-                className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
-                style={{ background: "rgba(139,92,246,0.14)", color: "#c4b5fd", border: "1px solid rgba(167,139,250,0.22)" }}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* ── Feature groups ── */}
-      <div className="px-6 py-5 flex flex-col flex-1 relative z-[1]">
-        {plan.featureGroups.map((group, index) => {
-          const isAIGroup     = group.category === "AI Features";
-          const isClientGroup = group.category === "Client Tools";
-
-          return (
-            <div
-              key={group.category}
-              className={
-                isAIGroup || isClientGroup
-                  ? "mt-5 rounded-2xl border p-4"
-                  : index > 0
-                    ? "mt-5 border-t pt-5"
-                    : ""
-              }
-              style={
-                isAIGroup
-                  ? {
-                      borderColor: isBloom ? "rgba(196,181,253,0.34)" : "rgba(255,255,255,0.11)",
-                      background: isBloom
-                        ? "linear-gradient(145deg, rgba(124,58,237,0.2), rgba(255,255,255,0.035))"
-                        : "linear-gradient(145deg, rgba(255,255,255,0.055), rgba(255,255,255,0.018))",
-                      boxShadow: isBloom
-                        ? "inset 0 1px 0 rgba(255,255,255,0.08), 0 16px 40px rgba(109,40,217,0.14)"
-                        : "inset 0 1px 0 rgba(255,255,255,0.06)",
-                    }
-                : isClientGroup
-                  ? {
-                      borderColor: isBloom
-                        ? "rgba(251,191,36,0.38)"
-                        : isFlow
-                          ? "rgba(77,159,255,0.28)"
-                          : "rgba(255,255,255,0.08)",
-                      background: isBloom
-                        ? "linear-gradient(145deg, rgba(217,119,6,0.18), rgba(255,255,255,0.03))"
-                        : isFlow
-                          ? "linear-gradient(145deg, rgba(30,80,200,0.14), rgba(77,159,255,0.04))"
-                          : "linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))",
-                      boxShadow: isBloom
-                        ? "inset 0 1px 0 rgba(255,255,255,0.07), 0 12px 32px rgba(217,119,6,0.15)"
-                        : isFlow
-                          ? "inset 0 1px 0 rgba(77,159,255,0.1), 0 8px 24px rgba(30,100,255,0.1)"
-                          : "inset 0 1px 0 rgba(255,255,255,0.05)",
-                    }
-                : index > 0
-                  ? { borderColor: isBloom ? "rgba(167,139,250,0.1)" : "rgba(255,255,255,0.06)" }
-                  : {}
-              }
-            >
-              <div className="mb-2.5 flex items-center justify-between gap-3">
-                <p
-                  className="text-[10px] font-semibold uppercase tracking-widest"
-                  style={{
-                    color: isAIGroup
-                      ? (isBloom ? "#c4b5fd" : "rgba(255,255,255,0.42)")
-                    : isClientGroup
-                      ? (isBloom ? "#fde68a" : isFlow ? "rgba(77,159,255,0.75)" : "rgba(255,255,255,0.28)")
-                    : isBloom
-                      ? "rgba(196,181,253,0.4)"
-                    : "rgba(255,255,255,0.28)",
-                  }}
-                >
-                  {group.category}
-                </p>
-                {isAIGroup && (
-                  <span
-                    className="rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider"
-                    style={isBloom
-                      ? { color: "#ede9fe", background: "rgba(124,58,237,0.22)", border: "1px solid rgba(196,181,253,0.28)" }
-                      : { color: "rgba(255,255,255,0.62)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)" }}
-                  >
-                    AI
-                  </span>
-                )}
-                {isClientGroup && (
-                  <span
-                    className="rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider"
-                    style={{
-                      color: isBloom ? "#fde68a" : isFlow ? "#93c5fd" : "rgba(255,255,255,0.4)",
-                      background: isBloom ? "rgba(217,119,6,0.22)" : isFlow ? "rgba(30,100,220,0.15)" : "rgba(255,255,255,0.06)",
-                      border: `1px solid ${isBloom ? "rgba(251,191,36,0.3)" : isFlow ? "rgba(77,159,255,0.28)" : "rgba(255,255,255,0.1)"}`,
-                    }}
-                  >
-                    💼 Hive
-                  </span>
-                )}
-              </div>
-              <ul className="flex flex-col gap-2">
-                {group.items.map((item) => {
-                  const badgeColors: Record<string, { bg: string; color: string; border: string }> = {
-                    // Payment methods
-                    "Bank Transfer":    { bg: "rgba(30,80,160,0.18)",   color: "#93c5fd", border: "rgba(77,159,255,0.28)" },
-                    "PayPal":           { bg: "rgba(0,112,186,0.18)",   color: "#60a5fa", border: "rgba(0,112,186,0.32)" },
-                    "Wise":             { bg: "rgba(157,232,112,0.15)", color: "#86efac", border: "rgba(157,232,112,0.28)" },
-                    "Stripe":           { bg: "rgba(99,91,255,0.18)",   color: "#a78bfa", border: "rgba(99,91,255,0.32)" },
-                    "Custom":           { bg: "rgba(77,159,255,0.08)",  color: "rgba(147,197,253,0.6)", border: "rgba(77,159,255,0.18)" },
-                    "+4 more":          { bg: "rgba(77,159,255,0.06)",  color: "rgba(147,197,253,0.45)", border: "rgba(77,159,255,0.14)" },
-                    // Invoice templates
-                    "Standard Invoice": { bg: "rgba(30,80,160,0.16)",   color: "#93c5fd", border: "rgba(77,159,255,0.24)" },
-                    "Deposit (50%)":    { bg: "rgba(52,211,153,0.15)",  color: "#6ee7b7", border: "rgba(52,211,153,0.28)" },
-                    "Final Balance":    { bg: "rgba(56,189,248,0.15)",  color: "#7dd3fc", border: "rgba(56,189,248,0.28)" },
-                    "Revision Charge":  { bg: "rgba(251,146,60,0.15)",  color: "#fdba74", border: "rgba(251,146,60,0.28)" },
-                    "Monthly Retainer": { bg: "rgba(167,139,250,0.18)", color: "#c4b5fd", border: "rgba(167,139,250,0.3)" },
-                    // Info tips
-                    "Video? Use links":              { bg: "rgba(251,191,36,0.12)", color: "#fcd34d",  border: "rgba(251,191,36,0.3)"  },
-                    "Based on your currency & region": { bg: "rgba(34,211,238,0.10)", color: "#67e8f9",  border: "rgba(34,211,238,0.28)" },
-                  };
-                  const hasBadges = "badges" in item && Array.isArray((item as { badges?: string[] }).badges);
-                  const badges = hasBadges ? (item as { badges: string[] }).badges : [];
-
-                  return (
-                    <li key={item.text} className="flex items-start gap-2.5">
-                      <span
-                        className="mt-0.5 flex-shrink-0 text-xs font-bold"
-                        style={{ color: item.included ? "#39FF14" : "rgba(255,255,255,0.2)" }}
-                      >
-                        {item.included ? "✓" : "✕"}
-                      </span>
-                      <div className="flex flex-col gap-1.5 min-w-0">
-                        <span
-                          className="text-sm leading-snug"
-                          style={{
-                            color: item.included
-                              ? (isBloom ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.75)")
-                              : "rgba(255,255,255,0.25)",
-                            textDecoration: item.included ? "none" : "line-through",
-                          }}
-                        >
-                          {item.text}
-                        </span>
-                        {badges.length > 0 && (
-                          <div className="flex flex-wrap gap-1">
-                            {badges.map((badge) => {
-                              const c = badgeColors[badge] ?? badgeColors["Custom"];
-                              return (
-                                <span
-                                  key={badge}
-                                  className="rounded-full px-2 py-0.5 text-[9px] font-bold tracking-wide"
-                                  style={{ background: c.bg, color: c.color, border: `1px solid ${c.border}` }}
-                                >
-                                  {badge}
-                                </span>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* ── CTA ── */}
-      <div className="relative z-[1] mt-auto px-6 pb-6">
-        {isBloom && (
-          <p className="text-center text-[10px] mb-2" style={{ color: "rgba(196,181,253,0.5)" }}>
-            7-day free trial · Cancel anytime
-          </p>
-        )}
         <a
           href={showYearly && plan.yearlyHref ? plan.yearlyHref : plan.ctaHref}
-          className="block w-full rounded-xl py-3.5 text-center text-sm font-bold transition-all duration-300 hover:-translate-y-1 hover:scale-[1.025] active:translate-y-0 active:scale-[0.99]"
-          style={isBloom
-            ? {
-                background: "linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #5b21b6 100%)",
-                color: "#fff",
-                border: "1px solid rgba(196,181,253,0.3)",
-                boxShadow: "0 8px 30px rgba(109,40,217,0.45), 0 0 0 1px rgba(167,139,250,0.15)",
-              }
-            : isFlow
-              ? { background: "#4d9fff", color: "white", border: "1px solid rgba(77,159,255,0.5)" }
-              : { background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.7)", border: "1px solid rgba(255,255,255,0.1)" }
-          }
+          className={`mt-5 block w-full rounded-lg py-2.5 text-center text-sm font-semibold transition-colors ${
+            isPopular
+              ? "bg-white text-black hover:bg-white/90"
+              : "border border-white/20 text-white hover:bg-white/[0.07]"
+          }`}
         >
           {plan.cta}
         </a>
+        <p className="mt-2 text-center text-xs text-white/40">
+          {hasTrial ? "7-day free trial · cancel anytime" : "macOS 11+ · Apple Silicon & Intel"}
+        </p>
+      </div>
+
+      {/* ── What's included ── */}
+      <div className="flex flex-1 flex-col border-t border-white/10 px-6 pb-6">
+        {plan.featureGroups.map((group) => (
+          <div key={group.category} className="pt-5">
+            <p className="mb-2.5 text-sm font-medium text-white/85">{group.category}</p>
+            <ul className="flex flex-col gap-2">
+              {group.items.map((item) => {
+                const badges = "badges" in item && Array.isArray((item as { badges?: string[] }).badges)
+                  ? (item as { badges: string[] }).badges
+                  : [];
+                return (
+                  <li key={item.text} className="flex items-start gap-2.5 text-sm leading-snug">
+                    {item.included ? (
+                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" strokeWidth={2.6} />
+                    ) : (
+                      <Minus className="mt-0.5 h-4 w-4 shrink-0 text-white/25" strokeWidth={2.4} />
+                    )}
+                    <span className="min-w-0">
+                      <span className={item.included ? "text-white/80" : "text-white/35"}>{item.text}</span>
+                      {badges.length > 0 && (
+                        <span className="mt-0.5 block text-xs leading-snug text-white/40">{badges.join(" · ")}</span>
+                      )}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
       </div>
     </motion.div>
   );
@@ -1672,35 +1429,32 @@ export default function FreelancePage() {
       <section id="pricing" className="px-4 py-20 sm:py-28 border-t" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
         <div className="mx-auto max-w-6xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-12">
-            <span
-              className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 text-white"
-            >
-              Freelance Pricing
-            </span>
             <h2 className="text-3xl font-bold sm:text-5xl mb-4">Start free.<br />Unlock as you grow.</h2>
-            <p className="mx-auto max-w-lg text-base mb-8" style={{ color: "rgba(255,255,255,0.45)" }}>
+            <p className="mx-auto max-w-lg text-base mb-8 text-white/60">
               All plans include the full productivity suite. Hive unlocks the freelance business layer.
             </p>
 
-            {/* Toggle */}
-            <div className="inline-flex items-center gap-1 p-1 rounded-full" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}>
-              <button
-                onClick={() => setYearly(false)}
-                className="rounded-full px-5 py-1.5 text-sm font-medium transition-all"
-                style={{ background: !yearly ? "rgba(255,255,255,0.1)" : "transparent", color: !yearly ? "#fff" : "#607080" }}
-              >
-                Monthly
-              </button>
-              <button
-                onClick={() => setYearly(true)}
-                className="flex items-center gap-2 rounded-full px-5 py-1.5 text-sm font-medium transition-all"
-                style={{ background: yearly ? "rgba(255,255,255,0.1)" : "transparent", color: yearly ? "#fff" : "#607080" }}
-              >
-                Yearly
-                <span className="text-[10px] px-1.5 py-0.5 rounded-full font-bold" style={{ background: "rgba(57,255,20,0.15)", color: "#39FF14", border: "1px solid rgba(57,255,20,0.25)" }}>
-                  2 months free
-                </span>
-              </button>
+            {/* Billing toggle */}
+            <div className="inline-flex items-center gap-3">
+              <div className="inline-flex rounded-lg border border-white/15 p-0.5">
+                <button
+                  type="button"
+                  onClick={() => setYearly(false)}
+                  aria-pressed={!yearly}
+                  className={`rounded-md px-4 py-1.5 text-sm font-medium transition-colors ${!yearly ? "bg-white text-black" : "text-white/60 hover:text-white"}`}
+                >
+                  Monthly
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setYearly(true)}
+                  aria-pressed={yearly}
+                  className={`rounded-md px-4 py-1.5 text-sm font-medium transition-colors ${yearly ? "bg-white text-black" : "text-white/60 hover:text-white"}`}
+                >
+                  Yearly
+                </button>
+              </div>
+              <span className="text-sm text-white/55">Save 2 months with yearly</span>
             </div>
           </motion.div>
 
@@ -1712,7 +1466,7 @@ export default function FreelancePage() {
             ))}
           </div>
 
-          <p className="text-center text-xs mt-8" style={{ color: "rgba(255,255,255,0.3)" }}>
+          <p className="text-center text-sm mt-10 text-white/45">
             All paid plans include a 7-day free trial. No credit card required to start. Cancel anytime.
           </p>
         </div>

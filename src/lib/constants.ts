@@ -472,7 +472,7 @@ export const PRICING_PLANS = [
     subtext: "forever, no card needed",
     accentColor: "#607080",
     highlighted: false,
-    cta: "Download Free",
+    cta: "Download free",
     ctaHref: "#download",
     featureGroups: [
       {
@@ -532,7 +532,7 @@ export const PRICING_PLANS = [
     accentColor: "#4d9fff",
     highlighted: true,
     badgeLabel: "Most popular",
-    cta: "7 days trial",
+    cta: "Start 7-day trial",
     ctaHref: "https://buy.polar.sh/polar_cl_bcGVnrH6RUJvB6pVEhW0kRdOJ1wa82yn9xuPK480cmt",
     yearlyHref: "https://buy.polar.sh/polar_cl_TR8K6wPc4hCj2kNq0t1zD136OvQzQeOGQbZAj4cpFkF",
     featureGroups: [
@@ -592,8 +592,8 @@ export const PRICING_PLANS = [
     yearlySubtext: "/ year",
     accentColor: "#a78bfa",
     highlighted: true,
-    badgeLabel: "Best Value",
-    cta: "7 days trial",
+    badgeLabel: "Best value",
+    cta: "Start 7-day trial",
     ctaHref: "https://buy.polar.sh/polar_cl_QgWTHuRDKTmL1Zbv5H71gx43pQz4xslZjF11r3KRCqH",
     yearlyHref: "https://buy.polar.sh/polar_cl_1MhCbpAQ3cRR1IzSYH1kP9KtgrmMo218m0Cd84eKXG6",
     featureGroups: [
@@ -654,7 +654,7 @@ export const PRICING_PLANS = [
     yearlySubtext: "/ user / year",
     accentColor: "#a78bfa",
     highlighted: false,
-    cta: "Start Team Plan",
+    cta: "Start team plan",
     ctaHref: `/api/team-checkout?quantity=3`,
     featureGroups: [
       {
