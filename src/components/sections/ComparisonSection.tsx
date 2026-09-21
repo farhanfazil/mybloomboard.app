@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronDown, Check, Minus, Video } from "lucide-react";
 
@@ -105,6 +106,8 @@ function cellLines(text: string) {
   return text.replace(/^(✅|❌|⚠️)\s*/, "").split("\n").filter(Boolean);
 }
 
+const BLOOM_TINT = "rgba(18,62,90,0.055)";
+
 function DataCell({ value, isBloom }: { value: string; isBloom: boolean }) {
   const status = cellStatus(value);
   const [first, ...rest] = cellLines(value);
@@ -112,38 +115,38 @@ function DataCell({ value, isBloom }: { value: string; isBloom: boolean }) {
   let mark: React.ReactNode = null;
   if (status === "yes") {
     mark = isBloom ? (
-      <span className="inline-flex h-5 w-5 flex-none items-center justify-center rounded-full bg-emerald-500 text-white">
+      <span className="inline-flex h-[22px] w-[22px] flex-none items-center justify-center rounded-full bg-emerald-500 text-white">
         <Check className="h-3.5 w-3.5" strokeWidth={3.2} />
       </span>
     ) : (
-      <Check className="h-[18px] w-[18px] flex-none text-emerald-600" strokeWidth={3} />
+      <Check className="h-[18px] w-[18px] flex-none text-emerald-600" strokeWidth={2.8} />
     );
   } else if (status === "no") {
-    mark = <Minus className="h-[18px] w-[18px] flex-none text-slate-300" strokeWidth={2.6} />;
+    mark = <Minus className="h-[18px] w-[18px] flex-none text-[#c7c7cc]" strokeWidth={2.4} />;
   }
 
   const label =
     status === "partial" ? (
-      <span className="inline-block rounded-full bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-700 ring-1 ring-amber-200">
+      <span className="inline-block rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-amber-200/80">
         {first || "Limited"}
       </span>
     ) : first ? (
-      <span className={status === "no" ? "text-slate-500" : isBloom ? "font-semibold text-[#123e5a]" : "text-slate-700"}>
+      <span className={status === "no" ? "text-[#86868b]" : isBloom ? "font-semibold text-[#123e5a]" : "text-[#1d1d1f]"}>
         {first}
       </span>
     ) : null;
 
   return (
     <td
-      className="border-l border-slate-200 px-3 py-3 text-center align-middle text-sm"
-      style={isBloom ? { background: "rgba(18,62,90,0.06)", borderLeft: "1px solid rgba(18,62,90,0.2)", borderRight: "1px solid rgba(18,62,90,0.2)" } : undefined}
+      className="border-b border-black/[0.06] px-3 py-3.5 text-center align-middle text-sm"
+      style={isBloom ? { background: BLOOM_TINT } : undefined}
     >
-      <span className="inline-flex items-center justify-center gap-1.5">
+      <span className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
         {mark}
         {label}
       </span>
       {rest.map((line) => (
-        <span key={line} className="mt-0.5 block text-[11px] leading-tight text-slate-500">
+        <span key={line} className="mt-0.5 block text-[11px] leading-tight text-[#86868b]">
           {line}
         </span>
       ))}
@@ -157,63 +160,56 @@ function ComparisonTable({
   headers,
   rows,
   title,
-  subtitle,
 }: {
   headers: string[];
   rows: (string[] | { section: string })[];
-  title: string;
-  subtitle: string;
+  title?: string;
 }) {
   return (
-    <div className="mb-10">
-      <div className="mb-5">
-        <h3 className="text-lg font-semibold text-white sm:text-xl">{title}</h3>
-        <p className="mt-1 text-sm text-white/55">{subtitle}</p>
-      </div>
+    <div className="mb-12 last:mb-0">
+      {title && <h3 className="mb-4 text-xl font-semibold text-[#1d1d1f]">{title}</h3>}
 
-      <div
-        className="overflow-x-auto overflow-y-auto rounded-2xl bg-white"
-        style={{
-          maxHeight: "900px",
-          border: "1px solid rgba(18,62,90,0.25)",
-          boxShadow: "0 30px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04)",
-        }}
-      >
-        <table className="w-full border-collapse text-sm">
-          {/* Header */}
-          <thead className="sticky top-0 z-10">
-            <tr style={{ background: "#123e5a" }}>
+      {/* No inner scroll on desktop, so the header row can stick under the site header */}
+      <div className="overflow-x-auto rounded-2xl bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_30px_rgba(0,0,0,0.06)] ring-1 ring-black/[0.06] lg:overflow-visible">
+        <table className="w-full min-w-[720px] border-separate border-spacing-0 text-sm">
+          <thead className="lg:sticky lg:top-[64px] lg:z-10">
+            <tr>
               {headers.map((h, i) => (
                 <th
                   key={h}
-                  className={`whitespace-nowrap px-3 py-3.5 text-xs font-bold uppercase tracking-widest ${
-                    i === 0 ? "w-48 border-r border-white/15 text-left text-white/70" : "border-l border-white/15 text-center text-white"
+                  className={`whitespace-nowrap border-b border-black/[0.08] bg-white/95 px-3 py-4 text-[13px] font-semibold backdrop-blur ${
+                    i === 0
+                      ? "w-[24%] rounded-tl-2xl text-left text-[#86868b] font-medium"
+                      : `text-center text-[#1d1d1f] ${i === headers.length - 1 ? "rounded-tr-2xl" : ""}`
                   }`}
-                  style={i === 1 ? { background: "#1a5478" } : undefined}
+                  style={i === 1 ? { background: "rgba(236,242,246,0.97)" } : undefined}
                 >
                   {i === 1 ? (
-                    <span className="inline-flex items-center gap-1.5">
-                      <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                    <span className="inline-flex items-center gap-2 text-[#123e5a]">
+                      <Image src="/logo.png" alt="" width={20} height={20} className="rounded-md" />
                       {h}
                     </span>
-                  ) : h}
+                  ) : i === 0 ? "Features" : h}
                 </th>
               ))}
             </tr>
           </thead>
 
-          {/* Body */}
           <tbody>
             {rows.map((row, ri) => {
               if ("section" in row) {
                 return (
-                  <tr key={`sec-${ri}`} style={{ background: "#eef4f8", borderTop: "1px solid rgba(18,62,90,0.15)", borderBottom: "1px solid rgba(18,62,90,0.12)" }}>
-                    <td
-                      colSpan={headers.length}
-                      className="px-3 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-[#123e5a]"
-                    >
+                  <tr key={`sec-${ri}`}>
+                    <td className="border-b border-black/[0.06] px-3 pb-2.5 pt-7 text-[15px] font-semibold text-[#1d1d1f]">
                       {row.section}
                     </td>
+                    {headers.slice(1).map((h, ci) => (
+                      <td
+                        key={h}
+                        className="border-b border-black/[0.06]"
+                        style={ci === 0 ? { background: BLOOM_TINT } : undefined}
+                      />
+                    ))}
                   </tr>
                 );
               }
@@ -224,22 +220,18 @@ function ComparisonTable({
               return (
                 <tr
                   key={`row-${ri}`}
-                  className={`border-t border-slate-100 transition-colors ${
-                    badge ? "" : "odd:bg-white even:bg-slate-50/60 hover:bg-[#f3f8fb]"
-                  }`}
-                  style={badge ? { background: "linear-gradient(90deg, #e3f5ec 0%, #f1faf5 60%, #f7fcf9 100%)" } : undefined}
+                  className={`group ${badge ? "bg-emerald-50/70" : "hover:bg-[#fafafa]"}`}
                 >
                   <td
-                    className={`whitespace-nowrap border-r border-slate-200 px-3 text-sm ${
-                      badge ? "py-4 font-bold text-[#123e5a]" : "py-3 font-medium text-slate-800"
+                    className={`border-b border-black/[0.06] px-3 text-sm ${
+                      badge ? "py-4 font-semibold text-[#1d1d1f]" : "py-3.5 text-[#1d1d1f]"
                     }`}
-                    style={badge ? { boxShadow: "inset 4px 0 0 #123e5a" } : undefined}
                   >
                     {badge ? (
                       <span className="inline-flex items-center gap-2">
                         <Video className="h-4 w-4 text-emerald-600" strokeWidth={2.4} />
                         {feature}
-                        <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                        <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-semibold text-white">
                           {badge}
                         </span>
                       </span>
@@ -256,10 +248,10 @@ function ComparisonTable({
       </div>
 
       {/* Legend */}
-      <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-white/60">
-        <span className="inline-flex items-center gap-1.5"><Check className="h-4 w-4 text-emerald-400" strokeWidth={3} /> Yes / Included</span>
-        <span className="inline-flex items-center gap-1.5"><Minus className="h-4 w-4 text-white/40" strokeWidth={2.6} /> No</span>
-        <span className="inline-flex items-center gap-1.5"><span className="rounded-full bg-amber-50 px-2 py-0.5 font-semibold text-amber-700">Paid</span> Partial / Limited / Paid only</span>
+      <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-[#6e6e73]">
+        <span className="inline-flex items-center gap-1.5"><Check className="h-4 w-4 text-emerald-600" strokeWidth={2.8} /> Included</span>
+        <span className="inline-flex items-center gap-1.5"><Minus className="h-4 w-4 text-[#c7c7cc]" strokeWidth={2.4} /> Not available</span>
+        <span className="inline-flex items-center gap-1.5"><span className="rounded-full bg-amber-50 px-2 py-0.5 font-medium text-amber-700 ring-1 ring-amber-200/80">Paid</span> Limited or paid extra</span>
       </div>
     </div>
   );
@@ -275,6 +267,7 @@ export default function ComparisonSection({
 }: { tables?: ComparisonTableId[] } = {}) {
   const showTeams = tables.includes("teams");
   const showFreelance = tables.includes("freelance");
+  const both = showTeams && showFreelance;
   const [open, setOpen] = useState(true);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -290,60 +283,44 @@ export default function ComparisonSection({
   };
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative bg-black px-3 py-16 sm:px-6 sm:py-24"
-    >
-      {/* Heading + toggle button */}
-      <div className="relative mx-auto max-w-5xl">
-        <div className="flex flex-col items-center gap-4 text-center">
-          <h2 className="text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
-            See how BloomBoard compares.
-          </h2>
-          <p className="max-w-lg text-sm leading-relaxed text-white/60 sm:text-base">
-            {showTeams && showFreelance
-              ? "BloomBoard vs Notion, Trello, ClickUp, Moxie, HoneyBook and more."
-              : showFreelance
-                ? "BloomBoard vs Moxie, HoneyBook, Bonsai and Dubsado."
-                : "BloomBoard vs Notion, Trello, ClickUp, Asana and Monday.com."}
-          </p>
+    <section ref={sectionRef} className="bg-black px-2 py-6 sm:px-4">
+      <div className="rounded-[28px] bg-[#f5f5f7] px-4 py-16 sm:rounded-[36px] sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="flex flex-col items-center gap-4 text-center">
+            <h2 className="text-3xl font-semibold tracking-tight text-[#1d1d1f] sm:text-5xl">
+              See how BloomBoard compares.
+            </h2>
+            <p className="max-w-xl text-base leading-relaxed text-[#6e6e73] sm:text-lg">
+              {both
+                ? "BloomBoard vs Notion, Trello, ClickUp, Moxie, HoneyBook and more."
+                : showFreelance
+                  ? "BloomBoard vs Moxie, HoneyBook, Bonsai and Dubsado."
+                  : "BloomBoard vs Notion, Trello, ClickUp, Asana and Monday.com."}
+            </p>
 
-          <button
-            onClick={handleToggle}
-            className="mt-1 inline-flex items-center gap-1.5 rounded-lg border border-white/20 px-4 py-2 text-sm font-medium text-white/85 transition-colors hover:bg-white/[0.06] hover:text-white"
-          >
-            {open ? "Hide comparison" : "Show comparison"}
-            <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }}>
-              <ChevronDown className="h-4 w-4" />
-            </motion.span>
-          </button>
-        </div>
+            <button
+              onClick={handleToggle}
+              className="mt-1 inline-flex items-center gap-1 text-sm font-medium text-[#123e5a] transition-colors hover:text-[#0b2a3e]"
+            >
+              {open ? "Hide comparison" : "Show comparison"}
+              <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }}>
+                <ChevronDown className="h-4 w-4" />
+              </motion.span>
+            </button>
+          </div>
 
-        {/* Expandable tables */}
-        <div
-          style={{
-            display: open ? "block" : "none",
-            opacity: open ? 1 : 0,
-            transition: "opacity 0.3s ease",
-          }}
-        >
-          <div className="pt-10">
-            {showTeams && <ComparisonTable
-              headers={TEAMS_HEADERS}
-              rows={TEAMS_ROWS}
-              title="BloomBoard vs The Rest — Solo & Teams"
-              subtitle="BloomBoard vs Notion · Trello · ClickUp · Asana · Monday.com"
-            />}
-            {showFreelance && <ComparisonTable
-              headers={FREELANCE_HEADERS}
-              rows={FREELANCE_ROWS}
-              title="BloomBoard Freelance vs The Rest"
-              subtitle="BloomBoard vs Moxie · HoneyBook · Bonsai · Dubsado"
-            />}
+          <div style={{ display: open ? "block" : "none" }}>
+            <div className="pt-10 sm:pt-14">
+              {showTeams && (
+                <ComparisonTable headers={TEAMS_HEADERS} rows={TEAMS_ROWS} title={both ? "Solo & Teams" : undefined} />
+              )}
+              {showFreelance && (
+                <ComparisonTable headers={FREELANCE_HEADERS} rows={FREELANCE_ROWS} title={both ? "Freelance" : undefined} />
+              )}
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
 }
-
