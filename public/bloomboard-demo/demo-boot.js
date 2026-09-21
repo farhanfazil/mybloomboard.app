@@ -134,6 +134,7 @@
   }
 
   function demoBloomChat(opts) {
+    if (typeof window.bbDemoOnBloomAsk === 'function') window.bbDemoOnBloomAsk();
     return new Promise(function (resolve) {
       setTimeout(function () {
         var msgs = (opts && opts.messages) || [];
@@ -328,22 +329,11 @@
     return 'This feature';
   }
 
+  /* Gated features open a download card on click (demo-convert.js) rather than
+     wearing padlocks; this just clears any lock left by an older build. */
   function addLockBadges() {
-    var el = document.querySelector('#sb-email-nav-btn');
-    if (el && !el.querySelector('.bb-web-demo-lock')) {
-      var badge = document.createElement('span');
-      badge.className = 'bb-web-demo-lock';
-      badge.textContent = '🔒';
-      badge.title = 'Download Mac app for full access';
-      el.style.position = 'relative';
-      el.appendChild(badge);
-    }
-    ['#sb-team-btn', '#sb-chat-btn', '.sb-nav-item.ai', '#bloom-bubble'].forEach(function (sel) {
-      var node = document.querySelector(sel);
-      if (!node) return;
-      node.querySelectorAll('.bb-web-demo-lock').forEach(function (lock) {
-        lock.remove();
-      });
+    document.querySelectorAll('.bb-web-demo-lock').forEach(function (lock) {
+      lock.remove();
     });
   }
 
@@ -1005,7 +995,7 @@
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
-        showWebDemoGate(featureNameForTarget(gated));
+        window.showWebDemoGate(featureNameForTarget(gated));
       },
       true
     );
