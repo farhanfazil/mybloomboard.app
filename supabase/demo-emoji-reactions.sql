@@ -40,4 +40,6 @@ begin
 end;
 $$;
 
+-- Functions are executable by everyone by default; only the website's server may count.
+revoke all on function public.increment_demo_emoji_reaction(text) from public, anon, authenticated;
 grant execute on function public.increment_demo_emoji_reaction(text) to service_role;
