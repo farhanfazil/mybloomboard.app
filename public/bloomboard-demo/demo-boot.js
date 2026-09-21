@@ -101,6 +101,8 @@
         localStorage.setItem('bb-theme', carried);
       }
 
+      /* Dashboard Assignments start minimized; visitors can expand them. */
+      localStorage.setItem('bloomboard-board-assignments-collapsed-v1', '1');
       localStorage.setItem('bb-workspace-mode', mode);
       localStorage.setItem('bb-workspace-onboarded', '1');
       localStorage.removeItem('bb-workspace-locked');

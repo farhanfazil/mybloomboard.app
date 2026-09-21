@@ -79,7 +79,7 @@
             done: false,
             status: 'pending',
             priority: 'high',
-            cardColor: 'electric',
+           
             deadline: today,
             project: null,
             subtasks: [
@@ -97,7 +97,7 @@
             done: false,
             status: 'ongoing',
             priority: 'high',
-            cardColor: 'violet',
+           
             deadline: isoDate(1),
             project: null,
             subtasks: [],
@@ -688,7 +688,7 @@
         task({ id: 'demo-t-hero', title: 'Homepage hero redesign', project: 'proj-website', priority: 'urgent',
           deadline: isoDate(-1), createdAt: now - 30 * hour, iconColorIdx: 0 }),
         task({ id: 'demo-t-screens', title: 'App Store screenshots', desc: '6.7" and 5.5" sizes', project: 'proj-mobile',
-          priority: 'low', cardColor: 'violet', createdAt: now - 28 * hour, iconColorIdx: 4 }),
+          priority: 'low', createdAt: now - 28 * hour, iconColorIdx: 4 }),
         task({ id: 'demo-t-banners', title: 'Spring campaign banners', project: 'proj-brand', priority: 'high',
           deadline: isoDate(2), createdAt: now - 20 * hour, iconColorIdx: 3,
           assigneeId: ID.maya, assigneeIds: [ID.maya],
@@ -698,7 +698,7 @@
             { id: 'demo-st-3', text: 'Copy review', done: false },
           ] }),
         task({ id: 'demo-t-onboard', title: 'Onboarding flow prototype', project: 'proj-mobile', status: 'ongoing',
-          priority: 'high', cardColor: 'electric', createdAt: now - 50 * hour, iconColorIdx: 6,
+          priority: 'high', createdAt: now - 50 * hour, iconColorIdx: 6,
           subtasks: [
             { id: 'demo-st-4', text: 'Welcome screens', done: true, completedBy: ID.me, completedByName: ME.name },
             { id: 'demo-st-5', text: 'Permission prompts', done: true, completedBy: ID.daniel, completedByName: 'Daniel Brooks' },
