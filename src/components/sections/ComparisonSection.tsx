@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { ChevronDown, BarChart2 } from "lucide-react";
+import { ChevronDown, BarChart2, Check, Minus } from "lucide-react";
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
@@ -94,35 +94,53 @@ function cellStatus(text: string) {
   return "text";
 }
 
-function CellText({ text }: { text: string }) {
-  const lines = text.split("\n");
-  return (
-    <>
-      {lines.map((line, i) => (
-        <span key={i} className={i > 0 ? "block text-[11px] opacity-60 mt-0.5 leading-tight" : ""}>
-          {line.replace(/❌/g, "—").replace(/✅/g, "✓")}
-        </span>
-      ))}
-    </>
-  );
+/** Text after the leading status emoji, e.g. "✅ Your Mac (free)\nCloud (paid)". */
+function cellLines(text: string) {
+  return text.replace(/^(✅|❌|⚠️)\s*/, "").split("\n").filter(Boolean);
 }
 
 function DataCell({ value, isBloom }: { value: string; isBloom: boolean }) {
   const status = cellStatus(value);
+  const [first, ...rest] = cellLines(value);
 
-  const colorMap: Record<string, string> = {
-    yes:     isBloom ? "text-white font-semibold" : "text-white/70",
-    no:      isBloom ? "text-white/55"                  : "text-white/40",
-    partial: isBloom ? "text-amber-400 font-semibold"  : "text-amber-500/70",
-    text:    isBloom ? "text-white/90 font-semibold"   : "text-white/60",
-  };
+  let mark: React.ReactNode = null;
+  if (status === "yes") {
+    mark = isBloom ? (
+      <span className="inline-flex h-5 w-5 flex-none items-center justify-center rounded-full bg-emerald-500 text-white">
+        <Check className="h-3.5 w-3.5" strokeWidth={3.2} />
+      </span>
+    ) : (
+      <Check className="h-[18px] w-[18px] flex-none text-emerald-600" strokeWidth={3} />
+    );
+  } else if (status === "no") {
+    mark = <Minus className="h-[18px] w-[18px] flex-none text-slate-300" strokeWidth={2.6} />;
+  }
+
+  const label =
+    status === "partial" ? (
+      <span className="inline-block rounded-full bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-700 ring-1 ring-amber-200">
+        {first || "Limited"}
+      </span>
+    ) : first ? (
+      <span className={status === "no" ? "text-slate-500" : isBloom ? "font-semibold text-[#123e5a]" : "text-slate-700"}>
+        {first}
+      </span>
+    ) : null;
 
   return (
     <td
-      className={`px-3 py-2.5 text-sm text-center align-middle border-l border-white/[0.15] ${colorMap[status]}`}
-      style={isBloom ? { background: "rgba(18,62,90,0.25)", borderLeft: "1px solid rgba(74,140,180,0.4)", borderRight: "1px solid rgba(74,140,180,0.4)" } : {}}
+      className="border-l border-slate-200 px-3 py-3 text-center align-middle text-sm"
+      style={isBloom ? { background: "rgba(18,62,90,0.06)", borderLeft: "1px solid rgba(18,62,90,0.2)", borderRight: "1px solid rgba(18,62,90,0.2)" } : undefined}
     >
-      <CellText text={value} />
+      <span className="inline-flex items-center justify-center gap-1.5">
+        {mark}
+        {label}
+      </span>
+      {rest.map((line) => (
+        <span key={line} className="mt-0.5 block text-[11px] leading-tight text-slate-500">
+          {line}
+        </span>
+      ))}
     </td>
   );
 }
@@ -148,30 +166,28 @@ function ComparisonTable({
       </div>
 
       <div
-        className="overflow-x-auto overflow-y-auto rounded-2xl"
+        className="overflow-x-auto overflow-y-auto rounded-2xl bg-white"
         style={{
-          border: "1px solid rgba(74,140,180,0.25)",
           maxHeight: "900px",
-          boxShadow: "0 0 40px rgba(18,62,90,0.3), inset 0 1px 0 rgba(255,255,255,0.06)",
-          background: "rgba(7,22,33,0.6)",
-          backdropFilter: "blur(8px)",
+          border: "1px solid rgba(18,62,90,0.25)",
+          boxShadow: "0 30px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04)",
         }}
       >
         <table className="w-full border-collapse text-sm">
           {/* Header */}
           <thead className="sticky top-0 z-10">
-            <tr style={{ background: "linear-gradient(155deg, rgba(26,80,112,0.97) 0%, rgba(18,62,90,0.97) 50%, rgba(22,72,103,0.97) 100%)", borderBottom: "1.5px solid rgba(74,140,180,0.7)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", boxShadow: "0 4px 28px rgba(18,62,90,0.55)" }}>
+            <tr style={{ background: "#123e5a" }}>
               {headers.map((h, i) => (
                 <th
                   key={h}
-                  className={`px-3 py-3 text-xs font-bold uppercase tracking-widest whitespace-nowrap ${
-                    i === 0 ? "text-left w-48 text-white/50 border-r border-white/[0.15]" : "text-center text-white border-l border-white/[0.15]"
+                  className={`whitespace-nowrap px-3 py-3.5 text-xs font-bold uppercase tracking-widest ${
+                    i === 0 ? "w-48 border-r border-white/15 text-left text-white/70" : "border-l border-white/15 text-center text-white"
                   }`}
-                  style={i === 1 ? { background: "rgba(18,62,90,0.45)", borderLeft: "1px solid rgba(74,140,180,0.4)", borderRight: "1px solid rgba(74,140,180,0.4)" } : {}}
+                  style={i === 1 ? { background: "#1a5478" } : undefined}
                 >
                   {i === 1 ? (
                     <span className="inline-flex items-center gap-1.5">
-                      <span className="h-1.5 w-1.5 rounded-full bg-violet-400 inline-block" />
+                      <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
                       {h}
                     </span>
                   ) : h}
@@ -185,10 +201,10 @@ function ComparisonTable({
             {rows.map((row, ri) => {
               if ("section" in row) {
                 return (
-                  <tr key={`sec-${ri}`} style={{ background: "rgba(167,139,250,0.06)", borderTop: "2px solid rgba(255,255,255,0.18)", borderBottom: "1px solid rgba(255,255,255,0.10)" }}>
+                  <tr key={`sec-${ri}`} style={{ background: "#eef4f8", borderTop: "1px solid rgba(18,62,90,0.15)", borderBottom: "1px solid rgba(18,62,90,0.12)" }}>
                     <td
                       colSpan={headers.length}
-                      className="px-3 py-2.5 text-[10px] font-bold tracking-[0.2em] uppercase text-violet-400"
+                      className="px-3 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-[#123e5a]"
                     >
                       {row.section}
                     </td>
@@ -197,18 +213,13 @@ function ComparisonTable({
               }
 
               const [feature, ...cols] = row as string[];
-              const isAlt = ri % 2 === 0;
 
               return (
                 <tr
                   key={`row-${ri}`}
-                  style={{
-                    borderTop: "1px solid rgba(255,255,255,0.13)",
-                    background: isAlt ? "rgba(255,255,255,0.01)" : "transparent",
-                  }}
-                  className="transition-colors hover:bg-white/[0.03]"
+                  className="border-t border-slate-100 transition-colors odd:bg-white even:bg-slate-50/60 hover:bg-[#f3f8fb]"
                 >
-                  <td className="px-3 py-2.5 text-sm font-medium text-white/70 whitespace-nowrap border-r border-white/[0.15]">{feature}</td>
+                  <td className="whitespace-nowrap border-r border-slate-200 px-3 py-3 text-sm font-medium text-slate-800">{feature}</td>
                   {cols.map((val, ci) => (
                     <DataCell key={ci} value={val} isBloom={ci === 0} />
                   ))}
@@ -220,10 +231,10 @@ function ComparisonTable({
       </div>
 
       {/* Legend */}
-      <div className="mt-3 flex flex-wrap gap-4 text-xs text-white/30">
-        <span><span className="text-white">✓</span> Yes / Included</span>
-        <span><span className="text-white/40">—</span> No</span>
-        <span><span className="text-amber-400/80">⚠️</span> Partial / Limited / Paid only</span>
+      <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-white/60">
+        <span className="inline-flex items-center gap-1.5"><Check className="h-4 w-4 text-emerald-400" strokeWidth={3} /> Yes / Included</span>
+        <span className="inline-flex items-center gap-1.5"><Minus className="h-4 w-4 text-white/40" strokeWidth={2.6} /> No</span>
+        <span className="inline-flex items-center gap-1.5"><span className="rounded-full bg-amber-50 px-2 py-0.5 font-semibold text-amber-700">Paid</span> Partial / Limited / Paid only</span>
       </div>
     </div>
   );
