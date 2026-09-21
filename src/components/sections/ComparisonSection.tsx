@@ -172,7 +172,7 @@ function ComparisonTable({
       {/* No inner scroll on desktop, so the header row can stick under the site header */}
       <div className="overflow-x-auto rounded-2xl bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_30px_rgba(0,0,0,0.06)] ring-1 ring-black/[0.06] lg:overflow-visible">
         <table className="w-full min-w-[720px] border-separate border-spacing-0 text-sm">
-          <thead className="lg:sticky lg:top-[64px] lg:z-10">
+          <thead className="lg:sticky lg:top-0 lg:z-10">
             <tr>
               {headers.map((h, i) => (
                 <th
@@ -283,7 +283,7 @@ export default function ComparisonSection({
   };
 
   return (
-    <section ref={sectionRef} className="bg-black px-2 py-6 sm:px-4">
+    <section ref={sectionRef} data-hide-header className="bg-black px-2 py-6 sm:px-4">
       <div className="rounded-[28px] bg-[#f5f5f7] px-4 py-16 sm:rounded-[36px] sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="flex flex-col items-center gap-4 text-center">

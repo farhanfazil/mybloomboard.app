@@ -35,6 +35,30 @@ export function Header({
     { label: "Customer Portal", href: CUSTOMER_PORTAL_URL, external: true },
   ];
 
+  // Sections marked data-hide-header (e.g. the light comparison panel) hide the
+  // header while they sit underneath it; it slides back once you scroll past.
+  const [overLight, setOverLight] = React.useState(false);
+  React.useEffect(() => {
+    // A handful of getBoundingClientRect calls per scroll; React skips the
+    // re-render when the value doesn't change.
+    const check = () => {
+      const probe = 80;
+      const hit = Array.from(document.querySelectorAll<HTMLElement>("[data-hide-header]")).some((el) => {
+        const r = el.getBoundingClientRect();
+        return r.top <= probe && r.bottom > probe;
+      });
+      setOverLight(hit);
+    };
+    check();
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
+    return () => {
+      window.removeEventListener("scroll", check);
+      window.removeEventListener("resize", check);
+    };
+  }, []);
+  const hidden = overLight && !open;
+
   React.useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -50,9 +74,11 @@ export function Header({
   return (
     <>
     <header
+      aria-hidden={hidden || undefined}
       className={cn(
-        "sticky top-0 z-50 mx-auto w-full max-w-6xl border-b border-transparent md:rounded-xl md:border md:transition-all md:ease-out",
+        "sticky top-0 z-50 mx-auto w-full max-w-6xl border-b border-transparent transition-[transform,opacity] duration-300 ease-out md:rounded-xl md:border md:transition-all md:ease-out",
         {
+          "pointer-events-none -translate-y-[130%] opacity-0": hidden,
           "border-border bg-background/95 shadow supports-[backdrop-filter]:bg-background/70 backdrop-blur-lg md:top-4 md:max-w-5xl":
             scrolled && !open,
           "bg-background/95": open,
