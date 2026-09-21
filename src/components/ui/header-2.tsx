@@ -10,6 +10,8 @@ import { useScroll } from "@/components/ui/use-scroll";
 const DOWNLOAD_URL =
   "https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg";
 const CUSTOMER_PORTAL_URL = "https://polar.sh/bloombooard/portal";
+// "For freelancers" link is paused while the freelance page is reworked; set back to true to show it again.
+const SHOW_FREELANCE_LINK = false;
 
 interface NavLink {
   label: string;
@@ -116,12 +118,14 @@ export function Header({
               {link.label}
             </a>
           ))}
-          <a
-            href="/freelance"
-            className={buttonVariants({ variant: "ghost", className: "px-3 text-sm" })}
-          >
-            For freelancers
-          </a>
+          {SHOW_FREELANCE_LINK && (
+            <a
+              href="/freelance"
+              className={buttonVariants({ variant: "ghost", className: "px-3 text-sm" })}
+            >
+              For freelancers
+            </a>
+          )}
           <Button
             asChild
             className="ml-2 h-auto shrink-0 rounded-lg border border-transparent bg-white px-3.5 py-1.5 text-sm font-semibold text-[#0a0f1c] hover:bg-white/90"
@@ -172,18 +176,20 @@ export function Header({
 
         {/* Action buttons */}
         <div style={{ padding: "20px 16px 32px", display: "flex", flexDirection: "column", gap: "12px" }}>
-          <a
-            href="/freelance"
-            onClick={() => setOpen(false)}
-            style={{
-              display: "flex", alignItems: "center", justifyContent: "center",
-              borderRadius: "10px", padding: "12px 0", width: "100%", boxSizing: "border-box",
-              fontSize: "14px", fontWeight: 600, textDecoration: "none",
-              color: "#f5f5f7", border: "1px solid rgba(255,255,255,0.18)",
-            }}
-          >
-            For freelancers
-          </a>
+          {SHOW_FREELANCE_LINK && (
+            <a
+              href="/freelance"
+              onClick={() => setOpen(false)}
+              style={{
+                display: "flex", alignItems: "center", justifyContent: "center",
+                borderRadius: "10px", padding: "12px 0", width: "100%", boxSizing: "border-box",
+                fontSize: "14px", fontWeight: 600, textDecoration: "none",
+                color: "#f5f5f7", border: "1px solid rgba(255,255,255,0.18)",
+              }}
+            >
+              For freelancers
+            </a>
+          )}
 
           <a
             href={DOWNLOAD_URL}

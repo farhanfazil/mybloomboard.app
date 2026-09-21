@@ -951,6 +951,8 @@
       'body.light-mode .bb-demo-ws-pill{color:#475569}' +
       'body.light-mode .bb-demo-ws-pill:hover:not(:disabled):not(.active){color:#0f172a}' +
       'body.light-mode .bb-demo-ws-pill.active{background:#fff;color:#0f172a;box-shadow:0 1px 2px rgba(15,23,42,.12)}' +
+      /* Urgent cards get a red wash in the app; in the demo every card keeps the same colour. */
+      '.task-card.priority-urgent{background-image:none!important}' +
       /* In the freelance workspace the page behind the bar matches the freelance hub. */
       'body.bb-has-ws-switcher.bb-workspace-freelance:not(.light-mode){background:#0d0f14!important}' +
       'body.bb-has-ws-switcher.bb-workspace-freelance:not(.light-mode) .bb-demo-ws-switcher.bb-demo-ws-fixed{border-bottom:1px solid rgba(255,255,255,.06)}' +
