@@ -186,7 +186,7 @@ function ComparisonTable({
                 >
                   {i === 1 ? (
                     <span className="inline-flex items-center gap-2 text-[#123e5a]">
-                      <Image src="/logo.png" alt="" width={20} height={20} className="rounded-md" />
+                      <Image src="/logo-black.svg" alt="" width={17} height={20} unoptimized className="h-5 w-auto" />
                       {h}
                     </span>
                   ) : i === 0 ? "Features" : h}
