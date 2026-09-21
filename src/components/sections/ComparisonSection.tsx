@@ -120,7 +120,7 @@ function DataCell({ value, isBloom }: { value: string; isBloom: boolean }) {
   return (
     <td
       className={`px-3 py-2.5 text-sm text-center align-middle border-l border-white/[0.15] ${colorMap[status]}`}
-      style={isBloom ? { background: "rgba(10,50,120,0.25)", borderLeft: "1px solid rgba(77,159,255,0.4)", borderRight: "1px solid rgba(77,159,255,0.4)" } : {}}
+      style={isBloom ? { background: "rgba(18,62,90,0.25)", borderLeft: "1px solid rgba(74,140,180,0.4)", borderRight: "1px solid rgba(74,140,180,0.4)" } : {}}
     >
       <CellText text={value} />
     </td>
@@ -150,24 +150,24 @@ function ComparisonTable({
       <div
         className="overflow-x-auto overflow-y-auto rounded-2xl"
         style={{
-          border: "1px solid rgba(77,159,255,0.25)",
+          border: "1px solid rgba(74,140,180,0.25)",
           maxHeight: "900px",
-          boxShadow: "0 0 40px rgba(30,80,255,0.12), inset 0 1px 0 rgba(255,255,255,0.06)",
-          background: "rgba(8,18,50,0.6)",
+          boxShadow: "0 0 40px rgba(18,62,90,0.3), inset 0 1px 0 rgba(255,255,255,0.06)",
+          background: "rgba(7,22,33,0.6)",
           backdropFilter: "blur(8px)",
         }}
       >
         <table className="w-full border-collapse text-sm">
           {/* Header */}
           <thead className="sticky top-0 z-10">
-            <tr style={{ background: "linear-gradient(155deg, rgba(20,80,160,0.95) 0%, rgba(10,50,120,0.95) 50%, rgba(15,70,150,0.95) 100%)", borderBottom: "1.5px solid rgba(77,159,255,0.7)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", boxShadow: "0 4px 28px rgba(30,120,255,0.35)" }}>
+            <tr style={{ background: "linear-gradient(155deg, rgba(26,80,112,0.97) 0%, rgba(18,62,90,0.97) 50%, rgba(22,72,103,0.97) 100%)", borderBottom: "1.5px solid rgba(74,140,180,0.7)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", boxShadow: "0 4px 28px rgba(18,62,90,0.55)" }}>
               {headers.map((h, i) => (
                 <th
                   key={h}
                   className={`px-3 py-3 text-xs font-bold uppercase tracking-widest whitespace-nowrap ${
                     i === 0 ? "text-left w-48 text-white/50 border-r border-white/[0.15]" : "text-center text-white border-l border-white/[0.15]"
                   }`}
-                  style={i === 1 ? { background: "rgba(10,50,120,0.45)", borderLeft: "1px solid rgba(77,159,255,0.4)", borderRight: "1px solid rgba(77,159,255,0.4)" } : {}}
+                  style={i === 1 ? { background: "rgba(18,62,90,0.45)", borderLeft: "1px solid rgba(74,140,180,0.4)", borderRight: "1px solid rgba(74,140,180,0.4)" } : {}}
                 >
                   {i === 1 ? (
                     <span className="inline-flex items-center gap-1.5">
@@ -271,11 +271,11 @@ export default function ComparisonSection() {
             className="mt-2 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
             style={{
               background: open
-                ? "rgba(10,50,120,0.3)"
-                : "linear-gradient(155deg, rgba(20,80,160,0.95) 0%, rgba(10,50,120,0.95) 50%, rgba(15,70,150,0.95) 100%)",
-              border: open ? "1px solid rgba(77,159,255,0.35)" : "1.5px solid rgba(77,159,255,0.7)",
+                ? "rgba(18,62,90,0.3)"
+                : "linear-gradient(155deg, rgba(26,80,112,0.97) 0%, rgba(18,62,90,0.97) 50%, rgba(22,72,103,0.97) 100%)",
+              border: open ? "1px solid rgba(74,140,180,0.35)" : "1.5px solid rgba(74,140,180,0.7)",
               color: "#fff",
-              boxShadow: open ? "none" : "0 8px 32px rgba(30,120,255,0.35)",
+              boxShadow: open ? "none" : "0 8px 32px rgba(18,62,90,0.55)",
             }}
           >
             <BarChart2 className="h-4 w-4" />
