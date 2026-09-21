@@ -10,26 +10,6 @@ export default function DownloadCTA() {
 
   return (
     <section id="download" className="relative overflow-hidden px-4 py-20 sm:px-6 sm:py-32">
-      {/* Large ambient glow orb */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-        style={{
-          width: 800,
-          height: 800,
-          background: "radial-gradient(ellipse at center, rgba(77,159,255,0.10) 0%, transparent 65%)",
-          filter: "blur(60px)",
-        }}
-      />
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-        style={{
-          width: 400,
-          height: 400,
-          background: "radial-gradient(ellipse at center, rgba(167,139,250,0.06) 0%, transparent 60%)",
-          filter: "blur(40px)",
-        }}
-      />
-
       <div className="max-w-3xl mx-auto text-center relative z-10">
         <motion.div
           ref={ref}
@@ -80,15 +60,10 @@ export default function DownloadCTA() {
                 <HolographicButterfly />
               </motion.div>
 
-              {/* Download button — clean white Apple style */}
+              {/* Download button */}
               <a
                 href="https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg"
-                className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-3 text-sm font-semibold transition-all duration-300 hover:scale-105 hover:brightness-105 sm:w-auto sm:px-8"
-                style={{
-                  background: "rgba(255,255,255,0.93)",
-                  color: "#0a0f1c",
-                  boxShadow: "0 2px 20px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.12)",
-                }}
+                className="inline-flex w-full items-center justify-center gap-2.5 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-[#0a0f1c] transition-colors hover:bg-white/90 sm:w-auto"
               >
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
@@ -96,18 +71,10 @@ export default function DownloadCTA() {
                 Download Free for Mac
               </a>
 
-              {/* Flow button — soft light style matching pricing card */}
+              {/* Flow button */}
               <a
                 href="https://buy.polar.sh/polar_cl_bcGVnrH6RUJvB6pVEhW0kRdOJ1wa82yn9xuPK480cmt"
-                className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.04] hover:brightness-110 active:scale-[0.98] sm:w-auto sm:px-8"
-                style={{
-                  background: "linear-gradient(155deg, rgba(7,23,43,0.97) 0%, rgba(6,13,24,0.96) 50%, rgba(7,20,36,0.97) 100%)",
-                  color: "#e8f4ff",
-                  border: "1.5px solid rgba(77,159,255,0.45)",
-                  boxShadow: "0 0 0 1px rgba(77,159,255,0.12), 0 8px 32px rgba(30,120,255,0.28), 0 2px 12px rgba(77,159,255,0.18)",
-                  backdropFilter: "blur(12px)",
-                  WebkitBackdropFilter: "blur(12px)",
-                }}
+                className="inline-flex w-full items-center justify-center gap-2.5 rounded-lg border border-white/25 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/[0.07] sm:w-auto"
               >
                 Start Flow — $7.99/mo
               </a>
@@ -117,22 +84,7 @@ export default function DownloadCTA() {
             </p>
           </div>
 
-          {/* Feature pills */}
-          <div className="flex flex-wrap justify-center gap-2 mt-4">
-            {["No account", "No cloud", "No tracking", "100% free"].map((item) => (
-              <span
-                key={item}
-                className="text-xs px-3 py-1 rounded-full"
-                style={{
-                  background: "rgba(57,255,20,0.08)",
-                  border: "1px solid rgba(57,255,20,0.18)",
-                  color: "#39FF14",
-                }}
-              >
-                ✓ {item}
-              </span>
-            ))}
-          </div>
+          <p className="mt-2 text-sm text-white/50">No account · No cloud · No tracking · Free to start</p>
         </motion.div>
       </div>
     </section>

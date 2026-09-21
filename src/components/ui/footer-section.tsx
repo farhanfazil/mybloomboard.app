@@ -13,7 +13,6 @@ import {
   FrameIcon,
   LayoutDashboardIcon,
   ShieldCheckIcon,
-  SparklesIcon,
 } from "lucide-react";
 
 interface FooterLink {
@@ -31,8 +30,7 @@ const footerLinks: FooterSection[] = [
   {
     label: "Product",
     links: [
-      { title: "Features", href: "#features", icon: SparklesIcon },
-      { title: "Deep Dive", href: "#walkthrough", icon: LayoutDashboardIcon },
+      { title: "Live demo", href: "/#live-demo", icon: LayoutDashboardIcon },
       { title: "Pricing", href: "#pricing", icon: ChartNoAxesColumnIncreasingIcon },
       { title: "Download", href: "#download", icon: DownloadIcon },
     ],
@@ -40,9 +38,9 @@ const footerLinks: FooterSection[] = [
   {
     label: "App",
     links: [
-      { title: "Boards", href: "#features", icon: FrameIcon },
-      { title: "AI Assistant", href: "#features", icon: BotIcon },
-      { title: "Reminders", href: "#features", icon: BellIcon },
+      { title: "Boards", href: "/#live-demo", icon: FrameIcon },
+      { title: "AI Assistant", href: "/#live-demo", icon: BotIcon },
+      { title: "Reminders", href: "/#live-demo", icon: BellIcon },
       { title: "Reports", href: "#pricing", icon: ChartNoAxesColumnIncreasingIcon },
     ],
   },
@@ -76,8 +74,7 @@ const footerLinks: FooterSection[] = [
 
 export function Footer() {
   return (
-    <footer className="relative mx-auto flex w-full max-w-6xl flex-col items-center justify-center rounded-t-[2rem] border-t border-white/10 bg-[radial-gradient(35%_128px_at_50%_0%,rgba(255,255,255,0.08),transparent)] px-6 py-12 lg:py-16">
-      <div className="absolute left-1/2 right-1/2 top-0 h-px w-1/3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/20 blur" />
+    <footer className="relative mx-auto flex w-full max-w-6xl flex-col items-center justify-center border-t border-white/10 px-6 py-12 lg:py-16">
 
       <div className="grid w-full gap-8 xl:grid-cols-3 xl:gap-8">
         <AnimatedContainer className="space-y-4">
@@ -106,7 +103,7 @@ export function Footer() {
           {footerLinks.map((section, index) => (
             <AnimatedContainer key={section.label} delay={0.1 + index * 0.1}>
               <div>
-                <h3 className="text-xs font-semibold uppercase tracking-widest text-text-primary">
+                <h3 className="text-sm font-semibold text-text-primary">
                   {section.label}
                 </h3>
                 <ul className="mt-4 space-y-2 text-sm text-text-muted">
@@ -114,9 +111,8 @@ export function Footer() {
                     <li key={link.title}>
                       <a
                         href={link.href}
-                        className="inline-flex items-center transition-all duration-300 hover:text-text-primary"
+                        className="inline-flex items-center transition-colors hover:text-text-primary"
                       >
-                        {link.icon && <link.icon className="me-1.5 size-4" />}
                         {link.title}
                       </a>
                     </li>
@@ -146,10 +142,10 @@ function AnimatedContainer({ className, delay = 0.1, children }: ViewAnimationPr
 
   return (
     <motion.div
-      initial={{ filter: "blur(4px)", translateY: -8, opacity: 0 }}
-      whileInView={{ filter: "blur(0px)", translateY: 0, opacity: 1 }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
-      transition={{ delay, duration: 0.8 }}
+      transition={{ delay, duration: 0.5 }}
       className={className}
     >
       {children}

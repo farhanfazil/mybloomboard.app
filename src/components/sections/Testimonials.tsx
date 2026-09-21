@@ -85,12 +85,7 @@ export default function Testimonials() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span
-            className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 text-white"
-          >
-            From our users
-          </span>
-          <h2 className="text-3xl font-bold sm:text-4xl">What they&apos;re saying</h2>
+          <h2 className="text-3xl font-bold sm:text-4xl">What people say</h2>
         </motion.div>
 
         {/* Mobile: paginated carousel — 3 per page, full width */}
@@ -105,38 +100,24 @@ export default function Testimonials() {
                 <div
                   key={t.name}
                   className="flex flex-col gap-3 rounded-2xl p-4"
-                  style={{
-                    background: "linear-gradient(145deg, rgba(12,12,16,0.95), rgba(6,6,10,0.88))",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                    borderTop: "1px solid rgba(255,255,255,0.14)",
-                  }}
+                  style={{ background: "#0b0d10", border: "1px solid rgba(255,255,255,0.1)" }}
                 >
                   <div className="flex items-center justify-between">
-                    <span
-                      className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full"
-                      style={
-                        t.tag === "Team"
-                          ? { background: "rgba(251,191,36,0.1)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.2)" }
-                          : { background: "rgba(77,159,255,0.08)", color: "#93c5fd", border: "1px solid rgba(77,159,255,0.2)" }
-                      }
-                    >
-                      {t.tag}
-                    </span>
-                    <span style={{ color: t.color, fontSize: 18, lineHeight: 1 }}>&ldquo;</span>
+                    <span className="text-xs text-white/45">{t.tag === "Team" ? "Team" : "Solo"}</span>
                   </div>
-                  <p className="text-xs leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.72)" }}>
+                  <p className="text-xs leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.78)" }}>
                     {t.quote}
                   </p>
                   <div className="mt-auto flex items-center gap-3 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                     <div
                       className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-bold"
-                      style={{ background: `${t.color}22`, border: `1px solid ${t.color}55`, color: t.color }}
+                      style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.8)" }}
                     >
                       {t.avatar}
                     </div>
                     <div>
                       <p className="text-xs font-semibold text-white">{t.name}</p>
-                      <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.38)" }}>{t.role}</p>
+                      <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.45)" }}>{t.role}</p>
                     </div>
                   </div>
                 </div>
@@ -156,7 +137,7 @@ export default function Testimonials() {
               style={{
                 width: activePage === i ? "1.5rem" : "0.375rem",
                 height: "0.375rem",
-                background: activePage === i ? "rgba(77,159,255,0.9)" : "rgba(255,255,255,0.2)",
+                background: activePage === i ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.2)",
               }}
             />
           ))}
@@ -171,38 +152,24 @@ export default function Testimonials() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col gap-3 rounded-2xl p-5"
-              style={{
-                background: "linear-gradient(145deg, rgba(12,12,16,0.95), rgba(6,6,10,0.88))",
-                border: "1px solid rgba(255,255,255,0.08)",
-                borderTop: "1px solid rgba(255,255,255,0.14)",
-              }}
+              style={{ background: "#0b0d10", border: "1px solid rgba(255,255,255,0.1)" }}
             >
               <div className="flex items-center justify-between">
-                <span
-                  className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full"
-                  style={
-                    t.tag === "Team"
-                      ? { background: "rgba(251,191,36,0.1)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.2)" }
-                      : { background: "rgba(77,159,255,0.08)", color: "#93c5fd", border: "1px solid rgba(77,159,255,0.2)" }
-                  }
-                >
-                  {t.tag}
-                </span>
-                <span style={{ color: t.color, fontSize: 18, lineHeight: 1 }}>&ldquo;</span>
+                <span className="text-xs text-white/45">{t.tag === "Team" ? "Team" : "Solo"}</span>
               </div>
-              <p className="text-sm leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.72)" }}>
+              <p className="text-sm leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.78)" }}>
                 {t.quote}
               </p>
               <div className="mt-auto flex items-center gap-3 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                 <div
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold"
-                  style={{ background: `${t.color}22`, border: `1px solid ${t.color}55`, color: t.color }}
+                  style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.8)" }}
                 >
                   {t.avatar}
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-white">{t.name}</p>
-                  <p className="text-xs" style={{ color: "rgba(255,255,255,0.38)" }}>{t.role}</p>
+                  <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>{t.role}</p>
                 </div>
               </div>
             </motion.div>

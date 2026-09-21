@@ -2,13 +2,13 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Gift, ShieldCheck, XCircle, Sparkles } from "lucide-react";
+import { Gift, ShieldCheck, XCircle, Bot } from "lucide-react";
 
 const TRUST_ITEMS = [
   { icon: Gift,        label: "Free plan forever",      sub: "No card required to start" },
   { icon: ShieldCheck, label: "Your data never leaves",  sub: "100% local, zero cloud tracking" },
   { icon: XCircle,     label: "Cancel any time",         sub: "No lock-in, no questions asked" },
-  { icon: Sparkles,    label: "Powered by AI",           sub: "Smart assistance, built in" },
+  { icon: Bot,         label: "AI assistant included",   sub: "Plans your day with you" },
 ];
 
 export default function TrustBar() {
@@ -22,11 +22,7 @@ export default function TrustBar() {
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5 }}
         className="mx-auto max-w-4xl rounded-2xl px-6 py-5"
-        style={{
-          background: "linear-gradient(145deg, rgba(10,10,13,0.9), rgba(6,6,8,0.85))",
-          border: "1px solid rgba(255,255,255,0.07)",
-          borderTop: "1px solid rgba(255,255,255,0.12)",
-        }}
+        style={{ background: "#0b0d10", border: "1px solid rgba(255,255,255,0.1)" }}
       >
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {TRUST_ITEMS.map((item, i) => {
@@ -41,7 +37,7 @@ export default function TrustBar() {
               >
                 <Icon className="h-5 w-5 text-white/80" strokeWidth={1.6} />
                 <p className="text-xs font-semibold text-white">{item.label}</p>
-                <p className="text-[10px] leading-snug" style={{ color: "rgba(255,255,255,0.35)" }}>{item.sub}</p>
+                <p className="text-xs leading-snug" style={{ color: "rgba(255,255,255,0.5)" }}>{item.sub}</p>
               </motion.div>
             );
           })}

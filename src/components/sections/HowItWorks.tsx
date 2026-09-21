@@ -70,17 +70,6 @@ export default function HowItWorks() {
       ref={ref}
       className="relative overflow-hidden border-t border-white/[0.05] bg-black px-3 py-16 sm:px-6 sm:py-24"
     >
-      {/* Subtle background glow */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-        style={{
-          width: 700,
-          height: 500,
-          background: "radial-gradient(ellipse at center, rgba(167,139,250,0.04) 0%, transparent 65%)",
-          filter: "blur(60px)",
-        }}
-      />
-
       <div className="relative mx-auto max-w-5xl">
         {/* Header */}
         <motion.div
@@ -89,16 +78,11 @@ export default function HowItWorks() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span
-            className="mb-4 inline-block text-xs font-semibold uppercase tracking-widest text-white"
-          >
-            How It Works
-          </span>
           <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
             Up and running in minutes.
           </h2>
           <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/50 sm:text-base">
-            Four simple steps to get your workspace fully activated.
+            Four steps from download to a fully activated workspace.
           </p>
         </motion.div>
 
@@ -113,10 +97,7 @@ export default function HowItWorks() {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="flex flex-col gap-4 rounded-[20px] p-5"
-                style={{
-                  background: "linear-gradient(145deg, rgba(18,18,22,0.96) 0%, rgba(10,10,14,0.92) 100%)",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                }}
+                style={{ background: "#0b0d10", border: "1px solid rgba(255,255,255,0.1)" }}
               >
                 <div className="flex items-center justify-between">
                   <div
@@ -163,12 +144,7 @@ export default function HowItWorks() {
                 {/* Right: content row */}
                 <div
                   className="flex flex-1 items-center gap-6 rounded-2xl mb-4"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(18,18,24,0.92) 0%, rgba(12,12,16,0.88) 100%)",
-                    border: "1px solid rgba(255,255,255,0.15)",
-                    padding: "20px 28px",
-                    backdropFilter: "blur(10px)",
-                  }}
+                  style={{ background: "#0b0d10", border: "1px solid rgba(255,255,255,0.1)", padding: "20px 28px" }}
                 >
                   {/* Icon in place of number */}
                   <div

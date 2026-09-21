@@ -10,14 +10,6 @@ export default function FAQ() {
 
   return (
     <section id="faq" className="relative overflow-hidden border-y border-white/[0.04] bg-black px-4 py-16 sm:px-6 sm:py-24">
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[520px] w-[820px] -translate-x-1/2 -translate-y-1/2"
-        style={{
-          background: "radial-gradient(ellipse at center, rgba(255,255,255,0.035) 0%, transparent 70%)",
-          filter: "blur(60px)",
-        }}
-      />
-
       <div className="relative mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
         <motion.div
           ref={ref}
@@ -26,18 +18,13 @@ export default function FAQ() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span
-            className="mb-5 inline-block text-xs font-semibold uppercase tracking-widest text-white"
-          >
-            FAQ
-          </span>
           <h2 className="mb-5 max-w-xl text-3xl font-bold leading-tight text-text-primary sm:text-5xl">
             Frequently asked questions
           </h2>
           <p className="max-w-md text-sm leading-relaxed text-text-muted sm:text-base">
             Clear answers about BloomBoard, pricing, privacy, AI, teams, and how the dashboard fits into your daily workflow.
           </p>
-          <div className="mt-8 hidden rounded-2xl border border-white/[0.09] bg-black/60 p-5 backdrop-blur-xl lg:block">
+          <div className="mt-8 hidden rounded-xl border border-white/10 bg-[#0b0d10] p-5 lg:block">
             <p className="text-sm font-semibold text-text-primary">Still deciding?</p>
             <p className="mt-2 text-sm leading-relaxed text-text-muted">
               Start with the free plan, explore the dashboard, then upgrade only when you need more boards, reports, or AI power.
@@ -46,7 +33,7 @@ export default function FAQ() {
         </motion.div>
 
         <motion.div
-          className="overflow-hidden rounded-3xl border border-white/[0.09] bg-black/70 backdrop-blur-xl"
+          className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0d10]"
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1 }}
@@ -54,7 +41,7 @@ export default function FAQ() {
           {FAQS.map((item, index) => (
             <details
               key={item.question}
-              className="group border-b border-white/[0.08] px-5 py-5 transition-colors last:border-b-0 open:bg-white/[0.035] sm:px-7"
+              className="group border-b border-white/[0.08] px-5 py-5 transition-colors last:border-b-0 open:bg-white/[0.03] sm:px-7"
               open={index === 0}
             >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-5 text-left text-base font-semibold text-text-primary sm:text-lg">

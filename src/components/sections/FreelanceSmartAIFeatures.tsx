@@ -164,9 +164,6 @@ export default function FreelanceSmartAIFeatures() {
       `}</style>
 
       <div className="mx-auto mb-10 max-w-5xl px-4 text-center sm:mb-14 sm:px-6">
-        <span className="mb-4 inline-flex text-xs font-bold uppercase tracking-[0.24em] text-white">
-          Smart AI Features
-        </span>
         <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
           Intelligence for client work.
         </h2>
@@ -194,12 +191,10 @@ export default function FreelanceSmartAIFeatures() {
                   opacity: `var(--card-opacity, ${isActive ? "1" : "0.78"})`,
                   borderColor: isActive ? "rgba(255,255,255,0.16)" : "rgba(255,255,255,0.06)",
                   boxShadow: isActive
-                    ? "0 38px 150px rgba(0,0,0,0.72), 0 0 90px rgba(124,58,237,0.16)"
+                    ? "0 38px 150px rgba(0,0,0,0.72)"
                     : "0 24px 90px rgba(0,0,0,0.78)",
                 }}
               >
-                <div className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] bg-[linear-gradient(135deg,rgba(255,255,255,0.12),transparent_18%,transparent_72%,rgba(255,255,255,0.05))] opacity-[calc(0.3_+_(var(--glow-opacity,0)_*_0.6))] transition-opacity duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]" />
-                <div className="pointer-events-none absolute -inset-x-12 -top-20 z-10 h-44 bg-[radial-gradient(circle,rgba(167,139,250,0.3),transparent_62%)] opacity-[var(--glow-opacity,0)] blur-2xl transition-opacity duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]" />
                 <Image
                   src={card.src}
                   alt={card.alt}
@@ -230,9 +225,8 @@ export default function FreelanceSmartAIFeatures() {
           type="button"
           aria-label="Previous freelance AI feature"
           onClick={() => scrollToCard(Math.max(activeIndex - 1, 0))}
-          className="grid h-7 w-7 place-items-center rounded-full transition duration-300 hover:scale-105 active:scale-95 sm:h-10 sm:w-10"
+          className="grid h-7 w-7 place-items-center rounded-full bg-white/20 transition-colors duration-200 hover:bg-white/30 sm:h-10 sm:w-10"
           style={{
-            background: "rgba(255,255,255,0.22)",
             border: "none",
             color: "rgba(255,255,255,0.95)",
             opacity: activeIndex === 0 ? 0.35 : 1,
@@ -262,9 +256,8 @@ export default function FreelanceSmartAIFeatures() {
           type="button"
           aria-label="Next freelance AI feature"
           onClick={() => scrollToCard(Math.min(activeIndex + 1, freelanceSmartCards.length - 1))}
-          className="grid h-7 w-7 place-items-center rounded-full transition duration-300 hover:scale-105 active:scale-95 sm:h-10 sm:w-10"
+          className="grid h-7 w-7 place-items-center rounded-full bg-white/20 transition-colors duration-200 hover:bg-white/30 sm:h-10 sm:w-10"
           style={{
-            background: "rgba(255,255,255,0.22)",
             border: "none",
             color: "rgba(255,255,255,0.95)",
             opacity: activeIndex === freelanceSmartCards.length - 1 ? 0.35 : 1,

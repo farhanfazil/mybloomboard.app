@@ -142,15 +142,11 @@ export default function DemoReactionsBar({ className }: DemoReactionsBarProps) {
 
         <div
           className={cn(
-            "z-10 flex items-center justify-start gap-2 rounded-full p-2 text-lg",
-            "transition-all duration-300 hover:scale-x-105",
+            "z-10 flex items-center justify-start gap-1 rounded-xl p-1.5 text-lg",
           )}
           style={{
-            background: "linear-gradient(135deg, rgba(10,30,80,0.72) 0%, rgba(20,60,140,0.55) 50%, rgba(10,30,80,0.72) 100%)",
-            border: "1px solid rgba(77,159,255,0.35)",
-            boxShadow: "0 8px 32px rgba(30,80,255,0.18), inset 0 1px 0 rgba(147,197,253,0.2), inset 0 -1px 0 rgba(30,80,255,0.1)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
+            background: "#0e141b",
+            border: "1px solid rgba(255,255,255,0.12)",
           }}
         >
           {DEMO_REACTIONS.map((reaction) => {
@@ -166,30 +162,19 @@ export default function DemoReactionsBar({ className }: DemoReactionsBarProps) {
                 aria-pressed={isSelected}
                 onClick={() => void handleReact(reaction.id)}
                 className={cn(
-                  "group relative flex cursor-pointer flex-col items-center rounded-full px-3 py-2 transition-all duration-300",
+                  "group relative flex cursor-pointer flex-col items-center rounded-lg px-3 py-1.5 transition-colors duration-150 hover:bg-white/[0.07]",
                   "before:absolute before:-top-7 before:hidden before:h-4 before:rounded-lg before:bg-white/90 before:px-1 before:text-[.6rem] before:text-black",
                   "before:content-[attr(data-label)] hover:before:flex hover:before:items-center hover:before:justify-center",
-                  "hover:scale-125",
                   (votedId && !isSelected) || isPending ? "pointer-events-none opacity-50" : "",
                 )}
-                style={{
-                  background: isSelected
-                    ? "linear-gradient(135deg, rgba(77,159,255,0.35), rgba(30,80,255,0.25))"
-                    : "linear-gradient(135deg, rgba(77,159,255,0.12), rgba(30,80,255,0.08))",
-                  border: isSelected
-                    ? "1px solid rgba(77,159,255,0.6)"
-                    : "1px solid rgba(77,159,255,0.2)",
-                  boxShadow: isSelected
-                    ? "0 0 16px rgba(77,159,255,0.3), inset 0 1px 0 rgba(147,197,253,0.25)"
-                    : "inset 0 1px 0 rgba(147,197,253,0.1)",
-                }}
+                style={isSelected ? { background: "rgba(18,62,90,0.55)", boxShadow: "inset 0 0 0 1px rgba(120,170,200,0.45)" } : undefined}
                 data-label={reaction.label}
               >
                 <span aria-hidden className="leading-none">
                   {reaction.emoji}
                 </span>
                 {counts[reaction.id] > 0 && (
-                  <span className="mt-0.5 text-[9px] font-semibold leading-none" style={{ color: "rgba(147,197,253,0.7)" }}>
+                  <span className="mt-0.5 text-[9px] font-semibold leading-none" style={{ color: "rgba(255,255,255,0.5)" }}>
                     {counts[reaction.id].toLocaleString()}
                   </span>
                 )}
@@ -199,7 +184,7 @@ export default function DemoReactionsBar({ className }: DemoReactionsBarProps) {
         </div>
       </div>
 
-      <p className="text-[11px] font-medium tracking-wide text-white/40">
+      <p className="text-xs text-white/45">
         {total > 0 ? (
           <>
             <span className="text-white/70">{total.toLocaleString()}</span> reactions from visitors

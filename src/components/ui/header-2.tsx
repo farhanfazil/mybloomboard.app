@@ -92,19 +92,13 @@ export function Header({
           ))}
           <a
             href="/freelance"
-            className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-semibold transition-all duration-200 hover:scale-[1.03]"
-            style={{
-              background: "linear-gradient(135deg, rgba(217,119,6,0.18), rgba(180,83,9,0.12))",
-              color: "#fbbf24",
-              border: "1px solid rgba(251,191,36,0.28)",
-            }}
+            className={buttonVariants({ variant: "ghost", className: "px-3 text-sm" })}
           >
-            <span>💼</span>
-            Freelancers
+            For freelancers
           </a>
           <Button
             asChild
-            className="h-auto shrink-0 gap-1.5 rounded-full border border-transparent bg-white px-3 py-1.5 text-sm font-semibold text-[#0a0f1c] hover:bg-white/90"
+            className="ml-2 h-auto shrink-0 rounded-lg border border-transparent bg-white px-3.5 py-1.5 text-sm font-semibold text-[#0a0f1c] hover:bg-white/90"
           >
             <a href={DOWNLOAD_URL}>
               Free Trial
@@ -156,15 +150,13 @@ export function Header({
             href="/freelance"
             onClick={() => setOpen(false)}
             style={{
-              display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-              borderRadius: "999px", padding: "12px 0", width: "100%", boxSizing: "border-box",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              borderRadius: "10px", padding: "12px 0", width: "100%", boxSizing: "border-box",
               fontSize: "14px", fontWeight: 600, textDecoration: "none",
-              background: "linear-gradient(135deg, rgba(217,119,6,0.18), rgba(180,83,9,0.12))",
-              color: "#fbbf24", border: "1px solid rgba(251,191,36,0.28)",
+              color: "#f5f5f7", border: "1px solid rgba(255,255,255,0.18)",
             }}
           >
-            <span>💼</span>
-            For Freelancers
+            For freelancers
           </a>
 
           <a
@@ -172,7 +164,7 @@ export function Header({
             onClick={() => setOpen(false)}
             style={{
               display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
-              borderRadius: "999px", padding: "12px 0", width: "100%", boxSizing: "border-box",
+              borderRadius: "10px", padding: "12px 0", width: "100%", boxSizing: "border-box",
               fontSize: "14px", fontWeight: 600, textDecoration: "none",
               background: "#fff", color: "#0a0f1c",
             }}

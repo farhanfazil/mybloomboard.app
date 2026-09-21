@@ -88,14 +88,9 @@ export default function PlanQuiz() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span
-            className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 text-white"
-          >
-            Find your plan
-          </span>
           <h2 className="text-3xl font-bold sm:text-4xl">Which plan is right for you?</h2>
-          <p className="mt-3 text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>
-            2 quick questions — get your match instantly.
+          <p className="mt-3 text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>
+            Two quick questions and we&apos;ll point you to the right plan.
           </p>
         </motion.div>
 
@@ -103,14 +98,8 @@ export default function PlanQuiz() {
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="rounded-3xl overflow-hidden"
-          style={{
-            background: "linear-gradient(145deg, rgba(10,10,13,0.97), rgba(6,6,8,0.96))",
-            border: "1px solid rgba(255,255,255,0.09)",
-            boxShadow: "0 24px 64px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.06)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-          }}
+          className="rounded-2xl overflow-hidden"
+          style={{ background: "#0b0d10", border: "1px solid rgba(255,255,255,0.1)" }}
         >
           <AnimatePresence mode="wait">
             {!result ? (
@@ -128,12 +117,12 @@ export default function PlanQuiz() {
                     <div
                       key={i}
                       className="h-1 flex-1 rounded-full transition-all duration-500"
-                      style={{ background: i <= step ? "rgba(77,159,255,0.8)" : "rgba(255,255,255,0.1)" }}
+                      style={{ background: i <= step ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.12)" }}
                     />
                   ))}
                 </div>
 
-                <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "rgba(77,159,255,0.7)" }}>
+                <p className="text-sm mb-2" style={{ color: "rgba(255,255,255,0.5)" }}>
                   Question {step + 1} of {QUIZ_STEPS.length}
                 </p>
                 <h3 className="text-xl font-bold text-white mb-6 leading-snug">
@@ -145,15 +134,15 @@ export default function PlanQuiz() {
                     <button
                       key={opt.label}
                       onClick={() => pick(opt.points)}
-                      className="w-full text-left px-5 py-4 rounded-xl text-sm font-medium transition-all duration-200 hover:scale-[1.02]"
+                      className="w-full text-left px-5 py-4 rounded-lg text-sm font-medium transition-colors duration-150"
                       style={{
                         background: "rgba(255,255,255,0.04)",
                         border: "1px solid rgba(255,255,255,0.1)",
                         color: "rgba(255,255,255,0.8)",
                       }}
                       onMouseEnter={e => {
-                        (e.currentTarget as HTMLButtonElement).style.border = "1px solid rgba(77,159,255,0.45)";
-                        (e.currentTarget as HTMLButtonElement).style.background = "rgba(77,159,255,0.08)";
+                        (e.currentTarget as HTMLButtonElement).style.border = "1px solid rgba(255,255,255,0.3)";
+                        (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,255,255,0.07)";
                       }}
                       onMouseLeave={e => {
                         (e.currentTarget as HTMLButtonElement).style.border = "1px solid rgba(255,255,255,0.1)";
@@ -173,34 +162,23 @@ export default function PlanQuiz() {
                 transition={{ duration: 0.35 }}
                 className="p-8 text-center"
               >
-                <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>
-                  Your match
+                <p className="text-sm mb-2" style={{ color: "rgba(255,255,255,0.5)" }}>
+                  We&apos;d suggest
                 </p>
-                <div
-                  className="inline-flex items-center gap-2 px-5 py-2 rounded-full mb-5"
-                  style={{ background: `${plan!.color}18`, border: `1.5px solid ${plan!.color}55` }}
-                >
-                  <span className="text-2xl font-bold" style={{ color: plan!.color }}>{plan!.name}</span>
-                </div>
+                <p className="text-3xl font-bold text-white mb-4">{plan!.name}</p>
                 <p className="text-sm leading-relaxed mb-8 max-w-sm mx-auto" style={{ color: "rgba(255,255,255,0.6)" }}>
                   {plan!.desc}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <a
                     href={plan!.href}
-                    className="px-6 py-3 rounded-full text-sm font-semibold transition-all hover:scale-[1.03]"
-                    style={{ background: plan!.color, color: "#fff", boxShadow: `0 8px 24px ${plan!.color}44` }}
+                    className="px-5 py-2.5 rounded-lg bg-white text-sm font-semibold text-black transition-colors hover:bg-white/90"
                   >
                     Get started with {plan!.name}
                   </a>
                   <button
                     onClick={reset}
-                    className="px-6 py-3 rounded-full text-sm font-medium transition-all hover:scale-[1.03]"
-                    style={{
-                      background: "rgba(255,255,255,0.06)",
-                      border: "1px solid rgba(255,255,255,0.12)",
-                      color: "rgba(255,255,255,0.6)",
-                    }}
+                    className="px-5 py-2.5 rounded-lg border border-white/20 text-sm font-medium text-white/80 transition-colors hover:bg-white/[0.06]"
                   >
                     Retake quiz
                   </button>

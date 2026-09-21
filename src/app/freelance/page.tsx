@@ -71,40 +71,27 @@ function StickyCTABar() {
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: 120, opacity: 0 }}
           transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed bottom-5 right-5 z-[100] hidden sm:flex items-center gap-3 rounded-full px-3 py-2"
+          className="fixed bottom-5 right-5 z-[100] hidden sm:flex items-center gap-3 rounded-xl px-3 py-2"
           style={{
-            background: "linear-gradient(155deg, rgba(7,23,43,0.97) 0%, rgba(4,12,32,0.97) 50%, rgba(6,18,48,0.97) 100%)",
-            border: "1.5px solid rgba(77,159,255,0.35)",
-            boxShadow: "0 0 0 1px rgba(77,159,255,0.1), 0 8px 40px rgba(10,20,60,0.7), 0 2px 16px rgba(77,159,255,0.15)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
+            background: "#0e141b",
+            border: "1px solid rgba(255,255,255,0.14)",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
             whiteSpace: "nowrap",
           }}
         >
-          <span className="hidden text-xs font-medium sm:block" style={{ color: "rgba(147,197,253,0.7)" }}>
+          <span className="hidden text-xs font-medium sm:block" style={{ color: "rgba(255,255,255,0.6)" }}>
             BloomBoard Freelance
           </span>
-          <div className="hidden sm:block h-3.5 w-px" style={{ background: "rgba(77,159,255,0.22)" }} />
+          <div className="hidden sm:block h-3.5 w-px" style={{ background: "rgba(255,255,255,0.15)" }} />
           <a
             href="https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg"
-            className="text-xs font-medium px-3.5 py-1.5 rounded-full transition-all hover:scale-[1.04]"
-            style={{
-              background: "rgba(255,255,255,0.06)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              color: "rgba(255,255,255,0.65)",
-            }}
+            className="text-xs font-medium px-3 py-1.5 rounded-lg border border-white/15 text-white/75 transition-colors hover:bg-white/[0.07] hover:text-white"
           >
             Download Free
           </a>
           <a
             href="https://buy.polar.sh/polar_cl_vlLVUrxnBszMR59XsC2pmP5R3rmcqAgll5B501xt17D"
-            className="text-xs font-semibold px-4 py-1.5 rounded-full transition-all hover:scale-[1.04] hover:brightness-110"
-            style={{
-              background: "linear-gradient(155deg, rgba(7,23,43,0.97) 0%, rgba(4,12,32,0.97) 50%, rgba(6,18,48,0.97) 100%)",
-              color: "#e8f4ff",
-              border: "1.5px solid rgba(77,159,255,0.5)",
-              boxShadow: "0 0 12px rgba(30,100,255,0.3)",
-            }}
+            className="text-xs font-semibold px-3.5 py-1.5 rounded-lg bg-white text-black transition-colors hover:bg-white/90"
           >
             Start Flow — $7.99/mo
           </a>
@@ -357,7 +344,7 @@ function CountUpStat({ target, suffix, label, startDelay = 800 }: { target: numb
       <p className="text-xs font-bold leading-tight text-white sm:text-2xl tabular-nums">
         {count}{suffix}
       </p>
-      <p className="mt-0.5 text-[9px] leading-tight sm:text-xs" style={{ color: "rgba(255,255,255,0.36)" }}>{label}</p>
+      <p className="mt-0.5 text-[10px] leading-tight sm:text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>{label}</p>
     </div>
   );
 }
@@ -372,13 +359,13 @@ function TextRevealStat({ value, label, startDelay = 800 }: { value: string; lab
     <div className="flex flex-col items-center text-center">
       <motion.p
         className="text-xs font-bold leading-tight text-white whitespace-nowrap sm:text-2xl"
-        initial={{ opacity: 0, filter: "blur(6px)", y: 6 }}
-        animate={show ? { opacity: 1, filter: "blur(0px)", y: 0 } : {}}
+        initial={{ opacity: 0, y: 6 }}
+        animate={show ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       >
         {value}
       </motion.p>
-      <p className="mt-0.5 text-[9px] leading-tight sm:text-xs" style={{ color: "rgba(255,255,255,0.36)" }}>{label}</p>
+      <p className="mt-0.5 text-[10px] leading-tight sm:text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>{label}</p>
     </div>
   );
 }
@@ -459,10 +446,7 @@ function FreelanceTestimonials() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 text-white">
-            From freelancers & teams
-          </span>
-          <h2 className="text-3xl font-bold sm:text-4xl">What they&apos;re saying</h2>
+          <h2 className="text-3xl font-bold sm:text-4xl">What freelancers say</h2>
         </motion.div>
         {/* Mobile: paginated carousel — 3 per page, full width */}
         <div
@@ -478,27 +462,17 @@ function FreelanceTestimonials() {
                 <div
                   key={t.name}
                   className="flex flex-col gap-3 rounded-2xl p-4"
-                  style={{
-                    background: "linear-gradient(145deg, rgba(12,12,16,0.95), rgba(6,6,10,0.88))",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                    borderTop: "1px solid rgba(255,255,255,0.14)",
-                  }}
+                  style={{ background: "#0b0d10", border: "1px solid rgba(255,255,255,0.1)" }}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full"
-                      style={t.tag === "Team"
-                        ? { background: "rgba(251,191,36,0.1)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.2)" }
-                        : { background: "rgba(77,159,255,0.08)", color: "#93c5fd", border: "1px solid rgba(77,159,255,0.2)" }}>
-                      {t.tag}
-                    </span>
-                    <span style={{ color: t.color, fontSize: 18, lineHeight: 1 }}>&ldquo;</span>
+                    <span className="text-xs text-white/45">{t.tag === "Team" ? "Team" : "Solo"}</span>
                   </div>
-                  <p className="text-xs leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.72)" }}>
+                  <p className="text-xs leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.78)" }}>
                     {t.quote}
                   </p>
                   <div className="mt-auto flex items-center gap-2.5 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                     <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-bold"
-                      style={{ background: `${t.color}22`, border: `1px solid ${t.color}55`, color: t.color }}>
+                      style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.8)" }}>
                       {t.avatar}
                     </div>
                     <div>
@@ -523,7 +497,7 @@ function FreelanceTestimonials() {
               style={{
                 width: activePage === i ? "1.5rem" : "0.375rem",
                 height: "0.375rem",
-                background: activePage === i ? "rgba(251,191,36,0.9)" : "rgba(255,255,255,0.2)",
+                background: activePage === i ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.2)",
               }}
             />
           ))}
@@ -538,27 +512,17 @@ function FreelanceTestimonials() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col gap-3 rounded-2xl p-5"
-              style={{
-                background: "linear-gradient(145deg, rgba(12,12,16,0.95), rgba(6,6,10,0.88))",
-                border: "1px solid rgba(255,255,255,0.08)",
-                borderTop: "1px solid rgba(255,255,255,0.14)",
-              }}
+              style={{ background: "#0b0d10", border: "1px solid rgba(255,255,255,0.1)" }}
             >
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full"
-                  style={t.tag === "Team"
-                    ? { background: "rgba(251,191,36,0.1)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.2)" }
-                    : { background: "rgba(77,159,255,0.08)", color: "#93c5fd", border: "1px solid rgba(77,159,255,0.2)" }}>
-                  {t.tag}
-                </span>
-                <span style={{ color: t.color, fontSize: 18, lineHeight: 1 }}>&ldquo;</span>
+                <span className="text-xs text-white/45">{t.tag === "Team" ? "Team" : "Solo"}</span>
               </div>
-              <p className="text-sm leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.72)" }}>
+              <p className="text-sm leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.78)" }}>
                 {t.quote}
               </p>
               <div className="mt-auto flex items-center gap-2.5 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold"
-                  style={{ background: `${t.color}22`, border: `1px solid ${t.color}55`, color: t.color }}>
+                  style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.8)" }}>
                   {t.avatar}
                 </div>
                 <div>
@@ -632,25 +596,16 @@ function FreelancePlanQuiz() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 text-white">
-            Find your plan
-          </span>
           <h2 className="text-3xl font-bold sm:text-4xl">Which plan is right for you?</h2>
-          <p className="mt-3 text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>2 quick questions — get your match instantly.</p>
+          <p className="mt-3 text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>Two quick questions and we&apos;ll point you to the right plan.</p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="rounded-3xl overflow-hidden"
-          style={{
-            background: "linear-gradient(145deg, rgba(10,10,13,0.97), rgba(6,6,8,0.96))",
-            border: "1px solid rgba(255,255,255,0.09)",
-            boxShadow: "0 24px 64px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.06)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-          }}
+          className="rounded-2xl overflow-hidden"
+          style={{ background: "#0b0d10", border: "1px solid rgba(255,255,255,0.1)" }}
         >
           <AnimatePresence mode="wait">
             {!result ? (
@@ -658,10 +613,10 @@ function FreelancePlanQuiz() {
                 <div className="flex items-center gap-2 mb-6">
                   {QUIZ_STEPS.map((_, i) => (
                     <div key={i} className="h-1 flex-1 rounded-full transition-all duration-500"
-                      style={{ background: i <= step ? "rgba(77,159,255,0.8)" : "rgba(255,255,255,0.1)" }} />
+                      style={{ background: i <= step ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.12)" }} />
                   ))}
                 </div>
-                <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "rgba(77,159,255,0.7)" }}>
+                <p className="text-sm mb-2" style={{ color: "rgba(255,255,255,0.5)" }}>
                   Question {step + 1} of {QUIZ_STEPS.length}
                 </p>
                 <h3 className="text-xl font-bold text-white mb-6 leading-snug">{QUIZ_STEPS[step].question}</h3>
@@ -670,13 +625,13 @@ function FreelancePlanQuiz() {
                     <button
                       key={opt.label}
                       onClick={() => pick(opt.points)}
-                      className="w-full text-left px-5 py-4 rounded-xl text-sm font-medium transition-all duration-200 hover:scale-[1.02]"
+                      className="w-full text-left px-5 py-4 rounded-lg text-sm font-medium transition-colors duration-150"
                       style={{
                         background: "rgba(255,255,255,0.04)",
                         border: "1px solid rgba(255,255,255,0.1)",
                         color: "rgba(255,255,255,0.8)",
                       }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.border = "1px solid rgba(77,159,255,0.45)"; (e.currentTarget as HTMLButtonElement).style.background = "rgba(77,159,255,0.08)"; }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.border = "1px solid rgba(255,255,255,0.3)"; (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,255,255,0.07)"; }}
                       onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.border = "1px solid rgba(255,255,255,0.1)"; (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,255,255,0.04)"; }}
                     >
                       {opt.label}
@@ -686,21 +641,16 @@ function FreelancePlanQuiz() {
               </motion.div>
             ) : (
               <motion.div key="result" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.35 }} className="p-8 text-center">
-                <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>Your match</p>
-                <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full mb-5"
-                  style={{ background: `${plan!.color}18`, border: `1.5px solid ${plan!.color}55` }}>
-                  <span className="text-2xl font-bold" style={{ color: plan!.color }}>{plan!.name}</span>
-                </div>
+                <p className="text-sm mb-2" style={{ color: "rgba(255,255,255,0.5)" }}>We&apos;d suggest</p>
+                <p className="text-3xl font-bold text-white mb-4">{plan!.name}</p>
                 <p className="text-sm leading-relaxed mb-8 max-w-sm mx-auto" style={{ color: "rgba(255,255,255,0.6)" }}>{plan!.desc}</p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <a href={plan!.href}
-                    className="px-6 py-3 rounded-full text-sm font-semibold transition-all hover:scale-[1.03]"
-                    style={{ background: plan!.color, color: "#fff", boxShadow: `0 8px 24px ${plan!.color}44` }}>
+                    className="px-5 py-2.5 rounded-lg bg-white text-sm font-semibold text-black transition-colors hover:bg-white/90">
                     Get started with {plan!.name}
                   </a>
                   <button onClick={reset}
-                    className="px-6 py-3 rounded-full text-sm font-medium transition-all hover:scale-[1.03]"
-                    style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.6)" }}>
+                    className="px-5 py-2.5 rounded-lg border border-white/20 text-sm font-medium text-white/80 transition-colors hover:bg-white/[0.06]">
                     Retake quiz
                   </button>
                 </div>
@@ -746,10 +696,6 @@ function FreelanceFAQ() {
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   return (
     <section id="faq" ref={ref} className="relative overflow-hidden border-t px-4 py-16 sm:py-24" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-        style={{ width: 820, height: 520, background: "radial-gradient(ellipse at center, rgba(77,159,255,0.04) 0%, transparent 70%)", filter: "blur(60px)" }}
-      />
       <div className="relative mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
         <motion.div
           className="lg:sticky lg:top-28"
@@ -757,16 +703,13 @@ function FreelanceFAQ() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className="mb-5 inline-block text-xs font-semibold uppercase tracking-widest text-white">
-            FAQ
-          </span>
           <h2 className="mb-5 max-w-xl text-3xl font-bold leading-tight text-text-primary sm:text-4xl">
             Frequently asked questions
           </h2>
           <p className="max-w-md text-sm leading-relaxed text-text-muted sm:text-base">
             Common questions about plans, privacy, the client portal, and how BloomBoard fits your freelance workflow.
           </p>
-          <div className="mt-8 hidden rounded-2xl border border-white/[0.09] bg-black/60 p-5 backdrop-blur-xl lg:block">
+          <div className="mt-8 hidden rounded-xl border border-white/10 bg-[#0b0d10] p-5 lg:block">
             <p className="text-sm font-semibold text-text-primary">Still deciding?</p>
             <p className="mt-2 text-sm leading-relaxed text-text-muted">
               Start free, explore the dashboard, then upgrade when your client list grows.
@@ -775,7 +718,7 @@ function FreelanceFAQ() {
         </motion.div>
 
         <motion.div
-          className="overflow-hidden rounded-3xl border border-white/[0.09] bg-black/70 backdrop-blur-xl"
+          className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0d10]"
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1 }}
@@ -810,26 +753,6 @@ function FreelanceDownloadCTA() {
 
   return (
     <section className="relative overflow-hidden px-4 py-20 sm:px-6 sm:py-32 border-t" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
-      {/* Large ambient glow orb */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-        style={{
-          width: 800,
-          height: 800,
-          background: "radial-gradient(ellipse at center, rgba(251,191,36,0.07) 0%, transparent 65%)",
-          filter: "blur(60px)",
-        }}
-      />
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-        style={{
-          width: 400,
-          height: 400,
-          background: "radial-gradient(ellipse at center, rgba(167,139,250,0.06) 0%, transparent 60%)",
-          filter: "blur(40px)",
-        }}
-      />
-
       <div className="max-w-3xl mx-auto text-center relative z-10">
         <motion.div
           ref={ref}
@@ -838,8 +761,6 @@ function FreelanceDownloadCTA() {
           animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#fbbf24" }}>💼 Ready to start?</p>
-
           <h2
             className="font-bold leading-[1.05] tracking-tight text-text-primary whitespace-nowrap"
             style={{ fontSize: "clamp(1.8rem, 4.5vw, 4.5rem)" }}
@@ -886,12 +807,7 @@ function FreelanceDownloadCTA() {
               {/* Download button — clean white Apple style */}
               <a
                 href={DOWNLOAD_URL}
-                className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-3 text-sm font-semibold transition-all duration-300 hover:scale-105 hover:brightness-105 sm:w-auto sm:px-8"
-                style={{
-                  background: "rgba(255,255,255,0.93)",
-                  color: "#0a0f1c",
-                  boxShadow: "0 2px 20px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.12)",
-                }}
+                className="inline-flex w-full items-center justify-center gap-2.5 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-[#0a0f1c] transition-colors hover:bg-white/90 sm:w-auto"
               >
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
@@ -903,15 +819,7 @@ function FreelanceDownloadCTA() {
               <a
                 data-butterfly-cta="true"
                 href="https://buy.polar.sh/polar_cl_vlLVUrxnBszMR59XsC2pmP5R3rmcqAgll5B501xt17D"
-                className="inline-flex w-full items-center justify-center gap-2.5 rounded-full px-7 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.04] hover:brightness-110 active:scale-[0.98] sm:w-auto sm:px-8"
-                style={{
-                  background: "linear-gradient(155deg, rgba(7,23,43,0.97) 0%, rgba(6,13,24,0.96) 50%, rgba(7,20,36,0.97) 100%)",
-                  color: "#e8f4ff",
-                  border: "1.5px solid rgba(77,159,255,0.45)",
-                  boxShadow: "0 0 0 1px rgba(77,159,255,0.12), 0 8px 32px rgba(30,120,255,0.28), 0 2px 12px rgba(77,159,255,0.18)",
-                  backdropFilter: "blur(12px)",
-                  WebkitBackdropFilter: "blur(12px)",
-                }}
+                className="inline-flex w-full items-center justify-center gap-2.5 rounded-lg border border-white/25 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/[0.07] sm:w-auto"
               >
                 Start Flow — $7.99/mo
               </a>
@@ -921,22 +829,7 @@ function FreelanceDownloadCTA() {
             </p>
           </div>
 
-          {/* Feature pills */}
-          <div className="flex flex-wrap justify-center gap-2 mt-4">
-            {["No account", "Local-first", "Free to start", "AI-powered"].map((item) => (
-              <span
-                key={item}
-                className="text-xs px-3 py-1 rounded-full"
-                style={{
-                  background: "rgba(57,255,20,0.08)",
-                  border: "1px solid rgba(57,255,20,0.18)",
-                  color: "#39FF14",
-                }}
-              >
-                ✓ {item}
-              </span>
-            ))}
-          </div>
+          <p className="mt-2 text-sm text-white/50">No account · Local-first · Free to start</p>
         </motion.div>
       </div>
     </section>
@@ -1601,29 +1494,22 @@ function HiveFeaturesCarousel() {
           <div key={pi} className="w-full shrink-0 snap-start flex flex-col gap-3">
             {page.map((f) => {
               const Icon = HIVE_FEATURE_ICONS[f.title] ?? BarChart3;
-              const glowColor = `${f.color}24`;
-              const softGlowColor = `${f.color}12`;
               const isAI = f.title.includes("AI") || f.title.includes("Pricing");
               return (
                 <div
                   key={f.title}
                   className="relative flex min-h-[100px] flex-col gap-2.5 overflow-hidden rounded-[20px] p-4 pb-5"
                   style={{
-                    background: `linear-gradient(145deg, rgba(12,12,14,0.94) 0%, rgba(6,6,8,0.86) 72%), radial-gradient(circle at 86% 10%, ${softGlowColor}, transparent 42%)`,
-                    border: "1px solid rgba(255,255,255,0.11)",
-                    borderTop: "1px solid rgba(255,255,255,0.2)",
+                    background: "#0b0d10",
+                    border: "1px solid rgba(255,255,255,0.1)",
                   }}
                 >
-                  <div
-                    className="pointer-events-none absolute inset-px rounded-[25px] opacity-80"
-                    style={{ background: "linear-gradient(140deg, rgba(255,255,255,0.07) 0%, transparent 28%, transparent 70%, rgba(255,255,255,0.035) 100%)", zIndex: 0 }}
-                  />
                   <div className="relative flex items-center justify-between" style={{ zIndex: 1 }}>
                     <div
                       className="relative flex h-9 w-9 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl"
                       style={{
-                        background: `linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.035)), radial-gradient(circle at 50% 0%, ${glowColor}, transparent 62%)`,
-                        border: "1px solid rgba(255,255,255,0.15)",
+                        background: "rgba(255,255,255,0.06)",
+                          border: "1px solid rgba(255,255,255,0.12)",
                       }}
                     >
                       <Icon aria-hidden="true" className="relative h-4 w-4 text-white/90" strokeWidth={1.9} />
@@ -1631,7 +1517,7 @@ function HiveFeaturesCarousel() {
                     {isAI && (
                       <span
                         className="rounded-full px-2.5 py-1 text-[10px] font-bold tracking-wider"
-                        style={{ background: "linear-gradient(135deg, #6d28d9, #4f46e5)", color: "#fff", boxShadow: "0 10px 24px rgba(109,40,217,0.35)" }}
+                        style={{ color: "rgba(255,255,255,0.7)", border: "1px solid rgba(255,255,255,0.2)" }}
                       >
                         AI
                       </span>
@@ -1659,7 +1545,7 @@ function HiveFeaturesCarousel() {
             style={{
               width: activePage === i ? "1.5rem" : "0.375rem",
               height: "0.375rem",
-              background: activePage === i ? "rgba(251,191,36,0.9)" : "rgba(255,255,255,0.2)",
+              background: activePage === i ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.2)",
             }}
           />
         ))}
@@ -1704,14 +1590,7 @@ export default function FreelancePage() {
             <>
               Your freelance business.<br className="hidden sm:block" />
               {" "}
-              <span style={{
-                background: "linear-gradient(90deg, #4d9fff 0%, #a78bfa 32%, #f472b6 58%, #ff453a 82%, #ff453a 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}>
-                One Board.
-              </span>
+              <span className="text-white/55">One Board.</span>
             </>
           ) : (
             <>Where Did<br />Everything Go?</>
@@ -1741,7 +1620,7 @@ export default function FreelancePage() {
         >
           <button
             onClick={() => setLampOn(!lampOn)}
-            className="flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
+            className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 hover:bg-white/[0.1]"
             style={{
               background: lampOn ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.04)",
               color: lampOn ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.3)",
@@ -1761,8 +1640,7 @@ export default function FreelancePage() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3 }}
               href={DOWNLOAD_URL}
-              className="flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold transition-all hover:-translate-y-0.5 hover:scale-[1.03]"
-              style={{ background: "linear-gradient(135deg, #ffffff, #d1d5db)", color: "#000", boxShadow: "0 8px 28px rgba(255,255,255,0.15)" }}
+              className="flex items-center gap-2 rounded-lg bg-white px-5 py-2 text-sm font-semibold text-black transition-colors hover:bg-white/90"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
@@ -1799,13 +1677,8 @@ export default function FreelancePage() {
       <section id="features" className="px-4 py-20 sm:py-28">
         <div className="mx-auto max-w-[1280px]">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-14">
-            <span
-              className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 text-white"
-            >
-              Everything you need
-            </span>
             <h2 className="text-3xl font-bold sm:text-5xl mb-4">Built for how freelancers actually work</h2>
-            <p className="mx-auto max-w-xl text-base" style={{ color: "rgba(255,255,255,0.45)" }}>
+            <p className="mx-auto max-w-xl text-base" style={{ color: "rgba(255,255,255,0.6)" }}>
               Every module connects — complete a project, trigger an invoice, client approves, contract signed. All without leaving your dashboard.
             </p>
           </motion.div>
@@ -1818,8 +1691,6 @@ export default function FreelancePage() {
             {HIVE_FEATURES.map((f, i) => (
               (() => {
                 const Icon = HIVE_FEATURE_ICONS[f.title] ?? BarChart3;
-                const glowColor = `${f.color}24`;
-                const softGlowColor = `${f.color}12`;
                 const isAI = f.title.includes("AI") || f.title.includes("Pricing");
 
                 return (
@@ -1829,47 +1700,24 @@ export default function FreelancePage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "0px 0px -40px 0px" }}
                     transition={{ duration: 0.5, delay: i * 0.055, ease: [0.22, 1, 0.36, 1] }}
-                    whileHover={{ y: -6, scale: 1.015, transition: { duration: 0.22, ease: "easeOut" } }}
+                    whileHover={{ y: -3, transition: { duration: 0.2, ease: "easeOut" } }}
                     className="group relative flex min-h-[160px] cursor-pointer flex-col gap-2.5 overflow-hidden rounded-[20px] p-4 pb-5 sm:p-5 sm:pb-6"
                     style={{
-                      background: `linear-gradient(145deg, rgba(12,12,14,0.94) 0%, rgba(6,6,8,0.86) 72%), radial-gradient(circle at 86% 10%, ${softGlowColor}, transparent 42%)`,
-                      border: "1px solid rgba(255,255,255,0.11)",
-                      borderTop: "1px solid rgba(255,255,255,0.2)",
+                      background: "#0b0d10",
+                    border: "1px solid rgba(255,255,255,0.1)",
                       contain: "layout paint style",
                       willChange: "transform",
                     }}
                   >
-                    <div
-                      className="pointer-events-none absolute inset-px rounded-[25px] opacity-80"
-                      style={{
-                        background: "linear-gradient(140deg, rgba(255,255,255,0.07) 0%, transparent 28%, transparent 70%, rgba(255,255,255,0.035) 100%)",
-                        zIndex: 0,
-                      }}
-                    />
-                    <div
-                      className="pointer-events-none absolute inset-0 rounded-[26px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                      style={{
-                        background: `radial-gradient(circle at 22% 12%, rgba(255,255,255,0.1), transparent 30%), radial-gradient(circle at 82% 78%, ${glowColor}, transparent 42%)`,
-                        zIndex: 0,
-                      }}
-                    />
-                    <div
-                      className="pointer-events-none absolute left-6 right-6 top-0 h-px opacity-50 transition-opacity duration-500 group-hover:opacity-100"
-                      style={{ background: `linear-gradient(to right, transparent, ${f.color}80, rgba(255,255,255,0.45), transparent)` }}
-                    />
 
                     <div className="relative flex items-center justify-between" style={{ zIndex: 1 }}>
                       <div
                         className="relative flex h-9 w-9 sm:h-12 sm:w-12 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl sm:rounded-2xl transition-all duration-500 group-hover:-translate-y-0.5"
                         style={{
-                          background: `linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.035)), radial-gradient(circle at 50% 0%, ${glowColor}, transparent 62%)`,
-                          border: "1px solid rgba(255,255,255,0.15)",
+                          background: "rgba(255,255,255,0.06)",
+                          border: "1px solid rgba(255,255,255,0.12)",
                         }}
                       >
-                        <span
-                          className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                          style={{ background: `radial-gradient(circle at 50% 50%, ${glowColor}, transparent 68%)` }}
-                        />
                         <Icon
                           aria-hidden="true"
                           className="relative h-4 w-4 sm:h-5 sm:w-5 text-white/90 transition-all duration-500 group-hover:scale-110 group-hover:text-white"
@@ -1880,11 +1728,7 @@ export default function FreelancePage() {
                       {isAI && (
                         <span
                           className="rounded-full px-2.5 py-1 text-[10px] font-bold tracking-wider transition-transform duration-500 group-hover:-translate-y-0.5"
-                          style={{
-                            background: "linear-gradient(135deg, #6d28d9, #4f46e5)",
-                            color: "#fff",
-                            boxShadow: "0 10px 24px rgba(109,40,217,0.35)",
-                          }}
+                          style={{ color: "rgba(255,255,255,0.7)", border: "1px solid rgba(255,255,255,0.2)" }}
                         >
                           AI
                         </span>
@@ -1908,14 +1752,6 @@ export default function FreelancePage() {
                     >
                       <FeaturePreview title={f.title} color={f.color} />
                     </div>
-
-                    <div
-                      className="absolute bottom-0 left-7 right-7 h-px rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                      style={{
-                        background: `linear-gradient(to right, transparent, ${f.color}, transparent)`,
-                        zIndex: 1,
-                      }}
-                    />
                   </motion.div>
                 );
               })()

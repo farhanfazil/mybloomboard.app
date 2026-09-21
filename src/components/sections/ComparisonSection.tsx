@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { ChevronDown, BarChart2, Check, Minus, Video } from "lucide-react";
+import { ChevronDown, Check, Minus, Video } from "lucide-react";
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
@@ -167,8 +167,8 @@ function ComparisonTable({
   return (
     <div className="mb-10">
       <div className="mb-5">
-        <h3 className="text-lg font-bold text-white sm:text-xl">{title}</h3>
-        <p className="mt-1 text-sm text-white/40">{subtitle}</p>
+        <h3 className="text-lg font-semibold text-white sm:text-xl">{title}</h3>
+        <p className="mt-1 text-sm text-white/55">{subtitle}</p>
       </div>
 
       <div
@@ -297,11 +297,6 @@ export default function ComparisonSection({
       {/* Heading + toggle button */}
       <div className="relative mx-auto max-w-5xl">
         <div className="flex flex-col items-center gap-4 text-center">
-          <span
-            className="inline-block text-xs font-bold uppercase tracking-widest text-white"
-          >
-            How We Stack Up
-          </span>
           <h2 className="text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
             See how BloomBoard compares.
           </h2>
@@ -315,18 +310,9 @@ export default function ComparisonSection({
 
           <button
             onClick={handleToggle}
-            className="mt-2 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
-            style={{
-              background: open
-                ? "rgba(18,62,90,0.3)"
-                : "linear-gradient(155deg, rgba(26,80,112,0.97) 0%, rgba(18,62,90,0.97) 50%, rgba(22,72,103,0.97) 100%)",
-              border: open ? "1px solid rgba(74,140,180,0.35)" : "1.5px solid rgba(74,140,180,0.7)",
-              color: "#fff",
-              boxShadow: open ? "none" : "0 8px 32px rgba(18,62,90,0.55)",
-            }}
+            className="mt-1 inline-flex items-center gap-1.5 rounded-lg border border-white/20 px-4 py-2 text-sm font-medium text-white/85 transition-colors hover:bg-white/[0.06] hover:text-white"
           >
-            <BarChart2 className="h-4 w-4" />
-            {open ? "Hide Comparison" : "Comparison"}
+            {open ? "Hide comparison" : "Show comparison"}
             <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }}>
               <ChevronDown className="h-4 w-4" />
             </motion.span>
