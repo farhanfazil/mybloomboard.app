@@ -79,89 +79,6 @@
     }
   }
 
-  function demPersonalizeText(text) {
-    if (!text) return text;
-    return String(text)
-      .replace(/\bFarhan\s+Fazil\b/gi, 'You')
-      .replace(/\bFarhan\b/gi, 'there')
-      .replace(/, there!/g, '!')
-      .replace(/Hey there!/g, 'Hey!')
-      .replace(/great work, there/gi, 'great work')
-      .replace(/for there\b/gi, 'for you')
-      .replace(/Address there by name/gi, 'Address the user warmly');
-  }
-
-  function sanitizeBloomHistory() {
-    try {
-      var key = 'bloombooard-bloom-history-v1';
-      var hist = JSON.parse(localStorage.getItem(key) || '[]');
-      var changed = false;
-      hist = hist.map(function (m) {
-        if (m.text) {
-          var t = demPersonalizeText(m.text);
-          if (t !== m.text) {
-            m.text = t;
-            changed = true;
-          }
-        }
-        if (m.rawResponse) {
-          var r = demPersonalizeText(m.rawResponse);
-          if (r !== m.rawResponse) {
-            m.rawResponse = r;
-            changed = true;
-          }
-        }
-        return m;
-      });
-      if (changed) localStorage.setItem(key, JSON.stringify(hist));
-      return hist;
-    } catch (e) {
-      return [];
-    }
-  }
-
-  function seedDemoNotes() {
-    var now = Date.now();
-    var hour = 3600000;
-    try {
-      localStorage.setItem(
-        'bloomboard-notes-v1',
-        JSON.stringify([
-          {
-            id: 'demo-note-1', title: 'Onboarding checklist ideas',
-            body: '• Welcome email with quick-start video\n• Sample workspace pre-loaded with tasks\n• Highlight AI assistant on day 1\n• Follow-up nudge after 3 days if no boards created',
-            pinned: true, pinHash: '', createdAt: now - hour * 5, updatedAt: now - hour * 2,
-          },
-          {
-            id: 'demo-note-2', title: 'Client call notes — Acme Corp',
-            body: 'Discussed Q3 renewal. They want:\n• Custom reporting export\n• SSO support\n• Dedicated Slack channel\nFollow up with pricing by Friday.',
-            pinned: false, pinHash: '', createdAt: now - hour * 30, updatedAt: now - hour * 28,
-          },
-          {
-            id: 'demo-note-3', title: 'Password vault (try locking me)',
-            body: 'Server: 10.0.4.12\nAdmin panel creds are in 1Password under "Infra".\n\nClick the lock icon above to set a PIN on this note.',
-            pinned: false, pinHash: '', createdAt: now - hour * 50, updatedAt: now - hour * 48,
-          },
-        ])
-      );
-      localStorage.setItem(
-        'bb-trash-v1',
-        JSON.stringify([
-          {
-            id: 'demo-trash-1', type: 'task', label: 'Old landing page copy draft',
-            deletedAt: now - hour * 6,
-            restoreData: { task: { id: 'demo-restored-1', title: 'Old landing page copy draft', desc: 'Superseded by v2 messaging.', notes: '', done: false, status: 'pending', priority: 'low', deadline: null, project: null, subtasks: [], createdAt: now - hour * 200, comments: [] } },
-          },
-          {
-            id: 'demo-trash-2', type: 'task', label: 'Duplicate onboarding task',
-            deletedAt: now - hour * 30,
-            restoreData: { task: { id: 'demo-restored-2', title: 'Duplicate onboarding task', desc: '', notes: '', done: false, status: 'pending', priority: 'medium', deadline: null, project: null, subtasks: [], createdAt: now - hour * 220, comments: [] } },
-          },
-        ])
-      );
-    } catch (e) {}
-  }
-
   function ensureDemoData() {
     try {
       var mode = getDemoWorkspaceMode();
@@ -176,49 +93,25 @@
         window.bbSeedTeamWorkspace(DEMO_MEMBERS);
         mode = 'team';
       }
-      seedDemoNotes();
+
+      /* A workspace switch reloads the page; keep the theme the visitor picked. */
+      var carried = sessionStorage.getItem('bb-demo-carry-theme');
+      if (carried) {
+        sessionStorage.removeItem('bb-demo-carry-theme');
+        localStorage.setItem('bb-theme', carried);
+      }
 
       localStorage.setItem('bb-workspace-mode', mode);
       localStorage.setItem('bb-workspace-onboarded', '1');
       localStorage.removeItem('bb-workspace-locked');
       localStorage.removeItem('bb-workspace-category');
       localStorage.removeItem('bb-dev-preview-product');
-      localStorage.setItem('bloom-profile-name', 'You');
-      sanitizeBloomHistory();
-
-      if (mode === 'team' && typeof window.bbPurgeNonDemoChats === 'function') {
-        window.bbPurgeNonDemoChats();
-      }
     } catch (e) {
       console.warn('[BB Demo] ensureDemoData failed', e);
     }
   }
 
-  function patchChatSupa() {
-    var tries = 0;
-    var timer = setInterval(function () {
-      tries++;
-      if (window._chatSupa && !window._chatSupa._demoPatched) {
-        var noopAsync = function () {
-          return Promise.resolve();
-        };
-        window._chatSupa.pullConvs = noopAsync;
-        window._chatSupa.pullMsgs = noopAsync;
-        window._chatSupa.pushConv = noopAsync;
-        window._chatSupa.pushMsg = noopAsync;
-        window._chatSupa.subscribeConv = function () {};
-        window._chatSupa.sendTyping = function () {};
-        window._chatSupa._demoPatched = true;
-      }
-      if (getDemoWorkspaceMode() === 'team' && typeof window.bbPurgeNonDemoChats === 'function') {
-        window.bbPurgeNonDemoChats();
-      }
-      if (tries > 120) clearInterval(timer);
-    }, 100);
-  }
-
   ensureDemoData();
-  patchChatSupa();
 
   /* ── Avatar manifest cache ── */
   var _avatarManifest = null;
@@ -272,7 +165,6 @@
     transcribeAudio: rejectDemo,
     exportPDF: rejectDemo,
     generateEmail: rejectDemo,
-    uploadChatImage: rejectDemo,
     uploadPage: rejectDemo,
     uploadAssetFile: rejectDemo,
     deleteAssetFile: rejectDemo,
@@ -362,6 +254,39 @@
       return Promise.resolve([]);
     },
     flClearActions: noop,
+    /* Chat attachments stay in memory as data URLs — gone on refresh, like every demo edit. */
+    uploadChatImage: function (p) {
+      return Promise.resolve({ url: (p && p.dataUrl) || null });
+    },
+    uploadChatFile: function (p) {
+      return Promise.resolve({ url: (p && p.dataUrl) || null });
+    },
+    downloadChatImage: function (p) {
+      var a = document.createElement('a');
+      a.href = (p && p.src) || '';
+      a.download = ((p && p.suggestedName) || 'bloomboard-image') + '.png';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      return Promise.resolve({ ok: true });
+    },
+    readTaskImage: function () {
+      return Promise.resolve(null);
+    },
+    getAppVersion: function () {
+      return Promise.resolve(window.BB_APP_VERSION || '');
+    },
+    checkForUpdates: function () {
+      return Promise.resolve({ state: 'idle' });
+    },
+    getUpdateStatus: function () {
+      return Promise.resolve({ state: 'idle' });
+    },
+    installUpdate: noop,
+    moveToApplications: noop,
+    onUpdateStatus: function () {
+      return noop;
+    },
   };
 
   /* ── Demo UI helpers ── */
@@ -441,89 +366,6 @@
     return overlay;
   }
 
-  function applyDemoWorkspaceSwitch(mode) {
-    if (mode !== 'freelance' && typeof window.closeFreelance === 'function') {
-      window.closeFreelance(true);
-    }
-
-    var teamOverlays = ['team-auth-overlay', 'team-dashboard-overlay'];
-    teamOverlays.forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) {
-        el.classList.remove('open');
-        el.style.display = 'none';
-      }
-    });
-
-    if (typeof window.closeBloom === 'function') {
-      var bloomPanel = document.getElementById('bloom-panel');
-      if (bloomPanel && bloomPanel.classList.contains('open')) {
-        window.closeBloom();
-      }
-    }
-
-    if (mode === 'freelance') {
-      if (typeof window.applyWorkspaceShell === 'function') {
-        window.applyWorkspaceShell('freelance');
-      }
-      if (typeof window.openFreelance === 'function') {
-        window.openFreelance();
-      }
-    } else if (mode === 'team') {
-      if (typeof window.applyWorkspaceShell === 'function') {
-        window.applyWorkspaceShell('team');
-      }
-      var teamLayout = document.querySelector('.layout');
-      if (teamLayout) teamLayout.style.display = '';
-      if (typeof window.switchMainTab === 'function') {
-        window.switchMainTab('tasks');
-      }
-    } else {
-      if (typeof window.applyWorkspaceShell === 'function') {
-        window.applyWorkspaceShell('personal');
-      }
-      var layout = document.querySelector('.layout');
-      if (layout) layout.style.display = '';
-      if (typeof window.switchMainTab === 'function') {
-        window.switchMainTab('tasks');
-      }
-    }
-
-    if (typeof window.syncWorkspaceModeUI === 'function') {
-      window.syncWorkspaceModeUI();
-    }
-  }
-
-  function refreshDemoWorkspaceUI() {
-    var mode = getDemoWorkspaceMode();
-
-    if (typeof window.loadTasks === 'function') window.loadTasks();
-    if (typeof window.renderTaskList === 'function') window.renderTaskList();
-    if (typeof window.loadEvents === 'function') window.loadEvents();
-    if (typeof window.renderEvents === 'function') window.renderEvents();
-    if (typeof window.renderVacations === 'function') window.renderVacations();
-
-    if (mode === 'team' && typeof window.bbPurgeNonDemoChats === 'function') {
-      window.bbPurgeNonDemoChats();
-    }
-
-    if (typeof window.updatePlanUI === 'function') {
-      window.updatePlanUI(getDemoLicense().tier);
-    }
-    if (typeof window.syncTeamDashboardButtons === 'function') {
-      window.syncTeamDashboardButtons();
-    }
-    if (mode === 'team') {
-      if (typeof window.updateBellBadge === 'function') window.updateBellBadge();
-      if (typeof window.chatUpdateUnreadBadge === 'function') window.chatUpdateUnreadBadge();
-    }
-
-    applyDemoPlanLabel();
-    addLockBadges();
-    fixBloomBubble();
-    updateSwitcherActiveState();
-  }
-
   window.bbDemoSwitchWorkspace = function (mode) {
     if (['personal', 'freelance', 'team'].indexOf(mode) < 0) return;
     if (_demoWsSwitching || mode === getDemoWorkspaceMode()) return;
@@ -564,24 +406,17 @@
     overlay.classList.add('visible');
     overlay.setAttribute('aria-hidden', 'false');
 
-    safetyTimer = setTimeout(finishSwitch, 1000);
+    safetyTimer = setTimeout(finishSwitch, 4000);
 
-    requestAnimationFrame(function () {
-      setTimeout(function () {
-        try {
-          ensureDemoData();
-          applyDemoWorkspaceSwitch(mode);
-          refreshDemoWorkspaceUI();
-        } catch (e) {
-          console.warn('[BB Demo] workspace switch failed', e);
-        }
-        clearTimeout(safetyTimer);
-        setTimeout(function () {
-          finishSwitch();
-          syncDemoSwitcherOffset();
-        }, 220);
-      }, 160);
-    });
+    /* A full reload is the only clean switch: the team workspace is signed in
+       to the fake backend (realtime channels, simulation), the others are not. */
+    try {
+      var theme = localStorage.getItem('bb-theme');
+      if (theme) sessionStorage.setItem('bb-demo-carry-theme', theme);
+    } catch (e) {}
+    setTimeout(function () {
+      location.reload();
+    }, 160);
   };
 
   function updateSwitcherActiveState() {
@@ -878,7 +713,14 @@
       window.syncWorkspaceModeUI = function () {
         var mode = getDemoWorkspaceMode();
         try {
-          localStorage.setItem('bb-workspace-mode', mode);
+          /* A workspace switch reloads the page; keep the theme the visitor picked. */
+      var carried = sessionStorage.getItem('bb-demo-carry-theme');
+      if (carried) {
+        sessionStorage.removeItem('bb-demo-carry-theme');
+        localStorage.setItem('bb-theme', carried);
+      }
+
+      localStorage.setItem('bb-workspace-mode', mode);
           localStorage.setItem('bb-workspace-onboarded', '1');
         } catch (e) {}
 
@@ -1064,6 +906,8 @@
     var embedHome = /[?&]embed=home/.test(location.search);
     style.textContent =
       '#drag-strip{display:none!important}' +
+      /* Sits beside the macOS window buttons; the workspace pills replace it in the browser. */
+      '#global-home-btn{display:none!important}' +
       '.bb-web-demo-lock{margin-left:auto;font-size:10px;opacity:.85;flex-shrink:0}' +
       '.bb-web-demo-lock-bubble{position:absolute;top:-4px;right:-4px;font-size:11px;pointer-events:none}' +
       '.layout{position:relative!important}' +
@@ -1072,38 +916,6 @@
       '.main-area{position:relative!important}' +
       '#bloom-bubble{position:fixed!important;bottom:28px!important;right:28px!important;left:auto!important;top:auto!important;z-index:2500!important}' +
       'body:has(.bloom-panel.open) #bloom-bubble{display:none!important}' +
-      '.boards-add-category-btn{display:none!important}' +
-      '.task-card{border-left-width:4px!important}' +
-      '.task-card.status-pending:not(.status-done):not(.priority-high){border-left-color:#a78bfa!important}' +
-      '.task-card.status-ongoing:not(.status-done):not(.priority-high){border-left-color:#ffd60a!important}' +
-      '.task-card.status-done{border-left-color:#39FF14!important}' +
-      '.task-card.priority-high:not(.status-done){border-left-color:#ff453a!important}' +
-      '.task-card.overdue:not(.status-done):not(.priority-high){border-left-color:#ff453a!important}' +
-      'body.black-mode .task-card.status-pending:not(.status-done):not(.priority-high){border-left-color:#a78bfa!important}' +
-      'body.black-mode .task-card.status-ongoing:not(.status-done):not(.priority-high){border-left-color:#ffd60a!important}' +
-      'body.black-mode .task-card.status-done{border-left-color:#39FF14!important}' +
-      'body.black-mode .task-card.priority-high:not(.status-done){border-left-color:#ff453a!important}' +
-      'body.black-mode .task-card.overdue:not(.status-done):not(.priority-high){border-left-color:#ff453a!important}' +
-      'body.light-mode .task-card.status-pending:not(.status-done):not(.priority-high){border-left-color:#8b5cf6!important}' +
-      'body.light-mode .task-card.status-ongoing:not(.status-done):not(.priority-high){border-left-color:#ca8a04!important;background:rgba(255,255,255,.92)!important}' +
-      'body.light-mode .task-card.status-done{border-left-color:#22c55e!important}' +
-      'body.light-mode .task-card.priority-high:not(.status-done){border-left-color:#ef4444!important}' +
-      'body.light-mode .task-card.overdue:not(.status-done):not(.priority-high){border-left-color:#ef4444!important}' +
-      'body.light-mode .ba-section-hd{color:#4a6080!important}' +
-      'body.light-mode .ba-section-hd::after{background:rgba(0,0,0,.08)!important}' +
-      'body.light-mode .ba-card{background:#fff!important;border-color:rgba(0,0,0,.1)!important;box-shadow:0 1px 4px rgba(0,0,0,.06)!important}' +
-      'body.light-mode .ba-card:hover{background:#f8fafc!important;border-color:rgba(37,99,235,.28)!important}' +
-      'body.light-mode .ba-card-title{color:#1a2030!important}' +
-      'body.light-mode .ba-card-source{color:#5a7088!important}' +
-      'body.light-mode .ba-card-assignee-name{color:#059669!important}' +
-      'body.light-mode .ba-card-due{color:#5a7088!important}' +
-      'body.light-mode .ba-card-due.overdue{color:#dc2626!important}' +
-      'body.light-mode .ba-card-priority.high{background:rgba(239,68,68,.12)!important;color:#dc2626!important}' +
-      'body.light-mode .ba-card-priority.medium{background:rgba(245,158,11,.15)!important;color:#b45309!important}' +
-      'body.light-mode .ba-card-priority.low{background:rgba(16,185,129,.12)!important;color:#059669!important}' +
-      'body.light-mode .ba-card-status.todo{background:rgba(100,116,139,.12)!important;color:#475569!important}' +
-      'body.light-mode .ba-card-status.inprogress{background:rgba(245,158,11,.15)!important;color:#b45309!important}' +
-      'body.light-mode .ba-card-status.done{background:rgba(16,185,129,.12)!important;color:#059669!important}' +
       (embedHome
         ? 'html.bb-web-demo-embed,body.bb-web-demo-embed{height:100%;overflow:hidden;box-sizing:border-box}' +
           'body.bb-web-demo-embed{padding:0!important}'
@@ -1158,402 +970,8 @@
       'body.light-mode .bb-demo-ws-transition{background:rgba(248,250,252,.78)}' +
       'body.bb-has-ws-switcher .sidebar,body.bb-has-ws-switcher .main-area{position:relative;z-index:1}' +
       'body.bb-workspace-personal .sb-section:has(#sb-hydration){display:none!important}' +
-      'body.bb-has-ws-switcher #hydration-popup{display:none!important}' +
-      'body.bb-workspace-personal #tl-strip,body.bb-workspace-freelance #tl-strip{display:none!important}' +
-      /* Chat read receipts */
-      '.chat-receipt{display:flex;align-items:center;gap:5px;margin-top:3px;min-height:16px;font-size:10.5px;font-weight:600;color:#7d93b0;user-select:none}' +
-      '.chat-receipt:empty{display:none}' +
-      '.chat-receipt .rc-ic{width:14px;height:14px;flex:0 0 14px;overflow:visible;color:#7d93b0}' +
-      '.chat-receipt .rc-petals circle{fill:#f9a8d4}' +
-      '.chat-receipt .rc-core{fill:#fcd34d;transform-box:fill-box;transform-origin:center}' +
-      '.chat-receipt .rc-petals{transform-box:fill-box;transform-origin:center}' +
-      '.chat-receipt[data-state="part"] .rc-petals circle{fill:#f9a8d4;opacity:.55}' +
-      '.chat-receipt[data-state="seen"] .rc-lbl,.chat-receipt[data-state="part"] .rc-lbl{color:#f9a8d4}' +
-      '.chat-receipt .rc-avs{display:inline-flex}' +
-      '.chat-receipt .rc-av{width:15px;height:15px;border-radius:50%;margin-left:-4px;border:1.5px solid #0f1a2c;background-size:cover;background-position:center;display:inline-grid;place-items:center;font-size:7px;font-weight:800;color:#fff;overflow:hidden}' +
-      '.chat-receipt .rc-av:first-child{margin-left:0}' +
-      '.chat-receipt.rc-bloom .rc-petals{animation:rcBloom .8s cubic-bezier(.2,.9,.3,1.3)}' +
-      '.chat-receipt.rc-bloom .rc-core{animation:rcCore .8s ease-out}' +
-      '@keyframes rcBloom{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.15);opacity:1}100%{transform:scale(1)}}' +
-      '@keyframes rcCore{0%{transform:scale(0);opacity:0}70%{transform:scale(1.3)}100%{transform:scale(1);opacity:1}}' +
-      'body.light-mode .chat-receipt .rc-petals circle{fill:#db2777}' +
-      'body.light-mode .chat-receipt .rc-core{fill:#f59e0b}' +
-      'body.light-mode .chat-receipt .rc-av{border-color:#fff}' +
-      '@media (prefers-reduced-motion:reduce){.chat-receipt.rc-bloom .rc-petals,.chat-receipt.rc-bloom .rc-core{animation:none}}' +
-      /* What's New dialog */
-      '.bb-whatsnew-list{display:grid;gap:8px;margin:12px 0 0;padding:0;list-style:none}' +
-      '.bb-whatsnew-list li{position:relative;padding-left:16px;color:#e8f5ff;font-size:13px;line-height:1.45}' +
-      '.bb-whatsnew-list li::before{content:"";position:absolute;left:1px;top:.55em;width:6px;height:6px;border-radius:50%;background:#7dd3fc;box-shadow:0 0 8px rgba(125,211,252,.65)}' +
-      'body.light-mode .bb-whatsnew-list li{color:#123e5a}' +
-      'body.light-mode .bb-whatsnew-list li::before{background:#0e7490;box-shadow:none}' +
-      '.bb-whatsnew-sheet{max-width:440px}' +
-      '.bb-whatsnew-emoji{font-size:26px;margin-bottom:2px}' +
-      /* Resizable kanban columns */
-      '.kanban-col{position:relative}' +
-      '.bb-col-resize-handle{position:absolute;top:0;right:-4px;width:8px;height:100%;cursor:col-resize;z-index:5}' +
-      '.bb-col-resize-handle::after{content:"";position:absolute;top:0;right:3px;width:2px;height:100%;background:transparent;transition:background .15s}' +
-      '.bb-col-resize-handle:hover::after,.bb-col-resize-handle.resizing::after{background:#4d9fff}' +
-      /* @mention autocomplete for task notes */
-      '.bb-mention-menu{position:fixed;z-index:99999;min-width:200px;max-height:220px;overflow-y:auto;padding:5px;background:#16213a;border:1px solid rgba(255,255,255,.12);border-radius:11px;box-shadow:0 12px 32px rgba(0,0,0,.45)}' +
-      '.bb-mention-opt{display:flex;align-items:center;gap:8px;width:100%;padding:7px 9px;border:none;border-radius:7px;background:transparent;text-align:left;font:inherit;font-size:12.5px;font-weight:600;color:#cbd5e1;cursor:pointer}' +
-      '.bb-mention-opt:hover,.bb-mention-opt.active{background:rgba(96,165,250,.14);color:#fff}' +
-      '.bb-mention-av{width:20px;height:20px;border-radius:50%;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff}' +
-      'body.light-mode .bb-mention-menu{background:#fff;border-color:rgba(0,0,0,.1);box-shadow:0 12px 32px rgba(15,23,42,.18)}' +
-      'body.light-mode .bb-mention-opt{color:#334155}' +
-      'body.light-mode .bb-mention-opt:hover,body.light-mode .bb-mention-opt.active{background:rgba(59,130,246,.12);color:#0f172a}';
+      'body.bb-has-ws-switcher #hydration-popup{display:none!important}';
     document.head.appendChild(style);
-  }
-
-  /* ── @Mention autocomplete in task notes ── */
-  var MENTION_PEOPLE = [
-    { name: 'Sarah Chen', color: '#ef4444' }, { name: 'Marcus Lee', color: '#f97316' },
-    { name: 'Priya Patel', color: '#f59e0b' }, { name: 'James Okonkwo', color: '#10b981' },
-    { name: 'Elena Vasquez', color: '#06b6d4' }, { name: 'David Kim', color: '#3b82f6' },
-    { name: 'Rachel Brooks', color: '#8b5cf6' }, { name: 'Tom Nguyen', color: '#ec4899' },
-    { name: 'Aisha Rahman', color: '#84cc16' },
-  ];
-  var _mentionState = null; // { textarea, start, end }
-
-  function mentionInitials(name) {
-    return name.split(/\s+/).map(function (p) { return p[0]; }).join('').slice(0, 2).toUpperCase();
-  }
-  function closeMentionMenu() {
-    var m = document.getElementById('bb-mention-menu');
-    if (m) m.remove();
-    _mentionState = null;
-  }
-  function applyMention(person) {
-    if (!_mentionState) return;
-    var ta = _mentionState.textarea;
-    var val = ta.value;
-    var before = val.slice(0, _mentionState.start);
-    var after = val.slice(_mentionState.end);
-    var insert = '@' + person.name + ' ';
-    ta.value = before + insert + after;
-    var caret = (before + insert).length;
-    ta.setSelectionRange(caret, caret);
-    ta.focus();
-    closeMentionMenu();
-    ta.dispatchEvent(new Event('input', { bubbles: true }));
-  }
-  function openMentionMenu(textarea, query, start, end) {
-    closeMentionMenu();
-    var matches = MENTION_PEOPLE.filter(function (p) { return p.name.toLowerCase().indexOf(query.toLowerCase()) === 0 || !query; });
-    if (!matches.length) return;
-    _mentionState = { textarea: textarea, start: start, end: end };
-    var menu = document.createElement('div');
-    menu.id = 'bb-mention-menu';
-    menu.className = 'bb-mention-menu';
-    matches.slice(0, 6).forEach(function (p, idx) {
-      var opt = document.createElement('button');
-      opt.type = 'button';
-      opt.className = 'bb-mention-opt' + (idx === 0 ? ' active' : '');
-      opt.innerHTML = '<span class="bb-mention-av" style="background:' + p.color + '">' + mentionInitials(p.name) + '</span><span>' + p.name + '</span>';
-      opt.onmousedown = function (e) { e.preventDefault(); applyMention(p); };
-      menu.appendChild(opt);
-    });
-    document.body.appendChild(menu);
-    var r = textarea.getBoundingClientRect();
-    menu.style.left = Math.round(r.left) + 'px';
-    var top = r.top - menu.offsetHeight - 6;
-    menu.style.top = (top > 0 ? top : r.bottom + 6) + 'px';
-  }
-  function checkMentionTrigger(textarea) {
-    var val = textarea.value;
-    var caret = textarea.selectionStart;
-    var upToCaret = val.slice(0, caret);
-    var m = upToCaret.match(/@([a-zA-Z]*)$/);
-    if (!m) { closeMentionMenu(); return; }
-    openMentionMenu(textarea, m[1], caret - m[1].length - 1, caret);
-  }
-  function installMentionListeners() {
-    document.addEventListener('input', function (e) {
-      if (e.target && e.target.classList && e.target.classList.contains('task-notes-area')) {
-        checkMentionTrigger(e.target);
-      }
-    });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closeMentionMenu();
-    });
-    document.addEventListener('mousedown', function (e) {
-      var menu = document.getElementById('bb-mention-menu');
-      if (menu && !menu.contains(e.target) && !(e.target.classList && e.target.classList.contains('task-notes-area'))) closeMentionMenu();
-    });
-  }
-
-  /* ── Resizable kanban columns (pure DOM, works regardless of render internals) ── */
-  var COL_WIDTH_KEY = 'bb-demo-col-widths';
-  function loadColWidths() {
-    try { return JSON.parse(localStorage.getItem(COL_WIDTH_KEY) || '{}'); } catch (e) { return {}; }
-  }
-  function saveColWidth(colId, width) {
-    var m = loadColWidths(); m[colId] = width;
-    try { localStorage.setItem(COL_WIDTH_KEY, JSON.stringify(m)); } catch (e) {}
-  }
-  function startColResize(handle, colEl, colId) {
-    handle.addEventListener('mousedown', function (e) {
-      e.preventDefault(); e.stopPropagation();
-      var startX = e.clientX;
-      var startWidth = colEl.getBoundingClientRect().width;
-      handle.classList.add('resizing');
-      document.body.style.userSelect = 'none';
-      function onMove(ev) {
-        var w = Math.max(220, Math.min(520, startWidth + (ev.clientX - startX)));
-        colEl.style.width = w + 'px';
-        colEl.style.flexBasis = w + 'px';
-      }
-      function onUp() {
-        handle.classList.remove('resizing');
-        document.body.style.userSelect = '';
-        document.removeEventListener('mousemove', onMove);
-        document.removeEventListener('mouseup', onUp);
-        saveColWidth(colId, parseFloat(colEl.style.width) || startWidth);
-      }
-      document.addEventListener('mousemove', onMove);
-      document.addEventListener('mouseup', onUp);
-    });
-  }
-  /* ── Team Live strip ── */
-  var TL_PEOPLE = [
-    { name: 'Sarah Chen', role: 'Design Lead', status: 'live', color: '#ef4444' },
-    { name: 'Marcus Lee', role: 'Engineering', status: 'live', color: '#f97316' },
-    { name: 'Priya Patel', role: 'Marketing', status: 'live', color: '#f59e0b' },
-    { name: 'James Okonkwo', role: 'QA', status: 'away', color: '#10b981' },
-    { name: 'Elena Vasquez', role: 'Customer Success', status: 'away', color: '#06b6d4' },
-    { name: 'David Kim', role: 'Data & Analytics', status: 'off', color: '#3b82f6' },
-    { name: 'Rachel Brooks', role: 'Operations', status: 'off', color: '#8b5cf6' },
-  ];
-  var TL_STATUS_COLOR = { live: '#34d399', away: '#fbbf24', off: '#64748b' };
-  function tlInitials(name) {
-    return name.split(/\s+/).map(function (p) { return p[0]; }).join('').slice(0, 2).toUpperCase();
-  }
-  function renderTeamLiveStrip() {
-    var strip = document.getElementById('tl-strip');
-    var peopleEl = document.getElementById('tl-people');
-    var countEl = document.getElementById('tl-count');
-    if (!strip || !peopleEl) return;
-    var liveCount = TL_PEOPLE.filter(function (p) { return p.status === 'live'; }).length;
-    if (countEl) countEl.textContent = liveCount + ' online';
-    peopleEl.innerHTML = TL_PEOPLE.map(function (p) {
-      return '<div class="tl-person s-' + (p.status === 'live' ? 'live' : p.status === 'off' ? 'off' : '') + '" title="' + p.name + ' — ' + p.role + '">' +
-        '<div class="tl-avwrap" style="--tl-c:' + TL_STATUS_COLOR[p.status] + '">' +
-        '<div class="tl-av" style="background:' + p.color + '">' + tlInitials(p.name) + '</div>' +
-        '<span class="tl-status" style="background:' + TL_STATUS_COLOR[p.status] + '"></span>' +
-        '</div>' +
-        '<span class="tl-name">' + p.name.split(' ')[0] + '</span>' +
-        '<span class="tl-sub">' + (p.status === 'live' ? 'Active now' : p.status === 'away' ? 'Away' : 'Offline') + '</span>' +
-        '</div>';
-    }).join('');
-  }
-  window.tlToggleCollapsed = function () {
-    var strip = document.getElementById('tl-strip');
-    if (!strip) return;
-    var collapsed = strip.classList.toggle('tl-collapsed');
-    var btn = document.getElementById('tl-collapse');
-    if (btn) btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
-  };
-  window.tlOpenChat = function () {
-    if (typeof window.openChat === 'function') window.openChat();
-  };
-  var TL_CATCHUP_LINES = [
-    'Sarah shipped the new onboarding screens — ready for your review.',
-    'Marcus merged the API changes for the dashboard refresh.',
-    'Priya scheduled the Q3 campaign kickoff for Monday.',
-    '2 tasks were marked done since you were last online.',
-  ];
-  window.tlCatchUp = function () {
-    if (typeof showToast !== 'function') return;
-    var line = TL_CATCHUP_LINES[Math.floor(Math.random() * TL_CATCHUP_LINES.length)];
-    showToast('✨ ' + line, 4200);
-  };
-
-  /* ── Handover hub ── */
-  var HO_KEY = 'bb-demo-handover-v1';
-  function hoEsc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-  function hoInitials(name) { return name.split(/\s+/).map(function (p) { return p[0]; }).join('').slice(0, 2).toUpperCase(); }
-  function hoLoad() {
-    try {
-      var raw = localStorage.getItem(HO_KEY);
-      if (raw) return JSON.parse(raw);
-    } catch (e) {}
-    var seed = {
-      needsYou: [
-        {
-          id: 'ho-need-1', ownerName: 'Sarah Chen', ownerColor: '#ef4444', range: 'Away Sep 20 – Sep 24',
-          items: [
-            { id: 'hi-1', title: 'Review launch checklist', priority: 'high', status: 'pending' },
-            { id: 'hi-2', title: 'Approve homepage copy', priority: 'medium', status: 'pending' },
-            { id: 'hi-3', title: 'Update sprint board', priority: 'low', status: 'pending' },
-          ],
-        },
-      ],
-      covering: [
-        { ownerName: 'James Okonkwo', ownerColor: '#10b981', count: 2, until: 'Until Sep 18' },
-      ],
-      sent: [
-        { range: 'Away Sep 10 – Sep 12', chips: [{ type: 'cover', name: 'Marcus Lee', n: 2 }, { type: 'pending', name: 'Priya Patel', n: 1 }] },
-      ],
-    };
-    hoSave(seed);
-    return seed;
-  }
-  function hoSave(d) { try { localStorage.setItem(HO_KEY, JSON.stringify(d)); } catch (e) {} }
-  function hoUpdateBadge() {
-    var d = hoLoad();
-    var pending = d.needsYou.reduce(function (n, g) { return n + g.items.filter(function (i) { return i.status === 'pending'; }).length; }, 0);
-    var badge = document.getElementById('ho-badge');
-    if (badge) badge.textContent = pending ? String(pending) : '';
-  }
-  window.hoOpenHub = function () {
-    renderHoHub();
-    document.getElementById('ho-overlay').classList.add('open');
-  };
-  window.hoCloseSheet = function () {
-    document.getElementById('ho-overlay').classList.remove('open');
-  };
-  function renderHoHub() {
-    var d = hoLoad();
-    var body = document.getElementById('ho-body');
-    if (!body) return;
-    var needsYou = d.needsYou.filter(function (g) { return g.items.some(function (i) { return i.status === 'pending'; }); });
-    var needsHtml = needsYou.map(function (g) {
-      var pendingCount = g.items.filter(function (i) { return i.status === 'pending'; }).length;
-      return '<div class="ho-card need"><div class="ho-card-top">' +
-        '<span class="ho-av" style="background:' + g.ownerColor + '">' + hoInitials(g.ownerName) + '</span>' +
-        '<div class="ho-main"><div class="ho-it-title">' + hoEsc(g.ownerName) + ' · ' + pendingCount + ' item' + (pendingCount === 1 ? '' : 's') + '</div>' +
-        '<div class="ho-meta">' + hoEsc(g.range) + '</div></div>' +
-        '<button class="ho-btn teal" onclick="hoReviewGroup(\'' + g.id + '\')">Review</button>' +
-        '</div></div>';
-    }).join('');
-    var coveringHtml = d.covering.map(function (c) {
-      return '<div class="ho-card"><div class="ho-card-top">' +
-        '<span class="ho-av" style="background:' + c.ownerColor + '">' + hoInitials(c.ownerName) + '</span>' +
-        '<div class="ho-main"><div class="ho-it-title">Covering for ' + hoEsc(c.ownerName) + ' · ' + c.count + ' item' + (c.count === 1 ? '' : 's') + '</div>' +
-        '<div class="ho-meta">' + hoEsc(c.until) + '</div></div>' +
-        '</div></div>';
-    }).join('');
-    var sentHtml = d.sent.map(function (s) {
-      var chips = s.chips.map(function (c) {
-        var cls = c.type === 'cover' ? 'cover' : c.type === 'pending' ? 'pending' : 'declined';
-        var icon = c.type === 'cover' ? '🤝' : c.type === 'pending' ? '⏳' : '✕';
-        return '<span class="ho-chip ' + cls + '">' + icon + ' ' + hoEsc(c.name) + ' · ' + c.n + '</span>';
-      }).join('');
-      return '<div class="ho-card"><div class="ho-it-title">' + hoEsc(s.range) + '</div><div class="ho-meta" style="margin-top:6px">' + chips + '</div></div>';
-    }).join('');
-    var empty = !needsHtml && !coveringHtml && !sentHtml;
-    body.innerHTML =
-      (empty ? '<div class="ho-empty">No active hand-overs. Start one from an upcoming leave.</div>' : '') +
-      (needsHtml ? '<div class="ho-group">Needs your response</div>' + needsHtml : '') +
-      (coveringHtml ? '<div class="ho-group">You’re covering</div>' + coveringHtml : '') +
-      (sentHtml ? '<div class="ho-group">You handed over</div>' + sentHtml : '');
-    hoUpdateBadge();
-  }
-  window.hoReviewGroup = function (gid) {
-    var d = hoLoad();
-    var group = d.needsYou.find(function (g) { return g.id === gid; });
-    var body = document.getElementById('ho-body');
-    if (!group || !body) return;
-    var priTag = { high: 'p-high', medium: 'p-medium', low: 'p-low' };
-    body.innerHTML = '<button class="ho-btn" style="margin-bottom:10px" onclick="renderHoHubGlobal()">← Back</button>' +
-      '<div class="ho-group">' + hoEsc(group.ownerName) + ' · ' + hoEsc(group.range) + '</div>' +
-      group.items.map(function (it) {
-        if (it.status !== 'pending') {
-          return '<div class="ho-row"><div class="ho-main"><div class="ho-it-title">' + hoEsc(it.title) + '</div></div>' +
-            '<span class="ho-chip ' + (it.status === 'accepted' ? 'cover' : 'declined') + '">' + (it.status === 'accepted' ? '✓ Accepted' : '✕ Declined') + '</span></div>';
-        }
-        return '<div class="ho-row"><div class="ho-main"><div class="ho-it-title">' + hoEsc(it.title) + '</div>' +
-          '<div class="ho-meta"><span class="ho-chip ' + priTag[it.priority] + '">' + it.priority + '</span></div></div>' +
-          '<button class="ho-btn teal" onclick="hoRespondItem(\'' + group.id + '\',\'' + it.id + '\',\'accepted\')">Accept</button>' +
-          '<button class="ho-btn red" onclick="hoRespondItem(\'' + group.id + '\',\'' + it.id + '\',\'declined\')">Decline</button>' +
-          '</div>';
-      }).join('');
-  };
-  window.hoRespondItem = function (gid, itemId, status) {
-    var d = hoLoad();
-    var group = d.needsYou.find(function (g) { return g.id === gid; });
-    if (!group) return;
-    var item = group.items.find(function (i) { return i.id === itemId; });
-    if (!item) return;
-    item.status = status;
-    if (status === 'accepted') {
-      var existing = d.covering.find(function (c) { return c.ownerName === group.ownerName; });
-      if (existing) existing.count += 1;
-      else {
-        var endPart = group.range.split('–')[1];
-        d.covering.push({ ownerName: group.ownerName, ownerColor: group.ownerColor, count: 1, until: endPart ? ('Until' + endPart) : group.range });
-      }
-    }
-    hoSave(d);
-    hoUpdateBadge();
-    if (typeof showToast === 'function') showToast(status === 'accepted' ? '✅ Task accepted' : 'Declined');
-    window.hoReviewGroup(gid);
-  };
-  window.renderHoHubGlobal = function () { renderHoHub(); };
-  window.hoStartNew = function () {
-    if (typeof showToast === 'function') showToast('Starting a hand-over works from an upcoming leave in the Mac app.');
-  };
-
-  function decorateKanbanColumns() {
-    var wrap = document.getElementById('kanban-wrap');
-    if (!wrap) return;
-    var widths = loadColWidths();
-    wrap.querySelectorAll('.kanban-col[data-col-id]').forEach(function (colEl) {
-      var colId = colEl.getAttribute('data-col-id');
-      if (widths[colId]) {
-        colEl.style.width = widths[colId] + 'px';
-        colEl.style.flexBasis = widths[colId] + 'px';
-      }
-      if (colEl.querySelector('.bb-col-resize-handle')) return;
-      var handle = document.createElement('div');
-      handle.className = 'bb-col-resize-handle';
-      handle.title = 'Drag to resize column';
-      colEl.appendChild(handle);
-      startColResize(handle, colEl, colId);
-    });
-  }
-  function watchKanbanWrap() {
-    var wrap = document.getElementById('kanban-wrap');
-    if (!wrap) { setTimeout(watchKanbanWrap, 700); return; }
-    decorateKanbanColumns();
-    var mo = new MutationObserver(function () { decorateKanbanColumns(); });
-    mo.observe(wrap, { childList: true, subtree: false });
-  }
-
-  /* ── "What's New" dialog (one-time, demo highlights) ── */
-  var WHATSNEW_KEY = 'bb-demo-whatsnew-seen-v1';
-  var WHATSNEW_ITEMS = [
-    'Colored task cards — pick a vivid surface color per task',
-    'Live status pill — show teammates you’re Available, Busy, or DND',
-    'Read receipts — see when teammates have seen your chat messages',
-    'Typing indicators in Team Chat',
-    '@Mention teammates directly in task notes',
-    'Resizable task board columns',
-    '“Knock” a teammate — a friendly nudge when you need them',
-  ];
-  window.closeDemoWhatsNew = function () {
-    var m = document.getElementById('bb-whatsnew-modal');
-    if (m) m.classList.remove('visible');
-  };
-  function showDemoWhatsNew() {
-    try { if (localStorage.getItem(WHATSNEW_KEY)) return; } catch (e) {}
-    if (document.querySelector('.modal-overlay.visible')) return;
-    var wrap = document.createElement('div');
-    wrap.className = 'modal-overlay';
-    wrap.id = 'bb-whatsnew-modal';
-    wrap.onclick = function (e) { if (e.target === wrap) window.closeDemoWhatsNew(); };
-    wrap.innerHTML =
-      '<div class="modal-sheet bb-whatsnew-sheet">' +
-      '<div class="modal-topbar"><button class="modal-x-btn" onclick="closeDemoWhatsNew()">✕</button></div>' +
-      '<div class="bb-whatsnew-emoji">🌿</div>' +
-      '<div class="modal-title">What’s new in BloomBoard</div>' +
-      '<ul class="bb-whatsnew-list">' + WHATSNEW_ITEMS.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>' +
-      '<div style="display:flex;justify-content:center;margin-top:18px">' +
-      '<button class="task-color-clear" onclick="closeDemoWhatsNew()">Got it</button>' +
-      '</div>' +
-      '</div>';
-    document.body.appendChild(wrap);
-    requestAnimationFrame(function () { wrap.classList.add('visible'); });
-    try { localStorage.setItem(WHATSNEW_KEY, '1'); } catch (e) {}
   }
 
   function injectDemoBanner() {
@@ -1611,289 +1029,6 @@
     }, 100);
   }
 
-  function fixBloomDomMessages() {
-    sanitizeBloomHistory();
-    var container = document.getElementById('bloom-messages');
-    if (!container) return;
-    container.querySelectorAll('.bloom-msg-bubble').forEach(function (el) {
-      var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
-      var node;
-      while ((node = walker.nextNode())) {
-        var fixed = demPersonalizeText(node.textContent);
-        if (fixed !== node.textContent) node.textContent = fixed;
-      }
-    });
-  }
-
-  function patchBloomMessaging() {
-    var tries = 0;
-    var timer = setInterval(function () {
-      tries++;
-      sanitizeBloomHistory();
-      fixBloomDomMessages();
-
-      if (typeof window.bloomSend === 'function' && !window.bloomSend._demoSanitized) {
-        var origSend = window.bloomSend;
-        window.bloomSend = async function () {
-          await origSend.apply(this, arguments);
-          setTimeout(fixBloomDomMessages, 50);
-          setTimeout(fixBloomDomMessages, 500);
-        };
-        window.bloomSend._demoSanitized = true;
-      }
-
-      if (typeof window.bloomQuick === 'function' && !window.bloomQuick._demoSanitized) {
-        var origQuick = window.bloomQuick;
-        window.bloomQuick = async function () {
-          await origQuick.apply(this, arguments);
-          setTimeout(fixBloomDomMessages, 50);
-          setTimeout(fixBloomDomMessages, 500);
-        };
-        window.bloomQuick._demoSanitized = true;
-      }
-
-      if (typeof window.openBloom === 'function' && !window.openBloom._demoSanitized) {
-        var origOpen = window.openBloom;
-        window.openBloom = function () {
-          sanitizeBloomHistory();
-          var result = origOpen.apply(this, arguments);
-          fixBloomBubble();
-          setTimeout(fixBloomDomMessages, 50);
-          setTimeout(fixBloomDomMessages, 350);
-          return result;
-        };
-        window.openBloom._demoSanitized = true;
-      }
-
-      if (typeof window.closeBloom === 'function' && !window.closeBloom._demoSanitized) {
-        var origClose = window.closeBloom;
-        window.closeBloom = function () {
-          var result = origClose.apply(this, arguments);
-          fixBloomBubble();
-          return result;
-        };
-        window.closeBloom._demoSanitized = true;
-      }
-
-      if (tries > 150) clearInterval(timer);
-    }, 120);
-  }
-
-  /* ── Sidebar status pill (Available / Busy / DND / etc) ── */
-  var SB_STATUSES = [
-    ['available', 'Available'], ['busy', 'Busy'], ['dnd', 'Do not disturb'],
-    ['brb', 'Be right back'], ['away', 'Appear away'], ['offline', 'Appear offline']
-  ];
-  var SB_STATUS_KEY = 'bb-demo-my-status';
-  function sbStatusKey(s) {
-    s = String(s || '').toLowerCase();
-    for (var i = 0; i < SB_STATUSES.length; i++) { if (SB_STATUSES[i][0] === s) return s; }
-    return 'available';
-  }
-  function sbStatusLabel(s) {
-    var k = sbStatusKey(s);
-    for (var i = 0; i < SB_STATUSES.length; i++) { if (SB_STATUSES[i][0] === k) return SB_STATUSES[i][1]; }
-    return 'Available';
-  }
-  function sbGetMyStatus() {
-    try { return sbStatusKey(localStorage.getItem(SB_STATUS_KEY) || 'available'); } catch (e) { return 'available'; }
-  }
-  function sbSetMyStatus(k) {
-    try { localStorage.setItem(SB_STATUS_KEY, sbStatusKey(k)); } catch (e) {}
-    renderDemoStatusPill();
-  }
-  function sbCloseStatusMenu() {
-    var m = document.getElementById('sb-status-menu');
-    if (m) m.remove();
-    document.removeEventListener('mousedown', sbStatusOutside, true);
-    document.removeEventListener('keydown', sbStatusEsc, true);
-  }
-  function sbStatusOutside(e) {
-    var m = document.getElementById('sb-status-menu');
-    if (m && !m.contains(e.target) && !e.target.closest('.sb-status-btn')) sbCloseStatusMenu();
-  }
-  function sbStatusEsc(e) { if (e.key === 'Escape') sbCloseStatusMenu(); }
-
-  window.sbToggleStatusMenu = function (ev) {
-    if (ev) ev.stopPropagation();
-    if (document.getElementById('sb-status-menu')) { sbCloseStatusMenu(); return; }
-    var current = sbGetMyStatus();
-    var btn = ev && ev.currentTarget;
-    var menu = document.createElement('div');
-    menu.id = 'sb-status-menu';
-    menu.className = 'sb-status-menu';
-    menu.setAttribute('role', 'menu');
-    menu.innerHTML = SB_STATUSES.map(function (s) {
-      return '<button type="button" role="menuitemradio" aria-checked="' + (s[0] === current) + '"' +
-        ' class="sb-status-opt' + (s[0] === current ? ' active' : '') + '" data-status="' + s[0] + '">' +
-        '<span class="team-status-dot ' + s[0] + '"></span><span>' + s[1] + '</span></button>';
-    }).join('');
-    menu.addEventListener('click', function (e) {
-      var opt = e.target.closest('.sb-status-opt');
-      if (!opt) return;
-      sbCloseStatusMenu();
-      sbSetMyStatus(opt.getAttribute('data-status'));
-    });
-    document.body.appendChild(menu);
-    if (btn) {
-      var r = btn.getBoundingClientRect();
-      menu.style.left = Math.round(r.left) + 'px';
-      menu.style.top = Math.round(r.bottom + 6) + 'px';
-    }
-    setTimeout(function () {
-      document.addEventListener('mousedown', sbStatusOutside, true);
-      document.addEventListener('keydown', sbStatusEsc, true);
-    }, 0);
-  };
-
-  function renderDemoStatusPill() {
-    var statusEl = document.getElementById('sb-profile-status');
-    if (!statusEl) return;
-    var key = sbGetMyStatus();
-    statusEl.innerHTML =
-      '<button type="button" class="sb-status-btn" onclick="sbToggleStatusMenu(event)" title="Change your status">' +
-      '<span class="team-status-dot ' + key + '"></span>' +
-      '<span>' + sbStatusLabel(key) + '</span>' +
-      '<svg class="sb-status-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>' +
-      '</button>';
-    statusEl.style.display = 'flex';
-  }
-
-  /* ── Chat read receipts (simulated — no real backend) ── */
-  var RC_BUD = '<svg class="rc-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.6c2.3 1.7 3.3 3.8 3.3 5.9A3.3 3.3 0 0 1 8 11.8a3.3 3.3 0 0 1-3.3-3.3c0-2.1 1-4.2 3.3-5.9z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 11.8v2.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
-  var RC_BLOOM = '<svg class="rc-ic" viewBox="0 0 16 16" aria-hidden="true"><g class="rc-petals"><circle cx="8" cy="4.3" r="2.7"/><circle cx="11.5" cy="6.9" r="2.7"/><circle cx="10.2" cy="11" r="2.7"/><circle cx="5.8" cy="11" r="2.7"/><circle cx="4.5" cy="6.9" r="2.7"/></g><circle class="rc-core" cx="8" cy="8" r="2.1"/></svg>';
-  var _demoReceiptState = {};
-
-  function paintSeenReceipt(receipt, convId, animate) {
-    var conv = (typeof chatLoadConvs === 'function' ? chatLoadConvs() : []).find(function (c) { return c.id === convId; });
-    var me = typeof chatGetMe === 'function' ? chatGetMe() : { id: '' };
-    var others = ((conv && conv.members) || []).map(String).filter(function (id) { return id !== String(me.id); });
-    if (!others.length) return;
-    var seenId = others[Math.floor(Math.random() * others.length)];
-    var member = typeof chatMemberById === 'function' ? chatMemberById(seenId) : null;
-    var name = typeof chatMemberDisplayName === 'function' ? chatMemberDisplayName(member) : 'Teammate';
-    var isGroup = conv && conv.type === 'group';
-    receipt.dataset.state = 'seen';
-    receipt.title = 'Seen by ' + name;
-    receipt.innerHTML = RC_BLOOM + '<span class="rc-lbl">' + (isGroup ? 'Seen by' : 'Seen') + '</span>' + (isGroup ? '<span class="rc-avs"></span>' : '');
-    var avsWrap = receipt.querySelector('.rc-avs');
-    if (avsWrap) {
-      var av = document.createElement('span');
-      av.className = 'rc-av';
-      av.style.background = typeof chatAvatarColor === 'function' ? chatAvatarColor(seenId) : '#4d9fff';
-      av.textContent = typeof chatInitials === 'function' ? chatInitials(name) : '?';
-      avsWrap.appendChild(av);
-    }
-    if (animate) {
-      receipt.classList.add('rc-bloom');
-      setTimeout(function () { receipt.classList.remove('rc-bloom'); }, 900);
-    }
-  }
-
-  function addDemoReceipt(convId) {
-    var area = document.getElementById('chat-msgs-area');
-    if (!area || typeof chatLoadMsgs !== 'function' || typeof chatGetMe !== 'function') return;
-    var msgs = chatLoadMsgs(convId);
-    var me = chatGetMe();
-    var lastOwnIdx = -1;
-    for (var i = msgs.length - 1; i >= 0; i--) { if (msgs[i].senderId === me.id) { lastOwnIdx = i; break; } }
-    if (lastOwnIdx < 0) return;
-    var rows = area.querySelectorAll('.chat-msg-row');
-    var row = rows[lastOwnIdx];
-    if (!row) return;
-    var main = row.querySelector('.chat-msg-main');
-    if (!main || main.querySelector('.chat-receipt')) return;
-    var receipt = document.createElement('div');
-    receipt.className = 'chat-receipt';
-    receipt.dataset.state = 'sent';
-    receipt.innerHTML = RC_BUD + '<span class="rc-lbl">Sent</span>';
-    main.appendChild(receipt);
-
-    if (_demoReceiptState[convId] === 'seen') {
-      paintSeenReceipt(receipt, convId, false);
-      return;
-    }
-    var delay = 1600 + Math.random() * 2200;
-    setTimeout(function () {
-      _demoReceiptState[convId] = 'seen';
-      paintSeenReceipt(receipt, convId, true);
-    }, delay);
-  }
-
-  function patchChatReceipts() {
-    if (typeof window.renderChatMessages !== 'function' || window.renderChatMessages._demoPatched) return;
-    var orig = window.renderChatMessages;
-    var patched = function (convId) {
-      orig.apply(this, arguments);
-      try { addDemoReceipt(convId); } catch (e) {}
-    };
-    patched._demoPatched = true;
-    window.renderChatMessages = patched;
-  }
-
-  /* ── Typing indicator simulation ── */
-  var TYPING_NAMES = ['Sarah Chen', 'Marcus Lee', 'Priya Patel', 'James Cole', 'Elena Vasquez'];
-  function scheduleDemoTyping() {
-    var delay = 14000 + Math.random() * 20000;
-    setTimeout(function () {
-      var area = document.getElementById('chat-msgs-area');
-      if (area && area.offsetParent !== null && typeof window.chatShowPeerTyping === 'function') {
-        var name = TYPING_NAMES[Math.floor(Math.random() * TYPING_NAMES.length)];
-        window.chatShowPeerTyping('demo-typer-' + name.replace(/\s+/g, ''), name);
-      }
-      scheduleDemoTyping();
-    }, delay);
-  }
-
-  /* ── "Knock" — nudge a teammate (Team page) ── */
-  var KNOCK_REPLIES = ['Hey! Give me a sec 👋', 'On it — be right there', 'Sure, what’s up?', '👍 omw'];
-  var KNOCK_NAMES = ['Sarah Chen', 'Marcus Lee', 'Priya Patel', 'James Cole', 'Elena Vasquez'];
-
-  window.demoKnockMember = function (name) {
-    if (typeof showToast !== 'function') return;
-    showToast('👋 Knocked on ' + name);
-    var reply = KNOCK_REPLIES[Math.floor(Math.random() * KNOCK_REPLIES.length)];
-    setTimeout(function () {
-      showToast(name + ': ' + reply, 3200);
-    }, 1800 + Math.random() * 1600);
-  };
-
-  function decorateTeamKnockButtons() {
-    var grid = document.getElementById('team-members-grid');
-    if (!grid) return;
-    grid.querySelectorAll('.team-member-card').forEach(function (card) {
-      if (card.classList.contains('team-card-me')) return;
-      var actions = card.querySelector('.team-member-actions');
-      if (!actions || actions.querySelector('.demo-knock-btn')) return;
-      var nameEl = card.querySelector('.team-member-name');
-      var name = nameEl ? nameEl.textContent.trim() : 'Teammate';
-      var btn = document.createElement('button');
-      btn.className = 'team-mem-btn demo-knock-btn';
-      btn.style.color = '#4d9fff';
-      btn.textContent = '👋 Knock';
-      btn.onclick = function (e) { e.stopPropagation(); window.demoKnockMember(name); };
-      actions.appendChild(btn);
-    });
-  }
-  function watchTeamGrid() {
-    var grid = document.getElementById('team-members-grid');
-    if (!grid) { setTimeout(watchTeamGrid, 700); return; }
-    decorateTeamKnockButtons();
-    var mo = new MutationObserver(function () { decorateTeamKnockButtons(); });
-    mo.observe(grid, { childList: true, subtree: false });
-  }
-  function scheduleIncomingKnock() {
-    var delay = 32000 + Math.random() * 38000;
-    setTimeout(function () {
-      var grid = document.getElementById('team-members-grid');
-      if (grid && grid.offsetParent !== null && typeof showToast === 'function') {
-        var name = KNOCK_NAMES[Math.floor(Math.random() * KNOCK_NAMES.length)];
-        showToast('👋 ' + name + ' knocked on you — got a minute?', 4200);
-      }
-      scheduleIncomingKnock();
-    }, delay);
-  }
-
   function initDemoUI() {
     injectDemoStyles();
     if (!/[?&]embed=home/.test(location.search)) {
@@ -1908,22 +1043,11 @@
     patchLicenseAndPlanUI();
     startDemoWorkspaceBoot();
     patchDemoToast();
-    patchBloomMessaging();
     watchBloomBubble();
     interceptGatedClicks();
     var drag = document.getElementById('drag-strip');
     if (drag) drag.style.display = 'none';
     fixBloomBubble();
-    renderDemoStatusPill();
-    patchChatReceipts();
-    scheduleDemoTyping();
-    watchTeamGrid();
-    scheduleIncomingKnock();
-    watchKanbanWrap();
-    installMentionListeners();
-    renderTeamLiveStrip();
-    hoUpdateBadge();
-    setTimeout(showDemoWhatsNew, 2600);
     syncDemoSwitcherOffset();
     window.addEventListener('resize', syncDemoSwitcherOffset);
     window.addEventListener('load', function () {

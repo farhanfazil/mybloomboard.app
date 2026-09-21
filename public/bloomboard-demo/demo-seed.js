@@ -604,853 +604,248 @@
     }
   };
 
-  /* ── Team Workspace ── */
-  window.bbSeedTeamWorkspace = function (M) {
+  /* ── Team Workspace (spec §16) ──
+     Local data the app reads directly, plus the fake Supabase rows the app pulls
+     as the signed-in team: roster, conversations, messages, shared leave. */
+  window.bbSeedTeamWorkspace = function () {
     var now = Date.now();
     var hour = 3600000;
+    var min = 60000;
     var today = isoDate(0);
-    var me = M.me;
+    var demo = window.__bbDemo;
+    if (!demo) {
+      console.warn('[BB Demo] demo-supabase.js did not load; team seed skipped');
+      return;
+    }
+    var ID = demo.IDS;
+
+    var PEOPLE = [
+      { id: ID.me, name: 'Farhan Fazil', email: 'farhan@mybloomboard.app', role: 'owner', status: 'available', color: '#7c3aed', position: 'Designer', avatar: 'avatars/blooms-arctic/Winking.png' },
+      { id: ID.yasmin, name: 'Yasmin Khan', email: 'yasmin@mybloomboard.app', role: 'manager', status: 'available', color: '#14b8a6', position: 'Editor', avatar: '' },
+      { id: ID.omar, name: 'Omar Saleh', email: 'omar@mybloomboard.app', role: 'member', status: 'busy', color: '#dc2626', position: 'Motion', avatar: '' },
+      { id: ID.lina, name: 'Lina Marker', email: 'lina@mybloomboard.app', role: 'member', status: 'available', color: '#16a34a', position: 'Producer', avatar: '' },
+    ];
+    var byId = {};
+    PEOPLE.forEach(function (p) { byId[p.id] = p; });
+    function initials(name) {
+      return name.split(/\s+/).map(function (w) { return w[0]; }).join('').slice(0, 2).toUpperCase();
+    }
 
     try {
-      localStorage.setItem(
-        'bloomboard-team-v1',
-        JSON.stringify({
-          currentMemberId: me,
-          members: [
-            {
-              id: me,
-              name: 'You',
-              email: 'you@demo.app',
-              role: 'admin',
-              status: 'available',
-              color: '#3b82f6',
-              initials: 'YO',
-              position: 'Product Lead',
-              avatar: '',
-            },
-            {
-              id: M.sarah,
-              name: 'Sarah Chen',
-              email: 'sarah@demo.app',
-              role: 'manager',
-              status: 'available',
-              color: '#10b981',
-              initials: 'SC',
-              position: 'Design Lead',
-              avatar: '',
-            },
-            {
-              id: M.marcus,
-              name: 'Marcus Lee',
-              email: 'marcus@demo.app',
-              role: 'member',
-              status: 'busy',
-              color: '#f59e0b',
-              initials: 'ML',
-              position: 'Engineering',
-              avatar: '',
-            },
-            {
-              id: M.priya,
-              name: 'Priya Patel',
-              email: 'priya@demo.app',
-              role: 'member',
-              status: 'available',
-              color: '#8b5cf6',
-              initials: 'PP',
-              position: 'Marketing',
-              avatar: '',
-            },
-            {
-              id: M.james,
-              name: 'James Okonkwo',
-              email: 'james@demo.app',
-              role: 'member',
-              status: 'available',
-              color: '#06b6d4',
-              initials: 'JO',
-              position: 'QA',
-              avatar: '',
-            },
-            {
-              id: M.elena,
-              name: 'Elena Vasquez',
-              email: 'elena@demo.app',
-              role: 'member',
-              status: 'away',
-              color: '#ec4899',
-              initials: 'EV',
-              position: 'Customer Success',
-              avatar: '',
-            },
-            {
-              id: M.david,
-              name: 'David Kim',
-              email: 'david@demo.app',
-              role: 'manager',
-              status: 'available',
-              color: '#6366f1',
-              initials: 'DK',
-              position: 'Data & Analytics',
-              avatar: '',
-            },
-            {
-              id: M.rachel,
-              name: 'Rachel Brooks',
-              email: 'rachel@demo.app',
-              role: 'member',
-              status: 'busy',
-              color: '#14b8a6',
-              initials: 'RB',
-              position: 'Operations',
-              avatar: '',
-            },
-            {
-              id: M.tom,
-              name: 'Tom Nguyen',
-              email: 'tom@demo.app',
-              role: 'member',
-              status: 'available',
-              color: '#f97316',
-              initials: 'TN',
-              position: 'DevOps',
-              avatar: '',
-            },
-            {
-              id: M.aisha,
-              name: 'Aisha Rahman',
-              email: 'aisha@demo.app',
-              role: 'member',
-              status: 'available',
-              color: '#a855f7',
-              initials: 'AR',
-              position: 'Content',
-              avatar: '',
-            },
-          ],
-        })
-      );
+      /* ── Fake backend: team + roster ── */
+      demo.seed('teams', { id: ID.team, name: 'Bloom Studio', owner_id: ID.me, plan: 'team' });
+      demo.seed('team_members', PEOPLE.map(function (p, i) {
+        return {
+          team_id: ID.team, user_id: p.id, email: p.email, name: p.name, role: p.role,
+          color: p.color, position: p.position, status: p.status, avatar_url: p.avatar || null,
+          joined_at: new Date(now - (40 - i) * 24 * hour).toISOString(),
+        };
+      }));
 
-      localStorage.setItem(
-        'farhan-dash-tasks',
-        JSON.stringify([
-          {
-            id: 'demo-task-1',
-            title: 'Welcome to BloomBoard',
-            desc: 'Try editing this task, adding subtasks, or changing priority.',
-            notes: '',
-            done: false,
-            status: 'pending',
-            priority: 'high',
-            deadline: today,
-            project: null,
-            subtasks: [
-              { id: 'demo-st-1', text: 'Click + Add Task to create another', done: false },
-              { id: 'demo-st-2', text: 'Open My Boards to try kanban', done: false },
-            ],
-            createdAt: now - hour * 2,
-            comments: [],
-          },
-          {
-            id: 'demo-task-2',
-            title: 'Plan your week',
-            desc: 'Drag tasks, set deadlines, and track your milestone bar.',
-            notes: '',
-            done: false,
-            status: 'ongoing',
-            priority: 'medium',
-            deadline: isoDate(1),
-            project: null,
-            subtasks: [],
-            createdAt: now - hour * 5,
-            comments: [],
-          },
-          {
-            id: 'demo-task-3',
-            title: 'Review launch checklist',
-            desc: 'Sign off on the Product Launch board before Friday.',
-            notes: '',
-            done: false,
-            status: 'pending',
-            priority: 'high',
-            deadline: isoDate(2),
-            project: null,
-            subtasks: [],
-            createdAt: now - hour * 8,
-            comments: [],
-          },
-          {
-            id: 'demo-task-4',
-            title: 'Prep Q3 marketing brief',
-            desc: 'Share draft with Priya for feedback.',
-            notes: '',
-            done: false,
-            status: 'ongoing',
-            priority: 'medium',
-            deadline: isoDate(5),
-            project: null,
-            subtasks: [],
-            createdAt: now - hour * 12,
-            comments: [],
-          },
-          {
-            id: 'demo-task-5',
-            title: 'Ship analytics events',
-            desc: 'PostHog funnel for onboarding.',
-            notes: '',
-            done: true,
-            status: 'done',
-            priority: 'low',
-            deadline: isoDate(-3),
-            project: null,
-            subtasks: [],
-            createdAt: now - hour * 72,
-            completedAt: now - hour * 4,
-            comments: [],
-          },
-          {
-            id: 'demo-task-9',
-            title: 'Design new pricing page mockups',
-            desc: 'Delivered to marketing for review.',
-            notes: '',
-            done: true,
-            status: 'done',
-            priority: 'medium',
-            deadline: isoDate(0),
-            project: null,
-            subtasks: [],
-            createdAt: now - hour * 10,
-            completedAt: now - hour * 2,
-            comments: [],
-          },
-          {
-            id: 'demo-task-10',
-            title: 'Write Q3 marketing campaign copy',
-            desc: 'Final draft sent for approval.',
-            notes: '',
-            done: true,
-            status: 'done',
-            priority: 'medium',
-            deadline: isoDate(-1),
-            project: null,
-            subtasks: [],
-            createdAt: now - hour * 28,
-            completedAt: now - hour * 20,
-            comments: [],
-          },
-          {
-            id: 'demo-task-6',
-            title: 'Client demo dry run',
-            desc: 'Walk through the dashboard with Sarah.',
-            notes: '',
-            done: false,
-            status: 'pending',
-            priority: 'medium',
-            deadline: isoDate(7),
-            project: null,
-            subtasks: [],
-            createdAt: now - hour * 6,
-            comments: [],
-          },
-          {
-            id: 'demo-task-7',
-            title: 'Update hiring pipeline',
-            desc: 'Review engineering candidates.',
-            notes: '',
-            done: false,
-            status: 'pending',
-            priority: 'low',
-            deadline: isoDate(10),
-            project: null,
-            subtasks: [],
-            createdAt: now - hour * 20,
-            comments: [],
-          },
-          {
-            id: 'demo-task-8',
-            title: 'Quarterly OKR check-in',
-            desc: 'Update progress on team goals.',
-            notes: '',
-            done: false,
-            status: 'ongoing',
-            priority: 'high',
-            deadline: isoDate(14),
-            project: null,
-            subtasks: [],
-            createdAt: now - hour * 30,
-            comments: [],
-          },
-        ])
-      );
+      /* Lina's leave next week, visible to the team (spec: back Sep 30). */
+      demo.seed('shared_leaves', {
+        id: 'demo-leave-lina', team_id: ID.team, owner_id: ID.lina, title: 'Family trip', vac_type: 'Vacation',
+        date_start: isoDate(6), date_end: isoDate(9), deleted: false,
+      });
 
-      localStorage.setItem(
-        'farhan-events',
-        JSON.stringify([
-          {
-            id: 'demo-ev-standup',
-            type: 'meeting',
-            title: 'Daily standup',
-            dateStart: today,
-            dateEnd: today,
-            time: '09:30',
-            notes: 'Zoom link in calendar invite.',
-            createdAt: now - hour * 48,
-            reminderFreq: '',
-            reminderTime: '',
-            reminderNextFire: 0,
-            reminderSnoozedUntil: 0,
-          },
-          {
-            id: 'demo-ev-sync',
-            type: 'meeting',
-            title: 'Design review',
-            dateStart: isoDate(1),
-            dateEnd: isoDate(1),
-            time: '14:00',
-            notes: 'Review launch hero and onboarding flow.',
-            createdAt: now - hour * 24,
-            reminderFreq: '',
-            reminderTime: '',
-            reminderNextFire: 0,
-            reminderSnoozedUntil: 0,
-          },
-          {
-            id: 'demo-ev-client',
-            type: 'meeting',
-            title: 'Client kickoff',
-            dateStart: isoDate(3),
-            dateEnd: isoDate(3),
-            time: '11:00',
-            notes: 'Acme Corp — product walkthrough.',
-            createdAt: now - hour * 36,
-            reminderFreq: '',
-            reminderTime: '',
-            reminderNextFire: 0,
-            reminderSnoozedUntil: 0,
-          },
-          {
-            id: 'demo-ev-reminder',
-            type: 'reminder',
-            title: 'Send invoice to client',
-            dateStart: isoDate(2),
-            dateEnd: isoDate(2),
-            time: '',
-            notes: 'Q2 consulting milestone.',
-            createdAt: now - hour * 10,
-            reminderFreq: '1h',
-            reminderTime: '09:00',
-            reminderNextFire: 0,
-            reminderSnoozedUntil: 0,
-          },
-          {
-            id: 'demo-ev-followup',
-            type: 'reminder',
-            title: 'Follow up with Marcus on API docs',
-            dateStart: isoDate(1),
-            dateEnd: isoDate(1),
-            time: '',
-            notes: '',
-            createdAt: now - hour * 8,
-            reminderFreq: '2h',
-            reminderTime: '',
-            reminderNextFire: 0,
-            reminderSnoozedUntil: 0,
-          },
-          {
-            id: 'demo-ev-vacation',
-            type: 'leave',
-            title: 'Summer break',
-            dateStart: isoDate(21),
-            dateEnd: isoDate(28),
-            time: '',
-            notes: 'Coverage: Sarah leads standup. Marcus on-call for eng.',
-            createdAt: now - hour * 96,
-            reminderFreq: '',
-            reminderTime: '',
-            reminderNextFire: 0,
-            reminderSnoozedUntil: 0,
-          },
-          {
-            id: 'demo-ev-vacation2',
-            type: 'leave',
-            title: 'Long weekend',
-            dateStart: isoDate(12),
-            dateEnd: isoDate(14),
-            time: '',
-            notes: 'Out of office — limited email.',
-            createdAt: now - hour * 72,
-            reminderFreq: '',
-            reminderTime: '',
-            reminderNextFire: 0,
-            reminderSnoozedUntil: 0,
-          },
-        ])
-      );
+      /* Local roster so names render before the first pull lands. */
+      localStorage.setItem('bloomboard-team-v1', JSON.stringify({
+        currentMemberId: ID.me,
+        members: PEOPLE.map(function (p) {
+          return {
+            id: p.id, name: p.name, email: p.email, role: p.role === 'owner' ? 'admin' : p.role,
+            status: p.status, color: p.color, initials: initials(p.name), position: p.position, avatar: p.avatar,
+          };
+        }),
+      }));
+      localStorage.setItem('bloom-avatar-v3', 'arctic:blooms-arctic/Winking.png');
+      localStorage.setItem('bloom-profile-name', 'Farhan Fazil');
 
-      localStorage.setItem(
-        'bloom-bookmarks-v1',
-        JSON.stringify([
-          { id: 'demo-bm-1', name: 'BloomBoard', url: 'https://mybloomboard.app', category: 'Project Links', note: '', createdAt: now - hour },
-          { id: 'demo-bm-2', name: 'Figma — Launch designs', url: 'https://figma.com', category: 'Design', note: '', createdAt: now - hour * 2 },
-          { id: 'demo-bm-3', name: 'GitHub Releases', url: 'https://github.com', category: 'Project Links', note: '', createdAt: now - hour * 3 },
-          { id: 'demo-bm-4', name: 'Notion wiki', url: 'https://notion.so', category: 'Operations', note: '', createdAt: now - hour * 4 },
-          { id: 'demo-bm-5', name: 'Stripe Dashboard', url: 'https://dashboard.stripe.com', category: 'Finance', note: '', createdAt: now - hour * 5 },
-          { id: 'demo-bm-6', name: 'PostHog analytics', url: 'https://posthog.com', category: 'Operations', note: '', createdAt: now - hour * 6 },
-          { id: 'demo-bm-7', name: 'Loom — Demo recording', url: 'https://loom.com', category: 'Design', note: '', createdAt: now - hour * 7 },
-          { id: 'demo-bm-8', name: 'Linear roadmap', url: 'https://linear.app', category: 'Project Links', note: '', createdAt: now - hour * 8 },
-        ])
-      );
+      /* ── Projects & tasks ── */
+      localStorage.setItem('farhan-dash-projects', JSON.stringify([
+        { id: 'proj-stctv', name: 'stc tv / U21', colorHex: '#4d9fff', emoji: '📺', sortOrder: 0 },
+        { id: 'proj-jawwy', name: 'Jawwy TV', colorHex: '#ff9f0a', emoji: '📡', sortOrder: 1 },
+        { id: 'proj-serieA', name: 'Serie A', colorHex: '#a78bfa', emoji: '⚽', sortOrder: 2 },
+        { id: 'proj-personal', name: 'Personal', colorHex: '#39FF14', emoji: '🌱', sortOrder: 3 },
+      ]));
 
-      localStorage.setItem(
-        'bloomboard-notif-v1',
-        JSON.stringify({
-          items: [
-            {
-              id: 'demo-notif-1',
-              fromName: 'Sarah Chen',
-              fromColor: '#10b981',
-              fromInitials: 'SC',
-              toId: me,
-              toName: 'You',
-              text: 'commented on Draft launch checklist',
-              linkType: 'card',
-              linkId: 'demo-card-1',
-              linkName: 'Product Launch',
-              read: false,
-              ts: now - hour,
-            },
-            {
-              id: 'demo-notif-2',
-              fromName: 'Marcus Lee',
-              fromColor: '#f59e0b',
-              fromInitials: 'ML',
-              toId: me,
-              toName: 'You',
-              text: 'mentioned you in Engineering chat',
-              linkType: 'chat',
-              linkId: 'demo-conv-grp-2',
-              linkName: 'Engineering',
-              read: false,
-              ts: now - hour * 3,
-            },
-          ],
-        })
-      );
+      function task(o) {
+        return Object.assign({
+          desc: '', notes: '', done: false, status: 'pending', priority: 'medium', deadline: null,
+          isRecurring: false, recurrenceRule: '', completedAt: null, moodTag: '', attachmentPaths: [],
+          subtasks: [], comments: [], ownerId: ID.me, cardColor: '',
+        }, o);
+      }
+      localStorage.setItem('farhan-dash-tasks', JSON.stringify([
+        task({ id: 'demo-t-u21', title: 'U21 fixture posters', project: 'proj-stctv', priority: 'urgent',
+          deadline: isoDate(-1), createdAt: now - 30 * hour, iconColorIdx: 0 }),
+        task({ id: 'demo-t-jawwy', title: 'Jawwy promo cut-downs', desc: '15s and 6s', project: 'proj-jawwy',
+          priority: 'low', cardColor: 'violet', createdAt: now - 28 * hour, iconColorIdx: 4 }),
+        task({ id: 'demo-t-serieA', title: 'Serie A Round 12 banners', project: 'proj-serieA', priority: 'high',
+          deadline: isoDate(2), createdAt: now - 20 * hour, iconColorIdx: 3,
+          assigneeId: ID.yasmin, assigneeIds: [ID.yasmin],
+          subtasks: [
+            { id: 'demo-st-1', text: 'Key visual', done: true, completedBy: ID.yasmin, completedByName: 'Yasmin Khan' },
+            { id: 'demo-st-2', text: 'Social sizes', done: false },
+            { id: 'demo-st-3', text: 'Arabic copy', done: false },
+          ] }),
+        task({ id: 'demo-t-template', title: 'Match graphics template', project: 'proj-serieA', status: 'ongoing',
+          priority: 'high', cardColor: 'electric', createdAt: now - 50 * hour, iconColorIdx: 6,
+          subtasks: [
+            { id: 'demo-st-4', text: 'Scoreboard layout', done: true, completedBy: ID.me, completedByName: 'Farhan Fazil' },
+            { id: 'demo-st-5', text: 'Lineup card', done: true, completedBy: ID.omar, completedByName: 'Omar Saleh' },
+          ] }),
+        task({ id: 'demo-t-weekly', title: 'Weekly planning', project: 'proj-personal', status: 'ongoing',
+          priority: 'medium', deadline: today, createdAt: now - 6 * hour, iconColorIdx: 1 }),
+        task({ id: 'demo-t-ident', title: 'Channel ident refresh', project: 'proj-stctv', status: 'done', done: true,
+          priority: 'medium', createdAt: now - 72 * hour, completedAt: now - 3 * hour, completedBy: ID.me, iconColorIdx: 2 }),
+        task({ id: 'demo-t-gym', title: 'Gym', project: 'proj-personal', status: 'done', done: true,
+          priority: 'low', createdAt: now - 10 * hour, completedAt: now - 2 * hour, completedBy: ID.me, iconColorIdx: 5 }),
+      ]));
 
-      var convs = [
-        {
-          id: 'demo-conv-dm-1',
-          type: 'dm',
-          name: null,
-          members: [me, M.sarah],
-          createdAt: now - hour * 48,
-          lastMsgTime: now - hour * 2,
-          lastMsgText: 'Can you review the launch checklist before standup?',
-        },
-        {
-          id: 'demo-conv-dm-2',
-          type: 'dm',
-          name: null,
-          members: [me, M.marcus],
-          createdAt: now - hour * 36,
-          lastMsgTime: now - hour * 5,
-          lastMsgText: 'API docs are ready — pushed to staging.',
-        },
-        {
-          id: 'demo-conv-dm-3',
-          type: 'dm',
-          name: null,
-          members: [me, M.priya],
-          createdAt: now - hour * 24,
-          lastMsgTime: now - hour * 8,
-          lastMsgText: 'Blog draft is ready for your review.',
-        },
-        {
-          id: 'demo-conv-grp-1',
-          type: 'group',
-          name: 'Product Launch',
-          members: [me, M.sarah, M.marcus, M.priya],
-          createdAt: now - hour * 72,
-          lastMsgTime: now - hour,
-          lastMsgText: '@You can you confirm the launch date?',
-        },
-        {
-          id: 'demo-conv-grp-2',
-          type: 'group',
-          name: 'Engineering',
-          members: [me, M.marcus, M.tom],
-          createdAt: now - hour * 96,
-          lastMsgTime: now - hour * 4,
-          lastMsgText: 'Staging deploy finished — ready for QA.',
-        },
-        {
-          id: 'demo-conv-dm-4',
-          type: 'dm',
-          name: null,
-          members: [me, M.james],
-          createdAt: now - hour * 20,
-          lastMsgTime: now - hour * 6,
-          lastMsgText: 'QA sign-off done — checklist is all green.',
-        },
-        {
-          id: 'demo-conv-dm-5',
-          type: 'dm',
-          name: null,
-          members: [me, M.elena],
-          createdAt: now - hour * 30,
-          lastMsgTime: now - hour * 9,
-          lastMsgText: 'Customer loved the onboarding flow update!',
-        },
-        {
-          id: 'demo-conv-dm-6',
-          type: 'dm',
-          name: null,
-          members: [me, M.david],
-          createdAt: now - hour * 44,
-          lastMsgTime: now - hour * 12,
-          lastMsgText: 'Dashboard retention numbers look great this week.',
-        },
-        {
-          id: 'demo-conv-dm-7',
-          type: 'dm',
-          name: null,
-          members: [me, M.tom],
-          createdAt: now - hour * 52,
-          lastMsgTime: now - hour * 15,
-          lastMsgText: 'CI pipeline is green — all checks passed.',
-        },
-        {
-          id: 'demo-conv-grp-3',
-          type: 'group',
-          name: 'Design Team',
-          members: [me, M.sarah, M.priya],
-          createdAt: now - hour * 60,
-          lastMsgTime: now - hour * 7,
-          lastMsgText: 'New component library is live in Figma!',
-        },
-        {
-          id: 'demo-conv-grp-4',
-          type: 'group',
-          name: 'Marketing & Content',
-          members: [me, M.priya, M.aisha],
-          createdAt: now - hour * 80,
-          lastMsgTime: now - hour * 11,
-          lastMsgText: 'Launch post is scheduled for Thursday.',
-        },
-        {
-          id: 'demo-conv-grp-5',
-          type: 'group',
-          name: 'All Hands',
-          members: [me, M.sarah, M.marcus, M.priya, M.james, M.elena, M.david, M.rachel, M.tom, M.aisha],
-          createdAt: now - hour * 120,
-          lastMsgTime: now - hour * 2,
-          lastMsgText: 'Great sprint everyone — ship it! 🚀',
-        },
+      /* ── Boards ── */
+      function col(id, title, color, order) { return { id: id, title: title, color: color, order: order }; }
+      function card(id, boardId, columnId, title, priority, order, assigneeId, dueOffset) {
+        return {
+          id: id, boardId: boardId, columnId: columnId, title: title, desc: '', priority: priority,
+          dueDate: dueOffset == null ? null : isoDate(dueOffset), order: order, assigneeId: assigneeId || null,
+          createdAt: new Date(now - (order + 2) * 5 * hour).toISOString(), comments: [],
+        };
+      }
+      localStorage.setItem('bloombooard-boards-v1', JSON.stringify({
+        categories: [],
+        boards: [
+          { id: 'demo-b-serieA', title: 'Serie A Matchday', desc: 'Round 12 graphics package', icon: '⚽', color: 'bc-blue',
+            bgImage: null, categoryId: null, labels: [], createdAt: new Date(now - 120 * hour).toISOString(),
+            columns: [col('demo-bc-1', 'To Do', '#6b7280', 0), col('demo-bc-2', 'In Progress', '#3b82f6', 1), col('demo-bc-3', 'Done', '#10b981', 2)] },
+          { id: 'demo-b-brand', title: 'Brand Refresh', desc: 'New identity rollout', icon: '🎨', color: 'bc-purple',
+            bgImage: null, categoryId: null, labels: [], createdAt: new Date(now - 90 * hour).toISOString(),
+            columns: [col('demo-bc-4', 'To Do', '#6b7280', 0), col('demo-bc-5', 'In Progress', '#3b82f6', 1), col('demo-bc-6', 'Done', '#10b981', 2)] },
+          { id: 'demo-b-launch', title: 'Launch Plan', desc: 'App launch checklist', icon: '🚀', color: 'bc-green',
+            bgImage: null, categoryId: null, labels: [], createdAt: new Date(now - 60 * hour).toISOString(),
+            columns: [col('demo-bc-7', 'To Do', '#6b7280', 0), col('demo-bc-8', 'In Progress', '#3b82f6', 1), col('demo-bc-9', 'Done', '#10b981', 2)] },
+        ],
+        cards: [
+          card('demo-c-1', 'demo-b-serieA', 'demo-bc-1', 'Home kit graphics', 'high', 0, ID.yasmin, 2),
+          card('demo-c-2', 'demo-b-serieA', 'demo-bc-2', 'Lineup template', 'medium', 0, ID.omar, 1),
+          card('demo-c-3', 'demo-b-serieA', 'demo-bc-2', 'Score overlay', 'low', 1, ID.me, 3),
+          card('demo-c-4', 'demo-b-serieA', 'demo-bc-3', 'Fixture poster', 'medium', 0, ID.lina, null),
+          card('demo-c-5', 'demo-b-brand', 'demo-bc-4', 'Logo lockups', 'high', 0, ID.me, 4),
+          card('demo-c-6', 'demo-b-brand', 'demo-bc-5', 'Colour palette', 'medium', 0, ID.yasmin, 2),
+          card('demo-c-7', 'demo-b-brand', 'demo-bc-6', 'Moodboard', 'low', 0, ID.omar, null),
+          card('demo-c-8', 'demo-b-launch', 'demo-bc-7', 'App Store screenshots', 'high', 0, ID.lina, 5),
+          card('demo-c-9', 'demo-b-launch', 'demo-bc-8', 'Launch video', 'medium', 0, ID.omar, 3),
+          card('demo-c-10', 'demo-b-launch', 'demo-bc-9', 'Press kit', 'low', 0, ID.me, null),
+        ],
+      }));
+
+      /* ── Chat: DMs with Yasmin, Omar, Lina + the Khaleeji Cup room ── */
+      function dmId(other) { return 'dm_' + [ID.me, other].sort().join('_'); }
+      var ROOM = 'grp_khaleeji_cup';
+      var CONVS = [
+        { id: dmId(ID.yasmin), type: 'dm', name: null, members: [ID.me, ID.yasmin], unread: 3, script: [
+          [ID.yasmin, 'Morning! Did you see the new Serie A brief?'],
+          [ID.me, 'Yes — starting the key visual now'],
+          [ID.yasmin, 'Amazing 🙌'],
+          [ID.me, 'Sending the file now'],
+          [ID.yasmin, 'The banner looks great 👏'],
+          [ID.me, 'Thanks! Social sizes next'],
+          [ID.yasmin, 'Call in 5?'],
+          [ID.me, 'Sure'],
+          [ID.yasmin, 'Approved 👍'],
+          [ID.yasmin, 'Can you check the latest export?'],
+          [ID.yasmin, '🔥🔥'],
+        ] },
+        { id: dmId(ID.omar), type: 'dm', name: null, members: [ID.me, ID.omar], unread: 3, script: [
+          [ID.omar, 'Motion pass on the lineup card is up'],
+          [ID.me, 'Looks smooth 😍'],
+          [ID.omar, 'Need the logo in white please'],
+          [ID.me, 'Sending the file now'],
+          [ID.omar, 'Got it, thanks'],
+          [ID.me, 'Can we tighten the intro to 2s?'],
+          [ID.omar, 'On it'],
+          [ID.omar, 'Done ✅'],
+          [ID.omar, '🎉'],
+          [ID.omar, 'Updated the sheet'],
+        ] },
+        { id: dmId(ID.lina), type: 'dm', name: null, members: [ID.me, ID.lina], unread: 0, script: [
+          [ID.lina, "Heads up — I'm off next week"],
+          [ID.me, 'Enjoy! Hand the Launch Plan cards over before you go?'],
+          [ID.lina, "Will do. I'll send a hand-over Thursday"],
+          [ID.me, 'Perfect 👍'],
+          [ID.lina, 'Fixture poster is final'],
+          [ID.me, 'Approved 👍'],
+          [ID.lina, '❤️'],
+          [ID.me, 'Thanks!'],
+          [ID.lina, 'Uploading the stills to the board'],
+          [ID.me, '🚀'],
+        ] },
+        { id: ROOM, type: 'group', name: 'Khaleeji Cup', members: [ID.me, ID.yasmin, ID.omar, ID.lina], unread: 0, script: [
+          [ID.lina, 'Khaleeji Cup schedule just dropped'],
+          [ID.yasmin, "Let's get the poster series going"],
+          [ID.omar, "I'll take the animated teasers"],
+          [ID.me, "I'll do the key art 🎨"],
+          [ID.yasmin, 'Call in 5?'],
+          [ID.lina, '👀'],
+          [ID.omar, 'The banner looks great 👏'],
+          [ID.me, 'Sending the file now'],
+          [ID.yasmin, 'Approved 👍'],
+          [ID.lina, '🎉'],
+        ] },
       ];
-      localStorage.setItem('bloom_chat_convs', JSON.stringify(convs));
 
-      localStorage.setItem(
-        'bloom_chat_msgs_demo-conv-dm-1',
-        JSON.stringify([
-          { id: 'dm1-1',  senderId: M.sarah, senderName: 'Sarah Chen', text: 'Morning! Working on the new hero section mockups — should have them ready by noon.', html: 'Morning! Working on the new hero section mockups — should have them ready by noon.', ts: now - hour * 9 },
-          { id: 'dm1-2',  senderId: me,      senderName: 'You',        text: 'Perfect timing. The current version feels a bit heavy on the left — can you try a more centered layout too?', html: 'Perfect timing. The current version feels a bit heavy on the left — can you try a more centered layout too?', ts: now - hour * 8.5 },
-          { id: 'dm1-3',  senderId: M.sarah, senderName: 'Sarah Chen', text: 'Good call — I will mock up a centered version alongside the current one and share both.', html: 'Good call — I will mock up a centered version alongside the current one and share both.', ts: now - hour * 8 },
-          { id: 'dm1-4',  senderId: M.sarah, senderName: 'Sarah Chen', text: 'Also dropping the updated onboarding screens in Figma now. The empty state illustrations are new.', html: 'Also dropping the updated onboarding screens in Figma now. The empty state illustrations are new.', ts: now - hour * 7 },
-          { id: 'dm1-5',  senderId: me,      senderName: 'You',        text: "Love it — the illustrations make a big difference. I'll review after standup.", html: "Love it — the illustrations make a big difference. I'll review after standup.", ts: now - hour * 6.5 },
-          { id: 'dm1-6',  senderId: M.sarah, senderName: 'Sarah Chen', text: 'Hey! I updated the hero section mockups. Centered version is in the Figma file under "Hero v3".', html: 'Hey! I updated the hero section mockups. Centered version is in the Figma file under "Hero v3".', ts: now - hour * 4 },
-          { id: 'dm1-7',  senderId: me,      senderName: 'You',        text: "Nice — I'll take a look after standup.", html: "Nice — I'll take a look after standup.", ts: now - hour * 3.5 },
-          { id: 'dm1-8',  senderId: me,      senderName: 'You',        text: 'Just reviewed both. The centered layout is the one. Sending it to Marcus for dev handoff.', html: 'Just reviewed both. The centered layout is the one. Sending it to Marcus for dev handoff.', ts: now - hour * 3 },
-          { id: 'dm1-9',  senderId: M.sarah, senderName: 'Sarah Chen', text: 'Great! One more thing — what should the CTA button say? "Get started" or "Start for free"?', html: 'Great! One more thing — what should the CTA button say? "Get started" or "Start for free"?', ts: now - hour * 2.5 },
-          { id: 'dm1-10', senderId: me,      senderName: 'You',        text: '"Start for free" — it sets expectations clearly. Let\'s lock that in.', html: '"Start for free" — it sets expectations clearly. Let\'s lock that in.', ts: now - hour * 2.2 },
-          { id: 'dm1-11', senderId: M.sarah, senderName: 'Sarah Chen', text: 'Can you review the launch checklist before standup? I added the design sign-off items.', html: 'Can you review the launch checklist before standup? I added the design sign-off items.', ts: now - hour * 2 },
-        ])
-      );
-      localStorage.setItem(
-        'bloom_chat_msgs_demo-conv-dm-2',
-        JSON.stringify([
-          { id: 'dm2-1',  senderId: M.marcus, senderName: 'Marcus Lee', text: 'Hey — found a bug in the auth refresh token flow. Users are getting logged out after 30 min.', html: 'Hey — found a bug in the auth refresh token flow. Users are getting logged out after 30 min.', ts: now - hour * 11 },
-          { id: 'dm2-2',  senderId: me,       senderName: 'You',        text: "That's a critical one. Can you prioritize it today?", html: "That's a critical one. Can you prioritize it today?", ts: now - hour * 10.5 },
-          { id: 'dm2-3',  senderId: M.marcus, senderName: 'Marcus Lee', text: 'Already on it — root cause is the token expiry check ignoring clock skew. Fix is straightforward.', html: 'Already on it — root cause is the token expiry check ignoring clock skew. Fix is straightforward.', ts: now - hour * 10 },
-          { id: 'dm2-4',  senderId: me,       senderName: 'You',        text: 'Nice detective work. Let me know when it is on staging.', html: 'Nice detective work. Let me know when it is on staging.', ts: now - hour * 9 },
-          { id: 'dm2-5',  senderId: M.marcus, senderName: 'Marcus Lee', text: 'Pushed the auth fix to staging. Also added retry logic for network timeouts while I was in there.', html: 'Pushed the auth fix to staging. Also added retry logic for network timeouts while I was in there.', ts: now - hour * 7 },
-          { id: 'dm2-6',  senderId: me,       senderName: 'You',        text: "Perfect, I'll test this afternoon. Great catch on the timeout handling.", html: "Perfect, I'll test this afternoon. Great catch on the timeout handling.", ts: now - hour * 6.5 },
-          { id: 'dm2-7',  senderId: M.marcus, senderName: 'Marcus Lee', text: 'Token refresh interval is now 25 min with a 5-min buffer. Should be bulletproof.', html: 'Token refresh interval is now 25 min with a 5-min buffer. Should be bulletproof.', ts: now - hour * 6 },
-          { id: 'dm2-8',  senderId: me,       senderName: 'You',        text: 'Tested — auth is solid. Logging out works cleanly too. Ship it.', html: 'Tested — auth is solid. Logging out works cleanly too. Ship it.', ts: now - hour * 5.5 },
-          { id: 'dm2-9',  senderId: M.marcus, senderName: 'Marcus Lee', text: 'API docs are ready — pushed to staging. Covers all the new endpoints from this sprint.', html: 'API docs are ready — pushed to staging. Covers all the new endpoints from this sprint.', ts: now - hour * 5 },
-          { id: 'dm2-10', senderId: me,       senderName: 'You',        text: 'Great. Can you share the link with Priya so she can reference it for the blog post?', html: 'Great. Can you share the link with Priya so she can reference it for the blog post?', ts: now - hour * 4.5 },
-          { id: 'dm2-11', senderId: M.marcus, senderName: 'Marcus Lee', text: 'Done — sent her the staging URL. Docs will auto-sync to prod on deploy.', html: 'Done — sent her the staging URL. Docs will auto-sync to prod on deploy.', ts: now - hour * 4 },
-        ])
-      );
-      localStorage.setItem(
-        'bloom_chat_msgs_demo-conv-dm-3',
-        JSON.stringify([
-          { id: 'dm3-1',  senderId: me,      senderName: 'You',        text: "Hey Priya — how's the launch blog post coming along?", html: "Hey Priya — how's the launch blog post coming along?", ts: now - hour * 14 },
-          { id: 'dm3-2',  senderId: M.priya, senderName: 'Priya Patel', text: 'Going really well! Intro and feature highlights are done. Working on the "why BloomBoard" section now.', html: 'Going really well! Intro and feature highlights are done. Working on the "why BloomBoard" section now.', ts: now - hour * 13.5 },
-          { id: 'dm3-3',  senderId: me,      senderName: 'You',        text: 'Make sure to lead with the privacy-first angle — that resonates a lot with our audience.', html: 'Make sure to lead with the privacy-first angle — that resonates a lot with our audience.', ts: now - hour * 13 },
-          { id: 'dm3-4',  senderId: M.priya, senderName: 'Priya Patel', text: "Already in there! Also adding a competitor comparison table — thoughts? I'm keeping it to 4 rows.", html: "Already in there! Also adding a competitor comparison table — thoughts? I'm keeping it to 4 rows.", ts: now - hour * 12.5 },
-          { id: 'dm3-5',  senderId: me,      senderName: 'You',        text: 'Love that idea — keep it simple and factual. Lead with our strengths, not their weaknesses.', html: 'Love that idea — keep it simple and factual. Lead with our strengths, not their weaknesses.', ts: now - hour * 12 },
-          { id: 'dm3-6',  senderId: M.priya, senderName: 'Priya Patel', text: 'First draft of the launch blog is in Notion. Link in the shared workspace doc.', html: 'First draft of the launch blog is in Notion. Link in the shared workspace doc.', ts: now - hour * 10 },
-          { id: 'dm3-7',  senderId: me,      senderName: 'You',        text: "Great — I'll add comments tonight. It's looking clean from a quick scan.", html: "Great — I'll add comments tonight. It's looking clean from a quick scan.", ts: now - hour * 9 },
-          { id: 'dm3-8',  senderId: M.priya, senderName: 'Priya Patel', text: "Also drafted the launch day email newsletter — want me to share that too? It's a 3-part drip sequence.", html: "Also drafted the launch day email newsletter — want me to share that too? It's a 3-part drip sequence.", ts: now - hour * 8.5 },
-          { id: 'dm3-9',  senderId: me,      senderName: 'You',        text: "Yes please — let's align the messaging across both so everything feels consistent.", html: "Yes please — let's align the messaging across both so everything feels consistent.", ts: now - hour * 8.2 },
-          { id: 'dm3-10', senderId: M.priya, senderName: 'Priya Patel', text: "Will do! I'll link them all in the Notion doc so everything is in one place.", html: "Will do! I'll link them all in the Notion doc so everything is in one place.", ts: now - hour * 8.1 },
-          { id: 'dm3-11', senderId: M.priya, senderName: 'Priya Patel', text: 'Blog draft is ready for your review. Added your comments — all addressed. 🙌', html: 'Blog draft is ready for your review. Added your comments — all addressed. 🙌', ts: now - hour * 8 },
-        ])
-      );
-      localStorage.setItem(
-        'bloom_chat_msgs_demo-conv-grp-1',
-        JSON.stringify([
-          { id: 'grp1-1',  senderId: M.priya,  senderName: 'Priya Patel',  text: 'Blog post draft is in the shared doc — everyone please take a quick look before Thursday.', html: 'Blog post draft is in the shared doc — everyone please take a quick look before Thursday.', ts: now - hour * 10 },
-          { id: 'grp1-2',  senderId: M.marcus, senderName: 'Marcus Lee',   text: 'Read it — solid work Priya. The comparison table is a nice touch.', html: 'Read it — solid work Priya. The comparison table is a nice touch.', ts: now - hour * 9.5 },
-          { id: 'grp1-3',  senderId: M.sarah,  senderName: 'Sarah Chen',   text: 'Agreed! Also — hero animation is looking smooth in the latest build. Really happy with how it turned out.', html: 'Agreed! Also — hero animation is looking smooth in the latest build. Really happy with how it turned out.', ts: now - hour * 9 },
-          { id: 'grp1-4',  senderId: me,       senderName: 'You',          text: "Nice. Let's lock designs by end of today so Marcus can do final dev handoff. Sound good?", html: "Nice. Let's lock designs by end of today so Marcus can do final dev handoff. Sound good?", ts: now - hour * 8.5 },
-          { id: 'grp1-5',  senderId: M.sarah,  senderName: 'Sarah Chen',   text: 'Works for me — designs are 95% there. Just need sign-off on the mobile nav.', html: 'Works for me — designs are 95% there. Just need sign-off on the mobile nav.', ts: now - hour * 8 },
-          { id: 'grp1-6',  senderId: M.priya,  senderName: 'Priya Patel',  text: 'Email sequence is also ready — 3-part drip for launch week. Kicking off with the blog announcement.', html: 'Email sequence is also ready — 3-part drip for launch week. Kicking off with the blog announcement.', ts: now - hour * 6 },
-          { id: 'grp1-7',  senderId: M.marcus, senderName: 'Marcus Lee',   text: 'Backend is stable on staging. 24 hours, zero errors in the logs.', html: 'Backend is stable on staging. 24 hours, zero errors in the logs.', ts: now - hour * 5 },
-          { id: 'grp1-8',  senderId: me,       senderName: 'You',          text: "That's what I want to hear. We're looking good for Thursday.", html: "That's what I want to hear. We're looking good for Thursday.", ts: now - hour * 4 },
-          { id: 'grp1-9',  senderId: M.sarah,  senderName: 'Sarah Chen',   text: 'Landing page copy looks good to me ✅ Mobile nav signed off too.', html: 'Landing page copy looks good to me ✅ Mobile nav signed off too.', ts: now - hour * 3 },
-          { id: 'grp1-10', senderId: me,       senderName: 'You',          text: '@Priya can you confirm the blog goes live at 9am Thursday? Want to sync the email and social posts to that.', html: '@Priya can you confirm the blog goes live at 9am Thursday? Want to sync the email and social posts to that.', ts: now - hour * 2 },
-          { id: 'grp1-11', senderId: M.priya,  senderName: 'Priya Patel',  text: 'Confirmed — 9am Thursday. Email goes out at 9:05, social posts at 9:10. 🚀', html: 'Confirmed — 9am Thursday. Email goes out at 9:05, social posts at 9:10. 🚀', ts: now - hour * 1.5 },
-          { id: 'grp1-12', senderId: M.marcus, senderName: 'Marcus Lee',   text: '@You can you confirm the launch date? Need to schedule the prod deploy window.', html: '@You can you confirm the launch date? Need to schedule the prod deploy window.', ts: now - hour },
-        ])
-      );
-      localStorage.setItem(
-        'bloom_chat_msgs_demo-conv-grp-2',
-        JSON.stringify([
-          { id: 'grp2-1',  senderId: M.tom,    senderName: 'Tom Nguyen',   text: 'Infrastructure is prepped for the release — bumped server capacity by 20% ahead of launch traffic.', html: 'Infrastructure is prepped for the release — bumped server capacity by 20% ahead of launch traffic.', ts: now - hour * 10 },
-          { id: 'grp2-2',  senderId: M.marcus, senderName: 'Marcus Lee',   text: 'Nice. I will make sure the build artifacts are clean before we push to prod.', html: 'Nice. I will make sure the build artifacts are clean before we push to prod.', ts: now - hour * 9.5 },
-          { id: 'grp2-3',  senderId: me,       senderName: 'You',          text: "Good. Let's do a staged rollout — 10% first, monitor for 30 min, then go full.", html: "Good. Let's do a staged rollout — 10% first, monitor for 30 min, then go full.", ts: now - hour * 9 },
-          { id: 'grp2-4',  senderId: M.marcus, senderName: 'Marcus Lee',   text: 'Agreed. Feature flags are already set up for that. Kicked off the staging deploy.', html: 'Agreed. Feature flags are already set up for that. Kicked off the staging deploy.', ts: now - hour * 7 },
-          { id: 'grp2-5',  senderId: me,       senderName: 'You',          text: 'Thanks — ping me when it is green.', html: 'Thanks — ping me when it is green.', ts: now - hour * 6.5 },
-          { id: 'grp2-6',  senderId: M.tom,    senderName: 'Tom Nguyen',   text: 'Logs look clean so far — no errors in the past hour. P95 latency is under 180ms.', html: 'Logs look clean so far — no errors in the past hour. P95 latency is under 180ms.', ts: now - hour * 6 },
-          { id: 'grp2-7',  senderId: M.marcus, senderName: 'Marcus Lee',   text: 'Running final smoke tests now — auth, payments, notifications all passing.', html: 'Running final smoke tests now — auth, payments, notifications all passing.', ts: now - hour * 5.5 },
-          { id: 'grp2-8',  senderId: me,       senderName: 'You',          text: 'How are the performance metrics looking on the dashboard feature? That one had a heavy query.', html: 'How are the performance metrics looking on the dashboard feature? That one had a heavy query.', ts: now - hour * 5.2 },
-          { id: 'grp2-9',  senderId: M.marcus, senderName: 'Marcus Lee',   text: 'Added an index for that query — response time dropped from 800ms to 42ms. Should be fine.', html: 'Added an index for that query — response time dropped from 800ms to 42ms. Should be fine.', ts: now - hour * 5 },
-          { id: 'grp2-10', senderId: M.tom,    senderName: 'Tom Nguyen',   text: 'Everything looks solid from the infra side. CDN cache is warm, DB connections stable.', html: 'Everything looks solid from the infra side. CDN cache is warm, DB connections stable.', ts: now - hour * 4.5 },
-          { id: 'grp2-11', senderId: M.marcus, senderName: 'Marcus Lee',   text: 'Staging deploy finished — ready for QA. Handing off to James.', html: 'Staging deploy finished — ready for QA. Handing off to James.', ts: now - hour * 4 },
-        ])
-      );
-      localStorage.setItem(
-        'bloom_chat_msgs_demo-conv-dm-4',
-        JSON.stringify([
-          { id: 'dm4-1',  senderId: M.james, senderName: 'James Okonkwo', text: 'Starting the regression run for the new auth changes Marcus pushed. Will cover all critical paths.', html: 'Starting the regression run for the new auth changes Marcus pushed. Will cover all critical paths.', ts: now - hour * 12 },
-          { id: 'dm4-2',  senderId: me,      senderName: 'You',           text: 'Thanks James. Let me know if anything looks off.', html: 'Thanks James. Let me know if anything looks off.', ts: now - hour * 11.5 },
-          { id: 'dm4-3',  senderId: M.james, senderName: 'James Okonkwo', text: 'Found a minor issue — on very small screens (320px) the login button overlaps the input field.', html: 'Found a minor issue — on very small screens (320px) the login button overlaps the input field.', ts: now - hour * 11 },
-          { id: 'dm4-4',  senderId: me,      senderName: 'You',           text: "Good catch. I'll flag it to Sarah — she can fix the padding in the next design pass.", html: "Good catch. I'll flag it to Sarah — she can fix the padding in the next design pass.", ts: now - hour * 10.5 },
-          { id: 'dm4-5',  senderId: M.james, senderName: 'James Okonkwo', text: 'The notification badge fix is solid though — badge clears instantly on read now. Big improvement.', html: 'The notification badge fix is solid though — badge clears instantly on read now. Big improvement.', ts: now - hour * 10 },
-          { id: 'dm4-6',  senderId: me,      senderName: 'You',           text: 'James, can you run through the full QA checklist before we ship? Targeting Thursday launch.', html: 'James, can you run through the full QA checklist before we ship? Targeting Thursday launch.', ts: now - hour * 9 },
-          { id: 'dm4-7',  senderId: M.james, senderName: 'James Okonkwo', text: 'On it — running regression tests now. Should take about 2 hours for the full suite.', html: 'On it — running regression tests now. Should take about 2 hours for the full suite.', ts: now - hour * 8 },
-          { id: 'dm4-8',  senderId: M.james, senderName: 'James Okonkwo', text: 'Auth flow ✅  Onboarding ✅  Settings ✅  Notifications ✅  Boards ✅', html: 'Auth flow ✅  Onboarding ✅  Settings ✅  Notifications ✅  Boards ✅', ts: now - hour * 7 },
-          { id: 'dm4-9',  senderId: me,      senderName: 'You',           text: 'Excellent. Any blockers or edge cases I should know about?', html: 'Excellent. Any blockers or edge cases I should know about?', ts: now - hour * 6.5 },
-          { id: 'dm4-10', senderId: M.james, senderName: 'James Okonkwo', text: 'All clear! The 320px overlap is cosmetic and low-risk for launch. Can be patched in a hotfix.', html: 'All clear! The 320px overlap is cosmetic and low-risk for launch. Can be patched in a hotfix.', ts: now - hour * 6.2 },
-          { id: 'dm4-11', senderId: M.james, senderName: 'James Okonkwo', text: 'QA sign-off done — checklist is all green. Ready to ship! ✅', html: 'QA sign-off done — checklist is all green. Ready to ship! ✅', ts: now - hour * 6 },
-        ])
-      );
-      localStorage.setItem(
-        'bloom_chat_msgs_demo-conv-dm-5',
-        JSON.stringify([
-          { id: 'dm5-1',  senderId: M.elena, senderName: 'Elena Vasquez', text: 'Had a call with a new enterprise prospect today — they are very excited about the team workspace features.', html: 'Had a call with a new enterprise prospect today — they are very excited about the team workspace features.', ts: now - hour * 16 },
-          { id: 'dm5-2',  senderId: me,      senderName: 'You',           text: "That's exciting! What features caught their attention the most?", html: "That's exciting! What features caught their attention the most?", ts: now - hour * 15.5 },
-          { id: 'dm5-3',  senderId: M.elena, senderName: 'Elena Vasquez', text: 'KPI tracking and the local-first data approach. They have strict IT security policies — no cloud storage.', html: 'KPI tracking and the local-first data approach. They have strict IT security policies — no cloud storage.', ts: now - hour * 15 },
-          { id: 'dm5-4',  senderId: me,      senderName: 'You',           text: 'Perfect fit for us. Did they raise any concerns or blockers?', html: 'Perfect fit for us. Did they raise any concerns or blockers?', ts: now - hour * 14.5 },
-          { id: 'dm5-5',  senderId: M.elena, senderName: 'Elena Vasquez', text: 'They asked about SSO — specifically SAML/Okta integration. Is that on the roadmap?', html: 'They asked about SSO — specifically SAML/Okta integration. Is that on the roadmap?', ts: now - hour * 14 },
-          { id: 'dm5-6',  senderId: me,      senderName: 'You',           text: "SSO is planned for Q4. I'll make sure you have the right talking points — should not be a dealbreaker.", html: "SSO is planned for Q4. I'll make sure you have the right talking points — should not be a dealbreaker.", ts: now - hour * 13.5 },
-          { id: 'dm5-7',  senderId: M.elena, senderName: 'Elena Vasquez', text: 'Got feedback from the onboarding call this morning — users love the new simplified flow.', html: 'Got feedback from the onboarding call this morning — users love the new simplified flow.', ts: now - hour * 11 },
-          { id: 'dm5-8',  senderId: me,      senderName: 'You',           text: "That's great to hear! Anything we should improve or that confused them?", html: "That's great to hear! Anything we should improve or that confused them?", ts: now - hour * 10.5 },
-          { id: 'dm5-9',  senderId: M.elena, senderName: 'Elena Vasquez', text: "Some users weren't sure where to start after signing up. A guided 'first board' template could help.", html: "Some users weren't sure where to start after signing up. A guided 'first board' template could help.", ts: now - hour * 10 },
-          { id: 'dm5-10', senderId: me,      senderName: 'You',           text: "Good insight — I'll add a 'starter template' to the product backlog. That's a quick win.", html: "Good insight — I'll add a 'starter template' to the product backlog. That's a quick win.", ts: now - hour * 9.5 },
-          { id: 'dm5-11', senderId: M.elena, senderName: 'Elena Vasquez', text: 'Customer loved the onboarding flow update! NPS from this cohort is 9.2 — best we have ever seen.', html: 'Customer loved the onboarding flow update! NPS from this cohort is 9.2 — best we have ever seen.', ts: now - hour * 9 },
-        ])
-      );
-      localStorage.setItem(
-        'bloom_chat_msgs_demo-conv-dm-6',
-        JSON.stringify([
-          { id: 'dm6-1',  senderId: M.david, senderName: 'David Kim', text: 'Pulling together the weekly metrics dashboard now — anything specific you want to highlight for the all-hands?', html: 'Pulling together the weekly metrics dashboard now — anything specific you want to highlight for the all-hands?', ts: now - hour * 18 },
-          { id: 'dm6-2',  senderId: me,      senderName: 'You',        text: 'Focus on retention and activation rate — those are our core Q2 goals. And session length if it is trending well.', html: 'Focus on retention and activation rate — those are our core Q2 goals. And session length if it is trending well.', ts: now - hour * 17.5 },
-          { id: 'dm6-3',  senderId: M.david, senderName: 'David Kim', text: "Session length is trending great — average up 4 minutes week-over-week. I'll include it.", html: "Session length is trending great — average up 4 minutes week-over-week. I'll include it.", ts: now - hour * 17 },
-          { id: 'dm6-4',  senderId: me,      senderName: 'You',        text: "That's a strong signal. What's driving it?", html: "That's a strong signal. What's driving it?", ts: now - hour * 16.5 },
-          { id: 'dm6-5',  senderId: M.david, senderName: 'David Kim', text: 'Users who set up a board in their first session are staying 3x longer on average. Boards are the activation hook.', html: 'Users who set up a board in their first session are staying 3x longer on average. Boards are the activation hook.', ts: now - hour * 16 },
-          { id: 'dm6-6',  senderId: me,      senderName: 'You',        text: 'Interesting — we should make board setup more prominent in the onboarding flow. I will flag it to the team.', html: 'Interesting — we should make board setup more prominent in the onboarding flow. I will flag it to the team.', ts: now - hour * 15.5 },
-          { id: 'dm6-7',  senderId: M.david, senderName: 'David Kim', text: 'Week-over-week retention jumped 8% since the last release. Highest single-week lift we have recorded.', html: 'Week-over-week retention jumped 8% since the last release. Highest single-week lift we have recorded.', ts: now - hour * 14 },
-          { id: 'dm6-8',  senderId: me,      senderName: 'You',        text: "Impressive! Can you pull together a slide for the all-hands? The team will love seeing this.", html: "Impressive! Can you pull together a slide for the all-hands? The team will love seeing this.", ts: now - hour * 13.5 },
-          { id: 'dm6-9',  senderId: M.david, senderName: 'David Kim', text: "Already on it — deck will be ready by 4pm. I'll share in All Hands chat so everyone has it.", html: "Already on it — deck will be ready by 4pm. I'll share in All Hands chat so everyone has it.", ts: now - hour * 13 },
-          { id: 'dm6-10', senderId: me,      senderName: 'You',        text: "Perfect. One more thing — can you track how many users hit our 'aha moment' in under 5 minutes?", html: "Perfect. One more thing — can you track how many users hit our 'aha moment' in under 5 minutes?", ts: now - hour * 12.5 },
-          { id: 'dm6-11', senderId: M.david, senderName: 'David Kim', text: 'Dashboard retention numbers look great this week. Will add the aha-moment funnel to next week\'s report.', html: 'Dashboard retention numbers look great this week. Will add the aha-moment funnel to next week\'s report.', ts: now - hour * 12 },
-        ])
-      );
-      localStorage.setItem(
-        'bloom_chat_msgs_demo-conv-dm-7',
-        JSON.stringify([
-          { id: 'dm7-1',  senderId: M.tom, senderName: 'Tom Nguyen', text: 'CI runs have been averaging 18 min this week — too slow. I want to look into optimizing the pipeline.', html: 'CI runs have been averaging 18 min this week — too slow. I want to look into optimizing the pipeline.', ts: now - hour * 22 },
-          { id: 'dm7-2',  senderId: me,    senderName: 'You',        text: '18 min is too long. What is slowing it down?', html: '18 min is too slow. What is slowing it down?', ts: now - hour * 21.5 },
-          { id: 'dm7-3',  senderId: M.tom, senderName: 'Tom Nguyen', text: 'The test suite has grown a lot — lots of redundant setup steps and no caching. I can fix both.', html: 'The test suite has grown a lot — lots of redundant setup steps and no caching. I can fix both.', ts: now - hour * 21 },
-          { id: 'dm7-4',  senderId: me,    senderName: 'You',        text: "Please do — fast CI is critical for our shipping cadence. Let's target under 10 min.", html: "Please do — fast CI is critical for our shipping cadence. Let's target under 10 min.", ts: now - hour * 20.5 },
-          { id: 'dm7-5',  senderId: M.tom, senderName: 'Tom Nguyen', text: 'Updated the deployment config — added node_modules caching and parallelized the test jobs. Should cut times by 30%.', html: 'Updated the deployment config — added node_modules caching and parallelized the test jobs. Should cut times by 30%.', ts: now - hour * 18 },
-          { id: 'dm7-6',  senderId: me,    senderName: 'You',        text: 'Nice work! Did all the checks pass with the new config?', html: 'Nice work! Did all the checks pass with the new config?', ts: now - hour * 17.5 },
-          { id: 'dm7-7',  senderId: M.tom, senderName: 'Tom Nguyen', text: "Yes — just ran it. Build time is now 11 min 20 sec. Not quite 10 but we're close.", html: "Yes — just ran it. Build time is now 11 min 20 sec. Not quite 10 but we're close.", ts: now - hour * 17 },
-          { id: 'dm7-8',  senderId: me,    senderName: 'You',        text: "11 min is great — what's left to squeeze out the extra minute?", html: "11 min is great — what's left to squeeze out the extra minute?", ts: now - hour * 16.5 },
-          { id: 'dm7-9',  senderId: M.tom, senderName: 'Tom Nguyen', text: "The e2e tests are the bottleneck. I'll parallelize those next sprint — should get us to 8-9 min.", html: "The e2e tests are the bottleneck. I'll parallelize those next sprint — should get us to 8-9 min.", ts: now - hour * 16 },
-          { id: 'dm7-10', senderId: me,    senderName: 'You',        text: "Perfect. Add it to the sprint backlog and let's tackle it after launch.", html: "Perfect. Add it to the sprint backlog and let's tackle it after launch.", ts: now - hour * 15.5 },
-          { id: 'dm7-11', senderId: M.tom, senderName: 'Tom Nguyen', text: 'CI pipeline is green — all checks passed. Latest build: 11 min 18 sec. 🟢', html: 'CI pipeline is green — all checks passed. Latest build: 11 min 18 sec. 🟢', ts: now - hour * 15 },
-        ])
-      );
-      localStorage.setItem(
-        'bloom_chat_msgs_demo-conv-grp-3',
-        JSON.stringify([
-          { id: 'grp3-1',  senderId: M.sarah, senderName: 'Sarah Chen',   text: 'Starting the Q3 design system refresh today. Goal: tighten spacing, update color tokens, and clean up the type scale.', html: 'Starting the Q3 design system refresh today. Goal: tighten spacing, update color tokens, and clean up the type scale.', ts: now - hour * 14 },
-          { id: 'grp3-2',  senderId: me,      senderName: 'You',          text: 'Sounds great. Can we schedule a short review Thursday to walk through it together?', html: 'Sounds great. Can we schedule a short review Thursday to walk through it together?', ts: now - hour * 13.5 },
-          { id: 'grp3-3',  senderId: M.priya, senderName: 'Priya Patel',  text: "I'd love to join — want to make sure the marketing templates stay aligned with any token changes.", html: "I'd love to join — want to make sure the marketing templates stay aligned with any token changes.", ts: now - hour * 13 },
-          { id: 'grp3-4',  senderId: M.sarah, senderName: 'Sarah Chen',   text: 'Thursday 2pm works for me! I will share a preview doc beforehand so everyone can come prepared.', html: 'Thursday 2pm works for me! I will share a preview doc beforehand so everyone can come prepared.', ts: now - hour * 12.5 },
-          { id: 'grp3-5',  senderId: me,      senderName: 'You',          text: "Done — calendar invite sent. Let's keep it focused: just spacing, colors, and typography today.", html: "Done — calendar invite sent. Let's keep it focused: just spacing, colors, and typography today.", ts: now - hour * 12 },
-          { id: 'grp3-6',  senderId: M.sarah, senderName: 'Sarah Chen',   text: 'Shared the token updates in Figma — the blues are slightly warmer now. Should feel more premium.', html: 'Shared the token updates in Figma — the blues are slightly warmer now. Should feel more premium.', ts: now - hour * 10 },
-          { id: 'grp3-7',  senderId: M.priya, senderName: 'Priya Patel',  text: 'Looks great! The warmer blue is much better. Feels more brand-aligned now.', html: 'Looks great! The warmer blue is much better. Feels more brand-aligned now.', ts: now - hour * 9.5 },
-          { id: 'grp3-8',  senderId: me,      senderName: 'You',          text: "Agreed. Let's apply the new tokens to the landing page while we are at it — consistent everywhere.", html: "Agreed. Let's apply the new tokens to the landing page while we are at it — consistent everywhere.", ts: now - hour * 9 },
-          { id: 'grp3-9',  senderId: M.sarah, senderName: 'Sarah Chen',   text: 'Already done it — landing page components are updated. Just pushed the icon set refresh too.', html: 'Already done it — landing page components are updated. Just pushed the icon set refresh too.', ts: now - hour * 8 },
-          { id: 'grp3-10', senderId: M.priya, senderName: 'Priya Patel',  text: "Love the new icons — the stroke weight feels much more balanced. Can we use these in the email templates too?", html: "Love the new icons — the stroke weight feels much more balanced. Can we use these in the email templates too?", ts: now - hour * 7.5 },
-          { id: 'grp3-11', senderId: M.sarah, senderName: 'Sarah Chen',   text: 'New component library is live in Figma! All tokens, components, and icons in one place. 🎨', html: 'New component library is live in Figma! All tokens, components, and icons in one place. 🎨', ts: now - hour * 7 },
-        ])
-      );
-      localStorage.setItem(
-        'bloom_chat_msgs_demo-conv-grp-4',
-        JSON.stringify([
-          { id: 'grp4-1',  senderId: M.aisha, senderName: 'Aisha Rahman',  text: "Finished the product walkthrough video script — it's about 90 seconds. Ready for review.", html: "Finished the product walkthrough video script — it's about 90 seconds. Ready for review.", ts: now - hour * 18 },
-          { id: 'grp4-2',  senderId: me,      senderName: 'You',           text: "Great — I'll read through it this afternoon. What tone did you go for?", html: "Great — I'll read through it this afternoon. What tone did you go for?", ts: now - hour * 17.5 },
-          { id: 'grp4-3',  senderId: M.aisha, senderName: 'Aisha Rahman',  text: 'Confident but approachable — same vibe as the website copy. No corporate speak.', html: 'Confident but approachable — same vibe as the website copy. No corporate speak.', ts: now - hour * 17 },
-          { id: 'grp4-4',  senderId: M.priya, senderName: 'Priya Patel',   text: 'Perfect. I will coordinate the social post schedule around the blog publish date.', html: 'Perfect. I will coordinate the social post schedule around the blog publish date.', ts: now - hour * 16.5 },
-          { id: 'grp4-5',  senderId: me,      senderName: 'You',           text: "Let's aim for Thursday morning — peak engagement time for our audience.", html: "Let's aim for Thursday morning — peak engagement time for our audience.", ts: now - hour * 16 },
-          { id: 'grp4-6',  senderId: M.priya, senderName: 'Priya Patel',   text: 'LinkedIn carousel is ready too — 8 slides covering all the key features. Looks sharp.', html: 'LinkedIn carousel is ready too — 8 slides covering all the key features. Looks sharp.', ts: now - hour * 14 },
-          { id: 'grp4-7',  senderId: M.aisha, senderName: 'Aisha Rahman',  text: "Blog post is drafted — ready for a final review before we schedule. Link is in the Notion doc.", html: "Blog post is drafted — ready for a final review before we schedule. Link is in the Notion doc.", ts: now - hour * 13 },
-          { id: 'grp4-8',  senderId: me,      senderName: 'You',           text: "Looks solid! Let's go Thursday for max impact — 9am publish.", html: "Looks solid! Let's go Thursday for max impact — 9am publish.", ts: now - hour * 12 },
-          { id: 'grp4-9',  senderId: M.aisha, senderName: 'Aisha Rahman',  text: "I'll also prep a Twitter/X thread version for extra reach. Should drive good traffic back to the blog.", html: "I'll also prep a Twitter/X thread version for extra reach. Should drive good traffic back to the blog.", ts: now - hour * 11.5 },
-          { id: 'grp4-10', senderId: M.priya, senderName: 'Priya Patel',   text: "Great idea — thread format does really well for our audience. I'll cross-post on our company LinkedIn too.", html: "Great idea — thread format does really well for our audience. I'll cross-post on our company LinkedIn too.", ts: now - hour * 11.2 },
-          { id: 'grp4-11', senderId: M.priya, senderName: 'Priya Patel',   text: 'Launch post is scheduled for Thursday 9am. Email, social, and blog are all locked and ready. 📅', html: 'Launch post is scheduled for Thursday 9am. Email, social, and blog are all locked and ready. 📅', ts: now - hour * 11 },
-        ])
-      );
-      localStorage.setItem(
-        'bloom_chat_msgs_demo-conv-grp-5',
-        JSON.stringify([
-          { id: 'grp5-1',  senderId: M.elena,  senderName: 'Elena Vasquez',  text: 'Customer satisfaction score is at 4.8 out of 5 this month — highest we have ever had! 🎉', html: 'Customer satisfaction score is at 4.8 out of 5 this month — highest we have ever had! 🎉', ts: now - hour * 8 },
-          { id: 'grp5-2',  senderId: M.rachel, senderName: 'Rachel Brooks',   text: 'Ops update: new customer onboarding SLA is now under 2 days. Down from 5. Big improvement for the team.', html: 'Ops update: new customer onboarding SLA is now under 2 days. Down from 5. Big improvement for the team.', ts: now - hour * 7.5 },
-          { id: 'grp5-3',  senderId: M.tom,    senderName: 'Tom Nguyen',      text: 'Zero unplanned downtime this sprint. CI/CD is running smoothly, infra is healthy. 🟢', html: 'Zero unplanned downtime this sprint. CI/CD is running smoothly, infra is healthy. 🟢', ts: now - hour * 7 },
-          { id: 'grp5-4',  senderId: M.aisha,  senderName: 'Aisha Rahman',    text: 'Content is 100% ready for Thursday launch — blog, email, and social all scheduled. 🚀', html: 'Content is 100% ready for Thursday launch — blog, email, and social all scheduled. 🚀', ts: now - hour * 6.5 },
-          { id: 'grp5-5',  senderId: M.james,  senderName: 'James Okonkwo',   text: 'QA has cleared all launch blockers. Checklist is all green. We are good to go! ✅', html: 'QA has cleared all launch blockers. Checklist is all green. We are good to go! ✅', ts: now - hour * 6 },
-          { id: 'grp5-6',  senderId: M.marcus, senderName: 'Marcus Lee',      text: 'Build is clean, staging is green, performance metrics are all within targets. Engineering is ready.', html: 'Build is clean, staging is green, performance metrics are all within targets. Engineering is ready.', ts: now - hour * 5.5 },
-          { id: 'grp5-7',  senderId: M.sarah,  senderName: 'Sarah Chen',      text: 'Designs are signed off. Final assets exported and handed off to Marcus. 🎨', html: 'Designs are signed off. Final assets exported and handed off to Marcus. 🎨', ts: now - hour * 5 },
-          { id: 'grp5-8',  senderId: M.priya,  senderName: 'Priya Patel',     text: 'Email, blog, and social are all scheduled and ready for 9am Thursday. Nothing left to do but launch!', html: 'Email, blog, and social are all scheduled and ready for 9am Thursday. Nothing left to do but launch!', ts: now - hour * 4.5 },
-          { id: 'grp5-9',  senderId: M.david,  senderName: 'David Kim',       text: 'Sharing the weekly metrics — DAUs up 14%, churn down to 2.1%, retention up 8%. 📈 Best sprint ever.', html: 'Sharing the weekly metrics — DAUs up 14%, churn down to 2.1%, retention up 8%. 📈 Best sprint ever.', ts: now - hour * 4 },
-          { id: 'grp5-10', senderId: M.sarah,  senderName: 'Sarah Chen',      text: "Amazing numbers — team absolutely crushed it this sprint. So proud of everyone. 🙌", html: "Amazing numbers — team absolutely crushed it this sprint. So proud of everyone. 🙌", ts: now - hour * 3 },
-          { id: 'grp5-11', senderId: M.rachel, senderName: 'Rachel Brooks',   text: "This is what happens when everyone is aligned and working well together. Let's keep this energy!", html: "This is what happens when everyone is aligned and working well together. Let's keep this energy!", ts: now - hour * 2.5 },
-          { id: 'grp5-12', senderId: me,       senderName: 'You',             text: 'Great sprint everyone — ship it! 🚀', html: 'Great sprint everyone — ship it! 🚀', ts: now - hour * 2 },
-        ])
-      );
+      var lastRead = {};
+      var localConvs = [];
+      CONVS.forEach(function (c, ci) {
+        var n = c.script.length;
+        var start = now - (6 + ci * 3) * hour;
+        var step = Math.floor((5 * hour) / n);
+        var msgs = c.script.map(function (line, i) {
+          var who = byId[line[0]];
+          var ts = start + i * step + Math.floor(Math.random() * 4 * min);
+          return {
+            id: demo.uuid(), conversation_id: c.id, sender_id: who.id, sender_name: who.name,
+            html: line[1], text_content: line[1], ts: ts, reactions: {},
+            created_at: new Date(ts).toISOString(), updated_at: new Date(ts).toISOString(),
+          };
+        });
+        var last = msgs[msgs.length - 1];
+        demo.seed('conversations', {
+          id: c.id, type: c.type, name: c.name, members: c.members,
+          last_msg_text: last.text_content, last_msg_ts: last.ts,
+          created_at: new Date(start - hour).toISOString(),
+        });
+        demo.seed('messages', msgs);
+        lastRead[c.id] = c.unread ? msgs[n - c.unread - 1].ts + 1 : last.ts + 1;
 
-      localStorage.setItem(
-        'bloom_chat_last_read',
-        JSON.stringify({
-          'demo-conv-dm-1':  now - hour * 4,
-          'demo-conv-dm-2':  now - hour * 6,
-          'demo-conv-dm-3':  now - hour * 10,
-          'demo-conv-grp-2': now - hour * 7,
-          'demo-conv-dm-5':  now - hour * 11,
-          'demo-conv-grp-5': now - hour * 4,
-        })
-      );
+        localConvs.push({
+          id: c.id, type: c.type, name: c.name, members: c.members,
+          createdAt: start - hour, lastMsgTime: last.ts, lastMsgText: last.text_content,
+        });
+        localStorage.setItem('bloom_chat_msgs_' + c.id, JSON.stringify(msgs.map(function (m) {
+          return {
+            id: m.id, senderId: m.sender_id, senderName: m.sender_name, html: m.html, text: m.text_content,
+            ts: m.ts, reactions: {}, edited: false, deleted: false, pinned: false, parentId: null,
+          };
+        })));
+      });
+      localStorage.setItem('bloom_chat_convs', JSON.stringify(localConvs));
+      localStorage.setItem('bloom_chat_last_read', JSON.stringify(lastRead));
 
-      localStorage.setItem(
-        'bloombooard-boards-v1',
-        JSON.stringify({
-          boards: [
-            {
-              id: 'demo-board-1',
-              title: 'Product Launch',
-              desc: 'Ship v2 — design, eng, and marketing',
-              icon: '🚀',
-              color: 'bc-blue',
-              thumbImage: COVERS[0],
-              bgImage: null,
-              categoryId: null,
-              createdAt: new Date(now - hour * 120).toISOString(),
-              labels: [
-                { id: 'demo-label-1', title: 'Launch', color: '#4d9fff' },
-                { id: 'demo-label-2', title: 'Blocked', color: '#ef4444' },
-              ],
-              columns: [
-                { id: 'demo-col-1', title: 'To Do', color: '#6b7280', order: 0 },
-                { id: 'demo-col-2', title: 'In Progress', color: '#3b82f6', order: 1 },
-                { id: 'demo-col-3', title: 'Done', color: '#10b981', order: 2 },
-              ],
-            },
-            {
-              id: 'demo-board-2',
-              title: 'Sprint Backlog',
-              desc: 'Current sprint — eng team',
-              icon: '⚡',
-              color: 'bc-purple',
-              thumbImage: COVERS[1],
-              bgImage: null,
-              categoryId: null,
-              createdAt: new Date(now - hour * 48).toISOString(),
-              labels: [],
-              columns: [
-                { id: 'demo-col-4', title: 'Backlog', color: '#6b7280', order: 0 },
-                { id: 'demo-col-5', title: 'This Week', color: '#3b82f6', order: 1 },
-                { id: 'demo-col-6', title: 'Shipped', color: '#10b981', order: 2 },
-              ],
-            },
-            {
-              id: 'demo-board-3',
-              title: 'Marketing Q3',
-              desc: 'Campaigns, content, and launch assets',
-              icon: '📣',
-              color: 'bc-orange',
-              thumbImage: COVERS[2],
-              bgImage: null,
-              categoryId: null,
-              createdAt: new Date(now - hour * 96).toISOString(),
-              labels: [],
-              columns: [
-                { id: 'demo-col-7', title: 'Ideas', color: '#6b7280', order: 0 },
-                { id: 'demo-col-8', title: 'In Progress', color: '#3b82f6', order: 1 },
-                { id: 'demo-col-9', title: 'Published', color: '#10b981', order: 2 },
-              ],
-            },
-            {
-              id: 'demo-board-4',
-              title: 'Design System',
-              desc: 'Components, tokens, and patterns',
-              icon: '🎨',
-              color: 'bc-green',
-              thumbImage: COVERS[3],
-              bgImage: null,
-              categoryId: null,
-              createdAt: new Date(now - hour * 200).toISOString(),
-              labels: [],
-              columns: [
-                { id: 'demo-col-10', title: 'Backlog', color: '#6b7280', order: 0 },
-                { id: 'demo-col-11', title: 'Building', color: '#3b82f6', order: 1 },
-                { id: 'demo-col-12', title: 'Ready', color: '#10b981', order: 2 },
-              ],
-            },
-          ],
-          cards: [
-            { id: 'demo-card-1', boardId: 'demo-board-1', columnId: 'demo-col-2', title: 'Draft launch checklist', desc: 'Final checklist for go-live.', order: 0, assigneeId: me, createdAt: new Date(now - hour * 24).toISOString(), comments: [{ id: 'demo-cmt-1', text: 'Added design sign-off items.', authorName: 'Sarah Chen', createdAt: new Date(now - hour * 2).toISOString() }] },
-            { id: 'demo-card-2', boardId: 'demo-board-1', columnId: 'demo-col-1', title: 'Write release notes', desc: 'Summarize features for the blog.', order: 1, assigneeId: M.priya, createdAt: new Date(now - hour * 20).toISOString(), comments: [] },
-            { id: 'demo-card-3', boardId: 'demo-board-1', columnId: 'demo-col-3', title: 'Set up analytics', desc: 'PostHog events for launch funnel.', order: 0, assigneeId: M.marcus, createdAt: new Date(now - hour * 48).toISOString(), comments: [] },
-            { id: 'demo-card-4', boardId: 'demo-board-2', columnId: 'demo-col-5', title: 'Fix notification badge', desc: 'Badge count not clearing on read.', order: 0, assigneeId: me, createdAt: new Date(now - hour * 8).toISOString(), comments: [] },
-            { id: 'demo-card-5', boardId: 'demo-board-2', columnId: 'demo-col-4', title: 'Dark mode polish', desc: 'Contrast pass on sidebar and cards.', order: 0, assigneeId: M.sarah, createdAt: new Date(now - hour * 12).toISOString(), comments: [] },
-            { id: 'demo-card-6', boardId: 'demo-board-2', columnId: 'demo-col-6', title: 'OAuth reconnect flow', desc: 'Shipped last sprint.', order: 0, assigneeId: M.marcus, createdAt: new Date(now - hour * 72).toISOString(), comments: [] },
-            { id: 'demo-card-7', boardId: 'demo-board-3', columnId: 'demo-col-8', title: 'Launch blog post', desc: 'Coordinate with Priya on publish date.', order: 0, assigneeId: me, createdAt: new Date(now - hour * 16).toISOString(), comments: [] },
-            { id: 'demo-card-8', boardId: 'demo-board-3', columnId: 'demo-col-7', title: 'Social media kit', desc: 'Assets for Twitter and LinkedIn.', order: 1, assigneeId: M.priya, createdAt: new Date(now - hour * 18).toISOString(), comments: [] },
-            { id: 'demo-card-9', boardId: 'demo-board-4', columnId: 'demo-col-11', title: 'Button component refresh', desc: 'Align with new brand tokens.', order: 0, assigneeId: M.sarah, createdAt: new Date(now - hour * 40).toISOString(), comments: [] },
-            { id: 'demo-card-10', boardId: 'demo-board-4', columnId: 'demo-col-12', title: 'Icon set v2', desc: 'Shipped to Figma library.', order: 0, assigneeId: me, createdAt: new Date(now - hour * 80).toISOString(), comments: [] },
-          ],
-        })
-      );
+      /* ── Meetings & reminders ── */
+      function ev(o) {
+        return Object.assign({ dateEnd: o.dateStart, time: '', notes: '', createdAt: now - 24 * hour,
+          reminderFreq: '', reminderTime: '', reminderNextFire: 0, reminderSnoozedUntil: 0 }, o);
+      }
+      localStorage.setItem('farhan-events', JSON.stringify([
+        ev({ id: 'demo-ev-review', type: 'meeting', title: 'Serie A graphics review', dateStart: today, time: '15:00' }),
+        ev({ id: 'demo-ev-kickoff', type: 'meeting', title: 'Khaleeji Cup kickoff', dateStart: isoDate(2), time: '11:00' }),
+        ev({ id: 'demo-ev-export', type: 'reminder', title: 'Export Round 12 social sizes', dateStart: isoDate(1), reminderFreq: '1h', reminderTime: '10:00' }),
+      ]));
 
-      purgeNonDemoChats();
       seedBloomWelcome(now);
+      localStorage.setItem('bloom-profile-name', 'Farhan Fazil');
       localStorage.setItem('bb-demo-seeded-v1', '1');
-      localStorage.setItem('bb-demo-collab-v1', '1');
     } catch (e) {
       console.warn('[BB Demo] team seed failed', e);
     }

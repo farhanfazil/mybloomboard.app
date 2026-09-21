@@ -28,8 +28,9 @@ export function Header({
   const scrolled = useScroll(10);
 
   const links: NavLink[] = customLinks ?? [
-    { label: "Features", href: "#features" },
-    { label: "Deep Dive", href: "#walkthrough" },
+    // Features / Deep Dive sections are hidden on the home page (see page.tsx);
+    // restore { label: "Features", href: "#features" }, { label: "Deep Dive", href: "#walkthrough" } with them.
+    { label: "Live Demo", href: "#live-demo" },
     { label: "Pricing", href: "#pricing" },
     { label: "Customer Portal", href: CUSTOMER_PORTAL_URL, external: true },
   ];

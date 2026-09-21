@@ -26,12 +26,14 @@ export default function Home() {
       <Header />
       <AppPreviewScroll />
       <ComparisonSection />
+      {/* Hidden while the live demo carries the product story — restore by uncommenting.
       <FeatureGrid />
       <AIFeatureCarousel />
       <DeepDiveFlight>
         <Walkthrough />
         <StatsBar />
       </DeepDiveFlight>
+      */}
       <div style={{ background: "linear-gradient(to top, #152331, #000000)" }}>
         <Testimonials />
         <PlanQuiz />

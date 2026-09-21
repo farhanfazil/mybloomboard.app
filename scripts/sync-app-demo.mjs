@@ -16,8 +16,23 @@ const DEFAULT_APP =
 const APP_SOURCE = process.env.BB_APP_SOURCE || DEFAULT_APP;
 
 const PATCH_MARKER = '<!-- bb-web-demo-patched -->';
-const BOOT_SCRIPT =
-  '<script src="demo-seed.js?v=29"></script>\n  <script src="demo-boot.js?v=29"></script>';
+const VERSION = Date.now().toString(36);
+// Order matters: the fake Supabase must exist before the app calls
+// supabase.createClient, the seed must run before demo-boot wipes/reseeds, and
+// the simulation registers its presence defaults before the app subscribes.
+const APP_VERSION = (() => {
+  try {
+    return JSON.parse(fs.readFileSync(path.join(APP_SOURCE, 'package.json'), 'utf8')).version || '';
+  } catch {
+    return '';
+  }
+})();
+const BOOT_SCRIPT = [
+  `<script>window.BB_APP_VERSION = ${JSON.stringify(APP_VERSION)};</script>`,
+  ...['demo-supabase.js', 'demo-seed.js', 'demo-boot.js', 'demo-sim.js'].map(
+    (f) => `<script src="${f}?v=${VERSION}"></script>`
+  ),
+].join('\n  ');
 
 function ensureDir(p) {
   fs.mkdirSync(p, { recursive: true });
@@ -68,12 +83,31 @@ function buildAvatarManifest(avatarsRoot) {
 function patchIndexHtml(html) {
   if (html.includes(PATCH_MARKER)) return html;
 
-  let patched = html.replace(
-    /<head>/i,
-    `<head>\n  ${PATCH_MARKER}\n  ${BOOT_SCRIPT}`
-  );
+  let patched = html;
+  const replaceOnce = (pattern, replacement, label) => {
+    const next = patched.replace(pattern, replacement);
+    if (next === patched) {
+      throw new Error(`Anchor not found: ${label}. The app's <head> changed — update scripts/sync-app-demo.mjs.`);
+    }
+    patched = next;
+  };
 
-  patched = patched.replace(/<title>BloomBooard<\/title>/i, '<title>BloomBoard — Demo</title>');
+  replaceOnce(/<head>/i, `<head>\n  ${PATCH_MARKER}\n  ${BOOT_SCRIPT}`, '<head>');
+  replaceOnce(/<title>[^<]*<\/title>/i, '<title>BloomBoard — Demo</title>', '<title>');
+  // Electron-only policy; in a browser iframe it only gets in the way.
+  replaceOnce(/\s*<meta http-equiv="Content-Security-Policy"[^>]*>/i, '', 'CSP <meta>');
+  // demo-supabase.js provides window.supabase; the real library would overwrite it.
+  replaceOnce(
+    /\s*<script src="https:\/\/cdn\.jsdelivr\.net\/npm\/@supabase\/supabase-js@2\/dist\/umd\/supabase\.js"><\/script>/,
+    '',
+    'Supabase CDN <script>'
+  );
+  // Calls are simulated in the demo; the LiveKit bundle lives in node_modules and would 404.
+  replaceOnce(
+    /\s*<script src="node_modules\/livekit-client\/dist\/livekit-client\.umd\.js"><\/script>/,
+    '',
+    'LiveKit <script>'
+  );
 
   return patched;
 }
