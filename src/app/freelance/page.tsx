@@ -1036,6 +1036,7 @@ const FREELANCE_TAGLINES: Record<string, string> = {
 
 function FreelancePricingCard({ plan, yearly }: { plan: typeof FREELANCE_PLANS[0]; yearly: boolean }) {
   const isPopular = plan.name === "Flow";
+  const isBloom = plan.name === "Bloom";
   const hasTrial = plan.name === "Flow" || plan.name === "Bloom";
   const showYearly = yearly && Boolean(plan.yearlyPrice);
   const monthlyEquiv = showYearly && plan.yearlyPrice
@@ -1054,10 +1055,13 @@ function FreelancePricingCard({ plan, yearly }: { plan: typeof FREELANCE_PLANS[0
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className={`relative flex w-full flex-col rounded-2xl border sm:h-full ${
-        isPopular ? "border-white/35 bg-[#0f151c]" : "border-white/10 bg-[#0b0f14]"
+      className={`relative flex w-full flex-col overflow-hidden rounded-2xl border sm:h-full ${
+        isPopular ? "border-white/35 bg-[#0f151c]" : isBloom ? "border-violet-300/25 bg-[#0b0f14]" : "border-white/10 bg-[#0b0f14]"
       }`}
     >
+      {(isPopular || isBloom) && (
+        <span aria-hidden className="absolute inset-x-0 top-0 h-[3px]" style={{ background: isBloom ? "#a78bfa" : "#60a5fa" }} />
+      )}
       {/* ── Header ── */}
       <div className="p-6">
         <div className="flex items-center justify-between gap-2">
@@ -1066,7 +1070,7 @@ function FreelancePricingCard({ plan, yearly }: { plan: typeof FREELANCE_PLANS[0
             <span className="rounded-md bg-white px-2 py-0.5 text-xs font-semibold text-black">Most popular</span>
           )}
           {!isPopular && plan.badge && (
-            <span className="text-xs font-medium text-white/55">{plan.badge}</span>
+            <span className="rounded-md bg-violet-400/15 px-2 py-0.5 text-xs font-semibold text-violet-200">{plan.badge}</span>
           )}
         </div>
         <p className="mt-1.5 min-h-[2.5rem] text-sm leading-snug text-white/55">{FREELANCE_TAGLINES[plan.name]}</p>
@@ -1082,7 +1086,9 @@ function FreelancePricingCard({ plan, yearly }: { plan: typeof FREELANCE_PLANS[0
           className={`mt-5 block w-full rounded-lg py-2.5 text-center text-sm font-semibold transition-colors ${
             isPopular
               ? "bg-white text-black hover:bg-white/90"
-              : "border border-white/20 text-white hover:bg-white/[0.07]"
+              : isBloom
+                ? "bg-violet-600 text-white hover:bg-violet-500"
+                : "border border-white/20 text-white hover:bg-white/[0.07]"
           }`}
         >
           {plan.cta}

@@ -41,6 +41,34 @@ const TAGLINES: Record<string, string> = {
   Team: "For teams of three or more working in one place.",
 };
 
+/** One signature colour per paid plan, used only for the top line, the tag and the button. */
+const PLAN_STYLE: Record<string, { line?: string; tag?: string; tagClass?: string; border: string; button: string }> = {
+  Free: {
+    border: "border-white/10 bg-[#0b0f14]",
+    button: "border border-white/20 text-white hover:bg-white/[0.07]",
+  },
+  Flow: {
+    line: "#60a5fa",
+    tag: "Most popular",
+    tagClass: "bg-white text-black",
+    border: "border-white/35 bg-[#0f151c]",
+    button: "bg-white text-black hover:bg-white/90",
+  },
+  Bloom: {
+    line: "#a78bfa",
+    tagClass: "bg-violet-400/15 text-violet-200",
+    border: "border-violet-300/25 bg-[#0b0f14]",
+    button: "bg-violet-600 text-white hover:bg-violet-500",
+  },
+  Team: {
+    line: "#2dd4bf",
+    tag: "For teams",
+    tagClass: "bg-teal-400/15 text-teal-200",
+    border: "border-teal-300/30 bg-[#0b0f14]",
+    button: "bg-teal-600 text-white hover:bg-teal-500",
+  },
+};
+
 function formatMonthlyEquivalent(yearlyPrice: string) {
   const numericPrice = Number(yearlyPrice.replace(/[^0-9.]/g, ""));
   if (!Number.isFinite(numericPrice)) return "";
@@ -60,7 +88,8 @@ function examplesLine(badges: string[]) {
 // ─── Single card ──────────────────────────────────────────────────────────────
 function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
   const isTeam = plan.name === "Team";
-  const isPopular = plan.name === "Flow";
+  const style = PLAN_STYLE[plan.name] ?? PLAN_STYLE.Free;
+  const tag = style.tag ?? plan.badgeLabel;
   const hasTrial = plan.name === "Flow" || plan.name === "Bloom";
 
   const [seats, setSeats] = useState(3);
@@ -83,19 +112,17 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
   return (
     <motion.div
       variants={fadeUp}
-      className={`relative flex flex-col rounded-2xl border sm:h-full ${
-        isPopular ? "border-white/35 bg-[#0f151c]" : "border-white/10 bg-[#0b0f14]"
-      }`}
+      className={`relative flex flex-col overflow-hidden rounded-2xl border sm:h-full ${style.border}`}
     >
+      {style.line && (
+        <span aria-hidden className="absolute inset-x-0 top-0 h-[3px]" style={{ background: style.line }} />
+      )}
       {/* ── Header ───────────────────────────────────────────────────────── */}
       <div className="p-6 2xl:p-7">
         <div className="flex items-center justify-between gap-2">
           <h3 className="text-lg font-semibold text-white">{plan.name}</h3>
-          {isPopular && (
-            <span className="rounded-md bg-white px-2 py-0.5 text-xs font-semibold text-black">Most popular</span>
-          )}
-          {!isPopular && plan.badgeLabel && (
-            <span className="text-xs font-medium text-white/55">{plan.badgeLabel}</span>
+          {tag && (
+            <span className={`rounded-md px-2 py-0.5 text-xs font-semibold ${style.tagClass}`}>{tag}</span>
           )}
         </div>
         <p className="mt-1.5 min-h-[2.5rem] text-sm leading-snug text-white/55">{TAGLINES[plan.name]}</p>
@@ -113,11 +140,7 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
 
         <a
           href={href}
-          className={`mt-5 block w-full rounded-lg py-2.5 text-center text-sm font-semibold transition-colors ${
-            isPopular
-              ? "bg-white text-black hover:bg-white/90"
-              : "border border-white/20 text-white hover:bg-white/[0.07]"
-          }`}
+          className={`mt-5 block w-full rounded-lg py-2.5 text-center text-sm font-semibold transition-colors ${style.button}`}
         >
           {plan.cta}
         </a>
@@ -187,7 +210,7 @@ function TeamSeats({
   const total = (seats * activeTier.price).toFixed(2).replace(/\.00$/, "");
 
   return (
-    <div className="mt-5 rounded-lg border border-white/10">
+    <div className="mt-5 rounded-lg border border-teal-300/20 bg-teal-400/[0.04]">
       <div className="flex items-center justify-between px-3.5 py-2.5">
         <span className="text-sm text-white/80">Seats</span>
         <div className="flex items-center gap-2.5">
@@ -215,7 +238,7 @@ function TeamSeats({
         <span className="text-xs text-white/50">
           {seats} × ${activeTier.price} / month
         </span>
-        <span className="text-sm font-semibold tabular-nums text-white">${total} / mo</span>
+        <span className="text-sm font-semibold tabular-nums text-teal-100">${total} / mo</span>
       </div>
       <div className="border-t border-white/10 px-3.5 py-2">
         <p className="mb-1 text-xs text-white/45">Volume pricing</p>
@@ -224,7 +247,7 @@ function TeamSeats({
           return (
             <div
               key={tier.label}
-              className={`flex items-center justify-between py-0.5 text-xs ${isActive ? "text-white" : "text-white/40"}`}
+              className={`flex items-center justify-between py-0.5 text-xs ${isActive ? "font-medium text-teal-200" : "text-white/40"}`}
             >
               <span>{tier.label}</span>
               <span className="tabular-nums">${tier.price} / seat</span>
@@ -293,7 +316,8 @@ export default function Pricing() {
           className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:items-stretch xl:grid-cols-4"
           variants={staggerContainer}
           initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
         >
           {PRICING_PLANS.map((plan) => (
             <PricingCard key={plan.name} plan={plan as PricingPlan} yearly={yearly} />

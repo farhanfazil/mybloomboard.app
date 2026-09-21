@@ -176,6 +176,19 @@ function MobileFeatureSwiper() {
   );
 }
 
+// Injected raw: React escapes > and quotes inside <style> children on the server,
+// which then no longer matches the client and triggers a hydration error.
+const MARQUEE_CSS = `
+        @keyframes bb-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .bb-marquee-track { animation: bb-marquee 70s linear infinite; }
+        @media (prefers-reduced-motion: reduce) {
+          .bb-marquee-track { animation: none; }
+          .bb-marquee { overflow: visible; }
+          .bb-marquee-track { width: 100%; flex-wrap: wrap; justify-content: center; row-gap: 0.75rem; }
+          .bb-marquee-track > [aria-hidden="true"] { display: none; }
+        }
+      `;
+
 export default function FeatureGrid() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
@@ -186,16 +199,7 @@ export default function FeatureGrid() {
 
   return (
     <section id="features" className="relative overflow-hidden bg-black px-4 py-16 sm:px-6 sm:py-24">
-      <style>{`
-        @keyframes bb-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        .bb-marquee-track { animation: bb-marquee 70s linear infinite; }
-        @media (prefers-reduced-motion: reduce) {
-          .bb-marquee-track { animation: none; }
-          .bb-marquee { overflow: visible; }
-          .bb-marquee-track { width: 100%; flex-wrap: wrap; justify-content: center; row-gap: 0.75rem; }
-          .bb-marquee-track > [aria-hidden="true"] { display: none; }
-        }
-      `}</style>
+      <style dangerouslySetInnerHTML={{ __html: MARQUEE_CSS }} />
 
       <div className="mx-auto max-w-6xl">
         <motion.div
