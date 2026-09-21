@@ -339,9 +339,9 @@
   }
 
   var DEMO_WS_OPTIONS = [
-    { mode: 'personal', label: 'Personal' },
-    { mode: 'freelance', label: 'Freelance' },
-    { mode: 'team', label: 'Team' },
+    { mode: 'personal', label: 'Personal Plan' },
+    { mode: 'freelance', label: 'Freelance Plan' },
+    { mode: 'team', label: 'Team Plan' },
   ].filter(function (o) {
     return (window.__bbDemoWorkspaces || ['personal', 'freelance', 'team']).indexOf(o.mode) >= 0;
   });
