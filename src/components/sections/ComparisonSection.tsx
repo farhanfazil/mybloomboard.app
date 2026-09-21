@@ -273,6 +273,7 @@ type ComparisonTableId = "teams" | "freelance";
 export default function ComparisonSection({
   tables = ["teams", "freelance"],
 }: { tables?: ComparisonTableId[] } = {}) {
+  const showTeams = tables.includes("teams");
   const showFreelance = tables.includes("freelance");
   const [open, setOpen] = useState(true);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -305,9 +306,11 @@ export default function ComparisonSection({
             See how BloomBoard compares.
           </h2>
           <p className="max-w-lg text-sm leading-relaxed text-white/60 sm:text-base">
-            {showFreelance
+            {showTeams && showFreelance
               ? "BloomBoard vs Notion, Trello, ClickUp, Moxie, HoneyBook and more."
-              : "BloomBoard vs Notion, Trello, ClickUp, Asana and Monday.com."}
+              : showFreelance
+                ? "BloomBoard vs Moxie, HoneyBook, Bonsai and Dubsado."
+                : "BloomBoard vs Notion, Trello, ClickUp, Asana and Monday.com."}
           </p>
 
           <button
@@ -339,7 +342,7 @@ export default function ComparisonSection({
           }}
         >
           <div className="pt-10">
-            {tables.includes("teams") && <ComparisonTable
+            {showTeams && <ComparisonTable
               headers={TEAMS_HEADERS}
               rows={TEAMS_ROWS}
               title="BloomBoard vs The Rest — Solo & Teams"

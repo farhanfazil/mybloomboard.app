@@ -1927,7 +1927,7 @@ export default function FreelancePage() {
       <FreelanceSmartAIFeatures />
 
       {/* ── Comparison ───────────────────────────────────────────────── */}
-      <ComparisonSection />
+      <ComparisonSection tables={["freelance"]} />
 
       {/* ── Pricing ──────────────────────────────────────────────────────── */}
       <section id="pricing" className="px-4 py-20 sm:py-28 border-t" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
