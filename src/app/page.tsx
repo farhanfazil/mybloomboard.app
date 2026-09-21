@@ -25,7 +25,7 @@ export default function Home() {
     <main>
       <Header />
       <AppPreviewScroll />
-      <ComparisonSection />
+      <ComparisonSection tables={["teams"]} />
       {/* Hidden while the live demo carries the product story — restore by uncommenting.
       <FeatureGrid />
       <AIFeatureCarousel />

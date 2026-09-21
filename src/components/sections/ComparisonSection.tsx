@@ -242,7 +242,13 @@ function ComparisonTable({
 
 // ─── EXPORTED SECTION ─────────────────────────────────────────────────────────
 
-export default function ComparisonSection() {
+type ComparisonTableId = "teams" | "freelance";
+
+/** `tables` picks which comparisons to show; the home page shows only Solo & Teams. */
+export default function ComparisonSection({
+  tables = ["teams", "freelance"],
+}: { tables?: ComparisonTableId[] } = {}) {
+  const showFreelance = tables.includes("freelance");
   const [open, setOpen] = useState(true);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -274,7 +280,9 @@ export default function ComparisonSection() {
             See how BloomBoard compares.
           </h2>
           <p className="max-w-lg text-sm leading-relaxed text-white/60 sm:text-base">
-            BloomBoard vs Notion, Trello, ClickUp, Moxie, HoneyBook and more.
+            {showFreelance
+              ? "BloomBoard vs Notion, Trello, ClickUp, Moxie, HoneyBook and more."
+              : "BloomBoard vs Notion, Trello, ClickUp, Asana and Monday.com."}
           </p>
 
           <button
@@ -306,18 +314,18 @@ export default function ComparisonSection() {
           }}
         >
           <div className="pt-10">
-            <ComparisonTable
+            {tables.includes("teams") && <ComparisonTable
               headers={TEAMS_HEADERS}
               rows={TEAMS_ROWS}
               title="BloomBoard vs The Rest — Solo & Teams"
               subtitle="BloomBoard vs Notion · Trello · ClickUp · Asana · Monday.com"
-            />
-            <ComparisonTable
+            />}
+            {showFreelance && <ComparisonTable
               headers={FREELANCE_HEADERS}
               rows={FREELANCE_ROWS}
               title="BloomBoard Freelance vs The Rest"
               subtitle="BloomBoard vs Moxie · HoneyBook · Bonsai · Dubsado"
-            />
+            />}
           </div>
         </div>
       </div>
