@@ -595,7 +595,7 @@ export const PRICING_PLANS = [
     badgeLabel: "Best value",
     cta: "Start 7-day trial",
     ctaHref: "https://buy.polar.sh/polar_cl_QgWTHuRDKTmL1Zbv5H71gx43pQz4xslZjF11r3KRCqH",
-    yearlyHref: "https://buy.polar.sh/polar_cl_1MhCbpAQ3cRR1IzSYH1kP9KtgrmMo218m0Cd84eKXG6",
+    yearlyHref: "https://buy.polar.sh/polar_cl_NkBRIKQ7LFBm14kbXoEsK27Nbb6160EOfcG9x2XWUpX",
     featureGroups: [
       {
         category: "Tasks & Planning",
