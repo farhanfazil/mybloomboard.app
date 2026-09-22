@@ -19,7 +19,7 @@ const TEAMS_ROWS: (string[] | { section: string })[] = [
   ["Task management",             "✅", "✅", "✅", "✅", "✅", "✅"],
   ["Subtasks & file attachments", "✅", "✅", "✅", "✅", "✅", "✅"],
   ["Project boards (kanban)",     "✅", "✅", "✅", "✅", "✅", "✅"],
-  ["Work across several boards at once", "✅", "❌", "❌", "⚠️ Combined views", "❌", "⚠️ Via dashboards"],
+  ["Create several boards at once", "✅", "❌", "❌", "❌", "❌", "❌"],
   ["Type to Task — many tasks at once", "✅", "❌", "⚠️ Paste a list", "⚠️ Paste a list", "⚠️ Paste a list", "❌"],
   ["KPI tracking + PDF reports",  "✅", "❌", "❌", "❌", "❌", "❌"],
 
