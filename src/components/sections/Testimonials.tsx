@@ -74,9 +74,9 @@ export default function Testimonials() {
   }, []);
 
   return (
-    <section ref={ref} data-hide-header className="bg-black px-2 py-6 sm:px-4">
-      {/* Light panel, like the comparison section, so the page alternates dark / light */}
-      <div className="rounded-[28px] bg-[#f5f5f7] px-4 py-16 sm:rounded-[36px] sm:px-8 sm:py-24">
+    <section ref={ref} className="bg-[#1c1c1e]">
+      {/* Dark grey panel so the section stands apart from the black around it */}
+      <div className="px-4 py-16 sm:px-8 sm:py-24">
       <div className="mx-auto max-w-6xl">
         <motion.div
           className="text-center mb-12"
@@ -84,7 +84,7 @@ export default function Testimonials() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl font-semibold tracking-tight text-[#1d1d1f] sm:text-5xl">What people say</h2>
+          <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-5xl">What people say</h2>
         </motion.div>
 
         {/* Mobile: paginated carousel — 3 per page, full width */}
@@ -99,24 +99,24 @@ export default function Testimonials() {
                 <div
                   key={t.name}
                   className="flex flex-col gap-3 rounded-2xl p-4"
-                  style={{ background: "#fff", boxShadow: "0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.05)" }}
+                  style={{ background: "#2c2c2e" }}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-[#86868b]">{t.tag === "Team" ? "Team" : "Solo"}</span>
+                    <span className="text-xs text-white/45">{t.tag === "Team" ? "Team" : "Solo"}</span>
                   </div>
-                  <p className="text-xs leading-relaxed flex-1" style={{ color: "#3a3a3c" }}>
+                  <p className="text-xs leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.82)" }}>
                     {t.quote}
                   </p>
-                  <div className="mt-auto flex items-center gap-3 pt-2 border-t" style={{ borderColor: "rgba(0,0,0,0.06)" }}>
+                  <div className="mt-auto flex items-center gap-3 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
                     <div
                       className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-bold"
-                      style={{ background: "#e8e8ed", color: "#1d1d1f" }}
+                      style={{ background: "#3a3a3c", color: "#fff" }}
                     >
                       {t.avatar}
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-[#1d1d1f]">{t.name}</p>
-                      <p className="text-[10px]" style={{ color: "#6e6e73" }}>{t.role}</p>
+                      <p className="text-xs font-semibold text-white">{t.name}</p>
+                      <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.5)" }}>{t.role}</p>
                     </div>
                   </div>
                 </div>
@@ -136,7 +136,7 @@ export default function Testimonials() {
               style={{
                 width: activePage === i ? "1.5rem" : "0.375rem",
                 height: "0.375rem",
-                background: activePage === i ? "#1d1d1f" : "rgba(0,0,0,0.18)",
+                background: activePage === i ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.2)",
               }}
             />
           ))}
@@ -151,24 +151,24 @@ export default function Testimonials() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col gap-3 rounded-2xl p-5"
-              style={{ background: "#fff", boxShadow: "0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.05)" }}
+              style={{ background: "#2c2c2e" }}
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs text-[#86868b]">{t.tag === "Team" ? "Team" : "Solo"}</span>
+                <span className="text-xs text-white/45">{t.tag === "Team" ? "Team" : "Solo"}</span>
               </div>
-              <p className="text-sm leading-relaxed flex-1" style={{ color: "#3a3a3c" }}>
+              <p className="text-sm leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.82)" }}>
                 {t.quote}
               </p>
-              <div className="mt-auto flex items-center gap-3 pt-2 border-t" style={{ borderColor: "rgba(0,0,0,0.06)" }}>
+              <div className="mt-auto flex items-center gap-3 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
                 <div
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold"
-                  style={{ background: "#e8e8ed", color: "#1d1d1f" }}
+                  style={{ background: "#3a3a3c", color: "#fff" }}
                 >
                   {t.avatar}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-[#1d1d1f]">{t.name}</p>
-                  <p className="text-xs" style={{ color: "#6e6e73" }}>{t.role}</p>
+                  <p className="text-sm font-semibold text-white">{t.name}</p>
+                  <p className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>{t.role}</p>
                 </div>
               </div>
             </motion.div>

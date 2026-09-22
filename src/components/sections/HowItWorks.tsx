@@ -40,8 +40,8 @@ export default function HowItWorks() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} className="bg-black px-2 py-6 sm:px-4">
-      <div className="rounded-[28px] bg-[#1c1c1e] px-4 py-16 sm:rounded-[36px] sm:px-8 sm:py-24">
+    <section ref={ref} className="bg-[#1c1c1e]">
+      <div className="px-4 py-16 sm:px-8 sm:py-24">
       <div className="mx-auto max-w-5xl">
         <motion.div
           className="mb-12 max-w-xl sm:mb-16"
