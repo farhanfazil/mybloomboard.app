@@ -101,7 +101,7 @@ export default function AppPreviewScroll() {
         </h1>
 
         <p className="mt-5 max-w-xl text-base leading-relaxed text-white/70 sm:mt-6 sm:text-lg">
-          Whether you work solo or lead a team — one place to run it all.
+          Tasks, boards, notes, chat and calls for you and your team, right on your Mac.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:mt-10">
