@@ -78,8 +78,22 @@ function formatMonthlyEquivalent(yearlyPrice: string) {
 }
 
 /** "Ask anything", "Create tasks", "and more..." → "Ask anything, create tasks and more". */
+const KEEP_CASE = ["Team Live", "Pulse"];
+
+/** Sentence case for a chip label, keeping acronyms (AI, 24/7) and product names. */
+function softCase(label: string) {
+  if (KEEP_CASE.includes(label)) return label;
+  return label
+    .split(" ")
+    .map((w) => (/^[A-Z0-9/]{2,}$/.test(w) ? w : w.toLowerCase()))
+    .join(" ");
+}
+
 function examplesLine(badges: string[]) {
-  const words = badges.map((b, i) => (i === 0 ? b : b.charAt(0).toLowerCase() + b.slice(1)));
+  const words = badges.map((b, i) => {
+    const soft = softCase(b);
+    return i === 0 ? soft.charAt(0).toUpperCase() + soft.slice(1) : soft;
+  });
   const more = words[words.length - 1]?.startsWith("and more");
   const list = more ? words.slice(0, -1) : words;
   return list.join(", ") + (more ? " and more" : "");

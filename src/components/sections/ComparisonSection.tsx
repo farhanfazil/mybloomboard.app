@@ -41,7 +41,7 @@ const TEAMS_ROWS: (string[] | { section: string })[] = [
   ["AI email writer",             "✅", "❌", "❌", "❌", "❌", "❌"],
   ["AI meeting notes → tasks",    "✅", "⚠️ Paid", "❌", "❌", "❌", "❌"],
   ["AI plan my day",              "✅", "❌", "❌", "❌", "❌", "❌"],
-  ["AI Chief of Staff (Pulse)",   "✅", "❌", "❌", "❌", "❌", "❌"],
+  ["Pulse — AI chief of staff",   "✅", "❌", "❌", "❌", "❌", "❌"],
 
   { section: "Pricing" },
   ["Free plan",                   "✅", "✅", "✅", "✅", "✅", "⚠️ Trial only"],

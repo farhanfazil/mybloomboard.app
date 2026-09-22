@@ -479,11 +479,20 @@ export const PRICING_PLANS = [
         category: "Tasks & Planning",
         items: [
           { text: "Up to 7 tasks", included: true },
-          { text: "Basic task management", included: true },
+          { text: "Type to Task — add many tasks at once", included: true },
           { text: "Due date & priority tracking", included: true },
-          { text: "Reminders & Meetings", included: true },
-          { text: "Boards - 5 boards", included: true },
+          { text: "Reminders & meeting alerts", included: true },
+          { text: "Boards - 5 boards, one open at a time", included: true },
           { text: "Bloom AI Task Automation", included: false },
+        ],
+      },
+      {
+        category: "Workspace",
+        items: [
+          { text: "Bookmarks - up to 25", included: true },
+          { text: "Notes - up to 10", included: true },
+          { text: "Vacations", included: true },
+          { text: "Overview - this week", included: true },
         ],
       },
       {
@@ -501,9 +510,7 @@ export const PRICING_PLANS = [
           { text: "🦋 Bloom AI Coworker", included: false },
           { text: "Email & Messages (5 / month)", included: true },
           { text: "Meeting Notes → Tasks (5 / month)", included: true },
-          { text: "AI Chief of Staff (3 critical-attention signals)", included: true },
           { text: "Daily Recap (last 1 day)", included: true },
-          { text: "Workload Health", included: false },
           { text: "I am Stuck", included: false },
           { text: "Plan My Day", included: false, badge: "Bloom" },
         ],
@@ -511,7 +518,10 @@ export const PRICING_PLANS = [
       {
         category: "Team",
         items: [
-          { text: "Team members reports and progress", included: false },
+          { text: "Voice & video calls", included: false, badge: "Team" },
+          { text: "Handovers", included: false, badge: "Team" },
+          { text: "Pulse", included: false, badge: "Team" },
+          { text: "Team members reports and progress", included: false, badge: "Team" },
         ],
       },
       {
@@ -540,11 +550,20 @@ export const PRICING_PLANS = [
         category: "Tasks & Planning",
         items: [
           { text: "Unlimited tasks", included: true },
-          { text: "Basic task management", included: true },
+          { text: "Type to Task — add many tasks at once", included: true },
           { text: "Due date & priority tracking", included: true },
-          { text: "Reminders & Meetings", included: true },
-          { text: "Boards - 10 boards", included: true },
+          { text: "Reminders & meeting alerts", included: true },
+          { text: "Boards - 10 boards, several open at once", included: true },
           { text: "Bloom AI Task Automation", included: true },
+        ],
+      },
+      {
+        category: "Workspace",
+        items: [
+          { text: "Bookmarks - unlimited", included: true },
+          { text: "Notes - unlimited, with locked notes", included: true },
+          { text: "Vacations", included: true },
+          { text: "Overview - last 30 days, save as image", included: true },
         ],
       },
       {
@@ -562,9 +581,7 @@ export const PRICING_PLANS = [
           { text: "🦋 Bloom AI Coworker (50 tasks / month)", included: true, badges: ["Ask anything", "Create tasks", "Automation", "Write emails", "and more..."] },
           { text: "Email & Messages (50 / month)", included: true, badges: ["Grammar fix", "Rewrite emails", "Professional", "Formal", "Friendly"] },
           { text: "Meeting Notes → Tasks (20 / month)", included: true },
-          { text: "AI Chief of Staff (10 critical-attention signals)", included: true, badges: ["24/7 Watch", "Risk Alerts", "Live Intelligence", "Critical Signals", "Pulse AI"] },
           { text: "Daily Recap (last 30 days)", included: true, badges: ["Daily", "30 days", "Copy to chat"] },
-          { text: "Workload Health", included: false, badge: "Team" },
           { text: "I am Stuck (20 / month)", included: true, badges: ["AI Support", "AI Planning", "Smart Plan"] },
           { text: "Plan My Day", included: false, badge: "Bloom" },
         ],
@@ -572,6 +589,9 @@ export const PRICING_PLANS = [
       {
         category: "Team",
         items: [
+          { text: "Voice & video calls", included: false, badge: "Team" },
+          { text: "Handovers", included: false, badge: "Team" },
+          { text: "Pulse", included: false, badge: "Team" },
           { text: "Team members reports and progress", included: false, badge: "Team" },
         ],
       },
@@ -601,11 +621,20 @@ export const PRICING_PLANS = [
         category: "Tasks & Planning",
         items: [
           { text: "Unlimited tasks", included: true },
-          { text: "Basic task management", included: true },
+          { text: "Type to Task — add many tasks at once", included: true },
           { text: "Due date & priority tracking", included: true },
-          { text: "Reminders & Meetings", included: true },
-          { text: "Boards - Unlimited", included: true },
+          { text: "Reminders & meeting alerts", included: true },
+          { text: "Boards - unlimited, several open at once", included: true },
           { text: "Bloom AI Task Automation", included: true },
+        ],
+      },
+      {
+        category: "Workspace",
+        items: [
+          { text: "Bookmarks - unlimited", included: true },
+          { text: "Notes - unlimited, with locked notes", included: true },
+          { text: "Vacations", included: true },
+          { text: "Overview - full history, PDF & post to chat", included: true },
         ],
       },
       {
@@ -624,16 +653,17 @@ export const PRICING_PLANS = [
           { text: "🦋 Bloom AI Coworker (Unlimited)", included: true, badges: ["Ask anything", "Create tasks", "Automation", "Write emails", "and more..."] },
           { text: "Email & Messages (Unlimited)", included: true, badges: ["Grammar fix", "Rewrite emails", "Professional", "Formal", "Friendly"] },
           { text: "Meeting Notes → Tasks (Unlimited)", included: true },
-          { text: "AI Chief of Staff (unlimited critical-attention signals)", included: true, badges: ["24/7 Watch", "Risk Alerts", "Live Intelligence", "Critical Signals", "Pulse AI"] },
           { text: "Daily Recap (last 180 days)", included: true, badges: ["Daily", "180 days", "Copy to chat"] },
-          { text: "Workload Health", included: false, badge: "Team" },
           { text: "I am Stuck (Unlimited)", included: true, badges: ["AI Support", "AI Planning", "Smart Plan"] },
-          { text: "Plan My Day", included: true, badge: "Bloom" },
+          { text: "Plan My Day", included: true },
         ],
       },
       {
         category: "Team",
         items: [
+          { text: "Voice & video calls", included: false, badge: "Team" },
+          { text: "Handovers", included: false, badge: "Team" },
+          { text: "Pulse", included: false, badge: "Team" },
           { text: "Team members reports and progress", included: false, badge: "Team" },
         ],
       },
@@ -658,14 +688,36 @@ export const PRICING_PLANS = [
     ctaHref: `/api/team-checkout?quantity=3`,
     featureGroups: [
       {
+        category: "Team",
+        items: [
+          { text: "Voice & video calls", included: true, badges: ["One-click calls", "Team Live", "Knock to talk"] },
+          { text: "Handovers - pass tasks on before a vacation", included: true },
+          { text: "Pulse - AI signals on team risks", included: true, badges: ["24/7 Watch", "Risk Alerts", "Live Intelligence", "Critical Signals"] },
+          { text: "Team members reports and progress", included: true },
+          { text: "Team chat, DMs and group conversations", included: true },
+          { text: "Voice messages in board comments", included: true },
+          { text: "Member tagging in cards and comments", included: true },
+        ],
+      },
+      {
         category: "Tasks & Planning",
         items: [
           { text: "Unlimited tasks", included: true },
+          { text: "Type to Task — add many tasks at once", included: true },
           { text: "Task assignment by managers", included: true },
           { text: "Shared project workspaces", included: true },
-          { text: "Reminders & Meetings", included: true },
-          { text: "Boards - Unlimited", included: true },
+          { text: "Reminders & meeting alerts", included: true },
+          { text: "Boards - unlimited, shared with the team", included: true },
           { text: "Bloom AI Task Automation", included: true },
+        ],
+      },
+      {
+        category: "Workspace",
+        items: [
+          { text: "Bookmarks - unlimited, plus team bookmarks", included: true },
+          { text: "Notes - unlimited, with locked notes", included: true },
+          { text: "Vacations - with a team leave calendar", included: true },
+          { text: "Overview - for every team member", included: true },
         ],
       },
       {
@@ -684,21 +736,10 @@ export const PRICING_PLANS = [
           { text: "🦋 Bloom AI Coworker", included: true, badges: ["Ask anything", "Create tasks", "Automation", "Write emails", "and more..."] },
           { text: "Email & Messages", included: true, badges: ["Grammar fix", "Rewrite emails", "Professional", "Formal", "Friendly"] },
           { text: "Meeting Notes → Tasks", included: true },
-          { text: "AI Chief of Staff (unlimited critical-attention signals)", included: true, badges: ["24/7 Watch", "Risk Alerts", "Live Intelligence", "Critical Signals", "Pulse AI"] },
           { text: "Daily Recap (last 180 days)", included: true, badges: ["Daily", "180 days", "Copy to chat"] },
           { text: "Workload Health with private manager signals", included: true },
           { text: "I am Stuck", included: true, badges: ["AI Support", "AI Planning", "Smart Plan"] },
-          { text: "Plan My Day", included: true, badge: "Bloom" },
-        ],
-      },
-      {
-        category: "Team",
-        items: [
-          { text: "Team members reports and progress", included: true },
-          { text: "Voice messages in board comments", included: true },
-          { text: "Team chat for every workspace", included: true },
-          { text: "Group-based team conversations", included: true },
-          { text: "Member tagging in cards and comments", included: true },
+          { text: "Plan My Day", included: true },
         ],
       },
       {
