@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ChevronDown, Check, Minus, Video } from "lucide-react";
+import { ChevronDown, Check, Minus, MessageCircle, Video, type LucideIcon } from "lucide-react";
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
@@ -19,6 +19,7 @@ const TEAMS_ROWS: (string[] | { section: string })[] = [
   ["Task management",             "✅", "✅", "✅", "✅", "✅", "✅"],
   ["Subtasks & file attachments", "✅", "✅", "✅", "✅", "✅", "✅"],
   ["Project boards (kanban)",     "✅", "✅", "✅", "✅", "✅", "✅"],
+  ["Work across several boards at once", "✅", "❌", "❌", "⚠️ Combined views", "❌", "⚠️ Via dashboards"],
   ["Type to Task — many tasks at once", "✅", "❌", "⚠️ Paste a list", "⚠️ Paste a list", "⚠️ Paste a list", "❌"],
   ["KPI tracking + PDF reports",  "✅", "❌", "❌", "❌", "❌", "❌"],
 
@@ -29,10 +30,10 @@ const TEAMS_ROWS: (string[] | { section: string })[] = [
 
   { section: "Team & Collaboration" },
   ["Voice & video calls",         "✅ Built-in", "❌ Via add-on", "❌ Via add-on", "✅", "❌ Via add-on", "❌ Via add-on"],
+  ["Built-in team chat",          "✅", "❌", "❌", "✅", "❌", "❌"],
   ["Handovers before a vacation", "✅", "❌", "❌", "❌", "❌", "❌"],
   ["Team vacation calendar",      "✅", "❌", "❌", "❌", "⚠️ Out-of-office only", "⚠️ Via template"],
   ["Team collaboration",          "✅", "✅", "✅", "✅", "✅", "✅"],
-  ["Built-in team chat",          "✅", "❌", "❌", "✅", "❌", "❌"],
   ["Voice messages in boards",    "✅", "❌", "❌", "❌", "❌", "❌"],
   ["Meetings + 5-min alerts",     "✅", "❌", "❌", "✅", "✅", "✅"],
 
@@ -93,9 +94,10 @@ const FREELANCE_ROWS: (string[] | { section: string })[] = [
   ["Free plan",                   "✅", "❌", "❌", "⚠️ Trial only", "❌"],
 ];
 
-/** Headline features get a highlighted row with a badge. */
-const FEATURED: Record<string, string> = {
-  "Voice & video calls": "New",
+/** Headline features get a highlighted row, with an icon and an optional badge. */
+const FEATURED: Record<string, { icon: LucideIcon; badge?: string }> = {
+  "Voice & video calls": { icon: Video, badge: "New" },
+  "Built-in team chat": { icon: MessageCircle },
 };
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
@@ -221,25 +223,28 @@ function ComparisonTable({
               }
 
               const [feature, ...cols] = row as string[];
-              const badge = FEATURED[feature];
+              const featured = FEATURED[feature];
+              const FeaturedIcon = featured?.icon;
 
               return (
                 <tr
                   key={`row-${ri}`}
-                  className={`group ${badge ? "bg-emerald-50/70" : "hover:bg-[#fafafa]"}`}
+                  className={`group ${featured ? "bg-emerald-50/70" : "hover:bg-[#fafafa]"}`}
                 >
                   <td
                     className={`border-b border-black/[0.06] px-3 text-sm ${
-                      badge ? "py-4 font-semibold text-[#1d1d1f]" : "py-3.5 text-[#1d1d1f]"
+                      featured ? "py-4 font-semibold text-[#1d1d1f]" : "py-3.5 text-[#1d1d1f]"
                     }`}
                   >
-                    {badge ? (
-                      <span className="inline-flex items-center gap-2">
-                        <Video className="h-4 w-4 text-emerald-600" strokeWidth={2.4} />
+                    {featured && FeaturedIcon ? (
+                      <span className="inline-flex items-center gap-2 whitespace-nowrap">
+                        <FeaturedIcon className="h-4 w-4 shrink-0 text-emerald-600" strokeWidth={2.4} />
                         {feature}
-                        <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-semibold text-white">
-                          {badge}
-                        </span>
+                        {featured.badge && (
+                          <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-semibold text-white">
+                            {featured.badge}
+                          </span>
+                        )}
                       </span>
                     ) : feature}
                   </td>
