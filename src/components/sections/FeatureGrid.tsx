@@ -91,10 +91,10 @@ function FeatureCard({ title, description }: { title: string; description: strin
 
   return (
     <div
-      className="flex h-full w-full items-start gap-3 rounded-xl border border-white/10 bg-[#0b0f14] p-4 transition-colors duration-200 hover:border-white/25 hover:bg-[#0f151c]"
+      className="flex h-full w-full items-start gap-3 rounded-xl border border-white/10 bg-[#111113] p-4 transition-colors duration-200 hover:border-white/20 hover:bg-[#18181b]"
       title={description}
     >
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#123e5a]/60 text-white">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/[0.07] text-white/85">
         <Icon aria-hidden="true" className="h-[18px] w-[18px]" strokeWidth={1.9} />
       </span>
       <span className="min-w-0">

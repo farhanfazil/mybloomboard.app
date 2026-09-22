@@ -1057,7 +1057,7 @@ function FreelancePricingCard({ plan, yearly }: { plan: typeof FREELANCE_PLANS[0
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
       className={`relative flex w-full flex-col overflow-hidden rounded-2xl border sm:h-full ${
-        isPopular ? "border-white/35 bg-[#0f151c]" : isBloom ? "border-violet-300/25 bg-[#0b0f14]" : "border-white/10 bg-[#0b0f14]"
+        isPopular ? "border-white/35 bg-[#18181b]" : isBloom ? "border-violet-300/25 bg-[#111113]" : "border-white/10 bg-[#111113]"
       }`}
     >
       {(isPopular || isBloom) && (

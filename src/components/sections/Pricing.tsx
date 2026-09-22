@@ -44,27 +44,27 @@ const TAGLINES: Record<string, string> = {
 /** One signature colour per paid plan, used only for the top line, the tag and the button. */
 const PLAN_STYLE: Record<string, { line?: string; tag?: string; tagClass?: string; border: string; button: string }> = {
   Free: {
-    border: "border-white/10 bg-[#0b0f14]",
+    border: "border-white/10 bg-[#111113]",
     button: "border border-white/20 text-white hover:bg-white/[0.07]",
   },
   Flow: {
     line: "#60a5fa",
     tag: "Most popular",
     tagClass: "bg-white text-black",
-    border: "border-white/35 bg-[#0f151c]",
+    border: "border-white/35 bg-[#18181b]",
     button: "bg-white text-black hover:bg-white/90",
   },
   Bloom: {
     line: "#a78bfa",
     tagClass: "bg-violet-400/15 text-violet-200",
-    border: "border-violet-300/25 bg-[#0b0f14]",
+    border: "border-violet-300/25 bg-[#111113]",
     button: "bg-violet-600 text-white hover:bg-violet-500",
   },
   Team: {
     line: "#2dd4bf",
     tag: "For teams",
     tagClass: "bg-teal-400/15 text-teal-200",
-    border: "border-teal-300/30 bg-[#0b0f14]",
+    border: "border-teal-300/30 bg-[#111113]",
     button: "bg-teal-600 text-white hover:bg-teal-500",
   },
 };
