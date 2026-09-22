@@ -97,7 +97,7 @@ export default function AppPreviewScroll() {
           style={{ fontSize: "clamp(2rem, 4.8vw, 5.5rem)", lineHeight: 1.06 }}
         >
           <span className="block">Productivity app that</span>
-          <span className="mt-1 block text-white/55">thinks with you.</span>
+          <span className="mt-1 block">thinks with you.</span>
         </h1>
 
         <p className="mt-5 max-w-xl text-base leading-relaxed text-white/70 sm:mt-6 sm:text-lg">
