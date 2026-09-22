@@ -32,8 +32,7 @@ export default function Home() {
         <StatsBar />
       </DeepDiveFlight>
       */}
-      {/* Soft tinted band that fades in and out of black, so there is no hard edge */}
-      <div style={{ background: "linear-gradient(to bottom, #000 0%, #07121a 22%, #0a1822 50%, #07121a 78%, #000 100%)" }}>
+      <div className="bg-black">
         <Testimonials />
         <PlanQuiz />
       </div>

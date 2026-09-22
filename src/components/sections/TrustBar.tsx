@@ -16,15 +16,14 @@ export default function TrustBar() {
   const isInView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
-    <section ref={ref} className="px-4 pb-4 pt-2">
+    <section ref={ref} className="px-4 pb-16 pt-4 sm:px-6 sm:pb-20">
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5 }}
-        className="mx-auto max-w-4xl rounded-2xl px-6 py-5"
-        style={{ background: "#0b0d10", border: "1px solid rgba(255,255,255,0.1)" }}
+        className="mx-auto max-w-5xl"
       >
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-4">
           {TRUST_ITEMS.map((item, i) => {
             const Icon = item.icon;
             return (
@@ -33,11 +32,13 @@ export default function TrustBar() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.4, delay: i * 0.07 }}
-                className="flex flex-col items-center gap-1.5 text-center"
+                className="border-t border-white/15 pt-4"
               >
-                <Icon className="h-5 w-5 text-white/80" strokeWidth={1.6} />
-                <p className="text-xs font-semibold text-white">{item.label}</p>
-                <p className="text-xs leading-snug" style={{ color: "rgba(255,255,255,0.5)" }}>{item.sub}</p>
+                <p className="flex items-center gap-2 text-sm font-medium text-white">
+                  <Icon className="h-4 w-4 shrink-0 text-white/60" strokeWidth={1.8} />
+                  {item.label}
+                </p>
+                <p className="mt-1 text-sm leading-snug text-white/50">{item.sub}</p>
               </motion.div>
             );
           })}

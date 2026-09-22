@@ -114,7 +114,7 @@ export default function PlanQuiz({
         </div>
 
         {/* Right: the quiz */}
-        <div className="rounded-2xl border border-white/10 bg-[#0b0f14] shadow-[0_20px_50px_rgba(0,0,0,0.35)]">
+        <div>
           <AnimatePresence mode="wait">
             {!plan ? (
               <motion.div
@@ -123,7 +123,6 @@ export default function PlanQuiz({
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -16 }}
                 transition={{ duration: 0.2 }}
-                className="p-6 sm:p-8"
               >
                 <p className="text-sm text-white/50">
                   Question {step + 1} of {steps.length}
@@ -132,15 +131,15 @@ export default function PlanQuiz({
                   {steps[step].question}
                 </h3>
 
-                <div className="mt-6 flex flex-col gap-2.5">
+                <div className="mt-6 border-t border-white/10">
                   {steps[step].options.map((opt, i) => (
                     <button
                       key={opt.label}
                       type="button"
                       onClick={() => pick(opt.points)}
-                      className="group flex w-full items-center gap-3.5 rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3.5 text-left text-sm font-medium text-white/85 transition-colors duration-150 hover:border-white/30 hover:bg-white/[0.06] hover:text-white"
+                      className="group flex w-full items-center gap-4 border-b border-white/10 py-4 text-left text-base text-white/80 transition-colors duration-150 hover:text-white"
                     >
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-white/15 text-xs font-semibold text-white/60 transition-colors group-hover:border-white/40 group-hover:text-white">
+                      <span className="w-4 shrink-0 text-sm font-medium text-white/35 transition-colors group-hover:text-white/70">
                         {LETTERS[i]}
                       </span>
                       <span className="flex-1">{opt.label}</span>
@@ -155,7 +154,6 @@ export default function PlanQuiz({
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25 }}
-                className="p-6 sm:p-8"
               >
                 <p className="text-sm text-white/50">We&apos;d suggest</p>
                 <p className="mt-1 text-3xl font-bold text-white">{plan.name}</p>
