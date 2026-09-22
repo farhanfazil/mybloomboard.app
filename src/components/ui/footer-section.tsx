@@ -87,14 +87,14 @@ export function Footer() {
               className="rounded-xl"
             />
             <div>
-              <p className="text-sm font-semibold text-text-primary">BloomBoard</p>
-              <p className="text-xs text-text-muted">Your Day. One Board.</p>
+              <p className="text-sm font-semibold text-white">BloomBoard</p>
+              <p className="text-xs text-white">Your Day. One Board.</p>
             </div>
           </div>
-          <p className="max-w-xs text-sm leading-relaxed text-text-muted">
+          <p className="max-w-xs text-sm leading-relaxed text-white">
             A focused macOS dashboard for tasks, goals, reminders, health, streaks, boards, reports, and AI.
           </p>
-          <p className="text-sm text-text-muted">
+          <p className="text-sm text-white">
             © {new Date().getFullYear()} BloomBoard. All rights reserved.
           </p>
         </AnimatedContainer>
@@ -103,15 +103,15 @@ export function Footer() {
           {footerLinks.map((section, index) => (
             <AnimatedContainer key={section.label} delay={0.1 + index * 0.1}>
               <div>
-                <h3 className="text-sm font-semibold text-text-primary">
+                <h3 className="text-sm font-semibold text-white">
                   {section.label}
                 </h3>
-                <ul className="mt-4 space-y-2 text-sm text-text-muted">
+                <ul className="mt-4 space-y-2 text-sm text-white">
                   {section.links.map((link) => (
                     <li key={link.title}>
                       <a
                         href={link.href}
-                        className="inline-flex items-center transition-colors hover:text-text-primary"
+                        className="inline-flex items-center transition-opacity hover:opacity-70"
                       >
                         {link.title}
                       </a>
