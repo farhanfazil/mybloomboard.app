@@ -2,8 +2,10 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
+import { useDownload } from "@/lib/downloads";
 
 export default function Navbar() {
+  const download = useDownload();
   const { scrollY } = useScroll();
   const bgOpacity = useTransform(scrollY, [0, 80], [0, 1]);
 
@@ -55,7 +57,7 @@ export default function Navbar() {
 
         {/* CTA */}
         <a
-          href="https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg"
+          href={download.url}
           className="hidden md:inline-flex items-center gap-2 px-5 py-2 rounded-full font-semibold text-sm transition-all duration-300 hover:scale-105 hover:brightness-105"
           style={{
             background: "rgba(255,255,255,0.92)",

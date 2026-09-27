@@ -1,50 +1,64 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
-
-const DOWNLOAD_URL =
-  "https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg";
+import { useDownload } from "@/lib/downloads";
+import LiveDemoFrame from "@/components/sections/LiveDemoFrame";
 
 export default function DemoPage() {
+  const download = useDownload();
+  /* The app is a desktop layout; phones get the fitted live preview instead. */
+  const [phone, setPhone] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const update = () => setPhone(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
   return (
     <div className="flex h-[100dvh] flex-col bg-black text-white">
       <header className="flex shrink-0 items-center justify-between gap-3 border-b border-white/10 bg-[#0a1520] px-3 py-2 sm:px-4">
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold text-white sm:text-[15px]">
-            You&apos;re trying BloomBoard
+            <span className="sm:hidden">Live demo</span>
+            <span className="hidden sm:inline">You&apos;re trying BloomBoard</span>
           </p>
           <p className="hidden truncate text-xs text-[#607080] sm:block">
-            Full app UI — tasks, boards, bookmarks &amp; meetings work in your browser
+            The full app in your browser: tasks, boards, chat and meetings all work
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-2">
           <Link
             href="/"
-            className="hidden rounded-lg border border-white/10 px-3 py-1.5 text-xs text-[#9dceff] transition hover:bg-white/5 sm:inline-block"
+            className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-[#9dceff] transition hover:bg-white/5"
           >
             Back to site
           </Link>
           <a
-            href={DOWNLOAD_URL}
+            href={download.url}
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-lg bg-[#4d9fff] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[#3d8fef] sm:px-4 sm:text-sm"
           >
-            Download for Mac
+            Download for {download.label}
           </a>
         </div>
       </header>
 
-      <p className="shrink-0 border-b border-amber-500/20 bg-amber-500/10 px-3 py-1.5 text-center text-[11px] text-amber-100/90 sm:hidden">
-        Best on desktop — pinch to zoom if needed
-      </p>
-
-      <iframe
-        title="BloomBoard live demo"
-        src="/bloomboard-demo/index.html?ws=personal,team&v=30"
-        className="min-h-0 w-full flex-1 border-0 bg-[#0a1520]"
-        allow="clipboard-write"
-      />
+      {phone ? (
+        <main className="min-h-0 flex-1 overflow-y-auto px-4 py-6">
+          <LiveDemoFrame eager />
+        </main>
+      ) : (
+        <iframe
+          title="BloomBoard live demo"
+          src="/bloomboard-demo/index.html?ws=personal,team&v=30"
+          className="min-h-0 w-full flex-1 border-0 bg-[#0a1520]"
+          allow="clipboard-write"
+        />
+      )}
     </div>
   );
 }

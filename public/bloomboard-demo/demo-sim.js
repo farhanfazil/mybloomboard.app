@@ -15,6 +15,9 @@
   /* Roster and rooms come from the team seed (demo-seed.js). */
   var MATES = demo.roster || [];
   var ROOMS = demo.rooms || [];
+  /* Teammates on leave today stay out of chat and knocks. */
+  var AWAY = demo.onLeave || [];
+  var LIVE_ROOMS = demo.liveRooms || [];
   if (!MATES.length) return;
   var LINES = [
     '🎉', 'Can you check the latest export?', '🔥🔥', 'Approved 👍', 'Sending the file now', '😂',
@@ -36,7 +39,13 @@
   function activeConvId() {
     try { return typeof window._chatActiveConvId === 'string' ? window._chatActiveConvId : null; } catch (e) { return null; }
   }
-  function isOnline(id) { return !offline[id]; }
+  function isOnline(id) { return !offline[id] && AWAY.indexOf(id) < 0; }
+  /* Someone on Focus or "Back at" doesn't knock or wave. */
+  function isFree(id) {
+    if (!isOnline(id)) return false;
+    var row = demo.rows('team_members').filter(function (r) { return r.user_id === id; })[0];
+    return !row || (row.status !== 'dnd' && row.status !== 'brb' && row.status !== 'busy');
+  }
 
   /* A timer that waits out hidden-tab time instead of firing into a background tab. */
   function later(ms, fn) {
@@ -74,7 +83,7 @@
 
   /* ── A teammate knocks every 75–95 s ── */
   function incomingKnock() {
-    var from = pick(MATES.filter(function (m) { return isOnline(m.id); }));
+    var from = pick(MATES.filter(function (m) { return isFree(m.id); }));
     if (from) {
       var knockId = demo.uuid();
       demo.broadcast('team_live_', 'knock', { id: knockId, from: from.id, to: ME, at: Date.now() });
@@ -123,10 +132,13 @@
   /* ── Presence: everyone online at launch, someone occasionally steps away ── */
   var offline = {};
   demo.presenceDefaults['team_live_'] = {};
-  MATES.forEach(function (m) { demo.presenceDefaults['team_live_'][m.id] = { idle: false, at: Date.now() }; });
+  /* People on leave stay offline, so the office shows "On leave · back …". */
+  MATES.forEach(function (m) {
+    if (AWAY.indexOf(m.id) < 0) demo.presenceDefaults['team_live_'][m.id] = { idle: false, at: Date.now() };
+  });
 
   function presenceDrift() {
-    var m = pick(MATES);
+    var m = pick(MATES.filter(function (x) { return AWAY.indexOf(x.id) < 0; }));
     if (offline[m.id]) {
       delete offline[m.id];
       demo.setPresence('team_live_', m.id, { idle: false, at: Date.now() });
@@ -145,8 +157,83 @@
     later(rand(50000, 80000), presenceDrift);
   }
 
+  /* ── Team Space: who's talking in the live rooms, every 4–8 s ── */
+  function liveCalls() {
+    return demo.rows('bloom_calls').filter(function (c) { return c.status === 'active'; });
+  }
+  function joinedIn(call) {
+    var st = call.invite_state || {};
+    return (call.participant_ids || []).filter(function (id) { return st[id] === 'joined'; });
+  }
+  function speaking() {
+    var calls = liveCalls();
+    var call = calls.length ? pick(calls) : null;
+    var inside = call ? joinedIn(call).filter(function (id) { return id !== ME; }) : [];
+    if (inside.length) {
+      var who = pick(inside);
+      demo.broadcast('team_live_', 'speaking', { from: who, on: true });
+      /* The app clears a speaker after 3 s on its own; stop a little before that. */
+      setTimeout(function () { demo.broadcast('team_live_', 'speaking', { from: who, on: false }); }, rand(1800, 2800));
+    }
+    later(rand(4000, 8000), speaking);
+  }
+
+  /* ── Walking in and out: a guest leaves a live room or comes back ── */
+  function setInRoom(room, id, inside) {
+    var call = liveCalls().filter(function (c) { return c.conversation_id === room.conv; })[0];
+    if (!call) return;
+    var ids = (call.participant_ids || []).filter(function (x) { return x !== id; });
+    var st = Object.assign({}, call.invite_state || {});
+    if (inside) { ids.push(id); st[id] = 'joined'; } else { st[id] = 'left'; }
+    demo.update('bloom_calls', { id: call.id }, { participant_ids: ids, invite_state: st, updated_at: new Date().toISOString() });
+  }
+  function roomShuffle() {
+    var room = LIVE_ROOMS.length ? pick(LIVE_ROOMS) : null;
+    var call = room && liveCalls().filter(function (c) { return c.conversation_id === room.conv; })[0];
+    if (call) {
+      var guest = pick(room.guests);
+      setInRoom(room, guest, joinedIn(call).indexOf(guest) < 0);
+    }
+    later(rand(25000, 40000), roomShuffle);
+  }
+
+  /* ── Now and then a teammate waves at the visitor ── */
+  function incomingWave() {
+    var from = pick(MATES.filter(function (m) { return isFree(m.id); }));
+    if (from) demo.broadcast('team_live_', 'wave', { from: from.id, to: ME, at: Date.now() });
+    later(rand(100000, 150000), incomingWave);
+  }
+
+  /* ── Visitor waves: usually a wave back. Visitor knocks on a room: someone inside answers ── */
+  demo.onBroadcast(function (topic, event, p) {
+    if (topic.indexOf('team_live_') !== 0 || !p || p.from !== ME) return;
+    if (event === 'wave' && mate(p.to) && Math.random() < 0.7) {
+      later(rand(3000, 6000), function () {
+        demo.broadcast('team_live_', 'wave', { from: p.to, to: ME, at: Date.now() });
+      });
+    }
+    if (event === 'room_knock') {
+      var call = liveCalls().filter(function (c) { return c.conversation_id === p.conv || c.id === p.call; })[0];
+      var inside = call ? joinedIn(call).filter(function (id) { return id !== ME; }) : [];
+      if (!inside.length) return;
+      var who = pick(inside);
+      later(rand(3000, 6000), function () {
+        demo.broadcast('team_live_', 'room_knock_reply', {
+          from: who, to: ME, answer: Math.random() < 0.8 ? 'in' : 'not_now', conv: String(p.conv || ''),
+        });
+      });
+    }
+  });
+
   /* Give the app time to sign in, pull chats and open its realtime channels. */
   later(9000, ambientChat);
   later(reduceMotion ? 60000 : 25000, incomingKnock);
   later(60000, presenceDrift);
+  if (LIVE_ROOMS.length) {
+    later(6000, speaking);
+    /* Priya steps out of the Lounge early, so her tile shows what she is working on. */
+    later(15000, function () { setInRoom(LIVE_ROOMS[1] || LIVE_ROOMS[0], (LIVE_ROOMS[1] || LIVE_ROOMS[0]).guests[0], false); });
+    later(45000, roomShuffle);
+  }
+  later(reduceMotion ? 120000 : 50000, incomingWave);
 })();

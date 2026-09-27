@@ -6,9 +6,8 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
 import { useScroll } from "@/components/ui/use-scroll";
+import { useDownload } from "@/lib/downloads";
 
-const DOWNLOAD_URL =
-  "https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg";
 const CUSTOMER_PORTAL_URL = "https://polar.sh/bloombooard/portal";
 // "For freelancers" link is paused while the freelance page is reworked; set back to true to show it again.
 const SHOW_FREELANCE_LINK = false;
@@ -28,6 +27,8 @@ export function Header({
 } = {}) {
   const [open, setOpen] = React.useState(false);
   const scrolled = useScroll(10);
+  // The installer for the visitor's computer (Mac or Windows).
+  const DOWNLOAD_URL = useDownload().url;
 
   const links: NavLink[] = customLinks ?? [
     // Features / Deep Dive sections are hidden on the home page (see page.tsx);

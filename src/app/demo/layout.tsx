@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Try BloomBoard — Live Demo",
+  title: "Try the BloomBoard Live Demo",
   description:
     "Try BloomBoard in your browser. Create tasks, boards, bookmarks, and meetings with the real app UI.",
 };

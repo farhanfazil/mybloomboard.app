@@ -149,7 +149,7 @@
                   q.slice(0, 80) +
                   (q.length > 80 ? '…' : '') +
                   '". In this browser demo I handle tasks, meetings, and scheduling instantly. Download the Mac app for full AI with your real data.'
-              : 'Hey! I\'m Bloom — ask me to create tasks, schedule meetings, or plan your day. Simple requests work instantly in the demo.',
+              : 'Hey! I\'m Bloom. Ask me to create tasks, schedule meetings, or plan your day. Simple requests work instantly in the demo.',
             null,
             0
           ) +
@@ -786,9 +786,9 @@
         var defBtn = document.getElementById('ws-default-btn');
         if (defBtn) defBtn.style.display = 'none';
         var personalTitle = document.querySelector('.workspace-option.personal .workspace-option-title');
-        if (personalTitle) personalTitle.textContent = 'Bloom — Personal Productivity';
+        if (personalTitle) personalTitle.textContent = 'Bloom: Personal Productivity';
         var freelanceTitle = document.querySelector('.workspace-option.freelance .workspace-option-title');
-        if (freelanceTitle) freelanceTitle.textContent = 'Bloom — Freelance Business';
+        if (freelanceTitle) freelanceTitle.textContent = 'Bloom: Freelance Business';
       };
       window.openWorkspaceChooser._demoPatched = true;
     }
@@ -974,7 +974,7 @@
     bar.id = 'bb-web-demo-banner';
     bar.className = 'bb-web-demo-banner';
     bar.innerHTML =
-      'Browser demo — use the <strong>Switch workspace</strong> bar at the top of the dashboard. ' +
+      'Browser demo. Use the <strong>Switch workspace</strong> bar at the top of the dashboard. ' +
       '<a href="' +
       DOWNLOAD_URL +
       '" target="_blank" rel="noopener noreferrer" style="color:#fff;font-weight:700;margin-left:6px">Download Mac app →</a>';
@@ -1057,4 +1057,72 @@
   } else {
     initDemoUI();
   }
+})();
+
+/* Daily reminder: only on the main dashboard (Tasks tab, nothing open on top).
+   One that comes due elsewhere waits until the visitor is back on the dashboard,
+   and leaving the dashboard hides a reminder that is showing. */
+(function () {
+  'use strict';
+
+  function onDashboard() {
+    try {
+      if (typeof currentMainTab !== 'undefined' && currentMainTab !== 'tasks') return false;
+    } catch (e) {}
+    var points = [[0.5, 0.5], [0.7, 0.35], [0.4, 0.75]];
+    return points.every(function (p) {
+      var el = document.elementFromPoint(innerWidth * p[0], innerHeight * p[1]);
+      /* The reminder itself sits over the dashboard; look past it. */
+      if (el && el.closest('#quote-card')) return true;
+      return !!(el && el.closest('main.main-area'));
+    });
+  }
+
+  var pending = null;
+  function wrap() {
+    var orig = window.showQuoteToast;
+    if (typeof orig !== 'function' || orig._bbDashOnly) return false;
+    var gated = function (fresh) {
+      if (onDashboard()) { pending = null; return orig.apply(this, arguments); }
+      pending = { fresh: pending ? pending.fresh || !!fresh : !!fresh };
+    };
+    gated._bbDashOnly = true;
+    window.showQuoteToast = gated;
+    return true;
+  }
+
+  var tries = 0;
+  var wrapTimer = setInterval(function () {
+    if (wrap() || ++tries > 80) clearInterval(wrapTimer);
+  }, 250);
+
+  setInterval(function () {
+    var card = document.getElementById('quote-card');
+    if (!card) return;
+    var here = onDashboard();
+    if (!here && card.classList.contains('show')) {
+      if (typeof window.hideQuoteToast === 'function') window.hideQuoteToast();
+      else card.classList.remove('show');
+    } else if (here && pending && document.visibilityState === 'visible') {
+      var p = pending;
+      pending = null;
+      window.showQuoteToast(p.fresh);
+    }
+  }, 600);
+})();
+
+/* No weekly report in the demo: it is a personal Sunday-evening summary with
+   nothing to show a visitor. Mark this week as seen (the app's own key) and keep
+   the popup hidden if anything opens it anyway. */
+(function () {
+  'use strict';
+  try {
+    var d = new Date();
+    var mon = new Date(d);
+    mon.setDate(d.getDate() - (d.getDay() || 7) + 1);
+    localStorage.setItem('farhan-weekly-' + mon.toISOString().split('T')[0], '1');
+  } catch (e) {}
+  var st = document.createElement('style');
+  st.textContent = '#weekly-modal{display:none!important}';
+  (document.head || document.documentElement).appendChild(st);
 })();

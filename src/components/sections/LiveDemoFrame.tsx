@@ -2,10 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import DemoReactionsBar from "@/components/sections/DemoReactionsBar";
+import PhoneDemoPitch from "@/components/sections/PhoneDemoPitch";
 
 const APP_W = 1280;
 const APP_H = 920;
 const TITLE_BAR_H = 40;
+const PHONE_QUERY = "(max-width: 639px)";
 
 type LiveDemoFrameProps = {
   /** Show only the top slice of the window (hero peek) */
@@ -27,6 +29,16 @@ export default function LiveDemoFrame({
   const frameRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0.72);
   const [iframeReady, setIframeReady] = useState(eager);
+  /* null until measured: the demo only loads once we know this isn't a phone. */
+  const [phone, setPhone] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia(PHONE_QUERY);
+    const update = () => setPhone(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   useEffect(() => {
     if (eager) {
@@ -60,7 +72,17 @@ export default function LiveDemoFrame({
     const ro = new ResizeObserver(update);
     ro.observe(el);
     return () => ro.disconnect();
-  }, [iframeReady]);
+  }, [iframeReady, phone]);
+
+  /* The desktop app can't be used on a phone; talk to the visitor instead. */
+  if (phone && !peek) {
+    return (
+      <div className={className}>
+        <DemoReactionsBar className="mb-4" />
+        <PhoneDemoPitch />
+      </div>
+    );
+  }
 
   return (
     <div className={className}>
@@ -86,7 +108,7 @@ export default function LiveDemoFrame({
             <div className="h-3 w-3 rounded-full" style={{ background: "#febc2e" }} />
             <div className="h-3 w-3 rounded-full" style={{ background: "#28c840" }} />
           </div>
-          <span className="mx-auto text-[11px] font-medium text-white/45">BloomBoard — Live Demo</span>
+          <span className="mx-auto text-[11px] font-medium text-white/45">BloomBoard Live Demo</span>
           <span className="w-[52px]" aria-hidden />
         </div>
 
@@ -95,7 +117,7 @@ export default function LiveDemoFrame({
           className="relative w-full overflow-hidden bg-[#0a1520]"
           style={{ height: viewportH }}
         >
-          {!iframeReady ? (
+          {!iframeReady || phone !== false ? (
             <div className="flex h-full min-h-[120px] items-center justify-center text-sm text-white/40">
               Loading interactive demo…
             </div>

@@ -50,7 +50,7 @@
           role: 'bloom',
           text:
             greet +
-            "! 🌱 I'm Bloom, your AI coworker. I can create tasks, schedule meetings, manage your boards, and help you plan your day — just ask. What can I help with?",
+            "! 🌱 I'm Bloom, your AI coworker. I can create tasks, schedule meetings, manage your boards, and help you plan your day. Just ask. What can I help with?",
           actions: [],
           ts: now,
         },
@@ -134,7 +134,7 @@
           },
           {
             id: 'demo-p-task-5',
-            title: 'File expense report — client dinner',
+            title: 'File expense report: client dinner',
             desc: 'Attach receipt and submit in finance portal.',
             notes: '',
             done: true,
@@ -218,7 +218,7 @@
             dateStart: today,
             dateEnd: today,
             time: '09:30',
-            notes: 'Daily sync — blockers and priorities.',
+            notes: 'Daily sync: blockers and priorities.',
             createdAt: now - hour * 24,
             reminderFreq: '',
             reminderTime: '',
@@ -242,7 +242,7 @@
           {
             id: 'demo-p-ev-review',
             type: 'meeting',
-            title: 'Design review — dashboard v2',
+            title: 'Design review: dashboard v2',
             dateStart: isoDate(4),
             dateEnd: isoDate(4),
             time: '11:00',
@@ -260,7 +260,7 @@
             dateStart: isoDate(2),
             dateEnd: isoDate(2),
             time: '',
-            notes: 'Friday deadline — log hours for the week.',
+            notes: 'Friday deadline. Log hours for the week.',
             createdAt: now - hour * 10,
             reminderFreq: '1d',
             reminderTime: '09:00',
@@ -270,11 +270,11 @@
           {
             id: 'demo-p-ev-vacation',
             type: 'leave',
-            title: 'PTO — long weekend',
+            title: 'PTO: long weekend',
             dateStart: isoDate(14),
             dateEnd: isoDate(16),
             time: '',
-            notes: 'Out of office — set Slack status and delegate inbox.',
+            notes: 'Out of office. Set Slack status and delegate inbox.',
             createdAt: now - hour * 96,
             reminderFreq: '',
             reminderTime: '',
@@ -288,10 +288,10 @@
         'bloom-bookmarks-v1',
         JSON.stringify([
           { id: 'demo-p-bm-1', name: 'BloomBoard', url: 'https://mybloomboard.app', category: 'Productivity', note: '', createdAt: now - hour },
-          { id: 'demo-p-bm-2', name: 'Notion — Work wiki', url: 'https://notion.so', category: 'Docs', note: '', createdAt: now - hour * 2 },
+          { id: 'demo-p-bm-2', name: 'Notion: Work wiki', url: 'https://notion.so', category: 'Docs', note: '', createdAt: now - hour * 2 },
           { id: 'demo-p-bm-3', name: 'Google Calendar', url: 'https://calendar.google.com', category: 'Scheduling', note: '', createdAt: now - hour * 3 },
-          { id: 'demo-p-bm-4', name: 'Figma — Design files', url: 'https://figma.com', category: 'Design', note: '', createdAt: now - hour * 4 },
-          { id: 'demo-p-bm-5', name: 'GitHub — Repos', url: 'https://github.com', category: 'Engineering', note: '', createdAt: now - hour * 5 },
+          { id: 'demo-p-bm-4', name: 'Figma: Design files', url: 'https://figma.com', category: 'Design', note: '', createdAt: now - hour * 4 },
+          { id: 'demo-p-bm-5', name: 'GitHub: Repos', url: 'https://github.com', category: 'Engineering', note: '', createdAt: now - hour * 5 },
           { id: 'demo-p-bm-6', name: 'Company intranet', url: 'https://example.com', category: 'Internal', note: '', createdAt: now - hour * 6 },
         ])
       );
@@ -406,7 +406,7 @@
           email: 'billing@acme.example',
           company: 'Acme Corp',
           phone: '+1 555-0101',
-          notes: 'Retainer client — brand and web design.',
+          notes: 'Retainer client: brand and web design.',
           createdAt: isoDate(-90),
         },
         {
@@ -539,7 +539,7 @@
           issueDate: isoDate(-3),
           dueDate: isoDate(11),
           createdAt: isoDate(-3),
-          lineItems: [{ desc: 'Website redesign — milestone 1', qty: 1, rate: 2400, amount: 2400 }],
+          lineItems: [{ desc: 'Website redesign, milestone 1', qty: 1, rate: 2400, amount: 2400 }],
         },
         {
           id: 'demo-fl-inv-3',
@@ -553,7 +553,7 @@
           issueDate: isoDate(-1),
           dueDate: isoDate(13),
           createdAt: isoDate(-1),
-          lineItems: [{ desc: 'Brand identity — deposit', qty: 1, rate: 1600, amount: 1600 }],
+          lineItems: [{ desc: 'Brand identity, deposit', qty: 1, rate: 1600, amount: 1600 }],
         },
         {
           id: 'demo-fl-inv-4',
@@ -567,7 +567,7 @@
           issueDate: today,
           dueDate: isoDate(14),
           createdAt: today,
-          lineItems: [{ desc: 'Social media kit — deposit', qty: 1, rate: 475, amount: 475 }],
+          lineItems: [{ desc: 'Social media kit, deposit', qty: 1, rate: 475, amount: 475 }],
         },
         {
           id: 'demo-fl-inv-5',
@@ -581,7 +581,7 @@
           dueDate: isoDate(-30),
           paidAt: isoDate(-32),
           createdAt: isoDate(-45),
-          lineItems: [{ desc: 'Logo exploration — prior project', qty: 1, rate: 900, amount: 900 }],
+          lineItems: [{ desc: 'Logo exploration, prior project', qty: 1, rate: 900, amount: 900 }],
         },
       ]);
 
@@ -624,14 +624,15 @@
     function face(file) { return 'avatars/dark/' + encodeURIComponent(file); }
     function photo(path) { return 'https://randomuser.me/api/portraits/' + path + '.jpg'; }
     var PEOPLE = [
-      { id: ID.me, name: 'Sam Rivera', email: 'sam@lumen.studio', role: 'owner', status: 'available', color: '#7c3aed', position: 'Product Designer', avatar: 'avatars/blooms-arctic/Winking.png' },
-      { id: ID.maya, name: 'Maya Chen', email: 'maya@lumen.studio', role: 'manager', status: 'available', color: '#14b8a6', position: 'Product Manager', avatar: photo('women/44') },
-      { id: ID.daniel, name: 'Daniel Brooks', email: 'daniel@lumen.studio', role: 'member', status: 'busy', color: '#dc2626', position: 'Frontend Engineer', avatar: photo('men/32') },
-      { id: ID.priya, name: 'Priya Nair', email: 'priya@lumen.studio', role: 'member', status: 'available', color: '#f59e0b', position: 'Marketing Lead', avatar: photo('women/68') },
-      { id: ID.leo, name: 'Leo Hartmann', email: 'leo@lumen.studio', role: 'member', status: 'available', color: '#3b82f6', position: 'Backend Engineer', avatar: photo('men/75') },
-      { id: ID.nora, name: 'Nora Haddad', email: 'nora@lumen.studio', role: 'member', status: 'available', color: '#ec4899', position: 'Content Writer', avatar: face('HIJAB GIRL.png') },
-      { id: ID.ethan, name: 'Ethan Cole', email: 'ethan@lumen.studio', role: 'member', status: 'dnd', color: '#8b5cf6', position: 'Motion Designer', avatar: face('CREATIVE FLOW.png') },
-      { id: ID.chloe, name: 'Chloe Park', email: 'chloe@lumen.studio', role: 'member', status: 'available', color: '#16a34a', position: 'QA Lead', avatar: photo('women/65') },
+      { id: ID.me, name: 'Sam Rivera', email: 'sam@lumen.studio', role: 'owner', status: 'available', color: '#7c3aed', position: 'Product Designer', department: 'Design', avatar: 'avatars/blooms-arctic/Winking.png' },
+      { id: ID.maya, name: 'Maya Chen', email: 'maya@lumen.studio', role: 'manager', status: 'available', color: '#14b8a6', position: 'Product Manager', department: 'Product', avatar: photo('women/44') },
+      /* Team Space signals: Daniel is "Back at" in an hour, Nora is on Focus, Priya shared her task. */
+      { id: ID.daniel, name: 'Daniel Brooks', email: 'daniel@lumen.studio', role: 'member', status: 'brb', statusUntil: now + 62 * min, color: '#dc2626', position: 'Frontend Engineer', department: 'Engineering', avatar: photo('men/32') },
+      { id: ID.priya, name: 'Priya Nair', email: 'priya@lumen.studio', role: 'member', status: 'available', focusTask: 'Launch email copy', color: '#f59e0b', position: 'Marketing Lead', department: 'Marketing', avatar: photo('women/68') },
+      { id: ID.leo, name: 'Leo Hartmann', email: 'leo@lumen.studio', role: 'member', status: 'available', color: '#3b82f6', position: 'Backend Engineer', department: 'Engineering', avatar: photo('men/75') },
+      { id: ID.nora, name: 'Nora Haddad', email: 'nora@lumen.studio', role: 'member', status: 'dnd', statusUntil: now + 41 * min, color: '#ec4899', position: 'Content Writer', department: 'Design', avatar: face('HIJAB GIRL.png') },
+      { id: ID.ethan, name: 'Ethan Cole', email: 'ethan@lumen.studio', role: 'member', status: 'available', color: '#8b5cf6', position: 'Motion Designer', department: 'Design', avatar: face('CREATIVE FLOW.png') },
+      { id: ID.chloe, name: 'Chloe Park', email: 'chloe@lumen.studio', role: 'member', status: 'away', color: '#16a34a', position: 'QA Lead', department: 'Product', avatar: photo('women/65') },
     ];
     var ME = PEOPLE[0];
     var byId = {};
@@ -647,14 +648,16 @@
         return {
           team_id: ID.team, user_id: p.id, email: p.email, name: p.name, role: p.role,
           color: p.color, position: p.position, status: p.status, avatar_url: p.avatar,
+          department: p.department, status_until: p.statusUntil ? new Date(p.statusUntil).toISOString() : null,
+          focus_task: p.focusTask || null,
           joined_at: new Date(now - (60 - i * 4) * 24 * hour).toISOString(),
         };
       }));
 
-      /* Chloe is off next week, visible to the whole team. */
+      /* Chloe is away today and back in a few days, visible to the whole team. */
       demo.seed('shared_leaves', {
         id: 'demo-leave-chloe', team_id: ID.team, owner_id: ID.chloe, title: 'Family trip', vac_type: 'Vacation',
-        date_start: isoDate(6), date_end: isoDate(9), deleted: false,
+        date_start: isoDate(0), date_end: isoDate(3), deleted: false,
       });
 
       /* Local roster so names and faces render before the first pull lands. */
@@ -664,6 +667,7 @@
           return {
             id: p.id, name: p.name, email: p.email, role: p.role === 'owner' ? 'admin' : p.role,
             status: p.status, color: p.color, initials: initials(p.name), position: p.position, avatar: p.avatar,
+            department: p.department, statusUntil: p.statusUntil || 0, focusTask: p.focusTask || '',
           };
         }),
       }));
@@ -724,13 +728,21 @@
           labels: [], createdAt: new Date(now - ageH * hour).toISOString(), columns: cols(id) };
       }
       var cardN = 0;
-      function card(boardId, col, title, priority, order, assigneeId, dueOffset) {
+      function card(boardId, col, title, priority, order, assigneeId, dueOffset, checklist) {
         cardN++;
-        return {
+        var c = {
           id: 'demo-c-' + cardN, boardId: boardId, columnId: boardId + '-' + col, title: title, desc: '',
           priority: priority, dueDate: dueOffset == null ? null : isoDate(dueOffset), order: order,
           assigneeId: assigneeId || null, createdAt: new Date(now - (cardN + 2) * 5 * hour).toISOString(), comments: [],
         };
+        /* [done, total]: the office tile draws its progress ring from this. */
+        if (checklist) {
+          c.checklists = [{ id: 'demo-cl-' + cardN, title: 'Checklist', items: [] }];
+          for (var i = 0; i < checklist[1]; i++) {
+            c.checklists[0].items.push({ id: 'demo-cli-' + cardN + '-' + i, text: 'Step ' + (i + 1), done: i < checklist[0] });
+          }
+        }
+        return c;
       }
       localStorage.setItem('bloombooard-boards-v1', JSON.stringify({
         categories: [],
@@ -742,18 +754,20 @@
         ],
         cards: [
           card('demo-b-launch', 'todo', 'Landing page', 'high', 0, ID.priya, 2),
-          card('demo-b-launch', 'doing', 'Press kit', 'medium', 0, ID.nora, 1),
-          card('demo-b-launch', 'doing', 'Launch video', 'low', 1, ID.ethan, 3),
+          card('demo-b-launch', 'doing', 'Press kit', 'medium', 0, ID.nora, 1, [2, 3]),
+          card('demo-b-launch', 'doing', 'Landing hero v3', 'high', 1, ID.ethan, 0, [1, 4]),
+          card('demo-b-launch', 'doing', 'Launch video', 'low', 2, ID.ethan, 3),
           card('demo-b-launch', 'done', 'Beta feedback round', 'medium', 0, ID.chloe, null),
           card('demo-b-brand', 'todo', 'Logo lockups', 'high', 0, ID.me, 4),
           card('demo-b-brand', 'doing', 'Colour palette', 'medium', 0, ID.maya, 2),
           card('demo-b-brand', 'done', 'Moodboard', 'low', 0, ID.ethan, null),
           card('demo-b-mobile', 'todo', 'Push notifications', 'high', 0, ID.leo, 5),
+          card('demo-b-mobile', 'doing', 'Sync API load test', 'high', 2, ID.leo, 2, [3, 5]),
           card('demo-b-mobile', 'doing', 'Dark mode QA', 'medium', 0, ID.chloe, 3),
           card('demo-b-mobile', 'doing', 'Onboarding screens', 'high', 1, ID.me, 2),
           card('demo-b-mobile', 'done', 'Crash reporting', 'medium', 0, ID.daniel, null),
           card('demo-b-roadmap', 'todo', 'Hiring plan', 'medium', 0, ID.maya, 7),
-          card('demo-b-roadmap', 'doing', 'Roadmap draft', 'high', 0, ID.maya, 4),
+          card('demo-b-roadmap', 'doing', 'Roadmap draft', 'high', 0, ID.maya, 4, [2, 6]),
           card('demo-b-roadmap', 'done', 'Customer survey', 'low', 0, ID.priya, null),
         ],
       }));
@@ -765,7 +779,7 @@
       var CONVS = [
         { id: dmId(ID.maya), type: 'dm', members: [ID.me, ID.maya], unread: 3, script: [
           [ID.maya, 'Morning! Did you see the new campaign brief?'],
-          [ID.me, 'Yes — starting the key visual now'],
+          [ID.me, 'Yes, starting the key visual now'],
           [ID.maya, 'Amazing 🙌'],
           [ID.me, 'Sending the file now'],
           [ID.maya, 'The banner looks great 👏'],
@@ -814,18 +828,18 @@
           [ID.me, 'Watching now'],
           [ID.me, 'The ending is 🔥'],
           [ID.ethan, "Thanks! I'll polish the transitions"],
-          [ID.ethan, 'Heads-down till 4, on DND'],
+          [ID.ethan, 'Polishing now, then back in the Design room'],
         ] },
         { id: dmId(ID.chloe), type: 'dm', members: [ID.me, ID.chloe], unread: 0, script: [
-          [ID.chloe, "Heads up — I'm off next week"],
+          [ID.chloe, "Heads up, I'm off for a few days from today"],
           [ID.me, 'Enjoy! Hand over the QA cards before you go?'],
-          [ID.chloe, "Will do. I'll send a hand-over Thursday"],
+          [ID.chloe, 'Done, the hand-over is in your inbox'],
           [ID.me, 'Perfect 👍'],
           [ID.chloe, 'Dark mode pass is 80% done'],
           [ID.me, '🚀'],
         ] },
         { id: LAUNCH, type: 'group', name: 'Launch Squad', members: PEOPLE.map(function (p) { return p.id; }), unread: 0, script: [
-          [ID.maya, 'Launch is two weeks out — status check 👇'],
+          [ID.maya, 'Launch is two weeks out. Status check 👇'],
           [ID.priya, 'Email + socials scheduled'],
           [ID.daniel, 'Web build is green'],
           [ID.leo, 'Backend ready, load test tomorrow'],
@@ -884,9 +898,42 @@
       localStorage.setItem('bloom_chat_convs', JSON.stringify(localConvs));
       localStorage.setItem('bloom_chat_last_read', JSON.stringify(lastRead));
 
+      /* ── Team Space: shared spaces + a room per department, two of them live ── */
+      demo.ensureTeamRooms(ID.team, true);
+      var DESIGN_ROOM = 'dept_' + ID.team + '_design';
+      var LOUNGE = 'room_' + ID.team + '_lounge';
+      function liveCall(convId, roomName, people, startedMinAgo) {
+        var state = {};
+        people.forEach(function (id) { state[id] = 'joined'; });
+        var started = new Date(now - startedMinAgo * min).toISOString();
+        return {
+          id: demo.uuid(), team_id: ID.team, conversation_id: convId, room_name: roomName,
+          caller_id: people[0], participant_ids: people.slice(), mode: 'audio', status: 'active', kind: 'group',
+          invite_state: state, created_at: started, answered_at: started, updated_at: started, locked: false,
+        };
+      }
+      demo.seed('bloom_calls', [
+        liveCall(DESIGN_ROOM, 'Design room', [ID.maya, ID.ethan], 12),
+        liveCall(LOUNGE, 'Lounge', [ID.leo, ID.priya], 7),
+      ]);
+      /* Room convs locally too, so the office paints before the first pull lands. */
+      demo.rows('conversations').forEach(function (c) {
+        if (!c.kind) return;
+        localConvs.push({ id: c.id, type: 'group', name: c.name, members: c.members, kind: c.kind, department: c.department || '',
+          createdAt: now - 24 * hour, lastMsgTime: 0, lastMsgText: '' });
+      });
+      localStorage.setItem('bloom_chat_convs', JSON.stringify(localConvs));
+
       /* The simulation (demo-sim.js) talks as these people in these rooms. */
       demo.roster = PEOPLE.slice(1).map(function (p) { return { id: p.id, name: p.name }; });
       demo.rooms = [LAUNCH, CRIT];
+      /* Away today: stays quiet in chat and never knocks. */
+      demo.onLeave = [ID.chloe];
+      /* Who can walk in and out of which live room (demo-sim.js). */
+      demo.liveRooms = [
+        { conv: DESIGN_ROOM, anchor: ID.maya, guests: [ID.ethan] },
+        { conv: LOUNGE, anchor: ID.leo, guests: [ID.priya] },
+      ];
 
       /* ── Meetings & reminders ── */
       function ev(o) {

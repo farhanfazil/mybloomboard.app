@@ -20,7 +20,7 @@ const TEAMS_ROWS: (string[] | { section: string })[] = [
   ["Subtasks & file attachments", "✅", "✅", "✅", "✅", "✅", "✅"],
   ["Project boards (kanban)",     "✅", "✅", "✅", "✅", "✅", "✅"],
   ["Create several boards at once", "✅", "❌", "❌", "❌", "❌", "❌"],
-  ["Type to Task — many tasks at once", "✅", "❌", "⚠️ Paste a list", "⚠️ Paste a list", "⚠️ Paste a list", "❌"],
+  ["Type to Task: many tasks at once", "✅", "❌", "⚠️ Paste a list", "⚠️ Paste a list", "⚠️ Paste a list", "❌"],
   ["KPI tracking + PDF reports",  "✅", "❌", "❌", "❌", "❌", "❌"],
 
   { section: "Workspace" },
@@ -48,7 +48,7 @@ const TEAMS_ROWS: (string[] | { section: string })[] = [
   ["AI email writer",             "✅", "❌", "❌", "❌", "❌", "❌"],
   ["AI meeting notes → tasks",    "✅", "⚠️ Paid", "❌", "❌", "❌", "❌"],
   ["AI plan my day",              "✅", "❌", "❌", "❌", "❌", "❌"],
-  ["Pulse — AI chief of staff",   "✅", "❌", "❌", "❌", "❌", "❌"],
+  ["Pulse, your AI chief of staff",   "✅", "❌", "❌", "❌", "❌", "❌"],
 
   { section: "Pricing" },
   ["Free plan",                   "✅", "✅", "✅", "✅", "✅", "⚠️ Trial only"],
@@ -162,6 +162,139 @@ function DataCell({ value, isBloom }: { value: string; isBloom: boolean }) {
   );
 }
 
+/** Phone cell: the same marks, stacked so a narrow column can wrap. */
+function MobileCell({ value, isBloom }: { value: string; isBloom: boolean }) {
+  const status = cellStatus(value);
+  /* Keep "add-on" / "Out-of-office" whole: wrap at spaces, never at a hyphen. */
+  const [first, ...rest] = cellLines(value).map((line) => line.replace(/-/g, "\u2011"));
+
+  let mark: React.ReactNode = null;
+  if (status === "yes") {
+    mark = isBloom ? (
+      <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white">
+        <Check className="h-3 w-3" strokeWidth={3.2} />
+      </span>
+    ) : (
+      <Check className="h-[18px] w-[18px] text-emerald-600" strokeWidth={2.8} />
+    );
+  } else if (status === "no") {
+    mark = <Minus className="h-[18px] w-[18px] text-[#c7c7cc]" strokeWidth={2.4} />;
+  }
+
+  return (
+    <div
+      className="flex flex-col items-center justify-center gap-1 px-1.5 py-3 text-center"
+      style={isBloom ? { background: BLOOM_TINT } : undefined}
+    >
+      {status === "partial" ? (
+        <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-medium leading-tight text-amber-700 ring-1 ring-amber-200/80">
+          {first || "Limited"}
+        </span>
+      ) : (
+        <>
+          {mark}
+          {first ? (
+            <span
+              className={`text-[11px] leading-tight ${
+                status === "no" ? "text-[#6e6e73]" : isBloom ? "font-semibold text-[#123e5a]" : "text-[#1d1d1f]"
+              }`}
+            >
+              {first}
+            </span>
+          ) : null}
+        </>
+      )}
+      {rest.map((line) => (
+        <span key={line} className="text-[10px] leading-tight text-[#6e6e73]">
+          {line}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+/** Phones: BloomBoard against one competitor at a time, picked from tabs. */
+function MobileComparison({ headers, rows }: { headers: string[]; rows: (string[] | { section: string })[] }) {
+  const rivals = headers.slice(2);
+  const [pick, setPick] = useState(0);
+  const cols = "grid grid-cols-[minmax(0,1fr)_104px_92px]";
+
+  return (
+    <div className="md:hidden">
+      <p className="mb-2 text-center text-xs text-[#6e6e73]">Compare BloomBoard with</p>
+      <div className="-mx-4 mb-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none]" role="tablist" aria-label="Compare with">
+        {rivals.map((name, i) => (
+          <button
+            key={name}
+            type="button"
+            role="tab"
+            aria-selected={pick === i}
+            onClick={(e) => {
+              setPick(i);
+              e.currentTarget.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+            }}
+            className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+              pick === i ? "bg-[#1d1d1f] text-white" : "bg-white text-[#1d1d1f] ring-1 ring-black/10"
+            }`}
+          >
+            {name}
+          </button>
+        ))}
+      </div>
+
+      <div className="overflow-clip rounded-2xl bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_30px_rgba(0,0,0,0.06)] ring-1 ring-black/[0.06]">
+        <div className={`${cols} sticky top-0 z-10 border-b border-black/[0.08] bg-white/95 text-[13px] font-semibold backdrop-blur`}>
+          <div className="px-3 py-3 font-medium text-[#6e6e73]">Features</div>
+          <div className="flex items-center justify-center gap-1.5 px-1 py-3 text-[12.5px] text-[#123e5a]" style={{ background: "rgba(236,242,246,0.97)" }}>
+            <Image src="/logo-black.svg" alt="" width={14} height={16} unoptimized className="h-4 w-auto" />
+            <span className="truncate">BloomBoard</span>
+          </div>
+          <div className="flex items-center justify-center px-1 py-3 text-center text-[#1d1d1f]">{rivals[pick]}</div>
+        </div>
+
+        {rows.map((row, ri) => {
+          if ("section" in row) {
+            return (
+              <div key={`sec-${ri}`} className={`${cols} border-b border-black/[0.06]`}>
+                <div className="px-3 pb-2 pt-6 text-[15px] font-semibold text-[#1d1d1f]">{row.section}</div>
+                <div style={{ background: BLOOM_TINT }} />
+                <div />
+              </div>
+            );
+          }
+          const [feature, bloom, ...others] = row as string[];
+          const featured = FEATURED[feature];
+          const FeaturedIcon = featured?.icon;
+          return (
+            <div
+              key={`row-${ri}`}
+              className={`${cols} border-b border-black/[0.06] ${featured ? "bg-emerald-50/70" : ""}`}
+            >
+              <div className={`flex items-center px-3 py-3 text-sm leading-snug text-[#1d1d1f] ${featured ? "font-semibold" : ""}`}>
+                {featured && FeaturedIcon ? (
+                  <span className="inline-flex flex-wrap items-center gap-1.5">
+                    <FeaturedIcon className="h-4 w-4 shrink-0 text-emerald-600" strokeWidth={2.4} />
+                    {feature}
+                    {featured.badge && (
+                      <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-semibold text-white">
+                        {featured.badge}
+                      </span>
+                    )}
+                  </span>
+                ) : (
+                  feature
+                )}
+              </div>
+              <MobileCell value={bloom} isBloom />
+              <MobileCell value={others[pick] ?? ""} isBloom={false} />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 // ─── TABLE ────────────────────────────────────────────────────────────────────
 
 function ComparisonTable({
@@ -177,8 +310,10 @@ function ComparisonTable({
     <div className="mb-12 last:mb-0">
       {title && <h3 className="mb-4 text-xl font-semibold text-[#1d1d1f]">{title}</h3>}
 
+      <MobileComparison headers={headers} rows={rows} />
+
       {/* No inner scroll on desktop, so the header row can stick under the site header */}
-      <div className="overflow-x-auto rounded-2xl bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_30px_rgba(0,0,0,0.06)] ring-1 ring-black/[0.06] lg:overflow-visible">
+      <div className="hidden overflow-x-auto rounded-2xl bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_30px_rgba(0,0,0,0.06)] ring-1 ring-black/[0.06] md:block lg:overflow-visible">
         <table className="w-full min-w-[720px] border-separate border-spacing-0 text-sm">
           <thead className="lg:sticky lg:top-0 lg:z-10">
             <tr>

@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { useDownload } from "@/lib/downloads";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import LiveDemoFrame from "@/components/sections/LiveDemoFrame";
 
-const DOWNLOAD_URL =
-  "https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg";
 
 export default function LiveDemoSection() {
+  const download = useDownload();
   const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: "120px 0px" });
 
@@ -49,7 +49,7 @@ export default function LiveDemoSection() {
 
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
             <p className="text-center text-xs text-white/45 sm:text-sm">
-              Your changes save in this browser session. Download for the full Mac experience.
+              Your changes save in this browser session. Download the app for the full experience.
             </p>
             <div className="flex shrink-0 items-center gap-2">
               <Link
@@ -59,12 +59,12 @@ export default function LiveDemoSection() {
                 Expand demo
               </Link>
               <a
-                href={DOWNLOAD_URL}
+                href={download.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-full bg-[#4d9fff] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#3d8fef] sm:text-sm"
               >
-                Download for Mac
+                Download for {download.label}
               </a>
             </div>
           </div>

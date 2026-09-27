@@ -410,9 +410,76 @@
   };
 
   /* ── RPCs ───────────────────────────────────────────────────────────── */
-  var DEMO_ONLY = { message: 'This works in the Mac app — download BloomBoard to use it.' };
+  var DEMO_ONLY = { message: 'This works in the Mac app. Download BloomBoard to use it.' };
+
+  function slug(s) {
+    return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'team';
+  }
+  function upsertRow(name, row, silent) {
+    var rows = table(name);
+    var cur = rows.find(function (r) { return same(r.id, row.id); });
+    if (cur) {
+      var before = clone(cur);
+      Object.assign(cur, row);
+      if (!silent) emitChange(name, 'UPDATE', cur, before);
+      return cur;
+    }
+    var added = withDefaults(name, row);
+    rows.push(added);
+    if (!silent) emitChange(name, 'INSERT', added, null);
+    return added;
+  }
+  /* Team Space rooms: Lounge, All hands, Focus zone and one room per department,
+     each holding every teammate. Mirrors the server's ensure_team_rooms. */
+  function ensureTeamRooms(teamId, silent) {
+    var members = table('team_members').filter(function (m) { return same(m.team_id, teamId); });
+    var ids = members.map(function (m) { return m.user_id; });
+    var now = nowIso();
+    var rooms = [
+      { id: 'room_' + teamId + '_lounge', name: 'Lounge', kind: 'lounge', department: null },
+      { id: 'room_' + teamId + '_theater', name: 'All hands', kind: 'theater', department: null },
+      { id: 'room_' + teamId + '_focus', name: 'Focus zone', kind: 'focus', department: null },
+    ];
+    var depts = [];
+    members.forEach(function (m) {
+      var d = String(m.department || '').trim();
+      if (d && depts.indexOf(d) < 0) depts.push(d);
+    });
+    depts.forEach(function (d) {
+      rooms.push({ id: 'dept_' + teamId + '_' + slug(d), name: d + ' room', kind: 'dept', department: d });
+    });
+    rooms.forEach(function (r) {
+      var existing = table('conversations').find(function (c) { return same(c.id, r.id); });
+      upsertRow('conversations', {
+        id: r.id, type: 'group', name: r.name, kind: r.kind, department: r.department, team_id: teamId,
+        members: ids.slice(),
+        created_at: existing ? existing.created_at : now,
+        last_msg_text: existing ? existing.last_msg_text : '',
+        last_msg_ts: existing ? existing.last_msg_ts : 0,
+      }, silent);
+    });
+    return rooms.length;
+  }
+
   function rpc(fn, args) {
     args = args || {};
+    if (fn === 'ensure_team_rooms') {
+      return Promise.resolve({ data: ensureTeamRooms(args.p_team || IDS.team), error: null });
+    }
+    if (fn === 'set_member_department') {
+      var dept = String(args.p_department || '').trim().slice(0, 40);
+      table('team_members').forEach(function (m) {
+        if (!same(m.user_id, args.p_user)) return;
+        var before = clone(m);
+        m.department = dept || null;
+        emitChange('team_members', 'UPDATE', m, before);
+      });
+      return Promise.resolve({ data: true, error: null });
+    }
+    /* Real calls need the Mac app; the demo shows its download card before these run. */
+    if (fn === 'bloom_call_join' || fn === 'bloom_call_set_locked' || fn === 'bloom_call_add' || fn === 'bloom_call_respond') {
+      return Promise.resolve({ data: null, error: DEMO_ONLY });
+    }
     if (fn === 'respond_handover_items') {
       var ids = args.p_item_ids || args.item_ids || [];
       var status = args.p_status || args.status || 'accepted';
@@ -504,6 +571,10 @@
     onBroadcast: function (fn) { broadcastListeners.push(fn); },
     /** Every write, from the app or the simulation: fn(table, eventType, newRow, oldRow). */
     onChange: function (fn) { changeListeners.push(fn); },
+    /** Create/refresh Team Space rooms (also used by the seed, silently). */
+    ensureTeamRooms: ensureTeamRooms,
+    /** Insert or merge a row as another client would (fires realtime unless silent). */
+    upsert: function (name, row, silent) { return upsertRow(name, row, silent); },
     setPresence: function (topicPrefix, key, meta) {
       channels.forEach(function (ch) {
         if (ch.topic.indexOf(topicPrefix) !== 0) return;

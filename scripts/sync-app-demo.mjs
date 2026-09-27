@@ -6,6 +6,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { minify } from 'html-minifier-terser';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -97,10 +98,12 @@ function patchIndexHtml(html) {
   // Electron-only policy; in a browser iframe it only gets in the way.
   replaceOnce(/\s*<meta http-equiv="Content-Security-Policy"[^>]*>/i, '', 'CSP <meta>');
   // demo-supabase.js provides window.supabase; the real library would overwrite it.
+  // The app loads supabase-js from vendor/ (older builds used the CDN); either way
+  // it must not load here or it would replace the fake client.
   replaceOnce(
-    /\s*<script src="https:\/\/cdn\.jsdelivr\.net\/npm\/@supabase\/supabase-js@2\/dist\/umd\/supabase\.js"><\/script>/,
+    /\s*<!--[^>]*supabase-js[^>]*-->\s*<script src="vendor\/supabase\.js"><\/script>|\s*<script src="(?:vendor\/supabase\.js|https:\/\/cdn\.jsdelivr\.net\/npm\/@supabase\/supabase-js@2\/dist\/umd\/supabase\.js)"><\/script>/,
     '',
-    'Supabase CDN <script>'
+    'Supabase <script>'
   );
   // Calls are simulated in the demo; the LiveKit bundle lives in node_modules and would 404.
   replaceOnce(
@@ -149,7 +152,22 @@ function scrubPersonalData(html) {
   return out;
 }
 
-function main() {
+/**
+ * The demo is the app's whole front end, served publicly. Strip every comment
+ * and shorten local names so it is much harder to lift. Top-level names are
+ * kept: inline handlers (onclick="openBoards()") call them by name.
+ */
+async function minifyForWeb(html) {
+  return minify(html, {
+    removeComments: true,
+    collapseWhitespace: true,
+    conservativeCollapse: true,
+    minifyCSS: true,
+    minifyJS: { compress: false, mangle: { toplevel: false }, format: { comments: false } },
+  });
+}
+
+async function main() {
   const indexSrc = path.join(APP_SOURCE, 'index.html');
   const avatarsSrc = path.join(APP_SOURCE, 'avatars');
 
@@ -162,8 +180,13 @@ function main() {
   ensureDir(OUT);
 
   const html = fs.readFileSync(indexSrc, 'utf8');
-  fs.writeFileSync(path.join(OUT, 'index.html'), patchIndexHtml(html), 'utf8');
-  console.log('Wrote public/bloomboard-demo/index.html');
+  const patched = patchIndexHtml(html);
+  const small = process.env.BB_DEMO_READABLE ? patched : await minifyForWeb(patched);
+  fs.writeFileSync(path.join(OUT, 'index.html'), small, 'utf8');
+  console.log(
+    'Wrote public/bloomboard-demo/index.html (' + Math.round(small.length / 1024) + ' KB' +
+      (small === patched ? ', readable' : ', minified from ' + Math.round(patched.length / 1024) + ' KB') + ')'
+  );
 
   const avatarsOut = path.join(OUT, 'avatars');
   if (fs.existsSync(avatarsSrc)) {
@@ -171,6 +194,13 @@ function main() {
     console.log('Copied avatars/');
   } else {
     console.warn('No avatars folder at', avatarsSrc);
+  }
+
+  // 3D emoji for the picker and reaction row (Fluent Emoji, MIT).
+  const assetsSrc = path.join(APP_SOURCE, 'assets');
+  if (fs.existsSync(assetsSrc)) {
+    copyRecursive(assetsSrc, path.join(OUT, 'assets'));
+    console.log('Copied assets/');
   }
 
   const manifest = buildAvatarManifest(avatarsOut);
@@ -193,4 +223,7 @@ function main() {
   console.log('Done. Demo bundle ready at public/bloomboard-demo/');
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

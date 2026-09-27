@@ -8,12 +8,20 @@
  *  3. A download button beside the workspace pills.
  *  4. Anonymous usage counts (which features get used, where downloads come
  *     from) sent to /api/demo-events. No ids, no personal data.
+ *  5. One record per visit (/api/demo-visit): where the visitor came from, what
+ *     they are here for (a one-tap question), what they opened, searched for
+ *     and asked Bloom. A random per-tab id; no names, emails or cookies.
  */
 (function () {
   'use strict';
 
-  var DOWNLOAD_URL =
-    'https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg';
+  /* The installer for the visitor's computer: Windows PCs get the Windows one. */
+  var IS_WINDOWS = /win/i.test((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '') ||
+    /Windows NT/i.test(navigator.userAgent);
+  var DOWNLOAD_URL = IS_WINDOWS
+    ? 'https://github.com/farhanfazil/bloombooard-releases/releases/download/windows/BloomBoard-Setup-x64.exe'
+    : 'https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg';
+  var DOWNLOAD_LABEL = IS_WINDOWS ? 'Download for Windows' : 'Download for Mac';
 
   /* ── 4. Anonymous event counts ─────────────────────────────────────── */
   var pending = {};
@@ -23,6 +31,7 @@
   function track(kind, name) {
     var key = kind + ':' + slug(name);
     pending[key] = (pending[key] || 0) + 1;
+    visitNote(kind, name);
   }
   function flush(useBeacon) {
     var events = pending;
@@ -42,6 +51,150 @@
   window.addEventListener('pagehide', function () { flush(true); });
   window.bbTrack = track;
 
+  /* ── 5. The visit ───────────────────────────────────────────────────── */
+  /* Kept in sessionStorage so a workspace switch (which reloads) stays one visit. */
+  var VISIT_KEY = 'bb-demo-visit';
+  var visitDirty = true;
+  var visit = loadVisit();
+
+  function newId() {
+    try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
+    return 'xxxxxxxx-xxxx-4xxx-8xxx-xxxxxxxxxxxx'.replace(/x/g, function () { return (Math.random() * 16 | 0).toString(16); });
+  }
+  function loadVisit() {
+    try {
+      var saved = JSON.parse(sessionStorage.getItem(VISIT_KEY) || 'null');
+      if (saved && saved.id && Array.isArray(saved.features)) return saved;
+    } catch (e) {}
+    return startVisit();
+  }
+  function startVisit() {
+    var params = new URLSearchParams(location.search);
+    /* The homepage and /demo embed the demo in a same-site frame; their URL and
+       referrer are the real entry point. */
+    var outer = null;
+    try { if (window.parent !== window && window.parent.location.origin === location.origin) outer = window.parent; } catch (e) {}
+    var ref = outer ? outer.document.referrer : document.referrer;
+    var entryParams = outer ? new URLSearchParams(outer.location.search) : params;
+    var source = 'direct';
+    try {
+      if (ref) {
+        var host = new URL(ref).hostname.replace(/^www\./, '');
+        source = host === location.hostname.replace(/^www\./, '') ? 'bloomboard_site' : host;
+      }
+    } catch (e) {}
+    var ua = navigator.userAgent || '';
+    return {
+      id: newId(),
+      entry: params.get('embed') === 'home' ? 'home_embed' : outer ? 'demo_page' : 'standalone',
+      source: source,
+      utm_source: entryParams.get('utm_source'),
+      utm_medium: entryParams.get('utm_medium'),
+      utm_campaign: entryParams.get('utm_campaign'),
+      device: /iPhone|iPad|Android|Mobile/i.test(ua) ? 'mobile' : IS_WINDOWS ? 'windows' : /Mac/i.test(ua) ? 'mac' : 'other',
+      interest: null,
+      workspaces: [], features: [], searches: [], bloom_asks: [], gates: [],
+      seconds: 0, actions: 0, downloaded: false, download_source: null,
+    };
+  }
+  function saveVisit() {
+    visitDirty = true;
+    try { sessionStorage.setItem(VISIT_KEY, JSON.stringify(visit)); } catch (e) {}
+  }
+  function addUnique(list, item, max) {
+    if (list.indexOf(item) >= 0 || list.length >= max) return;
+    list.push(item);
+  }
+  /* Every tracked event also lands on the visit, in the order it first happened. */
+  function visitNote(kind, name) {
+    var s = slug(name);
+    if (kind === 'demo_loaded' || kind === 'workspace') addUnique(visit.workspaces, s, 5);
+    if (kind === 'gate') addUnique(visit.gates, s, 20);
+    if (kind === 'download') {
+      visit.downloaded = true;
+      if (!visit.download_source) visit.download_source = s;
+    }
+    if (kind !== 'demo_loaded' && kind !== 'download') addUnique(visit.features, kind + ':' + s, 60);
+    saveVisit();
+  }
+  function sendVisit(useBeacon) {
+    if (!visitDirty) return;
+    visitDirty = false;
+    var body = JSON.stringify(visit);
+    try {
+      if (useBeacon && navigator.sendBeacon) {
+        navigator.sendBeacon('/api/demo-visit', new Blob([body], { type: 'application/json' }));
+      } else {
+        fetch('/api/demo-visit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true })
+          .catch(function () {});
+      }
+    } catch (e) {}
+  }
+  setTimeout(function () { sendVisit(false); }, 4000);
+  setInterval(function () { sendVisit(false); }, 15000);
+  window.addEventListener('pagehide', function () { sendVisit(true); });
+
+  /* Active time: seconds with the tab showing and some input in the last minute. */
+  var lastInput = Date.now();
+  ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(function (type) {
+    document.addEventListener(type, function (e) {
+      lastInput = Date.now();
+      if (type === 'pointerdown' && e.isTrusted) { visit.actions++; saveVisit(); }
+    }, { capture: true, passive: true });
+  });
+  setInterval(function () {
+    if (document.visibilityState !== 'visible' || Date.now() - lastInput > 60000) return;
+    visit.seconds++;
+    if (visit.seconds % 15 === 0) saveVisit();
+  }, 1000);
+
+  /* What they look for: any search box in the app, once they stop typing. */
+  var searchTimer = null;
+  function isSearchBox(el) {
+    if (!el || el.tagName !== 'INPUT') return false;
+    return /search|find/i.test((el.placeholder || '') + ' ' + (el.getAttribute('aria-label') || '') + ' ' + (el.type || ''));
+  }
+  function noteSearch(el) {
+    var q = String(el.value || '').replace(/\s+/g, ' ').trim().slice(0, 80);
+    if (q.length < 2) return;
+    var list = visit.searches;
+    var last = list[list.length - 1];
+    /* "boa" then "board" is one search: keep the longer one. */
+    if (last && (q.indexOf(last) === 0 || last.indexOf(q) === 0)) list[list.length - 1] = q.length > last.length ? q : last;
+    else if (list.indexOf(q) < 0 && list.length < 20) list.push(q);
+    saveVisit();
+  }
+  document.addEventListener('input', function (e) {
+    if (!e.isTrusted || !isSearchBox(e.target)) return;
+    var el = e.target;
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(function () { noteSearch(el); }, 1500);
+  }, true);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && isSearchBox(e.target)) noteSearch(e.target);
+  }, true);
+
+  /* What they ask Bloom, read from the Bloom box as it is sent (Enter or the send
+     button). Simple requests never reach the AI, so this is the one place to see them. */
+  function isBloomBox(el) {
+    return !!el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') &&
+      (/bloom/i.test(el.id || '') || /ask bloom/i.test(el.placeholder || ''));
+  }
+  function noteBloomAsk(el) {
+    var q = String((el && el.value) || '').replace(/\s+/g, ' ').trim().slice(0, 200);
+    var list = visit.bloom_asks;
+    if (q.length < 2 || list[list.length - 1] === q || list.length >= 10) return;
+    list.push(q);
+    saveVisit();
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey && isBloomBox(e.target)) noteBloomAsk(e.target);
+  }, true);
+  document.addEventListener('click', function (e) {
+    var send = e.target.closest && e.target.closest('[onclick*="bloomSend"]');
+    if (send) noteBloomAsk(document.getElementById('bloom-input'));
+  }, true);
+
   function mode() {
     return typeof window.getDemoWorkspaceMode === 'function' ? window.getDemoWorkspaceMode() : 'team';
   }
@@ -50,7 +203,7 @@
   /* ── 1. Download cards ──────────────────────────────────────────────── */
   var FEATURES = {
     email: { title: 'Email lives in the Mac app', desc: 'Connect Gmail or Outlook, read and reply without leaving BloomBoard, and turn any email into a task.' },
-    calls: { title: 'Calls need your real team', desc: 'Voice and video call teammates in one click, right from Team Live or chat.' },
+    calls: { title: 'Calls need your real team', desc: 'Walk into a room, join a live call or ring a teammate in one click, right from Team Space, Team Live or chat.' },
     invite: { title: 'Bring your own team', desc: 'Invite teammates with a code and work together live: shared boards, chat, knocks and hand-overs.' },
     account: { title: 'Your account lives in the Mac app', desc: 'Sign in to sync tasks, boards and chats across your devices.' },
     pdf: { title: 'PDF export is in the Mac app', desc: 'Export reports, invoices and overviews as polished PDFs.' },
@@ -70,7 +223,7 @@
     title.textContent = f.title;
     desc.textContent = f.desc + ' Free to download.';
     btns.innerHTML =
-      '<button class="upgrade-btn-primary" type="button" data-bb-dl="gate_' + key + '">Download for Mac</button>' +
+      '<button class="upgrade-btn-primary" type="button" data-bb-dl="gate_' + key + '">' + DOWNLOAD_LABEL + '</button>' +
       '<button class="upgrade-btn-secondary" type="button" data-bb-close>Keep exploring</button>';
     overlay.classList.add('open');
   }
@@ -101,9 +254,9 @@
   });
 
   /* The app's own global entry points for these features. Wrapping them catches
-     every button that leads there (sidebar, Team Live, Stations, chat headers). */
+     every button that leads there (sidebar, Team Live, Team Space, chat headers). */
   var GATED_FNS = {
-    calls: ['callPerson', 'stationStartCall', 'tlStartCall'],
+    calls: ['callPerson', 'stationStartCall', 'tlStartCall', 'officeWalkIn'],
     invite: ['supaInviteMember', 'copyInviteCode'],
     account: ['supaSignOut', 'supaSignIn'],
     email: ['openEmailInbox'],
@@ -120,6 +273,31 @@
         window[fn] = gate;
       });
     });
+
+    /* Joining a live room needs a real call. A locked room still lets the visitor
+       knock (that is only a broadcast), so those clicks go through to the app. */
+    var join = window.officeJoin;
+    if (typeof join === 'function' && !join._bbGated) {
+      var gatedJoin = function (convId) {
+        var live = null;
+        try { live = window.bbRooms && window.bbRooms.liveFor ? window.bbRooms.liveFor(convId) : null; } catch (e) {}
+        if (live && live.locked) return join.apply(this, arguments);
+        showCard('calls');
+      };
+      gatedJoin._bbGated = true;
+      window.officeJoin = gatedJoin;
+    }
+
+    /* Room calls also start from Team Live and "Happening now" through bbCalls. */
+    var calls = window.bbCalls;
+    if (calls && typeof calls === 'object') {
+      ['walkIn', 'joinRoom'].forEach(function (m) {
+        if (typeof calls[m] !== 'function' || calls[m]._bbGated) return;
+        var gate = function () { showCard('calls'); };
+        gate._bbGated = true;
+        calls[m] = gate;
+      });
+    }
   }
   var wrapTries = 0;
   var wrapTimer = setInterval(function () {
@@ -189,6 +367,63 @@
     requestAnimationFrame(function () { el.classList.add('show'); });
   }
 
+  /* ── 5b. "What brings you here?" once the visitor has clearly engaged ── */
+  var INTERESTS = [
+    ['own_work', 'Organising my own work'],
+    ['team', 'Working with my team'],
+    ['freelance', 'Managing freelance clients'],
+    ['exploring', 'Just looking around'],
+  ];
+  function maybeAskInterest() {
+    if (visit.interest || document.getElementById('bb-demo-interest')) return;
+    if (visit.seconds < 40 && visit.actions < 6) return;
+    var overlay = document.getElementById('upgrade-overlay');
+    if (overlay && overlay.classList.contains('open')) return;
+    if (document.getElementById('bb-demo-nudge')) return;
+    showInterest();
+  }
+  setInterval(maybeAskInterest, 2000);
+
+  function showInterest() {
+    var el = document.createElement('div');
+    el.id = 'bb-demo-interest';
+    el.setAttribute('role', 'dialog');
+    el.setAttribute('aria-label', 'What brings you here?');
+    el.innerHTML =
+      '<div class="bb-int-hd"><span>Quick question: what brings you here?</span>' +
+      '<button type="button" class="bb-int-x" aria-label="Close">✕</button></div>' +
+      '<div class="bb-int-opts">' +
+      INTERESTS.map(function (o) {
+        return '<button type="button" class="bb-int-opt" data-interest="' + o[0] + '">' + o[1] + '</button>';
+      }).join('') +
+      '</div>';
+    function close() {
+      el.classList.remove('show');
+      setTimeout(function () { el.remove(); }, 250);
+    }
+    function answer(key) {
+      visit.interest = key;
+      track('interest', key);
+      saveVisit();
+      sendVisit(false);
+    }
+    el.addEventListener('click', function (e) {
+      var opt = e.target.closest && e.target.closest('[data-interest]');
+      if (opt) {
+        answer(opt.getAttribute('data-interest'));
+        el.innerHTML = '<div class="bb-int-thanks">Thanks, that helps us build the right things.</div>';
+        setTimeout(close, 2200);
+        return;
+      }
+      if (e.target.closest && e.target.closest('.bb-int-x')) {
+        answer('dismissed');
+        close();
+      }
+    });
+    document.body.appendChild(el);
+    requestAnimationFrame(function () { el.classList.add('show'); });
+  }
+
   /* ── 3. Download button beside the workspace pills ──────────────────── */
   function addSwitcherButton() {
     var group = document.querySelector('#bb-demo-ws-switcher .bb-demo-ws-right-group');
@@ -198,7 +433,7 @@
     btn.className = 'bb-demo-ws-dl';
     btn.setAttribute('data-bb-dl', 'switcher');
     btn.innerHTML =
-      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Download for Mac';
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' + DOWNLOAD_LABEL;
     group.appendChild(btn);
     return true;
   }
@@ -229,7 +464,9 @@
       if (table === 'messages' && type === 'INSERT' && row && row.sender_id === demo.IDS.me) track('chat', 'send');
     });
     demo.onBroadcast(function (topic, event) {
-      if (topic.indexOf('team_live_') === 0 && (event === 'knock' || event === 'knock_reply')) track('knock', event);
+      if (topic.indexOf('team_live_') !== 0) return;
+      if (event === 'knock' || event === 'knock_reply') track('knock', event);
+      else if (event === 'wave' || event === 'room_knock') track('office', event);
     });
   }
 
@@ -257,7 +494,27 @@
     'body.light-mode #bb-demo-nudge b{color:#0f172a}' +
     'body.light-mode .bb-nudge-x{color:#475569}' +
     'body.light-mode .bb-nudge-x:hover{color:#0f172a;background:rgba(15,23,42,.06)}' +
-    '@media (prefers-reduced-motion:reduce){#bb-demo-nudge{transition:none}}';
+    '#bb-demo-interest{position:fixed;left:16px;bottom:16px;z-index:60000;width:300px;max-width:calc(100vw - 32px);box-sizing:border-box;' +
+    'padding:12px;border-radius:14px;background:rgba(15,28,46,.97);border:1px solid rgba(148,163,184,.25);color:#e2e8f0;' +
+    'font-size:13px;line-height:1.4;box-shadow:0 18px 40px rgba(0,0,0,.45);opacity:0;transform:translateY(10px);' +
+    'transition:opacity .25s ease,transform .25s ease}' +
+    '#bb-demo-interest.show{opacity:1;transform:none}' +
+    '.bb-int-hd{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:600;color:#fff;margin:0 0 8px 2px}' +
+    '.bb-int-x{appearance:none;border:0;background:transparent;color:#94a3b8;font-size:12px;cursor:pointer;padding:4px 6px;border-radius:8px}' +
+    '.bb-int-x:hover{color:#fff;background:rgba(255,255,255,.08)}' +
+    '.bb-int-opts{display:flex;flex-direction:column;gap:6px}' +
+    '.bb-int-opt{appearance:none;text-align:left;border:1px solid rgba(148,163,184,.25);background:rgba(255,255,255,.04);color:#e2e8f0;' +
+    'font:inherit;font-size:13px;padding:8px 10px;border-radius:9px;cursor:pointer;transition:background .15s ease,border-color .15s ease}' +
+    '.bb-int-opt:hover{background:rgba(255,255,255,.1);border-color:rgba(148,163,184,.45);color:#fff}' +
+    '.bb-int-thanks{padding:6px 2px;color:#e2e8f0}' +
+    'body.light-mode #bb-demo-interest{background:#fff;border-color:rgba(15,23,42,.14);color:#1e293b;box-shadow:0 18px 40px rgba(15,23,42,.18)}' +
+    'body.light-mode .bb-int-hd{color:#0f172a}' +
+    'body.light-mode .bb-int-x{color:#475569}' +
+    'body.light-mode .bb-int-x:hover{color:#0f172a;background:rgba(15,23,42,.06)}' +
+    'body.light-mode .bb-int-opt{background:#f8fafc;border-color:rgba(15,23,42,.14);color:#1e293b}' +
+    'body.light-mode .bb-int-opt:hover{background:#eef2f7;border-color:rgba(15,23,42,.28);color:#0f172a}' +
+    'body.light-mode .bb-int-thanks{color:#1e293b}' +
+    '@media (prefers-reduced-motion:reduce){#bb-demo-nudge,#bb-demo-interest{transition:none}}';
   function injectCss() {
     if (document.getElementById('bb-demo-convert-css')) return;
     var st = document.createElement('style');

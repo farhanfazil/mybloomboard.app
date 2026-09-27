@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { ArrowRight, RotateCcw } from "lucide-react";
+import { MAC_DOWNLOAD_URL, useDownload } from "@/lib/downloads";
 
 type PlanKey = "free" | "flow" | "bloom" | "team";
 type Points = Partial<Record<PlanKey, number>>;
@@ -67,6 +68,8 @@ export default function PlanQuiz({
   results?: Partial<Record<PlanKey, PlanResult>>;
   note?: string;
 } = {}) {
+  // The free plan's download link follows the visitor's computer (Mac or Windows).
+  const download = useDownload();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const [step, setStep] = useState(0);
@@ -167,7 +170,7 @@ export default function PlanQuiz({
                 <p className="mt-3 text-sm leading-relaxed text-white/65">{plan.desc}</p>
                 <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
                   <a
-                    href={plan.href}
+                    href={plan.href === MAC_DOWNLOAD_URL ? download.url : plan.href}
                     className="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-black transition-colors hover:bg-white/90"
                   >
                     Get started with {plan.name}

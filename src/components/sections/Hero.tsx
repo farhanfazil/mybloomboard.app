@@ -6,6 +6,7 @@ import Image from "next/image";
 import GlowButton from "@/components/ui/GlowButton";
 import { useSpotlightBorder } from "@/components/ui/spotlight-border";
 import { HolographicButterfly } from "@/components/sections/DeepDiveFlight";
+import { useDownload } from "@/lib/downloads";
 
 const words = ["Your", "personal", "command", "center."];
 
@@ -34,6 +35,8 @@ function HeroDashboardImage() {
 }
 
 export default function Hero() {
+  // Mac visitors get the Mac installer, Windows visitors the Windows one.
+  const download = useDownload();
   const ref = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
@@ -164,7 +167,7 @@ export default function Hero() {
                 <HolographicButterfly />
               </motion.div>
 
-              <GlowButton label="Download Free" variant="primary" large href="https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg" />
+              <GlowButton label="Download Free" variant="primary" large href={download.url} />
               <a
                 href="https://buy.polar.sh/polar_cl_bcGVnrH6RUJvB6pVEhW0kRdOJ1wa82yn9xuPK480cmt"
                 className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-sm transition-all duration-300 hover:scale-[1.04] hover:brightness-110 active:scale-[0.98]"
