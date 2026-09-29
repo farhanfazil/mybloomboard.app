@@ -436,12 +436,12 @@ export const FAQS = [
 ];
 
 export const TECH_STACK = [
-  { icon: "⚡", label: "Electron 29", color: "#4d9fff" },
+  { icon: "⚡", label: "Electron", color: "#4d9fff" },
   { icon: "🟨", label: "Vanilla JS", color: "#ff9f0a" },
-  { icon: "💾", label: "localStorage", color: "#39FF14" },
-  { icon: "🔔", label: "macOS Notifications", color: "#a78bfa" },
-  { icon: "🍎", label: "Apple Silicon", color: "#ff453a" },
-  { icon: "∅", label: "Zero Runtime Deps", color: "#607080" },
+  { icon: "💾", label: "Local-first storage", color: "#39FF14" },
+  { icon: "🔄", label: "Supabase sync for teams", color: "#a78bfa" },
+  { icon: "📞", label: "LiveKit calls", color: "#ff453a" },
+  { icon: "💻", label: "Mac, Windows & iPhone", color: "#8cc3ff" },
 ];
 
 export const TICKER_ITEMS = [

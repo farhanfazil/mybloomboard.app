@@ -12,11 +12,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://mybloomboard.app"),
   title: "BloomBoard — Your day. Organised. Beautiful.",
   description:
-    "A personal macOS productivity app that keeps your tasks, goals, streak, meetings, and hydration in one glassy, distraction-free window. Free. Local. No account.",
+    "A calm productivity app for Mac, Windows and iPhone: tasks, boards, notes, team chat and calls, with an AI that plans your day. Free for solo use, with no account and no cloud.",
   openGraph: {
     title: "BloomBoard — Your day. Organised. Beautiful.",
     description:
-      "A beautiful macOS productivity app for tasks, streaks, milestones, and hydration. 100% local. No account. Free.",
+      "A calm productivity app for Mac, Windows and iPhone: tasks, boards, notes, team chat and calls, with an AI that plans your day. Free for solo use, with no account and no cloud.",
     type: "website",
     url: "https://mybloomboard.app",
     siteName: "BloomBoard",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "BloomBoard — Your day. Organised. Beautiful.",
     description:
-      "A beautiful macOS productivity app for tasks, streaks, milestones, and hydration. 100% local. No account. Free.",
+      "A calm productivity app for Mac, Windows and iPhone: tasks, boards, notes, team chat and calls, with an AI that plans your day. Free for solo use, with no account and no cloud.",
   },
   icons: {
     icon: "/favicon.png",

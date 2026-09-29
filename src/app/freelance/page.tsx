@@ -581,7 +581,7 @@ const FREELANCE_FAQS = [
   },
   {
     question: "Does it work offline? Is my data stored in the cloud?",
-    answer: "BloomBoard is local-first — all your data lives on your Mac. No cloud sync, no account required for the core app. Asset Delivery files are the only exception (uploaded via Cloudflare R2 for client sharing), and they auto-delete after 3 days.",
+    answer: "BloomBoard is local-first: without an account, all your data stays on your computer. If you sign in, your data syncs securely so it is on all your devices. Asset Delivery files are uploaded to Cloudflare R2 for client sharing and auto-delete after 3 days.",
   },
   {
     question: "How does the Client Portal work for my clients?",
@@ -675,7 +675,7 @@ function FreelanceDownloadCTA() {
           </h2>
 
           <p className="max-w-lg text-sm leading-relaxed text-text-muted sm:text-lg">
-            Download free. No account needed. The Hive suite is waiting inside.
+            Download free. No account needed to start. The Hive suite is waiting inside.
           </p>
 
           <div className="flex flex-col items-center gap-4 mt-2">

@@ -178,12 +178,12 @@ export default function TeamWaitlist() {
                 color: "var(--text-muted)",
               }}
             >
-              <span>Up to 10 team members</span>
+              <span>Unlimited team members · from 3 seats</span>
               <span
                 className="font-semibold"
                 style={{ color: "var(--accent-purple)" }}
               >
-                $14.99 / month
+                $14.99 / user / month
               </span>
             </div>
           </div>

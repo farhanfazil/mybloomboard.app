@@ -19,7 +19,7 @@
   var IS_WINDOWS = /win/i.test((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '') ||
     /Windows NT/i.test(navigator.userAgent);
   var DOWNLOAD_URL = IS_WINDOWS
-    ? 'https://github.com/farhanfazil/bloombooard-releases/releases/download/windows/BloomBoard-Setup-x64.exe'
+    ? 'https://apps.microsoft.com/detail/9MX9BDKM26VP'
     : 'https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg';
   var DOWNLOAD_LABEL = IS_WINDOWS ? 'Download for Windows' : 'Download for Mac';
 

@@ -3,7 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { HolographicButterfly } from "@/components/sections/DeepDiveFlight";
-import { WINDOWS_ARM_DOWNLOAD_URL, useDevice } from "@/lib/downloads";
+import { useDevice } from "@/lib/downloads";
 import { AlsoAvailable, DownloadButton } from "@/components/ui/DownloadButton";
 
 export default function DownloadCTA() {
@@ -29,7 +29,7 @@ export default function DownloadCTA() {
           </h2>
 
           <p className="max-w-lg text-sm leading-relaxed text-text-muted sm:text-lg">
-            Free to start. No cloud. No account. Beautifully designed for Mac and Windows.
+            Working solo? It is free, with no account and no cloud: everything stays on your computer. Teams sign in to sync and work together. Designed for Mac and Windows.
           </p>
 
           <div className="flex flex-col items-center gap-4 mt-2 w-full sm:w-auto">
@@ -76,13 +76,12 @@ export default function DownloadCTA() {
             </div>
             <AlsoAvailable choice={device.alternate} note={device.note} />
             <p className="max-w-xs text-xs leading-relaxed text-text-muted sm:max-w-none">
-              Mac: macOS 11+, Apple Silicon & Intel. Windows: Windows 10 & 11, 64-bit
-              (<a href={WINDOWS_ARM_DOWNLOAD_URL} className="underline underline-offset-2 hover:text-white">ARM version</a>).
+              Mac: macOS 11+, Apple Silicon & Intel. Windows: Windows 10 & 11, from the Microsoft Store.
               Free plan available forever.
             </p>
           </div>
 
-          <p className="mt-2 text-sm text-white/50">No account · No cloud · No tracking · Free to start</p>
+          <p className="mt-2 text-sm text-white/50">Solo: no account · No cloud · No tracking · Free to start</p>
         </motion.div>
       </div>
     </section>

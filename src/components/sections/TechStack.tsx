@@ -50,7 +50,7 @@ export default function TechStack() {
           className="mb-10"
         >
           <h2 className="text-2xl font-bold text-text-primary mb-2">Built with care.</h2>
-          <p className="text-text-muted text-sm">No frameworks. No cloud. Just native code.</p>
+          <p className="text-text-muted text-sm">Local-first by design. Your work lives on your computer, and teams sync securely.</p>
         </motion.div>
 
         <motion.div

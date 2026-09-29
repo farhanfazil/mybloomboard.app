@@ -118,7 +118,7 @@ export default function OpengraphImage() {
               textShadow: "0 2px 12px rgba(0,0,0,0.8)",
             }}
           >
-            Free · Local · No account · mybloomboard.app
+            Free · No account for solo use · mybloomboard.app
           </span>
         </div>
       </div>
