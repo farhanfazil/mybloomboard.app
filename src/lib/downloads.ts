@@ -5,14 +5,16 @@ import { useEffect, useState } from "react";
 // One place for every BloomBoard download link.
 //
 // macOS: the newest Mac release (also what the in-app updater reads).
-// Windows: the Microsoft Store page (approved 2026-09-29). The Store installs the right
-// version for Intel/AMD and ARM PCs, shows no security warning and keeps the app updated.
+// Windows: Microsoft's direct installer for our Store listing (approved 2026-09-29). The
+// click downloads "MyBloomBoard Installer.exe" straight away (no Store page); it installs
+// the Store version, so the right build for Intel/AMD or ARM, no security warning, and
+// the Store keeps it updated.
 // iPhone: the App Store page. Empty until the app is public; iPhone visitors then see
 // "coming soon" instead of an App Store button.
 const RELEASES = "https://github.com/farhanfazil/bloombooard-releases/releases";
 
 export const MAC_DOWNLOAD_URL = `${RELEASES}/latest/download/BloomBoard-Installer.dmg`;
-export const WINDOWS_DOWNLOAD_URL = "https://apps.microsoft.com/detail/9MX9BDKM26VP";
+export const WINDOWS_DOWNLOAD_URL = "https://get.microsoft.com/installer/download/9MX9BDKM26VP?cid=website_cta_psi";
 export const IOS_APP_STORE_URL = "";
 
 export type DesktopOS = "mac" | "windows";
