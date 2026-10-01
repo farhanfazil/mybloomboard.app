@@ -70,7 +70,7 @@
     demo.broadcast('chat_conv_' + convId, 'typing', { convId: convId, userId: from.id, name: from.name });
   }
 
-  /* ── Ambient chatter: every 7–12 s, into a chat the visitor isn't reading ── */
+  /* ── Ambient chatter: every 18–28 s, into a chat the visitor isn't reading ── */
   function ambientChat() {
     var from = pick(MATES.filter(function (m) { return isOnline(m.id); })) || MATES[0];
     var options = [dmId(from.id)].concat(ROOMS).filter(function (c) { return c !== activeConvId(); });
@@ -78,7 +78,7 @@
       postMessage(pick(options), from, LINES[lineIdx % LINES.length]);
       lineIdx++;
     }
-    later(rand(7000, 12000), ambientChat);
+    later(rand(18000, 28000), ambientChat);
   }
 
   /* ── A teammate knocks every 75–95 s ── */
@@ -157,7 +157,7 @@
     later(rand(50000, 80000), presenceDrift);
   }
 
-  /* ── Team Space: who's talking in the live rooms, every 4–8 s ── */
+  /* ── Team Space: who's talking in the live rooms, in turns of 6–10 s ── */
   function liveCalls() {
     return demo.rows('bloom_calls').filter(function (c) { return c.status === 'active'; });
   }
@@ -169,13 +169,20 @@
     var calls = liveCalls();
     var call = calls.length ? pick(calls) : null;
     var inside = call ? joinedIn(call).filter(function (id) { return id !== ME; }) : [];
+    var turn = rand(6000, 10000);
     if (inside.length) {
       var who = pick(inside);
-      demo.broadcast('team_live_', 'speaking', { from: who, on: true });
-      /* The app clears a speaker after 3 s on its own; stop a little before that. */
-      setTimeout(function () { demo.broadcast('team_live_', 'speaking', { from: who, on: false }); }, rand(1800, 2800));
+      /* One speaking turn of 6–10 s. The app clears a speaker 3 s after the last
+         signal, so repeat it every 2 s; that way the sidebar's Enter office button
+         (which checks every 3 s) can show "Maya talking". */
+      var until = Date.now() + turn;
+      (function keepTalking() {
+        if (Date.now() >= until) { demo.broadcast('team_live_', 'speaking', { from: who, on: false }); return; }
+        demo.broadcast('team_live_', 'speaking', { from: who, on: true });
+        setTimeout(keepTalking, 2000);
+      })();
     }
-    later(rand(4000, 8000), speaking);
+    later(turn + rand(2000, 5000), speaking);
   }
 
   /* ── Walking in and out: a guest leaves a live room or comes back ── */
@@ -225,8 +232,10 @@
     }
   });
 
-  /* Give the app time to sign in, pull chats and open its realtime channels. */
-  later(9000, ambientChat);
+  /* Alive from the start but not busy: the first message about 8 s in (so visitors see
+     how a message arrives on the dashboard), then one every 18–28 s. A knock about 25 s
+     in, then every 75–95 s. */
+  later(8000, ambientChat);
   later(reduceMotion ? 60000 : 25000, incomingKnock);
   later(60000, presenceDrift);
   if (LIVE_ROOMS.length) {
@@ -235,11 +244,11 @@
     later(15000, function () { setInRoom(LIVE_ROOMS[1] || LIVE_ROOMS[0], (LIVE_ROOMS[1] || LIVE_ROOMS[0]).guests[0], false); });
     later(45000, roomShuffle);
   }
-  later(reduceMotion ? 120000 : 50000, incomingWave);
+  later(reduceMotion ? 120000 : 55000, incomingWave);
 
-  /* About 20 s in, Maya finishes the banners she was given and sends them to Sam
+  /* About 40 s in, Maya finishes the banners she was given and sends them to Sam
      for review: the card moves to In Review and a notification arrives. */
-  later(20000, function () {
+  later(40000, function () {
     var tasks = [];
     try { tasks = JSON.parse(localStorage.getItem('bbd-dash-tasks') || '[]') || []; } catch (e) { return; }
     var t = tasks.filter(function (x) { return x.id === 'demo-t-banners'; })[0];

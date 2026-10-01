@@ -140,7 +140,8 @@
     localStorage.setItem('bbd-events', '[]');
     localStorage.setItem('bloom-bookmarks-v1', '[]');
     ['bb-meetings-history-v1', 'bloombooard-stickies-v1', 'bb-board-columns-v1', 'bbd-dash-projects',
-      'bbd-dash-history', 'bbd-streak', 'bloombooard-bloom-history-v1', 'bb-extcal-v1'].forEach(function (k) {
+      'bbd-dash-history', 'bbd-streak', 'bloombooard-bloom-history-v1', 'bb-extcal-v1',
+      'bb-worklog-v1', 'bb-bloom-threads-v1', 'bb-bloom-thread-cur'].forEach(function (k) {
       localStorage.removeItem(k);
     });
     var demo = window.__bbDemo;
@@ -204,27 +205,35 @@
       });
   }
 
+  /* Ask Bloom has no AI in the browser demo. Questions about the visitor's own tasks
+     are answered by the app itself; anything else gets a short, friendly answer
+     here. The app expects { content: [{ type: "text", text: '{"message":…,"actions":[]}' }] }. */
+  var BLOOM_REPLIES = [
+    [/\b(plan|schedule|focus|priorit|today|afternoon|morning)\b/i,
+      'Start with your most urgent task while your energy is high, then fit the smaller ones between meetings. Open My Day, then Plan My Day, and BloomBoard lays it out as a timeline around your meetings, with breaks.'],
+    [/\b(email|reply|write|draft|message|update)\b/i,
+      'Happy to draft that. In the app I write it in your tone and you can make it shorter, more formal or friendlier with one click. Try Email & Messages in the AI Hub for a ready-made version.'],
+    [/\b(meeting|notes|minutes|action items?)\b/i,
+      'Paste your meeting notes into Thought to Task and I turn them into tasks, with owners and due dates where the notes mention them.'],
+    [/\b(stuck|blocked|overwhelm|stress|too much)\b/i,
+      'Pick the one task that unblocks the most, and give it 25 focused minutes. If it is still stuck after that, tell a teammate what you tried. The I am Stuck tool in the AI Hub walks you through it.'],
+    [/\b(team|who|overload|workload|manager)\b/i,
+      'Workload Health in My Day shows who is overloaded and who has room, with a suggestion for what to move. It is private to owners and managers.'],
+    [/\b(hi|hello|hey|thanks|thank you)\b/i,
+      'Hi! I am Bloom. Ask me about your tasks, what is overdue, or what to focus on today, and I can create tasks and meetings for you.'],
+  ];
   function demoBloomChat(opts) {
     if (typeof window.bbDemoOnBloomAsk === 'function') window.bbDemoOnBloomAsk();
     return new Promise(function (resolve) {
       setTimeout(function () {
         var msgs = (opts && opts.messages) || [];
         var last = msgs.length ? msgs[msgs.length - 1] : null;
-        var q = last && last.content ? String(last.content).trim() : '';
-        var reply =
-          '{\n  "message": ' +
-          JSON.stringify(
-            q
-              ? 'Here\'s what I\'d suggest for "' +
-                  q.slice(0, 80) +
-                  (q.length > 80 ? '…' : '') +
-                  '". In this browser demo I handle tasks, meetings, and scheduling instantly. Download the Mac app for full AI with your real data.'
-              : 'Hey! I\'m Bloom. Ask me to create tasks, schedule meetings, or plan your day. Simple requests work instantly in the demo.',
-            null,
-            0
-          ) +
-          ',\n  "actions": []\n}';
-        resolve({ content: [{ type: 'text', text: reply }] });
+        var q = last && last.content ? String(typeof last.content === 'string' ? last.content : '').trim() : '';
+        var answer = 'Good question. In this browser demo I can answer about your tasks, what is overdue and what to focus on today, and create tasks and meetings. Download BloomBoard to ask me anything about your real work.';
+        for (var i = 0; i < BLOOM_REPLIES.length; i++) {
+          if (BLOOM_REPLIES[i][0].test(q)) { answer = BLOOM_REPLIES[i][1]; break; }
+        }
+        resolve({ content: [{ type: 'text', text: JSON.stringify({ message: answer, actions: [] }) }] });
       }, 700);
     });
   }
@@ -974,11 +983,8 @@
     bubble.style.setProperty('z-index', '2500', 'important');
     bubble.style.setProperty('margin', '0', 'important');
 
-    if (document.body.classList.contains('bb-workspace-freelance') || isBloomPanelOpen()) {
-      bubble.style.setProperty('display', 'none', 'important');
-    } else {
-      bubble.style.setProperty('display', 'flex', 'important');
-    }
+    /* The app no longer shows the floating butterfly (Ask Bloom lives in the AI Hub). */
+    bubble.style.setProperty('display', 'none', 'important');
 
     return true;
   }
@@ -1302,4 +1308,68 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
   else start();
+})();
+
+/* Demo only: "Type your tasks" and Team Live fold away now and then and come back,
+   so visitors notice they can be folded to give the task board more room. About 30 s
+   in, both fold; about 12 s later they open again; then every 45 s. It waits while the
+   visitor is typing, hovering over either panel or has another window open, and stops
+   for good the moment the visitor folds or opens either panel themselves. */
+(function () {
+  'use strict';
+  var stopped = false, hovering = false, timer = null;
+  function t2t() { return document.getElementById('t2t-dashboard-card'); }
+  function tlStrip() { return document.getElementById('tl-strip'); }
+  function busy() {
+    if (document.visibilityState !== 'visible') return true;
+    if (hovering) return true;
+    var ta = document.getElementById('t2t-input');
+    if (ta && (document.activeElement === ta || ta.value)) return true;
+    /* Something else is open over the dashboard (Boards, a task, Email, the office…). */
+    var big = Array.prototype.some.call(document.querySelectorAll('.open, .visible'), function (el) {
+      if (el.id === 'bb-demo-welcome' || el.closest('#bb-demo-ws-switcher')) return false;
+      var cs = getComputedStyle(el);
+      return (cs.position === 'fixed' || cs.position === 'absolute') && el.offsetWidth > window.innerWidth * 0.4 && el.offsetHeight > window.innerHeight * 0.4;
+    });
+    return big;
+  }
+  function fold(on) {
+    var c = t2t();
+    if (c && c.classList.contains('collapsed') !== on && typeof window.toggleT2T === 'function') window.toggleT2T();
+    var strip = tlStrip();
+    /* Team Live's toggle only flips, so compare with its current state first. */
+    if (strip && !strip.hidden && strip.classList.contains('tl-collapsed') !== on &&
+        window.bbTeamLive && typeof window.bbTeamLive.toggleCollapsed === 'function') window.bbTeamLive.toggleCollapsed();
+  }
+  function cycle(delay) {
+    clearTimeout(timer);
+    timer = setTimeout(function tick() {
+      if (stopped) return;
+      if (busy()) { timer = setTimeout(tick, 3000); return; }
+      fold(true);
+      timer = setTimeout(function back() {
+        if (stopped) return;
+        if (busy() && !hovering) { timer = setTimeout(back, 2000); return; }
+        fold(false);
+        cycle(45000);
+      }, 12000);
+    }, delay);
+  }
+  function start() {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    /* The visitor's own click on either fold control ends the demo of it. */
+    document.addEventListener('click', function (e) {
+      if (!e.isTrusted || !e.target.closest) return;
+      if (e.target.closest('#t2t-dashboard-card .t2t-card-hd, #tl-collapse, .tl-mini')) { stopped = true; clearTimeout(timer); }
+    }, true);
+    ['t2t-dashboard-card', 'tl-strip'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('mouseenter', function () { hovering = true; });
+      el.addEventListener('mouseleave', function () { hovering = false; });
+    });
+    cycle(30000);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(start, 2000); });
+  else setTimeout(start, 2000);
 })();

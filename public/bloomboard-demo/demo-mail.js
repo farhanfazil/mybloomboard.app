@@ -52,7 +52,7 @@
       body: 'Hi Sam,\n\nHope the week is going well. Could your team put together the banners for our spring launch by Thursday? We need:\n\n1. A hero banner for the homepage (1920 × 600)\n2. Three social sizes for Instagram and LinkedIn\n3. A short version of the headline for the email header\n\nThe brand guide from last time still applies. Happy to jump on a call if anything is unclear.\n\nThanks,\nJordan\nMarketing Lead, Acme Co.' },
     { id: 'm-maya-checklist', subject: 'Launch checklist, final pass', from: 'Maya Chen <maya@lumen.studio>', date: ago(70 * MIN), unread: true,
       body: 'Hey Sam,\n\nI went through the launch checklist this morning. Two things are still open on our side: the App Store screenshots and the final hero image. Can you confirm both land before the launch sync?\n\nEverything else is green.\n\nMaya' },
-    { id: 'm-design-weekly', subject: 'Quiet interfaces are winning', from: 'The Design Weekly <hello@designweekly.example>', date: ago(2 * HOUR), unread: true, isHtml: true,
+    { id: 'm-design-weekly', subject: 'Quiet interfaces are winning', from: 'The Design Weekly <hello@designweekly.example>', date: ago(2 * HOUR), unread: false, isHtml: true,
       snippet: 'This week we look at why the calmest products feel the fastest: fewer colours, stronger type, and one clear action per screen.', body: NEWSLETTER },
     { id: 'm-priya-subjects', subject: 'Launch email: subject line options', from: 'Priya Nair <priya@lumen.studio>', date: ago(3 * HOUR), unread: false,
       body: 'Hi Sam,\n\nHere are three subject lines for the launch email. Which one fits the header image best?\n\nA) Your day, organised\nB) Meet the calmer way to plan\nC) Tasks, boards and your team in one place\n\nI am leaning towards B.\n\nPriya' },
@@ -264,6 +264,29 @@
 
   api.generateEmail = function (prompt) {
     prompt = String(prompt || '');
+
+    /* Overview, "By type of work": group finished items by keywords in their titles
+       (the app asks AI for a JSON array of category names, one per numbered line). */
+    if (/^Classify each task below into a short category name/.test(prompt)) {
+      var titles = (prompt.split(/\n\n/).slice(1).join('\n\n') || '').split('\n')
+        .map(function (l) { return l.replace(/^\d+\.\s*/, '').trim(); }).filter(Boolean);
+      var KINDS = [
+        [/bug|fix|error|crash|broken/i, 'Bug Fix'],
+        [/meeting|sync|retro|call|review deck|standup/i, 'Meeting'],
+        [/copy|email|newsletter|article|notes|brief|faq|update|write|release notes/i, 'Writing'],
+        [/design|logo|icon|banner|visual|mockup|wireframe|moodboard|photo|layout|screens|hero|slides|deck|storyboard/i, 'Design'],
+        [/plan|calendar|roadmap|schedule|timeline/i, 'Planning'],
+        [/test|research|summary|analysis|survey/i, 'Research'],
+        [/build|api|deploy|page|form|signup|checkout|accessibility|prototype|flow/i, 'Development'],
+        [/gym|run|health|dentist|groceries/i, 'Personal'],
+      ];
+      var cats = titles.map(function (t) {
+        for (var i = 0; i < KINDS.length; i++) if (KINDS[i][0].test(t)) return KINDS[i][1];
+        return 'General';
+      });
+      return wait(500).then(function () { return { content: [{ type: 'text', text: JSON.stringify(cats) }] }; });
+    }
+
     try { if (window.bbTrack) window.bbTrack('bloom', 'email_ai'); } catch (e) {}
 
     if (/turn an email into one clear task/i.test(prompt)) {

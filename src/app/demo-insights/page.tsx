@@ -62,6 +62,7 @@ const KIND_LABEL: Record<string, string> = {
   nudge: "Save-your-work nudge",
   interest: "Answered",
   data: "Demo data:",
+  welcome: "Welcome card:",
 };
 
 const RANGES = [7, 30, 90];

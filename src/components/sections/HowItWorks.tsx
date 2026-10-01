@@ -39,12 +39,7 @@ const STEPS = [
     description: (
       <>
         Change plan, update billing or cancel any time from{" "}
-        <a
-          href="https://polar.sh/bloombooard/portal"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={LINK_CLASS}
-        >
+        <a href="/account" className={LINK_CLASS}>
           Manage your subscription
         </a>
         .

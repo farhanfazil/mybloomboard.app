@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ChevronDown, Check, Minus, MessageCircle, Video, Keyboard, Mail, type LucideIcon } from "lucide-react";
+import { ChevronDown, Check, Minus, MessageCircle, Video, Keyboard, Mail, LayoutDashboard, ClipboardList, HeartPulse, type LucideIcon } from "lucide-react";
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
@@ -42,6 +42,11 @@ const TEAMS_ROWS: (string[] | { section: string })[] = [
   ["Team collaboration",          "✅", "✅", "✅", "✅", "✅", "✅"],
   ["Voice messages in boards",    "✅", "❌", "❌", "❌", "❌", "❌"],
   ["Meetings + 5-min alerts",     "✅", "❌", "❌", "✅", "✅", "✅"],
+  ["Daily Recap",                 "✅", "❌", "❌", "⚠️ Paid add-on", "⚠️ Paid", "❌"],
+
+  { section: "For managers" },
+  ["Manager dashboard",           "✅", "❌", "⚠️ Paid", "⚠️ Limited", "⚠️ Paid", "⚠️ Paid"],
+  ["Workload Health",             "✅", "❌", "❌", "⚠️ Capacity view", "⚠️ Capacity view", "⚠️ Capacity view"],
 
   { section: "Wellbeing & Personal" },
   ["Mood tracking per task",      "✅", "❌", "❌", "❌", "❌", "❌"],
@@ -114,6 +119,21 @@ const FEATURED: Record<string, { icon: LucideIcon; badge?: string; detail?: stri
     detailShort: "Dates become deadlines, @names assign teammates.",
   },
   "Voice & video calls": { icon: Video, badge: "New" },
+  "Manager dashboard": {
+    icon: LayoutDashboard,
+    detail: "Live team performance: every teammate's to do, in progress, done and overdue work, with a delivery health score that shows who is on track and who is at risk.",
+    detailShort: "Each teammate's progress, overdue work and delivery health.",
+  },
+  "Daily Recap": {
+    icon: ClipboardList,
+    detail: "Your day written up for you: what you finished yesterday, what is due today and any blockers. Post it to team chat or send it to your manager in one click, no more writing status updates.",
+    detailShort: "Your day written up. Post it to your manager in one click.",
+  },
+  "Workload Health": {
+    icon: HeartPulse,
+    detail: "Private signals for owners and managers: overload, overdue work piling up, stuck cards, or someone going quiet. A nudge to check in early, never a public score.",
+    detailShort: "Flags overload, stuck work and quiet teammates, privately.",
+  },
   "Built-in team chat": { icon: MessageCircle },
 };
 

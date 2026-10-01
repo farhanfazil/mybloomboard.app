@@ -21,7 +21,7 @@ type Reply = { key: "app_store" | "send_link"; label: string; primary: boolean }
 function script(os: string): { messages: string[]; replies: Reply[] } {
   const hello = "Hey, looks like you're on your phone 👋";
   const honest =
-    "Honest moment: our live demo is the full desktop app. On this screen it's like reading a map through a keyhole. You'd pinch, squint and give up, and we'd rather you didn't.";
+    "Honest moment: our live demo is the full desktop app. On this screen it's like reading a map through a keyhole. You'd spend the whole time zooming in and scrolling around, and that's no way to try it.";
   const sendLink: Reply = { key: "send_link", label: "Send me the link", primary: true };
 
   if (os === "iphone" && IOS_APP_STORE_URL) {

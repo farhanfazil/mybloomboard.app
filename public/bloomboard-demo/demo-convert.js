@@ -368,6 +368,67 @@
     requestAnimationFrame(function () { el.classList.add('show'); });
   }
 
+  /* ── 5a. Welcome: one small card, once per visit, pointing at three things
+     worth trying. Each button does what it says, then the card goes away. ── */
+  var WELCOME_KEY = 'bb-demo-welcomed';
+  function welcomed() { try { return sessionStorage.getItem(WELCOME_KEY) === '1'; } catch (e) { return false; } }
+  function showWelcome() {
+    if (welcomed() || window.__bbDemoFresh || document.getElementById('bb-demo-welcome')) return;
+    try { sessionStorage.setItem(WELCOME_KEY, '1'); } catch (e) {}
+    var team = typeof window.getDemoWorkspaceMode === 'function' && window.getDemoWorkspaceMode() === 'team';
+    var tries = [
+      ['task', 'Open a task'],
+      team ? ['office', 'Enter office'] : ['bloom', 'Ask Bloom'],
+      ['plan', 'Plan My Day'],
+    ];
+    var el = document.createElement('div');
+    el.id = 'bb-demo-welcome';
+    el.setAttribute('role', 'dialog');
+    el.setAttribute('aria-label', 'Welcome to BloomBoard');
+    el.innerHTML =
+      '<div class="bb-wel-hd"><b>Welcome to BloomBoard</b>' +
+      '<button type="button" class="bb-int-x" data-wel="close" aria-label="Close">✕</button></div>' +
+      '<p class="bb-wel-sub">' + (team ? 'This is a sample team' : 'This is a sample workspace') +
+      ', so click anything. Nothing you do here is saved.</p>' +
+      '<div class="bb-wel-try">' + tries.map(function (t) {
+        return '<button type="button" class="bb-wel-opt" data-wel="' + t[0] + '">' + t[1] + '</button>';
+      }).join('') + '</div>' +
+      '<button type="button" class="bb-wel-ok" data-wel="close">Got it</button>';
+    function close() {
+      el.classList.remove('show');
+      setTimeout(function () { el.remove(); }, 250);
+    }
+    var ACTIONS = {
+      task: function () {
+        var card = document.querySelector('.task-card .task-title, .task-card');
+        if (card) { card.scrollIntoView({ block: 'center', behavior: 'smooth' }); setTimeout(function () { card.click(); }, 350); }
+      },
+      office: function () { if (typeof window.openOfficeView === 'function') window.openOfficeView(); },
+      bloom: function () { if (typeof window.openBloom === 'function') window.openBloom(); },
+      plan: function () {
+        if (typeof window.openInsight !== 'function') return;
+        window.openInsight('planday');
+        /* Build the plan straight away, so the timeline is what they see. */
+        setTimeout(function () {
+          var b = Array.prototype.filter.call(document.querySelectorAll('#email-modal button'), function (x) { return /Plan my day/i.test(x.textContent); })[0];
+          if (b) b.click();
+        }, 500);
+      },
+    };
+    el.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('[data-wel]');
+      if (!b) return;
+      var k = b.getAttribute('data-wel');
+      track('welcome', k);
+      close();
+      if (ACTIONS[k]) setTimeout(ACTIONS[k], 120);
+    });
+    document.body.appendChild(el);
+    requestAnimationFrame(function () { el.classList.add('show'); });
+  }
+  /* After the app has drawn, so the card arrives on a settled screen. */
+  setTimeout(showWelcome, 1800);
+
   /* ── 5b. "What brings you here?" once the visitor has clearly engaged ── */
   var INTERESTS = [
     ['own_work', 'Organising my own work'],
@@ -376,7 +437,8 @@
   ];
   function maybeAskInterest() {
     if (visit.interest || document.getElementById('bb-demo-interest')) return;
-    if (visit.seconds < 40 && visit.actions < 6) return;
+    if (visit.seconds < 75 && visit.actions < 8) return;
+    if (document.getElementById('bb-demo-welcome')) return;
     var overlay = document.getElementById('upgrade-overlay');
     if (overlay && overlay.classList.contains('open')) return;
     if (document.getElementById('bb-demo-nudge')) return;
@@ -503,7 +565,35 @@
     'body.black-mode #bb-demo-nudge{color:#e5e5e5}' +
     'body.black-mode .bb-nudge-dl{background:#f5f5f5;color:#171717}' +
     'body.black-mode .bb-nudge-dl:hover{background:#e5e5e5}' +
-    '@media (prefers-reduced-motion:reduce){#bb-demo-nudge,#bb-demo-interest{transition:none}}';
+    /* Welcome card: the same corner card, a short line and three things to try. */
+    '#bb-demo-welcome{position:fixed;left:16px;bottom:16px;z-index:3000;width:320px;max-width:calc(100vw - 32px);box-sizing:border-box;' +
+    'padding:14px;border-radius:14px;background:#0f3650;border:1px solid rgba(148,163,184,.28);color:#e2e8f0;' +
+    'font-size:13px;line-height:1.45;box-shadow:0 18px 40px rgba(0,0,0,.35);opacity:0;transform:translateY(10px);' +
+    'transition:opacity .25s ease,transform .25s ease}' +
+    '#bb-demo-welcome.show{opacity:1;transform:none}' +
+    '.bb-wel-hd{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#fff;font-size:14px;margin:0 0 4px 2px}' +
+    '.bb-wel-sub{margin:0 2px 12px;color:#c8d6e5}' +
+    '.bb-wel-try{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}' +
+    '.bb-wel-opt{appearance:none;border:1px solid rgba(148,163,184,.35);background:rgba(255,255,255,.06);color:#fff;font:inherit;font-size:12.5px;' +
+    'font-weight:500;padding:6px 10px;border-radius:8px;cursor:pointer;transition:background .15s ease,border-color .15s ease}' +
+    '.bb-wel-opt:hover{background:rgba(255,255,255,.14);border-color:rgba(148,163,184,.6)}' +
+    '.bb-wel-ok{appearance:none;width:100%;border:0;border-radius:9px;background:#fff;color:#0f172a;font:inherit;font-size:13px;font-weight:600;' +
+    'padding:8px 10px;cursor:pointer}' +
+    '.bb-wel-ok:hover{background:#e8edf2}' +
+    'body.light-mode #bb-demo-welcome{background:#fff;border-color:rgba(15,23,42,.14);color:#1e293b;box-shadow:0 18px 40px rgba(15,23,42,.16)}' +
+    'body.light-mode .bb-wel-hd{color:#0f172a}' +
+    'body.light-mode .bb-wel-sub{color:#475569}' +
+    'body.light-mode .bb-wel-opt{background:#f8fafc;border-color:rgba(15,23,42,.16);color:#0f172a}' +
+    'body.light-mode .bb-wel-opt:hover{background:#eef2f7;border-color:rgba(15,23,42,.3)}' +
+    'body.light-mode .bb-wel-ok{background:#123e5a;color:#fff}' +
+    'body.light-mode .bb-wel-ok:hover{background:#0d2f45}' +
+    'body.black-mode #bb-demo-welcome{background:#1c1c1c;border-color:rgba(255,255,255,.12);color:#e5e5e5}' +
+    'body.black-mode .bb-wel-sub{color:#b5b5b5}' +
+    'body.black-mode .bb-wel-opt{background:#242424;border-color:rgba(255,255,255,.14)}' +
+    'body.black-mode .bb-wel-opt:hover{background:#2e2e2e;border-color:rgba(255,255,255,.26)}' +
+    'body.black-mode .bb-wel-ok{background:#f5f5f5;color:#171717}' +
+    'body.black-mode .bb-wel-ok:hover{background:#e5e5e5}' +
+    '@media (prefers-reduced-motion:reduce){#bb-demo-nudge,#bb-demo-interest,#bb-demo-welcome{transition:none}}';
   function injectCss() {
     if (document.getElementById('bb-demo-convert-css')) return;
     var st = document.createElement('style');

@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { HolographicButterfly } from "@/components/sections/DeepDiveFlight";
 import { useDevice } from "@/lib/downloads";
 import { AlsoAvailable, DownloadButton } from "@/components/ui/DownloadButton";
 
@@ -33,6 +34,35 @@ export default function DownloadCTA() {
 
           <div className="flex flex-col items-center gap-4 mt-2 w-full sm:w-auto">
             <div className="relative flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+              <motion.div
+                className="pointer-events-none absolute left-[55%] top-0 z-20 block lg:left-[68%]"
+                style={{ willChange: "transform, opacity" }}
+                initial={{ opacity: 0, x: -420, y: -430, rotate: -28, scale: 0.46 }}
+                animate={
+                  isInView
+                    ? {
+                        opacity: [0, 1, 1, 1],
+                        x: [-420, -240, -80, 0],
+                        y: [-430, -290, -150, -56],
+                        rotate: [-28, 18, -8, 0],
+                        scale: [0.46, 0.60, 0.52, 0.44],
+                      }
+                    : {}
+                }
+                transition={{
+                  duration: 2.8,
+                  delay: 0.1,
+                  times: [0, 0.32, 0.68, 1],
+                  x:      { ease: ["easeIn", "linear", "easeOut"], duration: 2.8 },
+                  y:      { ease: ["easeIn", "linear", "easeOut"], duration: 2.8 },
+                  rotate: { ease: ["easeIn", "linear", "easeOut"], duration: 2.8 },
+                  scale:  { ease: ["easeIn", "linear", "easeOut"], duration: 2.8 },
+                  opacity: { ease: "easeOut", duration: 0.45 },
+                }}
+              >
+                <HolographicButterfly />
+              </motion.div>
+
               {/* One main button for the visitor's own system */}
               <DownloadButton choice={device.primary} className="w-full gap-2.5 px-6 py-3 text-sm text-[#0a0f1c] sm:w-auto" />
 

@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
 import { useScroll } from "@/components/ui/use-scroll";
 
-const CUSTOMER_PORTAL_URL = "https://polar.sh/bloombooard/portal";
 
 interface NavLink {
   label: string;
@@ -30,7 +29,7 @@ export function Header({
     // restore { label: "Features", href: "#features" }, { label: "Deep Dive", href: "#walkthrough" } with them.
     { label: "Live Demo", href: "#live-demo" },
     { label: "Pricing", href: "#pricing" },
-    { label: "Manage subscription", href: CUSTOMER_PORTAL_URL, external: true },
+    { label: "Manage subscription", href: "/account" },
   ];
 
   // Sections marked data-hide-header (e.g. the light comparison panel) hide the

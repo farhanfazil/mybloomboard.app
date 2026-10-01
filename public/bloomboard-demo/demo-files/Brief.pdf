@@ -1,0 +1,52 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+6 0 obj
+<< /Length 881 >>
+stream
+BT /F2 20 Tf 64 760 Td (Spring Campaign Brief) Tj ET
+BT /F1 11 Tf 64 734 Td () Tj ET
+BT /F1 11 Tf 64 716 Td (Client: Acme Studio) Tj ET
+BT /F1 11 Tf 64 698 Td (Launch: 14 October) Tj ET
+BT /F1 11 Tf 64 680 Td () Tj ET
+BT /F2 13 Tf 64 662 Td (Goal) Tj ET
+BT /F1 11 Tf 64 644 Td (Grow sign-ups for the spring range by 20%.) Tj ET
+BT /F1 11 Tf 64 626 Td () Tj ET
+BT /F2 13 Tf 64 608 Td (Deliverables) Tj ET
+BT /F1 11 Tf 64 590 Td (- Key visual and banner set \(web and social\)) Tj ET
+BT /F1 11 Tf 64 572 Td (- Landing page hero and copy) Tj ET
+BT /F1 11 Tf 64 554 Td (- Two short videos for social) Tj ET
+BT /F1 11 Tf 64 536 Td () Tj ET
+BT /F2 13 Tf 64 518 Td (Timeline) Tj ET
+BT /F1 11 Tf 64 500 Td (Week 1: concepts   Week 2: design   Week 3: final files) Tj ET
+BT /F1 11 Tf 64 482 Td () Tj ET
+BT /F1 11 Tf 64 464 Td (Made in the BloomBoard live demo. This is a sample file.) Tj ET
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000000321 00000 n 
+0000000396 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+1328
+%%EOF

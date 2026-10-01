@@ -134,6 +134,8 @@ function patchIndexHtml(html) {
     patched = patched.replace(colorClean, "else if (/color$/i.test(k))       x = x && !/^g-[a-z-]+$/.test(x) ? bbCssColor(x) : x;");
   }
 
+  // "Type your tasks" demo: two example lines, then start over (the app types three).
+  if (patched.includes('        if (count >= 3) {')) patched = patched.replace('        if (count >= 3) {', '        if (count >= 2) {');
   // No login form in the demo. Browsers fill a visitor's saved email into the first
   // text box (the top bar search) of any page with password or username fields,
   // and Chrome shows it before the page's own code can see it. Nobody signs in

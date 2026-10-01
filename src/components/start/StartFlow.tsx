@@ -5,7 +5,7 @@
  * Free needs no account: the app works straight after download.
  *
  * Steps: account → about you → first tasks → look → team (Team plan) → done.
- * Bloom (the app logo) flies to a landing spot on each step.
+ * Bloom (the site's HolographicButterfly) flies to a landing spot on each step.
  * The account is created at the end, with every answer saved on the account
  * (user metadata `bb_onboarding`) so the app can pick them up at first sign-in.
  */
@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence, animate, motion, useMotionValue, useReducedMotion } from "framer-motion";
 import { createClient } from "@supabase/supabase-js";
+import { HolographicButterfly } from "@/components/sections/DeepDiveFlight";
 import { MAC_DOWNLOAD_URL, WINDOWS_DOWNLOAD_URL } from "@/lib/downloads";
 import { TEAM_SEAT_TIERS } from "@/lib/constants";
 
@@ -62,12 +63,13 @@ function priceLine(plan: Plan, yearly: boolean, seats: number) {
   return yearly ? `$${tier.yearly * 12} per person a year` : `$${tier.monthly} per person a month`;
 }
 
-/* Checkout goes through /api/checkout: Team keeps its seat count, and "Pay now"
-   turns off the trial Polar would otherwise add, so the card is charged today. */
-function checkoutUrl(plan: Plan, yearly: boolean, email: string, userId: string, seats: number, payNow = false) {
+/* Checkout goes through /api/checkout so Team keeps its seat count. The Polar products
+   carry the same free trial, so a card added during the trial is first charged when the
+   trial ends. */
+function checkoutUrl(plan: Plan, yearly: boolean, email: string, userId: string, seats: number) {
   if (plan === "free") return "/#pricing";
   const q = `customer_email=${encodeURIComponent(email)}${userId ? `&reference_id=${encodeURIComponent(userId)}` : ""}`;
-  return `/api/checkout?plan=${plan}${plan === "team" ? `&quantity=${seats}` : ""}${yearly ? "&yearly=1" : ""}${payNow ? "&paynow=1" : ""}&${q}`;
+  return `/api/checkout?plan=${plan}${plan === "team" ? `&quantity=${seats}` : ""}${yearly ? "&yearly=1" : ""}&${q}`;
 }
 
 const ROLES = ["Design", "Marketing", "Engineering", "Operations", "Sales", "Student", "Something else"];
@@ -113,8 +115,9 @@ export default function StartFlow() {
 
   const [plan, setPlan] = useState<Plan>(initialPlan);
   const [yearly, setYearly] = useState(params.get("billing") === "yearly");
-  /* Free trial first (no card), or pay straight away: some companies want to buy today. */
-  const [payNow, setPayNow] = useState(params.get("pay") === "now");
+  /* Both choices get the full free trial. With a card added now, the plan carries on by
+     itself when the trial ends (charged then); without one, they add it later if they keep it. */
+  const [cardNow, setCardNow] = useState(params.get("card") === "now");
   // dev-only preview of a later step (?step=look); ignored in production builds
   const devStep = process.env.NODE_ENV === "development" ? (params.get("step") as Step | null) : null;
   const [step, setStep] = useState<Step>(devStep && devStep in BLOOM_LINES ? devStep : "account");
@@ -336,14 +339,12 @@ export default function StartFlow() {
                 <div className="flex flex-col gap-5">
                   <div>
                     <h1 className="text-[34px] font-bold leading-[1.1] tracking-[-0.03em] md:text-[40px]">
-                      {plan === "free" ? "BloomBoard Free." : payNow ? `Get ${PLANS[plan].name}.` : plan === "team" ? "Start your free two weeks." : "Start your free week."}
+                      {plan === "free" ? "BloomBoard Free." : plan === "team" ? "Start your free two weeks." : "Start your free week."}
                     </h1>
                     <p className="mt-3 text-[17px] leading-relaxed text-[#a1a1aa]">
                       {plan === "free"
                         ? "Free needs no account. Download the app and start straight away."
-                        : payNow
-                          ? `Create your account, then pay by card. ${PLANS[plan].name} starts straight away.`
-                          : `Try every ${PLANS[plan].name} feature for ${TRIAL_DAYS[plan]} days. No card needed, cancel anytime.`}
+                        : `Try every ${PLANS[plan].name} feature for ${TRIAL_DAYS[plan]} days. No card needed, cancel anytime.`}
                     </p>
                   </div>
                   <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3" role="radiogroup" aria-label="Plan">
@@ -377,25 +378,25 @@ export default function StartFlow() {
                         </div>
                       ))}
                       <div className="mt-1 text-[13px] text-[#a1a1aa]">
-                        {payNow
-                          ? <>You pay {priceLine(plan, yearly, seats)} at checkout, after you create your account. 14-day refund on your first payment.</>
+                        {cardNow
+                          ? <>Free for {TRIAL_DAYS[plan]} days, then {priceLine(plan, yearly, seats)}, charged to your card when the trial ends. Cancel before then and you pay nothing.</>
                           : <>No card now. After {TRIAL_DAYS[plan]} days, keep {PLANS[plan].name} for {priceLine(plan, yearly, seats)}, or carry on with Free. You are only charged if you add a card.</>}
                       </div>
                     </div>
                   )}
                   {plan !== "free" && (
-                    <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2" role="radiogroup" aria-label="When to pay">
+                    <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2" role="radiogroup" aria-label="Card">
                       {[
-                        { now: false, title: "Start free trial", sub: `Pay after ${TRIAL_DAYS[plan]} days, if you keep it. No card now.` },
-                        { now: true, title: "Pay now", sub: "Skip the trial and pay by card today." },
+                        { now: false, title: "No card now", sub: `Try it free for ${TRIAL_DAYS[plan]} days. Add a card later, if you keep it.` },
+                        { now: true, title: "Add card now", sub: `Still ${TRIAL_DAYS[plan]} days free. Charged only when the trial ends.` },
                       ].map((o) => (
                         <button
-                          key={o.title} type="button" role="radio" aria-checked={payNow === o.now}
-                          onClick={() => setPayNow(o.now)}
-                          className={`flex items-start gap-3 rounded-[14px] px-4 py-3.5 text-left transition-colors ${payNow === o.now ? "border-2 border-[#4d9fff] bg-[#0b1726]" : "border border-white/10 bg-[#0d0d0f] hover:border-white/25"}`}
+                          key={o.title} type="button" role="radio" aria-checked={cardNow === o.now}
+                          onClick={() => setCardNow(o.now)}
+                          className={`flex items-start gap-3 rounded-[14px] px-4 py-3.5 text-left transition-colors ${cardNow === o.now ? "border-2 border-[#4d9fff] bg-[#0b1726]" : "border border-white/10 bg-[#0d0d0f] hover:border-white/25"}`}
                         >
-                          <span aria-hidden className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 ${payNow === o.now ? "border-[#4d9fff]" : "border-white/30"}`}>
-                            {payNow === o.now && <span className="h-1.5 w-1.5 rounded-full bg-[#4d9fff]" />}
+                          <span aria-hidden className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 ${cardNow === o.now ? "border-[#4d9fff]" : "border-white/30"}`}>
+                            {cardNow === o.now && <span className="h-1.5 w-1.5 rounded-full bg-[#4d9fff]" />}
                           </span>
                           <span>
                             <span className="block text-[15px] font-bold">{o.title}</span>
@@ -675,16 +676,16 @@ export default function StartFlow() {
                   {plan !== "free" && (
                     <div className="flex flex-col gap-3 rounded-2xl border border-[#4d9fff]/45 bg-[#0b1726] px-5 py-4">
                       <div>
-                        <div className="text-[15px] font-bold">{payNow ? "One step left: payment" : `${PLANS[plan].name} is free until ${trialEnds(TRIAL_DAYS[plan])}`}</div>
+                        <div className="text-[15px] font-bold">{cardNow ? "One step left: add your card" : `${PLANS[plan].name} is free until ${trialEnds(TRIAL_DAYS[plan])}`}</div>
                         <div className="mt-1 text-sm leading-relaxed text-[#b9c9dc]">
-                          {payNow
-                            ? `Your account is ready. Pay now and ${PLANS[plan].name} is yours straight away. You can already use it while you do: your free trial runs until ${trialEnds(TRIAL_DAYS[plan])}.`
+                          {cardNow
+                            ? `Your free trial has started. Add your card now and ${PLANS[plan].name} carries on by itself when the trial ends on ${trialEnds(TRIAL_DAYS[plan])}. Nothing is charged before then, and you can cancel any time.`
                             : `No card on file. To keep ${PLANS[plan].name} after the trial, add your payment details any time before then. Otherwise you carry on with the free plan.`}
                         </div>
                       </div>
-                      <a href={checkoutUrl(plan, yearly, email.trim(), userId, seats, payNow)} target="_blank" rel="noopener noreferrer"
+                      <a href={checkoutUrl(plan, yearly, email.trim(), userId, seats)} target="_blank" rel="noopener noreferrer"
                         className="flex h-11 items-center justify-center rounded-xl bg-[#f5f5f7] px-5 text-[14px] font-bold text-black">
-                        {payNow ? "Pay now" : "Add payment details"}
+                        {cardNow ? "Add card" : "Add payment details"}
                       </a>
                       <div className="text-[12.5px] text-[#9fb0c4]">{plan === "team" ? `${seats} seats, ` : ""}{priceLine(plan, yearly, seats)}. Use {email.trim()} at checkout so it lands on this account.</div>
                     </div>
@@ -862,8 +863,8 @@ function BloomGuide({ step, spot, line }: { step: Step; spot: string; line: stri
   return (
     <motion.div className="pointer-events-none absolute left-0 top-0 z-40" style={{ x, y }}>
       <div className="relative">
-        <motion.div style={{ rotate: tilt, transformOrigin: "20px 20px" }}>
-          <Image src="/logo.png" alt="" width={40} height={40} className="h-10 w-10 rounded-[10px]" />
+        <motion.div style={{ rotate: tilt, transformOrigin: "40px 40px" }}>
+          <div style={{ transform: "scale(0.7)", transformOrigin: "0 0" }}><HolographicButterfly /></div>
         </motion.div>
         <AnimatePresence>
           {landed && (
@@ -873,7 +874,7 @@ function BloomGuide({ step, spot, line }: { step: Step; spot: string; line: stri
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, transition: { duration: 0.12 } }}
               transition={{ duration: 0.22, layout: { duration: 0.2 } }}
-              className="absolute top-[-50px] w-max max-w-[230px] rounded-2xl border border-white/10 bg-[#1c1c1f] px-3.5 py-2.5 text-sm leading-snug text-[#f5f5f7]"
+              className="absolute top-[-50px] w-max max-w-[230px] rounded-2xl border border-[#c4b5fd]/25 bg-[#1c1c1f] px-3.5 py-2.5 text-sm leading-snug text-[#f5f5f7]"
               style={bubbleLeft ? { right: 30, borderBottomRightRadius: 4 } : { left: 30, borderBottomLeftRadius: 4 }}
               role="status"
             >

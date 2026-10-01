@@ -168,14 +168,6 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
         </a>
         <p className="mt-2 text-center text-xs text-white/45">
           {underCta}
-          {!isFree && (
-            <>
-              {" · "}
-              <a href={`${href}&pay=now`} className="text-white/70 underline decoration-white/30 underline-offset-2 hover:text-white">
-                or buy now
-              </a>
-            </>
-          )}
         </p>
       </div>
 
@@ -345,7 +337,7 @@ export default function Pricing() {
           transition={{ delay: 0.5, duration: 0.5 }}
         >
           <p className="text-sm text-white/60">
-            All paid plans start with a free trial: 7 days for Bloom, 14 days for Team. No card needed to start, or buy straight away if you prefer. Cancel anytime. 14-day refund on your first payment and on yearly renewals. <a href="/refund" className="underline underline-offset-2 hover:text-white">Refund policy</a>
+            All paid plans start with a free trial: 7 days for Bloom, 14 days for Team. No card needed to start, or add one up front and nothing is charged until the trial ends. Cancel anytime. 14-day refund on your first payment and on yearly renewals. <a href="/refund" className="underline underline-offset-2 hover:text-white">Refund policy</a>
           </p>
           <p className="inline-flex flex-wrap items-center justify-center gap-2 rounded-lg border border-white/15 bg-[#18181b] px-3.5 py-2 text-sm text-white/80">
             <span className="rounded bg-white px-1.5 py-0.5 text-xs font-semibold text-black">Founding price</span>

@@ -14,6 +14,13 @@
     'https://images.unsplash.com/photo-1542744094-24638eff58bb?w=400&h=250&fit=crop&auto=format&q=60', // Workspace
   ];
 
+  /* Chat pictures and files must be https links (the app drops anything else), so on
+     a local preview they come from the live site. Brief.pdf lives in demo-files/. */
+  var DEMO_SITE = location.protocol === 'https:' ? location.origin : 'https://mybloomboard.app';
+  var DEMO_BRIEF_SIZE = 1532;
+  /* Sam Rivera, the visitor: a real photo, set as the app's own uploaded profile photo. */
+  var SAM_PHOTO = 'https://randomuser.me/api/portraits/women/79.jpg';
+
   /* The visitor's local date (toISOString would give UTC, a day early after midnight in UTC+ zones). */
   function isoDate(offsetDays) {
     var d = new Date();
@@ -107,6 +114,98 @@
       var b = (bd.boards || []).filter(function (x) { return x.id === o.plumBoard; })[0];
       if (b) { b.bgColor = 'g-plum'; localStorage.setItem('bloombooard-boards-v1', JSON.stringify(bd)); }
     } catch (e) {}
+
+    seedWorkLog(o, now);
+    seedBloomThreads(now);
+    localStorage.removeItem('bloom-avatar-v3');
+    localStorage.setItem('bloom-avatar-custom-v1', SAM_PHOTO);
+  }
+
+  /* Overview and Daily Recap read the work log (bb-worklog-v1): everything finished,
+     kept even after the task or card is deleted. About 25 items over the last six
+     weeks, three of them yesterday, across the projects and the boards. */
+  function seedWorkLog(o, now) {
+    var day = 86400000;
+    var boards = [];
+    try { boards = (JSON.parse(localStorage.getItem('bloombooard-boards-v1') || '{}').boards || []); } catch (e) {}
+    /* Overview groups by project id, so use the workspace's own projects (Team seeds
+       its list; Personal uses the app's built-in one). */
+    var PROJ = [];
+    try { PROJ = (JSON.parse(localStorage.getItem('bbd-dash-projects') || '[]') || []).filter(function (p) { return p.id !== 'proj-personal'; }); } catch (e) {}
+    if (PROJ.length < 2) PROJ = [
+      { id: 'proj-web', name: 'Website Relaunch', emoji: '🌐' },
+      { id: 'proj-mobile', name: 'Mobile App v2', emoji: '📱' },
+      { id: 'proj-campaign', name: 'Spring Campaign', emoji: '🌸' },
+    ];
+    var TITLES = [
+      'Wireframes for the pricing page', 'Client feedback round 2', 'App icon set', 'Newsletter layout',
+      'Landing page copy review', 'Social media calendar', 'Onboarding emails', 'Release notes 2.3',
+      'Logo cleanup for print', 'Usability test summary', 'Campaign moodboard', 'Checkout bug fixes',
+      'Team retro notes', 'Ad banners, all sizes', 'Product photos retouch', 'FAQ page update',
+      'Investor update slides', 'Help center articles', 'Promo video storyboard', 'Accessibility fixes',
+      'Partner deck refresh', 'Holiday campaign brief',
+    ];
+    var me = o.me || 'local_user';
+    var items = {};
+    function at(daysAgo, h, m) {
+      var d = new Date(now - daysAgo * day);
+      d.setHours(h, m || 0, 0, 0);
+      return d.getTime();
+    }
+    function add(i, ts, title, pri) {
+      var useBoard = boards.length && i % 3 === 2;
+      var proj = PROJ[(i + Math.floor(i / 3)) % PROJ.length];
+      var e;
+      if (useBoard) {
+        var bd = boards[Math.floor(i / 3) % boards.length];
+        e = { k: 'card:demo-wl-' + i, kind: 'card', id: 'demo-wl-' + i, title: title, boardId: bd.id,
+          boardName: bd.title, boardIcon: bd.icon || '', column: 'Done', priority: pri, deadline: '',
+          by: String(me), assignees: [String(me)], aiCategory: '' };
+      } else {
+        e = { k: 'task:demo-wl-' + i, kind: 'task', id: 'demo-wl-' + i, title: title, project: proj.id,
+          projectName: proj.name, projectEmoji: proj.emoji || '', priority: pri, deadline: '', by: '',
+          assignees: [], subtasks: 0, subtasksDone: 0, aiCategory: '' };
+      }
+      e.gone = true; e.completedAt = ts; e.approx = false; e.firstSeen = ts;
+      items[e.k] = e;
+    }
+    /* Yesterday, so Daily Recap's "Finished yesterday" has something in it. */
+    add(100, at(1, 10, 20), 'Send the homepage copy for review', 'high');
+    add(101, at(1, 13, 45), 'Fix the signup form on mobile', 'urgent');
+    add(102, at(1, 16, 30), 'Prepare the client review deck', 'medium');
+    /* The rest spread over six weeks, weekdays only, busier lately. */
+    var n = 0;
+    for (var d = 2; d <= 42 && n < TITLES.length; d++) {
+      var wd = new Date(now - d * day).getDay();
+      if (wd === 0 || wd === 6) continue;
+      if (d > 21 && d % 2) continue;
+      add(n, at(d, 9 + (n * 3) % 8, (n * 17) % 60), TITLES[n], ['medium', 'high', 'low', 'medium'][n % 4]);
+      n++;
+    }
+    localStorage.setItem('bb-worklog-v1', JSON.stringify({ v: 1, items: items, backfilled: true }));
+  }
+
+  /* Ask Bloom keeps past chats in its left rail; two short ones so it isn't empty. */
+  function seedBloomThreads(now) {
+    var hour = 3600000;
+    function thread(id, ago, pairs) {
+      var ts = now - ago;
+      return { id: id, ts: ts, msgs: pairs.map(function (p, i) { return { role: p[0], text: p[1], ts: ts + i * 40000 }; }) };
+    }
+    /* The open chat is a fresh one; the app writes the welcome message into whichever
+       chat is current, so the two past chats stay as they are. */
+    localStorage.setItem('bb-bloom-thread-cur', 'demo-thread-new');
+    localStorage.setItem('bb-bloom-threads-v1', JSON.stringify([
+      { id: 'demo-thread-new', ts: now, msgs: [] },
+      thread('demo-thread-2', 3 * hour, [
+        ['user', 'What should I focus on this afternoon?'],
+        ['bloom', 'Start with the homepage hero: it is urgent and was due yesterday. After that, the onboarding screens are due Saturday, so an hour on them today keeps you ahead. Weekly planning can wait until tomorrow morning.'],
+      ]),
+      thread('demo-thread-1', 4 * 24 * hour, [
+        ['user', 'Write a short update for the client about the launch date'],
+        ['bloom', 'Here is a short update:\n\nHi Sarah, quick update on the launch. The site is on track for the 14th. Design is signed off and we are in final testing this week. I will send the staging link on Thursday so your team can take a last look.\n\nWant me to make it more formal or shorter?'],
+      ]),
+    ]));
   }
 
   function purgeNonDemoChats() {
@@ -717,18 +816,18 @@
     }
     var ID = demo.IDS;
 
-    /* A mix of real-looking profile photos and the app's own illustrated avatars. */
+    /* Everyone has a real profile photo, Sam (the visitor) included. */
     function face(file) { return 'avatars/dark/' + encodeURIComponent(file); }
     function photo(path) { return 'https://randomuser.me/api/portraits/' + path + '.jpg'; }
     var PEOPLE = [
-      { id: ID.me, name: 'Sam Rivera', email: 'sam@lumen.studio', role: 'owner', status: 'available', color: '#7c3aed', position: 'Product Designer', department: 'Design', avatar: 'avatars/blooms-arctic/Winking.png' },
+      { id: ID.me, name: 'Sam Rivera', email: 'sam@lumen.studio', role: 'owner', status: 'available', color: '#7c3aed', position: 'Product Designer', department: 'Design', avatar: SAM_PHOTO },
       { id: ID.maya, name: 'Maya Chen', email: 'maya@lumen.studio', role: 'manager', status: 'available', color: '#14b8a6', position: 'Product Manager', department: 'Product', avatar: photo('women/44') },
       /* Team Space signals: Daniel is "Back at" in an hour, Nora is on Focus, Priya shared her task. */
       { id: ID.daniel, name: 'Daniel Brooks', email: 'daniel@lumen.studio', role: 'member', status: 'brb', statusUntil: now + 62 * min, color: '#dc2626', position: 'Frontend Engineer', department: 'Engineering', avatar: photo('men/32') },
       { id: ID.priya, name: 'Priya Nair', email: 'priya@lumen.studio', role: 'member', status: 'available', focusTask: 'Launch email copy', color: '#f59e0b', position: 'Marketing Lead', department: 'Marketing', avatar: photo('women/68') },
       { id: ID.leo, name: 'Leo Hartmann', email: 'leo@lumen.studio', role: 'member', status: 'available', color: '#3b82f6', position: 'Backend Engineer', department: 'Engineering', avatar: photo('men/75') },
-      { id: ID.nora, name: 'Nora Haddad', email: 'nora@lumen.studio', role: 'member', status: 'dnd', statusUntil: now + 41 * min, color: '#ec4899', position: 'Content Writer', department: 'Design', avatar: face('HIJAB GIRL.png') },
-      { id: ID.ethan, name: 'Ethan Cole', email: 'ethan@lumen.studio', role: 'member', status: 'available', color: '#8b5cf6', position: 'Motion Designer', department: 'Design', avatar: face('CREATIVE FLOW.png') },
+      { id: ID.nora, name: 'Nora Haddad', email: 'nora@lumen.studio', role: 'member', status: 'dnd', statusUntil: now + 41 * min, color: '#ec4899', position: 'Content Writer', department: 'Design', avatar: photo('women/26') },
+      { id: ID.ethan, name: 'Ethan Cole', email: 'ethan@lumen.studio', role: 'member', status: 'available', color: '#8b5cf6', position: 'Motion Designer', department: 'Design', avatar: photo('men/86') },
       { id: ID.chloe, name: 'Chloe Park', email: 'chloe@lumen.studio', role: 'member', status: 'away', color: '#16a34a', position: 'QA Lead', department: 'Product', avatar: photo('women/65') },
     ];
     var ME = PEOPLE[0];
@@ -775,7 +874,6 @@
           };
         }),
       }));
-      localStorage.setItem('bloom-avatar-v3', 'arctic:blooms-arctic/Winking.png');
 
       /* ── Projects & tasks ── */
       localStorage.setItem('bbd-dash-projects', JSON.stringify([
@@ -881,11 +979,13 @@
       var LAUNCH = 'grp_launch_squad';
       var CRIT = 'grp_design_crit';
       var CONVS = [
-        { id: dmId(ID.maya), type: 'dm', members: [ID.me, ID.maya], unread: 3, script: [
+        { id: dmId(ID.maya), type: 'dm', members: [ID.me, ID.maya], unread: 2, script: [
           [ID.maya, 'Morning! Did you see the new campaign brief?'],
+          [ID.maya, '', null, { file: true }],
           [ID.me, 'Yes, starting the key visual now'],
           [ID.maya, 'Amazing 🙌'],
           [ID.me, 'Sending the file now'],
+          [ID.me, 'First draft of the key visual', null, { image: true }],
           [ID.maya, 'The banner looks great 👏', { '❤️': [ID.me] }],
           [ID.me, 'Thanks! Social sizes next'],
           [ID.maya, 'Call in 5?'],
@@ -894,7 +994,7 @@
           [ID.maya, 'Can you check the latest export?'],
           [ID.maya, '🔥🔥'],
         ] },
-        { id: dmId(ID.daniel), type: 'dm', members: [ID.me, ID.daniel], unread: 3, script: [
+        { id: dmId(ID.daniel), type: 'dm', members: [ID.me, ID.daniel], unread: 0, script: [
           [ID.daniel, 'Onboarding screens are wired up on staging'],
           [ID.me, 'Looks smooth 😍'],
           [ID.daniel, 'Need the icons exported as SVG please'],
@@ -942,7 +1042,7 @@
           [ID.chloe, 'Dark mode pass is 80% done'],
           [ID.me, '🚀'],
         ] },
-        { id: LAUNCH, type: 'group', name: 'Launch Squad', members: PEOPLE.map(function (p) { return p.id; }), unread: 0, script: [
+        { id: LAUNCH, type: 'group', name: 'Launch Squad', members: PEOPLE.map(function (p) { return p.id; }), unread: 1, script: [
           [ID.maya, 'Launch is two weeks out. Status check 👇'],
           [ID.priya, 'Email + socials scheduled'],
           [ID.daniel, 'Web build is green'],
@@ -973,11 +1073,19 @@
         var msgs = c.script.map(function (line, i) {
           var who = byId[line[0]];
           var ts = start + i * step + Math.floor(Math.random() * 4 * min);
-          return {
+          var row = {
             id: demo.uuid(), conversation_id: c.id, sender_id: who.id, sender_name: who.name,
             html: line[1], text_content: line[1], ts: ts, reactions: line[2] || {},
             created_at: new Date(ts).toISOString(), updated_at: new Date(ts).toISOString(),
           };
+          /* A picture and a file, so the chat shows both (the app only loads https links). */
+          var extra = line[3] || {};
+          if (extra.image) row.image_url = DEMO_SITE + '/screenshots/hero-2-light.jpg';
+          if (extra.file) {
+            row.file_url = DEMO_SITE + '/bloomboard-demo/demo-files/Brief.pdf';
+            row.file_name = 'Brief.pdf'; row.file_size = DEMO_BRIEF_SIZE; row.file_mime = 'application/pdf';
+          }
+          return row;
         });
         var last = msgs[msgs.length - 1];
         demo.seed('conversations', {
@@ -996,6 +1104,8 @@
           return {
             id: m.id, senderId: m.sender_id, senderName: m.sender_name, html: m.html, text: m.text_content,
             ts: m.ts, reactions: m.reactions || {}, edited: false, deleted: false, pinned: false, parentId: null,
+            image: m.image_url || undefined, fileUrl: m.file_url || undefined, fileName: m.file_name || undefined,
+            fileSize: m.file_size || undefined, fileMime: m.file_mime || undefined,
           };
         })));
       });
@@ -1074,6 +1184,11 @@
         meeting({ id: 'demo-mtg-design-review', title: 'Weekly design review', dateStart: thisWeek(0), time: '10:00',
           durationMin: 60, repeat: 'weekly', call: 'bloom', attendeeIds: [ID.ethan, ID.nora, ID.maya],
           notes: 'Landing hero v3, onboarding screens and the launch video.' }),
+        /* Always two meetings today, so Plan My Day has something to plan around. */
+        meeting({ id: 'demo-mtg-today-review', title: 'Design review', dateStart: isoDate(0), time: '11:00',
+          durationMin: 45, call: 'bloom', attendeeIds: [ID.maya, ID.priya], notes: 'Homepage hero and the spring banners.' }),
+        meeting({ id: 'demo-mtg-today-client', title: 'Client check-in with Acme', dateStart: isoDate(0), time: '15:30',
+          durationMin: 30, attendeeIds: [ID.maya], location: 'Google Meet' }),
         meeting({ id: 'demo-mtg-one-on-one', title: '1:1 with Leo', dateStart: thisWeek(2), time: '11:00',
           durationMin: 30, attendeeIds: [ID.leo], location: 'Room 2' }),
         meeting({ id: 'demo-mtg-sprint', title: 'Sprint planning', dateStart: thisWeek(3), time: '14:00',

@@ -9,7 +9,7 @@ import { getSupabaseAdmin } from "@/lib/supabase-server";
  * with no visitor ids, IPs or free text stored.
  */
 
-const EVENT_NAME = /^(demo_loaded|nav|gate|download|nudge|create|workspace|theme|chat|knock|office|interest|mobile|email|data|bloom|useful):[a-z0-9_]{1,40}$/;
+const EVENT_NAME = /^(demo_loaded|nav|gate|download|nudge|create|workspace|theme|chat|knock|office|interest|mobile|email|data|bloom|useful|welcome):[a-z0-9_]{1,40}$/;
 const MAX_KEYS = 40;
 const MAX_COUNT = 50;
 const DATA_FILE = path.join(process.cwd(), "data", "demo-events.json");
