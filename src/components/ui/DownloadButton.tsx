@@ -1,6 +1,6 @@
 "use client";
 
-import type { DownloadChoice } from "@/lib/downloads";
+import { IOS_APP_STORE_URL, type DownloadChoice } from "@/lib/downloads";
 
 export function PlatformIcon({ icon, size = 16 }: { icon: DownloadChoice["icon"]; size?: number }) {
   if (icon === "windows") {
@@ -17,13 +17,17 @@ export function PlatformIcon({ icon, size = 16 }: { icon: DownloadChoice["icon"]
   );
 }
 
+/* Installers download in place; only a store page (the App Store) opens in a new tab. */
+function linkTarget(choice: DownloadChoice) {
+  return choice.icon === "appstore" ? { target: "_blank", rel: "noopener noreferrer" } : {};
+}
+
 /** The main download button: the visitor's own system. */
 export function DownloadButton({ choice, className = "" }: { choice: DownloadChoice; className?: string }) {
   return (
     <a
       href={choice.url}
-      target="_blank"
-      rel="noopener noreferrer"
+      {...linkTarget(choice)}
       className={`inline-flex items-center justify-center gap-2 rounded-lg bg-white font-semibold text-black transition-colors hover:bg-white/90 ${className}`}
     >
       <PlatformIcon icon={choice.icon} />
@@ -32,26 +36,52 @@ export function DownloadButton({ choice, className = "" }: { choice: DownloadCho
   );
 }
 
-/** "Also available for Windows" under the buttons, plus an optional short note. */
-export function AlsoAvailable({ choice, note, className = "" }: { choice: DownloadChoice | null; note?: string | null; className?: string }) {
-  if (!choice && !note) return null;
+const ALSO_LINK =
+  "inline-flex items-center gap-1 font-medium text-white/85 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-white/70";
+
+/**
+ * "Also available for Windows · iPhone" under the buttons, plus an optional short note.
+ * `iphone` adds the iPhone app in the same style: a link once IOS_APP_STORE_URL is set
+ * (src/lib/downloads.ts), until then plain text marked "soon".
+ */
+export function AlsoAvailable({
+  choice,
+  note,
+  iphone = false,
+  className = "",
+}: {
+  choice: DownloadChoice | null;
+  note?: string | null;
+  iphone?: boolean;
+  className?: string;
+}) {
+  if (!choice && !note && !iphone) return null;
   const name = choice ? choice.label.replace(/^Download (for|on) (the )?/, "") : "";
+  const showIphone = iphone && choice?.icon !== "appstore";
   return (
     <p className={`text-sm text-white/60 ${className}`}>
       {note ? <span>{note} </span> : null}
+      {choice || showIphone ? "Also available for " : null}
       {choice ? (
-        <>
-          Also available for{" "}
-          <a
-            href={choice.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 font-medium text-white/85 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-white/70"
-          >
-            <PlatformIcon icon={choice.icon} size={13} />
-            {name}
+        <a href={choice.url} {...linkTarget(choice)} className={ALSO_LINK}>
+          <PlatformIcon icon={choice.icon} size={13} />
+          {name}
+        </a>
+      ) : null}
+      {choice && showIphone ? <span className="mx-2 text-white/35" aria-hidden="true">·</span> : null}
+      {showIphone ? (
+        IOS_APP_STORE_URL ? (
+          <a href={IOS_APP_STORE_URL} target="_blank" rel="noopener noreferrer" className={ALSO_LINK}>
+            <PlatformIcon icon="apple" size={13} />
+            iPhone
           </a>
-        </>
+        ) : (
+          <span className="inline-flex items-center gap-1 font-medium text-white/85">
+            <PlatformIcon icon="apple" size={13} />
+            iPhone
+            <span className="ml-1 text-xs font-normal text-white/60">coming soon</span>
+          </span>
+        )
       ) : null}
     </p>
   );

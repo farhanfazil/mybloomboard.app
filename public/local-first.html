@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Local-First — Bloombooard</title>
-  <meta name="description" content="BloomBoard is local-first. Your data lives on your computer, and sync is optional." />
+  <title>Local-First | BloomBoard</title>
+  <meta name="description" content="BloomBoard is local-first. Your tasks and notes live on your computer first. Sign in to back them up, sync across devices and work with a team." />
   <link rel="icon" href="https://mybloomboard.app/logo.png" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -52,14 +52,14 @@
     .hero {
       text-align: center;
       padding: 80px 2rem 60px;
-      background: linear-gradient(135deg, #0a0a0f 0%, #0f0a1e 50%, #0a0a0f 100%);
+      background: #0a0a0a;
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
     .hero-badge {
       display: inline-block;
-      background: rgba(167,139,250,0.12);
-      border: 1px solid rgba(167,139,250,0.3);
-      color: #a78bfa;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #d4d4d8;
       font-size: 0.75rem;
       font-weight: 600;
       letter-spacing: 0.08em;
@@ -129,39 +129,39 @@
       content: '→';
       position: absolute;
       left: 0;
-      color: #a78bfa;
+      color: #d4d4d8;
       font-size: 0.85rem;
     }
 
     /* Boxes */
     .box-purple {
-      background: rgba(167,139,250,0.07);
-      border: 1px solid rgba(167,139,250,0.22);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 14px;
       padding: 20px 24px;
       margin: 16px 0;
     }
-    .box-purple p { margin: 0 0 8px; color: #ddd6fe; }
+    .box-purple p { margin: 0 0 8px; color: #d4d4d8; }
     .box-purple p:last-child { margin-bottom: 0; }
 
     .box-green {
-      background: rgba(57,255,20,0.06);
-      border: 1px solid rgba(57,255,20,0.2);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 14px;
       padding: 20px 24px;
       margin: 16px 0;
     }
-    .box-green p { margin: 0 0 8px; color: #bbf7d0; }
+    .box-green p { margin: 0 0 8px; color: #d4d4d8; }
     .box-green p:last-child { margin-bottom: 0; }
 
     .box-blue {
-      background: rgba(59,130,246,0.07);
-      border: 1px solid rgba(59,130,246,0.2);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 14px;
       padding: 20px 24px;
       margin: 16px 0;
     }
-    .box-blue p { margin: 0 0 8px; color: #93c5fd; }
+    .box-blue p { margin: 0 0 8px; color: #d4d4d8; }
     .box-blue p:last-child { margin-bottom: 0; }
 
     /* Comparison grid */
@@ -177,12 +177,12 @@
       padding: 20px;
     }
     .compare-card.local {
-      background: rgba(57,255,20,0.06);
-      border: 1px solid rgba(57,255,20,0.2);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
     }
     .compare-card.cloud {
-      background: rgba(239,68,68,0.05);
-      border: 1px solid rgba(239,68,68,0.18);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
     }
     .compare-card h3 {
       font-size: 0.9rem;
@@ -191,14 +191,14 @@
       letter-spacing: 0.04em;
       text-transform: uppercase;
     }
-    .compare-card.local h3 { color: #39FF14; }
+    .compare-card.local h3 { color: #4ade80; }
     .compare-card.cloud h3 { color: #f87171; }
     .compare-card ul { margin: 0; }
     .compare-card ul li {
       font-size: 0.9rem;
       padding: 4px 0 4px 18px;
     }
-    .compare-card.local ul li::before { color: #39FF14; content: '✓'; }
+    .compare-card.local ul li::before { color: #4ade80; content: '✓'; }
     .compare-card.cloud ul li::before { color: #f87171; content: '✗'; }
 
     /* Where stored list */
@@ -222,7 +222,7 @@
     .storage-item .text strong { color: #fff; font-size: 0.95rem; display: block; margin-bottom: 2px; }
     .storage-item .text span { color: #64748b; font-size: 0.875rem; }
 
-    a { color: #818cf8; text-decoration: none; }
+    a { color: #ffffff; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); text-underline-offset: 2px; }
     a:hover { text-decoration: underline; }
 
     /* FOOTER */
@@ -233,7 +233,7 @@
       color: #475569;
       font-size: 0.85rem;
     }
-    footer a { color: #6366f1; }
+    footer a { color: #a1a1aa; text-decoration: none; }
     footer .footer-links {
       display: flex;
       gap: 24px;
@@ -247,52 +247,52 @@
 
 <nav>
   <a class="nav-logo" href="https://mybloomboard.app/">
-    <img src="https://mybloomboard.app/logo.png" alt="Bloombooard logo" />
-    Bloombooard
+    <img src="https://mybloomboard.app/logo.png" alt="BloomBoard logo" />
+    BloomBoard
   </a>
   <a class="nav-link" href="https://mybloomboard.app/">← Back to Home</a>
 </nav>
 
 <div class="hero">
-  <div class="hero-badge">💻 Local-First</div>
+  <div class="hero-badge">Local-first</div>
   <h1>Your data lives on your computer.</h1>
-  <p>BloomBoard is built local-first. No account is needed to start, and everything you do is stored on your device first: fast, private, and always available. Sign in only when you want your work on all your devices or want to work with a team.</p>
-  <p class="last-updated">Last updated: June 2026</p>
+  <p>BloomBoard is built local-first. On the Free plan you can use it without an account, and your work is stored on your device first: fast, private, and available offline. Sign in when you want your work backed up and synced across your devices, or when you want to work with a team.</p>
+  <p class="last-updated">Last updated: 29 September 2026</p>
 </div>
 
 <div class="container">
 
   <div class="box-purple">
-    <p>🏠 <strong>What "local-first" means:</strong> Your data is written to your device first — not a server. The app works fully offline, opens instantly, and never asks you to log in just to see your tasks.</p>
+    <p><strong>What "local-first" means:</strong> Your tasks and notes are written to your device first, not to a server. Your own work opens instantly and keeps working offline. If you sign in, a copy is also backed up to the cloud so it syncs across your devices.</p>
   </div>
 
   <!-- What is local first -->
   <div class="section">
-    <h2><span class="icon">📖</span> What Local-First Actually Means</h2>
-    <p>Most modern productivity apps store your data on their servers and stream it to your device. If their servers go down, you're locked out. If they shut down, your data disappears. If they get breached, your data is exposed.</p>
-    <p>Bloombooard flips this. Your data is written to your computer first. The app reads from your device, not a remote server. You own your data completely — not us.</p>
+    <h2>What Local-First Actually Means</h2>
+    <p>Many productivity apps keep your data only on their servers and stream it to your device. If their servers are down or you are offline, you can't reach your work.</p>
+    <p>BloomBoard works the other way round. Your tasks and notes are written to your computer first, and the app reads them from your device. When you sign in, a copy is backed up to BloomBoard's cloud so it stays the same on all your devices. Your content belongs to you, not to us.</p>
 
     <div class="compare-grid">
       <div class="compare-card local">
-        <h3>✦ Bloombooard (Local-First)</h3>
+        <h3>BloomBoard (Local-First)</h3>
         <ul>
-          <li>Works fully offline</li>
-          <li>No account needed to start</li>
-          <li>Opens instantly — no loading</li>
-          <li>You own your data</li>
+          <li>Your own work runs offline</li>
+          <li>No account needed on the Free plan</li>
+          <li>Opens instantly from your device</li>
+          <li>You own your content</li>
           <li>Private by default</li>
-          <li>Works if we shut down</li>
+          <li>A local copy stays on your computer</li>
         </ul>
       </div>
       <div class="compare-card cloud">
-        <h3>✗ Cloud-First Apps</h3>
+        <h3>Cloud-Only Apps</h3>
         <ul>
-          <li>Requires internet connection</li>
-          <li>Account & login required</li>
-          <li>Slow — fetches from server</li>
-          <li>Company owns your data</li>
-          <li>Data exposed if breached</li>
-          <li>Gone if company shuts down</li>
+          <li>Need an internet connection</li>
+          <li>Account and login required</li>
+          <li>Wait on the server to load</li>
+          <li>Your data lives on their servers</li>
+          <li>No copy on your own computer</li>
+          <li>Offline access is limited</li>
         </ul>
       </div>
     </div>
@@ -300,128 +300,113 @@
 
   <!-- Where is data stored -->
   <div class="section">
-    <h2><span class="icon">📦</span> Where Is Your Data Stored?</h2>
-    <p>Bloombooard uses your browser's <strong>localStorage</strong> to store everything locally. Here's exactly what lives where:</p>
+    <h2>Where Is Your Data Stored?</h2>
+    <p>The BloomBoard app stores your data on your computer. If you sign in, it is also backed up to BloomBoard's cloud (hosted with Supabase) so it syncs across your devices. Here's what lives where:</p>
 
     <div class="storage-list">
       <div class="storage-item">
-        <div class="emoji">✅</div>
+        <div class="emoji"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#4ade80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="text">
           <strong>Tasks, subtasks &amp; projects</strong>
-          <span>All your tasks, priorities, deadlines, and subtasks. Stored on your device. Never sent anywhere.</span>
+          <span>Your tasks, priorities, deadlines, and subtasks. Stored on your device, and backed up and synced when you sign in.</span>
         </div>
       </div>
       <div class="storage-item">
-        <div class="emoji">✅</div>
+        <div class="emoji"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#4ade80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="text">
           <strong>Boards &amp; notes</strong>
-          <span>Every board, card, and note you create. Stored on your computer first.</span>
+          <span>Every board, card, and note you create is stored on your computer first. Boards you share with a team are stored on BloomBoard's servers so your teammates can see them.</span>
         </div>
       </div>
       <div class="storage-item">
-        <div class="emoji">✅</div>
+        <div class="emoji"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#4ade80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="text">
           <strong>Goals, KPIs &amp; streaks</strong>
-          <span>Your performance metrics, streak history, and badges. Local only.</span>
+          <span>Your performance metrics, streak history, and badges. Stored on your device, and backed up when you sign in.</span>
         </div>
       </div>
       <div class="storage-item">
-        <div class="emoji">✅</div>
+        <div class="emoji"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#4ade80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="text">
           <strong>Calendar &amp; reminders</strong>
-          <span>Events, meetings, and reminders. Stored on device. Google Calendar integration is optional and uses your own OAuth tokens stored locally.</span>
+          <span>Events, meetings, and reminders are stored on your device. The Google and Microsoft calendar integrations are optional and keep their sign-in tokens on your device.</span>
         </div>
       </div>
       <div class="storage-item">
-        <div class="emoji">✅</div>
-        <div class="text">
-          <strong>Time tracking</strong>
-          <span>Every session and log stays on your device.</span>
-        </div>
-      </div>
-      <div class="storage-item">
-        <div class="emoji">✅</div>
+        <div class="emoji"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#4ade80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="text">
           <strong>Health &amp; hydration</strong>
-          <span>Water intake, sleep, and health data. Local only.</span>
+          <span>Your water tracking and reminders. Stored on your device.</span>
         </div>
       </div>
       <div class="storage-item">
-        <div class="emoji">✅</div>
-        <div class="text">
-          <strong>All Freelance Hub data</strong>
-          <span>Clients, projects, invoices, contracts, proposals, revision logs, assets, approvals — all local. Only invoice data is optionally synced to your own Supabase project for shareable client links.</span>
-        </div>
-      </div>
-      <div class="storage-item">
-        <div class="emoji">✅</div>
+        <div class="emoji"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#4ade80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="text">
           <strong>Settings &amp; preferences</strong>
-          <span>Theme, avatar, profile name, layout, and all app preferences. Device only.</span>
+          <span>Theme, avatar, profile name, layout, and app preferences. Stored on your device.</span>
         </div>
       </div>
       <div class="storage-item">
-        <div class="emoji">✅</div>
+        <div class="emoji"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#4ade80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="text">
           <strong>AI usage counters &amp; email cache</strong>
-          <span>How many AI calls you've made and cached email previews. Local only.</span>
+          <span>How many AI requests you've made and cached email previews are stored on your device. When you use an AI feature, the text you submit is sent to our AI provider (Anthropic) to generate the answer.</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- No account needed -->
+  <!-- No account needed on Free -->
   <div class="section">
-    <h2><span class="icon">🔓</span> No Account. No Login. No Sign-Up.</h2>
-    <p>Bloombooard launches directly into your workspace. There's no registration screen, no email verification, no password to forget. You download it, open it, and it's ready.</p>
+    <h2>No Account Needed on the Free Plan</h2>
+    <p>On the Free plan, BloomBoard opens straight into your workspace. There's no registration screen and no password to set. Download it, open it, and it's ready.</p>
     <div class="box-green">
-      <p>✅ This means we have no user database. We don't store your name, email address, or any identity information unless you purchase a paid plan (handled by Polar.sh — not us).</p>
+      <p>You only create an account when you want one: to back up and sync your work across devices, to use a paid plan, or to join a team. Payments are handled by Polar (polar.sh), our merchant of record.</p>
     </div>
   </div>
 
   <!-- Works offline -->
   <div class="section">
-    <h2><span class="icon">✈️</span> Works Fully Offline</h2>
-    <p>Because your data lives on your device, Bloombooard works perfectly without an internet connection. Every feature that doesn't explicitly require the internet — tasks, boards, notes, streaks, timers, goals — works offline.</p>
-    <p>Features that do require internet (optional):</p>
+    <h2>Your Own Work Runs Offline</h2>
+    <p>Because your tasks and notes live on your device, your own work keeps running without an internet connection: tasks, boards, notes, streaks, timers, and goals.</p>
+    <p>Features that need an internet connection:</p>
     <ul>
-      <li>AI assistant — requires Anthropic API access</li>
-      <li>Gmail / Google Calendar integration — requires Google OAuth</li>
-      <li>Team chat &amp; presence — requires Supabase connection</li>
-      <li>Shareable invoice links — requires Supabase connection</li>
+      <li>Bloom AI and the AI tools: answers are generated by our AI provider (Anthropic)</li>
+      <li>Signing in, backup, and sync across your devices</li>
+      <li>Team features: shared boards, team chat, and voice and video calls</li>
+      <li>Gmail and Outlook email, and Google and Outlook calendar sync</li>
     </ul>
-    <p>All optional. The core app always works, online or off.</p>
+    <p>Everything else works online or off.</p>
   </div>
 
   <!-- What about team features -->
   <div class="section">
-    <h2><span class="icon">👥</span> What About Team Features?</h2>
-    <p>Team chat, presence, and shared invoice pages require real-time sync — so they use <strong>your own Supabase project</strong> as a backend. This is a database you control, not one we operate.</p>
+    <h2>What About Team Features?</h2>
+    <p>Team features (shared boards, team chat, presence, and voice and video calls) need real-time sync, so they run through <strong>BloomBoard's servers</strong>. Shared boards and chat messages are stored there so your teammates can see them. Calls are not recorded.</p>
     <div class="box-blue">
-      <p>The data in your Supabase (team messages, presence timestamps, invoice records) belongs to you. You can view, export, or delete it directly from your Supabase dashboard at any time.</p>
+      <p>You can delete your own messages, leave a team, or ask us to delete your account and its data at any time by writing to <a href="mailto:support@mybloomboard.app">support@mybloomboard.app</a>. See our <a href="/privacy.html">Privacy Policy</a> for details.</p>
     </div>
-    <p>All solo productivity features remain fully local even if you use team features.</p>
+    <p>Your solo tasks and notes are still stored on your device first, even when you use team features.</p>
   </div>
 
   <!-- Your data your rules -->
   <div class="section">
-    <h2><span class="icon">🛡️</span> Your Data, Your Rules</h2>
-    <p>Because Bloombooard stores data locally, you have complete control:</p>
+    <h2>You Control Your Data</h2>
+    <p>Because BloomBoard stores your data locally first, you stay in control:</p>
     <ul>
-      <li><strong>Export anytime</strong> — your data is in localStorage, readable and exportable</li>
-      <li><strong>Delete anytime</strong> — clearing app data removes everything instantly</li>
-      <li><strong>No lock-in</strong> — the app doesn't hold your data hostage behind a subscription</li>
-      <li><strong>Works forever</strong> — even if Bloombooard stopped existing tomorrow, your local data stays on your computer</li>
-      <li><strong>No breach risk</strong> — data that never hits a server can't be leaked from a server</li>
+      <li><strong>Delete anytime:</strong> delete your account in Settings, then Account, and its synced data goes with it</li>
+      <li><strong>Delete anytime:</strong> clearing app data removes the local copy, and we delete your cloud copy when you ask</li>
+      <li><strong>No lock-in:</strong> the app doesn't hold your data hostage behind a subscription</li>
+      <li><strong>Your copy stays with you:</strong> your local data stays on your computer, even if you stop using BloomBoard</li>
     </ul>
   </div>
 
   <!-- Contact -->
   <div class="section">
-    <h2><span class="icon">✉️</span> Questions?</h2>
-    <p>If you have questions about how Bloombooard handles your data, reach out:</p>
-    <p>📧 <a href="mailto:hello@mybloomboard.app">hello@mybloomboard.app</a><br />
-    🌐 <a href="https://mybloomboard.app">mybloomboard.app</a></p>
+    <h2>Questions?</h2>
+    <p>If you have questions about how BloomBoard handles your data, reach out:</p>
+    <p><a href="mailto:hello@mybloomboard.app">hello@mybloomboard.app</a><br />
+    <a href="https://mybloomboard.app">mybloomboard.app</a></p>
   </div>
 
 </div>
@@ -431,11 +416,13 @@
     <a href="https://mybloomboard.app/">Home</a>
     <a href="/privacy.html">Privacy Policy</a>
     <a href="/terms.html">Terms of Service</a>
+    <a href="/refund">Refund Policy</a>
+    <a href="/security">Security</a>
     <a href="/no-tracking.html">No Tracking</a>
     <a href="/local-first.html">Local-First</a>
     <a href="mailto:hello@mybloomboard.app">Contact</a>
   </div>
-  <p>© 2026 Bloombooard. All rights reserved.</p>
+  <p>© 2026 BloomBoard. All rights reserved.</p>
 </footer>
 
 </body>

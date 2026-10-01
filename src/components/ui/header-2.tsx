@@ -6,11 +6,8 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
 import { useScroll } from "@/components/ui/use-scroll";
-import { useDownload } from "@/lib/downloads";
 
 const CUSTOMER_PORTAL_URL = "https://polar.sh/bloombooard/portal";
-// "For freelancers" link is paused while the freelance page is reworked; set back to true to show it again.
-const SHOW_FREELANCE_LINK = false;
 
 interface NavLink {
   label: string;
@@ -27,15 +24,13 @@ export function Header({
 } = {}) {
   const [open, setOpen] = React.useState(false);
   const scrolled = useScroll(10);
-  // The installer for the visitor's computer (Mac or Windows).
-  const DOWNLOAD_URL = useDownload().url;
 
   const links: NavLink[] = customLinks ?? [
     // Features / Deep Dive sections are hidden on the home page (see page.tsx);
     // restore { label: "Features", href: "#features" }, { label: "Deep Dive", href: "#walkthrough" } with them.
     { label: "Live Demo", href: "#live-demo" },
     { label: "Pricing", href: "#pricing" },
-    { label: "Customer Portal", href: CUSTOMER_PORTAL_URL, external: true },
+    { label: "Manage subscription", href: CUSTOMER_PORTAL_URL, external: true },
   ];
 
   // Sections marked data-hide-header (e.g. the light comparison panel) hide the
@@ -119,20 +114,12 @@ export function Header({
               {link.label}
             </a>
           ))}
-          {SHOW_FREELANCE_LINK && (
-            <a
-              href="/freelance"
-              className={buttonVariants({ variant: "ghost", className: "px-3 text-sm" })}
-            >
-              For freelancers
-            </a>
-          )}
           <Button
             asChild
-            className="ml-2 h-auto shrink-0 rounded-lg border border-transparent bg-white px-3.5 py-1.5 text-sm font-semibold text-[#0a0f1c] hover:bg-white/90"
+            className="ml-1 h-auto shrink-0 rounded-lg border border-transparent bg-white px-3.5 py-1.5 text-sm font-semibold text-[#0a0f1c] hover:bg-white/90"
           >
-            <a href={DOWNLOAD_URL}>
-              Free Trial
+            <a href="/start?plan=bloom">
+              Try BloomBoard free
             </a>
           </Button>
         </div>
@@ -177,23 +164,8 @@ export function Header({
 
         {/* Action buttons */}
         <div style={{ padding: "20px 16px 32px", display: "flex", flexDirection: "column", gap: "12px" }}>
-          {SHOW_FREELANCE_LINK && (
-            <a
-              href="/freelance"
-              onClick={() => setOpen(false)}
-              style={{
-                display: "flex", alignItems: "center", justifyContent: "center",
-                borderRadius: "10px", padding: "12px 0", width: "100%", boxSizing: "border-box",
-                fontSize: "14px", fontWeight: 600, textDecoration: "none",
-                color: "#f5f5f7", border: "1px solid rgba(255,255,255,0.18)",
-              }}
-            >
-              For freelancers
-            </a>
-          )}
-
           <a
-            href={DOWNLOAD_URL}
+            href="/start?plan=bloom"
             onClick={() => setOpen(false)}
             style={{
               display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
@@ -202,7 +174,7 @@ export function Header({
               background: "#fff", color: "#0a0f1c",
             }}
           >
-            Free Trial
+            Try BloomBoard free
           </a>
         </div>
       </div>

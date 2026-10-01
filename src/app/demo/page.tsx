@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useDownload } from "@/lib/downloads";
 import LiveDemoFrame from "@/components/sections/LiveDemoFrame";
+import DemoIframe from "@/components/sections/DemoIframe";
+import DemoUsefulPoll from "@/components/sections/DemoUsefulPoll";
 
 export default function DemoPage() {
   const download = useDownload();
@@ -30,9 +32,10 @@ export default function DemoPage() {
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-2">
+          <DemoUsefulPoll compact className="mr-2 hidden md:flex" />
           <Link
             href="/"
-            className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-[#9dceff] transition hover:bg-white/5"
+            className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-white/80 transition hover:bg-white/5"
           >
             Back to site
           </Link>
@@ -40,7 +43,7 @@ export default function DemoPage() {
             href={download.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-lg bg-[#4d9fff] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[#3d8fef] sm:px-4 sm:text-sm"
+            className="rounded-lg bg-white px-3 py-1.5 text-xs font-semibold text-black transition hover:bg-white/90 sm:px-4 sm:text-sm"
           >
             Download for {download.label}
           </a>
@@ -52,11 +55,10 @@ export default function DemoPage() {
           <LiveDemoFrame eager />
         </main>
       ) : (
-        <iframe
+        <DemoIframe
           title="BloomBoard live demo"
           src="/bloomboard-demo/index.html?ws=personal,team&v=30"
-          className="min-h-0 w-full flex-1 border-0 bg-[#0a1520]"
-          allow="clipboard-write"
+          className="min-h-0 w-full flex-1 bg-[#0a1520]"
         />
       )}
     </div>

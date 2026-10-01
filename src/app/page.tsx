@@ -8,7 +8,7 @@ import FeatureGrid from "@/components/sections/FeatureGrid";
 
 // Hidden for now (see the comment in the JSX); to bring them back, re-add:
 //   AIFeatureCarousel, DeepDiveFlight, Walkthrough, StatsBar  (all in @/components/sections)
-const Testimonials     = dynamic(() => import("@/components/sections/Testimonials"));
+// Testimonials (@/components/sections/Testimonials) was removed before launch.
 const PlanQuiz          = dynamic(() => import("@/components/sections/PlanQuiz"));
 const TrustBar          = dynamic(() => import("@/components/sections/TrustBar"));
 const Pricing           = dynamic(() => import("@/components/sections/Pricing"));
@@ -33,7 +33,6 @@ export default function Home() {
       </DeepDiveFlight>
       */}
       <div className="bg-black">
-        <Testimonials />
         <PlanQuiz />
       </div>
       <TrustBar />

@@ -31,8 +31,8 @@ const footerLinks: FooterSection[] = [
     label: "Product",
     links: [
       { title: "Live demo", href: "/#live-demo", icon: LayoutDashboardIcon },
-      { title: "Pricing", href: "#pricing", icon: ChartNoAxesColumnIncreasingIcon },
-      { title: "Download", href: "#download", icon: DownloadIcon },
+      { title: "Pricing", href: "/#pricing", icon: ChartNoAxesColumnIncreasingIcon },
+      { title: "Download", href: "/#download", icon: DownloadIcon },
     ],
   },
   {
@@ -41,26 +41,27 @@ const footerLinks: FooterSection[] = [
       { title: "Boards", href: "/#live-demo", icon: FrameIcon },
       { title: "AI Assistant", href: "/#live-demo", icon: BotIcon },
       { title: "Reminders", href: "/#live-demo", icon: BellIcon },
-      { title: "Reports", href: "#pricing", icon: ChartNoAxesColumnIncreasingIcon },
+      { title: "Reports", href: "/#pricing", icon: ChartNoAxesColumnIncreasingIcon },
     ],
   },
   {
     label: "Trust",
     links: [
+      { title: "Security & data", href: "/security", icon: ShieldCheckIcon },
       { title: "Local-first", href: "/local-first.html", icon: ShieldCheckIcon },
       { title: "No Tracking", href: "/no-tracking.html", icon: ShieldCheckIcon },
-      { title: "FAQ", href: "#faq", icon: FileQuestionIcon },
+      { title: "FAQ", href: "/#faq", icon: FileQuestionIcon },
       { title: "Privacy Policy", href: "/privacy.html", icon: ShieldCheckIcon },
       { title: "Terms of Service", href: "/terms.html", icon: FileQuestionIcon },
+      { title: "Refund policy", href: "/refund", icon: FileQuestionIcon },
     ],
   },
   {
     label: "Plans",
     links: [
-      { title: "Free", href: "#pricing" },
-      { title: "Flow", href: "#pricing" },
-      { title: "Bloom", href: "#pricing" },
-      { title: "Team", href: "#pricing" },
+      { title: "Free", href: "/#pricing" },
+      { title: "Bloom", href: "/#pricing" },
+      { title: "Team", href: "/#pricing" },
     ],
   },
   {
@@ -92,10 +93,10 @@ export function Footer() {
             </div>
           </div>
           <p className="max-w-xs text-sm leading-relaxed text-white">
-            A focused macOS dashboard for tasks, goals, reminders, health, streaks, boards, reports, and AI.
+            A focused workspace for Mac and Windows: tasks, goals, reminders, boards, reports, team chat and AI.
           </p>
           <p className="text-sm text-white">
-            © {new Date().getFullYear()} BloomBoard. All rights reserved.
+            © {new Date().getFullYear()} MyBloomBoard · Dubai, United Arab Emirates. All rights reserved.
           </p>
         </AnimatedContainer>
 

@@ -3,35 +3,53 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
+const LINK_CLASS =
+  "text-white/85 underline decoration-white/30 underline-offset-2 transition-colors hover:text-white hover:decoration-white";
+
 const STEPS = [
   {
-    title: "Install the app",
-    description: "Download BloomBoard for Mac. It's free, and you can use it right away.",
-  },
-  {
-    title: "Pick a plan",
-    description: "Choose a plan above to start your free trial or buy straight away.",
-  },
-  {
-    title: "Copy your license key",
+    title: "Download the app",
     description: (
       <>
-        Open the <strong className="font-semibold text-white">Access Purchase</strong> email and go to your{" "}
-        <a
-          href="https://polar.sh/bloombooard/portal"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-white/85 underline decoration-white/30 underline-offset-2 transition-colors hover:text-white hover:decoration-white"
-        >
-          customer portal
+        Get BloomBoard for{" "}
+        <a href="#download" className={LINK_CLASS}>
+          Mac or Windows
         </a>
-        . Your key is there.
+        . The Free plan works right away, no account needed.
       </>
     ),
   },
   {
-    title: "Activate",
-    description: "In the app, open Settings, paste the key and activate this Mac.",
+    title: "Start your trial",
+    description: (
+      <>
+        <a href="/start" className={LINK_CLASS}>
+          Start your free trial
+        </a>{" "}
+        with your email: 7 days for Bloom, 14 days for Team. Or pick a plan above and buy straight away.
+      </>
+    ),
+  },
+  {
+    title: "Sign in with the same email",
+    description: "Open BloomBoard and sign in with that email. Your plan is applied automatically.",
+  },
+  {
+    title: "Manage your plan",
+    description: (
+      <>
+        Change plan, update billing or cancel any time from{" "}
+        <a
+          href="https://polar.sh/bloombooard/portal"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={LINK_CLASS}
+        >
+          Manage your subscription
+        </a>
+        .
+      </>
+    ),
   },
 ];
 
@@ -51,7 +69,7 @@ export default function HowItWorks() {
         >
           <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-5xl">Up and running in minutes.</h2>
           <p className="mt-3 text-base leading-relaxed text-white/60 sm:text-lg">
-            Four steps from download to a fully activated workspace.
+            Four steps from download to your full plan.
           </p>
         </motion.div>
 

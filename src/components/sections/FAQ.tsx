@@ -22,12 +22,12 @@ export default function FAQ() {
             Frequently asked questions
           </h2>
           <p className="max-w-md text-sm leading-relaxed text-text-muted sm:text-base">
-            Clear answers about BloomBoard, pricing, privacy, AI, teams, and how the dashboard fits into your daily workflow.
+            Answers about BloomBoard, pricing, privacy, AI and teams.
           </p>
           <div className="mt-8 hidden border-l-2 border-white/15 pl-4 lg:block">
             <p className="text-sm font-semibold text-text-primary">Still deciding?</p>
             <p className="mt-2 text-sm leading-relaxed text-text-muted">
-              Start with the free plan, explore the dashboard, then upgrade only when you need more boards, reports, or AI power.
+              Start with the free plan, explore the dashboard, then upgrade only when you need more boards, reports or AI.
             </p>
           </div>
         </motion.div>

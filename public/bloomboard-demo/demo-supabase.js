@@ -40,7 +40,8 @@
     var asked = (new URLSearchParams(location.search).get('ws') || '').split(',').filter(function (m) {
       return ALL.indexOf(m) >= 0;
     });
-    var allowed = asked.length ? asked : ALL;
+    /* No ?ws given: offer Personal and Team (Freelance is hidden for now). */
+    var allowed = asked.length ? asked : ['personal', 'team'];
     window.__bbDemoWorkspaces = allowed;
     try {
       var cur = sessionStorage.getItem('bb-demo-workspace-mode');

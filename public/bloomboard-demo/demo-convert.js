@@ -20,7 +20,7 @@
     /Windows NT/i.test(navigator.userAgent);
   var DOWNLOAD_URL = IS_WINDOWS
     ? 'https://get.microsoft.com/installer/download/9MX9BDKM26VP?cid=website_cta_psi'
-    : 'https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg';
+    : '/download/mac';
   var DOWNLOAD_LABEL = IS_WINDOWS ? 'Download for Windows' : 'Download for Mac';
 
   /* ── 4. Anonymous event counts ─────────────────────────────────────── */
@@ -209,6 +209,7 @@
     pdf: { title: 'PDF export is in the Mac app', desc: 'Export reports, invoices and overviews as polished PDFs.' },
     portal: { title: 'Client portals are in the Mac app', desc: 'Share a branded portal where clients see progress, files and invoices.' },
     bloom: { title: 'Bloom works best with your data', desc: 'In the Mac app, Bloom plans your day from your real tasks, boards and calendar, and takes action for you.' },
+    import: { title: 'Connect Trello in the Mac app', desc: 'Sign in to Trello and bring your boards across in a few clicks. Asana, Jira, ClickUp, Notion and Monday.com exports work too.' },
     feature: { title: 'This works in the Mac app', desc: 'Download BloomBoard to use everything with your own data.' },
   };
 
@@ -259,7 +260,6 @@
     calls: ['callPerson', 'stationStartCall', 'tlStartCall', 'officeWalkIn'],
     invite: ['supaInviteMember', 'copyInviteCode'],
     account: ['supaSignOut', 'supaSignIn'],
-    email: ['openEmailInbox'],
     pdf: ['generatePDF', 'flExportInvoicePDF'],
     portal: ['flCreatePortal', 'flCreatePortalFromInputs', 'flOpenClientPortal', 'flOpenPortalLink', 'flShareInvoiceLink'],
   };
@@ -291,7 +291,8 @@
     /* Room calls also start from Team Live and "Happening now" through bbCalls. */
     var calls = window.bbCalls;
     if (calls && typeof calls === 'object') {
-      ['walkIn', 'joinRoom'].forEach(function (m) {
+      /* start: a meeting's Start call / Join call (vendor/bb-meetings.js). */
+      ['walkIn', 'joinRoom', 'start'].forEach(function (m) {
         if (typeof calls[m] !== 'function' || calls[m]._bbGated) return;
         var gate = function () { showCard('calls'); };
         gate._bbGated = true;
@@ -316,12 +317,12 @@
   /* ── 2. "Your changes vanish" nudge ─────────────────────────────────── */
   var NUDGE_KEY = 'bb-demo-nudged';
   var COUNTED = {
-    task: function () { return listLen('farhan-dash-tasks'); },
+    task: function () { return listLen('bbd-dash-tasks'); },
     card: function () {
       try { return (JSON.parse(localStorage.getItem('bloombooard-boards-v1') || '{}').cards || []).length; } catch (e) { return 0; }
     },
     note: function () { return listLen('bloomboard-notes-v1'); },
-    event: function () { return listLen('farhan-events'); },
+    event: function () { return listLen('bbd-events'); },
   };
   function listLen(key) {
     try { var v = JSON.parse(localStorage.getItem(key) || '[]'); return Array.isArray(v) ? v.length : 0; } catch (e) { return 0; }
@@ -371,7 +372,6 @@
   var INTERESTS = [
     ['own_work', 'Organising my own work'],
     ['team', 'Working with my team'],
-    ['freelance', 'Managing freelance clients'],
     ['exploring', 'Just looking around'],
   ];
   function maybeAskInterest() {
@@ -423,24 +423,6 @@
     document.body.appendChild(el);
     requestAnimationFrame(function () { el.classList.add('show'); });
   }
-
-  /* ── 3. Download button beside the workspace pills ──────────────────── */
-  function addSwitcherButton() {
-    var group = document.querySelector('#bb-demo-ws-switcher .bb-demo-ws-right-group');
-    if (!group || group.querySelector('.bb-demo-ws-dl')) return !!group;
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'bb-demo-ws-dl';
-    btn.setAttribute('data-bb-dl', 'switcher');
-    btn.innerHTML =
-      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' + DOWNLOAD_LABEL;
-    group.appendChild(btn);
-    return true;
-  }
-  var dlTries = 0;
-  var dlTimer = setInterval(function () {
-    if (addSwitcherButton() || ++dlTries > 80) clearInterval(dlTimer);
-  }, 250);
 
   /* ── Usage: navigation, workspace, theme, team interactions ─────────── */
   document.addEventListener('click', function (e) {
@@ -494,7 +476,7 @@
     'body.light-mode #bb-demo-nudge b{color:#0f172a}' +
     'body.light-mode .bb-nudge-x{color:#475569}' +
     'body.light-mode .bb-nudge-x:hover{color:#0f172a;background:rgba(15,23,42,.06)}' +
-    '#bb-demo-interest{position:fixed;left:16px;bottom:16px;z-index:60000;width:300px;max-width:calc(100vw - 32px);box-sizing:border-box;' +
+    '#bb-demo-interest{position:fixed;left:16px;bottom:16px;z-index:3000;width:300px;max-width:calc(100vw - 32px);box-sizing:border-box;' +
     'padding:12px;border-radius:14px;background:rgba(15,28,46,.97);border:1px solid rgba(148,163,184,.25);color:#e2e8f0;' +
     'font-size:13px;line-height:1.4;box-shadow:0 18px 40px rgba(0,0,0,.45);opacity:0;transform:translateY(10px);' +
     'transition:opacity .25s ease,transform .25s ease}' +
@@ -514,6 +496,13 @@
     'body.light-mode .bb-int-opt{background:#f8fafc;border-color:rgba(15,23,42,.14);color:#1e293b}' +
     'body.light-mode .bb-int-opt:hover{background:#eef2f7;border-color:rgba(15,23,42,.28);color:#0f172a}' +
     'body.light-mode .bb-int-thanks{color:#1e293b}' +
+    /* Black theme: greys like the app's own windows (#1c1c1c panels, #242424 cards), never navy. */
+    'body.black-mode #bb-demo-interest,body.black-mode #bb-demo-nudge{background:#1c1c1c;border-color:rgba(255,255,255,.12)}' +
+    'body.black-mode .bb-int-opt{background:#242424;border-color:rgba(255,255,255,.12)}' +
+    'body.black-mode .bb-int-opt:hover{background:#2a2a2a;border-color:rgba(255,255,255,.24)}' +
+    'body.black-mode #bb-demo-nudge{color:#e5e5e5}' +
+    'body.black-mode .bb-nudge-dl{background:#f5f5f5;color:#171717}' +
+    'body.black-mode .bb-nudge-dl:hover{background:#e5e5e5}' +
     '@media (prefers-reduced-motion:reduce){#bb-demo-nudge,#bb-demo-interest{transition:none}}';
   function injectCss() {
     if (document.getElementById('bb-demo-convert-css')) return;

@@ -7,6 +7,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { minify } from 'html-minifier-terser';
+import { minify as minifyJs } from 'terser';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -30,7 +31,7 @@ const APP_VERSION = (() => {
 })();
 const BOOT_SCRIPT = [
   `<script>window.BB_APP_VERSION = ${JSON.stringify(APP_VERSION)};</script>`,
-  ...['demo-supabase.js', 'demo-seed.js', 'demo-boot.js', 'demo-convert.js', 'demo-sim.js'].map(
+  ...['demo-supabase.js', 'demo-seed.js', 'demo-boot.js', 'demo-mail.js', 'demo-convert.js', 'demo-sim.js'].map(
     (f) => `<script src="${f}?v=${VERSION}"></script>`
   ),
 ].join('\n  ');
@@ -105,6 +106,11 @@ function patchIndexHtml(html) {
     '',
     'Supabase <script>'
   );
+  // Root-relative app files (the first-open welcome's logo) live beside the page here.
+  patched = patched.replace(/src="\/icon\.iconset\//g, 'src="icon.iconset/');
+  // The app's own feature scripts (vendor/bb-*.js) are copied next to the page;
+  // a version stamp makes returning visitors fetch the new copies.
+  patched = patched.replace(/src="vendor\/(bb-[\w-]+\.js)"/g, `src="vendor/$1?v=${VERSION}"`);
   // Calls are simulated in the demo; the LiveKit bundle lives in node_modules and would 404.
   replaceOnce(
     /\s*<script src="node_modules\/livekit-client\/dist\/livekit-client\.umd\.js"><\/script>/,
@@ -112,14 +118,39 @@ function patchIndexHtml(html) {
     'LiveKit <script>'
   );
 
+  // App bug (v1.2.42): loadTasks() rebuilds each task from a fixed list of fields
+  // and leaves out `col`, so a task in a custom board column falls back to its main
+  // column on every reload. Keep `col` in the demo's copy until the app has it.
+  const loadTasksOwner = /(\n    ownerId: t\.ownerId \|\| null,\n)(  \}\)\);\n\}\nfunction saveTasks\(\))/;
+  if (loadTasksOwner.test(patched) && !/col: t\.col/.test(patched)) {
+    patched = patched.replace(loadTasksOwner, '$1    col: t.col || undefined,\n$2');
+  }
+
+  // App bug (v1.2.42): the team sync cleans every key ending in "color" as a CSS
+  // colour, so a board's bgColor swatch id ("g-plum") turns grey after a sync.
+  // Let swatch ids through in the demo's copy.
+  const colorClean = "else if (/color$/i.test(k))       x = x ? bbCssColor(x) : x;";
+  if (patched.includes(colorClean)) {
+    patched = patched.replace(colorClean, "else if (/color$/i.test(k))       x = x && !/^g-[a-z-]+$/.test(x) ? bbCssColor(x) : x;");
+  }
+
+  // No login form in the demo. Browsers fill a visitor's saved email into the first
+  // text box (the top bar search) of any page with password or username fields,
+  // and Chrome shows it before the page's own code can see it. Nobody signs in
+  // here, so those fields become plain text (drawn as dots by demo-boot.js).
+  patched = patched
+    .replace(/(<input\b[^>]*?)\btype="password"/g, '$1type="text" data-bb-pw="1"')
+    .replace(/autocomplete="(current-password|new-password|username|email|given-name)"/g, 'autocomplete="off"');
+
   return scrubPersonalData(patched);
 }
 
 /**
  * The desktop app carries its owner's name, location and client projects in a
  * few visible strings. The public demo must show only fictional data (persona:
- * Sam Rivera). Storage keys are lowercase (`farhan-dash-tasks`, `farhan_…`) and
- * are left alone — only the capitalised, user-facing text is replaced.
+ * Sam Rivera). The app's storage keys (`farhan-dash-tasks`, `farhan_…`) are renamed
+ * to `bbd-…` too, so no name shows even in page source or browser storage; the demo's
+ * own scripts (demo-*.js) use the same `bbd-` names.
  */
 function scrubPersonalData(html) {
   const swaps = [
@@ -127,6 +158,8 @@ function scrubPersonalData(html) {
     [/\bFarhan\b/g, 'Sam'],
     [/FARHAN'S/g, "SAM'S"],
     [/farhan_fazil/g, 'sam_rivera'],
+    [/farhan([-_])/g, 'bbd$1'],
+    [/https:\/\/github\.com\/farhanfazil\/bloombooard-releases\/releases\/latest\/download\/BloomBoard-Installer\.dmg/g, '/download/mac'],
     [/ · Sharjah, UAE/g, ''],
     // Internal project ids / legacy migration keys — never shown, but readable in page source.
     [/\bproj-stctv\b/g, 'proj-web'],
@@ -146,8 +179,7 @@ function scrubPersonalData(html) {
     if (next === out) console.warn(`Scrub pattern not found (app text changed?): ${pattern}`);
     out = next;
   }
-  // Lowercase `farhan-…` storage keys are expected; anything else is worth a look.
-  const leftovers = out.replace(/(['"`])farhan[-_][\w-]*/g, '').match(/Farhan|Fazil|Sharjah|stc ?tv|Jawwy|Khaleeji|Intigral|Serie ?A/gi) || [];
+  const leftovers = out.match(/Farhan|Fazil|Sharjah|stc ?tv|Jawwy|Khaleeji|Intigral|Serie ?A/gi) || [];
   if (leftovers.length) console.warn('Possible personal data left in demo:', [...new Set(leftovers)].join(', '));
   return out;
 }
@@ -165,6 +197,21 @@ async function minifyForWeb(html) {
     minifyCSS: true,
     minifyJS: { compress: false, mangle: { toplevel: false }, format: { comments: false } },
   });
+}
+
+/** Same treatment for the app's separate feature scripts. */
+async function minifyScript(code) {
+  const out = await minifyJs(code, { compress: false, mangle: { toplevel: false }, format: { comments: false } });
+  return out.code ?? code;
+}
+
+/** Names in a feature script, storage keys included (see scrubPersonalData). */
+function scrubScript(code) {
+  return code
+    .replace(/Farhan Fazil/g, 'Sam Rivera')
+    .replace(/\bFarhan\b/g, 'Sam')
+    .replace(/farhan([-_])/g, 'bbd$1')
+    .replace(/https:\/\/github\.com\/farhanfazil\/[^'"`\s)]*/g, '/download/mac');
 }
 
 async function main() {
@@ -201,6 +248,31 @@ async function main() {
   if (fs.existsSync(assetsSrc)) {
     copyRecursive(assetsSrc, path.join(OUT, 'assets'));
     console.log('Copied assets/');
+  }
+
+  // The app icon the top bar shows beside "BloomBoard".
+  const iconSrc = path.join(APP_SOURCE, 'icon.iconset', 'icon_512x512.png');
+  if (fs.existsSync(iconSrc)) {
+    ensureDir(path.join(OUT, 'icon.iconset'));
+    fs.copyFileSync(iconSrc, path.join(OUT, 'icon.iconset', 'icon_512x512.png'));
+  }
+
+  // The app's feature scripts. supabase.js stays out: demo-supabase.js is the backend here.
+  const vendorSrc = path.join(APP_SOURCE, 'vendor');
+  if (fs.existsSync(vendorSrc)) {
+    const vendorOut = path.join(OUT, 'vendor');
+    ensureDir(vendorOut);
+    const names = fs.readdirSync(vendorSrc).filter((n) => /\.js$/.test(n) && n !== 'supabase.js');
+    for (const name of names) {
+      const code = scrubScript(fs.readFileSync(path.join(vendorSrc, name), 'utf8'));
+      const out = process.env.BB_DEMO_READABLE ? code : await minifyScript(code);
+      fs.writeFileSync(path.join(vendorOut, name), out, 'utf8');
+    }
+    // A script the app no longer loads should not linger in the demo.
+    for (const name of fs.readdirSync(vendorOut)) {
+      if (!names.includes(name)) fs.rmSync(path.join(vendorOut, name));
+    }
+    console.log('Copied vendor/ (' + names.join(', ') + ')');
   }
 
   const manifest = buildAvatarManifest(avatarsOut);

@@ -3,9 +3,8 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { ArrowRight, RotateCcw } from "lucide-react";
-import { MAC_DOWNLOAD_URL, useDownload } from "@/lib/downloads";
 
-type PlanKey = "free" | "flow" | "bloom" | "team";
+type PlanKey = "free" | "bloom" | "team";
 type Points = Partial<Record<PlanKey, number>>;
 
 export type QuizStep = {
@@ -21,14 +20,14 @@ const HOME_STEPS: QuizStep[] = [
     question: "Who will use BloomBoard?",
     options: [
       { label: "Just me", points: {} },
-      { label: "My team — 3 or more people", result: "team" },
+      { label: "My team: 3 or more people", result: "team" },
     ],
   },
   {
     question: "What matters most to you?",
     options: [
       { label: "Keeping tasks, notes and bookmarks simple", points: { free: 3 } },
-      { label: "Unlimited tasks and boards, with AI help every day", points: { flow: 3 } },
+      { label: "Unlimited boards and notes, with AI help every day", points: { bloom: 3 } },
       { label: "Unlimited AI, KPI reports and my full performance history", points: { bloom: 3 } },
     ],
   },
@@ -37,23 +36,18 @@ const HOME_STEPS: QuizStep[] = [
 const HOME_RESULTS: Partial<Record<PlanKey, PlanResult>> = {
   free: {
     name: "Free",
-    desc: "Up to 7 tasks, 5 boards, 25 bookmarks and 10 notes, plus Type to Task and vacations. Free forever, no card needed.",
-    href: "https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg",
-  },
-  flow: {
-    name: "Flow",
-    desc: "Unlimited tasks, notes and bookmarks, 10 boards you can create in one go, and daily AI help. Try it free for 7 days.",
-    href: "https://buy.polar.sh/polar_cl_bcGVnrH6RUJvB6pVEhW0kRdOJ1wa82yn9xuPK480cmt",
+    desc: "Unlimited tasks, up to 5 boards, 20 notes and 50 bookmarks, plus Type to Task and a few AI actions each month. Free forever, no card needed.",
+    href: "/#download",
   },
   bloom: {
     name: "Bloom",
-    desc: "Everything unlocked for one person: unlimited AI and boards, KPI reports and your full performance history. Try it free for 7 days.",
-    href: "https://buy.polar.sh/polar_cl_QgWTHuRDKTmL1Zbv5H71gx43pQz4xslZjF11r3KRCqH",
+    desc: "Everything unlimited for one person, including AI: boards, notes, Plan My Day, KPI reports and your full history. $8 a month, or $6 a month billed yearly. Try it free for 7 days.",
+    href: "/start?plan=bloom",
   },
   team: {
     name: "Team",
-    desc: "Voice and video calls, team chat, handovers and Pulse, with every member's overview. From 3 seats, free for 7 days.",
-    href: "#pricing",
+    desc: "Everything in Bloom for every member, plus team chat, calls, Team Space, handovers and Pulse. $10 per person a month billed yearly, less for 10 or more seats. 3 seats minimum. Free for 14 days.",
+    href: "/start?plan=team",
   },
 };
 
@@ -62,14 +56,12 @@ const LETTERS = ["A", "B", "C", "D"];
 export default function PlanQuiz({
   steps = HOME_STEPS,
   results = HOME_RESULTS,
-  note = "You can switch plans any time — your data stays on your Mac either way.",
+  note = "You can switch plans any time.",
 }: {
   steps?: QuizStep[];
   results?: Partial<Record<PlanKey, PlanResult>>;
   note?: string;
 } = {}) {
-  // The free plan's download link follows the visitor's computer (Mac or Windows).
-  const download = useDownload();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const [step, setStep] = useState(0);
@@ -170,7 +162,7 @@ export default function PlanQuiz({
                 <p className="mt-3 text-sm leading-relaxed text-white/65">{plan.desc}</p>
                 <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
                   <a
-                    href={plan.href === MAC_DOWNLOAD_URL ? download.url : plan.href}
+                    href={plan.href}
                     className="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-black transition-colors hover:bg-white/90"
                   >
                     Get started with {plan.name}

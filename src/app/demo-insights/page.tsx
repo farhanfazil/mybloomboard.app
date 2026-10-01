@@ -61,6 +61,7 @@ const KIND_LABEL: Record<string, string> = {
   gate: "Hit the Mac-app card for",
   nudge: "Save-your-work nudge",
   interest: "Answered",
+  data: "Demo data:",
 };
 
 const RANGES = [7, 30, 90];
@@ -127,8 +128,9 @@ async function loadVisits(days: number): Promise<{ visits: Visit[]; from: string
   }
 }
 
-/* Phone visitors never load the demo; the chat on the homepage counts what they tap. */
-async function loadPhoneCounts(days: number): Promise<Record<string, number>> {
+/* Daily counts for one kind of event, e.g. "mobile:" (phone chat taps) or "useful:" (the
+   "Was this demo useful?" answers). */
+async function loadEventCounts(days: number, prefix: string): Promise<Record<string, number>> {
   const since = new Date(Date.now() - days * 86400000).toISOString().slice(0, 10);
   const out: Record<string, number> = {};
   const supabase = getSupabaseAdmin();
@@ -136,7 +138,7 @@ async function loadPhoneCounts(days: number): Promise<Record<string, number>> {
     const { data, error } = await supabase
       .from("demo_event_counts")
       .select("event, count")
-      .like("event", "mobile:%")
+      .like("event", `${prefix}%`)
       .gte("day", since);
     if (!error) {
       for (const row of data ?? []) out[row.event] = (out[row.event] ?? 0) + Number(row.count);
@@ -145,7 +147,7 @@ async function loadPhoneCounts(days: number): Promise<Record<string, number>> {
   }
   try {
     const raw = JSON.parse(await fs.readFile(path.join(process.cwd(), "data", "demo-events.json"), "utf8"));
-    for (const [k, v] of Object.entries(raw)) if (k.startsWith("mobile:")) out[k] = Number(v);
+    for (const [k, v] of Object.entries(raw)) if (k.startsWith(prefix)) out[k] = Number(v);
   } catch {}
   return out;
 }
@@ -190,7 +192,11 @@ function Bars({ rows, total, label = (k: string) => k, empty = "Nothing yet." }:
 export default async function DemoInsightsPage({ searchParams }: { searchParams: { days?: string } }) {
   const days = RANGES.includes(Number(searchParams.days)) ? Number(searchParams.days) : 30;
   const { visits, from } = await loadVisits(days);
-  const phone = await loadPhoneCounts(days);
+  /* Phone visitors never load the demo; the chat on the homepage counts what they tap. */
+  const phone = await loadEventCounts(days, "mobile:");
+  const useful = await loadEventCounts(days, "useful:");
+  const usefulYes = useful["useful:yes"] ?? 0;
+  const usefulNo = useful["useful:no"] ?? 0;
   const phoneShown = phone["mobile:shown"] ?? 0;
   const total = visits.length;
   const engaged = visits.filter((v) => v.seconds >= 30 || v.actions >= 5);
@@ -300,6 +306,16 @@ export default async function DemoInsightsPage({ searchParams }: { searchParams:
               <Bars rows={entryRows} total={total} label={(k) => ENTRY_LABEL[k] ?? k} />
             </Card>
           </div>
+          <Card
+            title="Was the demo useful?"
+            note={usefulYes + usefulNo ? `${usefulYes + usefulNo} ${usefulYes + usefulNo === 1 ? "answer" : "answers"} · ${pct(usefulYes, usefulYes + usefulNo)} said yes` : "The Yes / No question under the demo."}
+          >
+            <Bars
+              rows={usefulYes + usefulNo ? [["Yes", usefulYes], ["No", usefulNo]] : []}
+              total={usefulYes + usefulNo}
+              empty="No answers yet."
+            />
+          </Card>
           <Card
             title="Phone visitors"
             note="Phones get a chat instead of the demo. How many saw it, and what they tapped."

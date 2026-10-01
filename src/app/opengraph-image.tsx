@@ -5,7 +5,7 @@ import { join } from "path";
 export const runtime = "nodejs";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "BloomBoard — Productivity app that thinks with you.";
+export const alt = "BloomBoard: the productivity app that thinks with you.";
 
 export default function OpengraphImage() {
   const bgData = readFileSync(join(process.cwd(), "public/backgrounds/hero-bg.jpg")).toString("base64");
@@ -25,6 +25,7 @@ export default function OpengraphImage() {
       >
         {/* Cinematic background photo, same as homepage hero */}
         <img
+          alt=""
           src={`data:image/jpeg;base64,${bgData}`}
           width={1200}
           height={630}
@@ -70,7 +71,7 @@ export default function OpengraphImage() {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 22, marginBottom: 28 }}>
-            <img src={`data:image/png;base64,${logoData}`} width={78} height={78} style={{ display: "flex" }} />
+            <img alt="" src={`data:image/png;base64,${logoData}`} width={78} height={78} style={{ display: "flex" }} />
             <span style={{ fontSize: 48, fontWeight: 700, color: "#ffffff", letterSpacing: "-0.02em" }}>
               BloomBoard
             </span>
@@ -93,16 +94,15 @@ export default function OpengraphImage() {
                 textShadow: "0 2px 18px rgba(0,0,0,0.8)",
               }}
             >
-              Productivity app that
+              The productivity app that
             </span>
             <span
               style={{
                 fontSize: 44,
                 fontWeight: 800,
                 lineHeight: 1.15,
-                backgroundImage: "linear-gradient(90deg, #7ec2ff 0%, #c4b5fd 38%, #f9a8d4 65%, #ff6b5e 100%)",
-                backgroundClip: "text",
-                color: "transparent",
+                color: "#ffffff",
+                textShadow: "0 2px 18px rgba(0,0,0,0.8)",
               }}
             >
               thinks with you.

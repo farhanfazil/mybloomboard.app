@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ChevronDown, Check, Minus, MessageCircle, Video, type LucideIcon } from "lucide-react";
+import { ChevronDown, Check, Minus, MessageCircle, Video, Keyboard, Mail, type LucideIcon } from "lucide-react";
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
@@ -11,22 +11,28 @@ const TEAMS_HEADERS = ["Feature", "BloomBoard", "Notion", "Trello", "ClickUp", "
 
 const TEAMS_ROWS: (string[] | { section: string })[] = [
   { section: "Platform" },
-  ["Works fully offline",         "✅ Always",                              "⚠️ Limited",     "❌",          "⚠️ View only",  "⚠️ View only",  "❌"],
-  ["Data location",               "✅ Your Mac (free)\nCloud (paid)",        "❌ Cloud only",   "❌ Cloud only","❌ Cloud only",  "❌ Cloud only",  "❌ Cloud only"],
-  ["Account required",            "✅ Free = none\nPaid = account",          "✅ Always",       "✅ Always",   "✅ Always",     "✅ Always",     "✅ Always"],
+  ["Works offline",               "✅ Your own tasks and notes\nTeam features need a connection",                              "⚠️ Limited",     "❌",          "⚠️ View only",  "⚠️ View only",  "❌"],
+  ["Data location",               "✅ Your computer\nCloud backup when signed in", "❌ Cloud only",   "❌ Cloud only","❌ Cloud only",  "❌ Cloud only",  "❌ Cloud only"],
+  ["Works without an account",    "✅ Free plan\nPaid plans need an account", "❌",              "❌",          "❌",            "❌",            "❌"],
 
   { section: "Tasks & Projects" },
   ["Task management",             "✅", "✅", "✅", "✅", "✅", "✅"],
   ["Subtasks & file attachments", "✅", "✅", "✅", "✅", "✅", "✅"],
   ["Project boards (kanban)",     "✅", "✅", "✅", "✅", "✅", "✅"],
   ["Create several boards at once", "✅", "❌", "❌", "❌", "❌", "❌"],
-  ["Type to Task: many tasks at once", "✅", "❌", "⚠️ Paste a list", "⚠️ Paste a list", "⚠️ Paste a list", "❌"],
+  ["Type to Task", "✅", "❌", "⚠️ Paste a list", "⚠️ Paste a list", "⚠️ Paste a list", "❌"],
   ["KPI tracking + PDF reports",  "✅", "❌", "❌", "❌", "❌", "❌"],
 
   { section: "Workspace" },
   ["Notes with PIN lock",         "✅", "❌", "❌", "❌", "❌", "❌"],
   ["Bookmarks for links & resources", "✅", "✅", "❌", "⚠️ Via extension", "❌", "❌"],
   ["Performance overview",        "✅", "❌", "❌", "⚠️ Paid dashboards", "⚠️ Paid reporting", "⚠️ Paid dashboards"],
+
+  { section: "Email & Calendar" },
+  ["Gmail and Outlook inbox",       "✅ Built-in", "⚠️ Separate app", "❌", "⚠️ Paid plans", "❌", "⚠️ Via app"],
+  ["Turn an email into a task",     "✅", "❌", "⚠️ Forward to a board", "⚠️ Email to task", "⚠️ Forward to Asana", "⚠️ Via app"],
+  ["Reply to emails with AI",       "✅", "⚠️ Separate app", "❌", "⚠️ Paid add-on", "❌", "❌"],
+  ["Outlook & Google Calendar sync", "✅", "⚠️ Separate app", "⚠️ Power-Up", "✅", "⚠️ One-way", "⚠️ Via app"],
 
   { section: "Team & Collaboration" },
   ["Voice & video calls",         "✅ Built-in", "❌ Via add-on", "❌ Via add-on", "✅", "❌ Via add-on", "❌ Via add-on"],
@@ -45,13 +51,12 @@ const TEAMS_ROWS: (string[] | { section: string })[] = [
 
   { section: "AI Features" },
   ["AI assistant built-in",       "✅ Included",        "⚠️ Paid add-on", "❌", "⚠️ Paid add-on", "⚠️ Paid add-on", "⚠️ Paid add-on"],
-  ["AI email writer",             "✅", "❌", "❌", "❌", "❌", "❌"],
   ["AI meeting notes → tasks",    "✅", "⚠️ Paid", "❌", "❌", "❌", "❌"],
   ["AI plan my day",              "✅", "❌", "❌", "❌", "❌", "❌"],
-  ["Pulse, your AI chief of staff",   "✅", "❌", "❌", "❌", "❌", "❌"],
+  ["Pulse: AI alerts on team risks",   "✅", "❌", "❌", "❌", "❌", "❌"],
 
   { section: "Pricing" },
-  ["Free plan",                   "✅", "✅", "✅", "✅", "✅", "⚠️ Trial only"],
+  ["Free plan",                   "✅ Free\nBloom $6/mo, Team $10/user/mo\n(billed yearly, less for 10+ seats)", "✅", "✅", "✅", "✅", "✅"],
 ];
 
 const FREELANCE_HEADERS = ["Feature", "BloomBoard", "Moxie", "HoneyBook", "Bonsai", "Dubsado"];
@@ -91,11 +96,23 @@ const FREELANCE_ROWS: (string[] | { section: string })[] = [
   ["Streak, mood & wellbeing tools",   "✅", "❌", "❌", "❌", "❌"],
 
   { section: "Pricing" },
-  ["Free plan",                   "✅", "❌", "❌", "⚠️ Trial only", "❌"],
+  ["Free plan",                   "✅ Free\nBloom $6/mo, Team from $8/user/mo\n(billed yearly)", "❌", "❌", "⚠️ Trial only", "❌"],
 ];
 
-/** Headline features get a highlighted row, with an icon and an optional badge. */
-const FEATURED: Record<string, { icon: LucideIcon; badge?: string }> = {
+/** Headline features get a highlighted row, with an icon, an optional badge and
+    an optional one-line detail under the name. */
+const FEATURED: Record<string, { icon: LucideIcon; badge?: string; detail?: string; detailShort?: string }> = {
+  "Turn an email into a task": {
+    icon: Mail,
+    badge: "New",
+    detail: "AI reads the email and fills in the task for you: title, deadline, priority and subtasks.",
+    detailShort: "AI fills in the deadline and subtasks.",
+  },
+  "Type to Task": {
+    icon: Keyboard,
+    detail: "Type your to-dos as plain sentences. Dates become deadlines, @names assign teammates, and every line becomes its own task.",
+    detailShort: "Dates become deadlines, @names assign teammates.",
+  },
   "Voice & video calls": { icon: Video, badge: "New" },
   "Built-in team chat": { icon: MessageCircle },
 };
@@ -270,11 +287,13 @@ function MobileComparison({ headers, rows }: { headers: string[]; rows: (string[
               key={`row-${ri}`}
               className={`${cols} border-b border-black/[0.06] ${featured ? "bg-emerald-50/70" : ""}`}
             >
-              <div className={`flex items-center px-3 py-3 text-sm leading-snug text-[#1d1d1f] ${featured ? "font-semibold" : ""}`}>
+              <div className={`flex flex-col justify-center px-3 py-3 text-sm leading-snug text-[#1d1d1f] ${featured ? "font-semibold" : ""}`}>
                 {featured && FeaturedIcon ? (
                   <span className="inline-flex flex-wrap items-center gap-1.5">
-                    <FeaturedIcon className="h-4 w-4 shrink-0 text-emerald-600" strokeWidth={2.4} />
-                    {feature}
+                    <span className="inline-flex min-w-0 items-center gap-1.5">
+                      <FeaturedIcon className="h-4 w-4 shrink-0 text-emerald-600" strokeWidth={2.4} />
+                      <span className="min-w-0">{feature}</span>
+                    </span>
                     {featured.badge && (
                       <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-semibold text-white">
                         {featured.badge}
@@ -283,6 +302,11 @@ function MobileComparison({ headers, rows }: { headers: string[]; rows: (string[
                   </span>
                 ) : (
                   feature
+                )}
+                {(featured?.detailShort || featured?.detail) && (
+                  <span className="mt-1 block text-xs font-normal leading-snug text-[#4b5563]">
+                    {featured.detailShort || featured.detail}
+                  </span>
                 )}
               </div>
               <MobileCell value={bloom} isBloom />
@@ -382,6 +406,11 @@ function ComparisonTable({
                         )}
                       </span>
                     ) : feature}
+                    {featured?.detail && (
+                      <span className="mt-1 block max-w-[300px] pl-6 text-xs font-normal leading-snug text-[#4b5563]">
+                        {featured.detail}
+                      </span>
+                    )}
                   </td>
                   {cols.map((val, ci) => (
                     <DataCell key={ci} value={val} isBloom={ci === 0} />
@@ -409,7 +438,7 @@ type ComparisonTableId = "teams" | "freelance";
 
 /** `tables` picks which comparisons to show; the home page shows only Solo & Teams. */
 export default function ComparisonSection({
-  tables = ["teams", "freelance"],
+  tables = ["teams"],
 }: { tables?: ComparisonTableId[] } = {}) {
   const showTeams = tables.includes("teams");
   const showFreelance = tables.includes("freelance");

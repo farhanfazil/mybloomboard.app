@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import DemoIframe from "@/components/sections/DemoIframe";
 import DemoReactionsBar from "@/components/sections/DemoReactionsBar";
+import DemoUsefulPoll from "@/components/sections/DemoUsefulPoll";
 import PhoneDemoPitch from "@/components/sections/PhoneDemoPitch";
 
 const APP_W = 1280;
@@ -92,7 +94,7 @@ export default function LiveDemoFrame({
         style={{
           border: "1px solid rgba(255,255,255,0.14)",
           boxShadow:
-            "0 40px 100px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.05), 0 0 80px rgba(77,159,255,0.14)",
+            "0 40px 100px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.05)",
         }}
       >
         <div
@@ -122,21 +124,21 @@ export default function LiveDemoFrame({
               Loading interactive demo…
             </div>
           ) : (
-            <iframe
+            <DemoIframe
               title="BloomBoard interactive demo"
               src={`/bloomboard-demo/index.html?embed=home&ws=${workspaces}&v=30`}
-              className="absolute left-0 top-0 border-0 bg-[#0a1520]"
+              className="!absolute left-0 top-0 bg-[#0a1520]"
               style={{
                 width: APP_W,
                 height: APP_H,
                 transform: `scale(${scale})`,
                 transformOrigin: "top left",
               }}
-              allow="clipboard-write"
             />
           )}
         </div>
       </div>
+      <DemoUsefulPoll className="mt-4" />
     </div>
   );
 }

@@ -236,4 +236,23 @@
     later(45000, roomShuffle);
   }
   later(reduceMotion ? 120000 : 50000, incomingWave);
+
+  /* About 20 s in, Maya finishes the banners she was given and sends them to Sam
+     for review: the card moves to In Review and a notification arrives. */
+  later(20000, function () {
+    var tasks = [];
+    try { tasks = JSON.parse(localStorage.getItem('bbd-dash-tasks') || '[]') || []; } catch (e) { return; }
+    var t = tasks.filter(function (x) { return x.id === 'demo-t-banners'; })[0];
+    if (!t || t.status === 'review' || t.status === 'done') return;
+    t.status = 'review';
+    t.updatedAt = Date.now();
+    localStorage.setItem('bbd-dash-tasks', JSON.stringify(tasks));
+    try { if (typeof window.loadTasks === 'function') window.loadTasks(); } catch (e) {}
+    try { if (typeof window.renderAll === 'function') window.renderAll(); } catch (e) {}
+    demo.insert('notifications', {
+      id: demo.uuid(), team_id: ID.team, recipient_id: ME, actor_id: ID.maya, actor_name: 'Maya Chen',
+      type: 'task', entity_type: 'task', entity_id: t.id, read: false,
+      body: 'sent a task for your review: "' + t.title + '"', created_at: new Date().toISOString(),
+    });
+  });
 })();

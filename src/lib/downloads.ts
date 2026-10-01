@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 
 // One place for every BloomBoard download link.
 //
-// macOS: the newest Mac release (also what the in-app updater reads).
+// macOS: the newest Mac release, via /download/mac.
 // Windows: Microsoft's direct installer for our Store listing (approved 2026-09-29). The
 // click downloads "MyBloomBoard Installer.exe" straight away (no Store page); it installs
 // the Store version, so the right build for Intel/AMD or ARM, no security warning, and
 // the Store keeps it updated.
 // iPhone: the App Store page. Empty until the app is public; iPhone visitors then see
 // "coming soon" instead of an App Store button.
-const RELEASES = "https://github.com/farhanfazil/bloombooard-releases/releases";
-
-export const MAC_DOWNLOAD_URL = `${RELEASES}/latest/download/BloomBoard-Installer.dmg`;
+// Mac goes through our own address (src/app/download/mac/route.ts), which forwards to the
+// installer, so no page shows where the file is hosted.
+export const MAC_DOWNLOAD_URL = "/download/mac";
 export const WINDOWS_DOWNLOAD_URL = "https://get.microsoft.com/installer/download/9MX9BDKM26VP?cid=website_cta_psi";
 export const IOS_APP_STORE_URL = "";
 
@@ -54,6 +54,9 @@ export function useDevice(): { os: DeviceOS; primary: DownloadChoice; alternate:
     return IOS_APP_STORE_URL
       ? { os, primary: APP_STORE_CHOICE, alternate: MAC_CHOICE, note: null }
       : { os, primary: MAC_CHOICE, alternate: WINDOWS_CHOICE, note: "The iPhone app is coming soon to the App Store." };
+  }
+  if (os === "android") {
+    return { os, primary: MAC_CHOICE, alternate: WINDOWS_CHOICE, note: "BloomBoard is for Mac and Windows. Open this page on your computer to download it." };
   }
   return { os, primary: MAC_CHOICE, alternate: WINDOWS_CHOICE, note: null };
 }

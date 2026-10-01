@@ -2,6 +2,43 @@
  * BloomBoard browser demo — loads before app scripts.
  * Provides electronAPI shim, workspace bootstrap, gates, and seed data.
  */
+/* Switching sample data / fresh or Personal / Team reloads the page. The old page
+   fades to the theme's own background, and the new page opens under a cover of the
+   same colour that fades away once the app has drawn, so nothing flashes blank. */
+(function () {
+  'use strict';
+  var c = null;
+  try {
+    c = JSON.parse(sessionStorage.getItem('bb-demo-switch-cover') || 'null');
+    sessionStorage.removeItem('bb-demo-switch-cover');
+  } catch (e) {}
+  if (!c || !c.bg) return;
+  var safe = function (v) { return String(v || '').replace(/[^#(),.%\w\s-]/g, ''); };
+  var label = String(c.label || '').replace(/[^\w\s]/g, '');
+  var st = document.createElement('style');
+  st.textContent =
+    'html{background:' + safe(c.bg) + '}' +
+    'html::after{content:"' + label + '";position:fixed;inset:0;z-index:49999;background:' + safe(c.bg) + ';color:' + safe(c.fg) +
+    ';display:flex;align-items:center;justify-content:center;font:500 13px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;' +
+    'opacity:1;transition:opacity .35s ease;pointer-events:none}' +
+    'html.bb-cover-off::after{opacity:0}';
+  (document.head || document.documentElement).appendChild(st);
+  var done = false;
+  function off() {
+    if (done) return;
+    done = true;
+    document.documentElement.classList.add('bb-cover-off');
+    setTimeout(function () {
+      st.remove();
+      document.documentElement.classList.remove('bb-cover-off');
+    }, 400);
+  }
+  window.addEventListener('load', function () {
+    setTimeout(off, 200);
+  });
+  setTimeout(off, 4000);
+})();
+
 (function () {
   'use strict';
 
@@ -12,7 +49,7 @@
   };
 
   var DOWNLOAD_URL =
-    'https://github.com/farhanfazil/bloombooard-releases/releases/latest/download/BloomBoard-Installer.dmg';
+    '/download/mac';
 
   var GATED_SELECTORS = ['#sb-email-nav-btn'].join(',');
   var DEMO_WS_KEY = 'bb-demo-workspace-mode';
@@ -80,6 +117,38 @@
     }
   }
 
+  /* "Sample data | Start fresh": the visitor can swap the sample workspace for an
+     empty one, like a new download. Kept for this tab (a refresh keeps the mode,
+     the data still resets). ?data=fresh opens it directly. */
+  var DEMO_DATA_KEY = 'bb-demo-data';
+  function getDemoDataMode() {
+    try {
+      var asked = new URLSearchParams(location.search).get('data');
+      if (asked === 'fresh' || asked === 'sample') return asked;
+      return sessionStorage.getItem(DEMO_DATA_KEY) === 'fresh' ? 'fresh' : 'sample';
+    } catch (e) { return 'sample'; }
+  }
+  window.getDemoDataMode = getDemoDataMode;
+  window.__bbDemoFresh = getDemoDataMode() === 'fresh';
+
+  /* Empty the visitor's own work. Teammates stay in the Team workspace (the
+     roster, their chats, Team Live and their time off), because the team
+     features only make sense with people in them. */
+  function clearSampleData() {
+    localStorage.setItem('bbd-dash-tasks', '[]');
+    localStorage.setItem('bloombooard-boards-v1', JSON.stringify({ boards: [], cards: [], categories: [] }));
+    localStorage.setItem('bbd-events', '[]');
+    localStorage.setItem('bloom-bookmarks-v1', '[]');
+    ['bb-meetings-history-v1', 'bloombooard-stickies-v1', 'bb-board-columns-v1', 'bbd-dash-projects',
+      'bbd-dash-history', 'bbd-streak', 'bloombooard-bloom-history-v1', 'bb-extcal-v1'].forEach(function (k) {
+      localStorage.removeItem(k);
+    });
+    var demo = window.__bbDemo;
+    if (demo && demo.rows) {
+      ['events', 'boards', 'board_cards', 'tasks', 'notifications'].forEach(function (t) { demo.rows(t).length = 0; });
+    }
+  }
+
   function ensureDemoData() {
     try {
       var mode = getDemoWorkspaceMode();
@@ -95,12 +164,13 @@
         mode = 'team';
       }
 
-      /* A workspace switch reloads the page; keep the theme the visitor picked. */
+      if (window.__bbDemoFresh) clearSampleData();
+
+      /* The demo opens in the Light theme. A workspace switch reloads the page, so
+         the theme the visitor picked is carried over instead. */
       var carried = sessionStorage.getItem('bb-demo-carry-theme');
-      if (carried) {
-        sessionStorage.removeItem('bb-demo-carry-theme');
-        localStorage.setItem('bb-theme', carried);
-      }
+      sessionStorage.removeItem('bb-demo-carry-theme');
+      localStorage.setItem('bb-theme', carried || 'light');
 
       /* Dashboard Assignments start minimized; visitors can expand them. */
       localStorage.setItem('bloomboard-board-assignments-collapsed-v1', '1');
@@ -361,13 +431,68 @@
     return overlay;
   }
 
+  /* The site frames the demo (homepage section, /demo page). There a switch never
+     reloads in view: the frame loads the new version out of sight and fades it in
+     over this one once it has drawn (src/components/sections/DemoIframe.tsx).
+     Opened on its own, the page reloads under a matching cover (top of file). */
+  var _demoHosted = false;
+  window.addEventListener('message', function (e) {
+    if (e.source === window.parent && e.data && e.data.type === 'bb-demo-host') _demoHosted = true;
+  });
+
+  var _demoReadySent = false;
+  function signalDemoReady() {
+    if (_demoReadySent || !_demoWsBooted || document.readyState !== 'complete' || window.parent === window) return;
+    _demoReadySent = true;
+    setTimeout(function () {
+      try { window.parent.postMessage({ type: 'bb-demo-ready' }, location.origin); } catch (e) {}
+    }, 250);
+  }
+  window.addEventListener('load', signalDemoReady);
+
+  function demoSwitchReload(go, label) {
+    try {
+      var theme = localStorage.getItem('bb-theme');
+      if (theme) sessionStorage.setItem('bb-demo-carry-theme', theme);
+    } catch (e) {}
+    if (_demoHosted) {
+      /* Both versions share this browser's storage while the new one loads; this one
+         stops writing so it cannot overwrite what the new one just set up. */
+      try {
+        var noop = function () {};
+        Storage.prototype.setItem = noop;
+        Storage.prototype.removeItem = noop;
+        Storage.prototype.clear = noop;
+      } catch (e) {}
+      document.documentElement.classList.add('bb-demo-switching');
+      try { window.parent.postMessage({ type: 'bb-demo-switch' }, location.origin); } catch (e) {}
+      /* The site did not answer: fall back to a reload. */
+      setTimeout(go, 8000);
+      return;
+    }
+    var bg = '#ffffff', fg = '#64748b';
+    try {
+      bg = getComputedStyle(document.body).backgroundColor || bg;
+      if (!document.body.classList.contains('light-mode')) fg = 'rgba(230,237,243,.72)';
+      sessionStorage.setItem('bb-demo-switch-cover', JSON.stringify({ bg: bg, fg: fg, label: label }));
+    } catch (e) {}
+    var overlay = ensureWsTransitionOverlay();
+    overlay.classList.add('solid');
+    overlay.style.background = bg;
+    overlay.style.color = fg;
+    overlay.textContent = label;
+    overlay.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(function () { overlay.classList.add('visible'); });
+    setTimeout(go, 220);
+  }
+
   window.bbDemoSwitchWorkspace = function (mode) {
     if (['personal', 'freelance', 'team'].indexOf(mode) < 0) return;
     if (_demoWsSwitching || mode === getDemoWorkspaceMode()) return;
     _demoWsSwitching = true;
 
     var switcher = document.getElementById('bb-demo-ws-switcher');
-    var pills = switcher ? switcher.querySelectorAll('.bb-demo-ws-pill') : [];
+    var pills = switcher ? switcher.querySelectorAll('.bb-demo-ws-pill[data-mode]') : [];
     pills.forEach(function (btn) {
       btn.disabled = true;
       btn.classList.add('switching');
@@ -392,31 +517,38 @@
       sessionStorage.setItem(DEMO_WS_KEY, mode);
     } catch (e) {}
 
-    document.querySelectorAll('.bb-demo-ws-pill').forEach(function (btn) {
+    document.querySelectorAll('.bb-demo-ws-pill[data-mode]').forEach(function (btn) {
       var on = btn.getAttribute('data-mode') === mode;
       btn.classList.toggle('active', on);
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
 
-    overlay.classList.add('visible');
-    overlay.setAttribute('aria-hidden', 'false');
-
     safetyTimer = setTimeout(finishSwitch, 4000);
 
     /* A full reload is the only clean switch: the team workspace is signed in
        to the fake backend (realtime channels, simulation), the others are not. */
-    try {
-      var theme = localStorage.getItem('bb-theme');
-      if (theme) sessionStorage.setItem('bb-demo-carry-theme', theme);
-    } catch (e) {}
-    setTimeout(function () {
-      location.reload();
-    }, 160);
+    demoSwitchReload(function () { location.reload(); },
+      mode === 'team' ? 'Opening Team Plan' : 'Opening Personal Plan');
+  };
+
+  window.bbDemoSwitchData = function (value) {
+    if ((value !== 'fresh' && value !== 'sample') || value === getDemoDataMode() || _demoWsSwitching) return;
+    _demoWsSwitching = true;
+    document.querySelectorAll('.bb-demo-ws-pill, .bb-demo-data-btn').forEach(function (btn) { btn.disabled = true; });
+    try { sessionStorage.setItem(DEMO_DATA_KEY, value); } catch (e) {}
+    try { if (window.bbTrack) window.bbTrack('data', value); } catch (e) {}
+    var dataBtn = document.querySelector('.bb-demo-data-btn');
+    if (dataBtn) dataBtn.lastChild.textContent = value === 'fresh' ? 'Starting fresh' : 'Opening live demo';
+    /* Drop ?data= so the choice just made is the one that loads. */
+    var url = new URL(location.href);
+    url.searchParams.delete('data');
+    demoSwitchReload(function () { location.replace(url.toString()); },
+      value === 'fresh' ? 'Starting fresh' : 'Opening live demo');
   };
 
   function updateSwitcherActiveState() {
     var current = getDemoWorkspaceMode();
-    document.querySelectorAll('.bb-demo-ws-pill').forEach(function (btn) {
+    document.querySelectorAll('.bb-demo-ws-pill[data-mode]').forEach(function (btn) {
       var on = btn.getAttribute('data-mode') === current;
       btn.classList.toggle('active', on);
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
@@ -447,38 +579,37 @@
       );
     }).join('');
 
+    /* Sample workspace or an empty app: one plain button, so it never reads as a
+       third plan next to Personal / Team. */
+    var fresh = getDemoDataMode() === 'fresh';
+    var dataBtn = '<button type="button" class="bb-demo-data-btn" data-data="' + (fresh ? 'sample' : 'fresh') + '">' +
+      (fresh
+        ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') +
+      '<span>' + (fresh ? 'Back to live demo' : 'Start fresh') + '</span></button>';
+
     el.innerHTML =
       '<div class="bb-demo-ws-switcher-inner">' +
       '<div class="bb-demo-ws-switcher-head">' +
-      '<span class="bb-demo-ws-title">Live demo</span>' +
-      '<span class="bb-demo-ws-hint">Try anything. It resets when you leave.</span>' +
+      '<span class="bb-demo-ws-title">' + (fresh ? 'Fresh start' : 'Live demo') + '</span>' +
+      '<span class="bb-demo-ws-hint">' + (fresh
+        ? 'An empty app, just like a new download.'
+        : 'A sample workspace. Try anything, it resets when you leave.') + '</span>' +
       '</div>' +
-      '<div class="bb-demo-ws-right-group">' +
+      '<div class="bb-demo-ws-right-group">' + dataBtn +
       (DEMO_WS_OPTIONS.length > 1 ? '<div class="bb-demo-ws-pills" role="tablist">' + pills + '</div>' : '') +
-      '<div id="bb-demo-ws-theme-slot"></div>' +
       '</div>' +
       '</div>';
 
-    // Move the sidebar theme toggle pill into the topbar
-    var themeEl = document.getElementById('theme-toggle-pill');
-    var slot = el.querySelector('#bb-demo-ws-theme-slot');
-    if (themeEl && slot) {
-      slot.appendChild(themeEl);
-    } else {
-      // Sidebar not ready yet — retry once DOM is idle
-      requestAnimationFrame(function () {
-        var t = document.getElementById('theme-toggle-pill');
-        var s = el.querySelector('#bb-demo-ws-theme-slot');
-        if (t && s) s.appendChild(t);
-      });
-    }
+    /* The theme switch stays where the app puts it: in its own top bar (vendor/bb-topbar.js). */
 
     el.addEventListener('click', function (e) {
-      var btn = e.target.closest('.bb-demo-ws-pill');
+      var btn = e.target.closest('.bb-demo-ws-pill, .bb-demo-data-btn');
       if (!btn || btn.disabled) return;
       e.preventDefault();
       e.stopPropagation();
-      window.bbDemoSwitchWorkspace(btn.getAttribute('data-mode'));
+      if (btn.hasAttribute('data-data')) window.bbDemoSwitchData(btn.getAttribute('data-data'));
+      else window.bbDemoSwitchWorkspace(btn.getAttribute('data-mode'));
     });
 
     return el;
@@ -570,6 +701,7 @@
     }
 
     _demoWsBooted = true;
+    signalDemoReady();
     installDemoWorkspaceAuthority();
     if (typeof window.syncWorkspaceModeUI === 'function') {
       window.syncWorkspaceModeUI();
@@ -897,9 +1029,13 @@
     style.id = 'bb-web-demo-styles';
     var embedHome = /[?&]embed=home/.test(location.search);
     style.textContent =
-      '#drag-strip{display:none!important}' +
+      /* The app's top bar (vendor/bb-topbar.js) sits under the demo's own bar. The
+         macOS window buttons it leaves room for are not drawn here. */
+      '#drag-strip{position:fixed!important;top:var(--bb-demo-ws-total-offset,88px)!important;left:0!important;right:0!important;padding-left:20px!important}' +
       /* Sits beside the macOS window buttons; the workspace pills replace it in the browser. */
       '#global-home-btn{display:none!important}' +
+      /* Sticky notes can't pop out onto the computer's desktop from a browser. */
+      '.sticky-note .sn-pop-btn{display:none!important}' +
       /* Dashboard knock row: no banner, the answer buttons sit right after the name. */
       '#tl-strip .tl-knock{background:none!important;border:none!important;padding:2px 0!important;justify-content:flex-start;gap:10px}' +
       '#tl-strip .tl-knock-main{flex:0 0 auto}' +
@@ -907,8 +1043,8 @@
       '.bb-web-demo-lock{margin-left:auto;font-size:10px;opacity:.85;flex-shrink:0}' +
       '.bb-web-demo-lock-bubble{position:absolute;top:-4px;right:-4px;font-size:11px;pointer-events:none}' +
       '.layout{position:relative!important}' +
-      'body.bb-web-demo-embed .layout{padding-top:0!important;height:100%!important}' +
-      'body.bb-web-demo-active .layout{padding-top:0!important;min-height:100vh!important}' +
+      'body.bb-web-demo-embed .layout{padding-top:52px!important;height:100%!important}' +
+      'body.bb-web-demo-active .layout{padding-top:52px!important;min-height:100vh!important}' +
       '.main-area{position:relative!important}' +
       '#bloom-bubble{position:fixed!important;bottom:28px!important;right:28px!important;left:auto!important;top:auto!important;z-index:2500!important}' +
       'body:has(.bloom-panel.open) #bloom-bubble{display:none!important}' +
@@ -916,21 +1052,30 @@
         ? 'html.bb-web-demo-embed,body.bb-web-demo-embed{height:100%;overflow:hidden;box-sizing:border-box}' +
           'body.bb-web-demo-embed{padding:0!important}'
         : '') +
-      '.bb-web-demo-banner{position:fixed;top:0;left:0;right:0;z-index:99999;background:linear-gradient(90deg,#0f2a52,#1a3a6a);color:#9dceff;font-size:11px;text-align:center;padding:6px 12px;border-bottom:1px solid rgba(77,159,255,.25)}' +
+      /* Flat, in the app's own colours: blue in Blue, light grey in Light, grey in Black. */
+      '.bb-web-demo-banner{position:fixed;top:0;left:0;right:0;z-index:99999;background:#123e5a;color:#cfe3f3;font-size:11px;text-align:center;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.1)}' +
+      '.bb-web-demo-banner a{color:#fff;font-weight:700;margin-left:6px}' +
+      'body.light-mode .bb-web-demo-banner{background:#eef2f6;color:#334155;border-bottom-color:#dde3ea}' +
+      'body.light-mode .bb-web-demo-banner a{color:#0f172a}' +
+      'body.black-mode .bb-web-demo-banner{background:#1c1c1c;color:#d4d4d4;border-bottom-color:rgba(255,255,255,.1)}' +
+      'body.black-mode .bb-web-demo-banner a{color:#fff}' +
       ':root{--bb-demo-ws-offset:88px;--bb-demo-ws-total-offset:88px}' +
       '.bb-demo-ws-switcher{margin:0;padding:0;flex-shrink:0;width:100%}' +
       '.bb-demo-ws-switcher.bb-demo-ws-fixed{position:fixed;left:0;right:0;top:0;z-index:50000;margin:0;padding:6px 16px;pointer-events:none;background:transparent;border:none;box-shadow:none;isolation:isolate}' +
       'body.bb-web-demo-active .bb-demo-ws-switcher.bb-demo-ws-fixed{top:32px}' +
       'body.bb-has-ws-switcher.bb-web-demo-embed .layout{margin-top:var(--bb-demo-ws-total-offset,88px)!important;min-height:0!important;height:calc(100% - var(--bb-demo-ws-total-offset,88px))!important}' +
       'body.bb-has-ws-switcher.bb-web-demo-active .layout{margin-top:var(--bb-demo-ws-total-offset,120px)!important;min-height:0!important;height:calc(100vh - var(--bb-demo-ws-total-offset,120px))!important}' +
-      'body.bb-has-ws-switcher #fl-overlay{top:var(--bb-demo-ws-total-offset,88px);right:0;bottom:0;left:0;height:auto;z-index:3500}' +
+      'body.bb-has-ws-switcher #fl-overlay{top:calc(var(--bb-demo-ws-total-offset,88px) + 52px);right:0;bottom:0;left:0;height:auto;z-index:3500}' +
       'body.bb-has-ws-switcher #fl-overlay.open{z-index:3500}' +
       'body.bb-has-ws-switcher .chat-overlay,' +
       'body.bb-has-ws-switcher #chat-overlay,' +
       'body.bb-has-ws-switcher .team-overlay,' +
       'body.bb-has-ws-switcher #team-overlay,' +
       'body.bb-has-ws-switcher .boards-overlay,' +
-      'body.bb-has-ws-switcher #boards-overlay{top:var(--bb-demo-ws-total-offset,88px)!important;left:0!important;right:0!important;bottom:0!important;height:auto!important}' +
+      'body.bb-has-ws-switcher #boards-overlay,' +
+      'body.bb-has-ws-switcher .bookmarks-overlay,' +
+      'body.bb-has-ws-switcher .overview-overlay,' +
+      'body.bb-has-ws-switcher .bb-email-overlay{top:calc(var(--bb-demo-ws-total-offset,88px) + 52px)!important;left:0!important;right:0!important;bottom:0!important;height:auto!important}' +
       'body.bb-has-ws-switcher .chat-topbar,' +
       'body.bb-has-ws-switcher .team-topbar,' +
       'body.bb-has-ws-switcher .boards-topbar{padding-top:14px!important}' +
@@ -945,6 +1090,15 @@
       '.bb-demo-ws-pill:hover:not(:disabled):not(.active){color:#fff}' +
       '.bb-demo-ws-pill:disabled{cursor:wait}' +
       '.bb-demo-ws-pill.active{background:rgba(255,255,255,.16);color:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25)}' +
+      '.bb-demo-data-btn{appearance:none;display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:7px;border:1px solid rgba(255,255,255,.22);background:transparent;color:#e6edf3;font:inherit;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:background .15s ease,border-color .15s ease}' +
+      '.bb-demo-data-btn:hover:not(:disabled){background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.34)}' +
+      '.bb-demo-data-btn:disabled{cursor:wait;opacity:.75}' +
+      '.bb-demo-data-btn svg{width:14px;height:14px;flex-shrink:0}' +
+      'body.light-mode .bb-demo-data-btn{border-color:#cbd5e1;color:#0f172a}' +
+      'body.black-mode .bb-demo-data-btn{border-color:rgba(255,255,255,.24)!important;color:#e6e6e6}' +
+      'body.black-mode .bb-demo-data-btn:hover:not(:disabled){background:rgba(255,255,255,.07)!important;border-color:rgba(255,255,255,.36)!important}' +
+      'body.light-mode .bb-demo-data-btn:hover:not(:disabled){background:#f1f5f9;border-color:#94a3b8}' +
+      'html.bb-demo-switching .bb-demo-ws-pill,html.bb-demo-switching .bb-demo-data-btn{cursor:wait}' +
       'body.light-mode .bb-demo-ws-title{color:#0f172a}' +
       'body.light-mode .bb-demo-ws-hint{color:#64748b}' +
       'body.light-mode .bb-demo-ws-pills{background:#eef0f3;border-color:rgba(15,23,42,.08)}' +
@@ -956,11 +1110,10 @@
       /* In the freelance workspace the page behind the bar matches the freelance hub. */
       'body.bb-has-ws-switcher.bb-workspace-freelance:not(.light-mode){background:#0d0f14!important}' +
       'body.bb-has-ws-switcher.bb-workspace-freelance:not(.light-mode) .bb-demo-ws-switcher.bb-demo-ws-fixed{border-bottom:1px solid rgba(255,255,255,.06)}' +
-      /* The app's quote card sits just under the window top; the demo bar pushes the app down. */
-      'body.bb-has-ws-switcher #quote-card{top:calc(var(--bb-demo-ws-total-offset,88px) + 12px)!important}' +
       '.bb-demo-ws-transition{position:fixed;inset:0;z-index:49999;background:rgba(8,12,20,.5);opacity:0;pointer-events:none;transition:opacity .28s ease;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}' +
       '.bb-demo-ws-transition.visible{opacity:1;pointer-events:auto}' +
       'body.light-mode .bb-demo-ws-transition{background:rgba(248,250,252,.78)}' +
+      '.bb-demo-ws-transition.solid{backdrop-filter:none;-webkit-backdrop-filter:none;transition:opacity .2s ease;display:flex;align-items:center;justify-content:center;font:500 13px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}' +
       'body.bb-has-ws-switcher .sidebar,body.bb-has-ws-switcher .main-area{position:relative;z-index:1}' +
       'body.bb-workspace-personal .sb-section:has(#sb-hydration){display:none!important}' +
       'body.bb-has-ws-switcher #hydration-popup{display:none!important}';
@@ -977,7 +1130,7 @@
       'Browser demo. Use the <strong>Switch workspace</strong> bar at the top of the dashboard. ' +
       '<a href="' +
       DOWNLOAD_URL +
-      '" target="_blank" rel="noopener noreferrer" style="color:#fff;font-weight:700;margin-left:6px">Download Mac app →</a>';
+      '" target="_blank" rel="noopener noreferrer">Download Mac app →</a>';
     document.body.classList.add('bb-web-demo-active');
     document.body.insertBefore(bar, document.body.firstChild);
     syncDemoSwitcherOffset();
@@ -1038,8 +1191,6 @@
     patchDemoToast();
     watchBloomBubble();
     interceptGatedClicks();
-    var drag = document.getElementById('drag-strip');
-    if (drag) drag.style.display = 'none';
     fixBloomBubble();
     syncDemoSwitcherOffset();
     window.addEventListener('resize', syncDemoSwitcherOffset);
@@ -1059,57 +1210,6 @@
   }
 })();
 
-/* Daily reminder: only on the main dashboard (Tasks tab, nothing open on top).
-   One that comes due elsewhere waits until the visitor is back on the dashboard,
-   and leaving the dashboard hides a reminder that is showing. */
-(function () {
-  'use strict';
-
-  function onDashboard() {
-    try {
-      if (typeof currentMainTab !== 'undefined' && currentMainTab !== 'tasks') return false;
-    } catch (e) {}
-    var points = [[0.5, 0.5], [0.7, 0.35], [0.4, 0.75]];
-    return points.every(function (p) {
-      var el = document.elementFromPoint(innerWidth * p[0], innerHeight * p[1]);
-      /* The reminder itself sits over the dashboard; look past it. */
-      if (el && el.closest('#quote-card')) return true;
-      return !!(el && el.closest('main.main-area'));
-    });
-  }
-
-  var pending = null;
-  function wrap() {
-    var orig = window.showQuoteToast;
-    if (typeof orig !== 'function' || orig._bbDashOnly) return false;
-    var gated = function (fresh) {
-      if (onDashboard()) { pending = null; return orig.apply(this, arguments); }
-      pending = { fresh: pending ? pending.fresh || !!fresh : !!fresh };
-    };
-    gated._bbDashOnly = true;
-    window.showQuoteToast = gated;
-    return true;
-  }
-
-  var tries = 0;
-  var wrapTimer = setInterval(function () {
-    if (wrap() || ++tries > 80) clearInterval(wrapTimer);
-  }, 250);
-
-  setInterval(function () {
-    var card = document.getElementById('quote-card');
-    if (!card) return;
-    var here = onDashboard();
-    if (!here && card.classList.contains('show')) {
-      if (typeof window.hideQuoteToast === 'function') window.hideQuoteToast();
-      else card.classList.remove('show');
-    } else if (here && pending && document.visibilityState === 'visible') {
-      var p = pending;
-      pending = null;
-      window.showQuoteToast(p.fresh);
-    }
-  }, 600);
-})();
 
 /* No weekly report in the demo: it is a personal Sunday-evening summary with
    nothing to show a visitor. Mark this week as seen (the app's own key) and keep
@@ -1120,9 +1220,86 @@
     var d = new Date();
     var mon = new Date(d);
     mon.setDate(d.getDate() - (d.getDay() || 7) + 1);
-    localStorage.setItem('farhan-weekly-' + mon.toISOString().split('T')[0], '1');
+    localStorage.setItem('bbd-weekly-' + mon.toISOString().split('T')[0], '1');
   } catch (e) {}
   var st = document.createElement('style');
   st.textContent = '#weekly-modal{display:none!important}';
   (document.head || document.documentElement).appendChild(st);
+})();
+
+/* "Type your tasks" opens folded in the app. In the demo it starts open, so
+   visitors see its examples typing themselves in (the app's own animation). */
+(function () {
+  'use strict';
+  function open() {
+    var card = document.getElementById('t2t-dashboard-card');
+    if (!card) return false;
+    card.classList.remove('collapsed');
+    return true;
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', open);
+  else open();
+})();
+
+/* No saved logins in the demo. The app's sign-in and licence windows have
+   password fields, so browsers treat the page as a login page and fill the
+   visitor's saved email into the first text box (the top bar search) or offer
+   it there. Nobody signs in to the demo, so those fields become plain text
+   drawn as dots, and anything put into the search box without typing is
+   cleared. */
+(function () {
+  'use strict';
+  var st = document.createElement('style');
+  st.textContent = '.bb-demo-pw,input[data-bb-pw]{-webkit-text-security:disc}';
+  (document.head || document.documentElement).appendChild(st);
+
+  function tidy(root) {
+    if (root.matches && root.matches('input[type="password"]')) root = root.parentNode || document;
+    (root.querySelectorAll ? root : document).querySelectorAll('input[type="password"]').forEach(function (i) {
+      i.type = 'text';
+      i.classList.add('bb-demo-pw');
+      i.setAttribute('autocomplete', 'off');
+    });
+    (root.querySelectorAll ? root : document).querySelectorAll('input[type="email"], input[autocomplete="email"], input[autocomplete="username"]').forEach(function (i) {
+      i.setAttribute('autocomplete', 'off');
+    });
+    var q = document.getElementById('search-input');
+    if (q && !q.getAttribute('data-bb-demo')) {
+      q.setAttribute('data-bb-demo', '1');
+      q.setAttribute('name', 'bb-demo-search');
+      q.setAttribute('autocomplete', 'off');
+      q.setAttribute('data-lpignore', 'true');
+      q.setAttribute('data-1p-ignore', 'true');
+      /* Browsers never autofill a read-only box; it opens up the moment it is used. */
+      q.readOnly = true;
+      function unlock() { q.readOnly = false; }
+      q.addEventListener('pointerdown', unlock);
+      q.addEventListener('focus', unlock);
+      /* Whatever sits in the box must be what the visitor typed. Typing (any
+         keyboard, phones and other languages too) is an input of type insertText /
+         insertCompositionText / paste / delete; autofill arrives without one. Chrome
+         even shows a saved login before the page can read it, so keep checking. */
+      var typed = '';
+      q.addEventListener('input', function (e) {
+        if (e.isTrusted && /^(insertText|insertCompositionText|insertFromPaste|deleteContent)/.test(e.inputType || '')) typed = q.value;
+      });
+      setInterval(function () {
+        if (!q.value || q.value === typed) return;
+        q.value = typed;
+        try { if (!typed && typeof window.clearSearch === 'function') window.clearSearch(); } catch (e) {}
+      }, 700);
+    }
+  }
+
+  function start() {
+    tidy(document);
+    /* Windows the app builds later (sign-in, licence) get the same treatment. */
+    new MutationObserver(function (list) {
+      list.forEach(function (m) {
+        m.addedNodes.forEach(function (n) { if (n.nodeType === 1) tidy(n); });
+      });
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
 })();

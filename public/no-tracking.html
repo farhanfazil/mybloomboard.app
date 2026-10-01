@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>No Tracking — Bloombooard</title>
-  <meta name="description" content="Bloombooard doesn't track you. Here's exactly what stays on your device and what doesn't." />
+  <title>No Tracking | BloomBoard</title>
+  <meta name="description" content="The BloomBoard app has no ad trackers or third-party analytics. Here's exactly where your data goes and where it doesn't." />
   <link rel="icon" href="https://mybloomboard.app/logo.png" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -49,7 +49,7 @@
     .hero {
       text-align: center;
       padding: 80px 2rem 64px;
-      background: linear-gradient(160deg, #0a0a0f 0%, #0c1428 55%, #0a0a0f 100%);
+      background: #0a0a0a;
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
     .badge {
@@ -91,6 +91,11 @@
       font-size: 1.05rem;
       max-width: 520px;
       margin: 0 auto;
+    }
+    .hero p.last-updated {
+      margin-top: 16px;
+      font-size: 0.82rem;
+      color: #64748b;
     }
 
     .container {
@@ -209,7 +214,7 @@
       flex-shrink: 0;
     }
 
-    a { color: #818cf8; text-decoration: none; }
+    a { color: #ffffff; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); text-underline-offset: 2px; }
     a:hover { text-decoration: underline; }
 
     footer {
@@ -219,7 +224,7 @@
       color: #475569;
       font-size: 0.82rem;
     }
-    footer a { color: #6366f1; }
+    footer a { color: #a1a1aa; text-decoration: none; }
     .footer-links {
       display: flex;
       gap: 24px;
@@ -233,16 +238,17 @@
 
 <nav>
   <a class="nav-logo" href="https://mybloomboard.app/">
-    <img src="https://mybloomboard.app/logo.png" alt="Bloombooard" />
-    Bloombooard
+    <img src="https://mybloomboard.app/logo.png" alt="BloomBoard" />
+    BloomBoard
   </a>
   <a class="nav-link" href="https://mybloomboard.app/">← Back to Home</a>
 </nav>
 
 <div class="hero">
   <div class="badge"><span class="badge-dot"></span> Active policy</div>
-  <h1>We don't<br/><span>track you.</span></h1>
-  <p>No analytics. No telemetry. No advertising. Here's exactly where your data goes — and where it doesn't.</p>
+  <h1>No ad trackers.<br/><span>No data sales.</span></h1>
+  <p>The BloomBoard app has no ad trackers and no third-party analytics tools. Here's exactly where your data goes, and where it doesn't.</p>
+  <p class="last-updated">Last updated: 29 September 2026</p>
 </div>
 
 <div class="container">
@@ -250,108 +256,104 @@
   <!-- Summary cards -->
   <div class="summary-grid">
     <div class="summary-card">
-      <div class="icon">💾</div>
       <div class="label">Local first</div>
-      <div class="desc">Tasks, boards & notes stay on your Mac</div>
+      <div class="desc">Tasks, boards &amp; notes are stored on your computer first</div>
     </div>
     <div class="summary-card">
-      <div class="icon">🚫</div>
-      <div class="label">Zero analytics</div>
-      <div class="desc">No Mixpanel, Amplitude, or any tracker</div>
+      <div class="label">No app analytics</div>
+      <div class="desc">No ad trackers or third-party analytics tools in the app</div>
     </div>
     <div class="summary-card">
-      <div class="icon">🔒</div>
       <div class="label">No data sales</div>
       <div class="desc">Your data is never sold or rented</div>
     </div>
     <div class="summary-card">
-      <div class="icon">✋</div>
-      <div class="label">Opt-in only</div>
-      <div class="desc">Cloud features require your explicit action</div>
+      <div class="label">You choose</div>
+      <div class="desc">Cloud backup and team features start when you sign in</div>
     </div>
   </div>
 
-  <!-- What stays on device -->
+  <!-- What is stored on device -->
   <div class="section">
-    <div class="section-title"><span class="icon">🖥️</span> Stays on your device only</div>
-    <p>All of this is stored in your Mac's local storage and never leaves your machine.</p>
+    <div class="section-title">Stored on your device</div>
+    <p>If you use BloomBoard without an account, all of this stays on your computer. When you sign in, your tasks, boards, notes and settings are also backed up to BloomBoard's cloud so they sync across your devices.</p>
     <div class="item-list">
       <div class="item">
-        <div class="item-icon">✅</div>
+        <div class="item-icon"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#4ade80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="item-body">
-          <div class="item-label">Tasks, projects & boards<span class="pill pill-green">local</span></div>
-          <div class="item-desc">All your tasks, subtasks, kanban boards, notes, KPIs, streaks, and time tracking data.</div>
+          <div class="item-label">Tasks, projects &amp; boards<span class="pill pill-green">local first</span></div>
+          <div class="item-desc">Your tasks, subtasks, boards, notes, KPIs, and streaks.</div>
         </div>
       </div>
       <div class="item">
-        <div class="item-icon">✅</div>
+        <div class="item-icon"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#4ade80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="item-body">
-          <div class="item-label">Calendar & reminders<span class="pill pill-green">local</span></div>
-          <div class="item-desc">Events, deadlines, vacation/leave entries, and meeting reminders.</div>
+          <div class="item-label">Calendar &amp; reminders<span class="pill pill-green">local first</span></div>
+          <div class="item-desc">Events, deadlines, vacation and leave entries, and meeting reminders.</div>
         </div>
       </div>
       <div class="item">
-        <div class="item-icon">✅</div>
+        <div class="item-icon"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#4ade80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="item-body">
-          <div class="item-label">App settings & preferences<span class="pill pill-green">local</span></div>
+          <div class="item-label">App settings &amp; preferences<span class="pill pill-green">local first</span></div>
           <div class="item-desc">Theme, avatar, profile name, workspace mode, and all personalisation.</div>
         </div>
       </div>
       <div class="item">
-        <div class="item-icon">✅</div>
-        <div class="item-body">
-          <div class="item-label">Freelance Hub data<span class="pill pill-green">local</span></div>
-          <div class="item-desc">Clients, invoices, quotes, and income records in the Freelance Hub.</div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-icon">✅</div>
+        <div class="item-icon"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#4ade80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="item-body">
           <div class="item-label">Email cache<span class="pill pill-green">local</span></div>
-          <div class="item-desc">Email history shown in the app is cached locally and never uploaded.</div>
+          <div class="item-desc">Email previews shown in the app are cached on your device and never uploaded to our servers.</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Optional cloud features -->
+  <!-- Features that use the internet -->
   <div class="section">
-    <div class="section-title"><span class="icon">☁️</span> Optional features that use the internet</div>
-    <p>These only activate when you explicitly connect a service or trigger an action. Nothing runs in the background without your knowledge.</p>
+    <div class="section-title">Features that use the internet</div>
+    <p>These only start when you sign in, connect a service, or use a feature that needs them.</p>
     <div class="item-list">
       <div class="item">
-        <div class="item-icon">💬</div>
+        <div class="item-icon"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="3" fill="#a1a1aa"/></svg></div>
         <div class="item-body">
-          <div class="item-label">Team chat sync<span class="pill pill-blue">your supabase</span></div>
-          <div class="item-desc">If you use the Team workspace, chat messages sync to your own Supabase project so team members can communicate. This is your database — we don't have access to it.</div>
+          <div class="item-label">Account, backup &amp; sync<span class="pill pill-blue">bloomboard cloud</span></div>
+          <div class="item-desc">When you sign in, your tasks, boards, notes and settings are backed up to BloomBoard's cloud (hosted with Supabase) so they stay the same on all your devices.</div>
         </div>
       </div>
       <div class="item">
-        <div class="item-icon">📄</div>
+        <div class="item-icon"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="3" fill="#a1a1aa"/></svg></div>
         <div class="item-body">
-          <div class="item-label">Shared invoices & quotes<span class="pill pill-blue">your supabase</span></div>
-          <div class="item-desc">When you share a Freelance Hub invoice link, the invoice data is stored in your Supabase database so clients can view and confirm payment. No one else can access it.</div>
+          <div class="item-label">Team boards, chat &amp; calls<span class="pill pill-blue">bloomboard servers</span></div>
+          <div class="item-desc">If you join a team, shared boards and chat messages are stored on BloomBoard's servers so your teammates can see them. Voice and video calls run through our call provider (LiveKit) and are not recorded.</div>
         </div>
       </div>
       <div class="item">
-        <div class="item-icon">📧</div>
+        <div class="item-icon"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="3" fill="#a1a1aa"/></svg></div>
         <div class="item-body">
-          <div class="item-label">Google / Gmail integration<span class="pill pill-yellow">opt-in</span></div>
-          <div class="item-desc">If you connect your Google account, we read your inbox and can send emails on your behalf — only when you explicitly trigger it. OAuth tokens are stored locally only. You can disconnect at any time in Settings → Connected Apps.</div>
+          <div class="item-label">Google &amp; Microsoft integrations<span class="pill pill-yellow">opt-in</span></div>
+          <div class="item-desc">If you connect your Google or Microsoft account, the app reads your inbox and calendar and can send emails on your behalf, only when you explicitly trigger it. Sign-in tokens are stored on your device only. You can disconnect at any time in Settings, then Connected Apps.</div>
         </div>
       </div>
       <div class="item">
-        <div class="item-icon">🤖</div>
+        <div class="item-icon"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="3" fill="#a1a1aa"/></svg></div>
         <div class="item-body">
           <div class="item-label">AI assistant (Bloom AI)<span class="pill pill-yellow">opt-in</span></div>
-          <div class="item-desc">When you use AI features, your prompt and relevant context (tasks, events) is sent to Anthropic's Claude API to generate a response. We don't store this on our servers. See <a href="https://www.anthropic.ic/privacy" target="_blank">Anthropic's privacy policy</a>.</div>
+          <div class="item-desc">When you use AI features, your prompt and relevant context (such as tasks and events) is sent to our AI provider, Anthropic, to generate a response. AI requests are not processed on your device. See <a href="https://www.anthropic.com/privacy" target="_blank">Anthropic's privacy policy</a>.</div>
         </div>
       </div>
       <div class="item">
-        <div class="item-icon">💳</div>
+        <div class="item-icon"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="3" fill="#a1a1aa"/></svg></div>
         <div class="item-body">
-          <div class="item-label">Stripe (payment status checks)<span class="pill pill-yellow">opt-in</span></div>
-          <div class="item-desc">When you check whether a client has paid an invoice, the app queries the Stripe API using your own Stripe key. No payment card data ever passes through our systems.</div>
+          <div class="item-label">Payments<span class="pill pill-yellow">polar</span></div>
+          <div class="item-desc">Payments are handled by Polar (polar.sh), our merchant of record. Your card details go to Polar and never pass through our systems. We receive your email address and plan status so your plan unlocks when you sign in.</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="3" fill="#a1a1aa"/></svg></div>
+        <div class="item-body">
+          <div class="item-label">Website live demo<span class="pill pill-yellow">anonymous</span></div>
+          <div class="item-desc">The live demo on our website records anonymous usage so we can improve it: your country, the site that referred you, and what you try in the demo. It uses a random ID that lasts only for that browser tab. No names, email addresses, IP addresses or cookies are stored with it.</div>
         </div>
       </div>
     </div>
@@ -359,23 +361,23 @@
 
   <!-- Never -->
   <div class="never-box">
-    <h3>We never, ever do this</h3>
+    <h3>We never do this</h3>
     <div class="never-list">
       <div class="never-item">Use advertising trackers, pixels, or fingerprinting</div>
-      <div class="never-item">Install analytics tools (Mixpanel, Amplitude, PostHog, Google Analytics, etc.)</div>
-      <div class="never-item">Read your tasks, notes, or boards on our end</div>
+      <div class="never-item">Put third-party analytics tools (Mixpanel, Amplitude, PostHog, Google Analytics, etc.) in the app</div>
+      <div class="never-item">Read your tasks, notes, boards or messages for advertising, or use them to train AI models</div>
       <div class="never-item">Record keystrokes or take screenshots in the background</div>
       <div class="never-item">Sell or share your data with advertisers or data brokers</div>
       <div class="never-item">Store your Google OAuth tokens on our servers</div>
-      <div class="never-item">Send any data without you triggering an explicit action</div>
+      <div class="never-item">Back up your work to the cloud unless you sign in</div>
     </div>
   </div>
 
   <!-- Contact -->
   <div class="section">
-    <div class="section-title"><span class="icon">✉️</span> Questions?</div>
+    <div class="section-title">Questions?</div>
     <p>If you have any questions about how your data is handled, reach out directly.</p>
-    <p>📧 <a href="mailto:hello@mybloomboard.app">hello@mybloomboard.app</a></p>
+    <p><a href="mailto:hello@mybloomboard.app">hello@mybloomboard.app</a></p>
   </div>
 
 </div>
@@ -385,9 +387,11 @@
     <a href="https://mybloomboard.app/">Home</a>
     <a href="/privacy.html">Full Privacy Policy</a>
     <a href="/terms.html">Terms of Service</a>
+    <a href="/refund">Refund Policy</a>
+    <a href="/security">Security</a>
     <a href="mailto:hello@mybloomboard.app">Contact</a>
   </div>
-  <p>© 2026 Bloombooard. Built with privacy in mind.</p>
+  <p>© 2026 BloomBoard. Built with privacy in mind.</p>
 </footer>
 
 </body>

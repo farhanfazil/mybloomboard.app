@@ -13,6 +13,14 @@ const nextConfig = {
   compress: true,
   // Remove X-Powered-By header (minor security + perf)
   poweredByHeader: false,
+  async redirects() {
+    return [
+      // The old "Team plan coming soon" waitlist: Team is now on the pricing section.
+      { source: "/team", destination: "/#pricing", permanent: true },
+      // The Freelance product is hidden for now.
+      { source: "/freelance", destination: "/", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

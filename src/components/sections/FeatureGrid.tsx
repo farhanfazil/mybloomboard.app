@@ -8,12 +8,14 @@ import {
   Bot,
   CalendarClock,
   CalendarDays,
+  CalendarSync,
   CheckSquare2,
   ClipboardList,
   Cloud,
   Droplets,
   FileText,
   Flame,
+  Inbox,
   Mail,
   MessageCircle,
   Mic,
@@ -45,13 +47,15 @@ const FEATURE_ICONS: Record<string, LucideIcon> = {
   "Cloud Data": Cloud,
   Security: ShieldCheck,
   "Quick Sticky Notes": Pin,
-  "Unlimited Team Members": UserPlus,
+  "Room for Your Team": UserPlus,
   "Dark & Light Mode": MoonStar,
   "Notification Bell": Bell,
   "AI Email & Messages": Mail,
   "AI Meeting Notes to Tasks": FileText,
   "AI Plan My Day": CalendarClock,
   "Reminders & Meetings": CalendarDays,
+  "Email Inbox": Inbox,
+  "Calendar Sync": CalendarSync,
   "Health & Hydration": Droplets,
 };
 
@@ -65,19 +69,21 @@ const SUMMARIES: Record<string, string> = {
   Boards: "Progress, chat, comments and tags for every project.",
   Teams: "Tasks, progress and reports for the whole team.",
   "Team Chat": "Group chats, DMs, voice notes and images.",
-  "Voice & Video Calls": "Call any teammate in one click — no Zoom needed.",
+  "Voice & Video Calls": "Call any teammate in one click, no Zoom needed.",
   "Voice Messages": "Leave a voice note on any board comment.",
   "Mood Avatars": "Pick an avatar that matches your energy.",
   "Cloud Data": "Tasks, boards and notes backed up and ready anywhere.",
   Security: "Private access and privacy-first by default.",
   "Quick Sticky Notes": "Notes that float above your workspace.",
-  "Unlimited Team Members": "Invite everyone. No seat caps.",
+  "Room for Your Team": "Add your whole team. Priced per seat, from 3 to 50 people.",
   "Dark & Light Mode": "Switch themes and tune the colours.",
   "Notification Bell": "Know the moment a task or mention needs you.",
   "AI Email & Messages": "Draft or polish emails and messages in seconds.",
   "AI Meeting Notes to Tasks": "Paste your notes, get action items as tasks.",
   "AI Plan My Day": "A time-blocked plan built from your tasks.",
   "Reminders & Meetings": "Countdowns and a 5-minute alert before meetings.",
+  "Email Inbox": "Gmail or Outlook inside the app. Reply with AI, turn emails into tasks.",
+  "Calendar Sync": "Google Calendar and Outlook meetings on your calendar.",
   "Health & Hydration": "A water timer in your sidebar, one tap to log.",
 };
 
@@ -92,7 +98,6 @@ function FeatureCard({ title, description }: { title: string; description: strin
   return (
     <div
       className="flex h-full w-full items-start gap-3 rounded-xl border border-white/10 bg-[#111113] p-4 transition-colors duration-200 hover:border-white/20 hover:bg-[#18181b]"
-      title={description}
     >
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/[0.07] text-white/85">
         <Icon aria-hidden="true" className="h-[18px] w-[18px]" strokeWidth={1.9} />
@@ -213,7 +218,7 @@ export default function FeatureGrid() {
             One app. Everything you need.
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/65">
-            Tasks, boards, team chat and calls, KPIs, reminders and an AI assistant — in one window on your Mac.
+            Tasks, boards, team chat and calls, KPIs, reminders and an AI assistant, in one window on your Mac or Windows PC.
           </p>
         </motion.div>
 

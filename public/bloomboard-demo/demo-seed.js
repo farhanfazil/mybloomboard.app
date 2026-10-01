@@ -5,17 +5,108 @@
 (function () {
   'use strict';
 
+  /* Board covers: photos from the app's own picker (STOCK_PHOTOS), so they look like
+     a visitor's own choice. Boards without one show their colour instead. */
   var COVERS = [
-    'https://picsum.photos/seed/bb-launch-42/800/450',
-    'https://picsum.photos/seed/bb-sprint-17/800/450',
-    'https://picsum.photos/seed/bb-marketing-88/800/450',
-    'https://picsum.photos/seed/bb-design-31/800/450',
+    'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=400&h=250&fit=crop&auto=format&q=60', // Lake
+    'https://images.unsplash.com/photo-1494500764479-0c8f2919a3d8?w=400&h=250&fit=crop&auto=format&q=60', // Desert Sunset
+    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=250&fit=crop&auto=format&q=60', // Mountains
+    'https://images.unsplash.com/photo-1542744094-24638eff58bb?w=400&h=250&fit=crop&auto=format&q=60', // Workspace
   ];
 
+  /* The visitor's local date (toISOString would give UTC, a day early after midnight in UTC+ zones). */
   function isoDate(offsetDays) {
     var d = new Date();
     d.setDate(d.getDate() + offsetDays);
-    return d.toISOString().split('T')[0];
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+
+  /* Features added in app v1.2.42, shared by the Personal and Team workspaces:
+     In Review, a custom "Waiting on client" column, Meeting Notes
+     history, time off next month and a board with a background colour. */
+  function seedBoardAndNotesExtras(o) {
+    var now = Date.now();
+    var hour = 3600000;
+
+    /* Tasks: two in In Review, one of them in the custom column, plus the tasks a
+       past meeting turned into. */
+    var tasks = [];
+    try { tasks = JSON.parse(localStorage.getItem('bbd-dash-tasks') || '[]') || []; } catch (e) { tasks = []; }
+    function task(x) {
+      return Object.assign({
+        desc: '', notes: '', done: false, status: 'pending', priority: 'medium', deadline: null, project: null,
+        isRecurring: false, recurrenceRule: '', completedAt: null, moodTag: '', attachmentPaths: [],
+        subtasks: [], comments: [], ownerId: o.me, cardColor: '', createdAt: now - 20 * hour,
+      }, x);
+    }
+    function subs(prefix, texts) {
+      return texts.map(function (t, i) { return { id: prefix + '-' + i, text: t, done: false }; });
+    }
+    tasks.push(
+      task(Object.assign({ id: o.prefix + 'review', title: 'Spring campaign posters', status: 'review', priority: 'high',
+        deadline: isoDate(1), desc: 'Final versions for sign-off before they go to print.', project: o.project || null }, o.reviewExtra || {})),
+      task({ id: o.prefix + 'client', title: o.clientTitle, status: 'review', col: 'c_demo1', priority: 'medium',
+        deadline: isoDate(4), desc: 'Sent to the client on Monday. Waiting for their feedback.', project: o.project || null }),
+      task({ id: o.prefix + 'mtg-marketing', title: 'Marketing: launch plan', status: 'pending', priority: 'high', deadline: isoDate(5),
+        desc: 'From the Q4 launch sync.\n\nDecision: launch on a Thursday, with the email going out at 9 AM.',
+        subtasks: subs(o.prefix + 'mtg-m', ['Write the launch email', 'Schedule the social posts']) }),
+      task({ id: o.prefix + 'mtg-website', title: 'Website: launch fixes', status: 'pending', priority: 'medium', deadline: isoDate(6),
+        desc: 'From the Q4 launch sync.', subtasks: subs(o.prefix + 'mtg-w', ['Update the pricing page', 'Fix the mobile menu']) })
+    );
+    localStorage.setItem('bbd-dash-tasks', JSON.stringify(tasks));
+
+    /* Board columns: the four main ones plus "Waiting on client" just before Done. */
+    localStorage.setItem('bb-board-columns-v1', JSON.stringify({
+      order: ['pending', 'ongoing', 'review', 'c_demo1', 'done'],
+      custom: [{ id: 'c_demo1', name: 'Waiting on client' }],
+      names: {},
+    }));
+
+    /* No sticky note is seeded: the dashboard is busy enough, and the sticky
+       launcher on the right edge shows the feature. Clear any from an earlier visit. */
+    localStorage.removeItem('bloombooard-stickies-v1');
+
+    /* Meeting Notes history: one meeting turned into tasks, one kept as private notes. */
+    localStorage.setItem('bb-meetings-history-v1', JSON.stringify([
+      { id: 'mtg-demo-q4', title: 'Q4 launch sync', date: isoDate(-2), attendees: o.attendees, attendeeNames: o.attendeeNames,
+        topics: [
+          { title: 'Marketing', points: [
+            { text: 'Write the launch email' + (o.owner ? ' @' + o.owner : '') + ' by Thursday', kind: 'action' },
+            { text: 'Schedule the social posts for launch week', kind: 'action' },
+            { text: 'Launch on a Thursday, with the email going out at 9 AM', kind: 'decision' },
+          ] },
+          { title: 'Website', points: [
+            { text: 'Update the pricing page before launch', kind: 'action' },
+            { text: 'Fix the mobile menu on small phones', kind: 'action' },
+          ] },
+        ],
+        topicTasks: { '0': o.prefix + 'mtg-marketing', '1': o.prefix + 'mtg-website' },
+        taskIds: [o.prefix + 'mtg-marketing', o.prefix + 'mtg-website'], createdAt: now - 2 * 24 * hour },
+      { id: 'mtg-demo-private', title: 'Brightlane design review', date: isoDate(-4), attendees: [], attendeeNames: [],
+        topics: [
+          { title: 'Feedback', points: [
+            { text: 'They like the darker palette', kind: 'note' },
+            { text: 'Keep the logo on the left in the header', kind: 'decision' },
+            { text: 'Send two more hero options by Friday', kind: 'action' },
+          ] },
+        ],
+        topicTasks: {}, taskIds: [], createdAt: now - 4 * 24 * hour, private: true },
+    ]));
+
+    /* Time off: a five-day vacation next month. */
+    var events = [];
+    try { events = JSON.parse(localStorage.getItem('bbd-events') || '[]') || []; } catch (e) { events = []; }
+    events.push({ id: 'demo-leave-next-month', type: 'leave', title: 'Vacation', vacType: 'Vacation',
+      dateStart: isoDate(30), dateEnd: isoDate(34), time: '', notes: 'Family trip.', createdAt: now - 6 * 24 * hour,
+      reminderFreq: '', reminderTime: '', reminderNextFire: 0, reminderSnoozedUntil: 0 });
+    localStorage.setItem('bbd-events', JSON.stringify(events));
+
+    /* A board with its own background colour (only inside that board, never on the list). */
+    try {
+      var bd = JSON.parse(localStorage.getItem('bloombooard-boards-v1') || '{}');
+      var b = (bd.boards || []).filter(function (x) { return x.id === o.plumBoard; })[0];
+      if (b) { b.bgColor = 'g-plum'; localStorage.setItem('bloombooard-boards-v1', JSON.stringify(bd)); }
+    } catch (e) {}
   }
 
   function purgeNonDemoChats() {
@@ -69,7 +160,7 @@
 
     try {
       localStorage.setItem(
-        'farhan-dash-tasks',
+        'bbd-dash-tasks',
         JSON.stringify([
           {
             id: 'demo-p-task-1',
@@ -209,7 +300,7 @@
       );
 
       localStorage.setItem(
-        'farhan-events',
+        'bbd-events',
         JSON.stringify([
           {
             id: 'demo-p-ev-standup',
@@ -323,7 +414,7 @@
               desc: 'Specs, design, and go-to-market prep',
               icon: '🚀',
               color: 'bc-purple',
-              thumbImage: COVERS[1],
+              thumbImage: null,
               bgImage: null,
               categoryId: null,
               createdAt: new Date(now - hour * 48).toISOString(),
@@ -363,6 +454,12 @@
         })
       );
 
+      seedBoardAndNotesExtras({
+        prefix: 'demo-p-', me: null, clientTitle: 'Logo lockups for Brightlane',
+        stickyText: 'Book the dentist before Friday', owner: '',
+        attendees: [], attendeeNames: ['Alex', 'Jordan'],
+        plumBoard: 'demo-p-board-2',
+      });
       seedBloomWelcome(now);
       localStorage.setItem('bb-demo-seeded-v1', '1');
     } catch (e) {
@@ -659,6 +756,13 @@
         id: 'demo-leave-chloe', team_id: ID.team, owner_id: ID.chloe, title: 'Family trip', vac_type: 'Vacation',
         date_start: isoDate(0), date_end: isoDate(3), deleted: false,
       });
+      /* Leo and Priya overlap, so the Time off calendar shows both name pills on those days. */
+      demo.seed('shared_leaves', [
+        { id: 'demo-leave-leo', team_id: ID.team, owner_id: ID.leo, title: 'Conference', vac_type: 'Other',
+          date_start: isoDate(8), date_end: isoDate(11), deleted: false },
+        { id: 'demo-leave-priya', team_id: ID.team, owner_id: ID.priya, title: 'Beach week', vac_type: 'Vacation',
+          date_start: isoDate(10), date_end: isoDate(14), deleted: false },
+      ]);
 
       /* Local roster so names and faces render before the first pull lands. */
       localStorage.setItem('bloomboard-team-v1', JSON.stringify({
@@ -674,7 +778,7 @@
       localStorage.setItem('bloom-avatar-v3', 'arctic:blooms-arctic/Winking.png');
 
       /* ── Projects & tasks ── */
-      localStorage.setItem('farhan-dash-projects', JSON.stringify([
+      localStorage.setItem('bbd-dash-projects', JSON.stringify([
         { id: 'proj-website', name: 'Website Relaunch', colorHex: '#4d9fff', emoji: '🌐', sortOrder: 0 },
         { id: 'proj-mobile', name: 'Mobile App v2', colorHex: '#ff9f0a', emoji: '📱', sortOrder: 1 },
         { id: 'proj-brand', name: 'Spring Campaign', colorHex: '#a78bfa', emoji: '🌸', sortOrder: 2 },
@@ -688,7 +792,7 @@
           subtasks: [], comments: [], ownerId: ID.me, cardColor: '',
         }, o);
       }
-      localStorage.setItem('farhan-dash-tasks', JSON.stringify([
+      localStorage.setItem('bbd-dash-tasks', JSON.stringify([
         task({ id: 'demo-t-hero', title: 'Homepage hero redesign', project: 'proj-website', priority: 'urgent',
           deadline: isoDate(-1), createdAt: now - 30 * hour, iconColorIdx: 0 }),
         task({ id: 'demo-t-screens', title: 'App Store screenshots', desc: '6.7" and 5.5" sizes', project: 'proj-mobile',
@@ -723,8 +827,8 @@
           { id: prefix + '-done', title: 'Done', color: '#10b981', order: 2 },
         ];
       }
-      function board(id, title, desc, icon, color, ageH) {
-        return { id: id, title: title, desc: desc, icon: icon, color: color, bgImage: null, categoryId: null,
+      function board(id, title, desc, icon, color, ageH, cover) {
+        return { id: id, title: title, desc: desc, icon: icon, color: color, thumbImage: cover || null, bgImage: null, categoryId: null,
           labels: [], createdAt: new Date(now - ageH * hour).toISOString(), columns: cols(id) };
       }
       var cardN = 0;
@@ -747,10 +851,10 @@
       localStorage.setItem('bloombooard-boards-v1', JSON.stringify({
         categories: [],
         boards: [
-          board('demo-b-launch', 'Product Launch', 'Everything for launch day', '🚀', 'bc-blue', 120),
+          board('demo-b-launch', 'Product Launch', 'Everything for launch day', '🚀', 'bc-blue', 120, COVERS[1]),
           board('demo-b-brand', 'Brand Refresh', 'New identity rollout', '🎨', 'bc-purple', 90),
           board('demo-b-mobile', 'Mobile App v2', 'iOS & Android release', '📱', 'bc-green', 60),
-          board('demo-b-roadmap', 'Q4 Roadmap', 'Planning for next quarter', '🗺️', 'bc-orange', 30),
+          board('demo-b-roadmap', 'Q4 Roadmap', 'Planning for next quarter', '🗺️', 'bc-orange', 30, COVERS[2]),
         ],
         cards: [
           card('demo-b-launch', 'todo', 'Landing page', 'high', 0, ID.priya, 2),
@@ -782,7 +886,7 @@
           [ID.me, 'Yes, starting the key visual now'],
           [ID.maya, 'Amazing 🙌'],
           [ID.me, 'Sending the file now'],
-          [ID.maya, 'The banner looks great 👏'],
+          [ID.maya, 'The banner looks great 👏', { '❤️': [ID.me] }],
           [ID.me, 'Thanks! Social sizes next'],
           [ID.maya, 'Call in 5?'],
           [ID.me, 'Sure'],
@@ -846,7 +950,7 @@
           [ID.me, 'Final visuals land Wednesday 🎨'],
           [ID.nora, 'Press kit copy is in review'],
           [ID.chloe, '👀'],
-          [ID.ethan, 'The banner looks great 👏'],
+          [ID.ethan, 'The banner looks great 👏', { '👍': [ID.maya, ID.priya] }],
           [ID.maya, 'Approved 👍'],
           [ID.priya, '🎉'],
         ] },
@@ -871,7 +975,7 @@
           var ts = start + i * step + Math.floor(Math.random() * 4 * min);
           return {
             id: demo.uuid(), conversation_id: c.id, sender_id: who.id, sender_name: who.name,
-            html: line[1], text_content: line[1], ts: ts, reactions: {},
+            html: line[1], text_content: line[1], ts: ts, reactions: line[2] || {},
             created_at: new Date(ts).toISOString(), updated_at: new Date(ts).toISOString(),
           };
         });
@@ -891,7 +995,7 @@
         localStorage.setItem('bloom_chat_msgs_' + c.id, JSON.stringify(msgs.map(function (m) {
           return {
             id: m.id, senderId: m.sender_id, senderName: m.sender_name, html: m.html, text: m.text_content,
-            ts: m.ts, reactions: {}, edited: false, deleted: false, pinned: false, parentId: null,
+            ts: m.ts, reactions: m.reactions || {}, edited: false, deleted: false, pinned: false, parentId: null,
           };
         })));
       });
@@ -940,12 +1044,66 @@
         return Object.assign({ dateEnd: o.dateStart, time: '', notes: '', createdAt: now - 24 * hour,
           reminderFreq: '', reminderTime: '', reminderNextFire: 0, reminderSnoozedUntil: 0 }, o);
       }
-      localStorage.setItem('farhan-events', JSON.stringify([
-        ev({ id: 'demo-ev-review', type: 'meeting', title: 'Sprint review', dateStart: today, time: '15:00' }),
-        ev({ id: 'demo-ev-kickoff', type: 'meeting', title: 'Launch kickoff', dateStart: isoDate(2), time: '11:00' }),
+      /* Meetings in the app's own format (vendor/bb-meetings.js, v:2), spread over
+         this week so the Week view is full. */
+      function pad2(n) { return (n < 10 ? '0' : '') + n; }
+      function hhmm(mins) { return pad2(Math.floor(mins / 60) % 24) + ':' + pad2(mins % 60); }
+      var weekday = (new Date().getDay() + 6) % 7; /* Monday = 0 */
+      function thisWeek(dayIdx) { return isoDate(dayIdx - weekday); }
+      function meeting(o) {
+        var m = Object.assign({
+          v: 2, type: 'meeting', dateEnd: '', time: '09:00', durationMin: 30, allDay: false, repeat: 'none',
+          attendeeIds: [], call: 'none', link: '', location: '', alertMin: 5, notes: '',
+          ownerId: ID.me, teamId: ID.team, createdAt: now - 3 * 24 * hour, updatedAt: now - 3 * 24 * hour,
+          reminderFreq: '', reminderTime: '', reminderNextFire: 0, reminderSnoozedUntil: 0,
+        }, o);
+        if (m.allDay) { m.time = ''; m.durationMin = 0; m.timeEnd = ''; }
+        else {
+          var p = m.time.split(':');
+          m.timeEnd = hhmm(+p[0] * 60 + +p[1] + m.durationMin);
+        }
+        if (m.repeat !== 'none') m.seriesStart = m.dateStart;
+        return m;
+      }
+      /* One call starts a few minutes into the visit, so its Join call button unlocks
+         (it opens 10 minutes before the start). */
+      var soon = new Date(now + 12 * min);
+      soon.setMinutes(Math.ceil(soon.getMinutes() / 5) * 5, 0, 0);
+      var soonDate = soon.getFullYear() + '-' + pad2(soon.getMonth() + 1) + '-' + pad2(soon.getDate());
+      localStorage.setItem('bbd-events', JSON.stringify([
+        meeting({ id: 'demo-mtg-design-review', title: 'Weekly design review', dateStart: thisWeek(0), time: '10:00',
+          durationMin: 60, repeat: 'weekly', call: 'bloom', attendeeIds: [ID.ethan, ID.nora, ID.maya],
+          notes: 'Landing hero v3, onboarding screens and the launch video.' }),
+        meeting({ id: 'demo-mtg-one-on-one', title: '1:1 with Leo', dateStart: thisWeek(2), time: '11:00',
+          durationMin: 30, attendeeIds: [ID.leo], location: 'Room 2' }),
+        meeting({ id: 'demo-mtg-sprint', title: 'Sprint planning', dateStart: thisWeek(3), time: '14:00',
+          durationMin: 90, call: 'bloom', attendeeIds: [ID.maya, ID.daniel, ID.leo, ID.priya, ID.ethan],
+          notes: 'Bring your estimates for the Mobile App v2 cards.' }),
+        meeting({ id: 'demo-mtg-offsite', title: 'Company offsite', dateStart: thisWeek(4), allDay: true,
+          attendeeIds: [ID.maya, ID.daniel, ID.priya, ID.leo, ID.nora, ID.ethan, ID.chloe] }),
+        meeting({ id: 'demo-mtg-launch-sync', title: 'Launch sync', dateStart: soonDate, time: hhmm(soon.getHours() * 60 + soon.getMinutes()),
+          durationMin: 30, call: 'bloom', attendeeIds: [ID.maya, ID.priya], notes: 'Go / no-go for Thursday.' }),
         ev({ id: 'demo-ev-export', type: 'reminder', title: 'Export launch assets', dateStart: isoDate(1), reminderFreq: '1h', reminderTime: '10:00' }),
       ]));
 
+      /* Maya's meeting reaches Sam as a shared invite (the app pulls the events table). */
+      var acmeStart = new Date(thisWeek(1) + 'T09:00:00');
+      demo.seed('events', {
+        id: 'demo-mtg-acme', team_id: ID.team, owner_id: ID.maya, attendee_ids: [ID.me, ID.priya],
+        starts_at: acmeStart.toISOString(), ends_at: new Date(acmeStart.getTime() + 45 * min).toISOString(), deleted: false,
+        data: { type: 'meeting', title: 'Client kickoff with Acme', notes: 'Scope, timeline and who owns what on their side.',
+          dateStart: thisWeek(1), dateEnd: '', time: '09:00', allDay: false, durationMin: 45, repeat: 'none',
+          call: 'link', link: 'https://meet.example.com/acme-kickoff', location: '', alertMin: 10, createdAt: now - 4 * 24 * hour },
+        created_at: new Date(now - 4 * 24 * hour).toISOString(), updated_at: new Date(now - 4 * 24 * hour).toISOString(),
+      });
+
+      seedBoardAndNotesExtras({
+        prefix: 'demo-t-', me: ID.me, project: 'proj-brand', clientTitle: 'Pricing page for Acme',
+        reviewExtra: { ownerId: ID.maya, assigneeId: ID.me, assigneeIds: [ID.me] },
+        stickyText: 'Call Maya about the posters', owner: 'Priya',
+        attendees: [ID.maya, ID.priya, ID.leo], attendeeNames: ['Maya Chen', 'Priya Nair', 'Leo Hartmann'],
+        plumBoard: 'demo-b-brand',
+      });
       seedBloomWelcome(now);
       localStorage.setItem('bloom-profile-name', ME.name);
       localStorage.setItem('bb-demo-seeded-v1', '1');

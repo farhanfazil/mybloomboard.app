@@ -137,7 +137,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.65 }}
             >
-              {/* Butterfly — lands near the Start Flow button */}
+              {/* Butterfly — lands near the Start Bloom button */}
               <motion.div
                 className="pointer-events-none absolute left-[55%] top-0 z-20 hidden lg:block"
                 style={{ willChange: "transform, opacity" }}
@@ -169,7 +169,7 @@ export default function Hero() {
 
               <GlowButton label="Download Free" variant="primary" large href={download.url} />
               <a
-                href="https://buy.polar.sh/polar_cl_bcGVnrH6RUJvB6pVEhW0kRdOJ1wa82yn9xuPK480cmt"
+                href="/start?plan=bloom"
                 className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-sm transition-all duration-300 hover:scale-[1.04] hover:brightness-110 active:scale-[0.98]"
                 style={{
                   background: "linear-gradient(155deg, rgba(7,23,43,0.97) 0%, rgba(6,13,24,0.96) 50%, rgba(7,20,36,0.97) 100%)",
@@ -180,7 +180,7 @@ export default function Hero() {
                   WebkitBackdropFilter: "blur(12px)",
                 }}
               >
-                Start Flow Trial →
+                Start Bloom Trial →
               </a>
             </motion.div>
 
