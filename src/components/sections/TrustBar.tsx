@@ -11,7 +11,7 @@ const TRUST_ITEMS = [
   { icon: Bot,         label: "AI assistant included",   sub: "Plans your day with you" },
 ];
 
-export default function TrustBar() {
+export default function TrustBar({ light = false }: { light?: boolean } = {}) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
 
@@ -32,13 +32,13 @@ export default function TrustBar() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.4, delay: i * 0.07 }}
-                className="border-t border-white/15 pt-4"
+                className={`border-t pt-4 ${light ? "border-black/10" : "border-white/15"}`}
               >
-                <p className="flex items-center gap-2 text-sm font-medium text-white">
-                  <Icon className="h-4 w-4 shrink-0 text-white/60" strokeWidth={1.8} />
+                <p className={`flex items-center gap-2 text-sm font-medium ${light ? "text-[#1d1d1f]" : "text-white"}`}>
+                  <Icon className={`h-4 w-4 shrink-0 ${light ? "text-[#6e6e73]" : "text-white/60"}`} strokeWidth={1.8} />
                   {item.label}
                 </p>
-                <p className="mt-1 text-sm leading-snug text-white/50">{item.sub}</p>
+                <p className={`mt-1 text-sm leading-snug ${light ? "text-[#6e6e73]" : "text-white/50"}`}>{item.sub}</p>
               </motion.div>
             );
           })}

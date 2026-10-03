@@ -5,6 +5,7 @@ import DemoIframe from "@/components/sections/DemoIframe";
 import DemoReactionsBar from "@/components/sections/DemoReactionsBar";
 import DemoUsefulPoll from "@/components/sections/DemoUsefulPoll";
 import PhoneDemoPitch from "@/components/sections/PhoneDemoPitch";
+import StickyPopouts from "@/components/sections/StickyPopouts";
 
 const APP_W = 1280;
 const APP_H = 920;
@@ -101,7 +102,7 @@ export default function LiveDemoFrame({
           className="flex items-center gap-3 px-4"
           style={{
             height: TITLE_BAR_H,
-            background: "rgba(10, 18, 30, 0.98)",
+            background: "#1c1c1c",
             borderBottom: "1px solid rgba(255,255,255,0.06)",
           }}
         >
@@ -116,7 +117,7 @@ export default function LiveDemoFrame({
 
         <div
           ref={frameRef}
-          className="relative w-full overflow-hidden bg-[#0a1520]"
+          className="relative w-full overflow-hidden bg-[#171717]"
           style={{ height: viewportH }}
         >
           {!iframeReady || phone !== false ? (
@@ -126,8 +127,8 @@ export default function LiveDemoFrame({
           ) : (
             <DemoIframe
               title="BloomBoard interactive demo"
-              src={`/bloomboard-demo/index.html?embed=home&ws=${workspaces}&v=30`}
-              className="!absolute left-0 top-0 bg-[#0a1520]"
+              src={`/bloomboard-demo/index.html?embed=home&ws=${workspaces}&v=32`}
+              className="!absolute left-0 top-0 bg-[#171717]"
               style={{
                 width: APP_W,
                 height: APP_H,
@@ -139,6 +140,7 @@ export default function LiveDemoFrame({
         </div>
       </div>
       <DemoUsefulPoll className="mt-4" />
+      <StickyPopouts />
     </div>
   );
 }

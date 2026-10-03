@@ -153,7 +153,9 @@ function cellLines(text: string) {
 
 const BLOOM_TINT = "rgba(18,62,90,0.055)";
 
-function DataCell({ value, isBloom }: { value: string; isBloom: boolean }) {
+const DIVIDER = "border-l border-black/[0.05]";
+
+function DataCell({ value, isBloom, divider = false }: { value: string; isBloom: boolean; divider?: boolean }) {
   const status = cellStatus(value);
   const [first, ...rest] = cellLines(value);
 
@@ -172,7 +174,7 @@ function DataCell({ value, isBloom }: { value: string; isBloom: boolean }) {
 
   const label =
     status === "partial" ? (
-      <span className="inline-block rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-amber-200/80">
+      <span className="inline-block rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600 ring-1 ring-zinc-200">
         {first || "Limited"}
       </span>
     ) : first ? (
@@ -183,7 +185,7 @@ function DataCell({ value, isBloom }: { value: string; isBloom: boolean }) {
 
   return (
     <td
-      className="border-b border-black/[0.06] px-3 py-3.5 text-center align-middle text-sm"
+      className={`border-b border-black/[0.06] px-3 py-3.5 text-center align-middle text-sm ${divider ? DIVIDER : ""}`}
       style={isBloom ? { background: BLOOM_TINT } : undefined}
     >
       <span className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
@@ -224,7 +226,7 @@ function MobileCell({ value, isBloom }: { value: string; isBloom: boolean }) {
       style={isBloom ? { background: BLOOM_TINT } : undefined}
     >
       {status === "partial" ? (
-        <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-medium leading-tight text-amber-700 ring-1 ring-amber-200/80">
+        <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-medium leading-tight text-zinc-600 ring-1 ring-zinc-200">
           {first || "Limited"}
         </span>
       ) : (
@@ -367,7 +369,7 @@ function ComparisonTable({
                   className={`whitespace-nowrap border-b border-black/[0.08] bg-white/95 px-3 py-4 text-[13px] font-semibold backdrop-blur ${
                     i === 0
                       ? "w-[24%] rounded-tl-2xl text-left text-[#86868b] font-medium"
-                      : `text-center text-[#1d1d1f] ${i === headers.length - 1 ? "rounded-tr-2xl" : ""}`
+                      : `text-center text-[#1d1d1f] ${i === headers.length - 1 ? "rounded-tr-2xl" : ""} ${i >= 3 ? DIVIDER : ""}`
                   }`}
                   style={i === 1 ? { background: "rgba(236,242,246,0.97)" } : undefined}
                 >
@@ -393,7 +395,7 @@ function ComparisonTable({
                     {headers.slice(1).map((h, ci) => (
                       <td
                         key={h}
-                        className="border-b border-black/[0.06]"
+                        className={`border-b border-black/[0.06] ${ci >= 2 ? DIVIDER : ""}`}
                         style={ci === 0 ? { background: BLOOM_TINT } : undefined}
                       />
                     ))}
@@ -433,7 +435,7 @@ function ComparisonTable({
                     )}
                   </td>
                   {cols.map((val, ci) => (
-                    <DataCell key={ci} value={val} isBloom={ci === 0} />
+                    <DataCell key={ci} value={val} isBloom={ci === 0} divider={ci >= 2} />
                   ))}
                 </tr>
               );
@@ -446,7 +448,7 @@ function ComparisonTable({
       <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-[#6e6e73]">
         <span className="inline-flex items-center gap-1.5"><Check className="h-4 w-4 text-emerald-600" strokeWidth={2.8} /> Included</span>
         <span className="inline-flex items-center gap-1.5"><Minus className="h-4 w-4 text-[#c7c7cc]" strokeWidth={2.4} /> Not available</span>
-        <span className="inline-flex items-center gap-1.5"><span className="rounded-full bg-amber-50 px-2 py-0.5 font-medium text-amber-700 ring-1 ring-amber-200/80">Paid</span> Limited or paid extra</span>
+        <span className="inline-flex items-center gap-1.5"><span className="rounded-full bg-zinc-100 px-2 py-0.5 font-medium text-zinc-600 ring-1 ring-zinc-200">Paid</span> Limited or paid extra</span>
       </div>
     </div>
   );
@@ -459,7 +461,12 @@ type ComparisonTableId = "teams" | "freelance";
 /** `tables` picks which comparisons to show; the home page shows only Solo & Teams. */
 export default function ComparisonSection({
   tables = ["teams"],
-}: { tables?: ComparisonTableId[] } = {}) {
+  embedded = false,
+}: {
+  tables?: ComparisonTableId[];
+  /** Inside a light panel that already has the frame (the home page's reveal panel). */
+  embedded?: boolean;
+} = {}) {
   const showTeams = tables.includes("teams");
   const showFreelance = tables.includes("freelance");
   const both = showTeams && showFreelance;
@@ -478,8 +485,8 @@ export default function ComparisonSection({
   };
 
   return (
-    <section ref={sectionRef} data-hide-header className="bg-black px-2 py-6 sm:px-4">
-      <div className="rounded-[28px] bg-[#f5f5f7] px-4 py-16 sm:rounded-[36px] sm:px-8 sm:py-24">
+    <section ref={sectionRef} data-hide-header className={embedded ? "" : "bg-black px-2 py-6 sm:px-4"}>
+      <div className={embedded ? "px-4 pb-4 pt-16 sm:px-8 sm:pt-24" : "rounded-[28px] bg-[#f5f5f7] px-4 py-16 sm:rounded-[36px] sm:px-8 sm:py-24"}>
         <div className="mx-auto max-w-6xl">
           <div className="flex flex-col items-center gap-4 text-center">
             <h2 className="text-3xl font-semibold tracking-tight text-[#1d1d1f] sm:text-5xl">

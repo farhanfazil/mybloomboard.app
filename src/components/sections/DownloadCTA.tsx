@@ -76,7 +76,7 @@ export default function DownloadCTA() {
             </div>
             <AlsoAvailable choice={device.alternate} note={device.note} />
             <p className="max-w-xs text-xs leading-relaxed text-text-muted sm:max-w-none">
-              Mac: macOS 12+, Apple Silicon & Intel. Windows: Windows 10 & 11, from the Microsoft Store.
+              Mac: macOS 13+, Apple Silicon & Intel. Windows: Windows 10 & 11, from the Microsoft Store.
               Free plan available forever.
             </p>
           </div>

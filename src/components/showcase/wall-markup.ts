@@ -1,0 +1,2 @@
+// Generated from the approved mockup.
+export const MARKUP = "<section>\n  <h2>One app. Everything you need.</h2>\n  <p class=\"sub\">Tasks, boards, team chat and calls, an office for your team and an AI assistant, in one window on your Mac or Windows PC.</p>\n  <div class=\"wall\" id=\"wall\"><svg class=\"links\" id=\"links\"></svg></div>\n  <div class=\"detail\" id=\"detail\"></div>\n</section>";

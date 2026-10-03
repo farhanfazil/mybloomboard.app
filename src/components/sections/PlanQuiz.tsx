@@ -57,11 +57,28 @@ export default function PlanQuiz({
   steps = HOME_STEPS,
   results = HOME_RESULTS,
   note = "You can switch plans any time.",
+  light = false,
 }: {
   steps?: QuizStep[];
   results?: Partial<Record<PlanKey, PlanResult>>;
   note?: string;
+  /** Dark text on a light panel (used inside the light reveal panel on the home page). */
+  light?: boolean;
 } = {}) {
+  /* Text colours for the dark (default) and light versions. */
+  const c = light
+    ? {
+        h: "text-[#1d1d1f]", lead: "text-[#6e6e73]", note: "border-black/15 text-[#6e6e73]", meta: "text-[#6e6e73]",
+        line: "border-black/10", opt: "text-[#3a3a3c] hover:text-[#1d1d1f]", letter: "text-[#6e6e73] group-hover:text-[#1d1d1f]",
+        arrow: "text-transparent group-hover:text-[#6e6e73]", desc: "text-[#3a3a3c]",
+        cta: "bg-[#1d1d1f] text-white hover:bg-black", again: "text-[#6e6e73] hover:text-[#1d1d1f]",
+      }
+    : {
+        h: "text-white", lead: "text-white/65", note: "border-white/15 text-white/50", meta: "text-white/50",
+        line: "border-white/10", opt: "text-white/80 hover:text-white", letter: "text-white/35 group-hover:text-white/70",
+        arrow: "text-white/0 group-hover:text-white/70", desc: "text-white/65",
+        cta: "bg-white text-black hover:bg-white/90", again: "text-white/60 hover:text-white",
+      };
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const [step, setStep] = useState(0);
@@ -104,13 +121,13 @@ export default function PlanQuiz({
       >
         {/* Left: the pitch */}
         <div className="text-center lg:text-left">
-          <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl">
+          <h2 className={`text-3xl font-bold leading-tight ${c.h} sm:text-4xl`}>
             Which plan is right for you?
           </h2>
-          <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-white/65 lg:mx-0">
+          <p className={`mx-auto mt-4 max-w-md text-base leading-relaxed ${c.lead} lg:mx-0`}>
             Answer a couple of quick questions and we&apos;ll point you to the right plan.
           </p>
-          <p className="mx-auto mt-6 hidden max-w-md border-l-2 border-white/15 pl-4 text-sm leading-relaxed text-white/50 lg:block">
+          <p className={`mx-auto mt-6 hidden max-w-md border-l-2 pl-4 text-sm leading-relaxed ${c.note} lg:block`}>
             {note}
           </p>
         </div>
@@ -126,26 +143,26 @@ export default function PlanQuiz({
                 exit={{ opacity: 0, x: -16 }}
                 transition={{ duration: 0.2 }}
               >
-                <p className="text-sm text-white/50">
+                <p className={`text-sm ${c.meta}`}>
                   Question {step + 1} of {steps.length}
                 </p>
-                <h3 className="mt-1.5 text-xl font-semibold leading-snug text-white">
+                <h3 className={`mt-1.5 text-xl font-semibold leading-snug ${c.h}`}>
                   {steps[step].question}
                 </h3>
 
-                <div className="mt-6 border-t border-white/10">
+                <div className={`mt-6 border-t ${c.line}`}>
                   {steps[step].options.map((opt, i) => (
                     <button
                       key={opt.label}
                       type="button"
                       onClick={() => pick(opt)}
-                      className="group flex w-full items-center gap-4 border-b border-white/10 py-4 text-left text-base text-white/80 transition-colors duration-150 hover:text-white"
+                      className={`group flex w-full items-center gap-4 border-b ${c.line} py-4 text-left text-base ${c.opt} transition-colors duration-150`}
                     >
-                      <span className="w-4 shrink-0 text-sm font-medium text-white/35 transition-colors group-hover:text-white/70">
+                      <span className={`w-4 shrink-0 text-sm font-medium ${c.letter} transition-colors`}>
                         {LETTERS[i]}
                       </span>
                       <span className="flex-1">{opt.label}</span>
-                      <ArrowRight className="h-4 w-4 shrink-0 text-white/0 transition-colors group-hover:text-white/70" />
+                      <ArrowRight className={`h-4 w-4 shrink-0 ${c.arrow} transition-colors`} />
                     </button>
                   ))}
                 </div>
@@ -157,13 +174,13 @@ export default function PlanQuiz({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25 }}
               >
-                <p className="text-sm text-white/50">We&apos;d suggest</p>
-                <p className="mt-1 text-3xl font-bold text-white">{plan.name}</p>
-                <p className="mt-3 text-sm leading-relaxed text-white/65">{plan.desc}</p>
+                <p className={`text-sm ${c.meta}`}>We&apos;d suggest</p>
+                <p className={`mt-1 text-3xl font-bold ${c.h}`}>{plan.name}</p>
+                <p className={`mt-3 text-sm leading-relaxed ${c.desc}`}>{plan.desc}</p>
                 <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
                   <a
                     href={plan.href}
-                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-black transition-colors hover:bg-white/90"
+                    className={`inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors ${c.cta}`}
                   >
                     Get started with {plan.name}
                     <ArrowRight className="h-4 w-4" />
@@ -171,7 +188,7 @@ export default function PlanQuiz({
                   <button
                     type="button"
                     onClick={reset}
-                    className="inline-flex items-center justify-center gap-1.5 px-2 py-2.5 text-sm font-medium text-white/60 transition-colors hover:text-white"
+                    className={`inline-flex items-center justify-center gap-1.5 px-2 py-2.5 text-sm font-medium transition-colors ${c.again}`}
                   >
                     <RotateCcw className="h-3.5 w-3.5" />
                     Start over

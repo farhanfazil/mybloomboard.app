@@ -393,3 +393,9 @@ body {
     animation: none;
   }
 }
+
+/* Homepage headline: blinking caret after the retyping verb (HeroVerb). */
+@keyframes bb-hero-caret { 50% { opacity: 0; } }
+.bb-hero-caret { animation: bb-hero-caret 1s steps(1) infinite; }
+@media (prefers-reduced-motion: reduce) { .bb-hero-caret { animation: none; } }
+

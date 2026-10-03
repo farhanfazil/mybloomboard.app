@@ -31,8 +31,11 @@ const footerLinks: FooterSection[] = [
     label: "Product",
     links: [
       { title: "Live demo", href: "/#live-demo", icon: LayoutDashboardIcon },
+      { title: "Features", href: "/#features", icon: LayoutDashboardIcon },
+      { title: "Office", href: "/office", icon: LayoutDashboardIcon },
       { title: "Pricing", href: "/#pricing", icon: ChartNoAxesColumnIncreasingIcon },
       { title: "Download", href: "/#download", icon: DownloadIcon },
+      { title: "Manage subscription", href: "/account", icon: ChartNoAxesColumnIncreasingIcon },
     ],
   },
   {

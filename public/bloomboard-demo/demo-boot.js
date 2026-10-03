@@ -167,11 +167,11 @@
 
       if (window.__bbDemoFresh) clearSampleData();
 
-      /* The demo opens in the Light theme. A workspace switch reloads the page, so
-         the theme the visitor picked is carried over instead. */
+      /* The demo opens in the Black theme, to sit with the dark website. A workspace
+         switch reloads the page, so the theme the visitor picked is carried over instead. */
       var carried = sessionStorage.getItem('bb-demo-carry-theme');
       sessionStorage.removeItem('bb-demo-carry-theme');
-      localStorage.setItem('bb-theme', carried || 'light');
+      localStorage.setItem('bb-theme', carried || 'black');
 
       /* Dashboard Assignments start minimized; visitors can expand them. */
       localStorage.setItem('bloomboard-board-assignments-collapsed-v1', '1');
@@ -603,7 +603,7 @@
       '<span class="bb-demo-ws-title">' + (fresh ? 'Fresh start' : 'Live demo') + '</span>' +
       '<span class="bb-demo-ws-hint">' + (fresh
         ? 'An empty app, just like a new download.'
-        : 'A sample workspace. Try anything, it resets when you leave.') + '</span>' +
+        : (current === 'team' ? 'A sample team. Click anything, nothing you do is saved.' : 'A sample workspace. Click anything, nothing you do is saved.')) + '</span>' +
       '</div>' +
       '<div class="bb-demo-ws-right-group">' + dataBtn +
       (DEMO_WS_OPTIONS.length > 1 ? '<div class="bb-demo-ws-pills" role="tablist">' + pills + '</div>' : '') +
@@ -1049,6 +1049,12 @@
       '.bb-web-demo-lock{margin-left:auto;font-size:10px;opacity:.85;flex-shrink:0}' +
       '.bb-web-demo-lock-bubble{position:absolute;top:-4px;right:-4px;font-size:11px;pointer-events:none}' +
       '.layout{position:relative!important}' +
+      /* No reward pop-up ("First task done!", streaks) while the demo plays its own story. */
+      '#reward-toast{display:none!important}' +
+      /* The website shows the demo scaled down, so the sidebar reads a size up. */
+      '.sb-nav-item .sb-nav-label{font-size:14.5px!important}' +
+      '.sb-nav-item > svg,.sb-nav-item .sb-nav-icon svg{width:18px!important;height:18px!important}' +
+      '.sb-nav-heading{font-size:10.5px!important}' +
       'body.bb-web-demo-embed .layout{padding-top:52px!important;height:100%!important}' +
       'body.bb-web-demo-active .layout{padding-top:52px!important;min-height:100vh!important}' +
       '.main-area{position:relative!important}' +
@@ -1196,7 +1202,7 @@
     startDemoWorkspaceBoot();
     patchDemoToast();
     watchBloomBubble();
-    interceptGatedClicks();
+    /* Email opens the seeded inbox (demo-mail.js); only connecting a real account shows the Mac-app card. */
     fixBloomBubble();
     syncDemoSwitcherOffset();
     window.addEventListener('resize', syncDemoSwitcherOffset);
@@ -1372,4 +1378,111 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(start, 2000); });
   else setTimeout(start, 2000);
+})();
+
+/* ── Sticky notes pop out of the demo onto the website ──
+   The demo runs in a frame, so a note can't be dragged straight out of it.
+   Instead, dragging a note to the edge of the demo window (or clicking the
+   pop-out button on the note) hands it to the website page (LiveDemoFrame's
+   StickyPopouts), which takes over the same note and the same drag. The note
+   then leaves the demo, like the Mac app's "pop out onto your desktop". */
+(function () {
+  'use strict';
+  if (window.parent === window) return;
+  var SK = 'bloombooard-stickies-v1';
+  var drag = null;      /* { id, offX, offY } while a note is held */
+  var handed = false;   /* the note has gone to the page; forward the drag */
+
+  function noteData(el) {
+    var id = el.id.replace(/^sn-/, '');
+    var stored = [];
+    try { stored = JSON.parse(localStorage.getItem(SK) || '[]') || []; } catch (e) {}
+    var n = stored.filter(function (x) { return String(x.id) === id; })[0] || {};
+    var ta = el.querySelector('.sn-textarea');
+    var color = (el.className.match(/sn-(yellow|pink|blue|green|purple)/) || [])[0] || n.color || 'sn-yellow';
+    return { id: id, text: ta ? ta.value : (n.text || ''), color: color, fontSize: n.fontSize || 14, ts: n.ts || '' };
+  }
+  function popOut(el, x, y, offX, offY, dragging) {
+    var r = el.getBoundingClientRect();
+    window.parent.postMessage({
+      type: 'bb-sticky-pop', note: noteData(el), x: x, y: y,
+      offX: offX, offY: offY, w: r.width, dragging: !!dragging,
+    }, location.origin);
+    /* gone from the demo: the app's own delete keeps its data tidy */
+    var del = el.querySelector('.sn-del-btn');
+    if (del) del.click();
+  }
+
+  /* a pop-out button on every note, beside the close button */
+  var POP_SVG = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 9V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4"/><rect x="12" y="13" width="10" height="7" rx="1.5" fill="currentColor" fill-opacity=".25"/></svg>';
+  function addButton(el) {
+    if (!el.classList || !el.classList.contains('sticky-note') || el.querySelector('.bbd-sn-pop')) return;
+    var del = el.querySelector('.sn-del-btn');
+    if (!del) return;
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'bbd-sn-pop';
+    b.title = 'Pop out onto the page';
+    b.setAttribute('aria-label', 'Pop out onto the page');
+    b.innerHTML = POP_SVG;
+    b.addEventListener('mousedown', function (e) { e.stopPropagation(); });
+    b.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var r = el.getBoundingClientRect();
+      popOut(el, r.left + 20, r.top + 14, 20, 14, false);
+    });
+    del.parentNode.insertBefore(b, del);
+  }
+  var css = document.createElement('style');
+  css.textContent =
+    '.sticky-note .bbd-sn-pop{width:22px;height:22px;padding:0;border:0;border-radius:6px;background:transparent;color:rgba(0,0,0,.5);display:grid;place-items:center;cursor:pointer;margin-left:auto}' +
+    '.sticky-note .bbd-sn-pop:hover{background:rgba(0,0,0,.07);color:rgba(0,0,0,.85)}';
+  (document.head || document.documentElement).appendChild(css);
+
+  function watch() {
+    [].forEach.call(document.querySelectorAll('.sticky-note'), addButton);
+    new MutationObserver(function (ms) {
+      ms.forEach(function (m) { [].forEach.call(m.addedNodes, function (n) { if (n.nodeType === 1) addButton(n); }); });
+    }).observe(document.body, { childList: true });
+  }
+  if (document.body) watch(); else document.addEventListener('DOMContentLoaded', watch);
+
+  /* dragging a note out through the edge */
+  document.addEventListener('mousedown', function (e) {
+    var hd = e.target.closest && e.target.closest('.sticky-note .sn-header');
+    if (!hd || e.button !== 0 || e.target.closest('button, .sn-color-dot')) return;
+    var el = hd.closest('.sticky-note'), r = el.getBoundingClientRect();
+    drag = { el: el, offX: e.clientX - r.left, offY: e.clientY - r.top };
+    handed = false;
+  }, true);
+  document.addEventListener('mousemove', function (e) {
+    if (!drag) return;
+    if (handed) {
+      window.parent.postMessage({ type: 'bb-sticky-move', x: e.clientX, y: e.clientY }, location.origin);
+      return;
+    }
+    var edge = 3;
+    if (e.clientX <= edge || e.clientY <= edge || e.clientX >= window.innerWidth - edge || e.clientY >= window.innerHeight - edge) {
+      handed = true;
+      /* let the app's own drag go first, then hand the note over */
+      document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, clientX: e.clientX, clientY: e.clientY }));
+      popOut(drag.el, e.clientX, e.clientY, drag.offX, drag.offY, true);
+    }
+  }, true);
+  /* if the pointer leaves the frame without passing the edge (a fast flick) */
+  document.addEventListener('mouseout', function (e) {
+    if (!drag || handed || e.relatedTarget) return;
+    handed = true;
+    document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, clientX: e.clientX, clientY: e.clientY }));
+    popOut(drag.el, e.clientX, e.clientY, drag.offX, drag.offY, true);
+  }, true);
+  document.addEventListener('mouseup', function (e) {
+    if (!drag) return;
+    if (handed && e.isTrusted) {
+      window.parent.postMessage({ type: 'bb-sticky-drop', x: e.clientX, y: e.clientY }, location.origin);
+      drag = null; handed = false;
+    } else if (!handed) {
+      drag = null;
+    }
+  }, true);
 })();

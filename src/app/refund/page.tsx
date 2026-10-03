@@ -12,7 +12,9 @@ const SECTIONS: { title: string; body: string[] }[] = [
   {
     title: "Free trial",
     body: [
-      "Bloom starts with a 7-day free trial and Team with a 14-day free trial. If you start the trial on mybloomboard.app, no card is needed. If you do nothing, you move to the free plan when the trial ends and keep your tasks.",
+      "Bloom starts with a 7-day free trial and Team with a 14-day free trial (for up to 10 people). There are two ways to start one.",
+      "On mybloomboard.app without checkout: no card is needed. If you do nothing, you move to the Free plan when the trial ends and keep your tasks.",
+      "Through checkout: you add a payment method. When the trial ends, your paid plan starts and you are charged automatically, unless you cancel before the trial ends. If you cancel during the trial, you are not charged.",
     ],
   },
   {
@@ -53,7 +55,7 @@ export default function RefundPage() {
       </header>
       <main className="mx-auto max-w-[720px] px-5 pb-24 pt-10 md:pt-16">
         <h1 className="text-[34px] font-bold tracking-[-0.03em] md:text-[40px]">Refund policy</h1>
-        <p className="mt-2 text-sm text-[#a1a1aa]">Last updated: 29 September 2026</p>
+        <p className="mt-2 text-sm text-[#a1a1aa]">Last updated: 3 October 2026</p>
         <div className="mt-10 flex flex-col gap-9">
           {SECTIONS.map((s) => (
             <section key={s.title}>

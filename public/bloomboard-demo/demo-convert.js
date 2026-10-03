@@ -334,12 +334,14 @@
     var now = {};
     Object.keys(COUNTED).forEach(function (k) { now[k] = COUNTED[k](); });
     if (!baseline) { baseline = now; return; }
+    /* Tasks the demo's own story adds (demo-sim.js) aren't the visitor's. */
+    if (window.__bbAutoTasks) { baseline = now; return; }
     Object.keys(now).forEach(function (k) {
       var grew = now[k] - baseline[k];
       for (var i = 0; i < grew; i++) { track('create', k); created++; }
     });
     baseline = now;
-    if (created >= 2) showNudge();
+    /* No "demo changes vanish" banner after the visitor makes things: it covered the app. */
   }
   /* Start after the app has hydrated, so seeding and the first sync don't count. */
   setTimeout(function () {
@@ -426,8 +428,8 @@
     document.body.appendChild(el);
     requestAnimationFrame(function () { el.classList.add('show'); });
   }
-  /* After the app has drawn, so the card arrives on a settled screen. */
-  setTimeout(showWelcome, 1800);
+  /* No welcome card: it covered the app. The "Live demo" strip at the top says
+     the same thing ("A sample team. Click anything, nothing you do is saved."). */
 
   /* ── 5b. "What brings you here?" once the visitor has clearly engaged ── */
   var INTERESTS = [
@@ -439,6 +441,8 @@
     if (visit.interest || document.getElementById('bb-demo-interest')) return;
     if (visit.seconds < 75 && visit.actions < 8) return;
     if (document.getElementById('bb-demo-welcome')) return;
+    /* Not while the demo is showing its own story (demo-sim.js). */
+    if (window.__bbStoryRunning) return;
     var overlay = document.getElementById('upgrade-overlay');
     if (overlay && overlay.classList.contains('open')) return;
     if (document.getElementById('bb-demo-nudge')) return;

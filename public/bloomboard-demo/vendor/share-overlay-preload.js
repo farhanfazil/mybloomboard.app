@@ -1,0 +1,1 @@
+const{contextBridge:contextBridge,ipcRenderer:ipcRenderer}=require("electron");contextBridge.exposeInMainWorld("bbInk",{send:e=>ipcRenderer.send("bb-ink-overlay",e),size:(e,n)=>ipcRenderer.send("bb-ink-size",{w:e,h:n}),placed:()=>ipcRenderer.send("bb-ink-placed"),onMessage:e=>ipcRenderer.on("bb-ink",(n,r)=>e(r))});

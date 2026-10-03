@@ -12,6 +12,21 @@
     'https://images.unsplash.com/photo-1494500764479-0c8f2919a3d8?w=400&h=250&fit=crop&auto=format&q=60', // Desert Sunset
     'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=250&fit=crop&auto=format&q=60', // Mountains
     'https://images.unsplash.com/photo-1542744094-24638eff58bb?w=400&h=250&fit=crop&auto=format&q=60', // Workspace
+    'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&h=250&fit=crop&auto=format&q=60', // Alpine lake
+    'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&h=250&fit=crop&auto=format&q=60', // Green hills
+    'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=400&h=250&fit=crop&auto=format&q=60', // Forest bridge
+    'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=400&h=250&fit=crop&auto=format&q=60', // Red canyon road
+    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=250&fit=crop&auto=format&q=60', // Beach
+    'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=250&fit=crop&auto=format&q=60', // Forest path
+    'https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?w=400&h=250&fit=crop&auto=format&q=60', // Misty pines
+    'https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=400&h=250&fit=crop&auto=format&q=60', // Waterfall
+    'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=400&h=250&fit=crop&auto=format&q=60', // Valley
+    'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&h=250&fit=crop&auto=format&q=60', // Poppies
+    'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=400&h=250&fit=crop&auto=format&q=60', // Office
+    'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=250&fit=crop&auto=format&q=60', // Open office
+    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&h=250&fit=crop&auto=format&q=60', // Mountain view
+    'https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=400&h=250&fit=crop&auto=format&q=60', // Granite cliff
+    'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=250&fit=crop&auto=format&q=60', // Golden valley
   ];
 
   /* Chat pictures and files must be https links (the app drops anything else), so on
@@ -117,8 +132,23 @@
 
     seedWorkLog(o, now);
     seedBloomThreads(now);
+    seedNotes(now);
     localStorage.removeItem('bloom-avatar-v3');
     localStorage.setItem('bloom-avatar-custom-v1', SAM_PHOTO);
+  }
+
+  /* Notes: a few everyday notes and one locked with a PIN (1234, given in the tip
+     note) so visitors can try the PIN lock. pinHash is the app's own hash of
+     note id + PIN (bbHashNotePin). */
+  function seedNotes(now) {
+    var hour = 3600000;
+    localStorage.setItem('bloomboard-notes-v1', JSON.stringify([
+      { id: 'demo-note-tip', title: 'Try the PIN lock', body: 'The note "Salary review" is locked. Its PIN is 1234.\n\nOpen any note and press the lock icon to give it a PIN of your own.', pinned: true, pinHash: '', createdAt: now - 2 * hour, updatedAt: now - 2 * hour },
+      { id: 'demo-note-private', title: 'Salary review', body: 'Notes for the October review.\n\n- Maya: promote to Senior Designer\n- Ethan: raise from January\n- Budget approved by finance', pinned: false, pinHash: 'bc5c469637c113bb642f7a603b70071e679a832ed1bb512d4b9ab5c3839bf14a', createdAt: now - 26 * hour, updatedAt: now - 5 * hour },
+      { id: 'demo-note-launch', title: 'Launch day checklist', body: '- Final banner sizes to Acme\n- App Store copy review\n- Press kit link in the newsletter\n- Thank-you note to the beta group', pinned: false, pinHash: '', createdAt: now - 50 * hour, updatedAt: now - 20 * hour },
+      { id: 'demo-note-ideas', title: 'Ideas for Q4', body: '- Customer stories on the homepage\n- A shorter onboarding\n- Team offsite in Lisbon', pinned: false, pinHash: '', createdAt: now - 80 * hour, updatedAt: now - 40 * hour },
+      { id: 'demo-note-review', title: 'Design review notes', body: 'Hero: keep the calm version.\nBanners: logo on the left.\nNext review Thursday 11:00.', pinned: false, pinHash: '', createdAt: now - 120 * hour, updatedAt: now - 70 * hour },
+    ]));
   }
 
   /* Overview and Daily Recap read the work log (bb-worklog-v1): everything finished,
@@ -513,7 +543,7 @@
               desc: 'Specs, design, and go-to-market prep',
               icon: '🚀',
               color: 'bc-purple',
-              thumbImage: null,
+              thumbImage: COVERS[6],
               bgImage: null,
               categoryId: null,
               createdAt: new Date(now - hour * 48).toISOString(),
@@ -950,9 +980,17 @@
         categories: [],
         boards: [
           board('demo-b-launch', 'Product Launch', 'Everything for launch day', '🚀', 'bc-blue', 120, COVERS[1]),
-          board('demo-b-brand', 'Brand Refresh', 'New identity rollout', '🎨', 'bc-purple', 90),
-          board('demo-b-mobile', 'Mobile App v2', 'iOS & Android release', '📱', 'bc-green', 60),
+          board('demo-b-brand', 'Brand Refresh', 'New identity rollout', '🎨', 'bc-purple', 90, COVERS[13]),
+          board('demo-b-mobile', 'Mobile App v2', 'iOS & Android release', '📱', 'bc-green', 60, COVERS[4]),
           board('demo-b-roadmap', 'Q4 Roadmap', 'Planning for next quarter', '🗺️', 'bc-orange', 30, COVERS[2]),
+          board('demo-b-design', 'Design System', 'Components, tokens and docs', '🧩', 'bc-blue', 150, COVERS[16]),
+          board('demo-b-research', 'Customer Research', 'Interviews and insights', '🔎', 'bc-green', 140, COVERS[5]),
+          board('demo-b-content', 'Content Calendar', 'Blog, newsletter and social', '📝', 'bc-purple', 110, COVERS[8]),
+          board('demo-b-hiring', 'Hiring', 'Open roles and interviews', '🤝', 'bc-orange', 100, COVERS[14]),
+          board('demo-b-sales', 'Sales Pipeline', 'Leads, demos and renewals', '📈', 'bc-blue', 80, COVERS[17]),
+          board('demo-b-support', 'Customer Support', 'Tickets that need a fix', '🛟', 'bc-green', 70, COVERS[9]),
+          board('demo-b-partners', 'Partnerships', 'Integrations and co-marketing', '🔗', 'bc-purple', 50, COVERS[7]),
+          board('demo-b-offsite', 'Team Offsite', 'Lisbon, November', '✈️', 'bc-orange', 20, COVERS[11]),
         ],
         cards: [
           card('demo-b-launch', 'todo', 'Landing page', 'high', 0, ID.priya, 2),
@@ -971,6 +1009,24 @@
           card('demo-b-roadmap', 'todo', 'Hiring plan', 'medium', 0, ID.maya, 7),
           card('demo-b-roadmap', 'doing', 'Roadmap draft', 'high', 0, ID.maya, 4, [2, 6]),
           card('demo-b-roadmap', 'done', 'Customer survey', 'low', 0, ID.priya, null),
+          card('demo-b-design', 'todo', 'Button states', 'medium', 0, ID.chloe, 6),
+          card('demo-b-design', 'doing', 'Colour tokens', 'high', 0, ID.maya, 3, [2, 4]),
+          card('demo-b-design', 'done', 'Icon set', 'low', 0, ID.ethan, null),
+          card('demo-b-research', 'todo', 'Interview five customers', 'high', 0, ID.priya, 5),
+          card('demo-b-research', 'doing', 'Survey summary', 'medium', 0, ID.nora, 2),
+          card('demo-b-content', 'todo', 'October newsletter', 'medium', 0, ID.nora, 4),
+          card('demo-b-content', 'doing', 'Launch blog post', 'high', 0, ID.me, 3, [1, 3]),
+          card('demo-b-content', 'done', 'Social calendar', 'low', 0, ID.chloe, null),
+          card('demo-b-hiring', 'todo', 'Product designer role', 'high', 0, ID.maya, 7),
+          card('demo-b-hiring', 'doing', 'Engineer interviews', 'medium', 0, ID.daniel, 4),
+          card('demo-b-sales', 'todo', 'Demo for Northwind', 'high', 0, ID.daniel, 2),
+          card('demo-b-sales', 'doing', 'Acme renewal', 'medium', 0, ID.leo, 6),
+          card('demo-b-support', 'todo', 'Login loop on iPad', 'urgent', 0, ID.leo, 1),
+          card('demo-b-support', 'done', 'Export to PDF fix', 'medium', 0, ID.ethan, null),
+          card('demo-b-partners', 'todo', 'Slack integration brief', 'medium', 0, ID.priya, 8),
+          card('demo-b-partners', 'doing', 'Co-marketing plan', 'low', 0, ID.nora, 9),
+          card('demo-b-offsite', 'todo', 'Book flights', 'high', 0, ID.chloe, 5),
+          card('demo-b-offsite', 'doing', 'Agenda', 'medium', 0, ID.maya, 10),
         ],
       }));
 

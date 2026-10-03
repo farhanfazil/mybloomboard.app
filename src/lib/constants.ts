@@ -405,12 +405,12 @@ export const FAQS = [
   {
     question: "What is BloomBoard?",
     answer:
-      "BloomBoard is a productivity app for Mac and Windows. An iPhone app is coming soon. It brings tasks, reminders, milestones, streaks, hydration, boards, KPIs, reports, and AI planning into one focused dashboard.",
+      "BloomBoard is a productivity app for Mac and Windows. An iPhone app for Team members is coming soon. It brings tasks, reminders, milestones, streaks, hydration, boards, KPIs, reports, and AI planning into one focused dashboard.",
   },
   {
     question: "Is BloomBoard free to start?",
     answer:
-      "Yes. The Free plan is free forever, with no card and no account needed. It includes unlimited tasks, Type to Task, reminders and meeting alerts, up to 5 boards, 20 notes and 50 bookmarks, and a few Bloom AI actions each month.",
+      "Yes. The Free plan has no time limit, and you don't need a card or an account to use it. It includes unlimited tasks, Type to Task, reminders and meeting alerts, up to 5 boards, 20 notes and 50 bookmarks, and a small monthly allowance of Bloom AI: for example 10 AI Coworker messages, 5 emails and 5 meeting-note summaries a month.",
   },
   {
     question: "Does BloomBoard work offline?",
@@ -420,7 +420,7 @@ export const FAQS = [
   {
     question: "Is the dashboard customizable?",
     answer:
-      "Yes. You can customize the dashboard around the way you work, including boards, projects, priorities, reminders, task details, health tracking, and the views you rely on most.",
+      "Yes. You can customize the dashboard around the way you work, including boards, projects, priorities, reminders, task details, hydration reminders, and the views you rely on most.",
   },
   {
     question: "What do I get with Bloom?",
@@ -430,17 +430,17 @@ export const FAQS = [
   {
     question: "What's the difference between Bloom and Team?",
     answer:
-      "Bloom is for one person. Team gives every member everything in Bloom, plus team chat, voice and video calls with screen sharing, Team Space, shared boards and task assignment, handovers, a team leave calendar, Pulse and admin controls. Team is priced per person for 3 to 50 seats: $12 a month, or $10 a month billed yearly, with lower prices from 10 and from 20 seats. It starts with a 14-day free trial.",
+      "Bloom is for one person. Team gives every member everything in Bloom, plus team chat, voice and video calls with screen sharing, Team Space, shared boards and task assignment, handovers, a team leave calendar, Pulse and admin controls. Team is priced per person for 3 to 50 seats: $12 a month, or $10 a month billed yearly, with lower prices from 10 and from 20 seats. It starts with a 14-day free trial for up to 10 people.",
   },
   {
     question: "What does founding price mean?",
     answer:
-      "Founding price: lock it in for as long as you stay subscribed. The prices you see now are our launch prices. Subscribe now and you keep your price for as long as your subscription stays active, even if prices change later for new customers.",
+      "The prices you see now are our launch prices. If we raise prices later for new customers, your active subscription keeps the price you signed up at, for as long as it stays active on the same plan and billing period. If you cancel, or move to a different plan or billing period, the price at that time applies.",
   },
   {
     question: "Is Bloom AI really unlimited?",
     answer:
-      "Yes, for everyday work. On Bloom and Team, each account can make up to 1,500 AI requests a day, far more than a busy day of work. The daily cap protects against automated misuse and keeps Bloom AI fast for everyone.",
+      "There's no monthly quota on Bloom and Team, and fair-use limits apply: up to 1,500 AI requests a day per account, plus short-term limits on very rapid requests. That's far more than a busy day of work. The limits protect against automated misuse and keep Bloom AI fast for everyone.",
   },
   {
     question: "Can teams use BloomBoard together?",
@@ -455,12 +455,12 @@ export const FAQS = [
   {
     question: "What can the AI features do?",
     answer:
-      "Bloom AI can help write emails and messages, turn meeting notes into tasks, plan your day, automate tasks, and support you when you are stuck or need a clearer next step. The Free plan includes a few AI actions each month so you can try it. Bloom and Team include unlimited Bloom AI, up to 1,500 AI requests a day.",
+      "Bloom AI can help write emails and messages, turn meeting notes into tasks, plan your day, automate tasks, and support you when you are stuck or need a clearer next step. The Free plan includes a small monthly AI allowance so you can try it. Bloom and Team have no monthly AI quota, with fair-use limits of up to 1,500 AI requests a day.",
   },
   {
     question: "Which devices are supported?",
     answer:
-      "BloomBoard runs on Mac (macOS 12 and later, Apple Silicon and Intel) and on Windows 10 and 11 through the Microsoft Store. An iPhone app is coming soon.",
+      "BloomBoard runs on Mac (macOS 13 Ventura and later, Apple Silicon and Intel) and on Windows 10 and 11 through the Microsoft Store. An iPhone app for Team members is coming soon.",
   },
 ];
 

@@ -203,7 +203,7 @@
   <div class="hero-badge">Legal</div>
   <h1>Privacy Policy</h1>
   <p>Here's exactly what we collect, what we don't, and why.</p>
-  <p class="last-updated">Last updated: 29 September 2026 &nbsp;·&nbsp; Effective: 29 September 2026</p>
+  <p class="last-updated">Last updated: 3 October 2026 &nbsp;·&nbsp; Effective: 3 October 2026</p>
 </div>
 
 <div class="container">
@@ -238,28 +238,33 @@
     <p>BloomBoard offers an optional Google integration. If you choose to connect your Google account:</p>
 
     <div class="google-box">
-      <p><strong>What we access:</strong> Your Gmail inbox (read), individual email content (read), the ability to send emails on your behalf (only when you explicitly trigger the send action), and your Google Calendar events (read-only) to display upcoming meetings inside the app.</p>
-      <p><strong>What we do NOT do:</strong> We never store your emails or calendar events on any server. We never read data in the background. We never share your Google data with third parties. We never use it for advertising or profiling.</p>
+      <p><strong>What we access:</strong> Your Gmail inbox and email content (to show them in the app), the ability to archive, delete or mark emails read or unread (only when you do that in the app), the ability to send emails on your behalf (only when you press send), and your Google Calendar events (read-only) to display upcoming meetings inside the app.</p>
+      <p><strong>What we do NOT do:</strong> We never store your emails or calendar events on our servers. We never read your data in the background. We never use it for advertising or profiling, and we never sell it.</p>
+      <p><strong>When you use AI on an email:</strong> If you ask Bloom AI to write a reply or turn an email into a task, the content of that email is sent to our AI provider, Anthropic, only to produce that result. This happens only when you ask.</p>
       <p><strong>Where tokens are stored:</strong> OAuth access tokens are stored locally on your device only. They are never uploaded to our servers.</p>
     </div>
 
     <p>The Google integration uses OAuth 2.0. The scopes we request are:</p>
     <ul>
       <li><strong>gmail.readonly</strong>: to read your inbox and email content</li>
+      <li><strong>gmail.modify</strong>: to archive, delete, or mark emails read or unread when you do that in the app</li>
       <li><strong>gmail.send</strong>: to send emails you compose inside the app</li>
       <li><strong>calendar.readonly</strong>: to display your upcoming calendar events and meetings</li>
+      <li><strong>Your name, email address and profile picture</strong>: to show which account is connected</li>
     </ul>
     <p>You can disconnect your Google account at any time from <strong>Settings → Connected Apps</strong> inside the app. This immediately revokes our access and deletes your stored tokens.</p>
-    <p>Our use of Google user data complies with the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+    <p>BloomBoard's use and transfer of information received from Google APIs to any other app will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank">Google API Services User Data Policy</a>, including the Limited Use requirements. We do not use Google user data to develop, improve, or train generalised AI or machine learning models.</p>
   </div>
 
   <div class="section">
     <h2><span class="num">4</span> Microsoft Integration (Outlook &amp; Calendar)</h2>
     <p>BloomBoard can connect to your Microsoft account for Outlook email and Outlook Calendar. This is optional. When you choose to connect it:</p>
     <ul>
-      <li>We request read access to your Outlook inbox and the ability to send emails on your behalf (only when you explicitly trigger the send action)</li>
-      <li>We request read-only access to your Microsoft Calendar to display upcoming meetings inside the app</li>
-      <li>We never store your emails or calendar events on any server</li>
+      <li><strong>Mail.ReadWrite</strong>: to read your Outlook inbox, and to mark emails read or unread, archive or delete them when you do that in the app</li>
+      <li><strong>Mail.Send</strong>: to send emails on your behalf, only when you press send</li>
+      <li><strong>Calendars.ReadWrite</strong>: to display your upcoming meetings and, if you turn on calendar sync, to add your BloomBoard meetings to your Outlook calendar and keep them up to date. BloomBoard only changes events it added itself.</li>
+      <li><strong>User.Read</strong>: your name and email address, to show which account is connected</li>
+      <li>We never store your emails or calendar events on our servers. If you use AI on an email, its content is sent to Anthropic as described in section 5.</li>
       <li>OAuth tokens are stored locally on your device only and never uploaded</li>
     </ul>
     <p>You can disconnect your Microsoft account at any time from <strong>Settings → Connected Apps</strong> inside the app.</p>
@@ -273,6 +278,7 @@
       <li><strong>Apple speech recognition</strong>: voice input and live call captions on Mac use Apple's built-in speech recognition. Audio is processed by Apple under Apple's privacy terms and is not stored by us. Captions are shared as text with the people in the call and are not saved.</li>
       <li><strong>OpenAI Whisper</strong>: used as a fallback for voice-to-text transcription when native speech recognition is unavailable. Audio is sent to OpenAI's API for transcription only and is not stored by us. OpenAI may retain inputs per their own <a href="https://openai.com/policies/privacy-policy" target="_blank">Privacy Policy</a>.</li>
     </ul>
+    <p><strong>What is sent to the AI.</strong> To answer a request, the app sends the text that request needs. Depending on the feature, that is your message and earlier messages in that conversation; relevant context from your workspace such as tasks, boards, events and team member names; in team chat, recent messages in that chat; the email you are replying to or turning into a task; or the notes you paste. Bloom AI can also search the web, which sends a search query.</p>
     <p>We do not store the content of your AI conversations or voice inputs on our servers. AI features are only triggered when you explicitly open them and submit a request.</p>
   </div>
 
@@ -303,8 +309,8 @@
   <div class="section">
     <h2><span class="num">8</span> Website and Live Demo Analytics</h2>
     <p>Our website at <a href="https://mybloomboard.app">mybloomboard.app</a> does not use advertising trackers, third-party cookies, or fingerprinting.</p>
-    <p>The live demo on our website records anonymous usage so we can improve it. For each demo visit we record: your country (from your connection, stored as a country code only), the site or campaign that referred you, your device type, how long you spent in the demo, which features you opened, what you typed into the demo's search and Bloom assistant, whether you clicked a download button, and your answer if you choose to tell us what brought you to the demo. The demo also records anonymous reactions if you use the reaction buttons.</p>
-    <p>Each demo visit uses a random ID that lasts only for that browser tab. We do not store names, email addresses, IP addresses or cookies with this data, and we do not use it for advertising. The BloomBoard app itself does not include ad trackers or third-party analytics tools.</p>
+    <p>The live demo on our website records how it is used so we can improve it. For each demo visit we record: your country (from your connection, stored as a country code only), the site or campaign that referred you, your device type, how long you spent in the demo, which features you opened, what you typed into the demo's search and Bloom assistant, whether you clicked a download button, and your answer if you choose to tell us what brought you to the demo. The demo also records anonymous reactions if you use the reaction buttons.</p>
+    <p>Each demo visit uses a random ID that lasts only for that browser tab. We do not store names, email addresses, IP addresses or cookies with this data, and we do not use it for advertising. Please don't type personal information into the demo. The BloomBoard app itself does not include ad trackers or third-party analytics tools.</p>
   </div>
 
   <div class="section">
@@ -324,9 +330,9 @@
     <h2><span class="num">10</span> Data Sharing</h2>
     <p>We do not sell, trade, or rent your personal data to any third party. We do not share your data with advertisers. The only third-party services that may receive data are:</p>
     <ul>
-      <li><strong>Google</strong>: if you use Gmail or Calendar integration (OAuth tokens and in-session data only)</li>
-      <li><strong>Microsoft</strong>: if you use Outlook or Calendar integration (OAuth tokens and in-session data only)</li>
-      <li><strong>Anthropic</strong>: if you use Claude AI features (your AI prompt text only)</li>
+      <li><strong>Google</strong>: if you connect Gmail or Google Calendar (your emails and events travel between your device and Google)</li>
+      <li><strong>Microsoft</strong>: if you connect Outlook or Outlook Calendar (your emails and events travel between your device and Microsoft)</li>
+      <li><strong>Anthropic</strong>: if you use AI features (the text each request needs, as described in section 5, including email content when you use AI on an email), and for web search in Bloom AI</li>
       <li><strong>OpenAI</strong>: if voice transcription fallback is triggered (audio data only, not stored by us)</li>
       <li><strong>Supabase</strong> (hosted on Amazon Web Services in Tokyo, Japan): accounts, synced app data and team workspace data (see section 6)</li>
       <li><strong>Resend</strong>: to send account emails and team invitations</li>
@@ -334,6 +340,9 @@
       <li><strong>Cloudflare</strong>: to store files sent in chat</li>
       <li><strong>Apple</strong>: push notifications on iPhone, and speech recognition for voice input and captions</li>
       <li><strong>Polar (polar.sh)</strong>: our merchant of record, which processes payments, billing and sales tax when you start a trial through checkout or buy a paid plan</li>
+      <li><strong>GIPHY</strong>: if you search for GIFs in chat (your search words, and your IP address as part of the request)</li>
+      <li><strong>Trello</strong>: if you connect Trello or import from it (an access token and the boards you import)</li>
+      <li><strong>Netlify</strong>: hosts our website and live demo (standard request logs, and your country for demo statistics)</li>
     </ul>
   </div>
 

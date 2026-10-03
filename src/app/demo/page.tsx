@@ -6,6 +6,7 @@ import { useDownload } from "@/lib/downloads";
 import LiveDemoFrame from "@/components/sections/LiveDemoFrame";
 import DemoIframe from "@/components/sections/DemoIframe";
 import DemoUsefulPoll from "@/components/sections/DemoUsefulPoll";
+import StickyPopouts from "@/components/sections/StickyPopouts";
 
 export default function DemoPage() {
   const download = useDownload();
@@ -21,7 +22,7 @@ export default function DemoPage() {
 
   return (
     <div className="flex h-[100dvh] flex-col bg-black text-white">
-      <header className="flex shrink-0 items-center justify-between gap-3 border-b border-white/10 bg-[#0a1520] px-3 py-2 sm:px-4">
+      <header className="flex shrink-0 items-center justify-between gap-3 border-b border-white/10 bg-[#171717] px-3 py-2 sm:px-4">
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold text-white sm:text-[15px]">
             <span className="sm:hidden">Live demo</span>
@@ -55,11 +56,14 @@ export default function DemoPage() {
           <LiveDemoFrame eager />
         </main>
       ) : (
-        <DemoIframe
-          title="BloomBoard live demo"
-          src="/bloomboard-demo/index.html?ws=personal,team&v=30"
-          className="min-h-0 w-full flex-1 bg-[#0a1520]"
-        />
+        <>
+          <DemoIframe
+            title="BloomBoard live demo"
+            src="/bloomboard-demo/index.html?ws=personal,team&v=32"
+            className="min-h-0 w-full flex-1 bg-[#171717]"
+          />
+          <StickyPopouts />
+        </>
       )}
     </div>
   );

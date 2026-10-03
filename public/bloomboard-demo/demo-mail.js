@@ -287,6 +287,13 @@
       return wait(500).then(function () { return { content: [{ type: 'text', text: JSON.stringify(cats) }] }; });
     }
 
+    /* Type Your Tasks, "Organise": split the visitor's own lines into tasks and
+       tidy the titles. The app itself reads the dates and @names from each line. */
+    if (/^You are a precise task extraction AI/.test(prompt)) {
+      var dump = (prompt.split(/\nBrain dump:\n/)[1] || '').trim();
+      return wait(900).then(function () { return aiText(braindump(dump)); });
+    }
+
     try { if (window.bbTrack) window.bbTrack('bloom', 'email_ai'); } catch (e) {}
 
     if (/turn an email into one clear task/i.test(prompt)) {
@@ -317,6 +324,28 @@
 
     return notInDemo();
   };
+
+  var DAY = '(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday|mon|tue|tues|wed|thu|thur|thurs|fri|sat|sun)';
+  var MONTH = '(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*';
+  var WHEN = new RegExp('\\b(?:(?:by|on|before|due|for|at)\\s+)?(?:' + [
+    'today', 'tonight', 'tomorrow', 'this (?:morning|afternoon|evening|weekend|week)', 'next week', 'next month',
+    '(?:next|this)\\s+' + DAY, DAY, 'in \\d+ (?:days?|weeks?)', MONTH + '\\s+\\d{1,2}(?:st|nd|rd|th)?', '\\d{1,2}(?:st|nd|rd|th)?\\s+' + MONTH,
+    '\\d{1,2}(?::\\d{2})?\\s*(?:am|pm)', 'noon', 'midday',
+  ].join('|') + ')\\b', 'gi');
+  function braindump(raw) {
+    var lines = [];
+    raw.split(/\r?\n/).forEach(function (l) {
+      l.split(/;|,?\s+(?:and )?then\s+/i).forEach(function (x) { if (x.trim()) lines.push(x.trim()); });
+    });
+    return lines.map(function (src) {
+      var t = src.replace(/@[a-z0-9._-]+/gi, ' ');
+      for (var i = 0; i < 3; i++) t = t.replace(WHEN, ' ');
+      t = t.replace(/\s+/g, ' ').replace(/\s+(?:with|to|for|on|by|at|and|ask|,)\s*$/i, '').replace(/^[\s,]+|[\s,.!]+$/g, '');
+      t = (t.charAt(0).toUpperCase() + t.slice(1)) || src;
+      var pr = /\b(urgent|asap|critical|emergency)\b/i.test(src) ? 'urgent' : /\b(today|tonight|important)\b/i.test(src) ? 'high' : 'medium';
+      return { title: t, priority: pr, deadline: null, assignee: (src.match(/@[a-z0-9._-]+/i) || [null])[0], sourceText: src };
+    });
+  }
 
   function tidyNotes(raw) {
     var topics = [], cur = null;

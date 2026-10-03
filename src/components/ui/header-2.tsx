@@ -12,7 +12,20 @@ interface NavLink {
   label: string;
   href: string;
   external?: boolean;
+  /** A small green "people are in" dot, like presence in the app. */
+  live?: boolean;
 }
+
+/** The web app; its sign-in page is where "Log in" goes. */
+/* NEXT_PUBLIC_WEB_APP_URL (set only in .env.local) points it at a web app running on this Mac while previewing. */
+export const WEB_APP_URL = process.env.NEXT_PUBLIC_WEB_APP_URL || "https://app.mybloomboard.app/";
+
+/** Same links on every page, so they're absolute ("/#pricing", not "#pricing"). */
+export const NAV_LINKS: NavLink[] = [
+  { label: "Features", href: "/#features" },
+  { label: "Office", href: "/office", live: true },
+  { label: "Pricing", href: "/#pricing" },
+];
 
 export function Header({
   customLinks,
@@ -24,13 +37,7 @@ export function Header({
   const [open, setOpen] = React.useState(false);
   const scrolled = useScroll(10);
 
-  const links: NavLink[] = customLinks ?? [
-    // Features / Deep Dive sections are hidden on the home page (see page.tsx);
-    // restore { label: "Features", href: "#features" }, { label: "Deep Dive", href: "#walkthrough" } with them.
-    { label: "Live Demo", href: "#live-demo" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "Manage subscription", href: "/account" },
-  ];
+  const links: NavLink[] = customLinks ?? NAV_LINKS;
 
   // Sections marked data-hide-header (e.g. the light comparison panel) hide the
   // header while they sit underneath it; it slides back once you scroll past.
@@ -110,9 +117,16 @@ export function Header({
               target={link.external ? "_blank" : undefined}
               rel={link.external ? "noreferrer" : undefined}
             >
+              {link.live ? <span aria-hidden className="mr-1.5 inline-block size-1.5 rounded-full bg-[#22c55e]" /> : null}
               {link.label}
             </a>
           ))}
+          <a
+            className={buttonVariants({ variant: "ghost", className: "ml-2 px-3 text-sm" })}
+            href={WEB_APP_URL}
+          >
+            Log in
+          </a>
           <Button
             asChild
             className="ml-1 h-auto shrink-0 rounded-lg border border-transparent bg-white px-3.5 py-1.5 text-sm font-semibold text-[#0a0f1c] hover:bg-white/90"
@@ -153,6 +167,7 @@ export function Header({
               onClick={() => setOpen(false)}
               style={{ display: "flex", alignItems: "center", padding: "14px 12px", borderRadius: "12px", fontSize: "16px", fontWeight: 500, color: "#f5f5f7", textDecoration: "none", width: "100%", boxSizing: "border-box" }}
             >
+              {link.live ? <span aria-hidden style={{ width: 7, height: 7, borderRadius: 9, background: "#22c55e", marginRight: 10 }} /> : null}
               {link.label}
             </a>
           ))}
@@ -174,6 +189,18 @@ export function Header({
             }}
           >
             Try BloomBoard free
+          </a>
+          <a
+            href={WEB_APP_URL}
+            onClick={() => setOpen(false)}
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "center",
+              borderRadius: "10px", padding: "12px 0", width: "100%", boxSizing: "border-box",
+              fontSize: "14px", fontWeight: 600, textDecoration: "none",
+              border: "1px solid rgba(255,255,255,0.16)", color: "#f5f5f7",
+            }}
+          >
+            Log in
           </a>
         </div>
       </div>

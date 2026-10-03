@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import LiveDemoFrame from "@/components/sections/LiveDemoFrame";
+import HeroVerb from "@/components/sections/HeroVerb";
 import { useDevice } from "@/lib/downloads";
 import { AlsoAvailable, DownloadButton } from "@/components/ui/DownloadButton";
 
@@ -47,7 +48,10 @@ export default function AppPreviewScroll() {
           style={{ fontSize: "clamp(2rem, 4.8vw, 5.5rem)", lineHeight: 1.06 }}
         >
           <span className="block">The productivity app that</span>
-          <span className="mt-1 block">thinks with you.</span>
+          <span className="mt-1 block">
+            <span className="sr-only">thinks</span>
+            <HeroVerb /> with you.
+          </span>
         </h1>
 
         <p className="mt-5 max-w-xl text-base leading-relaxed text-white/70 sm:mt-6 sm:text-lg">
