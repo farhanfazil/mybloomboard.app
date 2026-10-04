@@ -43,3 +43,12 @@ $$;
 -- Functions are executable by everyone by default; only the website's server may count.
 revoke all on function public.increment_demo_emoji_reaction(text) from public, anon, authenticated;
 grant execute on function public.increment_demo_emoji_reaction(text) to service_role;
+
+-- 2026-10-05: reactions became words with pictures. The old emoji rows held
+-- typed-in numbers, not real visitor taps, so they were removed; the new ones
+-- start at 0. The site calls the increment with the public (anon) key.
+delete from public.demo_emoji_reactions where emoji_id in ('love','fire','cheer','rocket','crown','like','celebrate','appreciate','smile');
+insert into public.demo_emoji_reactions (emoji_id, count) values
+  ('smart', 0), ('fast', 0), ('beautiful', 0), ('teams', 0), ('useful', 0)
+on conflict (emoji_id) do update set count = 0;
+grant execute on function public.increment_demo_emoji_reaction(text) to anon, authenticated;
