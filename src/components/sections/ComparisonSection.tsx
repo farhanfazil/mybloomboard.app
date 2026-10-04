@@ -54,7 +54,7 @@ const TEAMS_ROWS: (string[] | { section: string })[] = [
   ["AI planning: plan my day, meeting notes to tasks, risk alerts", "✅", "⚠️ Meeting notes, paid", "❌", "❌", "❌", "❌"],
 
   { section: "Pricing" },
-  ["Free plan",                   "✅ Free\nFlow from $6/mo, Team from $8/person/mo\n(billed yearly)", "✅", "✅", "✅", "✅", "✅"],
+  ["Free plan",                   "✅ Free\nBloom from $6/mo, Team from $8/person/mo\n(billed yearly)", "✅", "✅", "✅", "✅", "✅"],
 ];
 
 /* What the table shows first: only the rows where BloomBoard is clearly
@@ -79,7 +79,7 @@ const TEAMS_TOP_ROWS: (string[] | { section: string })[] = [
   { section: "Your data and price" },
   ["Works offline",               "✅ Your own tasks and notes", "⚠️ Limited", "❌", "⚠️ View only", "⚠️ View only", "❌"],
   ["Works without an account",    "✅ Free plan", "❌", "❌", "❌", "❌", "❌"],
-  ["Price",                       "✅ Free\nFlow from $6/mo, Team from $8/person/mo\n(billed yearly)", "⚠️ Free plan", "⚠️ Free plan", "⚠️ Free plan", "⚠️ Free plan", "⚠️ Free plan"],
+  ["Price",                       "✅ Free\nBloom from $6/mo, Team from $8/person/mo\n(billed yearly)", "⚠️ Free plan", "⚠️ Free plan", "⚠️ Free plan", "⚠️ Free plan", "⚠️ Free plan"],
 ];
 
 const FREELANCE_HEADERS = ["Feature", "BloomBoard", "Moxie", "HoneyBook", "Bonsai", "Dubsado"];
