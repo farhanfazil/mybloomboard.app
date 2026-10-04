@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { FAQSection } from "@/components/ui/faqsection";
+
 export const metadata: Metadata = {
   alternates: { canonical: "/security" },
   title: "Security and data · BloomBoard",
@@ -64,6 +66,44 @@ const SECTIONS: { title: string; body: string[] }[] = [
   },
 ];
 
+/* The questions companies ask most, answered plainly. Keep these honest:
+   no "end-to-end", no certification BloomBoard itself doesn't hold. */
+const FAQ_LEFT = [
+  {
+    question: "Can other companies see our data?",
+    answer:
+      "No. Every company's data is walled off by row-level security in the database itself, so another company can't see anything of yours. Even inside your own team, your personal tasks are private to you; teammates see a task only when it is assigned to them, plus the team's shared boards and chat.",
+  },
+  {
+    question: "Can BloomBoard staff see our data?",
+    answer:
+      "As the service that stores it, we technically can, like any cloud tool such as Slack or Trello. We look only when you ask us for help, and never to sell or advertise. Our database provider, Supabase, is SOC 2 Type 2 audited.",
+  },
+  {
+    question: "Is our data encrypted?",
+    answer:
+      "Yes. Everything travelling between the app and our servers is encrypted with TLS, and data is encrypted at rest by our hosting providers. It is not end-to-end encrypted, which is the standard for work tools where a team shares boards and searches its history.",
+  },
+];
+
+const FAQ_RIGHT = [
+  {
+    question: "Where are the servers?",
+    answer:
+      "Your data is stored with Supabase on Amazon Web Services in Tokyo, Japan. Files shared in chat are stored with Cloudflare R2 or Supabase Storage. Used without an account, BloomBoard keeps everything on your computer. Need your data kept in a particular country? Write to us.",
+  },
+  {
+    question: "Do you use our data to train AI?",
+    answer:
+      "No. Bloom AI sends only the text needed for a request to Anthropic's Claude API, and Anthropic does not train its models on API data. Your data is never sold or used for advertising.",
+  },
+  {
+    question: "How do we export or delete everything?",
+    answer:
+      "Export: Settings, then About, then Export my data. Delete: Settings, then Account, then Delete account, on the desktop app, the web app or the iPhone app. Deleting removes your account, synced data, notifications and sign-in records. Messages you sent in a team's chat stay with that team.",
+  },
+];
+
 export default function SecurityPage() {
   return (
     <div className="min-h-screen bg-black text-[#f5f5f7]">
@@ -73,7 +113,7 @@ export default function SecurityPage() {
           BloomBoard
         </Link>
       </header>
-      <main className="mx-auto max-w-[720px] px-5 pb-24 pt-10 md:pt-16">
+      <main className="mx-auto max-w-[720px] px-5 pb-10 pt-10 md:pt-16">
         <h1 className="text-[34px] font-bold tracking-[-0.03em] md:text-[40px]">Security and your data</h1>
         <p className="mt-2 text-sm text-[#a1a1aa]">Last updated: 5 October 2026</p>
         <div className="mt-10 flex flex-col gap-9">
@@ -84,10 +124,20 @@ export default function SecurityPage() {
             </section>
           ))}
         </div>
-        <p className="mt-12 text-sm text-[#a1a1aa]">
-          See also our <a href="/privacy.html" className="underline">Privacy Policy</a>, <a href="/terms.html" className="underline">Terms of Service</a> and <a href="/refund" className="underline">Refund policy</a>.
-        </p>
       </main>
+      <FAQSection
+        className="pb-8 pt-4 md:pt-8"
+        subtitle="Frequently asked questions"
+        title="Your data, answered plainly"
+        description="The questions companies ask us most, with straight answers."
+        buttonLabel="Ask us anything →"
+        buttonHref="mailto:hello@mybloomboard.app"
+        faqsLeft={FAQ_LEFT}
+        faqsRight={FAQ_RIGHT}
+      />
+      <p className="mx-auto max-w-[720px] px-5 pb-24 text-sm text-[#a1a1aa]">
+        See also our <a href="/privacy.html" className="underline">Privacy Policy</a>, <a href="/terms.html" className="underline">Terms of Service</a> and <a href="/refund" className="underline">Refund policy</a>.
+      </p>
     </div>
   );
 }
