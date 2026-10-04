@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ChevronDown, Check, Minus, MessageCircle, Video, Keyboard, Mail, LayoutDashboard, ClipboardList, HeartPulse, type LucideIcon } from "lucide-react";
+import { ChevronDown, Check, Minus, MessageCircle, Video, Building2, Keyboard, Mail, LayoutDashboard, ClipboardList, HeartPulse, type LucideIcon } from "lucide-react";
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
@@ -16,9 +16,6 @@ const TEAMS_ROWS: (string[] | { section: string })[] = [
   ["Works without an account",    "✅ Free plan\nPaid plans need an account", "❌",              "❌",          "❌",            "❌",            "❌"],
 
   { section: "Tasks & Projects" },
-  ["Task management",             "✅", "✅", "✅", "✅", "✅", "✅"],
-  ["Subtasks & file attachments", "✅", "✅", "✅", "✅", "✅", "✅"],
-  ["Project boards (kanban)",     "✅", "✅", "✅", "✅", "✅", "✅"],
   ["Create several boards at once", "✅", "❌", "❌", "❌", "❌", "❌"],
   ["Type to Task", "✅", "❌", "⚠️ Paste a list", "⚠️ Paste a list", "⚠️ Paste a list", "❌"],
   ["KPI tracking + PDF reports",  "✅", "❌", "❌", "❌", "❌", "❌"],
@@ -37,9 +34,9 @@ const TEAMS_ROWS: (string[] | { section: string })[] = [
   { section: "Team & Collaboration" },
   ["Voice & video calls",         "✅ Built-in", "❌ Via add-on", "❌ Via add-on", "✅", "❌ Via add-on", "❌ Via add-on"],
   ["Built-in team chat",          "✅", "❌", "❌", "✅", "❌", "❌"],
+  ["Live team office",            "✅", "❌", "❌", "❌", "❌", "❌"],
   ["Handovers before a vacation", "✅", "❌", "❌", "❌", "❌", "❌"],
   ["Team vacation calendar",      "✅", "❌", "❌", "❌", "⚠️ Out-of-office only", "⚠️ Via template"],
-  ["Team collaboration",          "✅", "✅", "✅", "✅", "✅", "✅"],
   ["Voice messages in boards",    "✅", "❌", "❌", "❌", "❌", "❌"],
   ["Meetings + 5-min alerts",     "✅", "❌", "❌", "✅", "✅", "✅"],
   ["Daily Recap",                 "✅", "❌", "❌", "⚠️ Paid add-on", "⚠️ Paid", "❌"],
@@ -49,19 +46,40 @@ const TEAMS_ROWS: (string[] | { section: string })[] = [
   ["Workload Health",             "✅", "❌", "❌", "⚠️ Capacity view", "⚠️ Capacity view", "⚠️ Capacity view"],
 
   { section: "Wellbeing & Personal" },
-  ["Mood tracking per task",      "✅", "❌", "❌", "❌", "❌", "❌"],
-  ["Health & hydration tracker",  "✅", "❌", "❌", "❌", "❌", "❌"],
-  ["Mood avatars",                "✅", "❌", "❌", "❌", "❌", "❌"],
+  ["Wellbeing: mood, hydration and avatars", "✅", "❌", "❌", "❌", "❌", "❌"],
   ["Sticky notes",                "✅", "❌", "❌", "❌", "❌", "❌"],
 
   { section: "AI Features" },
   ["AI assistant built-in",       "✅ Included",        "⚠️ Paid add-on", "❌", "⚠️ Paid add-on", "⚠️ Paid add-on", "⚠️ Paid add-on"],
-  ["AI meeting notes → tasks",    "✅", "⚠️ Paid", "❌", "❌", "❌", "❌"],
-  ["AI plan my day",              "✅", "❌", "❌", "❌", "❌", "❌"],
-  ["Pulse: AI alerts on team risks",   "✅", "❌", "❌", "❌", "❌", "❌"],
+  ["AI planning: plan my day, meeting notes to tasks, risk alerts", "✅", "⚠️ Meeting notes, paid", "❌", "❌", "❌", "❌"],
 
   { section: "Pricing" },
-  ["Free plan",                   "✅ Free\nBloom $6/mo, Team $10/user/mo\n(billed yearly, less for 10+ seats)", "✅", "✅", "✅", "✅", "✅"],
+  ["Free plan",                   "✅ Free\nFlow from $6/mo, Team from $8/person/mo\n(billed yearly)", "✅", "✅", "✅", "✅", "✅"],
+];
+
+/* What the table shows first: only the rows where BloomBoard is clearly
+   different (about one screen). "See all features" opens TEAMS_ROWS. */
+const TEAMS_TOP_ROWS: (string[] | { section: string })[] = [
+  { section: "Talk to your team" },
+  ["Voice & video calls",         "✅ Built-in", "❌ Via add-on", "❌ Via add-on", "✅", "❌ Via add-on", "❌ Via add-on"],
+  ["Built-in team chat",          "✅", "❌", "❌", "✅", "❌", "❌"],
+  ["Live team office",            "✅", "❌", "❌", "❌", "❌", "❌"],
+  ["Handovers before a vacation", "✅", "❌", "❌", "❌", "❌", "❌"],
+
+  { section: "Email and planning" },
+  ["Gmail and Outlook inbox",     "✅ Built-in", "⚠️ Separate app", "❌", "⚠️ Paid plans", "❌", "⚠️ Via app"],
+  ["Turn an email into a task",   "✅", "❌", "⚠️ Forward to a board", "⚠️ Email to task", "⚠️ Forward to Asana", "⚠️ Via app"],
+  ["Type to Task",                "✅", "❌", "⚠️ Paste a list", "⚠️ Paste a list", "⚠️ Paste a list", "❌"],
+
+  { section: "For managers, with AI included" },
+  ["AI assistant built-in",       "✅ Included", "⚠️ Paid add-on", "❌", "⚠️ Paid add-on", "⚠️ Paid add-on", "⚠️ Paid add-on"],
+  ["Daily Recap",                 "✅", "❌", "❌", "⚠️ Paid add-on", "⚠️ Paid", "❌"],
+  ["Workload Health",             "✅", "❌", "❌", "⚠️ Capacity view", "⚠️ Capacity view", "⚠️ Capacity view"],
+
+  { section: "Your data and price" },
+  ["Works offline",               "✅ Your own tasks and notes", "⚠️ Limited", "❌", "⚠️ View only", "⚠️ View only", "❌"],
+  ["Works without an account",    "✅ Free plan", "❌", "❌", "❌", "❌", "❌"],
+  ["Price",                       "✅ Free\nFlow from $6/mo, Team from $8/person/mo\n(billed yearly)", "⚠️ Free plan", "⚠️ Free plan", "⚠️ Free plan", "⚠️ Free plan", "⚠️ Free plan"],
 ];
 
 const FREELANCE_HEADERS = ["Feature", "BloomBoard", "Moxie", "HoneyBook", "Bonsai", "Dubsado"];
@@ -135,6 +153,12 @@ const FEATURED: Record<string, { icon: LucideIcon; badge?: string; detail?: stri
     detailShort: "Flags overload, stuck work and quiet teammates, privately.",
   },
   "Built-in team chat": { icon: MessageCircle },
+  "Live team office": {
+    icon: Building2,
+    badge: "New",
+    detail: "See who's in, knock before you walk over, and join a room to talk or share your screen.",
+    detailShort: "See who's in, knock, join a room.",
+  },
 };
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
@@ -345,13 +369,20 @@ function MobileComparison({ headers, rows }: { headers: string[]; rows: (string[
 
 function ComparisonTable({
   headers,
-  rows,
+  rows: allRows,
+  topRows,
   title,
 }: {
   headers: string[];
   rows: (string[] | { section: string })[];
+  /** Shown first; "See all features" switches to the full rows. */
+  topRows?: (string[] | { section: string })[];
   title?: string;
 }) {
+  const [showAll, setShowAll] = useState(false);
+  const compact = !!topRows && !showAll;
+  const rows = compact ? topRows! : allRows;
+  const featureCount = allRows.filter((r) => !("section" in r)).length;
   return (
     <div className="mb-12 last:mb-0">
       {title && <h3 className="mb-4 text-xl font-semibold text-[#1d1d1f]">{title}</h3>}
@@ -378,7 +409,7 @@ function ComparisonTable({
                       <Image src="/logo-black.svg" alt="" width={17} height={20} unoptimized className="h-5 w-auto" />
                       {h}
                     </span>
-                  ) : i === 0 ? "Features" : h}
+                  ) : i === 0 ? (compact ? "Where BloomBoard is different" : "Features") : h}
                 </th>
               ))}
             </tr>
@@ -430,7 +461,7 @@ function ComparisonTable({
                     ) : feature}
                     {featured?.detail && (
                       <span className="mt-1 block max-w-[300px] pl-6 text-xs font-normal leading-snug text-[#4b5563]">
-                        {featured.detail}
+                        {compact ? featured.detailShort || featured.detail : featured.detail}
                       </span>
                     )}
                   </td>
@@ -444,11 +475,25 @@ function ComparisonTable({
         </table>
       </div>
 
+      {topRows && (
+        <div className="mt-5 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setShowAll((v) => !v)}
+            className="inline-flex items-center gap-1.5 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-[#1d1d1f] shadow-[0_1px_2px_rgba(0,0,0,0.05)] ring-1 ring-black/[0.08] transition-colors hover:bg-[#fafafa]"
+          >
+            {showAll ? "Show fewer" : `See all ${featureCount} features`}
+            <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${showAll ? "rotate-180" : ""}`} />
+          </button>
+        </div>
+      )}
+
       {/* Legend */}
       <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-[#6e6e73]">
         <span className="inline-flex items-center gap-1.5"><Check className="h-4 w-4 text-emerald-600" strokeWidth={2.8} /> Included</span>
         <span className="inline-flex items-center gap-1.5"><Minus className="h-4 w-4 text-[#c7c7cc]" strokeWidth={2.4} /> Not available</span>
         <span className="inline-flex items-center gap-1.5"><span className="rounded-full bg-zinc-100 px-2 py-0.5 font-medium text-zinc-600 ring-1 ring-zinc-200">Paid</span> Limited or paid extra</span>
+        <span className="sm:ml-auto">Compared October 2026. Other apps change often; if something is out of date, tell us and we will fix it.</span>
       </div>
     </div>
   );
@@ -514,7 +559,7 @@ export default function ComparisonSection({
           <div style={{ display: open ? "block" : "none" }}>
             <div className="pt-10 sm:pt-14">
               {showTeams && (
-                <ComparisonTable headers={TEAMS_HEADERS} rows={TEAMS_ROWS} title={both ? "Solo & Teams" : undefined} />
+                <ComparisonTable headers={TEAMS_HEADERS} rows={TEAMS_ROWS} topRows={TEAMS_TOP_ROWS} title={both ? "Solo & Teams" : undefined} />
               )}
               {showFreelance && (
                 <ComparisonTable headers={FREELANCE_HEADERS} rows={FREELANCE_ROWS} title={both ? "Freelance" : undefined} />
