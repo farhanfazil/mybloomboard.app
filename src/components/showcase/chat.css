@@ -366,9 +366,9 @@
 .bbc .gap-col{border:1px solid var(--line);border-radius:22px;background:var(--page);padding:20px;display:flex;flex-direction:column;gap:14px}
 .bbc .gap-hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .bbc .gap-hd b{font-size:17px;letter-spacing:-.01em}
-.bbc .tag{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px}
-.bbc .tag.bad{background:rgba(239,68,68,.14);color:#fca5a5}
-.bbc .tag.good{background:rgba(103,232,249,.14);color:var(--accent)}
+.bbc .tag{font-size:12px;font-weight:600}
+.bbc .tag.bad{color:#fca5a5}
+.bbc .tag.good{color:var(--accent)}
 .bbc .gap-scene{position:relative;height:250px;border-radius:14px;background:#0b0b0c;border:1px solid var(--line);overflow:hidden}
 .bbc .gap-tx{margin:0;color:var(--muted);font-size:14.5px;line-height:1.55}
 .bbc .app{position:absolute;width:62%;height:150px;border-radius:11px;background:#18181b;border:1px solid var(--line-hi);transition:transform .45s cubic-bezier(.34,1.3,.64,1),opacity .3s,box-shadow .3s;opacity:.55}

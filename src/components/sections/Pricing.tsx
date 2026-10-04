@@ -22,12 +22,12 @@ const PLAN_STYLE: Record<PricingPlan["name"], { line?: string; tagClass?: string
     button: "border border-white/20 text-white hover:bg-white/[0.07]",
   },
   Bloom: {
-    tagClass: "bg-white text-black",
+    tagClass: "text-white",
     border: "border-white/35 bg-[#18181b]",
     button: "bg-white text-black hover:bg-white/90",
   },
   Team: {
-    tagClass: "bg-white/10 text-white/80",
+    tagClass: "text-white/60",
     border: "border-white/15 bg-[#111113]",
     button: "border border-white/25 bg-white/[0.06] text-white hover:bg-white/[0.12]",
   },
@@ -90,7 +90,7 @@ function FeatureLine({ item }: { item: PlanFeature }) {
         </span>
         {item.badge && !item.included && <span className="text-white/40"> · on {item.badge}</span>}
         {item.tag && (
-          <span className="ml-1.5 inline-block whitespace-nowrap rounded bg-white/10 px-1.5 py-px align-[1px] text-[11px] font-medium text-white/70">
+          <span className="ml-1 whitespace-nowrap text-white/45">
             {item.tag}
           </span>
         )}
@@ -146,7 +146,7 @@ function PricingCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
         <div className="flex items-center justify-between gap-2">
           <h3 className="text-lg font-semibold text-white">{plan.name}</h3>
           {plan.badgeLabel && (
-            <span className={`rounded-md px-2 py-0.5 text-xs font-semibold ${style.tagClass}`}>{plan.badgeLabel}</span>
+            <span className={`text-xs font-medium ${style.tagClass}`}>{plan.badgeLabel}</span>
           )}
         </div>
         <p className="mt-1.5 text-sm leading-snug text-white/60 lg:min-h-[2.5rem]">{plan.tagline}</p>

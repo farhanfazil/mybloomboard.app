@@ -198,7 +198,7 @@ function DataCell({ value, isBloom, divider = false }: { value: string; isBloom:
 
   const label =
     status === "partial" ? (
-      <span className="inline-block rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600 ring-1 ring-zinc-200">
+      <span className="text-xs font-medium text-[#6e6e73]">
         {first || "Limited"}
       </span>
     ) : first ? (
@@ -250,7 +250,7 @@ function MobileCell({ value, isBloom }: { value: string; isBloom: boolean }) {
       style={isBloom ? { background: BLOOM_TINT } : undefined}
     >
       {status === "partial" ? (
-        <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-medium leading-tight text-zinc-600 ring-1 ring-zinc-200">
+        <span className="text-[11px] font-medium leading-tight text-[#6e6e73]">
           {first || "Limited"}
         </span>
       ) : (
@@ -341,7 +341,7 @@ function MobileComparison({ headers, rows }: { headers: string[]; rows: (string[
                       <span className="min-w-0">{feature}</span>
                     </span>
                     {featured.badge && (
-                      <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-semibold text-white">
+                      <span className="text-[11px] font-semibold text-emerald-700">
                         {featured.badge}
                       </span>
                     )}
@@ -453,7 +453,7 @@ function ComparisonTable({
                         <FeaturedIcon className="h-4 w-4 shrink-0 text-emerald-600" strokeWidth={2.4} />
                         {feature}
                         {featured.badge && (
-                          <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-semibold text-white">
+                          <span className="text-[11px] font-semibold text-emerald-700">
                             {featured.badge}
                           </span>
                         )}
@@ -492,7 +492,7 @@ function ComparisonTable({
       <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-[#6e6e73]">
         <span className="inline-flex items-center gap-1.5"><Check className="h-4 w-4 text-emerald-600" strokeWidth={2.8} /> Included</span>
         <span className="inline-flex items-center gap-1.5"><Minus className="h-4 w-4 text-[#c7c7cc]" strokeWidth={2.4} /> Not available</span>
-        <span className="inline-flex items-center gap-1.5"><span className="rounded-full bg-zinc-100 px-2 py-0.5 font-medium text-zinc-600 ring-1 ring-zinc-200">Paid</span> Limited or paid extra</span>
+        <span className="inline-flex items-center gap-1.5"><span className="font-medium text-[#1d1d1f]">Paid</span> Limited or paid extra</span>
         <span className="sm:ml-auto">Compared October 2026. Other apps change often; if something is out of date, tell us and we will fix it.</span>
       </div>
     </div>

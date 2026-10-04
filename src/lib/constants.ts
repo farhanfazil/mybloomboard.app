@@ -579,7 +579,7 @@ export const PRICING_PLANS: PricingPlan[] = [
     name: "Free",
     tagline: "Try BloomBoard on your own, for as long as you like.",
     price: "$0",
-    unit: "forever",
+    unit: "no time limit",
     cta: "Download free",
     ctaHref: "/#download",
     trialDays: 0,

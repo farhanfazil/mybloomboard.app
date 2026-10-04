@@ -103,7 +103,7 @@
   .bbw .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:12px;font-size:12.5px;color:#fff}
   .bbw .flow span.s{padding:3px 9px;border-radius:7px;background:var(--surface);border:1px solid var(--line)}
   .bbw .flow svg{width:13px;height:13px;color:var(--dim)}
-  .bbw .tag{font-size:10px;font-weight:700;border:1px solid rgba(255,255,255,.2);border-radius:4px;padding:0 4px;color:rgba(255,255,255,.7)}
+  .bbw .tag{font-size:11px;font-weight:600;color:rgba(255,255,255,.55)}
 
   /* phones: centre four stack, small tiles become a 3-col grid */
   @media (max-width:760px){

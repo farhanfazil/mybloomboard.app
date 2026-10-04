@@ -39,8 +39,8 @@
   .bbo .room.live{border-color:rgba(159,220,255,.55)}
   .bbo .room-t{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700}
   .bbo .room-t svg{width:16px;height:16px;color:var(--muted)}
-  .bbo .livepill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#fff;background:rgba(239,68,68,.16);border-radius:6px;padding:2px 7px;margin-left:6px}
-  .bbo .livepill i{width:6px;height:6px;border-radius:50%;background:var(--red);animation:bbo-pulse 1.4s infinite}
+  .bbo .livepill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:#ff8a80;margin-left:8px}
+  .bbo .livepill i{width:6px;height:6px;border-radius:50%;background:var(--red)}
   @keyframes bbo-pulse{50%{opacity:.35}}
   .bbo .lock{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--dim);font-weight:600}
   .bbo .lock svg{width:13px;height:13px}
@@ -154,7 +154,7 @@
   .bbo .mini-cursor .clk{position:absolute;left:-8px;top:-8px;width:20px;height:20px;border-radius:50%;border:2px solid #fff;opacity:0}
   .bbo .mini-cursor.click .clk{animation:bbo-clk .45s ease}
   .bbo .bubble{background:var(--tile);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px;line-height:1.45}
-  .bbo .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--tile);border:1px solid var(--line);transition:all .35s}
+  .bbo .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;transition:all .35s}
   .bbo .pill i.d{width:8px;height:8px;border-radius:50%}
   .bbo .fade-in{animation:bbo-fi .35s ease both}
   @keyframes bbo-fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -321,10 +321,10 @@
   .bbo .presence{display:flex;align-items:center;gap:12px;margin-top:22px;font-size:13.5px;color:var(--muted)}
   .bbo .stack{display:flex}.bbo .stack span{width:30px;height:30px;border-radius:50%;background-size:cover;border:2px solid var(--bg);margin-left:-8px}
   .bbo .stack span:first-child{margin-left:0}
-  .bbo .livedot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:bbo-pulse 1.6s infinite}
+  .bbo .livedot{width:8px;height:8px;border-radius:50%;background:var(--green)}
   .bbo .ticker{max-width:1160px;margin:0 auto 70px;padding:0 16px}
   .bbo .ticker-in{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-size:14px;color:var(--muted);overflow:hidden;height:50px}
-  .bbo .ticker-in .lbl2{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--dim);text-transform:uppercase;white-space:nowrap}
+  .bbo .ticker-in .lbl2{font-size:13px;font-weight:600;color:var(--text,#fff);white-space:nowrap}
   .bbo .tick{display:flex;align-items:center;gap:9px;white-space:nowrap}
   .bbo .tick .a{width:24px;height:24px;border-radius:50%;background-size:cover}
   .bbo .tick b{color:#fff;font-weight:600}
@@ -573,7 +573,7 @@
 .bbo .sb-i{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:9px;font-size:14px;color:var(--muted)}
 .bbo .sb-i svg{width:16px;height:16px}
 .bbo .sb-i.on{background:var(--tile-hi);color:#fff}
-.bbo .sb-n{margin-left:auto;min-width:22px;height:20px;border-radius:999px;background:rgba(34,197,94,.18);color:#86efac;font-size:11.5px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0 6px}
+.bbo .sb-n{margin-left:auto;min-width:22px;height:20px;border-radius:999px;background:var(--tile-hi);color:#fff;font-size:11.5px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0 6px}
 .bbo .sb-n.bump{animation:bbo-tk .4s ease}
 /* All hands */
 .bbo .ah{position:absolute;inset:18px 22px;display:flex;flex-direction:column;gap:14px}

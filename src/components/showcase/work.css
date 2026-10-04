@@ -98,9 +98,9 @@
 @keyframes bbk-blink{50%{opacity:0}}
 .bbk .task{opacity:0;transform:translateY(8px);transition:all .4s}
 .bbk .task.in{opacity:1;transform:none}
-.bbk .chips{display:flex;gap:6px}
-.bbk .chip-s{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:6px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.8)}
-.bbk .chip-s.blue{color:#93c5fd;background:rgba(59,130,246,.14)}
+.bbk .chips{display:flex;gap:14px}
+.bbk .chip-s{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:rgba(255,255,255,.75)}
+.bbk .chip-s.blue{color:#93c5fd}
 .bbk .chip-s .av{width:16px;height:16px}
 .bbk .cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;height:100%}
 .bbk .kc{border-radius:12px;background:#141416;padding:8px;display:flex;flex-direction:column;gap:6px}

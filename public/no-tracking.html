@@ -4,395 +4,310 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>No Tracking | BloomBoard</title>
-  <meta name="description" content="The BloomBoard app has no ad trackers or third-party analytics. Here's exactly where your data goes and where it doesn't." />
+  <meta name="description" content="The BloomBoard app has no ad trackers or third-party analytics. See exactly where your data goes, and where it doesn't." />
   <link rel="icon" href="https://mybloomboard.app/logo.png" />
   <style>
+    :root {
+      --bg: #0c0c0d;
+      --surface: #151517;
+      --surface-2: #1c1c1f;
+      --line: #2a2a2e;
+      --text: #f2f2f3;
+      --muted: #a3a3aa;
+      --faint: #85858c;
+      --accent: #7fd1a4;
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+    html { -webkit-text-size-adjust: 100%; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0a0a0f;
-      color: #e2e8f0;
-      line-height: 1.75;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
+    a { color: var(--text); text-decoration: underline; text-decoration-color: #55555c; text-underline-offset: 3px; }
+    a:hover { text-decoration-color: var(--text); }
 
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(10,10,15,0.9);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 60px;
-    }
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: #fff;
-      font-weight: 700;
-      font-size: 1rem;
-    }
-    .nav-logo img { width: 28px; height: 28px; border-radius: 6px; }
-    nav a.nav-link {
-      color: #94a3b8;
-      text-decoration: none;
-      font-size: 0.9rem;
-    }
-    nav a.nav-link:hover { color: #fff; }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
 
-    .hero {
-      text-align: center;
-      padding: 80px 2rem 64px;
-      background: #0a0a0a;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      background: rgba(34,197,94,0.1);
-      border: 1px solid rgba(34,197,94,0.25);
-      color: #4ade80;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 5px 14px;
-      border-radius: 100px;
-      margin-bottom: 22px;
-    }
-    .badge-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #4ade80;
-      animation: pulse 2s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-    .hero h1 {
-      font-size: clamp(2.2rem, 5vw, 3.2rem);
-      font-weight: 900;
-      color: #fff;
-      margin-bottom: 14px;
-      letter-spacing: -0.02em;
-    }
-    .hero h1 span { color: #4ade80; }
-    .hero p {
-      color: #94a3b8;
-      font-size: 1.05rem;
-      max-width: 520px;
-      margin: 0 auto;
-    }
-    .hero p.last-updated {
-      margin-top: 16px;
-      font-size: 0.82rem;
-      color: #64748b;
-    }
+    /* Top bar */
+    .top { border-bottom: 1px solid var(--line); }
+    .top .wrap { height: 60px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-weight: 650; }
+    .logo img { width: 26px; height: 26px; border-radius: 6px; }
+    .back { color: var(--muted); text-decoration: none; font-size: 14px; }
+    .back:hover { color: var(--text); }
 
-    .container {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 60px 2rem 100px;
-    }
+    /* Opening */
+    .intro { padding: 88px 0 72px; display: grid; grid-template-columns: 1.25fr 1fr; gap: 56px; align-items: end; }
+    .intro h1 { font-size: clamp(40px, 6vw, 64px); line-height: 1.02; letter-spacing: -0.035em; font-weight: 700; }
+    .intro h1 span { color: var(--faint); }
+    .intro p { color: var(--muted); font-size: 17px; max-width: 420px; }
+    .intro .date { margin-top: 18px; font-size: 13px; color: var(--faint); }
 
-    /* Summary row */
-    .summary-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 14px;
-      margin-bottom: 56px;
-    }
-    .summary-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 14px;
-      padding: 20px 20px 18px;
-      text-align: center;
-    }
-    .summary-card .icon {
-      font-size: 1.6rem;
-      margin-bottom: 8px;
-    }
-    .summary-card .label {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-    .summary-card .desc {
-      font-size: 0.78rem;
-      color: #64748b;
-    }
+    /* Section heads */
+    .block { padding: 64px 0; border-top: 1px solid var(--line); }
+    .head { display: grid; grid-template-columns: 1fr 1.6fr; gap: 56px; margin-bottom: 36px; }
+    .head h2 { font-size: 28px; line-height: 1.15; letter-spacing: -0.02em; font-weight: 650; }
+    .head p { color: var(--muted); font-size: 16px; max-width: 560px; }
 
-    /* Sections */
-    .section { margin-bottom: 44px; }
-    .section-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 12px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .section-title .icon { font-size: 1rem; }
+    /* Interactive: where your data goes */
+    .explorer { display: grid; grid-template-columns: 280px 1fr; gap: 28px; align-items: start; }
+    .setup { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; position: sticky; top: 20px; }
+    .setup h3 { font-size: 13px; font-weight: 600; color: var(--muted); padding: 16px 18px 10px; }
+    .opt { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 13px 18px; border-top: 1px solid var(--line); cursor: pointer; user-select: none; }
+    .opt:hover { background: var(--surface-2); }
+    .opt span { font-size: 14.5px; }
+    .opt small { display: block; font-size: 12.5px; color: var(--faint); margin-top: 1px; }
+    .opt input { position: absolute; opacity: 0; pointer-events: none; }
+    .sw { flex: 0 0 auto; width: 36px; height: 21px; border-radius: 11px; background: #3a3a3f; position: relative; transition: background .2s; }
+    .sw::after { content: ""; position: absolute; top: 2px; left: 2px; width: 17px; height: 17px; border-radius: 50%; background: #fff; transition: transform .2s; }
+    .opt input:checked + .sw { background: var(--accent); }
+    .opt input:checked + .sw::after { transform: translateX(15px); }
+    .opt input:focus-visible + .sw { outline: 2px solid var(--text); outline-offset: 2px; }
 
-    .section p { color: #94a3b8; margin-bottom: 10px; font-size: 0.95rem; }
+    .table { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+    .row { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; border-top: 1px solid var(--line); transition: opacity .25s; }
+    .row:first-child { border-top: 0; }
+    .row > div { padding: 14px 16px; font-size: 14px; }
+    .row.th > div { font-size: 12.5px; font-weight: 600; color: var(--muted); background: var(--surface); padding-top: 12px; padding-bottom: 12px; }
+    .row .what b { display: block; font-weight: 600; font-size: 14.5px; }
+    .row .what i { font-style: normal; color: var(--faint); font-size: 12.5px; }
+    .cell { display: flex; align-items: flex-start; gap: 8px; color: var(--text); }
+    .cell svg { flex: 0 0 auto; margin-top: 3px; }
+    .cell.no { color: var(--faint); }
+    .cell em { font-style: normal; }
+    .row.off { opacity: .38; }
+    .row.flash .cell.yes { animation: in .45s ease-out; }
+    @keyframes in { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
+    .sum { margin-top: 16px; padding: 16px 18px; border-left: 2px solid var(--accent); background: var(--surface); border-radius: 0 10px 10px 0; font-size: 15px; color: var(--text); min-height: 56px; }
 
-    /* Item list */
-    .item-list { display: flex; flex-direction: column; gap: 8px; }
-    .item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 10px;
-      padding: 12px 14px;
-    }
-    .item-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
-    .item-body { flex: 1; min-width: 0; }
-    .item-label { font-size: 0.88rem; font-weight: 600; color: #e2e8f0; margin-bottom: 2px; }
-    .item-desc { font-size: 0.8rem; color: #64748b; }
+    /* Never list */
+    .never { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); }
+    .never li { list-style: none; display: flex; gap: 14px; padding: 18px 4px; border-bottom: 1px solid var(--line); font-size: 15.5px; }
+    .never li:nth-child(odd) { padding-right: 28px; }
+    .never li:nth-child(even) { padding-left: 28px; border-left: 1px solid var(--line); }
+    .never svg { flex: 0 0 auto; margin-top: 4px; }
 
-    /* Status pills */
-    .pill {
-      display: inline-block;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 2px 8px;
-      border-radius: 100px;
-      margin-left: 8px;
-      vertical-align: middle;
-    }
-    .pill-green  { background: rgba(34,197,94,.12);  color: #4ade80;  border: 1px solid rgba(34,197,94,.25); }
-    .pill-blue   { background: rgba(96,165,250,.12); color: #93c5fd;  border: 1px solid rgba(96,165,250,.25); }
-    .pill-yellow { background: rgba(251,191,36,.1);  color: #fbbf24;  border: 1px solid rgba(251,191,36,.25); }
+    /* Plain text blocks */
+    .prose { max-width: 640px; color: var(--muted); font-size: 16px; }
+    .prose p + p { margin-top: 12px; }
+    .prose strong { color: var(--text); font-weight: 600; }
 
-    /* Never box */
-    .never-box {
-      background: rgba(239,68,68,0.05);
-      border: 1px solid rgba(239,68,68,0.15);
-      border-radius: 14px;
-      padding: 22px 24px;
-      margin-bottom: 44px;
-    }
-    .never-box h3 {
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: #fca5a5;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 14px;
-    }
-    .never-list { display: flex; flex-direction: column; gap: 7px; }
-    .never-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.88rem;
-      color: #94a3b8;
-    }
-    .never-item::before {
-      content: '✕';
-      color: #f87171;
-      font-weight: 700;
-      font-size: 0.75rem;
-      flex-shrink: 0;
-    }
+    footer { border-top: 1px solid var(--line); padding: 32px 0 48px; font-size: 13.5px; color: var(--faint); }
+    footer .wrap { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    footer nav { display: flex; gap: 22px; flex-wrap: wrap; }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--text); }
 
-    a { color: #ffffff; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); text-underline-offset: 2px; }
-    a:hover { text-decoration: underline; }
-
-    footer {
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 36px 2rem;
-      text-align: center;
-      color: #475569;
-      font-size: 0.82rem;
+    @media (max-width: 860px) {
+      .intro, .head { grid-template-columns: 1fr; gap: 18px; }
+      .intro { padding: 56px 0 48px; }
+      .explorer { grid-template-columns: 1fr; }
+      .setup { position: static; }
+      .row.th { display: none; }
+      .row { grid-template-columns: 1fr; padding: 6px 0; }
+      .row > div { padding: 4px 16px; }
+      .row .what { padding-top: 10px; }
+      .row .cell::before { content: attr(data-l); flex: 0 0 120px; color: var(--faint); font-size: 12.5px; }
+      .row .cell:last-child { padding-bottom: 12px; }
+      .row.off .cell { display: none; }
+      .row.off .what { padding-bottom: 10px; }
+      .never { grid-template-columns: 1fr; }
+      .never li:nth-child(n) { padding: 16px 0; border-left: 0; }
     }
-    footer a { color: #a1a1aa; text-decoration: none; }
-    .footer-links {
-      display: flex;
-      gap: 24px;
-      justify-content: center;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
   </style>
 </head>
 <body>
 
-<nav>
-  <a class="nav-logo" href="https://mybloomboard.app/">
-    <img src="https://mybloomboard.app/logo.png" alt="BloomBoard" />
-    BloomBoard
-  </a>
-  <a class="nav-link" href="https://mybloomboard.app/">← Back to Home</a>
-</nav>
-
-<div class="hero">
-  <div class="badge"><span class="badge-dot"></span> Active policy</div>
-  <h1>No ad trackers.<br/><span>No data sales.</span></h1>
-  <p>The BloomBoard app has no ad trackers and no third-party analytics tools. Here's exactly where your data goes, and where it doesn't.</p>
-  <p class="last-updated">Last updated: 29 September 2026</p>
-</div>
-
-<div class="container">
-
-  <!-- Summary cards -->
-  <div class="summary-grid">
-    <div class="summary-card">
-      <div class="label">Local first</div>
-      <div class="desc">Tasks, boards &amp; notes are stored on your computer first</div>
-    </div>
-    <div class="summary-card">
-      <div class="label">No app analytics</div>
-      <div class="desc">No ad trackers or third-party analytics tools in the app</div>
-    </div>
-    <div class="summary-card">
-      <div class="label">No data sales</div>
-      <div class="desc">Your data is never sold or rented</div>
-    </div>
-    <div class="summary-card">
-      <div class="label">You choose</div>
-      <div class="desc">Cloud backup and team features start when you sign in</div>
-    </div>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="https://mybloomboard.app/"><img src="https://mybloomboard.app/logo.png" alt="" />BloomBoard</a>
+    <a class="back" href="https://mybloomboard.app/">Back to home</a>
   </div>
+</header>
 
-  <!-- What is stored on device -->
-  <div class="section">
-    <div class="section-title">Stored on your device</div>
-    <p>If you use BloomBoard without an account, all of this stays on your computer. When you sign in, your tasks, boards, notes and settings are also backed up to BloomBoard's cloud so they sync across your devices.</p>
-    <div class="item-list">
-      <div class="item">
-        <div class="item-icon"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#4ade80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-body">
-          <div class="item-label">Tasks, projects &amp; boards<span class="pill pill-green">local first</span></div>
-          <div class="item-desc">Your tasks, subtasks, boards, notes, KPIs, and streaks.</div>
-        </div>
+<main>
+  <section class="wrap intro">
+    <h1>No ad trackers.<br /><span>No data sales.</span></h1>
+    <div>
+      <p>The BloomBoard app has no ad trackers and no third-party analytics tools. Below you can see exactly where your data goes, and where it doesn't.</p>
+      <p class="date">Updated 29 September 2026</p>
+    </div>
+  </section>
+
+  <section class="wrap block">
+    <div class="head">
+      <h2>See where your data goes</h2>
+      <p>Turn on the things you use. The table shows what stays on your computer, what is backed up to BloomBoard's cloud, and which other company gets anything.</p>
+    </div>
+
+    <div class="explorer">
+      <div class="setup" role="group" aria-label="How you use BloomBoard">
+        <h3>How you use BloomBoard</h3>
+        <label class="opt"><div><span>Signed in</span><small>Backup and sync</small></div><input type="checkbox" data-k="signed" /><i class="sw"></i></label>
+        <label class="opt"><div><span>In a team</span><small>Shared boards, chat, calls</small></div><input type="checkbox" data-k="team" /><i class="sw"></i></label>
+        <label class="opt"><div><span>Email connected</span><small>Google or Microsoft</small></div><input type="checkbox" data-k="mail" /><i class="sw"></i></label>
+        <label class="opt"><div><span>Using Bloom AI</span><small>Ask, write, plan</small></div><input type="checkbox" data-k="ai" /><i class="sw"></i></label>
+        <label class="opt"><div><span>On a paid plan</span><small>Bloom or Team</small></div><input type="checkbox" data-k="paid" /><i class="sw"></i></label>
       </div>
-      <div class="item">
-        <div class="item-icon"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#4ade80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-body">
-          <div class="item-label">Calendar &amp; reminders<span class="pill pill-green">local first</span></div>
-          <div class="item-desc">Events, deadlines, vacation and leave entries, and meeting reminders.</div>
+
+      <div>
+        <div class="table" id="table">
+          <div class="row th"><div>Your data</div><div>Your computer</div><div>BloomBoard cloud</div><div>Another company</div></div>
         </div>
-      </div>
-      <div class="item">
-        <div class="item-icon"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#4ade80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-body">
-          <div class="item-label">App settings &amp; preferences<span class="pill pill-green">local first</span></div>
-          <div class="item-desc">Theme, avatar, profile name, workspace mode, and all personalisation.</div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-icon"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#4ade80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-body">
-          <div class="item-label">Email cache<span class="pill pill-green">local</span></div>
-          <div class="item-desc">Email previews shown in the app are cached on your device and never uploaded to our servers.</div>
-        </div>
+        <p class="sum" id="sum" aria-live="polite"></p>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Features that use the internet -->
-  <div class="section">
-    <div class="section-title">Features that use the internet</div>
-    <p>These only start when you sign in, connect a service, or use a feature that needs them.</p>
-    <div class="item-list">
-      <div class="item">
-        <div class="item-icon"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="3" fill="#a1a1aa"/></svg></div>
-        <div class="item-body">
-          <div class="item-label">Account, backup &amp; sync<span class="pill pill-blue">bloomboard cloud</span></div>
-          <div class="item-desc">When you sign in, your tasks, boards, notes and settings are backed up to BloomBoard's cloud (hosted with Supabase) so they stay the same on all your devices.</div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-icon"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="3" fill="#a1a1aa"/></svg></div>
-        <div class="item-body">
-          <div class="item-label">Team boards, chat &amp; calls<span class="pill pill-blue">bloomboard servers</span></div>
-          <div class="item-desc">If you join a team, shared boards and chat messages are stored on BloomBoard's servers so your teammates can see them. Voice and video calls run through our call provider (LiveKit) and are not recorded.</div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-icon"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="3" fill="#a1a1aa"/></svg></div>
-        <div class="item-body">
-          <div class="item-label">Google &amp; Microsoft integrations<span class="pill pill-yellow">opt-in</span></div>
-          <div class="item-desc">If you connect your Google or Microsoft account, the app reads your inbox and calendar and can send emails on your behalf, only when you explicitly trigger it. Sign-in tokens are stored on your device only. You can disconnect at any time in Settings, then Connected Apps.</div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-icon"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="3" fill="#a1a1aa"/></svg></div>
-        <div class="item-body">
-          <div class="item-label">AI assistant (Bloom AI)<span class="pill pill-yellow">opt-in</span></div>
-          <div class="item-desc">When you use AI features, your prompt and relevant context (such as tasks and events) is sent to our AI provider, Anthropic, to generate a response. AI requests are not processed on your device. See <a href="https://www.anthropic.com/privacy" target="_blank">Anthropic's privacy policy</a>.</div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-icon"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="3" fill="#a1a1aa"/></svg></div>
-        <div class="item-body">
-          <div class="item-label">Payments<span class="pill pill-yellow">polar</span></div>
-          <div class="item-desc">Payments are handled by Polar (polar.sh), our merchant of record. Your card details go to Polar and never pass through our systems. We receive your email address and plan status so your plan unlocks when you sign in.</div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-icon"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="3" fill="#a1a1aa"/></svg></div>
-        <div class="item-body">
-          <div class="item-label">Website live demo<span class="pill pill-yellow">anonymous</span></div>
-          <div class="item-desc">The live demo on our website records anonymous usage so we can improve it: your country, the site that referred you, and what you try in the demo. It uses a random ID that lasts only for that browser tab. No names, email addresses, IP addresses or cookies are stored with it.</div>
-        </div>
+  <section class="wrap block">
+    <div class="head">
+      <h2>What we never do</h2>
+      <p>These hold for every plan, signed in or not.</p>
+    </div>
+    <ul class="never">
+      <li><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="#a3a3aa" stroke-width="1.6" stroke-linecap="round"/></svg>Use advertising trackers, pixels or fingerprinting</li>
+      <li><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="#a3a3aa" stroke-width="1.6" stroke-linecap="round"/></svg>Put analytics tools like Google Analytics, Mixpanel or PostHog in the app</li>
+      <li><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="#a3a3aa" stroke-width="1.6" stroke-linecap="round"/></svg>Sell or share your data with advertisers or data brokers</li>
+      <li><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="#a3a3aa" stroke-width="1.6" stroke-linecap="round"/></svg>Use your tasks, notes or messages for advertising or to train AI models</li>
+      <li><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="#a3a3aa" stroke-width="1.6" stroke-linecap="round"/></svg>Record keystrokes or take screenshots in the background</li>
+      <li><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="#a3a3aa" stroke-width="1.6" stroke-linecap="round"/></svg>Keep your Google or Microsoft sign-in on our servers</li>
+      <li><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="#a3a3aa" stroke-width="1.6" stroke-linecap="round"/></svg>Record your calls</li>
+      <li><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="#a3a3aa" stroke-width="1.6" stroke-linecap="round"/></svg>Back up your work to the cloud before you sign in</li>
+    </ul>
+  </section>
+
+  <section class="wrap block">
+    <div class="head">
+      <h2>Our website and live demo</h2>
+      <div class="prose">
+        <p>The app has no analytics, but the live demo on this website keeps simple statistics so we can make it better: your country, the site that sent you, your device type, how long you stayed, which features you opened and what you typed into the demo's search and Bloom assistant.</p>
+        <p>Each visit gets a random ID that ends when you close the tab. <strong>No cookies, names, email addresses or IP addresses are stored with it</strong>, and none of it is used for advertising. Please don't type personal details into the demo.</p>
+        <p>The full details are in our <a href="/privacy.html">Privacy Policy</a>.</p>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Never -->
-  <div class="never-box">
-    <h3>We never do this</h3>
-    <div class="never-list">
-      <div class="never-item">Use advertising trackers, pixels, or fingerprinting</div>
-      <div class="never-item">Put third-party analytics tools (Mixpanel, Amplitude, PostHog, Google Analytics, etc.) in the app</div>
-      <div class="never-item">Read your tasks, notes, boards or messages for advertising, or use them to train AI models</div>
-      <div class="never-item">Record keystrokes or take screenshots in the background</div>
-      <div class="never-item">Sell or share your data with advertisers or data brokers</div>
-      <div class="never-item">Store your Google OAuth tokens on our servers</div>
-      <div class="never-item">Back up your work to the cloud unless you sign in</div>
+  <section class="wrap block">
+    <div class="head">
+      <h2>Questions</h2>
+      <div class="prose">
+        <p>Write to us at <a href="mailto:hello@mybloomboard.app">hello@mybloomboard.app</a> and a person will answer.</p>
+      </div>
     </div>
-  </div>
-
-  <!-- Contact -->
-  <div class="section">
-    <div class="section-title">Questions?</div>
-    <p>If you have any questions about how your data is handled, reach out directly.</p>
-    <p><a href="mailto:hello@mybloomboard.app">hello@mybloomboard.app</a></p>
-  </div>
-
-</div>
+  </section>
+</main>
 
 <footer>
-  <div class="footer-links">
-    <a href="https://mybloomboard.app/">Home</a>
-    <a href="/privacy.html">Full Privacy Policy</a>
-    <a href="/terms.html">Terms of Service</a>
-    <a href="/refund">Refund Policy</a>
-    <a href="/security">Security</a>
-    <a href="mailto:hello@mybloomboard.app">Contact</a>
+  <div class="wrap">
+    <span>&copy; 2026 BloomBoard</span>
+    <nav>
+      <a href="https://mybloomboard.app/">Home</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/refund">Refunds</a>
+      <a href="/security">Security</a>
+      <a href="mailto:hello@mybloomboard.app">Contact</a>
+    </nav>
   </div>
-  <p>© 2026 BloomBoard. Built with privacy in mind.</p>
 </footer>
 
+<script>
+(function () {
+  var YES = '<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5l3 3 6-7" fill="none" stroke="#7fd1a4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var NO = '<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7h8" stroke="#6b6b72" stroke-width="1.6" stroke-linecap="round"/></svg>';
+
+  /* Each row: what it is, and what each place gets for a given setup.
+     A place returns text when it holds the data, or '' when it doesn't. */
+  var ROWS = [
+    { name: 'Tasks, boards and notes', note: 'Including subtasks, KPIs and streaks',
+      used: function () { return true; },
+      pc: function () { return 'Stored here'; },
+      cloud: function (s) { return s.signed ? 'Backup copy, for sync' : ''; },
+      other: function () { return ''; } },
+    { name: 'Settings and profile', note: 'Theme, name, avatar, workspace',
+      used: function () { return true; },
+      pc: function () { return 'Stored here'; },
+      cloud: function (s) { return s.signed ? 'Backup copy, for sync' : ''; },
+      other: function () { return ''; } },
+    { name: 'Emails and calendar', note: 'Your own Google or Microsoft account',
+      used: function (s) { return s.mail; },
+      pc: function () { return 'Previews cached here'; },
+      cloud: function () { return ''; },
+      other: function () { return 'Google or Microsoft, directly'; } },
+    { name: 'Shared boards and chat', note: 'So your teammates see them',
+      used: function (s) { return s.team; },
+      pc: function () { return 'Stored here'; },
+      cloud: function () { return 'Stored, for your team'; },
+      other: function () { return ''; } },
+    { name: 'Voice and video calls', note: 'Live audio and video',
+      used: function (s) { return s.team; },
+      pc: function () { return ''; },
+      cloud: function () { return ''; },
+      other: function () { return 'LiveKit, while the call runs. Not recorded'; } },
+    { name: 'AI requests', note: 'Your prompt and the context it needs',
+      used: function (s) { return s.ai; },
+      pc: function () { return ''; },
+      cloud: function () { return ''; },
+      other: function () { return 'Anthropic, to write the reply. Not used for training'; } },
+    { name: 'Payment', note: 'Card details and billing',
+      used: function (s) { return s.paid; },
+      pc: function () { return ''; },
+      cloud: function () { return 'Email and plan only'; },
+      other: function () { return 'Polar, our payment provider'; } },
+  ];
+
+  var table = document.getElementById('table'), sum = document.getElementById('sum');
+  var boxes = [].slice.call(document.querySelectorAll('.opt input'));
+  var prev = {};
+
+  function cell(label, text) {
+    return '<div class="cell ' + (text ? 'yes' : 'no') + '" data-l="' + label + '">' + (text ? YES : NO) + '<em>' + (text || 'Nothing') + '</em></div>';
+  }
+  function summary(s) {
+    var others = [];
+    if (s.mail) others.push('Google or Microsoft, for your own email');
+    if (s.team) others.push('LiveKit, for calls');
+    if (s.ai) others.push('Anthropic, for AI replies');
+    if (s.paid) others.push('Polar, for payment');
+    var first = s.signed || s.team
+      ? 'Your work is on your computer, with a copy in BloomBoard’s cloud so it syncs' + (s.team ? ' and your team can see shared boards' : '') + '.'
+      : 'Everything stays on your computer. Nothing is sent anywhere.';
+    if (!others.length) return first + (s.signed || s.team ? ' No other company gets anything.' : '');
+    return first + ' Also sent, only when you use it: ' + others.join('; ') + '.';
+  }
+  function render() {
+    var s = {};
+    boxes.forEach(function (b) { s[b.getAttribute('data-k')] = b.checked; });
+    if (s.team) s.signed = true;
+    var html = table.firstElementChild.outerHTML;
+    ROWS.forEach(function (r, i) {
+      var on = r.used(s);
+      var key = [on, r.pc(s), r.cloud(s), r.other(s)].join('|');
+      var changed = prev[i] !== undefined && prev[i] !== key;
+      prev[i] = key;
+      html += '<div class="row' + (on ? '' : ' off') + (changed ? ' flash' : '') + '">' +
+        '<div class="what"><b>' + r.name + '</b><i>' + (on ? r.note : 'Not used in this setup') + '</i></div>' +
+        cell('Your computer', on ? r.pc(s) : '') +
+        cell('BloomBoard cloud', on ? r.cloud(s) : '') +
+        cell('Another company', on ? r.other(s) : '') + '</div>';
+    });
+    table.innerHTML = html;
+    sum.textContent = summary(s);
+  }
+  boxes.forEach(function (b) {
+    b.addEventListener('change', function () {
+      /* Being in a team needs an account. */
+      if (b.getAttribute('data-k') === 'team' && b.checked) boxes[0].checked = true;
+      if (b.getAttribute('data-k') === 'signed' && !b.checked) boxes[1].checked = false;
+      render();
+    });
+  });
+  render();
+})();
+</script>
 </body>
 </html>

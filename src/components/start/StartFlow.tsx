@@ -356,8 +356,8 @@ export default function StartFlow() {
                       >
                         <div className="text-[15px] font-bold">{PLANS[p].name}</div>
                         <div className="mb-2.5 mt-1 text-[13px] text-[#a1a1aa]">{PLANS[p].blurb}</div>
-                        <span className={`mt-auto inline-block whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-semibold ${p === "free" ? "bg-white/[0.06] text-white/60" : plan === p ? "bg-[#4d9fff] text-black" : "bg-white/10 text-white/75"}`}>
-                          {p === "free" ? "Free forever" : `${TRIAL_DAYS[p]}-day free trial`}
+                        <span className={`mt-auto whitespace-nowrap text-[12px] font-medium ${p === "free" ? "text-white/55" : plan === p ? "text-[#4d9fff]" : "text-white/70"}`}>
+                          {p === "free" ? "Free, no time limit" : `${TRIAL_DAYS[p]}-day free trial`}
                         </span>
                       </button>
                     ))}
@@ -514,7 +514,8 @@ export default function StartFlow() {
                           {(["high", "medium", "low"] as Priority[]).map((p) => (
                             <button key={p} type="button" aria-pressed={t.priority === p}
                               onClick={() => setTasks(tasks.map((x, j) => (j === i ? { ...x, priority: p } : x)))}
-                              className={`h-7 rounded-lg px-2.5 text-xs ${t.priority === p ? PRIORITY_ON[p] : "border border-white/[0.12] text-[#a1a1aa]"}`}>
+                              className={`inline-flex h-7 items-center gap-1.5 rounded-lg px-2.5 text-xs ${t.priority === p ? PRIORITY_ON[p] : "border border-white/[0.12] text-[#a1a1aa]"}`}>
+                              <span aria-hidden className="h-1.5 w-1.5 rounded-full" style={{ background: PRIORITY_DOT[p] }} />
                               {p === "medium" ? "Med" : p[0].toUpperCase() + p.slice(1)}
                             </button>
                           ))}
@@ -750,9 +751,9 @@ export default function StartFlow() {
 
 const PR: Record<Priority, number> = { high: 0, medium: 1, low: 2 };
 const PRIORITY_ON: Record<Priority, string> = {
-  high: "border border-[#ff6b6b] bg-[#ff453a]/15 font-bold text-[#ffb4ae]",
-  medium: "border border-[#ff9f0a] bg-[#ff9f0a]/15 font-bold text-[#ffd28a]",
-  low: "border border-[#34c759] bg-[#34c759]/15 font-bold text-[#a6e9b8]",
+  high: "border border-white bg-white font-semibold text-black",
+  medium: "border border-white bg-white font-semibold text-black",
+  low: "border border-white bg-white font-semibold text-black",
 };
 const PRIORITY_DOT: Record<Priority, string> = { high: "#ff453a", medium: "#ff9f0a", low: "#34c759" };
 const PRIORITY_TEXT: Record<Priority, string> = { high: "#ffb4ae", medium: "#ffd28a", low: "#a6e9b8" };

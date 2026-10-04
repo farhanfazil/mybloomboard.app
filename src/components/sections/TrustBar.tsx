@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { Gift, ShieldCheck, XCircle, Bot } from "lucide-react";
 
 const TRUST_ITEMS = [
-  { icon: Gift,        label: "Free plan forever",      sub: "No card required to start" },
+  { icon: Gift,        label: "Free, no time limit",    sub: "No card required to start" },
   { icon: ShieldCheck, label: "Private by default",      sub: "No ad trackers. Your data is never sold." },
   { icon: XCircle,     label: "Cancel any time",         sub: "No lock-in, no questions asked" },
   { icon: Bot,         label: "AI assistant included",   sub: "Plans your day with you" },

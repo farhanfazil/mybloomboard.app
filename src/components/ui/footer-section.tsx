@@ -5,13 +5,14 @@ import type { ComponentProps, ReactNode } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
 import {
-  BellIcon,
-  BotIcon,
+  ArrowRightLeftIcon,
+  Building2Icon,
   ChartNoAxesColumnIncreasingIcon,
   DownloadIcon,
   FileQuestionIcon,
   FrameIcon,
   LayoutDashboardIcon,
+  MessageSquareIcon,
   ShieldCheckIcon,
 } from "lucide-react";
 
@@ -32,7 +33,6 @@ const footerLinks: FooterSection[] = [
     links: [
       { title: "Live demo", href: "/#live-demo", icon: LayoutDashboardIcon },
       { title: "Features", href: "/#features", icon: LayoutDashboardIcon },
-      { title: "Office", href: "/office", icon: LayoutDashboardIcon },
       { title: "Pricing", href: "/#pricing", icon: ChartNoAxesColumnIncreasingIcon },
       { title: "Download", href: "/#download", icon: DownloadIcon },
       { title: "Manage subscription", href: "/account", icon: ChartNoAxesColumnIncreasingIcon },
@@ -41,10 +41,10 @@ const footerLinks: FooterSection[] = [
   {
     label: "App",
     links: [
-      { title: "Boards", href: "/#live-demo", icon: FrameIcon },
-      { title: "AI Assistant", href: "/#live-demo", icon: BotIcon },
-      { title: "Reminders", href: "/#live-demo", icon: BellIcon },
-      { title: "Reports", href: "/#pricing", icon: ChartNoAxesColumnIncreasingIcon },
+      { title: "Tasks & Boards", href: "/work", icon: FrameIcon },
+      { title: "Chat", href: "/chat", icon: MessageSquareIcon },
+      { title: "Handover", href: "/handover", icon: ArrowRightLeftIcon },
+      { title: "Office", href: "/office", icon: Building2Icon },
     ],
   },
   {

@@ -36,7 +36,7 @@ const HOME_STEPS: QuizStep[] = [
 const HOME_RESULTS: Partial<Record<PlanKey, PlanResult>> = {
   free: {
     name: "Free",
-    desc: "Unlimited tasks, up to 5 boards, 20 notes and 50 bookmarks, plus Type to Task and a few AI actions each month. Free forever, no card needed.",
+    desc: "Unlimited tasks, up to 5 boards, 20 notes and 50 bookmarks, plus Type to Task and a few AI actions each month. No time limit, no card needed.",
     href: "/#download",
   },
   bloom: {

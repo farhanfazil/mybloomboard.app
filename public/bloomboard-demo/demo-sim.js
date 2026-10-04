@@ -317,9 +317,17 @@
     later(1000, function () {
       if (!document.body.contains(card)) { g.style.opacity = '0'; return; }
       var clone = card.cloneNode(true);
-      clone.style.cssText = 'position:fixed;left:' + r.left + 'px;top:' + r.top + 'px;width:' + r.width + 'px;margin:0;z-index:9998;pointer-events:none;' +
+      clone.classList.add('bbd-clone');
+      clone.removeAttribute('data-taskid');
+      clone.style.cssText = 'position:fixed;left:' + r.left + 'px;top:' + r.top + 'px;width:' + r.width + 'px;height:' + r.height + 'px;overflow:hidden;margin:0;z-index:9998;pointer-events:none;' +
         'transition:transform .9s cubic-bezier(.65,0,.35,1),opacity .2s;box-shadow:0 10px 24px rgba(0,0,0,.28);border-radius:12px';
-      document.body.appendChild(clone);
+      /* Inside a board-like wrapper so the board's card styles still apply. */
+      var host = document.createElement('div');
+      host.className = 'kb-board bbd-clone-host';
+      host.style.cssText = 'position:fixed;left:0;top:0;width:0;height:0;z-index:9998;pointer-events:none';
+      host.innerHTML = '<div class="kb-col-body"></div>';
+      host.firstChild.appendChild(clone);
+      document.body.appendChild(host);
       card.style.opacity = '.3';
       void clone.offsetWidth;
       clone.style.transform = 'rotate(-1.5deg) scale(1.02)';
@@ -333,7 +341,7 @@
             try { drop(); } catch (e) {}
             card.style.opacity = '';
             clone.style.opacity = '0';
-            later(220, function () { clone.remove(); });
+            later(220, function () { host.remove(); });
             later(500, function () { g.style.opacity = '0'; });
           });
         });
@@ -349,6 +357,64 @@
   }
   function moveMine(id, toStatus) {
     try { if (typeof window.kbMoveTaskToColumn === 'function') window.kbMoveTaskToColumn(id, toStatus); } catch (e) {}
+  }
+
+  /* ── Image attachments ──
+     A file is dragged in from the side of the board and dropped on a card,
+     the way a file from the desktop would be. The app's own attach code
+     takes it from there, so the card gets the real cover thumbnail. */
+  var FILES = {
+    hero: 'hero-v3.jpg',
+    banners: 'banners-final.jpg',
+    deck: 'launch-deck-p6.jpg',
+  };
+  function attachFile(id, key) {
+    var name = FILES[key];
+    if (!name || typeof window.bbAttachFilesToTask !== 'function') return;
+    fetch('demo-files/' + name).then(function (r) { return r.blob(); }).then(function (b) {
+      return window.bbAttachFilesToTask(id, [new File([b], name, { type: 'image/jpeg', lastModified: Date.now() })]);
+    }).catch(function () {});
+  }
+  /* Returns false (and does nothing) when the drop can't be shown right now. */
+  function dropFile(id, key, label) {
+    if (reduceMotion || hidden() || scripting || busyScreen() || Date.now() - lastInput < 1500) return false;
+    var card = boardCard(id);
+    if (!card || !onScreen(card)) return false;
+    var r = card.getBoundingClientRect();
+    var tx = r.left + r.width / 2 - 70, ty = r.top + Math.min(r.height / 2, 40) - 20;
+    var sx = window.innerWidth + 20, sy = Math.max(90, ty - 120);
+
+    var chip = document.createElement('div');
+    chip.className = 'bbd-file';
+    chip.innerHTML = '<img src="demo-files/' + FILES[key] + '" alt=""><span>' + FILES[key] + '</span>';
+    chip.style.transform = 'translate(' + sx + 'px,' + sy + 'px) rotate(-3deg)';
+    document.body.appendChild(chip);
+    var g = ghostCursor(label);
+    placeGhost(sx + 110, sy + 34, true);
+    void chip.offsetWidth;
+    g.style.opacity = '1';
+    chip.style.opacity = '1';
+    chip.style.transform = 'translate(' + tx + 'px,' + ty + 'px) rotate(-3deg)';
+    placeGhost(tx + 110, ty + 34);
+    later(700, function () { card.classList.add('kb-file-over'); });
+    later(1150, function () {
+      card.classList.remove('kb-file-over');
+      chip.style.transition = 'transform .2s ease-out,opacity .2s';
+      chip.style.transform = 'translate(' + tx + 'px,' + (ty + 6) + 'px) scale(.9)';
+      chip.style.opacity = '0';
+      if (document.body.contains(card)) attachFile(id, key);
+      later(260, function () { chip.remove(); });
+      later(500, function () { g.style.opacity = '0'; });
+    });
+    return true;
+  }
+  function forgetAttachments(keep) {
+    try {
+      for (var i = localStorage.length - 1; i >= 0; i--) {
+        var k = localStorage.key(i);
+        if (k && k.indexOf('bb-task-attach-') === 0 && !(keep && keep[k.slice(15)])) localStorage.removeItem(k);
+      }
+    } catch (e) {}
   }
 
   /* About 40 s in, Maya finishes the banners she was given and sends them to Sam
@@ -444,6 +510,7 @@
     var drop = {};
     done.slice(0, done.length - keep).forEach(function (t) { drop[t.id] = 1; });
     localStorage.setItem('bbd-dash-tasks', JSON.stringify(all.filter(function (t) { return !drop[t.id]; })));
+    Object.keys(drop).forEach(function (id) { try { localStorage.removeItem('bb-task-attach-' + id); } catch (e) {} });
     try { if (typeof window.loadTasks === 'function') window.loadTasks(); } catch (e) {}
     try { if (typeof window.renderAll === 'function') window.renderAll(); } catch (e) {}
   }
@@ -470,9 +537,24 @@
     }
     later(fresh ? 1400 : 0, function () { step(0); });
   }
+  /* Now and then an image is dropped on a card, but only while fewer than
+     two cards on the board have one: never bare, never full of pictures. */
+  function maybeDrop(done) {
+    var cards = [].slice.call(document.querySelectorAll('.kb-board .swipe-outer[data-taskid]')).filter(function (c) {
+      var col = c.closest('.kb-col');
+      return c.offsetParent && onScreen(c) && col && col.getAttribute('data-colid') !== 'done';
+    });
+    var withCover = document.querySelectorAll('.kb-board:not(.bbd-clone-host) .task-cover').length;
+    var bare = cards.filter(function (c) { return !c.querySelector('.task-cover'); });
+    if (withCover >= 2 || !bare.length || Math.random() < 0.4) { done(); return; }
+    var keys = Object.keys(FILES), key = keys[Math.floor(Math.random() * keys.length)];
+    var id = bare[Math.floor(Math.random() * bare.length)].getAttribute('data-taskid');
+    if (dropFile(id, key, Math.random() < 0.5 ? mateName() : '')) later(2600, done);
+    else done();
+  }
   function boardRound() {
     if (hidden()) { later(3000, boardRound); return; }
-    function next() { later(rand(8000, 12000), boardRound); }
+    function next() { later(rand(8000, 12000), function () { maybeDrop(boardRound); }); }
     trimDone(2);
     var n = document.getElementById('t2t-input'), card = document.getElementById('t2t-dashboard-card');
     var canType = n && card && !n.value && document.activeElement !== n && fullyVisible(card) && !busyScreen() &&
@@ -521,12 +603,15 @@
     'Send the invoice to Acme next Monday',
   ];
   /* [line, column, cursor label] */
+  /* A column of 'file:<key>' drops that image onto the card instead. */
   var STORY_MOVES = [
-    [0, 'ongoing', 'Drag cards to move them'], [1, 'ongoing', 'Maya Chen'], [2, 'ongoing', ''],
-    [0, 'review', ''], [3, 'ongoing', 'Daniel Brooks'], [2, 'review', ''], [2, 'done', ''],
+    [0, 'ongoing', 'Drag cards to move them'], [0, 'file:hero', 'Drop images on a task'],
+    [1, 'ongoing', 'Maya Chen'], [1, 'file:banners', 'Maya Chen'], [2, 'ongoing', ''],
+    [0, 'review', ''], [3, 'ongoing', 'Daniel Brooks'], [3, 'file:deck', 'Daniel Brooks'],
+    [2, 'review', ''], [2, 'done', ''],
   ];
   var storyRunning = false;
-  if (STORY) { try { localStorage.setItem('bbd-dash-tasks', '[]'); } catch (e) {} }
+  if (STORY) { try { localStorage.setItem('bbd-dash-tasks', '[]'); } catch (e) {} forgetAttachments(); }
 
   var fxCss = document.createElement('style');
   fxCss.textContent =
@@ -541,17 +626,26 @@
     'body.black-mode #bbd-hint{background:#f5f5f5;color:#111}' +
     'body.black-mode #bbd-hint:before{background:#f5f5f5}' +
     'body.black-mode #bb-demo-ghost span{background:#f5f5f5!important;color:#111!important}' +
+    '.bbd-file{position:fixed;left:0;top:0;z-index:9998;pointer-events:none;opacity:0;display:flex;align-items:center;gap:8px;padding:5px 10px 5px 5px;' +
+      'border-radius:9px;background:#fff;color:#111;box-shadow:0 8px 22px rgba(0,0,0,.28);font:600 11.5px/1 -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;' +
+      'transition:transform .95s cubic-bezier(.65,0,.35,1),opacity .25s}' +
+    '.bbd-file img{width:46px;height:24px;object-fit:cover;border-radius:4px;display:block}' +
+    '.kb-board .task-cover img,.bbd-clone .task-cover img{max-height:150px;object-fit:cover;object-position:top}' +
     '.bbd-nudge{animation:bbdNudge 1.6s ease-in-out 3}' +
     '@keyframes bbdNudge{0%,100%{transform:none}50%{transform:scale(1.06)}}';
   (document.head || document.documentElement).appendChild(fxCss);
 
   function storyMoves(ids) {
-    var left = STORY_MOVES.filter(function (m) { return ids[m[0]]; });
+    /* Two of the three image drops, a different pair each visit. */
+    var drops = STORY_MOVES.filter(function (m) { return m[1].indexOf('file:') === 0; });
+    var skip = drops[Math.floor(Math.random() * drops.length)];
+    var left = STORY_MOVES.filter(function (m) { return ids[m[0]] && m !== skip; });
     function step(stalls) {
       if (!left.length) { storyEnd(ids); return; }
       var m = left[0], id = ids[m[0]];
       if (!boardCard(id)) { left.shift(); step(0); return; }
-      if (dragCard(id, m[1], m[2], function () { moveMine(id, m[1]); })) {
+      var file = m[1].indexOf('file:') === 0 ? m[1].slice(5) : '';
+      if (file ? dropFile(id, file, m[2]) : dragCard(id, m[1], m[2], function () { moveMine(id, m[1]); })) {
         shownHint = true;
         left.shift();
         later(2400 + rand(500, 900), function () { step(0); });
@@ -560,7 +654,7 @@
       /* Wait while the visitor is busy; if the card is out of sight, move it quietly. */
       if (hidden() || busyScreen() || Date.now() - lastInput < 1500 || stalls < 3) { later(1500, function () { step(stalls + 1); }); return; }
       left.shift();
-      moveMine(id, m[1]);
+      if (file) attachFile(id, file); else moveMine(id, m[1]);
       later(800, function () { step(0); });
     }
     later(1400, function () { step(0); });
