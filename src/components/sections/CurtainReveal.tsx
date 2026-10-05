@@ -12,7 +12,7 @@ import { useEffect, useRef, type ReactNode } from "react";
  * screen. Inside the wrapper the section is `position: sticky; top: 0`, with one
  * screen of extra room after it, so it holds still for exactly the screen of
  * scrolling it takes the lid's bottom edge to cross the screen, then scrolls
- * normally. Script only fades it up and moves its #anchor to where it shows.
+ * normally. Script only lifts a dark layer off it and moves its #anchor to where it shows.
  */
 export default function CurtainReveal({
   lid,
@@ -29,11 +29,13 @@ export default function CurtainReveal({
   const lidRef = useRef<HTMLDivElement>(null);
   const underRef = useRef<HTMLDivElement>(null);
   const markRef = useRef<HTMLDivElement>(null);
+  const shadeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const lidEl = lidRef.current, under = underRef.current, mark = markRef.current;
-    if (!lidEl || !under) return;
+    const lidEl = lidRef.current, under = underRef.current, mark = markRef.current, shade = shadeRef.current;
+    if (!lidEl || !under || !shade) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) shade.style.opacity = "0";
 
     /* The section's own anchor (e.g. #pricing) would land a screen early; the
        marker after the lid is exactly where it shows. It can load lazily, so
@@ -53,7 +55,8 @@ export default function CurtainReveal({
       if (!adopted) adopt();
       if (reduce) return;
       const r = Math.min(1, Math.max(0, 1 - lidEl.getBoundingClientRect().bottom / window.innerHeight));
-      under.style.opacity = (0.55 + 0.45 * r).toFixed(3);
+      /* a black layer lifts off it (cheap), rather than fading the whole section */
+      shade.style.opacity = (0.45 * (1 - r)).toFixed(3);
     };
     const onScroll = () => {
       if (queued) return;
@@ -80,9 +83,10 @@ export default function CurtainReveal({
         {lid}
       </div>
       <div ref={markRef} aria-hidden className="h-0" />
-      <div className="curtain-under relative z-10" style={{ marginTop: "-100vh" }}>
+      <div className="curtain-under relative z-10 bg-black" style={{ marginTop: "-100vh" }}>
         <div ref={underRef} className="sticky top-0">
           {under}
+          <div ref={shadeRef} aria-hidden className="pointer-events-none absolute inset-0 bg-black" style={{ opacity: 0.45, willChange: "opacity" }} />
         </div>
         <div aria-hidden style={{ height: "100vh" }} />
       </div>

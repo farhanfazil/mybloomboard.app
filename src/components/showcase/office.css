@@ -599,55 +599,61 @@
 .bbo .gd-invite{top:82%}
 
 /* ── The entrance: sliding glass doors open onto the office as you scroll ── */
-.bbo .og{position:relative;height:460vh}
+.bbo .og{position:relative;height:620vh}
 .bbo .og-hide{position:absolute;left:0;top:28vh;bottom:0;width:1px;pointer-events:none}
 .bbo .og-stage{position:sticky;top:0;height:100vh;overflow:hidden;background:#000}
 .bbo .og-planwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.bbo .og-plan{position:relative;width:1200px;height:680px;flex:none;will-change:transform}
-.bbo .og-room{position:absolute;background:#141416;border:1px solid var(--line);border-radius:18px;padding:16px 18px;overflow:hidden}
-.bbo .og-room h4{margin:0;font-size:14px;font-weight:600;color:var(--fg)}
-.bbo .og-st{font-size:12px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:6px}
+.bbo .og-plan{position:relative;width:1200px;height:720px;flex:none;will-change:transform}
+.bbo .og-floor{position:absolute;left:0;top:0}
+/* a top-down office: each room is drawn (walls, doors, furniture) and people sit where they work */
+.bbo .og-room{position:absolute}
+.bbo .og-room>svg{position:absolute;left:0;top:0;overflow:visible}
+.bbo .og-design{left:0;top:0;width:470px;height:290px}
+.bbo .og-reception{left:490px;top:0;width:220px;height:290px}
+.bbo .og-lounge{left:730px;top:0;width:470px;height:290px}
+.bbo .og-desks{left:0;top:350px;width:780px;height:370px}
+.bbo .og-focus{left:800px;top:350px;width:400px;height:370px}
+.bbo .og-lbl{position:absolute;left:18px;top:16px;font-size:14px;font-weight:600;color:var(--fg)}
+.bbo .og-st{font-size:12px;font-weight:400;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:6px}
 .bbo .og-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
 .bbo .og-dot.red{background:var(--red)}.bbo .og-dot.amber{background:var(--amber)}
 .bbo .og-av{width:44px;height:44px;border-radius:50%;background-size:cover;background-position:center;position:relative;flex:none;border:2px solid #141416;display:inline-block}
-.bbo .og-av.sm{width:34px;height:34px}
-.bbo .og-av.big{width:96px;height:96px;border-width:3px}
-.bbo .og-s{position:absolute;right:-1px;bottom:-1px;width:12px;height:12px;border-radius:50%;border:2px solid #141416;background:var(--green)}
-.bbo .og-who{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
-.bbo .og-who b{color:var(--fg);font-weight:600;font-size:12.5px}
-.bbo .og-mut{font-size:12.5px;color:var(--muted)}
-.bbo .og-design{left:0;top:0;width:470px;height:300px;border-color:rgba(159,220,255,.35)}
-.bbo .og-call{display:flex;gap:34px;justify-content:center;align-items:center;margin-top:30px}
-.bbo .og-talk{position:relative;display:inline-block}
-.bbo .og-talk::before{content:"";position:absolute;inset:-7px;border-radius:50%;border:2px solid var(--cyan);opacity:0}
-.bbo .og-talk.on::before{animation:og-ring 1.4s ease-out infinite}
-@keyframes og-ring{0%{opacity:.9;transform:scale(.94)}100%{opacity:0;transform:scale(1.14)}}
-.bbo .og-eq{display:inline-flex;gap:2px;align-items:flex-end;height:12px}
+.bbo .og-s{position:absolute;right:-2px;bottom:-2px;width:11px;height:11px;border-radius:50%;border:2px solid #141416;background:var(--green)}
+/* people arrive as the doors open, room by room */
+.bbo .og-p{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background-size:cover;background-position:center;border:2px solid #141416;
+  opacity:0;transform:scale(.6);transition:opacity .35s ease var(--d,0s),transform .45s cubic-bezier(.2,.9,.3,1.3) var(--d,0s)}
+.bbo .og-live .og-p{opacity:1;transform:none}
+.bbo .og-live .og-p.away,.bbo .og-live .og-you:not(.here) .og-p{opacity:0;transform:scale(.6);transition-delay:0s}
+.bbo .og-p.ini{display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:650;color:#fff}
+.bbo .og-p.on::before{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--cyan);animation:og-ring 1.4s ease-out infinite}
+@keyframes og-ring{0%{opacity:.9;transform:scale(.92)}100%{opacity:0;transform:scale(1.25)}}
+.bbo .og-eq{display:inline-flex;gap:2px;align-items:flex-end;height:11px}
 .bbo .og-eq i{width:3px;background:var(--cyan);border-radius:2px;animation:og-eq .9s ease-in-out infinite}
 .bbo .og-eq i:nth-child(2){animation-delay:.15s}.bbo .og-eq i:nth-child(3){animation-delay:.3s}.bbo .og-eq i:nth-child(4){animation-delay:.45s}
-@keyframes og-eq{0%,100%{height:3px}50%{height:12px}}
-.bbo .og-bar{position:absolute;left:18px;right:18px;bottom:16px;display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted)}
+@keyframes og-eq{0%,100%{height:3px}50%{height:11px}}
+.bbo .og-bar{position:absolute;left:18px;right:18px;bottom:14px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}
 .bbo .og-tm{font-variant-numeric:tabular-nums}
-.bbo .og-tm.big{font-size:28px;font-weight:600;letter-spacing:-.02em;color:var(--fg)}
-.bbo .og-reception{left:490px;top:0;width:220px;height:300px}
-.bbo .og-desk{position:absolute;left:18px;right:18px;bottom:18px;height:70px;border-radius:12px;background:#1b1b1e;border:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 12px;font-size:12px;color:var(--muted)}
-.bbo .og-lounge{left:730px;top:0;width:470px;height:300px}
-.bbo .og-ring{display:flex;gap:18px;justify-content:center;margin-top:34px}
-.bbo .og-bubble{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);background:#1b1b1e;border:1px solid var(--line-hi);border-radius:12px;padding:7px 11px;font-size:12.5px;color:var(--fg);white-space:nowrap;opacity:0;transition:opacity .4s}
-.bbo .og-bubble.on{opacity:1}
-.bbo .og-desks{left:0;top:320px;width:780px;height:360px}
-.bbo .og-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
-.bbo .og-dk{height:118px;border-radius:12px;background:#1b1b1e;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:12px;color:var(--muted);text-align:center;padding:0 8px}
-.bbo .og-dk.og-you{border:1px dashed var(--line-hi);background:transparent;transition:border-color .4s,background .4s}
-.bbo .og-dk.og-you b{color:var(--fg);font-size:12.5px}
-.bbo .og-me{width:0;height:0;border-width:0;opacity:0;transition:width .35s,height .35s,opacity .35s}
-.bbo .og-you.here{border-style:solid;border-color:rgba(159,220,255,.35);background:#1b1b1e}
-.bbo .og-you.here .og-me{width:44px;height:44px;border-width:2px;opacity:1}
-.bbo .og-you.here b{display:none}
-.bbo .og-focus{left:800px;top:320px;width:400px;height:360px}
-.bbo .og-fc{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:30px}
-.bbo .og-walker{position:absolute;left:0;top:0;z-index:5;transition:transform .9s ease-in-out}
-.bbo .og-walker .og-av{width:34px;height:34px}
+.bbo .og-tm.big{font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--fg)}
+.bbo .og-mut{font-size:12px;color:var(--muted)}
+.bbo .og-tg{position:absolute;transform:translateX(-50%);font-size:11.5px;color:var(--muted);white-space:nowrap}
+.bbo .og-tg b{color:var(--fg);font-weight:600}
+.bbo .og-bub{position:absolute;display:flex;align-items:center;gap:8px;background:#1e1e22;border:1px solid var(--line-hi);border-radius:12px;padding:7px 11px;font-size:12.5px;color:var(--fg);white-space:nowrap;
+  opacity:0;transform:translateY(4px);transition:opacity .35s,transform .35s}
+.bbo .og-bub.on{opacity:1;transform:none}
+.bbo .og-bub .og-av{width:22px;height:22px;border:0}
+.bbo .og-you{position:absolute;left:585px;top:70px;width:150px;height:56px;border:1.5px dashed rgba(159,220,255,.45);border-radius:8px}
+.bbo .og-you.here{border-style:solid}
+.bbo .og-you .og-p{left:75px;top:76px}
+.bbo .og-fcx{position:absolute;left:200px;top:226px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px}
+.bbo .og-walker{position:absolute;left:0;top:0;z-index:5}
+/* you: walk in at the front door, past reception, down the corridor and into the Design room */
+.bbo .og-mewalk{position:absolute;left:0;top:0;z-index:6;opacity:0;pointer-events:none}
+.bbo .og-mewalk .og-p{opacity:1;transform:none;border:2px solid var(--cyan);transition:none}
+.bbo .og-mewalk em{position:absolute;left:0;top:24px;transform:translateX(-50%);font-style:normal;font-size:11px;font-weight:600;color:#0b0b0c;background:var(--cyan);border-radius:5px;padding:1px 6px}
+/* the Design room opens up into the app: the film sits in the stage and grows out of the room */
+.bbo .og-morph{position:absolute;left:0;top:0;z-index:12;opacity:0;pointer-events:none;background:#141416;border:1px solid rgba(159,220,255,.35);border-radius:18px;box-sizing:border-box}
+.bbo .og-film{position:absolute;left:50%;top:50%;padding:0;margin:0;max-width:none;z-index:13;opacity:0;pointer-events:none;transform-origin:center;will-change:transform,opacity}
+.bbo .og-walker .og-p{width:36px;height:36px;margin:-18px 0 0 -18px}
 /* the doors: frosted glass, so the office shows through as blurred shapes */
 .bbo .og-doors{position:absolute;inset:0;pointer-events:none;z-index:10}
 .bbo .og-door{position:absolute;top:0;bottom:0;width:50%;will-change:transform;background:rgba(20,20,22,.62);-webkit-backdrop-filter:blur(22px) saturate(.9);backdrop-filter:blur(22px) saturate(.9);border:1px solid rgba(255,255,255,.07)}
@@ -672,16 +678,14 @@
 .bbo .og-hint{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;font-size:11px;letter-spacing:.28em;color:rgba(255,255,255,.66);z-index:21;transition:opacity .4s}
 .bbo .og-hint svg{animation:og-bob 1.6s ease-in-out infinite}
 @keyframes og-bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(5px);opacity:1}}
-.bbo .og-prog{position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(255,255,255,.1);z-index:22}
-.bbo .og-prog i{display:block;height:100%;background:rgba(255,255,255,.9);transform-origin:left;transform:scaleX(0)}
 @media (max-width:700px){
-  .bbo .og{height:380vh}
+  .bbo .og{height:520vh}
   .bbo .og-title{padding-top:16vh}
   .bbo .og-card span{font-size:16px}
 }
 @media (prefers-reduced-motion:reduce){
   .bbo .og{height:100vh}
-  .bbo .og-talk.on::before,.bbo .og-eq i,.bbo .og-hint svg{animation:none}
+  .bbo .og-p.on::before,.bbo .og-eq i,.bbo .og-hint svg{animation:none}
 }
 
 /* ── The tour map: the chapter nav is a small floor plan, and "You" walks

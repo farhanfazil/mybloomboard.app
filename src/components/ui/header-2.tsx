@@ -6,6 +6,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
 import { useScroll } from "@/components/ui/use-scroll";
+import { ArrowRight, ArrowRightLeft, Building2, ChevronDown, LayoutGrid, MessageSquare, type LucideIcon } from "lucide-react";
 
 
 interface NavLink {
@@ -20,12 +21,90 @@ interface NavLink {
 /* NEXT_PUBLIC_WEB_APP_URL (set only in .env.local) points it at a web app running on this Mac while previewing. */
 export const WEB_APP_URL = process.env.NEXT_PUBLIC_WEB_APP_URL || "https://app.mybloomboard.app/";
 
+/** The Product menu: one page per part of the app. Office first, with its live dot. */
+type ProductItem = { label: string; href: string; desc: string; icon: LucideIcon; live?: boolean };
+export const PRODUCT_ITEMS: ProductItem[] = [
+  { label: "Office", href: "/office", desc: "Your team in one place. Walk in and talk.", icon: Building2, live: true },
+  { label: "Chat", href: "/chat", desc: "Messages, rooms and files.", icon: MessageSquare },
+  { label: "Tasks & Boards", href: "/work", desc: "Type your tasks, move them along.", icon: LayoutGrid },
+  { label: "Handover", href: "/handover", desc: "Hand over your work before you go on leave.", icon: ArrowRightLeft },
+];
+
 /** Same links on every page, so they're absolute ("/#pricing", not "#pricing"). */
 export const NAV_LINKS: NavLink[] = [
-  { label: "Features", href: "/#features" },
-  { label: "Office", href: "/office", live: true },
   { label: "Pricing", href: "/#pricing" },
 ];
+
+/** "Product" in the header: opens on hover (or click / Enter), closes on leave or Escape. */
+function ProductMenu() {
+  const [open, setOpen] = React.useState(false);
+  const closeTimer = React.useRef<number | null>(null);
+  const wrapRef = React.useRef<HTMLDivElement>(null);
+  const show = () => { if (closeTimer.current) window.clearTimeout(closeTimer.current); setOpen(true); };
+  const hide = () => { if (closeTimer.current) window.clearTimeout(closeTimer.current); closeTimer.current = window.setTimeout(() => setOpen(false), 140); };
+
+  React.useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    const onDown = (e: PointerEvent) => { if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setOpen(false); };
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("pointerdown", onDown);
+    return () => { window.removeEventListener("keydown", onKey); window.removeEventListener("pointerdown", onDown); };
+  }, [open]);
+
+  return (
+    <div ref={wrapRef} className="relative" onMouseEnter={show} onMouseLeave={hide}>
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-haspopup="true"
+        onClick={() => setOpen((v) => !v)}
+        className={buttonVariants({ variant: "ghost", className: "gap-1 px-3 text-sm" })}
+      >
+        Product
+        <ChevronDown aria-hidden className={cn("size-3.5 opacity-60 transition-transform duration-200", open && "rotate-180")} />
+      </button>
+      <div
+        className={cn(
+          "absolute left-1/2 top-full z-50 w-[440px] -translate-x-1/2 pt-2 transition-[opacity,transform] duration-150",
+          open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0",
+        )}
+      >
+        <div className="rounded-xl border border-white/10 bg-[#141416] p-2 shadow-[0_16px_40px_rgba(0,0,0,0.45)]">
+          <div className="grid grid-cols-2 gap-1">
+            {PRODUCT_ITEMS.map((it) => (
+              <a
+                key={it.label}
+                href={it.href}
+                onClick={() => setOpen(false)}
+                className="group flex gap-3 rounded-lg p-3 transition-colors hover:bg-white/[0.06]"
+              >
+                <it.icon aria-hidden className="mt-0.5 size-[18px] shrink-0 text-white/70 group-hover:text-white" strokeWidth={1.8} />
+                <span className="min-w-0">
+                  <span className="flex items-center gap-1.5 text-sm font-medium text-white">
+                    {it.label}
+                    {it.live ? <span aria-hidden className="inline-block size-1.5 rounded-full bg-[#22c55e]" /> : null}
+                  </span>
+                  <span className="mt-0.5 block text-[13px] leading-snug text-white/55">{it.desc}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+          <div className="mt-1 border-t border-white/[0.08] px-1 pt-1">
+            <a
+              href="/#features"
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-between rounded-lg px-2 py-2.5 text-[13px] text-white/70 transition-colors hover:bg-white/[0.06] hover:text-white"
+            >
+              All features
+              <ArrowRight aria-hidden className="size-3.5" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function Header({
   customLinks,
@@ -45,20 +124,27 @@ export function Header({
   React.useEffect(() => {
     // A handful of getBoundingClientRect calls per scroll; React skips the
     // re-render when the value doesn't change.
+    let queued = false;
     const check = () => {
+      queued = false;
       const probe = 80;
       const hit = Array.from(document.querySelectorAll<HTMLElement>("[data-hide-header]")).some((el) => {
         const r = el.getBoundingClientRect();
         return r.top <= probe && r.bottom > probe;
       });
-      setOverLight(hit);
+      /* the live demo has the stage (src/components/sections/DemoSpotlight.tsx) */
+      setOverLight(hit || document.documentElement.hasAttribute("data-demo-focus"));
     };
+    /* at most once a frame */
+    const onScroll = () => { if (!queued) { queued = true; requestAnimationFrame(check); } };
     check();
-    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", check);
+    window.addEventListener("bb-demo-focus", check);
     return () => {
-      window.removeEventListener("scroll", check);
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", check);
+      window.removeEventListener("bb-demo-focus", check);
     };
   }, []);
   const hidden = overLight && !open;
@@ -80,10 +166,12 @@ export function Header({
     <header
       aria-hidden={hidden || undefined}
       className={cn(
-        "sticky top-0 z-50 mx-auto w-full max-w-6xl border-b border-transparent transition-[transform,opacity] duration-300 ease-out md:rounded-xl md:border md:transition-all md:ease-out",
+        /* Same size and place at all times; only colours fade when you scroll, so
+           nothing is laid out again mid-scroll (that is what makes a header judder). */
+        "sticky top-0 z-50 mx-auto w-full max-w-6xl border-b border-transparent transition-[transform,opacity,background-color,border-color,box-shadow] duration-300 ease-out md:top-4 md:max-w-5xl md:rounded-xl md:border",
         {
           "pointer-events-none -translate-y-[130%] opacity-0": hidden,
-          "border-border bg-background/95 shadow supports-[backdrop-filter]:bg-background/70 backdrop-blur-lg md:top-4 md:max-w-5xl":
+          "border-border bg-background/95 shadow supports-[backdrop-filter]:bg-background/70 backdrop-blur-lg":
             scrolled && !open,
           "bg-background/95": open,
         },
@@ -91,10 +179,7 @@ export function Header({
     >
       <nav
         className={cn(
-          "flex h-16 w-full items-center justify-between px-4 md:h-14 md:transition-all md:ease-out",
-          {
-            "md:px-3": scrolled,
-          },
+          "flex h-16 w-full items-center justify-between px-4 md:h-14 md:px-3",
         )}
       >
         <a href={logoHref ?? "#hero"} className="flex items-center gap-2.5">
@@ -109,6 +194,7 @@ export function Header({
         </a>
 
         <div className="hidden items-center gap-2 md:flex">
+          {!customLinks && <ProductMenu />}
           {links.map((link) => (
             <a
               key={link.label}
@@ -153,11 +239,36 @@ export function Header({
     {/* ── Mobile drawer ── */}
     {open && (
       <div
-        className="fixed bottom-0 top-16 z-[49] flex flex-col bg-black md:hidden"
+        className="fixed bottom-0 top-16 z-[49] flex flex-col overflow-y-auto bg-black md:hidden"
         style={{ left: 0, right: 0, width: "100vw" }}
       >
         {/* Nav links */}
         <nav style={{ padding: "24px 16px 16px" }}>
+          {!customLinks && (
+            <>
+              <div style={{ padding: "0 12px 6px", fontSize: "12px", fontWeight: 600, color: "rgba(255,255,255,0.45)" }}>Product</div>
+              {PRODUCT_ITEMS.map((it) => (
+                <a
+                  key={it.label}
+                  href={it.href}
+                  onClick={() => setOpen(false)}
+                  style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px", borderRadius: "12px", fontSize: "16px", fontWeight: 500, color: "#f5f5f7", textDecoration: "none", width: "100%", boxSizing: "border-box" }}
+                >
+                  <it.icon aria-hidden size={18} strokeWidth={1.8} style={{ color: "rgba(255,255,255,0.7)" }} />
+                  {it.label}
+                  {it.live ? <span aria-hidden style={{ width: 7, height: 7, borderRadius: 9, background: "#22c55e" }} /> : null}
+                </a>
+              ))}
+              <a
+                href="/#features"
+                onClick={() => setOpen(false)}
+                style={{ display: "flex", alignItems: "center", padding: "12px", borderRadius: "12px", fontSize: "15px", color: "rgba(255,255,255,0.7)", textDecoration: "none" }}
+              >
+                All features
+              </a>
+              <div style={{ margin: "8px 12px", borderTop: "1px solid rgba(255,255,255,0.08)" }} />
+            </>
+          )}
           {links.map((link) => (
             <a
               key={link.label}

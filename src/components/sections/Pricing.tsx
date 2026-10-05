@@ -329,21 +329,35 @@ export default function Pricing() {
           ))}
         </motion.div>
 
-        {/* Bottom notes */}
+        {/* Bottom notes: three plain facts side by side, then the AI note */}
         <motion.div
-          className="mx-auto mt-10 flex max-w-2xl flex-col items-center gap-3 text-center"
+          className="mx-auto mt-12 max-w-4xl"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <p className="text-sm text-white/60">
-            All paid plans start with a free trial: 7 days for Bloom, 14 days for Team. No card needed to start, or add one up front and nothing is charged until the trial ends. Cancel anytime. 14-day refund on your first payment and on yearly renewals. <a href="/refund" className="underline underline-offset-2 hover:text-white">Refund policy</a>
-          </p>
-          <p className="inline-flex flex-wrap items-center justify-center gap-2 rounded-lg border border-white/15 bg-[#18181b] px-3.5 py-2 text-sm text-white/80">
-            <span className="rounded bg-white px-1.5 py-0.5 text-xs font-semibold text-black">Founding price</span>
-            <span>Lock it in for as long as you stay subscribed.</span>
-          </p>
-          <p className="text-xs text-white/45">{AI_LIMIT_NOTE}</p>
+          <div className="grid gap-6 border-t border-white/10 pt-6 text-left sm:grid-cols-3 sm:gap-0">
+            <div className="sm:pr-6">
+              <h4 className="text-sm font-semibold text-white">Free trial first</h4>
+              <p className="mt-1.5 text-sm leading-relaxed text-white/55">
+                7 days for Bloom, 14 days for Team. No card needed, or add one and nothing is charged until the trial ends.
+              </p>
+            </div>
+            <div className="sm:border-l sm:border-white/10 sm:px-6">
+              <h4 className="text-sm font-semibold text-white">Founding price</h4>
+              <p className="mt-1.5 text-sm leading-relaxed text-white/55">
+                The price you join at stays yours for as long as you stay subscribed.
+              </p>
+            </div>
+            <div className="sm:border-l sm:border-white/10 sm:pl-6">
+              <h4 className="text-sm font-semibold text-white">Cancel anytime</h4>
+              <p className="mt-1.5 text-sm leading-relaxed text-white/55">
+                14-day refund on your first payment and on yearly renewals.{" "}
+                <a href="/refund" className="text-white/80 underline underline-offset-2 hover:text-white">Refund policy</a>
+              </p>
+            </div>
+          </div>
+          <p className="mt-8 text-center text-xs text-white/45">{AI_LIMIT_NOTE}</p>
         </motion.div>
       </div>
     </section>

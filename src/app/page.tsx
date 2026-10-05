@@ -3,6 +3,8 @@ import dynamic from "next/dynamic";
 import { Header } from "@/components/ui/header-2";
 import AppPreviewScroll from "@/components/sections/AppPreviewScroll";
 import FeatureWall from "@/components/showcase/FeatureWall";
+import PinnedSection from "@/components/sections/PinnedSection";
+import SnapPoints from "@/components/sections/SnapPoints";
 
 // Above-fold sections load immediately ↑
 // Below-fold sections are lazy-loaded — don't block initial paint ↓
@@ -23,8 +25,13 @@ export default function Home() {
   return (
     <main>
       <Header />
+      <SnapPoints />
       <AppPreviewScroll />
-      <FeatureWall />
+      {/* The features stay put while the light comparison panel slides up over them. */}
+      <div className="relative">
+      <PinnedSection>
+        <FeatureWall />
+      </PinnedSection>
       {/* Hidden while the live demo carries the product story — restore by uncommenting.
       <AIFeatureCarousel />
       <DeepDiveFlight>
@@ -46,6 +53,7 @@ export default function Home() {
         }
         under={<Pricing />}
       />
+      </div>
       <FAQ />
       <DownloadCTA />
       <Footer />

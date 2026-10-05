@@ -1,14 +1,21 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type MutableRefObject } from "react";
 
 type Frame = { id: number; shown: boolean };
+
+export type DemoState = { ws: string; data: string; options: string[] };
+export type DemoCommand = { ws?: string; data?: string };
 
 type DemoIframeProps = {
   src: string;
   title: string;
   className?: string;
   style?: CSSProperties;
+  /** The demo reports its plan and data mode (when the site shows the controls). */
+  onState?: (state: DemoState) => void;
+  /** Filled in with a function that sends a command to the demo on screen. */
+  commandRef?: MutableRefObject<((cmd: DemoCommand) => void) | null>;
 };
 
 const FADE_MS = 220;
@@ -21,10 +28,23 @@ const READY_TIMEOUT_MS = 7000;
  * swap: the new version loads out of sight under the current one and fades in once
  * it has drawn, then the old one is removed.
  */
-export default function DemoIframe({ src, title, className = "", style }: DemoIframeProps) {
+export default function DemoIframe({ src, title, className = "", style, onState, commandRef }: DemoIframeProps) {
   const [frames, setFrames] = useState<Frame[]>([{ id: 0, shown: true }]);
   const refs = useRef(new Map<number, HTMLIFrameElement>());
   const nextId = useRef(1);
+  const onStateRef = useRef(onState);
+  onStateRef.current = onState;
+
+  useEffect(() => {
+    if (!commandRef) return;
+    commandRef.current = (cmd) => {
+      /* the newest frame is the one on screen */
+      let top: HTMLIFrameElement | null = null, topId = -1;
+      refs.current.forEach((el, id) => { if (id > topId) { topId = id; top = el; } });
+      (top as HTMLIFrameElement | null)?.contentWindow?.postMessage({ type: "bb-demo-cmd", ...cmd }, window.location.origin);
+    };
+    return () => { commandRef.current = null; };
+  }, [commandRef]);
 
   useEffect(() => {
     const idOf = (source: MessageEventSource | null) => {
@@ -50,6 +70,8 @@ export default function DemoIframe({ src, title, className = "", style }: DemoIf
         window.setTimeout(() => reveal(newId), READY_TIMEOUT_MS);
       } else if (e.data.type === "bb-demo-ready") {
         reveal(id);
+      } else if (e.data.type === "bb-demo-state") {
+        onStateRef.current?.({ ws: String(e.data.ws), data: String(e.data.data), options: Array.isArray(e.data.options) ? e.data.options : [] });
       }
     };
     window.addEventListener("message", onMessage);

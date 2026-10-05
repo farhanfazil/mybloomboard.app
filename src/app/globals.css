@@ -401,3 +401,13 @@ body {
 .bb-hero-caret { animation: bb-hero-caret 1s steps(1) infinite; }
 @media (prefers-reduced-motion: reduce) { .bb-hero-caret { animation: none; } }
 
+
+/* Live demo spotlight (src/components/sections/DemoSpotlight.tsx): while the demo
+   has the stage, the page behind goes dark, the reactions above it disappear and
+   its own bar dims. (No zoom: scaling the live app forces it to redraw.) One class, CSS transitions. */
+.bb-demo-shade { transition: opacity .15s linear; will-change: opacity; }
+.bb-demo-reacts { transition: opacity .45s ease; }
+html.demo-focus .bb-demo-reacts { opacity: 0; pointer-events: none; }
+.bb-demo-controls { transition: opacity .45s ease; }
+html.demo-focus .bb-demo-controls { opacity: .4; }
+html.demo-focus .bb-demo-controls:hover, html.demo-focus .bb-demo-controls:focus-within { opacity: 1; }

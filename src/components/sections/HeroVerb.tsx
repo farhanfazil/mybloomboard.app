@@ -38,10 +38,18 @@ export default function HeroVerb() {
     return () => { alive = false; };
   }, []);
 
+  /* The word sits in a box as wide as the longest verb (invisible copies size it),
+     aligned against "with you.", so the line never shifts while it types. */
   return (
-    <span aria-hidden="true" className="relative inline-block whitespace-nowrap" style={{ color: COLORS[word], transition: "color .25s ease" }}>
-      {text}
-      <span className="bb-hero-caret ml-[0.04em] inline-block w-[0.06em] bg-current align-[-0.06em]" style={{ height: "0.82em" }} />
+    <span aria-hidden="true" className="relative inline-grid whitespace-nowrap" style={{ color: COLORS[word], transition: "color .25s ease" }}>
+      {VERBS.slice(0, -1).map((v) => (
+        <span key={v} className="invisible col-start-1 row-start-1" style={{ paddingRight: "0.1em" }}>{v}</span>
+      ))}
+      <span className="relative col-start-1 row-start-1 justify-self-end" style={{ paddingRight: "0.1em" }}>
+        {text || "\u00a0"}
+        {/* the caret sits on top, out of the line, so it never changes its height */}
+        <span className="bb-hero-caret absolute right-0 w-[0.06em] bg-current" style={{ height: "0.82em", top: "0.16em" }} />
+      </span>
     </span>
   );
 }

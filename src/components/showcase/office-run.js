@@ -490,14 +490,16 @@ lucide.createIcons();
     if (og) {
       const $o = (id) => root.querySelector("#" + id);
       const plan = $o("og-plan"), dl = $o("og-dl"), dr = $o("og-dr"), frame = $o("og-frame"), title = $o("og-title"),
-        tag = $o("og-tag"), hint = $o("og-hint"), prog = $o("og-prog"), you = $o("og-you"), youT = $o("og-you-t"), nora = $o("og-nora");
+        tag = $o("og-tag"), hint = $o("og-hint"), nora = $o("og-nora"), me = $o("og-mewalk"), film = $o("og-film"),
+        design = $o("og-design"), wrap = plan.parentNode, stage = $o("og-stage"), morph = $o("og-morph");
+      const roomBits = [...design.querySelectorAll(":scope > div, :scope > span, svg > :not(.og-shell)")];
       const others = ["og-reception", "og-lounge", "og-desks", "og-focus"].map($o);
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
       const seg = (p, a, b) => clamp((p - a) / (b - a), 0, 1);
       const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
-      const fit = () => Math.min(innerWidth * 0.9 / 1200, innerHeight * 0.82 / 680, 1.15);
-      let target = 0, cur = 0, started = false, raf = 0, arrived = null, lastTick = 0;
+      const fit = () => Math.min(innerWidth * 0.9 / 1200, innerHeight * 0.82 / 720, 1.15);
+      let target = 0, cur = 0, started = false, raf = 0, arrived = null, lastTick = 0, live = false;
       const read = () => {
         const r = og.getBoundingClientRect(), total = og.offsetHeight - innerHeight;
         target = total > 0 ? clamp(-r.top / total, 0, 1) : 1;
@@ -505,49 +507,105 @@ lucide.createIcons();
         /* no frame for a while (first paint, or frames paused): draw straight away */
         if (!reduce && performance.now() - lastTick > 200) { cur = target; draw(cur); }
       };
+      /* Your path through the office, in plan coordinates: in at the front
+         door, past Nora, down the corridor, into the Design room, to a seat. */
+      const PATH = [[592, 20], [592, 236], [592, 320], [322, 320], [322, 262], [374, 236], [374, 106], [262, 100]];
+      const LEN = PATH.slice(1).reduce((n, q, i) => n + Math.hypot(q[0] - PATH[i][0], q[1] - PATH[i][1]), 0);
+      const along = (t) => {
+        let d = t * LEN;
+        for (let i = 1; i < PATH.length; i++) {
+          const a = PATH[i - 1], b = PATH[i], l = Math.hypot(b[0] - a[0], b[1] - a[1]);
+          if (d <= l) return [a[0] + (b[0] - a[0]) * d / l, a[1] + (b[1] - a[1]) * d / l];
+          d -= l;
+        }
+        return PATH[PATH.length - 1];
+      };
+      /* The film fills most of the screen once you're in. */
+      let fw = 0, fh = 0, filmOn = false;
+      const sizeFilm = () => {
+        fw = Math.round(Math.min(1128, innerWidth * 0.92, innerHeight * 0.84 * 16 / 9));
+        fh = Math.round(fw * 9 / 16);
+        film.style.width = fw + "px";
+        film.style.marginLeft = -fw / 2 + "px";
+        film.style.marginTop = -fh / 2 + "px";
+      };
+      sizeFilm();
+      dispatchEvent(new Event("resize"));
       const draw = (p) => {
         const base = fit();
-        /* 0 to .45: the doors slide apart while you step forward */
-        const o = ease(seg(p, 0.04, 0.45));
+        /* 0 to .3: the doors slide apart while you step forward */
+        const o = ease(seg(p, 0.03, 0.3));
         dl.style.transform = `translateX(${-o * 102}%)`;
         dr.style.transform = `translateX(${o * 102}%)`;
         const step = 1 + o * 0.12;
         frame.style.transform = `scale(${1 + o * 0.35})`;
-        frame.style.opacity = String(1 - seg(p, 0.25, 0.45));
-        const t = 1 - seg(p, 0.02, 0.2);
+        frame.style.opacity = String(1 - seg(p, 0.18, 0.3));
+        const t = 1 - seg(p, 0.02, 0.15);
         title.style.opacity = String(t);
         title.style.transform = `translateY(${-(1 - t) * 24}px) scale(${0.96 + t * 0.04})`;
         title.style.filter = `blur(${(1 - t) * 10}px)`;
         hint.style.opacity = started ? "0" : "1";
-        /* you arrive at your desk once you're through the door; Nora waves */
-        const inside = p > 0.42;
-        if (inside !== arrived) {
-          arrived = inside;
-          you.classList.toggle("here", inside);
-          youT.textContent = inside ? "You just arrived" : "Waiting for you";
-          nora.textContent = inside ? "Nora waved at you" : "Nora is here";
-        }
-        /* .5 to .88: into the Design room, the other rooms step back */
-        const z = ease(seg(p, 0.5, 0.88));
-        const s1 = Math.min(innerWidth * 0.56 / 470, innerHeight * 0.54 / 300) / base;
-        const scale = base * step * (1 + z * (s1 - 1));
-        const tx = -z * scale * (235 - 600), ty = -z * scale * (150 - 340) - z * innerHeight * 0.06;
-        plan.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`;
-        others.forEach((el) => { el.style.opacity = String(1 - z * 0.75); });
-        $o("og-walker").style.opacity = String(1 - z);
-        /* .86 to 1: Nora says hi */
-        const g = seg(p, 0.86, 0.98);
+        /* people arrive, room by room, as the doors part */
+        if (!live && p > 0.08) { live = true; plan.classList.add("og-live"); }
+        /* .3 to .7: you walk in; Nora waves as you pass reception */
+        const wk = seg(p, 0.3, 0.7);
+        const [mx, my] = along(ease(wk));
+        me.style.transform = `translate(${mx}px,${my}px)`;
+        const greet = p > 0.33 && p < 0.5;
+        if (greet !== arrived) { arrived = greet; nora.classList.toggle("on", greet); }
+        const g = seg(p, 0.33, 0.38) * (1 - seg(p, 0.46, 0.5));
         tag.style.opacity = String(g);
         tag.style.transform = `translateY(${(1 - g) * 20}px)`;
-        prog.style.transform = `scaleX(${p})`;
+        /* .48 to .72: the camera follows you into the Design room */
+        const z = ease(seg(p, 0.48, 0.72));
+        const s1 = Math.min(innerWidth * 0.56 / 470, innerHeight * 0.54 / 290) / base;
+        const scale = base * step * (1 + z * (s1 - 1));
+        const tx = -z * scale * (235 - 600), ty = -z * scale * (145 - 360);
+        plan.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`;
+        /* .74 to .79: the room empties (everyone else fades away) */
+        const e1 = seg(p, 0.74, 0.79);
+        others.forEach((el) => { el.style.opacity = String((1 - z * 0.75) * (1 - e1)); });
+        roomBits.forEach((el) => { el.style.opacity = String(1 - e1); });
+        $o("og-walker").style.opacity = String((1 - z) * (1 - e1));
+        me.style.opacity = String(seg(p, 0.28, 0.31) * (1 - e1));
+        /* .79 to .9: the empty room stretches into the app window; nothing
+           overlaps, so there is no double image */
+        const e2 = ease(seg(p, 0.79, 0.9));
+        const on2 = p > 0.79;
+        wrap.style.opacity = on2 ? "0" : "1";
+        morph.style.opacity = on2 ? "1" : "0";
+        if (on2) {
+          const a = design.getBoundingClientRect(), sr = stage.getBoundingClientRect();
+          const bx = sr.left + (sr.width - fw) / 2, by = sr.top + (sr.height - fh) / 2;
+          const L = a.left + (bx - a.left) * e2 - sr.left, T = a.top + (by - a.top) * e2 - sr.top;
+          morph.style.transform = `translate(${L}px,${T}px)`;
+          morph.style.width = a.width + (fw - a.width) * e2 + "px";
+          morph.style.height = a.height + (fh - a.height) * e2 + "px";
+          const r0 = 18 * a.width / 470;
+          morph.style.borderRadius = r0 + (18 - r0) * e2 + "px";
+          /* ends with the film's own border and background, so the hand-over is seamless */
+          morph.style.borderColor = `rgba(${Math.round(159 + 96 * e2)},${Math.round(220 + 35 * e2)},255,${(0.35 - 0.17 * e2).toFixed(3)})`;
+          const c = Math.round(20 - 4 * e2), c2 = Math.round(22 - 6 * e2);
+          morph.style.background = `rgb(${c},${c},${c2})`;
+        }
+        /* .9 to .96: the app fades in inside the frame */
+        const e3 = seg(p, 0.9, 0.96);
+        film.style.opacity = String(e3);
+        film.style.pointerEvents = e3 > 0.9 ? "auto" : "none";
+        if (e3 > 0 && !filmOn) { filmOn = true; const rp = $o("replay"); if (rp) rp.click(); }
+        if (p < 0.85) filmOn = false;
       };
-      plan.style.transformOrigin = "600px 340px";
+      addEventListener("resize", sizeFilm);
+      plan.style.transformOrigin = "600px 360px";
       addEventListener("scroll", read, { passive: true });
       addEventListener("resize", read);
       read();
       if (reduce) {
         /* No motion: doors open, the whole office in view, the headline on top. */
-        draw(0.5); title.style.opacity = "1"; title.style.filter = "none"; title.style.transform = "none"; hint.style.opacity = "0";
+        /* No motion: the film goes back under the entrance, everyone in place. */
+        live = true; plan.classList.add("og-live");
+        film.removeAttribute("style"); film.classList.remove("og-film"); og.after(film); dispatchEvent(new Event("resize"));
+        draw(0.3); title.style.opacity = "1"; title.style.filter = "none"; title.style.transform = "none"; hint.style.opacity = "0";
       } else {
         const loop = () => {
           lastTick = performance.now();
@@ -569,30 +627,46 @@ lucide.createIcons();
         $o("og-talker").textContent = talkers[ti][1];
       }, 3200);
       const mmss = (n) => `${Math.floor(n / 60)}:${String(n % 60).padStart(2, "0")}`;
-      let ds = 12 * 60 + 4, fs = 24 * 60 + 10;
+      let ds = 12 * 60 + 27, fs = 23 * 60 + 47;
       setInterval(() => { ds++; $o("og-dtime").textContent = mmss(ds); fs = fs > 0 ? fs - 1 : 25 * 60; $o("og-ftime").textContent = mmss(fs); }, 1000);
-      /* Ethan walks from his desk to the Lounge and back */
-      const w = $o("og-walker"), P = [[95, 410], [300, 310], [700, 250], [960, 170]];
+      /* Leo asks for coffee; Ethan gets up, walks down the corridor to the
+         Lounge, and later walks back to his desk. */
+      const w = $o("og-walker"), wp = $o("og-walker-p"), ethan = $o("og-ethan"), ethanT = $o("og-ethan-t");
+      const P = [[105, 496], [142, 410], [142, 320], [822, 320], [822, 262], [1110, 80]];
       let at = 0;
       w.style.transform = `translate(${P[0][0]}px,${P[0][1]}px)`;
-      const walk = () => {
-        at = (at + 1) % 2;
-        const path = at ? P : P.slice().reverse();
-        let k = 0;
+      const stroll = (path, done) => {
+        let k = 1;
         const next = () => {
-          if (k >= path.length) {
-            $o("og-lb").classList.toggle("on", at === 1);
-            $o("og-lc").textContent = at ? "3 chatting" : "2 chatting";
-            setTimeout(walk, at ? 4200 : 3000);
-            return;
-          }
+          if (k >= path.length) { done(); return; }
+          const d = Math.hypot(path[k][0] - path[k - 1][0], path[k][1] - path[k - 1][1]) / 230;
+          w.style.transition = `transform ${d.toFixed(2)}s linear`;
           w.style.transform = `translate(${path[k][0]}px,${path[k][1]}px)`;
           k++;
-          setTimeout(next, 900);
+          setTimeout(next, d * 1000);
         };
         next();
       };
-      if (!reduce) setTimeout(walk, 1500);
+      const walk = () => {
+        if (!live) { setTimeout(walk, 1500); return; }
+        at = 1 - at;
+        if (at) {
+          $o("og-lb").classList.add("on");
+          setTimeout(() => {
+            ethan.classList.add("away"); wp.classList.remove("away");
+            ethanT.innerHTML = "<b>Ethan</b> · Getting coffee";
+            stroll(P, () => { $o("og-lb").classList.remove("on"); $o("og-lc").textContent = "4 chatting"; setTimeout(walk, 7000); });
+          }, 1400);
+        } else {
+          $o("og-lc").textContent = "3 chatting";
+          stroll(P.slice().reverse(), () => {
+            wp.classList.add("away"); ethan.classList.remove("away");
+            ethanT.innerHTML = "<b>Ethan</b> · App Store copy";
+            setTimeout(walk, 6000);
+          });
+        }
+      };
+      if (!reduce) setTimeout(walk, 3500);
     }
   }
 

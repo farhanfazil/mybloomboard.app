@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import DemoIframe from "@/components/sections/DemoIframe";
+import DemoIframe, { type DemoCommand, type DemoState } from "@/components/sections/DemoIframe";
 import DemoReactionsBar from "@/components/sections/DemoReactionsBar";
 import DemoUsefulPoll from "@/components/sections/DemoUsefulPoll";
 import PhoneDemoPitch from "@/components/sections/PhoneDemoPitch";
@@ -9,7 +9,6 @@ import StickyPopouts from "@/components/sections/StickyPopouts";
 
 const APP_W = 1280;
 const APP_H = 920;
-const TITLE_BAR_H = 40;
 const PHONE_QUERY = "(max-width: 639px)";
 
 type LiveDemoFrameProps = {
@@ -34,6 +33,12 @@ export default function LiveDemoFrame({
   const [iframeReady, setIframeReady] = useState(eager);
   /* null until measured: the demo only loads once we know this isn't a phone. */
   const [phone, setPhone] = useState<boolean | null>(null);
+  /* The demo's plan and data mode; the switch lives here, outside the window. */
+  const [demo, setDemo] = useState<DemoState | null>(null);
+  const [pending, setPending] = useState<string | null>(null);
+  const commandRef = useRef<((cmd: DemoCommand) => void) | null>(null);
+  const onState = (st: DemoState) => { setDemo(st); setPending(null); };
+  const send = (cmd: DemoCommand, key: string) => { setPending(key); commandRef.current?.(cmd); };
 
   useEffect(() => {
     const mq = window.matchMedia(PHONE_QUERY);
@@ -60,7 +65,7 @@ export default function LiveDemoFrame({
     return () => io.disconnect();
   }, [eager]);
 
-  const viewportH = peek ? peekHeight - TITLE_BAR_H : Math.ceil(APP_H * scale);
+  const viewportH = peek ? peekHeight : Math.ceil(APP_H * scale);
 
   useEffect(() => {
     const el = frameRef.current;
@@ -89,7 +94,10 @@ export default function LiveDemoFrame({
 
   return (
     <div className={className}>
-      <DemoReactionsBar className="mb-4" />
+      <DemoReactionsBar className="bb-demo-reacts mb-4" />
+      {/* the bar and the window together: the home page snaps to this (SnapPoints) */}
+      <div data-snap="demo">
+      {!peek && <DemoControls demo={demo} pending={pending} send={send} />}
       <div
         className="overflow-hidden rounded-2xl"
         style={{
@@ -98,23 +106,6 @@ export default function LiveDemoFrame({
             "0 40px 100px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.05)",
         }}
       >
-        <div
-          className="flex items-center gap-3 px-4"
-          style={{
-            height: TITLE_BAR_H,
-            background: "#1c1c1c",
-            borderBottom: "1px solid rgba(255,255,255,0.06)",
-          }}
-        >
-          <div className="flex gap-1.5">
-            <div className="h-3 w-3 rounded-full" style={{ background: "#ff5f57" }} />
-            <div className="h-3 w-3 rounded-full" style={{ background: "#febc2e" }} />
-            <div className="h-3 w-3 rounded-full" style={{ background: "#28c840" }} />
-          </div>
-          <span className="mx-auto text-[11px] font-medium text-white/45">BloomBoard Live Demo</span>
-          <span className="w-[52px]" aria-hidden />
-        </div>
-
         <div
           ref={frameRef}
           className="relative w-full overflow-hidden bg-[#171717]"
@@ -127,8 +118,10 @@ export default function LiveDemoFrame({
           ) : (
             <DemoIframe
               title="BloomBoard interactive demo"
-              src={`/bloomboard-demo/index.html?embed=home&ws=${workspaces}&v=32`}
+              src={`/bloomboard-demo/index.html?embed=home&ws=${workspaces}&v=34`}
               className="!absolute left-0 top-0 bg-[#171717]"
+              onState={onState}
+              commandRef={commandRef}
               style={{
                 width: APP_W,
                 height: APP_H,
@@ -139,8 +132,67 @@ export default function LiveDemoFrame({
           )}
         </div>
       </div>
+      </div>
       <DemoUsefulPoll className="mt-4" />
       <StickyPopouts />
+    </div>
+  );
+}
+
+const PLAN_LABEL: Record<string, string> = { personal: "Personal", team: "Team", freelance: "Freelance" };
+
+/** Above the window, like a toolbar: what this is, Start fresh, and the plan switch. */
+function DemoControls({
+  demo,
+  pending,
+  send,
+}: {
+  demo: DemoState | null;
+  pending: string | null;
+  send: (cmd: DemoCommand, key: string) => void;
+}) {
+  const fresh = demo?.data === "fresh";
+  const ws = demo?.ws ?? "personal";
+  const options = demo?.options ?? [];
+  return (
+    <div className="bb-demo-controls mb-3 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+      <p className="text-sm font-semibold text-white">{fresh ? "Fresh start" : "Live demo"}</p>
+      <div className={`flex items-center gap-2 transition-opacity ${demo ? "opacity-100" : "pointer-events-none opacity-0"}`}>
+        <button
+          type="button"
+          onClick={() => send({ data: fresh ? "sample" : "fresh" }, "data")}
+          disabled={!!pending}
+          className="inline-flex h-9 items-center gap-2 rounded-lg border border-white/15 px-3 text-sm text-white/85 transition-colors hover:bg-white/[0.06] disabled:opacity-60"
+        >
+          <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
+            {fresh ? (
+              <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            ) : (
+              <path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            )}
+          </svg>
+          {pending === "data" ? (fresh ? "Opening live demo" : "Starting fresh") : fresh ? "Back to live demo" : "Start fresh"}
+        </button>
+        {options.length > 1 && (
+          <div role="group" aria-label="Plan" className="flex h-9 items-center rounded-lg border border-white/15 p-[3px]">
+            {options.map((m) => {
+              const on = (pending && pending !== "data" ? pending : ws) === m;
+              return (
+                <button
+                  key={m}
+                  type="button"
+                  aria-pressed={on}
+                  disabled={!!pending}
+                  onClick={() => m !== ws && send({ ws: m }, m)}
+                  className={`h-full rounded-md px-3 text-sm transition-colors ${on ? "bg-white font-medium text-black" : "text-white/70 hover:text-white"}`}
+                >
+                  {PLAN_LABEL[m] ?? m} plan
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

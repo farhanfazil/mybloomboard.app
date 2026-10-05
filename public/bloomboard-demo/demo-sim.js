@@ -554,7 +554,6 @@
   }
   function boardRound() {
     if (hidden()) { later(3000, boardRound); return; }
-    tourLog('dashboard round');
     function next() { later(rand(4000, 7000), function () { if (tourDue()) runTour(boardRound); else maybeDrop(boardRound); }); }
     trimDone(2);
     var n = document.getElementById('t2t-input'), card = document.getElementById('t2t-dashboard-card');
@@ -663,7 +662,6 @@
   function storyEnd(ids) {
     storyRunning = window.__bbStoryRunning = false;
     storyEndedAt = Date.now();
-    tourLog('story done');
     if (ids && ids[1]) MAYA_TASK = ids[1];
     later(1200, addTaskHint);
     later(rand(7000, 10000), mayaTurn);
@@ -931,13 +929,6 @@
      in a row of the same kind, and it stops the moment the visitor does anything. */
   var lastTour = 0, lastKind = '', touring = false, tourIdx = 0;
   var TOUR_ORDER = ['office', 'email', 'boards', 'chat', 'calendar'];
-  /* ?tourlog=1 writes a timeline into the page, for checking the pacing */
-  var T0 = Date.now();
-  function tourLog(msg) {
-    if (!/[?&]tourlog=1/.test(location.search)) return;
-    var p = document.getElementById('bbd-tourlog') || document.body.appendChild(Object.assign(document.createElement('pre'), { id: 'bbd-tourlog', hidden: true }));
-    p.textContent += Math.round((Date.now() - T0) / 1000) + 's ' + msg + '\n';
-  }
   var OFFICE_LINES = ['Got a minute for the banner review?', 'Can you look at the new hero before lunch?', 'Free for a quick call at 3?'];
   var CHAT_LINES = ['Pushed the new version, can you check it?', 'Sending the files over now', 'Shall we sync after lunch?', 'Looks great, ship it'];
   function q(sel, root) { return (root || document).querySelector(sel); }
@@ -1104,7 +1095,6 @@
     var kinds = TOUR_ORDER.filter(function (k) { return (k !== 'office' && k !== 'chat') || team; }).filter(function (k) { return k !== 'email' || hasMail; });
     var kind = only || kinds[tourIdx++ % kinds.length];
     lastKind = kind; lastTour = Date.now(); touring = true; scripting = true;
-    tourLog('visit ' + kind);
     var steps = TOURS[kind].slice(), started = Date.now();
     function finish(goHome) {
       if (goHome) {
