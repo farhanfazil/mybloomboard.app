@@ -859,6 +859,11 @@
       { id: ID.nora, name: 'Nora Haddad', email: 'nora@lumen.studio', role: 'member', status: 'dnd', statusUntil: now + 41 * min, color: '#ec4899', position: 'Content Writer', department: 'Design', avatar: photo('women/26') },
       { id: ID.ethan, name: 'Ethan Cole', email: 'ethan@lumen.studio', role: 'member', status: 'available', color: '#8b5cf6', position: 'Motion Designer', department: 'Design', avatar: photo('men/86') },
       { id: ID.chloe, name: 'Chloe Park', email: 'chloe@lumen.studio', role: 'member', status: 'away', color: '#16a34a', position: 'QA Lead', department: 'Product', avatar: photo('women/65') },
+      /* In meetings: the Marketing and Product rooms are live too. */
+      { id: ID.sofia, name: 'Sofia Alvarez', email: 'sofia@lumen.studio', role: 'member', status: 'available', color: '#e11d48', position: 'Content Strategist', department: 'Marketing', avatar: photo('women/12') },
+      { id: ID.omar, name: 'Omar Khalil', email: 'omar@lumen.studio', role: 'member', status: 'available', color: '#0ea5e9', position: 'Growth Marketer', department: 'Marketing', avatar: photo('men/45') },
+      { id: ID.james, name: 'James Okafor', email: 'james@lumen.studio', role: 'member', status: 'available', color: '#84cc16', position: 'Product Analyst', department: 'Product', avatar: photo('men/22') },
+      { id: ID.hana, name: 'Hana Sato', email: 'hana@lumen.studio', role: 'member', status: 'available', color: '#a855f7', position: 'UX Researcher', department: 'Product', avatar: photo('women/33') },
     ];
     var ME = PEOPLE[0];
     var byId = {};
@@ -1172,6 +1177,7 @@
       demo.ensureTeamRooms(ID.team, true);
       var DESIGN_ROOM = 'dept_' + ID.team + '_design';
       var LOUNGE = 'room_' + ID.team + '_lounge';
+      var MARKETING_ROOM = 'dept_' + ID.team + '_marketing', PRODUCT_ROOM = 'dept_' + ID.team + '_product';
       function liveCall(convId, roomName, people, startedMinAgo) {
         var state = {};
         people.forEach(function (id) { state[id] = 'joined'; });
@@ -1185,6 +1191,8 @@
       demo.seed('bloom_calls', [
         liveCall(DESIGN_ROOM, 'Design room', [ID.maya, ID.ethan], 12),
         liveCall(LOUNGE, 'Lounge', [ID.leo, ID.priya], 7),
+        liveCall(MARKETING_ROOM, 'Marketing room', [ID.sofia, ID.omar], 18),
+        liveCall(PRODUCT_ROOM, 'Product room', [ID.james, ID.hana], 4),
       ]);
       /* Room convs locally too, so the office paints before the first pull lands. */
       demo.rows('conversations').forEach(function (c) {
@@ -1203,6 +1211,8 @@
       demo.liveRooms = [
         { conv: DESIGN_ROOM, anchor: ID.maya, guests: [ID.ethan] },
         { conv: LOUNGE, anchor: ID.leo, guests: [ID.priya] },
+        { conv: MARKETING_ROOM, anchor: ID.sofia, guests: [ID.omar] },
+        { conv: PRODUCT_ROOM, anchor: ID.james, guests: [ID.hana] },
       ];
 
       /* ── Meetings & reminders ── */

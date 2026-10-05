@@ -494,7 +494,7 @@
   ];
   var poolIdx = 0;
   function nextLines() {
-    var out = [], k = 3;
+    var out = [], k = Math.random() < 0.5 ? 1 : 2;
     for (var i = 0; i < k; i++) { out.push(POOL[poolIdx % POOL.length]); poolIdx++; }
     return out;
   }
@@ -518,7 +518,7 @@
     /* Three passes of To Do to In Progress, In Progress to In Review, In Review
        to Done: as many cards move along as were added, so the columns stay even. */
     var pass = [['pending', 'ongoing'], ['ongoing', 'review'], ['review', 'done']];
-    var plan = pass.concat(pass, pass);
+    var plan = Math.random() < 0.35 ? pass.concat(pass) : pass.slice();
     var i = 0;
     function step(stalls) {
       if (i >= plan.length) { done(); return; }
@@ -554,7 +554,8 @@
   }
   function boardRound() {
     if (hidden()) { later(3000, boardRound); return; }
-    function next() { later(rand(8000, 12000), function () { maybeDrop(boardRound); }); }
+    tourLog('dashboard round');
+    function next() { later(rand(4000, 7000), function () { if (tourDue()) runTour(boardRound); else maybeDrop(boardRound); }); }
     trimDone(2);
     var n = document.getElementById('t2t-input'), card = document.getElementById('t2t-dashboard-card');
     var canType = n && card && !n.value && document.activeElement !== n && fullyVisible(card) && !busyScreen() &&
@@ -662,6 +663,7 @@
   function storyEnd(ids) {
     storyRunning = window.__bbStoryRunning = false;
     storyEndedAt = Date.now();
+    tourLog('story done');
     if (ids && ids[1]) MAYA_TASK = ids[1];
     later(1200, addTaskHint);
     later(rand(7000, 10000), mayaTurn);
@@ -919,6 +921,216 @@
     window.addEventListener('pointerdown', close, true);
     closeTimer = setTimeout(close, 20000);
   }
+
+
+  /* ── Using the app like a person would ──
+     Between rounds on the dashboard the cursor sometimes goes somewhere else:
+     walks into the Office and messages someone, opens the Product Launch board
+     and moves cards along, chats with a teammate, or looks through the
+     calendar, then comes back to the dashboard. One visit at a time, never two
+     in a row of the same kind, and it stops the moment the visitor does anything. */
+  var lastTour = 0, lastKind = '', touring = false, tourIdx = 0;
+  var TOUR_ORDER = ['office', 'email', 'boards', 'chat', 'calendar'];
+  /* ?tourlog=1 writes a timeline into the page, for checking the pacing */
+  var T0 = Date.now();
+  function tourLog(msg) {
+    if (!/[?&]tourlog=1/.test(location.search)) return;
+    var p = document.getElementById('bbd-tourlog') || document.body.appendChild(Object.assign(document.createElement('pre'), { id: 'bbd-tourlog', hidden: true }));
+    p.textContent += Math.round((Date.now() - T0) / 1000) + 's ' + msg + '\n';
+  }
+  var OFFICE_LINES = ['Got a minute for the banner review?', 'Can you look at the new hero before lunch?', 'Free for a quick call at 3?'];
+  var CHAT_LINES = ['Pushed the new version, can you check it?', 'Sending the files over now', 'Shall we sync after lunch?', 'Looks great, ship it'];
+  function q(sel, root) { return (root || document).querySelector(sel); }
+  function vis(el) { var r = el && el.getBoundingClientRect(); return !!(r && r.width && r.height && r.top > 40 && r.bottom < window.innerHeight - 10); }
+  function frameOnScreen() {
+    try {
+      var fe = window.frameElement;
+      if (!fe) return true;
+      var r = fe.getBoundingClientRect(), h = window.parent.innerHeight;
+      return r.top < h * 0.4 && r.bottom > h * 0.6;
+    } catch (e) { return true; }
+  }
+  function tourDue() {
+    return !reduceMotion && !storyRunning && !touring && !hidden() && frameOnScreen() && !busyScreen() &&
+      Date.now() - storyEndedAt > 6000 && Date.now() - lastTour > rand(16000, 26000) && Date.now() - lastInput > 8000 && Math.random() < 0.85;
+  }
+  /* the cursor moves to an element, presses it, then the click happens */
+  function tap(el, then, label) {
+    var r = el.getBoundingClientRect();
+    var g = ghostCursor(label || '');
+    var x = r.left + Math.min(r.width * 0.5, 60), y = r.top + r.height * 0.55;
+    if (g.style.opacity !== '1') { placeGhost(x + 120, y + 80, true); void g.offsetWidth; g.style.opacity = '1'; }
+    placeGhost(x, y);
+    later(950, function () {
+      el.style.transition = 'transform .12s';
+      el.style.transform = 'scale(.96)';
+      later(140, function () { el.style.transform = ''; then(); });
+    });
+  }
+  function typeText(el, text, isEditable, done) {
+    var i = 0;
+    (function step() {
+      i = Math.min(text.length, i + 2);
+      if (isEditable) el.textContent = text.slice(0, i); else el.value = text.slice(0, i);
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+      if (i < text.length) { later(45 + Math.random() * 35, step); return; }
+      later(400, done);
+    })();
+  }
+  /* a board card carried from one column to another; the board's own drop
+     handler makes the move */
+  function carry(card, body, done) {
+    var r = card.getBoundingClientRect();
+    var last = [].slice.call(body.querySelectorAll('.kanban-card')).pop();
+    var lr = last ? last.getBoundingClientRect() : body.getBoundingClientRect();
+    var tx = body.getBoundingClientRect().left, ty = last ? lr.bottom + 8 : lr.top + 4;
+    var g = ghostCursor('');
+    var gx = r.left + 30, gy = r.top + r.height / 2;
+    if (g.style.opacity !== '1') { placeGhost(gx + 120, gy + 80, true); void g.offsetWidth; g.style.opacity = '1'; }
+    placeGhost(gx, gy);
+    later(1000, function () {
+      if (!document.body.contains(card)) { done(); return; }
+      var clone = card.cloneNode(true);
+      clone.style.cssText = 'position:fixed;left:' + r.left + 'px;top:' + r.top + 'px;width:' + r.width + 'px;height:' + r.height + 'px;margin:0;z-index:9998;pointer-events:none;' +
+        'transition:transform .9s cubic-bezier(.65,0,.35,1);box-shadow:0 10px 24px rgba(0,0,0,.3)';
+      document.body.appendChild(clone);
+      card.style.opacity = '.3';
+      void clone.offsetWidth;
+      var dx = tx - r.left, dy = ty - r.top;
+      clone.style.transform = 'translate(' + dx + 'px,' + dy + 'px) rotate(-1.5deg)';
+      placeGhost(gx + dx, gy + dy);
+      later(1000, function () {
+        var dt = new DataTransfer();
+        try {
+          card.dispatchEvent(new DragEvent('dragstart', { bubbles: true, dataTransfer: dt }));
+          body.dispatchEvent(new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer: dt, clientY: 99999 }));
+          body.dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer: dt, clientY: 99999 }));
+          card.dispatchEvent(new DragEvent('dragend', { bubbles: true, dataTransfer: dt }));
+        } catch (e) {}
+        card.style.opacity = '';
+        clone.remove();
+        later(500, done);
+      });
+    });
+  }
+  function boardCols() {
+    return [].slice.call(document.querySelectorAll('.kanban-col')).filter(function (c) { return c.getBoundingClientRect().width > 0; });
+  }
+  /* Keeps the board from ending up all Done: before it shows, a finished card
+     or two go back to To Do (it is drawn in the same moment, so nobody sees it). */
+  function rebalance() {
+    var cols = boardCols();
+    if (cols.length < 3) return;
+    var todo = cols[0].querySelector('.kanban-cards'), doneC = cols[cols.length - 1].querySelector('.kanban-cards');
+    for (var k = 0; k < 2; k++) {
+      var d = doneC.querySelectorAll('.kanban-card');
+      if (todo.querySelectorAll('.kanban-card').length >= 2 || d.length <= 1) break;
+      var dt = new DataTransfer();
+      try {
+        d[0].dispatchEvent(new DragEvent('dragstart', { bubbles: true, dataTransfer: dt }));
+        todo.dispatchEvent(new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer: dt, clientY: 99999 }));
+        todo.dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer: dt, clientY: 99999 }));
+        d[0].dispatchEvent(new DragEvent('dragend', { bubbles: true, dataTransfer: dt }));
+      } catch (e) {}
+      cols = boardCols(); todo = cols[0].querySelector('.kanban-cards'); doneC = cols[cols.length - 1].querySelector('.kanban-cards');
+    }
+  }
+  var TOURS = {
+    email: [
+      function (n) { var b = q('#sb-email-nav-btn'); if (!vis(b)) return n(false); tap(b, function () { b.click(); later(1400, n); }); },
+      function (n) {
+        var items = [].slice.call(document.querySelectorAll('.bb-email-item')).filter(vis).slice(0, 4);
+        if (!items.length) return n(false);
+        var it = pick(items);
+        tap(it, function () { it.click(); later(rand(3200, 4200), n); });
+      },
+    ],
+    office: [
+      function (n) { var b = q('#sb-office-enter'); if (!vis(b)) return n(false); tap(b, function () { b.click(); later(1600, n); }); },
+      function (n) {
+        var cards = [].slice.call(document.querySelectorAll('.station-card')).filter(function (c) {
+          return vis(c) && !c.classList.contains('sig-focus') && c.querySelector('[title="Message"]');
+        });
+        if (!cards.length) return n(false);
+        var m = pick(cards).querySelector('[title="Message"]');
+        tap(m, function () { m.click(); later(900, n); });
+      },
+      function (n) { var i = q('#station-peek-input'); if (!vis(i)) return n(false); typeText(i, pick(OFFICE_LINES), false, n); },
+      function (n) { var b = q('.station-peek-send'); if (!vis(b)) return n(false); tap(b, function () { b.click(); later(4200, n); }); },
+    ],
+    boards: [
+      function (n) { var b = q('.sidebar .sb-nav-item[onclick="openBoards()"]'); if (!vis(b)) return n(false); tap(b, function () { b.click(); later(1300, n); }); },
+      function (n) {
+        var c = [].slice.call(document.querySelectorAll('.board-card')).filter(function (x) { return /Product Launch/.test(x.textContent); })[0];
+        if (!vis(c)) return n(false);
+        tap(c, function () { c.click(); rebalance(); later(1500, n); });
+      },
+      function (n) {
+        var cols = boardCols(); if (cols.length < 2) return n(false);
+        var card = cols[0].querySelector('.kanban-card');
+        if (!card || !vis(card)) return n();
+        carry(card, cols[1].querySelector('.kanban-cards'), function () { later(1200, n); });
+      },
+      function (n) {
+        var cols = boardCols(); if (cols.length < 3) return n(false);
+        var card = cols[1].querySelector('.kanban-card');
+        if (!card || !vis(card)) return n();
+        carry(card, cols[cols.length - 1].querySelector('.kanban-cards'), function () { later(1800, n); });
+      },
+    ],
+    chat: [
+      function (n) { var b = q('#sb-chat-btn'); if (!vis(b)) return n(false); tap(b, function () { b.click(); later(1400, n); }); },
+      function (n) {
+        var items = [].slice.call(document.querySelectorAll('.chat-conv-item')).filter(function (x) {
+          return vis(x) && !x.classList.contains('active') && /Maya|Daniel|Priya|Leo|Ethan/.test(x.textContent);
+        });
+        if (!items.length) return n(false);
+        var it = pick(items);
+        tap(it, function () { it.click(); later(1100, n); });
+      },
+      function (n) { var i = q('#chat-text-input'); if (!vis(i)) return n(false); typeText(i, pick(CHAT_LINES), true, n); },
+      function (n) { var b = q('#chat-send-btn'); if (!vis(b)) return n(false); tap(b, function () { b.click(); later(4800, n); }); },
+    ],
+    /* a quick look: this week, next week, done */
+    calendar: [
+      function (n) { var b = q('.sidebar .sb-nav-item[onclick*="calendar"]'); if (!vis(b)) return n(false); tap(b, function () { b.click(); later(1600, n); }); },
+      function (n) { var b = q('.calendar-nav-btn[title="Next week"]'); if (!vis(b)) return n(false); tap(b, function () { b.click(); later(1400, n); }); },
+    ],
+  };
+  function runTour(done, only) {
+    /* always in this order: Office, Email, Boards, Chat, then a quick look at the Calendar */
+    var team = !!(q('#sb-office-enter') && vis(q('#sb-office-enter')));
+    var hasMail = !!(q('#sb-email-nav-btn') && vis(q('#sb-email-nav-btn')));
+    var kinds = TOUR_ORDER.filter(function (k) { return (k !== 'office' && k !== 'chat') || team; }).filter(function (k) { return k !== 'email' || hasMail; });
+    var kind = only || kinds[tourIdx++ % kinds.length];
+    lastKind = kind; lastTour = Date.now(); touring = true; scripting = true;
+    tourLog('visit ' + kind);
+    var steps = TOURS[kind].slice(), started = Date.now();
+    function finish(goHome) {
+      if (goHome) {
+        var home = q('.bbw-brand');
+        if (home && vis(home)) {
+          tap(home, function () {
+            home.click();
+            later(600, function () { if (ghost) ghost.style.opacity = '0'; touring = false; scripting = false; later(rand(2500, 5000), done); });
+          });
+          return;
+        }
+      }
+      if (ghost) ghost.style.opacity = '0';
+      touring = false; scripting = false;
+      later(rand(2500, 5000), done);
+    }
+    (function next(ok) {
+      /* the visitor took over: leave them where they are */
+      if (lastInput > started || hidden()) { finish(false); return; }
+      if (ok === false || !steps.length) { finish(true); return; }
+      steps.shift()(next);
+    })();
+  }
+
+  /* for checking one visit by hand: __bbDemoTour('office') */
+  window.__bbDemoTour = function (kind) { runTour(function () {}, kind); };
 
   if (STORY) watchStory();
   else later(10000, firstMoves);

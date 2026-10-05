@@ -624,7 +624,35 @@
     return el;
   }
 
+  /* On the website the plan switch and Start fresh sit outside the window, in the
+     site's own bar (src/components/sections/LiveDemoFrame.tsx), so the demo looks
+     like the app: its top bar is the first thing in the window. */
+  var HOST_BAR = /[?&]embed=/.test(location.search) && window.parent !== window;
+  function postDemoState() {
+    if (!HOST_BAR) return;
+    try {
+      window.parent.postMessage({ type: 'bb-demo-state', ws: getDemoWorkspaceMode(), data: getDemoDataMode(),
+        options: DEMO_WS_OPTIONS.map(function (o) { return o.mode; }) }, location.origin);
+    } catch (e) {}
+  }
+  if (HOST_BAR) {
+    window.addEventListener('message', function (e) {
+      if (e.source !== window.parent || !e.data) return;
+      if (e.data.type === 'bb-demo-host') postDemoState();
+      if (e.data.type === 'bb-demo-cmd') {
+        if (e.data.ws) window.bbDemoSwitchWorkspace(e.data.ws);
+        else if (e.data.data) window.bbDemoSwitchData(e.data.data);
+      }
+    });
+    window.addEventListener('load', postDemoState);
+  }
+
   function syncDemoSwitcherOffset() {
+    if (HOST_BAR) {
+      document.documentElement.style.setProperty('--bb-demo-ws-offset', '0px');
+      document.documentElement.style.setProperty('--bb-demo-ws-total-offset', '0px');
+      return;
+    }
     var switcher = document.getElementById('bb-demo-ws-switcher');
     if (!switcher) {
       document.documentElement.style.setProperty('--bb-demo-ws-offset', '88px');
@@ -649,6 +677,20 @@
       return existing;
     }
     var switcher = buildWorkspaceSwitcherElement();
+    if (HOST_BAR) {
+      switcher.style.display = 'none';
+      document.body.classList.add('bb-desk-mac', 'bb-demo-hostbar');
+      /* the macOS window buttons, where the app has them */
+      var strip = document.getElementById('drag-strip');
+      if (strip && !document.getElementById('bbd-lights')) {
+        var lights = document.createElement('span');
+        lights.id = 'bbd-lights';
+        lights.setAttribute('aria-hidden', 'true');
+        lights.innerHTML = '<i></i><i></i><i></i>';
+        strip.appendChild(lights);
+      }
+      postDemoState();
+    }
     document.body.appendChild(switcher);
     document.body.classList.add('bb-has-ws-switcher');
     syncDemoSwitcherOffset();
@@ -1038,6 +1080,10 @@
       /* The app's top bar (vendor/bb-topbar.js) sits under the demo's own bar. The
          macOS window buttons it leaves room for are not drawn here. */
       '#drag-strip{position:fixed!important;top:var(--bb-demo-ws-total-offset,88px)!important;left:0!important;right:0!important;padding-left:20px!important}' +
+      'body.bb-demo-hostbar #drag-strip{padding-left:84px!important}' +
+      '#bbd-lights{position:absolute;left:20px;top:50%;transform:translateY(-50%);display:flex;gap:8px;pointer-events:none}' +
+      '#bbd-lights i{width:12px;height:12px;border-radius:50%;background:#ff5f57;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.25)}' +
+      '#bbd-lights i:nth-child(2){background:#febc2e}#bbd-lights i:nth-child(3){background:#28c840}' +
       /* Sits beside the macOS window buttons; the workspace pills replace it in the browser. */
       '#global-home-btn{display:none!important}' +
       /* Sticky notes can't pop out onto the computer's desktop from a browser. */
