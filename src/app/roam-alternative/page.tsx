@@ -82,9 +82,9 @@ export default function RoamAlternative() {
 
         <section className="mt-16">
           <h2 className="text-[22px] font-bold tracking-[-0.02em]">The live office</h2>
-          <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div className="mt-6 grid border-t border-white/10 md:grid-cols-2 md:gap-x-10">
             {OFFICE.map(([t, d]) => (
-              <div key={t} className="rounded-2xl border border-white/10 bg-[#111113] p-5">
+              <div key={t} className="border-b border-white/10 py-5">
                 <h3 className="text-[15px] font-bold">{t}</h3>
                 <p className="mt-2 text-[14.5px] leading-relaxed text-[#c4c4cc]">{d}</p>
               </div>
@@ -94,9 +94,9 @@ export default function RoamAlternative() {
 
         <section className="mt-14">
           <h2 className="text-[22px] font-bold tracking-[-0.02em]">Plus everything your team works on</h2>
-          <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div className="mt-6 grid border-t border-white/10 md:grid-cols-2 md:gap-x-10">
             {PLUS.map(([t, d]) => (
-              <div key={t} className="rounded-2xl border border-white/10 bg-[#111113] p-5">
+              <div key={t} className="border-b border-white/10 py-5">
                 <h3 className="text-[15px] font-bold">{t}</h3>
                 <p className="mt-2 text-[14.5px] leading-relaxed text-[#c4c4cc]">{d}</p>
               </div>

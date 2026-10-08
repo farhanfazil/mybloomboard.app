@@ -99,9 +99,9 @@ export default async function VsPageView({ params }: { params: Promise<{ slug: s
 
         <section className="mt-16">
           <h2 className="text-[22px] font-bold tracking-[-0.02em]">Why teams switch from {display} to BloomBoard</h2>
-          <div className="mt-5 grid gap-4 md:grid-cols-3">
+          <div className="mt-6 grid divide-y divide-white/10 border-y border-white/10 md:grid-cols-3 md:divide-x md:divide-y-0">
             {p.reasons.map((r) => (
-              <div key={r.title} className="rounded-2xl border border-white/10 bg-[#111113] p-5">
+              <div key={r.title} className="py-6 md:px-6 md:first:pl-0 md:last:pr-0">
                 <h3 className="text-[15.5px] font-bold">{r.title}</h3>
                 <p className="mt-2 text-[14.5px] leading-relaxed text-[#c4c4cc]">{r.body}</p>
               </div>
