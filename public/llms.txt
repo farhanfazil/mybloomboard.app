@@ -5,7 +5,7 @@
 ## Plans
 - Free: for individuals, no time limit, no card needed. Tasks, boards, calendar, notes and reminders.
 - Bloom: from $6 per month, billed yearly. Adds Bloom AI and sync across your devices.
-- Team: from $8 per person per month, billed yearly. Adds team chat, calls with screen sharing, the live office, shared boards, handovers and a manager overview.
+- Team: from $8 per person per month, billed yearly. Adds team chat, calls with screen sharing, the live office, shared boards, handovers, Workload Health and a daily team recap.
 
 ## What makes it different
 - Live team office: see who is free, in a room, in focus or on leave; walk into rooms without links; knock first; lounge and all-hands rooms.

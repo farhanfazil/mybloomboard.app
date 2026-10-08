@@ -18,7 +18,7 @@ const COMMON_FAQ = {
   free: {
     question: "Is BloomBoard really free?",
     answer:
-      "Yes, for one person: the Free plan has no time limit and no card is needed. Teams use the Team plan, from $8 per person a month billed yearly, with shared boards, chat, calls, the live office, handovers, a manager overview and Bloom AI. Bloom, from $6 a month, is for individuals who want Bloom AI.",
+      "Yes, for one person: the Free plan has no time limit and no card is needed. Teams use the Team plan, from $8 per person a month billed yearly, with shared boards, chat, calls, the live office, handovers, a team overview and Bloom AI. Bloom, from $6 a month, is for individuals who want Bloom AI.",
   },
   platforms: {
     question: "Which devices does it work on?",
@@ -39,7 +39,7 @@ export const VS_PAGES: VsPage[] = [
       "Trello made kanban boards simple. BloomBoard keeps that simplicity and adds what teams usually bolt on with other apps: chat, voice and video calls, a live office where you can see who is free, and an AI that turns your list into a plan for the day.",
     reasons: [
       { title: "One app instead of three", body: "Boards, chat and calls in one place, so your team stops jumping between Trello, Slack and Zoom." },
-      { title: "Managers see everything", body: "Progress, workload and a daily recap of what everyone finished, without chasing people for updates." },
+      { title: "Everyone stays in the loop", body: "A daily recap of what the team finished and a shared view of progress, so nobody has to ask for updates." },
       { title: "AI included for everyone", body: "Bloom AI plans each person's day, turns emails and meeting notes into tasks and writes the recap. No add-on to buy." },
     ],
     switching:
@@ -71,7 +71,7 @@ export const VS_PAGES: VsPage[] = [
     reasons: [
       { title: "Productive on day one", body: "No setup project and no training. Your team opens BloomBoard and starts working." },
       { title: "A live office, not just chat", body: "See who is free, walk into a room, and knock before you interrupt someone in focus." },
-      { title: "Manager tools included", body: "Daily recap, Workload Health and a manager overview come with the Team plan, not as paid add-ons." },
+      { title: "Team insights included", body: "Daily recap, Workload Health and a team overview come with the Team plan, not as paid add-ons." },
     ],
     switching:
       "Start free and set up a board in minutes. Trello boards import today; importers for ClickUp and other tools are on the way.",
@@ -102,7 +102,7 @@ export const VS_PAGES: VsPage[] = [
     reasons: [
       { title: "Ready from the first day", body: "Tasks, boards, calendar and projects are built in. Nobody has to design the system first." },
       { title: "Your team in the same app", body: "Chat, calls and a live office sit next to the work, so updates don't get lost in another app." },
-      { title: "Progress without building dashboards", body: "Managers get workload, progress and a daily recap without setting anything up." },
+      { title: "Progress without building dashboards", body: "The whole team sees progress, workload and a daily recap without setting anything up." },
     ],
     switching:
       "Keep Notion for your docs if you like, and run your tasks and team in BloomBoard. A Notion importer is on the way.",
@@ -133,7 +133,7 @@ export const VS_PAGES: VsPage[] = [
     reasons: [
       { title: "Talk where you work", body: "Chat, calls and a live office are built in, so you don't need Slack and Zoom on top." },
       { title: "Simple pricing, AI included", body: "One clear price per person, with Bloom AI included for the whole team." },
-      { title: "Manager view out of the box", body: "Daily recap, Workload Health and a manager overview are ready on day one." },
+      { title: "Team overview out of the box", body: "Daily recap, Workload Health and a team overview are ready on day one." },
     ],
     switching:
       "Start free in minutes. A spreadsheet importer for monday.com exports is on the way.",
@@ -146,7 +146,7 @@ export const VS_PAGES: VsPage[] = [
       {
         question: "Does BloomBoard have boards like monday.com?",
         answer:
-          "Yes: boards with columns, cards, assignees, due dates and priorities, plus a task board for your own work and a manager overview.",
+          "Yes: boards with columns, cards, assignees, due dates and priorities, plus a task board for your own work and a team overview.",
       },
       COMMON_FAQ.free,
       COMMON_FAQ.platforms,
@@ -175,9 +175,9 @@ export const VS_PAGES: VsPage[] = [
           "Yes: projects group your tasks, boards hold your team's work, and each task has priorities, due dates, subtasks, reminders and notes.",
       },
       {
-        question: "Can managers see the team's workload?",
+        question: "Can the team see who has too much on?",
         answer:
-          "Yes. The Team plan includes a manager overview, Workload Health and a Daily Recap of what everyone finished.",
+          "Yes. Workload Health shows when someone has too much on, so work can be shared out fairly, and the Daily Recap keeps everyone up to date on what was finished.",
       },
       COMMON_FAQ.free,
       COMMON_FAQ.platforms,
