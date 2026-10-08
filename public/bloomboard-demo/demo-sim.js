@@ -594,7 +594,8 @@
      into Type Your Tasks, presses Organise (dates and @names are picked up),
      adds them all to To Do, then works through them: In Progress, In Review,
      Done. Maya finishes with her banners and a notification. Once per load. */
-  var STORY = !reduceMotion && !window.__bbDemoFresh;
+  /* ?nostory=1 skips the opening story (for checking the visits on their own) */
+  var STORY = !reduceMotion && !window.__bbDemoFresh && !/[?&]nostory=1/.test(location.search);
   var STORY_LINES = [
     'Finish the homepage hero redesign tomorrow at 3pm',
     'Review the new banners with @maya today at 5pm',
@@ -930,9 +931,11 @@
   var lastTour = 0, lastKind = '', touring = false, tourIdx = 0;
   var TOUR_ORDER = ['office', 'email', 'boards', 'chat', 'calendar'];
   var OFFICE_LINES = ['Got a minute for the banner review?', 'Can you look at the new hero before lunch?', 'Free for a quick call at 3?'];
+  var MAIL_LINES = ['Thanks, this all makes sense. We will have it ready by Thursday.', 'Got it, I will share a first draft tomorrow morning.', 'Thanks for the details. Looping in the team now.'];
   var CHAT_LINES = ['Pushed the new version, can you check it?', 'Sending the files over now', 'Shall we sync after lunch?', 'Looks great, ship it'];
   function q(sel, root) { return (root || document).querySelector(sel); }
-  function vis(el) { var r = el && el.getBoundingClientRect(); return !!(r && r.width && r.height && r.top > 40 && r.bottom < window.innerHeight - 10); }
+  /* on screen (inside the site the app's own top bar sits right at the top edge) */
+  function vis(el) { var r = el && el.getBoundingClientRect(); return !!(r && r.width && r.height && r.top >= 0 && r.bottom <= window.innerHeight); }
   function frameOnScreen() {
     try {
       var fe = window.frameElement;
@@ -1033,8 +1036,16 @@
         var items = [].slice.call(document.querySelectorAll('.bb-email-item')).filter(vis).slice(0, 4);
         if (!items.length) return n(false);
         var it = pick(items);
-        tap(it, function () { it.click(); later(rand(3200, 4200), n); });
+        tap(it, function () { it.click(); later(rand(2600, 3400), n); });
       },
+      /* reply: the reply box opens, a short answer is typed, then sent */
+      function (n) {
+        var b = [].slice.call(document.querySelectorAll('.bb-email-overlay button')).filter(function (x) { return vis(x) && x.textContent.trim() === 'Reply'; })[0];
+        if (!b) return n();
+        tap(b, function () { b.click(); later(900, n); });
+      },
+      function (n) { var t = q('#bb-compose-body'); if (!vis(t)) return n(); typeText(t, pick(MAIL_LINES), false, n); },
+      function (n) { var b = q('.bb-email-send-btn'); if (!vis(b)) return n(); tap(b, function () { b.click(); later(1600, n); }); },
     ],
     office: [
       function (n) { var b = q('#sb-office-enter'); if (!vis(b)) return n(false); tap(b, function () { b.click(); later(1600, n); }); },
@@ -1099,13 +1110,19 @@
     function finish(goHome) {
       if (goHome) {
         var home = q('.bbw-brand');
+        var back = function () {
+          /* whatever happened, end up on the dashboard so the next round can run */
+          try { if (typeof window.closeEmailInbox === 'function') window.closeEmailInbox(); } catch (e) {}
+          try { if (typeof window.goHome === 'function') window.goHome(); } catch (e) {}
+        };
         if (home && vis(home)) {
           tap(home, function () {
             home.click();
-            later(600, function () { if (ghost) ghost.style.opacity = '0'; touring = false; scripting = false; later(rand(2500, 5000), done); });
+            later(500, function () { back(); if (ghost) ghost.style.opacity = '0'; touring = false; scripting = false; later(rand(2500, 5000), done); });
           });
           return;
         }
+        back();
       }
       if (ghost) ghost.style.opacity = '0';
       touring = false; scripting = false;
