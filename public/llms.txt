@@ -30,6 +30,13 @@
 - [BloomBoard vs monday.com](https://mybloomboard.app/vs/monday)
 - [BloomBoard vs Asana](https://mybloomboard.app/vs/asana)
 - [Roam alternative (virtual office)](https://mybloomboard.app/roam-alternative)
+- [Virtual office for remote and hybrid teams](https://mybloomboard.app/virtual-office)
+- [Team task manager](https://mybloomboard.app/team-task-manager)
+- [Kanban board app](https://mybloomboard.app/kanban-board-app)
+- [Task app for agencies](https://mybloomboard.app/task-app-for-agencies)
+- [AI daily planner](https://mybloomboard.app/daily-planner-app)
+- [Free board templates](https://mybloomboard.app/templates)
+- [Guides](https://mybloomboard.app/guides)
 
 ## Contact
 hello@mybloomboard.app

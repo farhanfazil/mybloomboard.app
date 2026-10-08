@@ -35,6 +35,8 @@ const footerLinks: FooterSection[] = [
       { title: "Features", href: "/#features", icon: LayoutDashboardIcon },
       { title: "Pricing", href: "/#pricing", icon: ChartNoAxesColumnIncreasingIcon },
       { title: "Download", href: "/#download", icon: DownloadIcon },
+      { title: "Free templates", href: "/templates", icon: LayoutDashboardIcon },
+      { title: "Guides", href: "/guides", icon: FileQuestionIcon },
       { title: "Manage subscription", href: "/account", icon: ChartNoAxesColumnIncreasingIcon },
     ],
   },
@@ -57,6 +59,16 @@ const footerLinks: FooterSection[] = [
       { title: "Privacy Policy", href: "/privacy.html", icon: ShieldCheckIcon },
       { title: "Terms of Service", href: "/terms.html", icon: FileQuestionIcon },
       { title: "Refund policy", href: "/refund", icon: FileQuestionIcon },
+    ],
+  },
+  {
+    label: "Solutions",
+    links: [
+      { title: "Virtual office", href: "/virtual-office" },
+      { title: "Team task manager", href: "/team-task-manager" },
+      { title: "Kanban board app", href: "/kanban-board-app" },
+      { title: "For agencies", href: "/task-app-for-agencies" },
+      { title: "AI daily planner", href: "/daily-planner-app" },
     ],
   },
   {
@@ -114,7 +126,7 @@ export function Footer() {
           </p>
         </AnimatedContainer>
 
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-3 xl:col-span-2">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 xl:col-span-2">
           {footerLinks.map((section, index) => (
             <AnimatedContainer key={section.label} delay={0.1 + index * 0.1}>
               <div>
