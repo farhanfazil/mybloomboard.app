@@ -1,9 +1,9 @@
 # BloomBoard
 
-> BloomBoard is a calm productivity app for individuals and small teams: tasks, boards, calendar, notes, team chat, voice and video calls, a live virtual office, and an AI assistant (Bloom AI) that plans your day. Mac and Windows apps and a web app; an iPhone app is coming soon.
+> BloomBoard is a calm productivity app for individuals and small teams: tasks, boards, calendar, notes, team chat, voice and video calls, a live virtual office, and an AI assistant (Bloom AI) that plans your day. Mac and Windows apps and a web app.
 
 ## Plans
-- Free: no time limit, no account or card needed. Tasks, boards, calendar, notes and reminders, kept on your computer and usable offline.
+- Free: for individuals, no time limit, no card needed. Tasks, boards, calendar, notes and reminders.
 - Bloom: from $6 per month, billed yearly. Adds Bloom AI and sync across your devices.
 - Team: from $8 per person per month, billed yearly. Adds team chat, calls with screen sharing, the live office, shared boards, handovers and a manager overview.
 
@@ -12,7 +12,7 @@
 - Plan My Day: builds a realistic day around your meetings, with focus time, breaks and lunch, from tasks you already have, including unfinished work from yesterday.
 - Email built in: Gmail and Outlook inbox, turn an email into a task, AI replies.
 - Handover: hand your work to a teammate before a vacation.
-- Privacy: no ads, no tracking; your own tasks stay on your computer on the Free plan. AI requests go to Anthropic's Claude API, which does not train on API data.
+- Privacy: no ads, no tracking, row-level security on every table. AI requests go to Anthropic's Claude API, which does not train on API data.
 - Import: Trello boards (connect Trello or a JSON export).
 
 ## Pages

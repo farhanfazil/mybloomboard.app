@@ -44,11 +44,11 @@ const FAQS = [
   {
     question: "Is there a free plan?",
     answer:
-      "Yes. The Free plan has no time limit and needs no account for your own tasks. The live office, chat and calls are on the Team plan, from $8 per person a month, billed yearly.",
+      "Individuals can use BloomBoard free with no time limit. The live office, chat, calls and shared boards are on the Team plan, from $8 per person a month, billed yearly, with Bloom AI included.",
   },
   {
     question: "Which devices does it work on?",
-    answer: "Mac and Windows apps and a web app at app.mybloomboard.app. An iPhone app for tasks, reminders and calls is coming soon.",
+    answer: "Mac and Windows apps, plus a web app at app.mybloomboard.app that works in any browser.",
   },
 ];
 

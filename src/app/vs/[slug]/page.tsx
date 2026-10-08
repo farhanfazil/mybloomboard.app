@@ -53,7 +53,9 @@ export default async function VsPageView({ params }: { params: Promise<{ slug: s
   const p = vsPage(slug);
   if (!p) notFound();
   const col = TEAMS_HEADERS.indexOf(p.name);
-  const rows = TEAMS_ROWS.filter((r): r is string[] => Array.isArray(r));
+  /* Company-focused pages: no offline / on-your-computer rows (those are about the solo Free plan). */
+  const SKIP = ["Works offline", "Works without an account", "Data location"];
+  const rows = TEAMS_ROWS.filter((r): r is string[] => Array.isArray(r) && !SKIP.includes(r[0]));
   /* Where BloomBoard is different first; what both do well after. */
   const TOP = ["Live team office", "Voice & video calls", "Built-in team chat", "AI assistant built-in", "Daily Recap",
     "Gmail and Outlook inbox", "Turn an email into a task", "Type to Task", "Handovers before a vacation", "Workload Health",
@@ -93,7 +95,7 @@ export default async function VsPageView({ params }: { params: Promise<{ slug: s
           <Link href="/start" className="rounded-[11px] bg-white px-5 py-3 text-[15px] font-semibold text-black">Start free</Link>
           <Link href="/#live-demo" className="rounded-[11px] border border-white/15 px-5 py-3 text-[15px] font-semibold">Try the live demo</Link>
         </div>
-        <p className="mt-3 text-[13px] text-[#a1a1aa]">Free plan with no time limit. No account or card needed.</p>
+        <p className="mt-3 text-[13px] text-[#a1a1aa]">Start free. No card needed.</p>
 
         <section className="mt-16">
           <h2 className="text-[22px] font-bold tracking-[-0.02em]">Which one is right for you?</h2>

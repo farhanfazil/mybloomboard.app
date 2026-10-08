@@ -19,12 +19,12 @@ const COMMON_FAQ = {
   free: {
     question: "Is BloomBoard really free?",
     answer:
-      "Yes. The Free plan has no time limit and needs no account or card: tasks, boards, calendar, notes and reminders, kept on your computer. Bloom (from $6 a month, billed yearly) adds Bloom AI and sync across devices. Team (from $8 per person a month, billed yearly) adds chat, calls, the live office and shared boards.",
+      "Yes, for one person: the Free plan has no time limit and no card is needed. Teams use the Team plan, from $8 per person a month billed yearly, with shared boards, chat, calls, the live office, handovers, a manager overview and Bloom AI. Bloom, from $6 a month, is for individuals who want Bloom AI.",
   },
   platforms: {
     question: "Which devices does it work on?",
     answer:
-      "Mac and Windows apps and a web app at app.mybloomboard.app. An iPhone app for your tasks, reminders and calls is coming soon.",
+      "Mac and Windows apps, plus a web app at app.mybloomboard.app that works in any browser, so everyone on the team can join from their own computer.",
   },
 };
 
@@ -39,14 +39,14 @@ export const VS_PAGES: VsPage[] = [
     intro:
       "Trello made kanban boards simple. BloomBoard keeps that simplicity and adds what teams usually bolt on with other apps: chat, voice and video calls, a live office where you can see who is free, and an AI that turns your list into a plan for the day.",
     pickThem: [
-      "You want the biggest library of Power-Ups and integrations.",
-      "You need an Android app today.",
-      "Your whole company already runs on Atlassian tools like Jira.",
+      "Your team only needs simple boards and nothing else.",
+      "You rely on a large library of Power-Ups and integrations.",
+      "Your company already runs on Atlassian tools like Jira.",
     ],
     pickUs: [
-      "You are tired of switching between your board, Slack and Zoom.",
-      "You want an AI that plans your day without paying for an add-on.",
-      "You want your own tasks to work offline and stay on your computer.",
+      "Your team switches between a board, Slack and Zoom all day.",
+      "Managers want to see progress, workload and a daily recap without chasing people.",
+      "You want AI that plans each person's day, included in the price.",
     ],
     switching:
       "Bring your Trello boards over in about a minute: connect Trello in the app, or import a board's JSON export. Lists, cards, labels and checklists come with them.",
@@ -80,9 +80,9 @@ export const VS_PAGES: VsPage[] = [
       "You want one tool to replace a long list of specialised apps.",
     ],
     pickUs: [
-      "Your team wants something it can start using today without training.",
+      "Your team should be productive on day one, without training or a setup project.",
       "You want a live office to see who is free and drop in, not just chat.",
-      "You want AI planning and a daily recap included in the price.",
+      "Managers want a daily recap and workload view included, not sold as add-ons.",
     ],
     switching:
       "Start free and set up a board in minutes. Trello boards import today; importers for ClickUp and other tools are on the way.",
@@ -106,19 +106,19 @@ export const VS_PAGES: VsPage[] = [
     name: "Notion",
     title: "BloomBoard vs Notion: a task and team app, not a blank page",
     description:
-      "Compare BloomBoard and Notion. Ready-made tasks, boards, calendar, chat and calls with AI planning, instead of building your own system. Free plan, works offline.",
+      "Compare BloomBoard and Notion. Ready-made tasks, boards, calendar, chat and calls with AI planning, instead of building your own system. Free plan for individuals.",
     h1: "The Notion alternative for getting work done",
     intro:
       "Notion is a blank page you can turn into anything, if you have the time to build it. BloomBoard comes ready: tasks, boards, calendar, notes, team chat and calls, with an AI that plans your day from what you already have.",
     pickThem: [
-      "You mainly write docs, wikis and knowledge bases.",
-      "You enjoy designing your own databases and systems.",
-      "You need a large template gallery from the community.",
+      "Your team mainly writes docs, wikis and knowledge bases.",
+      "Someone on your team enjoys building and maintaining your own system.",
+      "You rely on a large community template gallery.",
     ],
     pickUs: [
-      "You want a task manager that works the moment you open it.",
-      "You want your team in the same app: chat, calls and a live office.",
-      "You want your own work to stay usable offline.",
+      "You want task management that works for the whole team from the first day.",
+      "You want chat, calls and a live office in the same app as the work.",
+      "Managers want progress, workload and recaps without building dashboards.",
     ],
     switching:
       "Keep Notion for your docs if you like, and run your tasks and team in BloomBoard. A Notion importer is on the way.",
@@ -148,13 +148,13 @@ export const VS_PAGES: VsPage[] = [
       "monday.com is a flexible work platform built for companies of every size. BloomBoard is built for small and growing teams that want their tasks, boards and conversations in one calm place, with simple pricing and AI included.",
     pickThem: [
       "You need highly customised workflows, automations and reporting.",
-      "You run a large organisation with many departments on one platform.",
-      "You need an Android app or enterprise admin features today.",
+      "Many departments must run on one heavily configured platform.",
+      "You have someone to administer and configure it full time.",
     ],
     pickUs: [
-      "You want chat, calls and a live office without adding Slack and Zoom.",
-      "You want a free plan that does not expire and needs no account.",
-      "You want AI planning and a daily recap included.",
+      "Your team wants chat, calls and a live office without adding Slack and Zoom.",
+      "You want simple per-person pricing with AI included.",
+      "Managers want a daily recap and workload view out of the box.",
     ],
     switching:
       "Start free in minutes. A spreadsheet importer for monday.com exports is on the way.",
@@ -185,12 +185,12 @@ export const VS_PAGES: VsPage[] = [
     pickThem: [
       "You manage portfolios, goals and timelines across many teams.",
       "You need advanced reporting and admin controls for a large company.",
-      "You need an Android app today.",
+      "Your organisation has already standardised on it.",
     ],
     pickUs: [
-      "You want conversations and tasks in the same app.",
+      "Your team wants conversations and tasks in the same app.",
       "You want to see who is free right now and drop into a room.",
-      "You want AI included, not a paid add-on.",
+      "You want AI planning and a daily recap included, not a paid add-on.",
     ],
     switching:
       "Start free and set up your first board in minutes. An Asana importer is on the way.",
