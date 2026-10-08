@@ -34,8 +34,8 @@ export const TEAMS_ROWS: (string[] | { section: string })[] = [
   ["Meetings + 5-min alerts",     "✅", "❌", "❌", "✅", "✅", "✅"],
   ["Daily Recap",                 "✅", "❌", "❌", "⚠️ Paid add-on", "⚠️ Paid", "❌"],
 
-  { section: "For managers" },
-  ["Manager dashboard",           "✅", "❌", "⚠️ Paid", "⚠️ Limited", "⚠️ Paid", "⚠️ Paid"],
+  { section: "Team insights" },
+  ["Team overview",           "✅", "❌", "⚠️ Paid", "⚠️ Limited", "⚠️ Paid", "⚠️ Paid"],
   ["Workload Health",             "✅", "❌", "❌", "⚠️ Capacity view", "⚠️ Capacity view", "⚠️ Capacity view"],
 
   { section: "Wellbeing & Personal" },

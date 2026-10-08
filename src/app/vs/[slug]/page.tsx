@@ -59,7 +59,7 @@ export default async function VsPageView({ params }: { params: Promise<{ slug: s
   /* Where BloomBoard is different first; what both do well after. */
   const TOP = ["Live team office", "Voice & video calls", "Built-in team chat", "AI assistant built-in", "Daily Recap",
     "Gmail and Outlook inbox", "Turn an email into a task", "Type to Task", "Handovers before a vacation", "Workload Health",
-    "Works offline", "Works without an account", "Manager dashboard", "Team vacation calendar"];
+    "Works offline", "Works without an account", "Team overview", "Team vacation calendar"];
   const rank = (f: string) => { const i = TOP.indexOf(f); return i < 0 ? 99 : i; };
   const allDiff = rows.filter((r) => cell(r[1]).kind === "yes" && cell(r[col]).kind !== "yes")
     .sort((a, b) => rank(a[0]) - rank(b[0]));
@@ -87,11 +87,11 @@ export default async function VsPageView({ params }: { params: Promise<{ slug: s
         <Link href="/start" className="rounded-[10px] bg-white px-4 py-2 text-sm font-semibold text-black">Start free</Link>
       </header>
 
-      <main className="mx-auto max-w-[880px] px-5 pb-10 pt-10 md:pt-16">
+      <main className="mx-auto max-w-[880px] px-5 pb-10 pt-10 text-center md:pt-16">
         <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-[#9fdcff]">BloomBoard vs {display}</p>
-        <h1 className="mt-3 text-[34px] font-bold leading-[1.08] tracking-[-0.03em] md:text-[46px]">{p.h1}</h1>
-        <p className="mt-5 max-w-[680px] text-[16.5px] leading-relaxed text-[#c4c4cc]">{p.intro}</p>
-        <div className="mt-7 flex flex-wrap gap-3">
+        <h1 className="mx-auto mt-3 max-w-[760px] text-[34px] font-bold leading-[1.08] tracking-[-0.03em] md:text-[46px]" style={{ textWrap: "balance" }}>{p.h1}</h1>
+        <p className="mx-auto mt-5 max-w-[640px] text-[16.5px] leading-relaxed text-[#c4c4cc]" style={{ textWrap: "pretty" }}>{p.intro}</p>
+        <div className="mt-7 flex flex-wrap justify-center gap-3">
           <Link href="/start" className="rounded-[11px] bg-white px-5 py-3 text-[15px] font-semibold text-black">Start free</Link>
           <Link href="/#live-demo" className="rounded-[11px] border border-white/15 px-5 py-3 text-[15px] font-semibold">Try the live demo</Link>
         </div>
@@ -101,7 +101,7 @@ export default async function VsPageView({ params }: { params: Promise<{ slug: s
           <h2 className="text-[22px] font-bold tracking-[-0.02em]">Why teams switch from {display} to BloomBoard</h2>
           <div className="mt-6 grid divide-y divide-white/10 border-y border-white/10 md:grid-cols-3 md:divide-x md:divide-y-0">
             {p.reasons.map((r) => (
-              <div key={r.title} className="py-6 md:px-6 md:first:pl-0 md:last:pr-0">
+              <div key={r.title} className="px-2 py-6 md:px-6">
                 <h3 className="text-[15.5px] font-bold">{r.title}</h3>
                 <p className="mt-2 text-[14.5px] leading-relaxed text-[#c4c4cc]">{r.body}</p>
               </div>
@@ -111,7 +111,7 @@ export default async function VsPageView({ params }: { params: Promise<{ slug: s
 
         <section className="mt-16">
           <h2 className="text-[22px] font-bold tracking-[-0.02em]">Where BloomBoard is different</h2>
-          <div className="mt-5 overflow-hidden rounded-2xl border border-white/10">
+          <div className="mt-6 overflow-hidden rounded-2xl border border-white/10 text-left">
             <div className="grid grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_minmax(0,1fr)] bg-[#111113] px-4 py-3 text-[12px] font-bold uppercase tracking-[0.06em] text-[#a1a1aa]">
               <span>Feature</span><span>BloomBoard</span><span>{display}</span>
             </div>
@@ -124,12 +124,12 @@ export default async function VsPageView({ params }: { params: Promise<{ slug: s
             ))}
           </div>
           {moreDiff.length > 0 && (
-            <p className="mt-4 text-[14px] leading-relaxed text-[#a1a1aa]">
+            <p className="mx-auto mt-4 max-w-[720px] text-[14px] leading-relaxed text-[#a1a1aa]">
               <span className="font-semibold text-[#d4d4d8]">More differences:</span> {moreDiff.join(", ")}.
             </p>
           )}
           {both.length > 0 && (
-            <p className="mt-2 text-[14px] leading-relaxed text-[#a1a1aa]">
+            <p className="mx-auto mt-2 max-w-[720px] text-[14px] leading-relaxed text-[#a1a1aa]">
               <span className="font-semibold text-[#d4d4d8]">Both have:</span> {both.join(", ")}.
             </p>
           )}
@@ -138,7 +138,7 @@ export default async function VsPageView({ params }: { params: Promise<{ slug: s
 
         <section className="mt-16 rounded-2xl border border-white/10 bg-[#111113] p-6">
           <h2 className="text-[20px] font-bold tracking-[-0.02em]">Switching from {display}</h2>
-          <p className="mt-2.5 text-[15px] leading-relaxed text-[#c4c4cc]">{p.switching}</p>
+          <p className="mx-auto mt-2.5 max-w-[620px] text-[15px] leading-relaxed text-[#c4c4cc]">{p.switching}</p>
         </section>
       </main>
 
@@ -153,7 +153,7 @@ export default async function VsPageView({ params }: { params: Promise<{ slug: s
         faqsRight={p.faqs.slice(half)}
       />
 
-      <nav className="mx-auto max-w-[880px] px-5 pb-24 text-[14px] text-[#a1a1aa]" aria-label="Other comparisons">
+      <nav className="mx-auto max-w-[880px] px-5 pb-24 text-center text-[14px] text-[#a1a1aa]" aria-label="Other comparisons">
         Also compare:{" "}
         {others.map((o, i) => (
           <span key={o.slug}>

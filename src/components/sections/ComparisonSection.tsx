@@ -22,7 +22,7 @@ const TEAMS_TOP_ROWS: (string[] | { section: string })[] = [
   ["Turn an email into a task",   "✅", "❌", "⚠️ Forward to a board", "⚠️ Email to task", "⚠️ Forward to Asana", "⚠️ Via app"],
   ["Type to Task",                "✅", "❌", "⚠️ Paste a list", "⚠️ Paste a list", "⚠️ Paste a list", "❌"],
 
-  { section: "For managers, with AI included" },
+  { section: "Team insights, with AI included" },
   ["AI assistant built-in",       "✅ Included", "⚠️ Paid add-on", "❌", "⚠️ Paid add-on", "⚠️ Paid add-on", "⚠️ Paid add-on"],
   ["Daily Recap",                 "✅", "❌", "❌", "⚠️ Paid add-on", "⚠️ Paid", "❌"],
   ["Workload Health",             "✅", "❌", "❌", "⚠️ Capacity view", "⚠️ Capacity view", "⚠️ Capacity view"],
@@ -88,19 +88,19 @@ const FEATURED: Record<string, { icon: LucideIcon; badge?: string; detail?: stri
     detailShort: "Dates become deadlines, @names assign teammates.",
   },
   "Voice & video calls": { icon: Video, badge: "New" },
-  "Manager dashboard": {
+  "Team overview": {
     icon: LayoutDashboard,
-    detail: "Live team performance: every teammate's to do, in progress, done and overdue work, with a delivery health score that shows who is on track and who is at risk.",
-    detailShort: "Each teammate's progress, overdue work and delivery health.",
+    detail: "The whole team's to do, in progress, done and overdue work in one view, so everyone can see where help is needed.",
+    detailShort: "The team's progress and overdue work in one view.",
   },
   "Daily Recap": {
     icon: ClipboardList,
-    detail: "Your day written up for you: what you finished yesterday, what is due today and any blockers. Post it to team chat or send it to your manager in one click, no more writing status updates.",
-    detailShort: "Your day written up. Post it to your manager in one click.",
+    detail: "Your day written up for you: what you finished yesterday, what is due today and any blockers. Post it to team chat in one click, no more writing status updates.",
+    detailShort: "Your day written up. Share it with your team in one click.",
   },
   "Workload Health": {
     icon: HeartPulse,
-    detail: "Private signals for owners and managers: overload, overdue work piling up, stuck cards, or someone going quiet. A nudge to check in early, never a public score.",
+    detail: "Private signals for team owners: overload, overdue work piling up, stuck cards, or someone going quiet. A nudge to check in early, never a public score.",
     detailShort: "Flags overload, stuck work and quiet teammates, privately.",
   },
   "Built-in team chat": { icon: MessageCircle },

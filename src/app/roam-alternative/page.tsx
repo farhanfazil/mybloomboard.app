@@ -68,14 +68,14 @@ export default function RoamAlternative() {
         </Link>
         <Link href="/start" className="rounded-[10px] bg-white px-4 py-2 text-sm font-semibold text-black">Start free</Link>
       </header>
-      <main className="mx-auto max-w-[880px] px-5 pb-10 pt-10 md:pt-16">
+      <main className="mx-auto max-w-[880px] px-5 pb-10 pt-10 text-center md:pt-16">
         <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-[#9fdcff]">Roam alternative</p>
-        <h1 className="mt-3 text-[34px] font-bold leading-[1.08] tracking-[-0.03em] md:text-[46px]">A virtual office where the work lives too</h1>
-        <p className="mt-5 max-w-[680px] text-[16.5px] leading-relaxed text-[#c4c4cc]">
+        <h1 className="mx-auto mt-3 max-w-[760px] text-[34px] font-bold leading-[1.08] tracking-[-0.03em] md:text-[46px]" style={{ textWrap: "balance" }}>A virtual office where the work lives too</h1>
+        <p className="mx-auto mt-5 max-w-[640px] text-[16.5px] leading-relaxed text-[#c4c4cc]" style={{ textWrap: "pretty" }}>
           Roam showed how good a virtual office can feel for remote teams. BloomBoard gives you the same feeling of working
           side by side, and puts your tasks, boards, calendar and AI planning in the same app, so your team stops jumping between tools.
         </p>
-        <div className="mt-7 flex flex-wrap gap-3">
+        <div className="mt-7 flex flex-wrap justify-center gap-3">
           <Link href="/start" className="rounded-[11px] bg-white px-5 py-3 text-[15px] font-semibold text-black">Start free</Link>
           <Link href="/office" className="rounded-[11px] border border-white/15 px-5 py-3 text-[15px] font-semibold">Tour the office</Link>
         </div>
@@ -115,7 +115,7 @@ export default function RoamAlternative() {
         faqsLeft={FAQS.slice(0, 2)}
         faqsRight={FAQS.slice(2)}
       />
-      <nav className="mx-auto max-w-[880px] px-5 pb-24 text-[14px] text-[#a1a1aa]" aria-label="Other comparisons">
+      <nav className="mx-auto max-w-[880px] px-5 pb-24 text-center text-[14px] text-[#a1a1aa]" aria-label="Other comparisons">
         Also compare:{" "}
         <Link href="/vs/trello" className="underline underline-offset-2 hover:text-white">vs Trello</Link> ·{" "}
         <Link href="/vs/clickup" className="underline underline-offset-2 hover:text-white">vs ClickUp</Link> ·{" "}
