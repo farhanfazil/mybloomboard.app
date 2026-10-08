@@ -5,7 +5,7 @@ import { join } from "path";
 export const runtime = "nodejs";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "BloomBoard: the productivity app that thinks with you.";
+export const alt = "BloomBoard: your tasks, your team and a live office, in one calm app.";
 
 export default function OpengraphImage() {
   const bgData = readFileSync(join(process.cwd(), "public/backgrounds/hero-bg.jpg")).toString("base64");
@@ -94,7 +94,7 @@ export default function OpengraphImage() {
                 textShadow: "0 2px 18px rgba(0,0,0,0.8)",
               }}
             >
-              The productivity app that
+              Your tasks, your team and
             </span>
             <span
               style={{
@@ -105,7 +105,7 @@ export default function OpengraphImage() {
                 textShadow: "0 2px 18px rgba(0,0,0,0.8)",
               }}
             >
-              thinks with you.
+              a live office, in one calm app.
             </span>
           </div>
 
@@ -118,7 +118,7 @@ export default function OpengraphImage() {
               textShadow: "0 2px 12px rgba(0,0,0,0.8)",
             }}
           >
-            Free · No account for solo use · mybloomboard.app
+            Free to start · Mac, Windows and web · mybloomboard.app
           </span>
         </div>
       </div>

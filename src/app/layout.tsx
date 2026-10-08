@@ -11,21 +11,21 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://mybloomboard.app"),
   alternates: { canonical: "/" },
-  title: "BloomBoard: Your day. Organised. Beautiful.",
+  title: "BloomBoard: Tasks, team chat and a live office in one app",
   description:
-    "A calm productivity app for Mac and Windows: tasks, boards, notes, team chat and calls, with an AI that plans your day. Free for solo use, no account needed.",
+    "Your tasks, your team and a live office, in one calm app. Shared boards, team chat and calls, a virtual office and an AI that plans each day. Free to start on Mac, Windows and web.",
   openGraph: {
-    title: "BloomBoard: Your day. Organised. Beautiful.",
+    title: "BloomBoard: Tasks, team chat and a live office in one app",
     description:
-      "A calm productivity app for Mac and Windows: tasks, boards, notes, team chat and calls, with an AI that plans your day. Free for solo use, no account needed.",
+      "Your tasks, your team and a live office, in one calm app. Shared boards, team chat and calls, a virtual office and an AI that plans each day. Free to start on Mac, Windows and web.",
     type: "website",
     siteName: "BloomBoard",
   },
   twitter: {
     card: "summary_large_image",
-    title: "BloomBoard: Your day. Organised. Beautiful.",
+    title: "BloomBoard: Tasks, team chat and a live office in one app",
     description:
-      "A calm productivity app for Mac and Windows: tasks, boards, notes, team chat and calls, with an AI that plans your day. Free for solo use, no account needed.",
+      "Your tasks, your team and a live office, in one calm app. Shared boards, team chat and calls, a virtual office and an AI that plans each day. Free to start on Mac, Windows and web.",
   },
   icons: {
     icon: "/favicon.png",
