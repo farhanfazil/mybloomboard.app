@@ -104,23 +104,6 @@ export default function RoamAlternative() {
           </div>
         </section>
 
-        <section className="mt-14 grid gap-4 md:grid-cols-2">
-          <div className="rounded-2xl border border-white/10 bg-[#111113] p-5">
-            <h3 className="text-[15px] font-bold">Pick Roam if</h3>
-            <ul className="mt-3 space-y-2.5 text-[15px] leading-relaxed text-[#c4c4cc]">
-              <li className="flex gap-2.5"><span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#71717a]" />You only need a virtual office and messaging, and already have a task tool you love.</li>
-              <li className="flex gap-2.5"><span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#71717a]" />Your company has already rolled it out to everyone.</li>
-            </ul>
-          </div>
-          <div className="rounded-2xl border border-[#9fdcff]/30 bg-[#0f1a22] p-5">
-            <h3 className="text-[15px] font-bold">Pick BloomBoard if</h3>
-            <ul className="mt-3 space-y-2.5 text-[15px] leading-relaxed text-[#c4c4cc]">
-              <li className="flex gap-2.5"><span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#9fdcff]" />You want the office, tasks, boards and calendar in one app.</li>
-              <li className="flex gap-2.5"><span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#9fdcff]" />You want AI that plans your day and recaps your team's work, included.</li>
-              <li className="flex gap-2.5"><span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#9fdcff]" />You want to start free and add the office when your team is ready.</li>
-            </ul>
-          </div>
-        </section>
       </main>
       <FAQSection
         className="pb-8 pt-4 md:pt-8"

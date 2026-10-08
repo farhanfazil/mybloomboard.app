@@ -1,5 +1,5 @@
-/* "BloomBoard vs …" pages: one per tool people switch from. Honest on purpose:
-   each page says where the other tool is the better pick. Feature rows come
+/* "BloomBoard vs …" pages: one per tool people switch from. Each page says why teams switch,
+   and the facts table stays accurate. Feature rows come
    from the shared comparison table (src/lib/compare-data.ts). */
 
 export type VsPage = {
@@ -9,8 +9,7 @@ export type VsPage = {
   description: string;     // meta description
   h1: string;
   intro: string;
-  pickThem: string[];      // when the other tool is the better choice
-  pickUs: string[];        // when BloomBoard is
+  reasons: { title: string; body: string }[];   // why teams switch to BloomBoard
   switching: string;
   faqs: { question: string; answer: string }[];
 };
@@ -38,15 +37,10 @@ export const VS_PAGES: VsPage[] = [
     h1: "The Trello alternative with your team built in",
     intro:
       "Trello made kanban boards simple. BloomBoard keeps that simplicity and adds what teams usually bolt on with other apps: chat, voice and video calls, a live office where you can see who is free, and an AI that turns your list into a plan for the day.",
-    pickThem: [
-      "Your team only needs simple boards and nothing else.",
-      "You rely on a large library of Power-Ups and integrations.",
-      "Your company already runs on Atlassian tools like Jira.",
-    ],
-    pickUs: [
-      "Your team switches between a board, Slack and Zoom all day.",
-      "Managers want to see progress, workload and a daily recap without chasing people.",
-      "You want AI that plans each person's day, included in the price.",
+    reasons: [
+      { title: "One app instead of three", body: "Boards, chat and calls in one place, so your team stops jumping between Trello, Slack and Zoom." },
+      { title: "Managers see everything", body: "Progress, workload and a daily recap of what everyone finished, without chasing people for updates." },
+      { title: "AI included for everyone", body: "Bloom AI plans each person's day, turns emails and meeting notes into tasks and writes the recap. No add-on to buy." },
     ],
     switching:
       "Bring your Trello boards over in about a minute: connect Trello in the app, or import a board's JSON export. Lists, cards, labels and checklists come with them.",
@@ -74,15 +68,10 @@ export const VS_PAGES: VsPage[] = [
     h1: "The calmer ClickUp alternative",
     intro:
       "ClickUp can do almost anything, which is also why many teams find it heavy. BloomBoard covers what most teams use every day, tasks, boards, chat, calls and planning, in an app you can learn in minutes, with Bloom AI included instead of sold as an add-on.",
-    pickThem: [
-      "You need deep custom fields, docs and automations across many departments.",
-      "You run large programmes with dashboards for dozens of teams.",
-      "You want one tool to replace a long list of specialised apps.",
-    ],
-    pickUs: [
-      "Your team should be productive on day one, without training or a setup project.",
-      "You want a live office to see who is free and drop in, not just chat.",
-      "Managers want a daily recap and workload view included, not sold as add-ons.",
+    reasons: [
+      { title: "Productive on day one", body: "No setup project and no training. Your team opens BloomBoard and starts working." },
+      { title: "A live office, not just chat", body: "See who is free, walk into a room, and knock before you interrupt someone in focus." },
+      { title: "Manager tools included", body: "Daily recap, Workload Health and a manager overview come with the Team plan, not as paid add-ons." },
     ],
     switching:
       "Start free and set up a board in minutes. Trello boards import today; importers for ClickUp and other tools are on the way.",
@@ -110,15 +99,10 @@ export const VS_PAGES: VsPage[] = [
     h1: "The Notion alternative for getting work done",
     intro:
       "Notion is a blank page you can turn into anything, if you have the time to build it. BloomBoard comes ready: tasks, boards, calendar, notes, team chat and calls, with an AI that plans your day from what you already have.",
-    pickThem: [
-      "Your team mainly writes docs, wikis and knowledge bases.",
-      "Someone on your team enjoys building and maintaining your own system.",
-      "You rely on a large community template gallery.",
-    ],
-    pickUs: [
-      "You want task management that works for the whole team from the first day.",
-      "You want chat, calls and a live office in the same app as the work.",
-      "Managers want progress, workload and recaps without building dashboards.",
+    reasons: [
+      { title: "Ready from the first day", body: "Tasks, boards, calendar and projects are built in. Nobody has to design the system first." },
+      { title: "Your team in the same app", body: "Chat, calls and a live office sit next to the work, so updates don't get lost in another app." },
+      { title: "Progress without building dashboards", body: "Managers get workload, progress and a daily recap without setting anything up." },
     ],
     switching:
       "Keep Notion for your docs if you like, and run your tasks and team in BloomBoard. A Notion importer is on the way.",
@@ -146,15 +130,10 @@ export const VS_PAGES: VsPage[] = [
     h1: "The monday.com alternative for small teams",
     intro:
       "monday.com is a flexible work platform built for companies of every size. BloomBoard is built for small and growing teams that want their tasks, boards and conversations in one calm place, with simple pricing and AI included.",
-    pickThem: [
-      "You need highly customised workflows, automations and reporting.",
-      "Many departments must run on one heavily configured platform.",
-      "You have someone to administer and configure it full time.",
-    ],
-    pickUs: [
-      "Your team wants chat, calls and a live office without adding Slack and Zoom.",
-      "You want simple per-person pricing with AI included.",
-      "Managers want a daily recap and workload view out of the box.",
+    reasons: [
+      { title: "Talk where you work", body: "Chat, calls and a live office are built in, so you don't need Slack and Zoom on top." },
+      { title: "Simple pricing, AI included", body: "One clear price per person, with Bloom AI included for the whole team." },
+      { title: "Manager view out of the box", body: "Daily recap, Workload Health and a manager overview are ready on day one." },
     ],
     switching:
       "Start free in minutes. A spreadsheet importer for monday.com exports is on the way.",
@@ -182,15 +161,10 @@ export const VS_PAGES: VsPage[] = [
     h1: "The Asana alternative with your team in one place",
     intro:
       "Asana is strong at planning projects across a company. BloomBoard focuses on the day-to-day of a team: your tasks, shared boards, chat, calls and a live office, with an AI that plans your day and writes your recap.",
-    pickThem: [
-      "You manage portfolios, goals and timelines across many teams.",
-      "You need advanced reporting and admin controls for a large company.",
-      "Your organisation has already standardised on it.",
-    ],
-    pickUs: [
-      "Your team wants conversations and tasks in the same app.",
-      "You want to see who is free right now and drop into a room.",
-      "You want AI planning and a daily recap included, not a paid add-on.",
+    reasons: [
+      { title: "Conversations next to the tasks", body: "Chat and calls live in the same app as the work, so nothing gets lost between tools." },
+      { title: "See who is free right now", body: "The live office shows who is available, in a room or in focus, and lets you drop in." },
+      { title: "AI included, not an add-on", body: "Bloom AI plans each person's day, writes the daily recap and turns meeting notes into tasks." },
     ],
     switching:
       "Start free and set up your first board in minutes. An Asana importer is on the way.",

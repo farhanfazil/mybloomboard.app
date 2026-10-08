@@ -98,20 +98,14 @@ export default async function VsPageView({ params }: { params: Promise<{ slug: s
         <p className="mt-3 text-[13px] text-[#a1a1aa]">Start free. No card needed.</p>
 
         <section className="mt-16">
-          <h2 className="text-[22px] font-bold tracking-[-0.02em]">Which one is right for you?</h2>
-          <div className="mt-5 grid gap-4 md:grid-cols-2">
-            <div className="rounded-2xl border border-white/10 bg-[#111113] p-5">
-              <h3 className="text-[15px] font-bold">Pick {display} if</h3>
-              <ul className="mt-3 space-y-2.5 text-[15px] leading-relaxed text-[#c4c4cc]">
-                {p.pickThem.map((t) => <li key={t} className="flex gap-2.5"><span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#71717a]" />{t}</li>)}
-              </ul>
-            </div>
-            <div className="rounded-2xl border border-[#9fdcff]/30 bg-[#0f1a22] p-5">
-              <h3 className="text-[15px] font-bold">Pick BloomBoard if</h3>
-              <ul className="mt-3 space-y-2.5 text-[15px] leading-relaxed text-[#c4c4cc]">
-                {p.pickUs.map((t) => <li key={t} className="flex gap-2.5"><span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#9fdcff]" />{t}</li>)}
-              </ul>
-            </div>
+          <h2 className="text-[22px] font-bold tracking-[-0.02em]">Why teams switch from {display} to BloomBoard</h2>
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            {p.reasons.map((r) => (
+              <div key={r.title} className="rounded-2xl border border-white/10 bg-[#111113] p-5">
+                <h3 className="text-[15.5px] font-bold">{r.title}</h3>
+                <p className="mt-2 text-[14.5px] leading-relaxed text-[#c4c4cc]">{r.body}</p>
+              </div>
+            ))}
           </div>
         </section>
 
