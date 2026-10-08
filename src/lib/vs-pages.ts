@@ -24,7 +24,7 @@ const COMMON_FAQ = {
   platforms: {
     question: "Which devices does it work on?",
     answer:
-      "Mac and Windows apps, a web app at app.mybloomboard.app, and an iPhone app for your tasks, reminders and calls.",
+      "Mac and Windows apps and a web app at app.mybloomboard.app. An iPhone app for your tasks, reminders and calls is coming soon.",
   },
 };
 
@@ -178,7 +178,7 @@ export const VS_PAGES: VsPage[] = [
     name: "Asana",
     title: "BloomBoard vs Asana: an Asana alternative with chat, calls and AI",
     description:
-      "Compare BloomBoard and Asana. Tasks and boards plus team chat, calls, a live team office and AI that plans your day. Free plan, Mac, Windows, web and iPhone.",
+      "Compare BloomBoard and Asana. Tasks and boards plus team chat, calls, a live team office and AI that plans your day. Free plan, Mac, Windows and web.",
     h1: "The Asana alternative with your team in one place",
     intro:
       "Asana is strong at planning projects across a company. BloomBoard focuses on the day-to-day of a team: your tasks, shared boards, chat, calls and a live office, with an AI that plans your day and writes your recap.",

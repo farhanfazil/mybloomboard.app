@@ -41,7 +41,7 @@ const SITE_LD = {
       name: "BloomBoard",
       url: "https://mybloomboard.app",
       applicationCategory: "BusinessApplication",
-      operatingSystem: "macOS, Windows, Web, iOS",
+      operatingSystem: "macOS, Windows, Web",
       description:
         "A calm productivity app for teams: tasks, boards, calendar, notes, team chat and calls, a live virtual office, and an AI that plans your day.",
       offers: [
@@ -62,7 +62,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased overflow-x-hidden">
-        {/* Tells search engines what BloomBoard is: a free business app for Mac, Windows, web and iPhone. */}
+        {/* Tells search engines what BloomBoard is: a free business app for Mac, Windows and the web. */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_LD) }} />
         {children}
       </body>

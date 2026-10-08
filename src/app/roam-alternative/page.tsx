@@ -48,7 +48,7 @@ const FAQS = [
   },
   {
     question: "Which devices does it work on?",
-    answer: "Mac and Windows apps, a web app at app.mybloomboard.app, and an iPhone app for tasks, reminders and calls.",
+    answer: "Mac and Windows apps and a web app at app.mybloomboard.app. An iPhone app for tasks, reminders and calls is coming soon.",
   },
 ];
 
