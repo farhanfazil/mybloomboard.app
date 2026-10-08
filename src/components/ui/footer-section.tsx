@@ -60,6 +60,17 @@ const footerLinks: FooterSection[] = [
     ],
   },
   {
+    label: "Compare",
+    links: [
+      { title: "vs Trello", href: "/vs/trello" },
+      { title: "vs ClickUp", href: "/vs/clickup" },
+      { title: "vs Notion", href: "/vs/notion" },
+      { title: "vs monday.com", href: "/vs/monday" },
+      { title: "vs Asana", href: "/vs/asana" },
+      { title: "Roam alternative", href: "/roam-alternative" },
+    ],
+  },
+  {
     label: "Plans",
     links: [
       { title: "Free", href: "/#pricing" },
@@ -103,7 +114,7 @@ export function Footer() {
           </p>
         </AnimatedContainer>
 
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 xl:col-span-2">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-3 xl:col-span-2">
           {footerLinks.map((section, index) => (
             <AnimatedContainer key={section.label} delay={0.1 + index * 0.1}>
               <div>

@@ -33,6 +33,27 @@ export const metadata: Metadata = {
   },
 };
 
+const SITE_LD = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      name: "BloomBoard",
+      url: "https://mybloomboard.app",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "macOS, Windows, Web, iOS",
+      description:
+        "A calm productivity app for teams: tasks, boards, calendar, notes, team chat and calls, a live virtual office, and an AI that plans your day.",
+      offers: [
+        { "@type": "Offer", name: "Free", price: "0", priceCurrency: "USD" },
+        { "@type": "Offer", name: "Bloom", price: "6", priceCurrency: "USD", description: "Per month, billed yearly" },
+        { "@type": "Offer", name: "Team", price: "8", priceCurrency: "USD", description: "Per person per month, billed yearly" },
+      ],
+    },
+    { "@type": "Organization", name: "BloomBoard", url: "https://mybloomboard.app", logo: "https://mybloomboard.app/icon.png", email: "hello@mybloomboard.app" },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -40,7 +61,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased overflow-x-hidden">{children}</body>
+      <body className="antialiased overflow-x-hidden">
+        {/* Tells search engines what BloomBoard is: a free business app for Mac, Windows, web and iPhone. */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_LD) }} />
+        {children}
+      </body>
     </html>
   );
 }
