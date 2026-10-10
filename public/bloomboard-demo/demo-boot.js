@@ -1532,3 +1532,19 @@
     }
   }, true);
 })();
+
+/* ── Bloom design: the demo opens on Tasks with the side chat open ──
+   The story types into Type Your Tasks, which lives on Tasks, and the team chat sits
+   beside the board so visitors see work and conversation together. Once per load;
+   after that the visitor goes wherever they like. */
+(function () {
+  'use strict';
+  try { localStorage.setItem('bb-sidechat-v1', JSON.stringify({ on: true, pinned: false })); } catch (e) {}
+  var tries = 0;
+  (function go() {
+    var b = document.querySelector('#bl-nav [data-bl="tasks"]');
+    var team = document.body && !document.body.classList.contains('bb-no-team') && document.querySelector('#bl-nav [data-bl="chat"]:not([hidden])');
+    if (b && team) { b.click(); return; }
+    if (++tries < 80) setTimeout(go, 250);
+  })();
+})();

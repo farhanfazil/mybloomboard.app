@@ -1200,11 +1200,37 @@
         localConvs.push({ id: c.id, type: 'group', name: c.name, members: c.members, kind: c.kind, department: c.department || '',
           createdAt: now - 24 * hour, lastMsgTime: 0, lastMsgText: '' });
       });
+      /* A short chat in the Design room, so the side chat on Tasks opens on a live thread. */
+      (function () {
+        var lines = [
+          [ID.maya, 'Pushed the new pricing cards to the board'],
+          [ID.ethan, 'Nice. Spacing on mobile looks much better'],
+          [ID.nora, 'Can we review the empty states before lunch?'],
+          [ID.maya, 'Yes, I moved that task to In progress'],
+        ];
+        var start = now - 50 * min;
+        var msgs = lines.map(function (l, i) {
+          var who = byId[l[0]], ts = start + i * 11 * min;
+          return { id: demo.uuid(), conversation_id: DESIGN_ROOM, sender_id: who.id, sender_name: who.name,
+            html: l[1], text_content: l[1], ts: ts, reactions: {},
+            created_at: new Date(ts).toISOString(), updated_at: new Date(ts).toISOString() };
+        });
+        var last = msgs[msgs.length - 1];
+        demo.seed('messages', msgs);
+        demo.update('conversations', { id: DESIGN_ROOM }, { last_msg_text: last.text_content, last_msg_ts: last.ts });
+        localConvs.forEach(function (c) { if (c.id === DESIGN_ROOM) { c.lastMsgTime = last.ts; c.lastMsgText = last.text_content; } });
+        localStorage.setItem('bloom_chat_msgs_' + DESIGN_ROOM, JSON.stringify(msgs.map(function (m) {
+          return { id: m.id, senderId: m.sender_id, senderName: m.sender_name, html: m.html, text: m.text_content,
+            ts: m.ts, reactions: {}, edited: false, deleted: false, pinned: false, parentId: null };
+        })));
+        lastRead[DESIGN_ROOM] = last.ts + 1;
+        localStorage.setItem('bloom_chat_last_read', JSON.stringify(lastRead));
+      })();
       localStorage.setItem('bloom_chat_convs', JSON.stringify(localConvs));
 
       /* The simulation (demo-sim.js) talks as these people in these rooms. */
       demo.roster = PEOPLE.slice(1).map(function (p) { return { id: p.id, name: p.name }; });
-      demo.rooms = [LAUNCH, CRIT];
+      demo.rooms = [LAUNCH, CRIT, DESIGN_ROOM];
       /* Away today: stays quiet in chat and never knocks. */
       demo.onLeave = [ID.chloe];
       /* Who can walk in and out of which live room (demo-sim.js). */

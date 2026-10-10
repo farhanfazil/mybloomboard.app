@@ -264,8 +264,10 @@ async function main() {
   if (fs.existsSync(vendorSrc)) {
     const vendorOut = path.join(OUT, 'vendor');
     ensureDir(vendorOut);
-    const names = fs.readdirSync(vendorSrc).filter((n) => /\.js$/.test(n) && n !== 'supabase.js');
+    const names = fs.readdirSync(vendorSrc).filter((n) => /\.(js|css)$/.test(n) && n !== 'supabase.js');
     for (const name of names) {
+      // Stylesheets (the Bloom design lives in vendor/bb-bloom.css) are copied as they are.
+      if (name.endsWith('.css')) { fs.copyFileSync(path.join(vendorSrc, name), path.join(vendorOut, name)); continue; }
       const code = scrubScript(fs.readFileSync(path.join(vendorSrc, name), 'utf8'));
       const out = process.env.BB_DEMO_READABLE ? code : await minifyScript(code);
       fs.writeFileSync(path.join(vendorOut, name), out, 'utf8');
