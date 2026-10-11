@@ -884,7 +884,7 @@ html body.bloom:not(#_1):not(#_2):not(#_3) :is(.boards-overlay,main.main-area) {
 #bl-tip[hidden] { display:none; }
 
 /* side chat */
-#bl-sc { position:fixed; top:var(--bl-top, 52px); right:0; bottom:0; width:360px; z-index:900; background:var(--bl-win); border-left:1px solid var(--bl-line); display:flex; flex-direction:column; font-family:var(--bl-ui); color:var(--bl-fg); transform:translateX(100%); visibility:hidden; transition:transform .28s cubic-bezier(.2,.8,.2,1), visibility 0s linear .28s; }
+#bl-sc { position:fixed; top:var(--bl-top, 52px); right:0; bottom:0; width:360px; z-index:900; background:var(--bl-side); border-left:1px solid color-mix(in srgb, var(--bl-fg) 22%, transparent); display:flex; flex-direction:column; font-family:var(--bl-ui); color:var(--bl-fg); transform:translateX(100%); visibility:hidden; transition:transform .28s cubic-bezier(.2,.8,.2,1), visibility 0s linear .28s; }
 body.bl-sc-on #bl-sc { transform:none; visibility:visible; transition:transform .28s cubic-bezier(.2,.8,.2,1), visibility 0s; }
 html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) main.main-area { margin-right:360px !important; }
 html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) .boards-overlay { right:360px !important; }
@@ -1013,7 +1013,29 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-dm.un:hover { background:c
 .sc-sub.away { color:var(--bl-high); }
 #bl-sc .sc-sub[hidden] { display:none !important; }
 /* with the side chat open the board keeps its columns side by side (narrower) instead of stacking */
-@container (max-width:820px) { html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) .kb-board { grid-auto-flow:column !important; grid-template-columns:none !important; grid-auto-columns:minmax(220px, 1fr) !important; overflow-x:auto !important; } }
-html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) .kb-board { grid-auto-flow:column !important; grid-template-columns:none !important; grid-auto-columns:minmax(220px, 1fr) !important; overflow-x:auto !important; }
+@container (max-width:820px) { html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) .kb-board { grid-auto-flow:column !important; grid-template-columns:none !important; grid-auto-columns:max(280px, calc((100% - 28px) / 3)) !important; column-gap:14px !important; overflow-x:auto !important; } }
+html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) .kb-board { grid-auto-flow:column !important; grid-template-columns:none !important; grid-auto-columns:max(280px, calc((100% - 28px) / 3)) !important; column-gap:14px !important; overflow-x:auto !important; }
 /* the new-message popup sits above the floating bar while the chat is open */
 html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) :is(.cn-pill,#bb-ai-chip,.bb-cn.floating) { bottom:76px !important; }
+/* side chat open: the board runs right up to the chat line; the scroll arrows sit on its edge */
+html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #task-list > .kb-board { margin-right:-28px !important; width:calc(100% + 28px) !important; max-width:none !important; }
+html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #task-list > .kb-edge { width:28px; height:56px; background:var(--bl-raise) !important; border:1px solid color-mix(in srgb, var(--bl-fg) 18%, transparent) !important; color:var(--bl-fg) !important; }
+html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #task-list > .kb-edge.kb-edge-r { right:-20px !important; }
+html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #task-list > .kb-edge.kb-edge-l { left:6px !important; }
+html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #task-list > .kb-edge:hover { background:var(--bl-hover) !important; }
+/* Pulse lives in the bell now ("Needs you"); the separate heartbeat button is gone */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chief-card { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-sec { font:600 12px var(--bl-ui); color:var(--bl-fg3); padding:12px 16px 6px; text-transform:none; letter-spacing:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-needs { border-bottom:1px solid var(--bl-line); padding-bottom:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-need { padding:10px 16px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-need:hover { background:var(--bl-hover); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-need-top { display:flex; align-items:center; gap:8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-need-dot { width:7px; height:7px; border-radius:50%; flex:none; background:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-need-dot.critical { background:#e5484d; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-need-dot.warning { background:#e09b2d; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-need-title { font:600 13px var(--bl-ui); color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-need-body { font:400 12.5px/1.45 var(--bl-ui); color:var(--bl-fg2, var(--bl-fg3)); margin:3px 0 0 15px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-need-acts { display:flex; gap:14px; margin:7px 0 0 15px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-need-acts button { background:none !important; border:0 !important; padding:0 !important; font:500 12px var(--bl-ui) !important; color:var(--bl-fg3) !important; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-need-acts button[data-act="open"] { color:var(--bl-accent, #5b8def) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-need-acts button:hover { color:var(--bl-fg) !important; }
