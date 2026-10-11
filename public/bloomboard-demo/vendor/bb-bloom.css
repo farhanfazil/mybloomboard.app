@@ -912,7 +912,8 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-tab.on { color:var(--bl-fg
 .sc-ctxbar { margin:10px 12px 0; padding:8px 10px; border:1px solid var(--bl-line); border-radius:8px; background:var(--bl-side); display:flex; gap:8px; align-items:center; font-size:12.5px; color:var(--bl-fg2); flex:none; }
 .sc-ctxbar b { color:var(--bl-fg); font-weight:600; }
 .sc-msgs { flex:1; min-height:0; overflow:auto; padding:12px 14px 8px; display:flex; flex-direction:column; gap:14px; }
-.sc-msg { display:grid; grid-template-columns:30px minmax(0,1fr); gap:10px; animation:blIn .2s cubic-bezier(.2,.8,.2,1) both; }
+.sc-msg { display:grid; grid-template-columns:30px minmax(0,1fr); gap:10px; }
+.sc-msg.sc-new { animation:blIn .2s cubic-bezier(.2,.8,.2,1) both; }
 .sc-av { border-radius:50%; display:grid; place-items:center; color:#fff; font:600 10.5px var(--bl-ui); background-size:cover; background-position:center; flex:none; }
 .sc-bloom { width:30px; height:30px; background:none !important; color:var(--bl-accent); }
 .sc-bloom .bl-i { width:22px !important; height:22px !important; }
@@ -974,8 +975,8 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #bb-float-nav [data-dest="chat"] { di
 /* Chat buttons: in the Tasks shortcuts and a board's header, with a red unread count */
 html body.bloom:not(#_1):not(#_2):not(#_3) .bl-sc-btn { position:relative; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bl-sc-btn[hidden] { display:none !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bb-shortcuts .bl-sc-btn.on { background:var(--bl-accent-soft) !important; color:var(--bl-accent) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bb-shortcuts .bl-sc-btn.on span { color:var(--bl-accent) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-shortcuts .bl-sc-btn.on { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-shortcuts .bl-sc-btn.on span { color:var(--bl-fg) !important; }
 .bl-sc-count { position:absolute; top:2px; left:calc(50% + 4px); min-width:17px; height:17px; padding:0 4px; border-radius:9px; background:var(--bl-bad); color:#fff; font:600 10.5px/17px var(--bl-ui); font-style:normal; text-align:center; box-shadow:0 0 0 2px var(--bl-win); }
 .bl-sc-count:empty { display:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc-board { display:inline-flex !important; align-items:center; gap:7px; }
@@ -1039,3 +1040,33 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-need-acts { displa
 html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-need-acts button { background:none !important; border:0 !important; padding:0 !important; font:500 12px var(--bl-ui) !important; color:var(--bl-fg3) !important; cursor:pointer; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-need-acts button[data-act="open"] { color:var(--bl-accent, #5b8def) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-need-acts button:hover { color:var(--bl-fg) !important; }
+/* "Found N tasks" sits above Team live and the board, as a pop-up, instead of under them */
+html body.bloom:not(#_1):not(#_2):not(#_3) .dash-duo:has(.t2t-results.show) { position:relative !important; z-index:80 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card .t2t-results.show { background:var(--bl-win) !important; border:1px solid color-mix(in srgb, var(--bl-fg) 18%, transparent) !important; box-shadow:0 16px 40px rgba(0,0,0,.35) !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card .t2t-results.show { box-shadow:0 16px 40px rgba(15,23,42,.16) !important; }
+/* side chat open: the quick shortcuts (Email, Notes, Bookmarks, Sticky note, Chat) become compact icons; names stay in the tooltip */
+html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #bb-shortcuts { gap:2px !important; }
+html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #bb-shortcuts .bb-sc-btn { width:38px !important; min-width:0 !important; height:36px !important; padding:0 !important; justify-content:center !important; }
+html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #bb-shortcuts .bb-sc-btn > span { display:none !important; }
+html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #bb-shortcuts .bb-sc-btn svg { width:18px !important; height:18px !important; }
+/* "Found N tasks": priority as a dot and plain text, not a capsule */
+html body.bloom:not(#_1):not(#_2):not(#_3) #t2t-task-list .t2t-task-pri { display:inline-flex !important; align-items:center; gap:6px; background:none !important; border:0 !important; padding:0 !important; border-radius:0 !important; font:500 12px var(--bl-ui) !important; letter-spacing:0 !important; text-transform:capitalize !important; color:var(--bl-fg2) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #t2t-task-list .t2t-task-pri::before { content:""; width:7px; height:7px; border-radius:50%; background:var(--bl-fg3); flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #t2t-task-list .t2t-task-pri.high::before { background:#e5484d; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #t2t-task-list .t2t-task-pri.urgent::before { background:#e5484d; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #t2t-task-list .t2t-task-pri.medium::before { background:#e09b2d; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #t2t-task-list .t2t-task-pri.low::before { background:#3fb37f; }
+/* After Organise: the window dims behind "Type your tasks" and its results (plain dim, no blur) */
+#bl-t2t-scrim { position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,.45); opacity:0; pointer-events:none; transition:opacity .18s ease; }
+body.light-mode #bl-t2t-scrim { background:rgba(15,23,42,.28); }
+body.bl-t2t-focus #bl-t2t-scrim { opacity:1; pointer-events:auto; }
+html body.bloom.bl-t2t-focus:not(#_1):not(#_2):not(#_3) main.main-area { z-index:auto !important; }
+html body.bloom.bl-t2t-focus:not(#_1):not(#_2):not(#_3) .dash-duo:has(.t2t-results.show) { z-index:1001 !important; }
+html body.bloom.bl-t2t-focus:not(#_1):not(#_2):not(#_3) #bb-shortcuts { opacity:.3; pointer-events:none; transition:opacity .18s ease; }
+@media (prefers-reduced-motion: reduce) { #bl-t2t-scrim { transition:none; } }
+/* results header reads as a title, and Remove sits clear of + Add */
+html body.bloom:not(#_1):not(#_2):not(#_3) #t2t-count { font:600 13.5px var(--bl-ui) !important; color:var(--bl-fg) !important; letter-spacing:0 !important; text-transform:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #t2t-task-list .t2t-task-del { margin-left:10px !important; }
+html body.bloom.bl-t2t-focus:not(#_1):not(#_2):not(#_3) :is(#bb-float-nav, .cn-pill, #bb-ai-chip, .bb-cn.floating) { opacity:.3 !important; pointer-events:none !important; transition:opacity .18s ease; }
+/* Team live: "10 online" in neutral grey and white, not green */
+html body.bloom:not(#_1):not(#_2):not(#_3) #tl-count { background:color-mix(in srgb, var(--bl-fg) 12%, transparent) !important; color:var(--bl-fg) !important; font-weight:600 !important; }

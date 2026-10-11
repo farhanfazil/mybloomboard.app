@@ -25,6 +25,8 @@
     'Need the logo in white please', '👀', 'Done ✅', 'Thanks!',
   ];
   var REPLIES = ['On it 👍', 'Sounds good!', 'Got it, thanks', 'Give me 10 mins', '👍', 'Perfect 🙌', 'Will check now'];
+  /* The visitor's own clicks, keys, taps or scrolls pause everything; it carries on after 10 s of quiet. */
+  var IDLE_MS = 10000;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var lineIdx = Math.floor(Math.random() * LINES.length);
@@ -221,7 +223,8 @@
   /* ── Visitor waves: usually a wave back. Visitor knocks on a room: someone inside answers ── */
   demo.onBroadcast(function (topic, event, p) {
     if (topic.indexOf('team_live_') !== 0 || !p || p.from !== ME) return;
-    if (event === 'wave' && mate(p.to) && Math.random() < 0.7) {
+    /* no wave-backs in the demo: they read as noise */
+    if (false && event === 'wave' && mate(p.to) && Math.random() < 0.7) {
       later(rand(3000, 6000), function () {
         demo.broadcast('team_live_', 'wave', { from: p.to, to: ME, at: Date.now() });
       });
@@ -242,24 +245,18 @@
   /* Alive from the start but not busy: the first message about 8 s in (so visitors see
      how a message arrives on the dashboard), then one every 18–28 s. A knock about 25 s
      in, then every 75–95 s. */
-  later(20000, ambientChat);
-  later(reduceMotion ? 60000 : 25000, incomingKnock);
-  later(60000, presenceDrift);
-  if (LIVE_ROOMS.length) {
-    later(6000, speaking);
-    /* Priya steps out of the Lounge early, so her tile shows what she is working on. */
-    later(15000, function () { setInRoom(LIVE_ROOMS[1] || LIVE_ROOMS[0], (LIVE_ROOMS[1] || LIVE_ROOMS[0]).guests[0], false); });
-    later(45000, roomShuffle);
-  }
-  later(reduceMotion ? 120000 : 55000, incomingWave);
+  /* Calm on purpose: no random chatter, knocks, waves or people coming and going.
+     The story below sends one message at a time and a teammate answers it;
+     only the "talking" dots in the Office rooms keep moving. */
+  if (LIVE_ROOMS.length) later(6000, speaking);
 
   /* ── Drag and drop on the board ──
      A cursor picks a card up and drops it in the next column, so visitors see
      the board is drag-and-drop. It only plays while the board is on screen and
      the visitor has been still for a moment; otherwise the move just happens. */
   var lastInput = 0;
-  ['pointerdown', 'keydown', 'touchstart'].forEach(function (ev) {
-    window.addEventListener(ev, function () { lastInput = Date.now(); }, { passive: true, capture: true });
+  ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach(function (ev) {
+    window.addEventListener(ev, function () { lastInput = Date.now(); if (ghost) ghost.style.opacity = '0'; }, { passive: true, capture: true });
   });
   function boardCol(status) {
     return [].slice.call(document.querySelectorAll('.kb-board .kb-col[data-colid="' + status + '"]')).filter(function (c) { return c.offsetParent; })[0] || null;
@@ -297,7 +294,7 @@
   }
   /* Returns false (and does nothing) when the drag can't be shown right now. */
   function dragCard(id, toStatus, label, drop) {
-    if (reduceMotion || hidden() || scripting || busyScreen() || Date.now() - lastInput < 1500) return false;
+    if (reduceMotion || hidden() || scripting || busyScreen() || Date.now() - lastInput < IDLE_MS) return false;
     var card = boardCard(id), col = boardCol(toStatus);
     if (!card || !col || !onScreen(card)) return false;
     var r = card.getBoundingClientRect();
@@ -377,7 +374,7 @@
   }
   /* Returns false (and does nothing) when the drop can't be shown right now. */
   function dropFile(id, key, label) {
-    if (reduceMotion || hidden() || scripting || busyScreen() || Date.now() - lastInput < 1500) return false;
+    if (reduceMotion || hidden() || scripting || busyScreen() || Date.now() - lastInput < IDLE_MS) return false;
     var card = boardCard(id);
     if (!card || !onScreen(card)) return false;
     var r = card.getBoundingClientRect();
@@ -600,16 +597,11 @@
     'Finish the homepage hero redesign tomorrow at 3pm',
     'Review the new banners with @maya today at 5pm',
     'Write the pricing page copy by Wednesday',
-    'Prepare the launch deck for Friday with @daniel',
-    'Send the invoice to Acme next Monday',
   ];
   /* [line, column, cursor label] */
   /* A column of 'file:<key>' drops that image onto the card instead. */
   var STORY_MOVES = [
-    [0, 'ongoing', 'Drag cards to move them'], [0, 'file:hero', 'Drop images on a task'],
-    [1, 'ongoing', 'Maya Chen'], [1, 'file:banners', 'Maya Chen'], [2, 'ongoing', ''],
-    [0, 'review', ''], [3, 'ongoing', 'Daniel Brooks'], [3, 'file:deck', 'Daniel Brooks'],
-    [2, 'review', ''], [2, 'done', ''],
+    [0, 'ongoing', 'Drag cards to move them'], [1, 'file:banners', 'Maya Chen'], [0, 'review', ''],
   ];
   var storyRunning = false;
   if (STORY) { try { localStorage.setItem('bbd-dash-tasks', '[]'); } catch (e) {} forgetAttachments(); }
@@ -639,7 +631,7 @@
   function storyMoves(ids) {
     /* Two of the three image drops, a different pair each visit. */
     var drops = STORY_MOVES.filter(function (m) { return m[1].indexOf('file:') === 0; });
-    var skip = drops[Math.floor(Math.random() * drops.length)];
+    var skip = drops.length > 1 ? drops[Math.floor(Math.random() * drops.length)] : null;
     var left = STORY_MOVES.filter(function (m) { return ids[m[0]] && m !== skip; });
     function step(stalls) {
       if (!left.length) { storyEnd(ids); return; }
@@ -653,7 +645,7 @@
         return;
       }
       /* Wait while the visitor is busy; if the card is out of sight, move it quietly. */
-      if (hidden() || busyScreen() || Date.now() - lastInput < 1500 || stalls < 3) { later(1500, function () { step(stalls + 1); }); return; }
+      if (hidden() || busyScreen() || Date.now() - lastInput < IDLE_MS || stalls < 3) { later(1500, function () { step(stalls + 1); }); return; }
       left.shift();
       if (file) attachFile(id, file); else moveMine(id, m[1]);
       later(800, function () { step(0); });
@@ -664,8 +656,7 @@
     storyRunning = window.__bbStoryRunning = false;
     storyEndedAt = Date.now();
     if (ids && ids[1]) MAYA_TASK = ids[1];
-    later(1200, addTaskHint);
-    later(rand(7000, 10000), mayaTurn);
+    later(3000, cycle);
   }
   function popNew(ids) {
     later(60, function () {
@@ -686,7 +677,7 @@
   /* Starts when the whole Type Your Tasks box is on the visitor's screen. */
   function watchStory() {
     var n = document.getElementById('t2t-input'), card = document.getElementById('t2t-dashboard-card');
-    if (n && card && !hidden() && fullyVisible(card) && !busyScreen() && Date.now() - lastInput > 1500) {
+    if (n && card && !hidden() && fullyVisible(card) && !busyScreen() && Date.now() - lastInput > IDLE_MS) {
       later(700, startStory);
       return;
     }
@@ -1001,6 +992,8 @@
           body.dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer: dt, clientY: 99999 }));
           card.dispatchEvent(new DragEvent('dragend', { bubbles: true, dataTransfer: dt }));
         } catch (e) {}
+        /* the board redraws on drop, so the old card never hears dragend: clear it by hand */
+        [].slice.call(document.querySelectorAll('.kanban-card.dragging, .kanban-col.drag-over')).forEach(function (x) { x.classList.remove('dragging'); x.classList.remove('drag-over'); });
         card.style.opacity = '';
         clone.remove();
         later(500, done);
@@ -1136,6 +1129,102 @@
     })();
   }
 
+
+  /* ── One calm cycle, again and again ──
+     Tasks (chat beside it): a message in the team room and a teammate answers.
+     Then Boards (open one, move a card), a look at the Office, one email,
+     and back to Tasks to type three new tasks. Waits while the visitor uses
+     the demo themselves, and never runs two things at once. */
+  var ROOM_LINES = ['Pushed the new hero, can someone take a look?', 'Banners are ready for review', 'Pricing copy draft is in the doc', 'Who can check the launch checklist today?'];
+  var roomIdx = 0;
+  function nav(key, then, wait) {
+    var b = q('#bl-nav [data-bl="' + key + '"]');
+    if (!b) return then(false);
+    if (vis(b)) tap(b, function () { b.click(); later(wait || 1500, then); });
+    else { b.click(); later(wait || 1500, then); }
+  }
+  function quiet() { return !hidden() && frameOnScreen() && !busyScreen() && Date.now() - lastInput > IDLE_MS; }
+  function step(fn) { return function (n) { if (lastInput > cycleStart || hidden()) return n(false); fn(n); }; }
+  var cycleStart = 0;
+  var CYCLE = [
+    /* always start from Tasks (after a pause the visitor may have left it somewhere else) */
+    step(function (n) {
+      var t = q('#bl-nav [data-bl="tasks"]');
+      if (t && !t.classList.contains('on')) { try { if (typeof window.closeEmailInbox === 'function') window.closeEmailInbox(); } catch (e) {} nav('tasks', n, 1800); return; }
+      n();
+    }),
+    /* a message in the team room; the reply comes from the room's people */
+    step(function (n) {
+      var inp = q('#sc-in'), form = q('#sc-comp');
+      if (!inp || !form || !vis(inp)) return n();
+      tap(inp, function () {
+        inp.focus();
+        typeText(inp, ROOM_LINES[roomIdx++ % ROOM_LINES.length], false, function () {
+          try { form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); } catch (e) {}
+          inp.blur();
+          later(6500, n);
+        });
+      });
+    }),
+    /* Boards: open Product Launch and move one card along */
+    step(function (n) { nav('boards', n, 1600); }),
+    step(function (n) {
+      var c = [].slice.call(document.querySelectorAll('.board-card')).filter(function (x) { return /Product Launch/.test(x.textContent); })[0];
+      if (!c || !vis(c)) return n();
+      tap(c, function () { c.click(); rebalance(); later(1600, n); });
+    }),
+    step(function (n) {
+      var cols = boardCols(); if (cols.length < 2) return n();
+      var card = cols[0].querySelector('.kanban-card');
+      if (!card || !vis(card)) return n();
+      carry(card, cols[1].querySelector('.kanban-cards'), function () { later(1800, n); });
+    }),
+    /* a look around the Office */
+    step(function (n) {
+      var b = q('#bl-nav [data-bl="office"]') || q('#sb-office-enter');
+      if (!b) return n();
+      if (vis(b)) tap(b, function () { b.click(); later(4500, n); }); else { b.click(); later(4500, n); }
+    }),
+    /* one email */
+    step(function (n) { nav('email', n, 1700); }),
+    step(function (n) {
+      var items = [].slice.call(document.querySelectorAll('.bb-email-item')).filter(vis).slice(0, 3);
+      if (!items.length) return n();
+      var it = pick(items);
+      tap(it, function () { it.click(); later(3800, n); });
+    }),
+    /* back to Tasks */
+    step(function (n) { nav('tasks', n, 1800); }),
+    /* three new tasks */
+    step(function (n) {
+      while (colCount('pending') >= 6) { var old = firstCardIn('pending'); if (!old) break; moveMine(old, 'done'); }
+      trimDone(2);
+      var lines = []; for (var i = 0; i < 3; i++) { lines.push(POOL[poolIdx % POOL.length]); poolIdx++; }
+      t2tWalk(lines.join('\n'), function (ids) {
+        if (ids && ids.length) popNew(ids);
+        var id = ids && ids[0];
+        if (id) later(1800, function () { if (!dragCard(id, 'ongoing', '', function () { moveMine(id, 'ongoing'); })) moveMine(id, 'ongoing'); later(3000, n); });
+        else later(2000, n);
+      }, 2600);
+    }),
+  ];
+  function cycle() {
+    if (!quiet() || storyRunning || touring) { later(3000, cycle); return; }
+    touring = true; cycleStart = Date.now();
+    var steps = CYCLE.slice();
+    (function next(ok) {
+      if (ok === false || !steps.length) {
+        if (ghost) ghost.style.opacity = '0';
+        touring = false;
+        /* if the visitor took over, leave them be and try again later */
+        later(ok === false ? 2000 : rand(4000, 6000), cycle);
+        return;
+      }
+      steps.shift()(next);
+    })();
+  }
+  /* for checking the loop by hand */
+  window.__bbDemoState = function () { return { touring: touring, scripting: scripting, storyRunning: storyRunning, idle: Date.now() - lastInput, quiet: quiet(), hidden: hidden(), frame: frameOnScreen(), busy: busyScreen() }; };
   /* for checking one visit by hand: __bbDemoTour('office') */
   window.__bbDemoTour = function (kind) { runTour(function () {}, kind); };
 

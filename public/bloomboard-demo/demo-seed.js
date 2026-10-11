@@ -1172,6 +1172,8 @@
       });
       localStorage.setItem('bloom_chat_convs', JSON.stringify(localConvs));
       localStorage.setItem('bloom_chat_last_read', JSON.stringify(lastRead));
+      /* Team live starts folded so the page stays calm; visitors can open it. */
+      localStorage.setItem('bb_tl_collapsed_' + ID.me, '1');
 
       /* ── Team Space: shared spaces + a room per department, two of them live ── */
       demo.ensureTeamRooms(ID.team, true);

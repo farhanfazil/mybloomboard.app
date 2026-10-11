@@ -1408,7 +1408,8 @@
     }, delay);
   }
   function start() {
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    /* Off: the demo stays calm. Team live starts folded (demo-seed.js) and stays that way. */
+    return;
     /* The visitor's own click on either fold control ends the demo of it. */
     document.addEventListener('click', function (e) {
       if (!e.isTrusted || !e.target.closest) return;
