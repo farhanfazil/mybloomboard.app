@@ -490,9 +490,10 @@
 /* footpath with the walking "You" */
 .bbo .tour{position:relative}
 .bbo .tour-path{position:absolute;left:max(8px,calc(50% - 600px));top:0;bottom:0;width:2px;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.22) 0 6px,transparent 6px 16px);pointer-events:none}
-.bbo .walker{position:absolute;left:-17px;top:0;width:36px;height:36px;border-radius:50%;background-size:cover;background-position:center;border:2px solid #fff;transition:top .25s ease-out;z-index:3}
+.bbo .walker{position:absolute;left:-11px;top:0;width:28px;height:28px;transition:top .25s ease-out;z-index:3}
+.bbo .walker .og-cur{width:28px;height:28px}
 .bbo .walker.step{transform:rotate(-6deg)}
-.bbo .walker em{position:absolute;left:42px;top:7px;font-style:normal;font-size:11px;font-weight:700;background:#fff;color:#000;border-radius:5px;padding:1px 6px}
+.bbo .walker em{position:absolute;left:30px;top:18px;font-style:normal;font-size:11px;font-weight:700;background:var(--cyan);color:#0b0b0c;border-radius:5px;padding:1px 6px}
 .bbo .tour-end{display:flex;flex-direction:column;align-items:center;gap:10px;max-width:520px;margin:0 auto;padding:30px 16px 140px}
 .bbo .tour-end > img{width:64px;height:64px;animation:bbo-wave 1s ease-in-out infinite alternate}
 .bbo .guide.big .g-bub{font-size:20px;font-weight:600}
@@ -586,7 +587,7 @@
 .bbo .ah-n{font-size:13px;color:var(--muted)}
 .bbo .gd.in .gd-you{bottom:18px;transform:translateX(-120px)}
 .bbo .tour-path{left:max(10px,calc(50% - 628px))}
-.bbo .walker em{left:auto;right:42px}
+.bbo .walker em{left:auto;right:30px}
 @media (max-width:1320px){.bbo .tour-path{display:none}}
 
 /* The door asks the visitor to knock */
@@ -648,8 +649,17 @@
 .bbo .og-walker{position:absolute;left:0;top:0;z-index:5}
 /* you: walk in at the front door, past reception, down the corridor and into the Design room */
 .bbo .og-mewalk{position:absolute;left:0;top:0;z-index:6;opacity:0;pointer-events:none}
-.bbo .og-mewalk .og-p{opacity:1;transform:none;border:2px solid var(--cyan);transition:none}
-.bbo .og-mewalk em{position:absolute;left:0;top:24px;transform:translateX(-50%);font-style:normal;font-size:11px;font-weight:600;color:#0b0b0c;background:var(--cyan);border-radius:5px;padding:1px 6px}
+/* "You" is a pointer, not a face: the visitor moving through the office */
+.bbo .og-cur{display:block;fill:var(--cyan);stroke:#0b0b0c;stroke-width:1.4;stroke-linejoin:round}
+.bbo .og-mewalk .og-cur{position:absolute;left:-4px;top:-3px;width:30px;height:30px;transform:rotate(var(--tilt,0deg));transform-origin:4px 2px;transition:transform .3s ease,opacity .35s ease}
+.bbo .og-mewalk.seated .og-cur{opacity:0}
+.bbo .og-seat{position:absolute;left:-19px;top:-19px;width:38px;height:38px;border-radius:50%;border:2px solid var(--cyan);background:rgba(159,220,255,.14);opacity:0;transform:scale(.6);transition:opacity .35s ease,transform .35s ease}
+.bbo .og-mewalk.seated .og-seat{opacity:1;transform:none}
+.bbo .og-rip{position:absolute;left:-14px;top:-14px;width:28px;height:28px;border-radius:50%;border:2px solid var(--cyan);opacity:0}
+.bbo .og-mewalk.clicked .og-rip{animation:og-rip .6s ease-out}
+@keyframes og-rip{0%{opacity:.9;transform:scale(.3)}100%{opacity:0;transform:scale(1.5)}}
+.bbo .og-mewalk.seated em{left:0;top:24px;transform:translateX(-50%)}
+.bbo .og-mewalk em{position:absolute;left:18px;top:24px;transition:left .35s ease,top .35s ease;font-style:normal;font-size:11px;font-weight:600;color:#0b0b0c;background:var(--cyan);border-radius:5px;padding:1px 6px}
 /* the Design room opens up into the app: the film sits in the stage and grows out of the room */
 .bbo .og-morph{position:absolute;left:0;top:0;z-index:12;opacity:0;pointer-events:none;background:#141416;border:1px solid rgba(159,220,255,.35);border-radius:18px;box-sizing:border-box}
 .bbo .og-film{position:absolute;left:50%;top:50%;padding:0;margin:0;max-width:none;z-index:13;opacity:0;pointer-events:none;transform-origin:center;will-change:transform,opacity}
@@ -704,7 +714,8 @@
 .bbo .cnav.cmap a.cm-room.on svg{color:var(--cyan)}
 .bbo .cmap-hall{position:relative;height:28px}
 .bbo .cmap-hall::before{content:"";position:absolute;left:0;right:0;top:13px;height:0;border-top:1px dashed rgba(255,255,255,.14)}
-.bbo .cmap-you{position:absolute;top:3px;left:0;width:22px;height:22px;margin-left:-11px;border-radius:50%;background-size:cover;background-position:center;border:2px solid #fff;transition:left .25s ease-out}
+.bbo .cmap-you{position:absolute;top:2px;left:0;width:20px;height:20px;margin-left:-4px;transition:left .25s ease-out}
+.bbo .cmap-you .og-cur{width:20px;height:20px}
 .bbo .cmap-you.step{transform:rotate(-8deg)}
 .bbo .chap-l{top:104px}
 .bbo .chap{scroll-margin-top:96px}

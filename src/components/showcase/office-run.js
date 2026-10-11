@@ -511,6 +511,8 @@ lucide.createIcons();
          door, past Nora, down the corridor, into the Design room, to a seat. */
       const PATH = [[592, 20], [592, 236], [592, 320], [322, 320], [322, 262], [374, 236], [374, 106], [262, 100]];
       const LEN = PATH.slice(1).reduce((n, q, i) => n + Math.hypot(q[0] - PATH[i][0], q[1] - PATH[i][1]), 0);
+      /* how far along the path the Design room door is (PATH[4]) */
+      const DOOR_T = PATH.slice(1, 5).reduce((n, q, i) => n + Math.hypot(q[0] - PATH[i][0], q[1] - PATH[i][1]), 0) / LEN;
       const along = (t) => {
         let d = t * LEN;
         for (let i = 1; i < PATH.length; i++) {
@@ -551,6 +553,12 @@ lucide.createIcons();
         const wk = seg(p, 0.3, 0.7);
         const [mx, my] = along(ease(wk));
         me.style.transform = `translate(${mx}px,${my}px)`;
+        /* the pointer leans a little into its turns, clicks at the Design room
+           door, and becomes your seat once you sit down */
+        const [nx] = along(Math.min(1, ease(wk) + 0.01));
+        me.style.setProperty("--tilt", Math.max(-14, Math.min(14, (mx - nx) * 1.4)).toFixed(1) + "deg");
+        me.classList.toggle("clicked", Math.abs(ease(wk) - DOOR_T) < 0.02);
+        me.classList.toggle("seated", wk >= 0.98);
         const greet = p > 0.33 && p < 0.5;
         if (greet !== arrived) { arrived = greet; nora.classList.toggle("on", greet); }
         const g = seg(p, 0.33, 0.38) * (1 - seg(p, 0.46, 0.5));

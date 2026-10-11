@@ -14,6 +14,9 @@ export default function AppPreviewScroll() {
 
   return (
     <section id="hero" className="relative bg-black pb-14 sm:pb-20">
+      {/* The spotlight's full-screen shade lives out here: inside the hero's moving
+          part (MountainRise) a transform would trap it in that box. */}
+      <DemoSpotlight targetId="live-demo" />
       {/* The opening scene: the sky and the words stay put while the mountains,
           and the live demo right under them, scroll up over them (MountainRise). */}
       <MountainRise
@@ -56,12 +59,18 @@ export default function AppPreviewScroll() {
         }
       >
       {/* Live demo — full window, no translate/clip */}
-      <DemoSpotlight targetId="live-demo" />
       <div
         id="live-demo"
         data-hide-header
         className="relative z-[45] mx-auto -mt-[6svh] w-full max-w-6xl px-4 sm:px-6"
       >
+        {/* moonlight: the hero sky's cool light carries on, very faintly, behind
+            the demo, so the window stands out from the black (no colour, no glow) */}
+        <div
+          aria-hidden
+          className="bb-moonlight pointer-events-none absolute left-1/2 top-[-35vh] -z-10 h-[170vh] w-screen -translate-x-1/2"
+          style={{ background: "radial-gradient(ellipse 75% 45% at 50% 50%, rgba(205,218,255,0.14) 0%, rgba(205,218,255,0.075) 50%, rgba(205,218,255,0) 100%)" }}
+        />
         <LiveDemoFrame eager className="mx-auto" />
       </div>
       </MountainRise>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { liftAt } from "@/components/sections/MountainRise";
 
 /**
  * Soft landing spots on the home page: the whole live demo window, and the whole
@@ -12,9 +13,22 @@ import { useEffect } from "react";
  */
 function blockTarget(el: Element, vh: number) {
   const r = el.getBoundingClientRect();
-  const top = r.top + window.scrollY;
   /* centred when it fits, otherwise its top just under the edge */
-  return r.height <= vh - 40 ? top + r.height / 2 - vh / 2 : top - 16;
+  const want = r.height <= vh - 40 ? vh / 2 - r.height / 2 : 16;
+  /* Inside the hero's faster-climbing part (MountainRise) the element also moves
+     by lift(y), so solve y + lift(y) = top + lift(now) - want (it only ever grows,
+     so halving the range finds it). */
+  const mover = el.closest("[data-lift-max]") as HTMLElement | null;
+  const max = mover ? +(mover.dataset.liftMax || 0) : 0, span = mover ? +(mover.dataset.liftSpan || 1) : 1;
+  const y = window.scrollY, lift = (v: number) => liftAt(v, max, span);
+  const goal = r.top + y + lift(y) - want;
+  if (!max) return goal;
+  let lo = Math.max(0, goal - max), hi = Math.max(0, goal);
+  for (let i = 0; i < 30; i++) {
+    const mid = (lo + hi) / 2;
+    if (mid + lift(mid) < goal) lo = mid; else hi = mid;
+  }
+  return hi;
 }
 
 /* The wall sits in a pinned section (PinnedSection): work from where that section
@@ -37,10 +51,27 @@ export default function SnapPoints() {
     /* Wait for scrolling to really finish: "scrollend" fires only after a
        trackpad's glide is over. Browsers without it get a longer quiet period. */
     const hasEnd = "onscrollend" in window;
-    let idle = 0, gliding = false, target = 0;
+    let idle = 0, gliding = false, target = 0, anim = 0;
     /* Where the current scroll started. One scroll lasts until a pause of 0.4 s,
        so a mouse wheel's separate notches still count as one movement. */
     let from: number | null = null, lastMove = 0;
+
+    /* A slow, soft landing: eases in gently and settles gently (no push), and
+       takes longer for longer distances. "instant" steps, because the site's
+       scroll-behavior: smooth would otherwise animate every step on its own. */
+    const glide = (a: number, b: number) => {
+      const d = b - a, dur = Math.min(1300, 800 + Math.abs(d) * 1.2), t0 = performance.now();
+      const step = (now: number) => {
+        if (!gliding) { anim = 0; return; }
+        const p = Math.min(1, (now - t0) / dur);
+        const e = -(Math.cos(Math.PI * p) - 1) / 2; /* ease in and out */
+        window.scrollTo({ top: a + d * e, behavior: "instant" as ScrollBehavior });
+        if (p < 1) anim = requestAnimationFrame(step);
+        else { anim = 0; window.setTimeout(() => { gliding = false; }, 80); }
+      };
+      if (anim) cancelAnimationFrame(anim);
+      anim = requestAnimationFrame(step);
+    };
 
     const settle = () => {
       const start = from;
@@ -63,12 +94,10 @@ export default function SnapPoints() {
         if (arriving && dEnd < vh * 0.4 && (best === null || dEnd < Math.abs(best - y))) best = t;
       });
       if (best === null || Math.abs(best - y) <= 3) return;
-      /* The browser's own smooth scroll: it runs off the main thread, so the
-         landing is as fluid as normal scrolling. */
       gliding = true;
       from = null;
       target = Math.round(best);
-      window.scrollTo({ top: target, behavior: "smooth" });
+      glide(y, target);
     };
 
     const onScroll = () => {
@@ -90,6 +119,8 @@ export default function SnapPoints() {
     window.addEventListener("wheel", onWheel, { passive: true });
     ["touchstart", "keydown", "pointerdown"].forEach((ev) => window.addEventListener(ev, takeOver, { passive: true }));
     return () => {
+      gliding = false;
+      if (anim) cancelAnimationFrame(anim);
       window.clearTimeout(idle);
       window.removeEventListener("scroll", onScroll);
       if (hasEnd) window.removeEventListener("scrollend", onEnd);

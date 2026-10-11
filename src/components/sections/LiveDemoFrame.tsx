@@ -99,13 +99,22 @@ export default function LiveDemoFrame({
       <div data-snap="demo">
       {!peek && <DemoControls demo={demo} pending={pending} send={send} />}
       <div
-        className="overflow-hidden rounded-2xl"
+        className="relative overflow-hidden rounded-2xl"
         style={{
-          border: "1px solid rgba(255,255,255,0.14)",
+          /* a real object in the light: the top edge catches it, and a deep soft
+             shadow sits under it */
+          border: "1px solid rgba(255,255,255,0.12)",
+          borderTopColor: "rgba(255,255,255,0.2)",
           boxShadow:
-            "0 40px 100px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.05)",
+            "0 2px 6px rgba(0,0,0,0.5), 0 30px 70px rgba(0,0,0,0.7), 0 70px 160px rgba(0,0,0,0.85)",
         }}
       >
+        {/* hairline highlight along the top edge, brightest in the middle */}
+        <div
+          aria-hidden
+          className="bb-demo-edge pointer-events-none absolute inset-x-0 top-0 z-10 h-px"
+          style={{ background: "linear-gradient(90deg, rgba(255,255,255,0) 4%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0) 96%)" }}
+        />
         <div
           ref={frameRef}
           className="relative w-full overflow-hidden bg-[#171717]"
