@@ -111,6 +111,8 @@ function patchIndexHtml(html) {
   // The app's own feature scripts (vendor/bb-*.js) are copied next to the page;
   // a version stamp makes returning visitors fetch the new copies.
   patched = patched.replace(/src="vendor\/(bb-[\w-]+\.js)"/g, `src="vendor/$1?v=${VERSION}"`);
+  /* the stylesheet too, so a visitor never gets new scripts with an old cached look */
+  patched = patched.replace(/href="vendor\/(bb-[\w-]+\.css)"/g, `href="vendor/$1?v=${VERSION}"`);
   // Calls are simulated in the demo; the LiveKit bundle lives in node_modules and would 404.
   replaceOnce(
     /\s*<script src="node_modules\/livekit-client\/dist\/livekit-client\.umd\.js"><\/script>/,
