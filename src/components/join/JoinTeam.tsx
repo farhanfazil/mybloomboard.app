@@ -2,13 +2,13 @@
 
 /*
  * Landing page for the "Join {team}" button in a team invite email.
- * Tries to open the installed app with the code (bloombooard://join); if the app
- * isn't installed, the page stays with download buttons and three short steps.
+ * Two ways in: join right here in the browser (app.mybloomboard.app, code and email
+ * filled in), or use the desktop app (open it with the code, or download it first).
  */
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { MAC_DOWNLOAD_URL, WINDOWS_DOWNLOAD_URL } from "@/lib/downloads";
 
 export default function JoinTeam() {
@@ -16,13 +16,8 @@ export default function JoinTeam() {
   const code = useMemo(() => (params.get("code") || "").replace(/[^A-Za-z0-9]/g, "").slice(0, 16).toUpperCase(), [params]);
   const email = useMemo(() => (params.get("email") || "").slice(0, 200), [params]);
   const appLink = `bloombooard://join?code=${encodeURIComponent(code)}${email ? `&email=${encodeURIComponent(email)}` : ""}`;
+  const webLink = `https://app.mybloomboard.app/login.html?join=${encodeURIComponent(code)}${email ? `&email=${encodeURIComponent(email)}` : ""}`;
   const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    if (!code) return;
-    const t = window.setTimeout(() => { window.location.href = appLink; }, 400);
-    return () => window.clearTimeout(t);
-  }, [code, appLink]);
 
   const copy = async () => {
     try { await navigator.clipboard.writeText(code); setCopied(true); window.setTimeout(() => setCopied(false), 1500); } catch { /* select instead */ }
@@ -40,32 +35,38 @@ export default function JoinTeam() {
         <div>
           <h1 className="text-[34px] font-bold leading-tight tracking-[-0.03em] md:text-[40px]">You&apos;re invited to a team.</h1>
           <p className="mt-3 text-[17px] leading-relaxed text-[#a1a1aa]">
-            Opening BloomBoard with your invite code. If nothing happens, get the app first and follow the steps below.
+            Join in your browser right now, or use the BloomBoard app on your computer. Both stay in sync.
           </p>
         </div>
 
-        {code && (
-          <div className="flex flex-col gap-3 rounded-2xl border border-white/[0.12] bg-[#0d0d0f] p-5">
-            <div className="text-xs font-bold uppercase tracking-[0.08em] text-[#a1a1aa]">Your invite code</div>
-            <div className="flex items-center justify-between gap-4">
-              <span className="select-all font-mono text-[28px] font-bold tracking-[0.2em]">{code}</span>
-              <button type="button" onClick={copy} className="h-10 rounded-xl border border-white/20 px-4 text-sm font-semibold">{copied ? "Copied" : "Copy"}</button>
-            </div>
-            {email && <div className="text-sm text-[#a1a1aa]">Sent to {email}. Join with this email.</div>}
-            <a href={appLink} className="flex h-12 items-center justify-center rounded-xl bg-[#f5f5f7] text-[15px] font-bold text-black">Open BloomBoard</a>
-          </div>
-        )}
-
-        <ol className="flex flex-col gap-4 text-[15px] leading-relaxed">
-          <li className="flex gap-3"><span className="font-bold text-[#a1a1aa]">1.</span><span>Get BloomBoard for your computer.</span></li>
-          <li className="flex gap-3"><span className="font-bold text-[#a1a1aa]">2.</span><span>Open it and sign up or log in{email ? <> with <b>{email}</b></> : " with the email the invite was sent to"}.</span></li>
-          <li className="flex gap-3"><span className="font-bold text-[#a1a1aa]">3.</span><span>Go to Settings, then Team, and enter the code.</span></li>
-        </ol>
-
-        <div className="grid gap-3 sm:grid-cols-2">
-          <a href={MAC_DOWNLOAD_URL} className="flex h-12 items-center justify-center rounded-xl border border-white/20 text-[15px] font-semibold">Download for Mac</a>
-          <a href={WINDOWS_DOWNLOAD_URL} className="flex h-12 items-center justify-center rounded-xl border border-white/20 text-[15px] font-semibold">Download for Windows</a>
+        <div className="flex flex-col gap-3 rounded-2xl border border-white/[0.12] bg-[#0d0d0f] p-5">
+          {code && (
+            <>
+              <div className="text-xs font-bold uppercase tracking-[0.08em] text-[#a1a1aa]">Your invite code</div>
+              <div className="flex items-center justify-between gap-4">
+                <span className="select-all font-mono text-[28px] font-bold tracking-[0.2em]">{code}</span>
+                <button type="button" onClick={copy} className="h-10 rounded-xl border border-white/20 px-4 text-sm font-semibold">{copied ? "Copied" : "Copy"}</button>
+              </div>
+              {email && <div className="text-sm text-[#a1a1aa]">Sent to {email}. Join with this email.</div>}
+            </>
+          )}
+          <a href={code ? webLink : "https://app.mybloomboard.app/login.html?join="} className="mt-1 flex h-12 items-center justify-center rounded-xl bg-[#f5f5f7] text-[15px] font-bold text-black">Join in your browser</a>
+          <p className="text-sm text-[#a1a1aa]">No download. Create your account (or log in) with {email ? <b className="text-[#f5f5f7]">{email}</b> : "the invited email"} and you&apos;re in the team.</p>
         </div>
+
+        <div className="flex flex-col gap-4">
+          <div className="text-xs font-bold uppercase tracking-[0.08em] text-[#a1a1aa]">Or use the app on your computer</div>
+          <ol className="flex flex-col gap-3 text-[15px] leading-relaxed">
+            <li className="flex gap-3"><span className="font-bold text-[#a1a1aa]">1.</span><span>Download BloomBoard for Mac or Windows.</span></li>
+            <li className="flex gap-3"><span className="font-bold text-[#a1a1aa]">2.</span><span>Sign up or log in{email ? <> with <b>{email}</b></> : " with the email the invite was sent to"}. You join the team automatically.</span></li>
+          </ol>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <a href={MAC_DOWNLOAD_URL} className="flex h-12 items-center justify-center rounded-xl border border-white/20 text-[15px] font-semibold">Download for Mac</a>
+            <a href={WINDOWS_DOWNLOAD_URL} className="flex h-12 items-center justify-center rounded-xl border border-white/20 text-[15px] font-semibold">Download for Windows</a>
+          </div>
+          {code && <a href={appLink} className="text-sm font-semibold text-[#a1a1aa] underline underline-offset-4">Already have the app? Open it with this invite</a>}
+        </div>
+
         <p className="text-sm text-[#a1a1aa]">Questions? Write to <a href="mailto:support@mybloomboard.app" className="underline">support@mybloomboard.app</a>.</p>
       </main>
     </div>

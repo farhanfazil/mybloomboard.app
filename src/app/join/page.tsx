@@ -5,7 +5,7 @@ import JoinTeam from "@/components/join/JoinTeam";
 export const metadata: Metadata = {
   alternates: { canonical: "/join" },
   title: "Join your team · BloomBoard",
-  description: "You were invited to a team on BloomBoard. Open the app or download it, then enter your invite code.",
+  description: "You were invited to a team on BloomBoard. Join in your browser, or get the app for Mac or Windows.",
   robots: { index: false, follow: false },
 };
 
