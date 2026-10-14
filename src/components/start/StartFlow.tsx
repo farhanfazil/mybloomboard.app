@@ -347,6 +347,17 @@ export default function StartFlow() {
                         : `Try every ${PLANS[plan].name} feature for ${TRIAL_DAYS[plan]} days. No card needed, cancel anytime.`}
                     </p>
                   </div>
+                  {/* Invited people don't pick a plan: their team already has one. */}
+                  <Link
+                    href="/join"
+                    className="flex items-center justify-between gap-4 rounded-[14px] border border-white/10 bg-[#0d0d0f] px-4 py-3.5 transition-colors hover:border-white/25"
+                  >
+                    <span>
+                      <span className="block text-[15px] font-bold">Joining your team?</span>
+                      <span className="mt-0.5 block text-[13px] leading-snug text-[#a1a1aa]">Got an invite code? No plan needed. Your team already has one.</span>
+                    </span>
+                    <span className="shrink-0 whitespace-nowrap text-[14px] font-semibold text-[#4d9fff]">Join a team</span>
+                  </Link>
                   <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3" role="radiogroup" aria-label="Plan">
                     {(Object.keys(PLANS) as Plan[]).map((p) => (
                       <button
