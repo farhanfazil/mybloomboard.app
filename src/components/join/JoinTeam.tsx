@@ -37,7 +37,7 @@ export default function JoinTeam() {
         <div>
           <h1 className="text-[34px] font-bold leading-tight tracking-[-0.03em] md:text-[40px]">{linkCode ? "You\u2019re invited to a team." : "Join your team."}</h1>
           <p className="mt-3 text-[17px] leading-relaxed text-[#a1a1aa]">
-            Join in your browser right now, or use the BloomBoard app on your computer. Both stay in sync.
+            Join on the web app right now, or use the BloomBoard app on your computer. Both stay in sync.
           </p>
         </div>
 
@@ -67,7 +67,7 @@ export default function JoinTeam() {
               {email && <div className="text-sm text-[#a1a1aa]">Sent to {email}. Join with this email.</div>}
             </>
           )}
-          <a href={code ? webLink : "https://app.mybloomboard.app/login.html?join="} className="mt-1 flex h-12 items-center justify-center rounded-xl bg-[#f5f5f7] text-[15px] font-bold text-black">Join in your browser</a>
+          <a href={code ? webLink : "https://app.mybloomboard.app/login.html?join="} className="mt-1 flex h-12 items-center justify-center rounded-xl bg-[#f5f5f7] text-[15px] font-bold text-black">Join on the web app</a>
           <p className="text-sm text-[#a1a1aa]">No download. Create your account (or log in) with {email ? <b className="text-[#f5f5f7]">{email}</b> : "the invited email"} and you&apos;re in the team.</p>
         </div>
 

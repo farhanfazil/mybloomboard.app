@@ -58,7 +58,7 @@ export default function AppPreviewScroll() {
                 href={WEB_APP_URL}
                 className="rounded-lg border border-white/25 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/10"
               >
-                Open in browser
+                Open web app
               </a>
             )}
           </div>
