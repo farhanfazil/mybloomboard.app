@@ -329,6 +329,35 @@ export default function Pricing() {
           ))}
         </motion.div>
 
+        {/* Add-on: Bloom AI Plus, an extra for Bloom or Team, not a fourth plan */}
+        <motion.div
+          className="mx-auto mt-6 flex max-w-xl flex-col gap-4 rounded-2xl border border-white/[0.12] bg-white/[0.02] p-5 sm:p-6 lg:max-w-none lg:flex-row lg:items-center lg:gap-8"
+          initial={{ opacity: 0, y: 12 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.4, duration: 0.5 }}
+        >
+          <div className="flex-1">
+            <div className="text-xs font-semibold uppercase tracking-[0.08em] text-white/50">Add-on</div>
+            <h3 className="mt-1 text-lg font-semibold text-white">Bloom AI Plus</h3>
+            <p className="mt-1 text-sm leading-relaxed text-white/60">
+              Smarter Bloom AI for writing, planning and Ask Bloom. Uses a more capable model for up to 2,000 requests a month. Add it to Bloom or Team, per person.
+            </p>
+          </div>
+          <div className="flex flex-col items-start gap-2 lg:items-end">
+            <div className="text-white">
+              <span className="text-2xl font-bold">{yearly ? "$4" : "$5"}</span>
+              <span className="text-sm text-white/55"> / month{yearly ? ", billed $48 a year" : ""}</span>
+            </div>
+            <a
+              href={yearly ? "https://buy.polar.sh/polar_cl_LAptq1J2njOkEeFmFrh7habghzOjQJ7JcvXfJ2cBbkv" : "https://buy.polar.sh/polar_cl_M4CYh1brMIo1xel0QS7uC3I8t8tKL1Iomitv14R6fxV"}
+              className="inline-flex h-10 items-center justify-center rounded-lg border border-white/20 px-5 text-sm font-semibold text-white hover:bg-white/[0.06]"
+            >
+              Get AI Plus
+            </a>
+            <span className="text-xs text-white/45">Use the email of your BloomBoard account.</span>
+          </div>
+        </motion.div>
+
         {/* Bottom notes: three plain facts side by side, then the AI note */}
         <motion.div
           className="mx-auto mt-12 max-w-4xl"
