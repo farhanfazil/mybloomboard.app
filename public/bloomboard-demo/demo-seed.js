@@ -972,6 +972,8 @@
           priority: priority, dueDate: dueOffset == null ? null : isoDate(dueOffset), order: order,
           assigneeId: assigneeId || null, createdAt: new Date(now - (cardN + 2) * 5 * hour).toISOString(), comments: [],
         };
+        /* Finished cards carry the time they were finished (the Team workload counts them this week). */
+        if (col === 'done') c.completedAt = now - (cardN % 5 + 1) * 9 * hour;
         /* [done, total]: the office tile draws its progress ring from this. */
         if (checklist) {
           c.checklists = [{ id: 'demo-cl-' + cardN, title: 'Checklist', items: [] }];
@@ -998,7 +1000,7 @@
           board('demo-b-offsite', 'Team Offsite', 'Lisbon, November', '✈️', 'bc-orange', 20, COVERS[11]),
         ],
         cards: [
-          card('demo-b-launch', 'todo', 'Landing page', 'high', 0, ID.priya, 2),
+          card('demo-b-launch', 'todo', 'Landing page', 'high', 0, ID.priya, -2),
           card('demo-b-launch', 'doing', 'Press kit', 'medium', 0, ID.nora, 1, [2, 3]),
           card('demo-b-launch', 'doing', 'Landing hero v3', 'high', 1, ID.ethan, 0, [1, 4]),
           card('demo-b-launch', 'doing', 'Launch video', 'low', 2, ID.ethan, 3),
@@ -1026,7 +1028,7 @@
           card('demo-b-hiring', 'doing', 'Engineer interviews', 'medium', 0, ID.daniel, 4),
           card('demo-b-sales', 'todo', 'Demo for Northwind', 'high', 0, ID.daniel, 2),
           card('demo-b-sales', 'doing', 'Acme renewal', 'medium', 0, ID.leo, 6),
-          card('demo-b-support', 'todo', 'Login loop on iPad', 'urgent', 0, ID.leo, 1),
+          card('demo-b-support', 'todo', 'Login loop on iPad', 'urgent', 0, ID.leo, -1),
           card('demo-b-support', 'done', 'Export to PDF fix', 'medium', 0, ID.ethan, null),
           card('demo-b-partners', 'todo', 'Slack integration brief', 'medium', 0, ID.priya, 8),
           card('demo-b-partners', 'doing', 'Co-marketing plan', 'low', 0, ID.nora, 9),
