@@ -1885,3 +1885,15 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-help { margin:-2px 0 12px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-ask-lbl { display:block; margin:14px 0 -6px; font:600 12.5px var(--bl-ui); color:var(--bl-fg2); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-ask-lbl span { font-weight:400; color:var(--bl-fg3); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-confirm-input:disabled { opacity:.5; }
+/* Departments and teams: who is in each, and the Add people picker */
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-txt { min-width:0; flex:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-who { margin-top:2px; font:400 12px/1.4 var(--bl-ui); color:var(--bl-fg3); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-pick { width:min(460px,100%); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-plist { margin-top:10px; max-height:min(340px,50vh); overflow:auto; border:1px solid var(--bl-line); border-radius:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-p { display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:10px; padding:9px 12px; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-p + .bb-org-p { border-top:1px solid var(--bl-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-p:hover { background:var(--bl-hover); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-p[hidden] { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-p input { width:16px; height:16px; margin:0; accent-color:var(--bl-accent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-pn { font:500 13.5px var(--bl-ui); color:var(--bl-fg); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-pw { font:400 12px var(--bl-ui); color:var(--bl-fg3); white-space:nowrap; }
