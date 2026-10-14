@@ -33,8 +33,16 @@
      a local preview they come from the live site. Brief.pdf lives in demo-files/. */
   var DEMO_SITE = location.protocol === 'https:' ? location.origin : 'https://mybloomboard.app';
   var DEMO_BRIEF_SIZE = 1532;
+  /* Team photos come from this site (public/bloomboard-demo/people), so they never
+     wait on another server. The app only shows https photos in chat, so plain-http
+     local previews use the original copies instead. */
+  function teamPhoto(path) {
+    return location.protocol === 'https:'
+      ? location.origin + '/bloomboard-demo/people/' + path.replace('/', '-') + '.jpg'
+      : 'https://randomuser.me/api/portraits/' + path + '.jpg';
+  }
   /* Sam Rivera, the visitor: a real photo, set as the app's own uploaded profile photo. */
-  var SAM_PHOTO = 'https://randomuser.me/api/portraits/women/79.jpg';
+  var SAM_PHOTO = teamPhoto('women/79');
 
   /* The visitor's local date (toISOString would give UTC, a day early after midnight in UTC+ zones). */
   function isoDate(offsetDays) {
@@ -848,7 +856,7 @@
 
     /* Everyone has a real profile photo, Sam (the visitor) included. */
     function face(file) { return 'avatars/dark/' + encodeURIComponent(file); }
-    function photo(path) { return 'https://randomuser.me/api/portraits/' + path + '.jpg'; }
+    var photo = teamPhoto;
     var PEOPLE = [
       { id: ID.me, name: 'Sam Rivera', email: 'sam@lumen.studio', role: 'owner', status: 'available', color: '#7c3aed', position: 'Product Designer', department: 'Design', avatar: SAM_PHOTO },
       { id: ID.maya, name: 'Maya Chen', email: 'maya@lumen.studio', role: 'manager', status: 'available', color: '#14b8a6', position: 'Product Manager', department: 'Product', avatar: photo('women/44') },

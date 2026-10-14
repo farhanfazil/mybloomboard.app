@@ -1,10 +1,7 @@
-import CurtainReveal from "@/components/sections/CurtainReveal";
 import dynamic from "next/dynamic";
 import { Header } from "@/components/ui/header-2";
 import AppPreviewScroll from "@/components/sections/AppPreviewScroll";
 import FeatureWall from "@/components/showcase/FeatureWall";
-import PinnedSection from "@/components/sections/PinnedSection";
-import SnapPoints from "@/components/sections/SnapPoints";
 
 // Above-fold sections load immediately ↑
 // Below-fold sections are lazy-loaded — don't block initial paint ↓
@@ -16,6 +13,7 @@ import SnapPoints from "@/components/sections/SnapPoints";
 const PlanQuiz          = dynamic(() => import("@/components/sections/PlanQuiz"));
 const TrustBar          = dynamic(() => import("@/components/sections/TrustBar"));
 const Pricing           = dynamic(() => import("@/components/sections/Pricing"));
+const Proof             = dynamic(() => import("@/components/sections/Proof"));
 const FAQ               = dynamic(() => import("@/components/sections/FAQ"));
 const ComparisonSection = dynamic(() => import("@/components/sections/ComparisonSection"));
 const DownloadCTA       = dynamic(() => import("@/components/sections/DownloadCTA"));
@@ -25,13 +23,11 @@ export default function Home() {
   return (
     <main>
       <Header />
-      <SnapPoints />
       <AppPreviewScroll />
-      {/* The features stay put while the light comparison panel slides up over them. */}
-      <div className="relative">
-      <PinnedSection>
-        <FeatureWall />
-      </PinnedSection>
+      {/* After the hero the page scrolls plainly: no snapping, pinning or curtain
+          (SnapPoints, PinnedSection and CurtainReveal are kept for later use). */}
+      <FeatureWall />
+      <Proof />
       {/* Hidden while the live demo carries the product story — restore by uncommenting.
       <AIFeatureCarousel />
       <DeepDiveFlight>
@@ -39,21 +35,14 @@ export default function Home() {
         <StatsBar />
       </DeepDiveFlight>
       */}
-      {/* One light panel (the comparison, then the plan quiz and trust row) lifts
-          away like a lid, uncovering Pricing waiting in black underneath. */}
-      <CurtainReveal
-        lidClassName="flex flex-col rounded-[28px] bg-[#f5f5f7] sm:rounded-[36px]"
-        lidShadow="none"
-        lid={
-          <div data-hide-header className="flex flex-1 flex-col">
-            <ComparisonSection tables={["teams"]} embedded />
-            <PlanQuiz light />
-            <TrustBar light />
-          </div>
-        }
-        under={<Pricing />}
-      />
+      <div className="bg-black px-2 sm:px-4">
+        <div data-hide-header className="flex flex-col rounded-[28px] bg-[#f5f5f7] sm:rounded-[36px]">
+          <ComparisonSection tables={["teams"]} embedded />
+          <PlanQuiz light />
+          <TrustBar light />
+        </div>
       </div>
+      <Pricing />
       <FAQ />
       <DownloadCTA />
       <Footer />

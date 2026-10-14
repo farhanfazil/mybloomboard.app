@@ -107,7 +107,7 @@ export function Footer() {
         <AnimatedContainer className="space-y-4">
           <div className="flex items-center gap-3">
             <Image
-              src="/logo.png"
+              src="/brand/app-tile.png"
               alt="BloomBoard logo"
               width={40}
               height={40}

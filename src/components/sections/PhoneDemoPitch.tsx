@@ -170,7 +170,7 @@ export default function PhoneDemoPitch() {
   return (
     <div ref={ref} className="rounded-2xl border border-white/10 bg-[#0b0b0d] p-4">
       <div className="mb-4 flex items-center gap-2.5 border-b border-white/[0.08] pb-3">
-        <Image src="/logo.png" alt="" width={28} height={28} className="h-7 w-7 rounded-lg" />
+        <Image src="/brand/app-tile.png" alt="" width={28} height={28} className="h-7 w-7 rounded-lg" />
         <div className="min-w-0">
           <p className="text-sm font-semibold text-white">BloomBoard</p>
           <p className="text-xs text-white/55">{typing ? "typing…" : "Online"}</p>
@@ -186,7 +186,7 @@ export default function PhoneDemoPitch() {
             <div key={i} className="relative" aria-hidden={!isIn || undefined}>
               <div className={`flex items-end gap-2 ${isIn ? "motion-safe:animate-[bbMsgIn_.25s_ease-out]" : "invisible"}`}>
                 {i === shown - 1 ? (
-                  <Image src="/logo.png" alt="" width={28} height={28} className="h-7 w-7 shrink-0 rounded-full" />
+                  <Image src="/brand/app-tile.png" alt="" width={28} height={28} className="h-7 w-7 shrink-0 rounded-full" />
                 ) : (
                   <span className="h-7 w-7 shrink-0" aria-hidden />
                 )}
@@ -208,7 +208,7 @@ export default function PhoneDemoPitch() {
             </div>
           ) : (
             <div key={`t${i}`} className="flex items-end gap-2 motion-safe:animate-[bbMsgIn_.25s_ease-out]">
-              <Image src="/logo.png" alt="" width={28} height={28} className="h-7 w-7 shrink-0 rounded-full" />
+              <Image src="/brand/app-tile.png" alt="" width={28} height={28} className="h-7 w-7 shrink-0 rounded-full" />
               <p className="max-w-[85%] rounded-2xl rounded-bl-md bg-white/[0.08] px-3.5 py-2.5 text-[15px] leading-snug text-white">
                 {m.text}
               </p>

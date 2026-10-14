@@ -43,7 +43,7 @@ export function SeoHeader() {
   return (
     <header className="mx-auto flex max-w-[1120px] items-center justify-between px-5 py-5 md:px-12">
       <Link href="/" className="flex items-center gap-2.5 font-bold">
-        <Image src="/email-icon.png" alt="" width={30} height={30} className="rounded-lg" />
+        <Image src="/brand/app-tile-144.png" alt="" width={30} height={30} className="rounded-lg" />
         BloomBoard
       </Link>
       <Link href="/start" className="rounded-[10px] bg-white px-4 py-2 text-sm font-semibold text-black">Start free</Link>

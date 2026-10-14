@@ -87,6 +87,21 @@ export default function LiveDemoFrame({
     return (
       <div className={className}>
         <DemoReactionsBar className="mb-4" />
+        {/* A real recording of the demo (it types tasks, organises them and moves a
+            card), so phone visitors see the product, not just words about it. */}
+        <div className="mb-4 overflow-hidden rounded-2xl border border-white/[0.12] bg-[#171717]">
+          <video
+            src="/bloomboard-demo/phone-clip.mp4"
+            poster="/bloomboard-demo/phone-clip.jpg"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-label="BloomBoard turning a few typed lines into tasks on a board"
+            className="block aspect-square w-full"
+          />
+        </div>
         <PhoneDemoPitch />
       </div>
     );
@@ -98,15 +113,18 @@ export default function LiveDemoFrame({
       {/* the bar and the window together: the home page snaps to this (SnapPoints) */}
       <div data-snap="demo">
       {!peek && <DemoControls demo={demo} pending={pending} send={send} />}
+      <div className="relative">
+      {/* A real object: a soft shadow under it, and the top edge catches the light. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 rounded-2xl"
+        style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.5), 0 24px 60px rgba(0,0,0,0.75)" }}
+      />
       <div
         className="relative overflow-hidden rounded-2xl"
         style={{
-          /* a real object in the light: the top edge catches it, and a deep soft
-             shadow sits under it */
           border: "1px solid rgba(255,255,255,0.12)",
           borderTopColor: "rgba(255,255,255,0.2)",
-          boxShadow:
-            "0 2px 6px rgba(0,0,0,0.5), 0 30px 70px rgba(0,0,0,0.7), 0 70px 160px rgba(0,0,0,0.85)",
         }}
       >
         {/* hairline highlight along the top edge, brightest in the middle */}
@@ -120,15 +138,32 @@ export default function LiveDemoFrame({
           className="relative w-full overflow-hidden bg-[#171717]"
           style={{ height: viewportH }}
         >
+          {/* A picture of the demo's first screen shows from the very first paint;
+              the live demo loads behind it and fades in over it once it has drawn
+              (npm run demo-poster takes the picture). */}
+          {!peek && phone !== true ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src="/bloomboard-demo/poster.jpg"
+              alt=""
+              aria-hidden
+              fetchPriority="high"
+              decoding="async"
+              className="absolute left-0 top-0 h-full w-full object-cover object-left-top"
+            />
+          ) : null}
           {!iframeReady || phone !== false ? (
-            <div className="flex h-full min-h-[120px] items-center justify-center text-sm text-white/40">
-              Loading interactive demo…
-            </div>
+            peek ? (
+              <div className="flex h-full min-h-[120px] items-center justify-center text-sm text-white/40">
+                Loading interactive demo…
+              </div>
+            ) : null
           ) : (
             <DemoIframe
+              fadeIn={!peek}
               title="BloomBoard interactive demo"
               src={`/bloomboard-demo/index.html?embed=home&ws=${workspaces}&v=34`}
-              className="!absolute left-0 top-0 bg-[#171717]"
+              className="!absolute left-0 top-0"
               onState={onState}
               commandRef={commandRef}
               style={{
@@ -140,6 +175,7 @@ export default function LiveDemoFrame({
             />
           )}
         </div>
+      </div>
       </div>
       </div>
       <DemoUsefulPoll className="mt-4" />

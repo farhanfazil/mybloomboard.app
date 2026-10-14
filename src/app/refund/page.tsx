@@ -49,7 +49,7 @@ export default function RefundPage() {
     <div className="min-h-screen bg-black text-[#f5f5f7]">
       <header className="mx-auto flex max-w-[1120px] items-center px-5 py-5 md:px-12">
         <Link href="/" className="flex items-center gap-2.5 font-bold">
-          <Image src="/email-icon.png" alt="" width={30} height={30} className="rounded-lg" />
+          <Image src="/brand/app-tile-144.png" alt="" width={30} height={30} className="rounded-lg" />
           BloomBoard
         </Link>
       </header>

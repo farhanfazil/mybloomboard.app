@@ -260,7 +260,7 @@ function MobileComparison({ headers, rows }: { headers: string[]; rows: (string[
         <div className={`${cols} sticky top-0 z-10 border-b border-black/[0.08] bg-white/95 text-[13px] font-semibold backdrop-blur`}>
           <div className="px-3 py-3 font-medium text-[#6e6e73]">Features</div>
           <div className="flex items-center justify-center gap-1.5 px-1 py-3 text-[12.5px] text-[#123e5a]" style={{ background: "rgba(236,242,246,0.97)" }}>
-            <Image src="/logo-black.svg" alt="" width={14} height={16} unoptimized className="h-4 w-auto" />
+            <Image src="/brand/mark.svg" alt="" width={16} height={16} unoptimized className="h-4 w-4" />
             <span className="truncate">BloomBoard</span>
           </div>
           <div className="flex items-center justify-center px-1 py-3 text-center text-[#1d1d1f]">{rivals[pick]}</div>
@@ -357,7 +357,7 @@ function ComparisonTable({
                 >
                   {i === 1 ? (
                     <span className="inline-flex items-center gap-2 text-[#123e5a]">
-                      <Image src="/logo-black.svg" alt="" width={17} height={20} unoptimized className="h-5 w-auto" />
+                      <Image src="/brand/mark.svg" alt="" width={20} height={20} unoptimized className="h-5 w-5" />
                       {h}
                     </span>
                   ) : i === 0 ? (compact ? "Where BloomBoard is different" : "Features") : h}

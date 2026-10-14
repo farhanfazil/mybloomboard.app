@@ -34,6 +34,22 @@ export default function MountainRise({ words, children }: { words: ReactNode; ch
   const duskRef = useRef<HTMLDivElement>(null);
   const wordsRef = useRef<HTMLDivElement>(null);
   const restRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  /* The sky and the hills appear together, in one soft fade, once both have
+     loaded (never one after the other). The words show straight away. */
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const imgs = Array.from(root.querySelectorAll<HTMLImageElement>("img[data-scene]"));
+    let shown = false;
+    const show = () => { if (!shown) { shown = true; root.dataset.scene = "in"; } };
+    const check = () => { if (imgs.every((i) => i.complete && i.naturalWidth > 0)) show(); };
+    imgs.forEach((i) => i.addEventListener("load", check));
+    check();
+    const late = window.setTimeout(show, 2500);
+    return () => { imgs.forEach((i) => i.removeEventListener("load", check)); window.clearTimeout(late); };
+  }, []);
 
   useEffect(() => {
     const dusk = duskRef.current, wordsEl = wordsRef.current, rest = restRef.current;
@@ -95,11 +111,11 @@ export default function MountainRise({ words, children }: { words: ReactNode; ch
   }, []);
 
   return (
-    <div className="relative">
+    <div ref={rootRef} className="bb-scene relative">
       {/* backdrop: the sky and the words, held in place */}
       <div className="sticky top-0 z-0 h-[100svh] overflow-hidden">
-        <div aria-hidden className="pointer-events-none absolute inset-0">
-          <Image src="/backgrounds/hero-sky.jpg" alt="" fill priority className="object-cover object-center" sizes="100vw" quality={90} />
+        <div aria-hidden className="bb-scene-part pointer-events-none absolute inset-0">
+          <Image data-scene src="/backgrounds/hero-sky.jpg" alt="" fill priority className="object-cover object-center" sizes="100vw" quality={90} />
           <div className="absolute inset-0" style={{ background: SHADE }} />
         </div>
         {/* dusk: the sky goes dark as the hills come up (under the words) */}
@@ -110,8 +126,8 @@ export default function MountainRise({ words, children }: { words: ReactNode; ch
       {/* over it: the hills, laid exactly on the sky, then the page that follows */}
       {/* clicks pass through the see-through sky part to the buttons underneath */}
       <div className="pointer-events-none relative" style={{ marginTop: "-100svh" }}>
-        <div aria-hidden className="pointer-events-none relative h-[100svh]">
-          <Image src="/backgrounds/hero-mountains.png" alt="" fill priority className="object-cover object-center" sizes="100vw" quality={90} />
+        <div aria-hidden className="bb-scene-part pointer-events-none relative h-[100svh]">
+          <Image data-scene src="/backgrounds/hero-mountains.png" alt="" fill priority className="object-cover object-center" sizes="100vw" quality={90} />
           <div
             className="absolute inset-0"
             style={{

@@ -16,9 +16,14 @@ type DemoIframeProps = {
   onState?: (state: DemoState) => void;
   /** Filled in with a function that sends a command to the demo on screen. */
   commandRef?: MutableRefObject<((cmd: DemoCommand) => void) | null>;
+  /** Something is shown underneath (a picture of the demo): keep the first load
+   *  out of sight too, and fade it in once it has drawn. */
+  fadeIn?: boolean;
 };
 
 const FADE_MS = 220;
+/* the first load fades in over the picture of the demo, a touch slower */
+const FIRST_FADE_MS = 450;
 /* If the new version never says it is ready, show it anyway. */
 const READY_TIMEOUT_MS = 7000;
 
@@ -28,8 +33,8 @@ const READY_TIMEOUT_MS = 7000;
  * swap: the new version loads out of sight under the current one and fades in once
  * it has drawn, then the old one is removed.
  */
-export default function DemoIframe({ src, title, className = "", style, onState, commandRef }: DemoIframeProps) {
-  const [frames, setFrames] = useState<Frame[]>([{ id: 0, shown: true }]);
+export default function DemoIframe({ src, title, className = "", style, onState, commandRef, fadeIn = false }: DemoIframeProps) {
+  const [frames, setFrames] = useState<Frame[]>([{ id: 0, shown: !fadeIn }]);
   const refs = useRef(new Map<number, HTMLIFrameElement>());
   const nextId = useRef(1);
   const onStateRef = useRef(onState);
@@ -75,7 +80,13 @@ export default function DemoIframe({ src, title, className = "", style, onState,
       }
     };
     window.addEventListener("message", onMessage);
-    return () => window.removeEventListener("message", onMessage);
+    const late = fadeIn ? window.setTimeout(() => reveal(0), READY_TIMEOUT_MS) : 0;
+    return () => {
+      window.removeEventListener("message", onMessage);
+      window.clearTimeout(late);
+    };
+    // fadeIn only matters for the first load
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -96,7 +107,7 @@ export default function DemoIframe({ src, title, className = "", style, onState,
           style={{
             opacity: f.shown ? 1 : 0,
             pointerEvents: f.shown ? "auto" : "none",
-            transition: `opacity ${FADE_MS}ms ease`,
+            transition: `opacity ${f.id === 0 ? FIRST_FADE_MS : FADE_MS}ms ease`,
             zIndex: f.id,
           }}
           allow="clipboard-write"

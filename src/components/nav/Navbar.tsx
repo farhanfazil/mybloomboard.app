@@ -28,7 +28,7 @@ export default function Navbar() {
         {/* Logo */}
         <a href="#hero" className="flex items-center gap-2.5 group">
           <Image
-            src="/logo.png"
+            src="/brand/app-tile.png"
             alt="BloomBoard logo"
             width={38}
             height={38}
