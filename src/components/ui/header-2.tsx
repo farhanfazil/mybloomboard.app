@@ -187,10 +187,10 @@ export function Header({
       >
         <a href={logoHref ?? "#hero"} className="flex items-center gap-2.5">
           <Image
-            src="/brand/mark-on-dark.svg"
+            src="/brand/mark-on-dark-tight.svg"
             alt="BloomBoard logo"
-            width={30}
-            height={30}
+            width={22}
+            height={26}
             unoptimized
           />
           <span className="text-sm font-semibold text-text-primary">BloomBoard</span>

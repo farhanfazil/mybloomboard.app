@@ -107,11 +107,12 @@ export function Footer() {
         <AnimatedContainer className="space-y-4">
           <div className="flex items-center gap-3">
             <Image
-              src="/brand/app-tile.png"
+              src="/brand/mark-on-dark-tight.svg"
               alt="BloomBoard logo"
-              width={40}
-              height={40}
-              className="rounded-xl"
+              width={27}
+              height={32}
+              unoptimized
+              className=""
             />
             <div>
               <p className="text-sm font-semibold text-white">BloomBoard</p>

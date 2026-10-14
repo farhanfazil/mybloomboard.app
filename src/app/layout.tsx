@@ -28,7 +28,13 @@ export const metadata: Metadata = {
       "Your tasks, your team and a live office, in one calm app. Shared boards, team chat and calls, a virtual office and an AI that plans each day. Free to start on Mac, Windows and web.",
   },
   icons: {
-    icon: "/favicon.png",
+    /* The bare logo, as big as the tab allows: navy on light tab bars, white on dark
+       ones (the SVG switches by itself). Browsers that can't use SVG icons (Safari)
+       keep the square PNG with its background. */
+    icon: [
+      { url: "/favicon.png", type: "image/png" },
+      { url: "/brand/favicon-bare.svg", type: "image/svg+xml" },
+    ],
     apple: "/apple-touch-icon.png",
   },
 };

@@ -170,7 +170,7 @@ export default function PhoneDemoPitch() {
   return (
     <div ref={ref} className="rounded-2xl border border-white/10 bg-[#0b0b0d] p-4">
       <div className="mb-4 flex items-center gap-2.5 border-b border-white/[0.08] pb-3">
-        <Image src="/brand/app-tile.png" alt="" width={28} height={28} className="h-7 w-7 rounded-lg" />
+        <Image src="/brand/mark-tight.svg" alt="" width={20} height={24} unoptimized className="h-6 w-5" />
         <div className="min-w-0">
           <p className="text-sm font-semibold text-white">BloomBoard</p>
           <p className="text-xs text-white/55">{typing ? "typing…" : "Online"}</p>

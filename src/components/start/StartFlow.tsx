@@ -303,7 +303,7 @@ export default function StartFlow() {
     <div className="relative min-h-screen bg-black text-[#f5f5f7]">
       <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-white/[0.08] bg-black/90 px-5 backdrop-blur md:px-12">
         <Link href="/" className="flex items-center gap-2.5">
-          <Image src="/brand/app-tile.png" alt="BloomBoard logo" width={34} height={34} className="rounded-[10px]" />
+          <Image src="/brand/mark-on-dark-tight.svg" alt="BloomBoard logo" width={27} height={32} unoptimized />
           <span className="text-[17px] font-bold">BloomBoard</span>
         </Link>
         {step !== "done" && plan !== "free" && (

@@ -28,11 +28,12 @@ export default function Navbar() {
         {/* Logo */}
         <a href="#hero" className="flex items-center gap-2.5 group">
           <Image
-            src="/brand/app-tile.png"
+            src="/brand/mark-on-dark-tight.svg"
             alt="BloomBoard logo"
-            width={38}
-            height={38}
-            className="rounded-xl transition-all group-hover:scale-110"
+            width={25}
+              height={30}
+              unoptimized
+              className=" transition-all group-hover:scale-110"
           />
           <span className="text-sm font-semibold text-text-primary">BloomBoard</span>
         </a>

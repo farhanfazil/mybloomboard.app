@@ -165,7 +165,7 @@ export default function AccountFlow() {
     <div className="min-h-screen bg-black text-[#f5f5f7]">
       <header className="flex h-[72px] items-center justify-between border-b border-white/[0.08] px-5 md:px-12">
         <Link href="/" className="flex items-center gap-2.5">
-          <Image src="/brand/app-tile.png" alt="BloomBoard logo" width={34} height={34} className="rounded-[10px]" />
+          <Image src="/brand/mark-on-dark-tight.svg" alt="BloomBoard logo" width={27} height={32} unoptimized />
           <span className="text-[17px] font-bold">BloomBoard</span>
         </Link>
         {session && (
