@@ -1325,7 +1325,7 @@ html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) .bb-view-switch button > spa
 html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) .bb-view-switch button { padding:0 8px; }
 
 /* ═══ List view ═══ */
-.bb-tlist { --bb-tl-cols: minmax(0,1fr) 180px 100px 96px 30px; font-family:var(--bl-ui, inherit); color:var(--bl-fg); padding-bottom:24px; }
+.bb-tlist { --bb-tl-cols: minmax(0,1fr) 180px 100px 96px 56px; font-family:var(--bl-ui, inherit); color:var(--bl-fg); padding-bottom:24px; }
 .bb-tl-head { position:sticky; top:0; z-index:2; display:grid; grid-template-columns:28px var(--bb-tl-cols); gap:12px; align-items:center; height:36px; padding:0 14px 0 36px; background:var(--bl-win); border-bottom:1px solid var(--bl-line); font:500 12px var(--bl-ui); color:var(--bl-fg3); }
 .bb-tl-head .bb-tl-c-name { grid-column:2; }
 .bb-tl-group { margin-top:14px; border-radius:10px; transition:background-color .12s, box-shadow .12s; }
@@ -1365,8 +1365,8 @@ button.bb-tl-st:hover { background:var(--bl-hover); }
 .bb-tl-add, .bb-tl-more { display:flex; align-items:center; gap:8px; width:100%; height:38px; padding:0 14px 0 64px; border:0; background:none; color:var(--bl-fg3); font:500 12.5px var(--bl-ui); cursor:pointer; text-align:left; }
 .bb-tl-add svg { width:14px; height:14px; }
 .bb-tl-add:hover, .bb-tl-more:hover { color:var(--bl-fg); background:var(--bl-hover); }
-@media (max-width: 760px) { .bb-tlist { --bb-tl-cols: minmax(0,1fr) 0 90px 0 30px; } .bb-tl-c-who, .bb-tl-c-pri { display:none !important; } }
-@container (max-width: 620px) { .bb-tlist { --bb-tl-cols: minmax(0,1fr) 70px 90px 30px 30px; } .bb-tl-c-pri > span { display:none; } }
+@media (max-width: 760px) { .bb-tlist { --bb-tl-cols: minmax(0,1fr) 0 90px 0 56px; } .bb-tl-c-who, .bb-tl-c-pri { display:none !important; } }
+@container (max-width: 620px) { .bb-tlist { --bb-tl-cols: minmax(0,1fr) 70px 90px 30px 56px; } .bb-tl-c-pri > span { display:none; } }
 
 /* ═══ Chat open: two panels on the page background, with a gap between ═══ */
 html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) { --bl-gap:8px; }
@@ -1834,3 +1834,12 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #wl-root .wl-un { margin-left: auto; 
 html body.bloom:not(#_1):not(#_2):not(#_3) #wl-root .wl-un button { border: 0 !important; background: transparent !important; color: var(--bl-accent) !important; font: 500 12px var(--bl-ui, inherit); padding: 0; cursor: pointer; box-shadow: none !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #wl-root .wl-empty { color: var(--bl-fg3); padding: 18px 14px; }
 @media (max-width: 900px) { html body.bloom:not(#_1):not(#_2):not(#_3) #wl-root .wl-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* List view: ⋮ on every row (always findable), the bell beside it shows on hover. */
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-c-act { gap:2px; justify-content:flex-end; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-c-act .task-btn.bb-tl-more { opacity:.6 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-row:hover .bb-tl-c-act .task-btn.bb-tl-more, html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-c-act .task-btn.bb-tl-more:focus-visible { opacity:1 !important; }
+/* Task window: Delete sits on the left of the footer, plain red text. */
+html body.bloom:not(#_1):not(#_2):not(#_3) #tm-delete-btn.tm-delete-btn { margin-right:auto; height:34px; padding:0 12px; border:0 !important; border-radius:8px; background:transparent !important; color:var(--bl-urgent, #dc2626) !important; font:600 13px var(--bl-ui, inherit); cursor:pointer; box-shadow:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #tm-delete-btn.tm-delete-btn:hover { background:rgba(220,38,38,.10) !important; }
+body.light-mode #tm-delete-btn.tm-delete-btn { color:#b91c1c !important; }
