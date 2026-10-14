@@ -51,7 +51,10 @@ app.whenReady().then(async () => {
   const w = new BrowserWindow({ width: 1280, height: 920, useContentSize: true, x: 4000, y: 4000, show: true, webPreferences: { backgroundThrottling: false } });
   w.loadURL('http://127.0.0.1:${port}/__poster.html');
   w.webContents.sendInputEvent({ type: 'mouseMove', x: 2, y: 2 });
-  await new Promise((r) => setTimeout(r, +(process.env.BB_POSTER_WAIT || 2200)));
+  /* wait until the demo has drawn its first screen (up to 20 s on a slow machine), then a moment more */
+  const drawn = "(function(){try{var d=document.querySelector('iframe').contentDocument;return !!(d&&d.body&&/Team live/.test(d.body.innerText))}catch(e){return false}})()";
+  for (let i = 0; i < 80 && !(await w.webContents.executeJavaScript(drawn)); i++) await new Promise((r) => setTimeout(r, 250));
+  await new Promise((r) => setTimeout(r, +(process.env.BB_POSTER_WAIT || 500)));
   const img = (await w.webContents.capturePage()).resize({ width: 1280, quality: 'best' });
   require('fs').writeFileSync(${JSON.stringify(OUT)}, img.toJPEG(84));
   app.quit();
