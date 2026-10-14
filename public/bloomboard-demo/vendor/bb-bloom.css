@@ -1871,7 +1871,14 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #ta-org-list { border:1px solid var(-
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-dept + .bb-org-dept { border-top:1px solid var(--bl-line); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-row { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:9px 12px; min-height:30px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-row:hover { background:var(--bl-hover); }
-html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-team { padding-left:30px; border-top:1px solid var(--bl-line); }
+/* Teams sit under their department like a tree: a guide line from the department, each team a branch. */
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-subs { position:relative; margin:0 0 8px 24px; padding-left:18px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-subs::before { content:''; position:absolute; left:0; top:0; bottom:17px; width:1px; background:var(--bl-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-team { position:relative; padding:8px 12px; border-top:0; border-radius:8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-team::before, html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-addsub::before { content:''; position:absolute; left:-18px; top:50%; width:12px; height:1px; background:var(--bl-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-addsub { position:relative; display:inline-flex; align-items:center; gap:6px; height:34px; padding:0 12px !important; border:0 !important; border-radius:8px !important; background:none !important; color:var(--bl-accent) !important; font:500 13px var(--bl-ui); cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-addsub:hover { background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-addsub svg { width:14px; height:14px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-name { min-width:0; font:500 13.5px var(--bl-ui); color:var(--bl-fg); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-name b { font-weight:650; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-name span { margin-left:10px; font:400 12px var(--bl-ui); color:var(--bl-fg3); }
@@ -1897,3 +1904,21 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-p[hidden] { display:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-p input { width:16px; height:16px; margin:0; accent-color:var(--bl-accent); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-pn { font:500 13.5px var(--bl-ui); color:var(--bl-fg); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-pw { font:400 12px var(--bl-ui); color:var(--bl-fg3); white-space:nowrap; }
+/* Department / team dropdown (bbDd) */
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd { display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%; height:38px; padding:0 12px !important; margin:0; border:1px solid var(--bl-line) !important; border-radius:9px !important; background:var(--bl-raise) !important; color:var(--bl-fg) !important; font:500 13.5px var(--bl-ui); text-align:left; cursor:pointer; box-shadow:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd:hover:not(:disabled) { border-color:var(--bl-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd:focus-visible, html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd[aria-expanded="true"] { outline:none; border-color:var(--bl-accent) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd:disabled { opacity:.55; cursor:default; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd svg { width:15px; height:15px; flex:none; color:var(--bl-fg3); transition:transform .15s; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd[aria-expanded="true"] svg { transform:rotate(180deg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd-v { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd-v.none { color:var(--bl-fg3); font-weight:400; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-confirm-box .bb-dd { margin-top:12px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd-menu { position:fixed; z-index:100200; max-height:min(280px,50vh); overflow:auto; padding:5px; background:var(--bl-win); border:1px solid var(--bl-line); border-radius:10px; box-shadow:0 12px 32px rgba(0,0,0,.28); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd-it { display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%; height:34px; padding:0 10px !important; border:0 !important; border-radius:7px !important; background:none !important; color:var(--bl-fg) !important; font:500 13.5px var(--bl-ui); text-align:left; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd-it.on, html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd-it:hover { background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd-it svg { width:15px; height:15px; flex:none; color:var(--bl-accent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd-n { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd-n.none { color:var(--bl-fg2); font-weight:400; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd-sep { height:1px; margin:4px 6px; background:var(--bl-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd-empty { padding:8px 10px 9px; font:400 12.5px/1.45 var(--bl-ui); color:var(--bl-fg3); }
