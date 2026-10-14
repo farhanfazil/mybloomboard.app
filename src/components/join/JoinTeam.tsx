@@ -35,7 +35,7 @@ export default function JoinTeam() {
       </header>
       <main className="mx-auto flex max-w-[560px] flex-col gap-8 px-5 pb-24 pt-10 md:pt-16">
         <div>
-          <h1 className="text-[34px] font-bold leading-tight tracking-[-0.03em] md:text-[40px]">{linkCode ? "You\u2019re invited to a team." : "Join your team."}</h1>
+          <h1 className="text-[34px] font-bold leading-tight tracking-[-0.03em] md:text-[40px]">{linkCode ? "You\u2019re invited to join your company." : "Join your company."}</h1>
           <p className="mt-3 text-[17px] leading-relaxed text-[#a1a1aa]">
             Join on the web app right now, or use the BloomBoard app on your computer. Both stay in sync.
           </p>
@@ -54,7 +54,7 @@ export default function JoinTeam() {
                 spellCheck={false}
                 className="h-14 rounded-xl border border-white/20 bg-black px-4 font-mono text-[22px] font-bold tracking-[0.2em] text-[#f5f5f7] outline-none placeholder:font-sans placeholder:text-[15px] placeholder:font-normal placeholder:tracking-normal placeholder:text-[#71717a] focus:border-[#4d9fff]"
               />
-              <p className="text-sm text-[#a1a1aa]">Ask your team owner or admin if you can&apos;t find it.</p>
+              <p className="text-sm text-[#a1a1aa]">Ask whoever invited you if you can&apos;t find it.</p>
             </>
           )}
           {linkCode && (
@@ -68,14 +68,14 @@ export default function JoinTeam() {
             </>
           )}
           <a href={code ? webLink : "https://app.mybloomboard.app/login.html?join="} className="mt-1 flex h-12 items-center justify-center rounded-xl bg-[#f5f5f7] text-[15px] font-bold text-black">Join on the web app</a>
-          <p className="text-sm text-[#a1a1aa]">No download. Create your account (or log in) with {email ? <b className="text-[#f5f5f7]">{email}</b> : "the invited email"} and you&apos;re in the team.</p>
+          <p className="text-sm text-[#a1a1aa]">No download. Create your account (or log in) with {email ? <b className="text-[#f5f5f7]">{email}</b> : "the invited email"} and you&apos;re in.</p>
         </div>
 
         <div className="flex flex-col gap-4">
           <div className="text-xs font-bold uppercase tracking-[0.08em] text-[#a1a1aa]">Or use the app on your computer</div>
           <ol className="flex flex-col gap-3 text-[15px] leading-relaxed">
             <li className="flex gap-3"><span className="font-bold text-[#a1a1aa]">1.</span><span>Download BloomBoard for Mac or Windows.</span></li>
-            <li className="flex gap-3"><span className="font-bold text-[#a1a1aa]">2.</span><span>Sign up or log in{email ? <> with <b>{email}</b></> : " with the email the invite was sent to"}. You join the team automatically.</span></li>
+            <li className="flex gap-3"><span className="font-bold text-[#a1a1aa]">2.</span><span>Sign up or log in{email ? <> with <b>{email}</b></> : " with the email the invite was sent to"}. You join your company automatically.</span></li>
           </ol>
           <div className="grid gap-3 sm:grid-cols-2">
             <a href={MAC_DOWNLOAD_URL} className="flex h-12 items-center justify-center rounded-xl border border-white/20 text-[15px] font-semibold">Download for Mac</a>

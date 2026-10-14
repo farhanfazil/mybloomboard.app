@@ -131,6 +131,8 @@ export default function StartFlow() {
   const [draft, setDraft] = useState("");
   const [theme, setTheme] = useState<"blue" | "light" | "black">("blue");
   const [teamName, setTeamName] = useState("");
+  const [myDept, setMyDept] = useState("");
+  const [mySquad, setMySquad] = useState("");
   const [invites, setInvites] = useState<string[]>([]);
   /* Team size picked on the pricing page (3 to 50). The trial covers up to 10 of them. */
   const [seats, setSeats] = useState(() => Math.min(50, Math.max(3, Math.floor(Number(params.get("seats")) || 3))));
@@ -280,7 +282,7 @@ export default function StartFlow() {
       const onboarding = {
         v: 1, source: "web", plan, billing: yearly ? "yearly" : "monthly",
         role, who, theme, tasks,
-        team: plan === "team" ? { name: teamName.trim(), invites, seats } : null,
+        team: plan === "team" ? { name: teamName.trim(), department: myDept.trim(), squad: myDept.trim() ? mySquad.trim() : "", invites, seats } : null,
         seats: plan === "team" ? seats : undefined,
         trial_days: TRIAL_DAYS[plan],
         at: new Date().toISOString(),
@@ -353,10 +355,10 @@ export default function StartFlow() {
                     className="flex items-center justify-between gap-4 rounded-[14px] border border-white/10 bg-[#0d0d0f] px-4 py-3.5 transition-colors hover:border-white/25"
                   >
                     <span>
-                      <span className="block text-[15px] font-bold">Joining your team?</span>
-                      <span className="mt-0.5 block text-[13px] leading-snug text-[#a1a1aa]">Got an invite code? No plan needed. Your team already has one.</span>
+                      <span className="block text-[15px] font-bold">Joining your company?</span>
+                      <span className="mt-0.5 block text-[13px] leading-snug text-[#a1a1aa]">Got an invite code? No plan needed. Your company already has one.</span>
                     </span>
-                    <span className="shrink-0 whitespace-nowrap text-[14px] font-semibold text-[#4d9fff]">Join a team</span>
+                    <span className="shrink-0 whitespace-nowrap text-[14px] font-semibold text-[#4d9fff]">Join</span>
                   </Link>
                   <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3" role="radiogroup" aria-label="Plan">
                     {(Object.keys(PLANS) as Plan[]).map((p) => (
@@ -594,8 +596,8 @@ export default function StartFlow() {
             {step === "team" && (
               <div className="mx-auto flex max-w-[600px] flex-col gap-8">
                 <div className="text-center">
-                  <h1 className="text-[34px] font-bold tracking-[-0.03em] md:text-[40px]">Bring your team along.</h1>
-                  <p className="mt-2.5 text-[17px] text-[#a1a1aa]">Name your team and add the people you work with. The invites go out when you create the team in the app.</p>
+                  <h1 className="text-[34px] font-bold tracking-[-0.03em] md:text-[40px]">Bring your company along.</h1>
+                  <p className="mt-2.5 text-[17px] text-[#a1a1aa]">Add your company and the people you work with. The invites go out when you create the company in the app.</p>
                 </div>
                 <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/[0.14] bg-[#0d0d0f] px-4 py-3.5">
                   <div>
@@ -611,15 +613,28 @@ export default function StartFlow() {
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="ob-team" className="text-sm font-semibold">Team name</label>
-                  <input id="ob-team" autoFocus value={teamName} onChange={(e) => setTeamName(e.target.value.slice(0, 60))} placeholder="Your team or company"
+                  <label htmlFor="ob-team" className="text-sm font-semibold">Company name</label>
+                  <input id="ob-team" autoFocus value={teamName} onChange={(e) => setTeamName(e.target.value.slice(0, 60))} placeholder="e.g. Acme Inc."
                     className="h-[50px] rounded-xl border border-white/[0.14] bg-[#0d0d0f] px-4 text-base outline-none focus:border-2 focus:border-[#4d9fff]" />
                 </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="flex flex-col gap-2">
+                    <label htmlFor="ob-dept" className="text-sm font-semibold">Your department <span className="font-normal text-[#a1a1aa]">(optional)</span></label>
+                    <input id="ob-dept" value={myDept} onChange={(e) => setMyDept(e.target.value.slice(0, 40))} placeholder="e.g. Commercial"
+                      className="h-[50px] rounded-xl border border-white/[0.14] bg-[#0d0d0f] px-4 text-base outline-none focus:border-2 focus:border-[#4d9fff]" />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label htmlFor="ob-squad" className="text-sm font-semibold">Your team <span className="font-normal text-[#a1a1aa]">(optional)</span></label>
+                    <input id="ob-squad" value={mySquad} disabled={!myDept.trim()} onChange={(e) => setMySquad(e.target.value.slice(0, 40))} placeholder="e.g. Creative"
+                      className="h-[50px] rounded-xl border border-white/[0.14] bg-[#0d0d0f] px-4 text-base outline-none focus:border-2 focus:border-[#4d9fff] disabled:opacity-50" />
+                  </div>
+                </div>
+                <p className="-mt-4 text-[13px] leading-relaxed text-[#a1a1aa]">A department is a part of the company, like Commercial. A team is a smaller group inside it, like Creative. Add more later in the app.</p>
                 <div className="relative flex flex-col gap-2">
                   <span className="text-sm font-semibold">Invite by email</span>
                   {invites.map((e) => (
                     <div key={e} className="flex h-[50px] items-center gap-2.5 rounded-xl border border-white/[0.14] bg-[#0d0d0f] px-4 text-[15px]">
-                      <span className="flex-1">{e}</span><span className="text-xs text-[#a6e9b8]">Invited when you create the team</span>
+                      <span className="flex-1">{e}</span><span className="text-xs text-[#a6e9b8]">Invited when you create the company</span>
                       <button type="button" aria-label={`Remove ${e}`} onClick={() => setInvites(invites.filter((x) => x !== e))} className="text-[#a1a1aa] hover:text-white">✕</button>
                     </div>
                   ))}
@@ -683,7 +698,7 @@ export default function StartFlow() {
                     <Done>Account created for {email.trim()}</Done>
                     {tasks.length > 0 && <Done>{tasks.length} task{tasks.length === 1 ? "" : "s"} saved to your account</Done>}
                     <Done>{THEMES.find((t) => t.key === theme)?.name} look chosen</Done>
-                    {plan === "team" && teamName.trim() && <Done>Team “{teamName.trim()}” saved{invites.length ? ` with ${invites.length} invite${invites.length === 1 ? "" : "s"}` : ""}. Create it in the app with one click.</Done>}
+                    {plan === "team" && teamName.trim() && <Done>Company “{teamName.trim()}” saved{invites.length ? ` with ${invites.length} invite${invites.length === 1 ? "" : "s"}` : ""}. Create it in the app with one click.</Done>}
                   </div>
                   {plan !== "free" && (
                     <div className="flex flex-col gap-3 rounded-2xl border border-[#4d9fff]/45 bg-[#0b1726] px-5 py-4">

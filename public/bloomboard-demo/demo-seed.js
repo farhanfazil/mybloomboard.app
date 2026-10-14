@@ -864,8 +864,8 @@
       { id: ID.daniel, name: 'Daniel Brooks', email: 'daniel@lumen.studio', role: 'member', status: 'brb', statusUntil: now + 62 * min, color: '#dc2626', position: 'Frontend Engineer', department: 'Engineering', avatar: photo('men/32') },
       { id: ID.priya, name: 'Priya Nair', email: 'priya@lumen.studio', role: 'member', status: 'available', focusTask: 'Launch email copy', color: '#f59e0b', position: 'Marketing Lead', department: 'Marketing', avatar: photo('women/68') },
       { id: ID.leo, name: 'Leo Hartmann', email: 'leo@lumen.studio', role: 'member', status: 'available', color: '#3b82f6', position: 'Backend Engineer', department: 'Engineering', avatar: photo('men/75') },
-      { id: ID.nora, name: 'Nora Haddad', email: 'nora@lumen.studio', role: 'member', status: 'dnd', statusUntil: now + 41 * min, color: '#ec4899', position: 'Content Writer', department: 'Design', avatar: photo('women/26') },
-      { id: ID.ethan, name: 'Ethan Cole', email: 'ethan@lumen.studio', role: 'member', status: 'available', color: '#8b5cf6', position: 'Motion Designer', department: 'Design', avatar: photo('men/86') },
+      { id: ID.nora, name: 'Nora Haddad', email: 'nora@lumen.studio', role: 'member', status: 'dnd', statusUntil: now + 41 * min, color: '#ec4899', position: 'Content Writer', department: 'Design', squad: 'Brand', avatar: photo('women/26') },
+      { id: ID.ethan, name: 'Ethan Cole', email: 'ethan@lumen.studio', role: 'member', status: 'available', color: '#8b5cf6', position: 'Motion Designer', department: 'Design', squad: 'Brand', avatar: photo('men/86') },
       { id: ID.chloe, name: 'Chloe Park', email: 'chloe@lumen.studio', role: 'member', status: 'away', color: '#16a34a', position: 'QA Lead', department: 'Product', avatar: photo('women/65') },
       /* In meetings: the Marketing and Product rooms are live too. */
       { id: ID.sofia, name: 'Sofia Alvarez', email: 'sofia@lumen.studio', role: 'member', status: 'available', color: '#e11d48', position: 'Content Strategist', department: 'Marketing', avatar: photo('women/12') },
@@ -887,7 +887,7 @@
         return {
           team_id: ID.team, user_id: p.id, email: p.email, name: p.name, role: p.role,
           color: p.color, position: p.position, status: p.status, avatar_url: p.avatar,
-          department: p.department, status_until: p.statusUntil ? new Date(p.statusUntil).toISOString() : null,
+          department: p.department, squad: p.squad || '', status_until: p.statusUntil ? new Date(p.statusUntil).toISOString() : null,
           focus_task: p.focusTask || null,
           joined_at: new Date(now - (60 - i * 4) * 24 * hour).toISOString(),
         };
@@ -913,7 +913,7 @@
           return {
             id: p.id, name: p.name, email: p.email, role: p.role === 'owner' ? 'admin' : p.role,
             status: p.status, color: p.color, initials: initials(p.name), position: p.position, avatar: p.avatar,
-            department: p.department, statusUntil: p.statusUntil || 0, focusTask: p.focusTask || '',
+            department: p.department, squad: p.squad || '', statusUntil: p.statusUntil || 0, focusTask: p.focusTask || '',
           };
         }),
       }));
@@ -1209,7 +1209,8 @@
       /* Room convs locally too, so the office paints before the first pull lands. */
       demo.rows('conversations').forEach(function (c) {
         if (!c.kind) return;
-        localConvs.push({ id: c.id, type: 'group', name: c.name, members: c.members, kind: c.kind, department: c.department || '',
+        if (c.kind === 'archived') return;
+        localConvs.push({ id: c.id, type: 'group', name: c.name, members: c.members, kind: c.kind, department: c.department || '', squad: c.squad || null,
           createdAt: now - 24 * hour, lastMsgTime: 0, lastMsgText: '' });
       });
       /* A short chat in the Design room, so the side chat on Tasks opens on a live thread. */

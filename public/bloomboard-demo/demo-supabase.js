@@ -462,13 +462,25 @@ try {
       var d = String(m.department || '').trim();
       if (d && depts.indexOf(d) < 0) depts.push(d);
     });
+    var squads = [];
+    members.forEach(function (m) {
+      var d = String(m.department || '').trim(), q = String(m.squad || '').trim();
+      if (d && q && !squads.some(function (x) { return x.d.toLowerCase() === d.toLowerCase() && x.q.toLowerCase() === q.toLowerCase(); })) squads.push({ d: d, q: q });
+    });
+    table('org_units').filter(function (u) { return same(u.team_id, teamId); }).forEach(function (u) {
+      if (depts.every(function (d) { return d.toLowerCase() !== u.department.toLowerCase(); })) depts.push(u.department);
+      if (u.squad && !squads.some(function (x) { return x.d.toLowerCase() === u.department.toLowerCase() && x.q.toLowerCase() === u.squad.toLowerCase(); })) squads.push({ d: u.department, q: u.squad });
+    });
     depts.forEach(function (d) {
       rooms.push({ id: 'dept_' + teamId + '_' + slug(d), name: d + ' room', kind: 'dept', department: d });
+    });
+    squads.forEach(function (x) {
+      rooms.push({ id: 'squad_' + teamId + '_' + slug(x.d) + '_' + slug(x.q), name: x.q, kind: 'squad', department: x.d, squad: x.q });
     });
     rooms.forEach(function (r) {
       var existing = table('conversations').find(function (c) { return same(c.id, r.id); });
       upsertRow('conversations', {
-        id: r.id, type: 'group', name: r.name, kind: r.kind, department: r.department, team_id: teamId,
+        id: r.id, type: 'group', name: r.name, kind: r.kind, department: r.department, squad: r.squad || null, team_id: teamId,
         members: ids.slice(),
         created_at: existing ? existing.created_at : now,
         last_msg_text: existing ? existing.last_msg_text : '',
@@ -482,6 +494,72 @@ try {
     args = args || {};
     if (fn === 'ensure_team_rooms') {
       return Promise.resolve({ data: ensureTeamRooms(args.p_team || IDS.team), error: null });
+    }
+    /* Company structure: departments and teams inside them (mirrors the org_* functions). */
+    var low = function (x) { return String(x || '').trim().toLowerCase(); };
+    var tid = IDS.team;
+    var mems = function () { return table('team_members').filter(function (m) { return same(m.team_id, tid); }); };
+    var units = function () { return table('org_units').filter(function (u) { return same(u.team_id, tid); }); };
+    var touch = function (m, patch) { var before = clone(m); Object.assign(m, patch); emitChange('team_members', 'UPDATE', m, before); };
+    var ok = function (d) { return Promise.resolve({ data: Object.assign({ ok: true }, d || {}), error: null }); };
+    var bad = function (code) { return Promise.resolve({ data: { ok: false, error: code }, error: null }); };
+    if (fn === 'org_structure') {
+      var names = [];
+      units().concat(mems().filter(function (m) { return m.department; })).forEach(function (r) {
+        if (names.every(function (n) { return low(n) !== low(r.department); })) names.push(String(r.department).trim());
+      });
+      return ok({ departments: names.sort().map(function (d) {
+        var ppl = mems().filter(function (m) { return low(m.department) === low(d); });
+        var teams = [];
+        units().filter(function (u) { return low(u.department) === low(d) && u.squad; }).map(function (u) { return u.squad; })
+          .concat(ppl.map(function (m) { return m.squad; }).filter(Boolean))
+          .forEach(function (t) { if (teams.every(function (x) { return low(x) !== low(t); })) teams.push(String(t).trim()); });
+        return { name: d, people: ppl.length, teams: teams.sort().map(function (t) { return { name: t, people: ppl.filter(function (m) { return low(m.squad) === low(t); }).length }; }) };
+      }) });
+    }
+    if (fn === 'org_save_department' || fn === 'org_save_team') {
+      var isTeam = fn === 'org_save_team', nw = String(args.p_new || '').trim().slice(0, 40), old = args.p_old;
+      if (!nw) return bad('bad_name');
+      var dep = isTeam ? String(args.p_department || '').trim() : null;
+      var exists = units().some(function (u) { return isTeam ? low(u.department) === low(dep) && low(u.squad) === low(nw) : low(u.department) === low(nw); })
+        || mems().some(function (m) { return isTeam ? low(m.department) === low(dep) && low(m.squad) === low(nw) : low(m.department) === low(nw); });
+      if (exists && low(old) !== low(nw)) return bad('exists');
+      if (old == null) { table('org_units').push({ id: 'ou_' + Math.random().toString(36).slice(2), team_id: tid, department: isTeam ? dep : nw, squad: isTeam ? nw : '' }); }
+      else {
+        units().forEach(function (u) {
+          if (isTeam && low(u.department) === low(dep) && low(u.squad) === low(old)) u.squad = nw;
+          if (!isTeam && low(u.department) === low(old)) u.department = nw;
+        });
+        mems().forEach(function (m) {
+          if (isTeam && low(m.department) === low(dep) && low(m.squad) === low(old)) touch(m, { squad: nw });
+          if (!isTeam && low(m.department) === low(old)) touch(m, { department: nw });
+        });
+        table('conversations').forEach(function (c) {
+          if (!same(c.team_id, tid)) return;
+          var before = clone(c);
+          if (isTeam && c.kind === 'squad' && low(c.department) === low(dep) && low(c.squad) === low(old)) { c.squad = nw; c.name = nw; emitChange('conversations', 'UPDATE', c, before); }
+          if (!isTeam && (c.kind === 'dept' || c.kind === 'squad') && low(c.department) === low(old)) { c.department = nw; if (c.kind === 'dept') c.name = nw + ' room'; emitChange('conversations', 'UPDATE', c, before); }
+        });
+      }
+      return ok({ name: nw });
+    }
+    if (fn === 'org_delete_department' || fn === 'org_delete_team') {
+      var isT = fn === 'org_delete_team', dn = isT ? args.p_department : args.p_name, tn = isT ? args.p_name : null;
+      DB.org_units = table('org_units').filter(function (u) { return !(same(u.team_id, tid) && low(u.department) === low(dn) && (!isT || low(u.squad) === low(tn))); });
+      mems().forEach(function (m) {
+        if (low(m.department) !== low(dn)) return;
+        if (isT) { if (low(m.squad) === low(tn)) touch(m, { squad: '' }); } else touch(m, { department: '', squad: '' });
+      });
+      table('conversations').forEach(function (c) {
+        if (!same(c.team_id, tid) || low(c.department) !== low(dn)) return;
+        if (isT ? (c.kind === 'squad' && low(c.squad) === low(tn)) : (c.kind === 'dept' || c.kind === 'squad')) { var before = clone(c); c.kind = 'archived'; emitChange('conversations', 'UPDATE', c, before); }
+      });
+      return ok();
+    }
+    if (fn === 'set_member_org') {
+      var d2 = String(args.p_department || '').trim().slice(0, 40), q2 = d2 ? String(args.p_squad || '').trim().slice(0, 40) : '';
+      mems().forEach(function (m) { if (same(m.user_id, args.p_user)) touch(m, { department: d2, squad: q2 }); });
+      return ok({ department: d2, squad: q2 });
     }
     if (fn === 'set_member_department') {
       var dept = String(args.p_department || '').trim().slice(0, 40);
