@@ -23,6 +23,12 @@ const SHADE = [
  * over it), so it moves exactly with the scroll. As the hills rise, the sky goes
  * fully dark like a sunset and the words dim, then fade away as the demo reaches them: one black layer whose opacity follows the scroll.
  */
+const SCENE_SCRIPT =
+  "(function(){var r=document.currentScript&&document.currentScript.closest('.bb-scene');if(!r)return;" +
+  "var m=r.querySelectorAll('img[data-scene]'),d=0;function s(){if(!d){d=1;r.setAttribute('data-scene','in')}}" +
+  "function c(){for(var i=0;i<m.length;i++)if(!(m[i].complete&&m[i].naturalWidth))return;s()}" +
+  "for(var i=0;i<m.length;i++)m[i].addEventListener('load',c);c();setTimeout(s,2500)})()";
+
 /** How far the faster part has climbed ahead after scrolling y: eases out, so
  *  the speed glides back to normal with no kink. Shared with SnapPoints. */
 export function liftAt(y: number, max: number, span: number) {
@@ -111,7 +117,7 @@ export default function MountainRise({ words, children }: { words: ReactNode; ch
   }, []);
 
   return (
-    <div ref={rootRef} className="bb-scene relative">
+    <div ref={rootRef} className="bb-scene relative" suppressHydrationWarning>
       {/* backdrop: the sky and the words, held in place */}
       <div className="sticky top-0 z-0 h-[100svh] overflow-hidden">
         <div aria-hidden className="bb-scene-part pointer-events-none absolute inset-0">
@@ -132,11 +138,15 @@ export default function MountainRise({ words, children }: { words: ReactNode; ch
             className="absolute inset-0"
             style={{
               background: SHADE,
-              WebkitMaskImage: "url(/backgrounds/hero-mountains.png)", maskImage: "url(/backgrounds/hero-mountains.png)",
+              WebkitMaskImage: "url(/backgrounds/hero-mountains-mask.webp)", maskImage: "url(/backgrounds/hero-mountains-mask.webp)",
               WebkitMaskSize: "cover", maskSize: "cover", WebkitMaskPosition: "center", maskPosition: "center",
             }}
           />
         </div>
+        {/* Shows the scene as soon as both pictures are in, without waiting for the
+            page's scripts to start (that took seconds on slow phones). The effect
+            above does the same once React runs, in case this one can't. */}
+        <script dangerouslySetInnerHTML={{ __html: SCENE_SCRIPT }} />
         <div
           ref={restRef}
           className="pointer-events-auto relative z-[45]"

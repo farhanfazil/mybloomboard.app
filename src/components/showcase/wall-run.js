@@ -113,7 +113,8 @@ order.forEach(o=>{
     el.innerHTML = `<div class="label"><span class="badge"><i data-lucide="${b.icon}"></i></span>${b.name}${['boards','chat','handover','office'].includes(o.big)?'<span class="go"><i data-lucide="arrow-right"></i></span>':''}</div><div class="stage" id="st-${o.big}"></div>`;
     /* Each big tile opens its own page. */
     const PAGE={boards:'/work',chat:'/chat',handover:'/handover',office:'/office'}[o.big];
-    if(PAGE){ el.setAttribute('role','link'); el.tabIndex=0; el.setAttribute('aria-label',b.name+': open the page'); el.classList.add('is-link'); }
+    /* the moving preview is decoration, so the link reads (and is named) just as the feature */
+    if(PAGE){ el.setAttribute('role','link'); el.tabIndex=0; el.setAttribute('aria-label',b.name); el.classList.add('is-link'); const st=el.querySelector('.stage'); if(st) st.setAttribute('aria-hidden','true'); }
     el.onclick=()=>{ if(PAGE) location.href=PAGE; else { userPick(); showChain(o.big); } };
     el.onkeydown=(e)=>{ if(e.key==='Enter'&&PAGE) location.href=PAGE; };
     wall.appendChild(el);
@@ -257,7 +258,8 @@ showChain('boards');
 (function(){
   const st=document.getElementById('st-chat');
   if(!st) return;
-  const E=n=>`<img class="emj" src="/chat/emoji/${n}.png" alt="">`;
+  /* small WebPs through the image optimiser (the files are 128px) */
+  const E=n=>`<img class="emj" src="/_next/image?url=%2Fchat%2Femoji%2F${n}.png&w=32&q=80" alt="">`;
   const M=[[PEOPLE.maya,'Maya','Banners are up for review'],[PEOPLE.daniel,'Daniel','Looks great! Ship it'],[PEOPLE.nora,'Nora','Joining the call in 2']];
   function run(){
     st.innerHTML=`<div class="ch">${M.map(([p,n,t],k)=>`<div class="msg"><span class="av" style="background-image:url(${p})"></span><div class="bub"><b>${n}</b>${t}${k===0?`<div class="reacts">${['fire','red_heart','raising_hands'].map((e,i)=>`<span class="rx" style="transition-delay:${.9+i*.25}s">${E(e)}${[4,2,3][i]}</span>`).join('')}</div>`:''}</div></div>`).join('')}<div class="msg typing-row"><span class="av" style="background-image:url(${PEOPLE.ethan})"></span><span class="typing"><i></i><i></i><i></i></span></div></div>`;

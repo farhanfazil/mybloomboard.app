@@ -413,6 +413,6 @@ html.demo-focus .bb-demo-controls { opacity: .4; }
 html.demo-focus .bb-demo-controls:hover, html.demo-focus .bb-demo-controls:focus-within { opacity: 1; }
 
 /* Hero scene (MountainRise): the sky and the hills fade in together once both are loaded. */
-.bb-scene .bb-scene-part { opacity: 0; transition: opacity .7s ease-out; }
+.bb-scene .bb-scene-part { opacity: 0; transition: opacity .5s ease-out; }
 .bb-scene[data-scene="in"] .bb-scene-part { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .bb-scene .bb-scene-part { transition: none; } }

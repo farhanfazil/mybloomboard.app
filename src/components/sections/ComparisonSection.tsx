@@ -153,7 +153,7 @@ function DataCell({ value, isBloom, divider = false }: { value: string; isBloom:
         {first || "Limited"}
       </span>
     ) : first ? (
-      <span className={status === "no" ? "text-[#86868b]" : isBloom ? "font-semibold text-[#123e5a]" : "text-[#1d1d1f]"}>
+      <span className={status === "no" ? "text-[#6e6e73]" : isBloom ? "font-semibold text-[#123e5a]" : "text-[#1d1d1f]"}>
         {first}
       </span>
     ) : null;
@@ -168,7 +168,7 @@ function DataCell({ value, isBloom, divider = false }: { value: string; isBloom:
         {label}
       </span>
       {rest.map((line) => (
-        <span key={line} className="mt-0.5 block text-[11px] leading-tight text-[#86868b]">
+        <span key={line} className="mt-0.5 block text-[11px] leading-tight text-[#6e6e73]">
           {line}
         </span>
       ))}
@@ -350,7 +350,7 @@ function ComparisonTable({
                   key={h}
                   className={`whitespace-nowrap border-b border-black/[0.08] bg-white/95 px-3 py-4 text-[13px] font-semibold backdrop-blur ${
                     i === 0
-                      ? "w-[24%] rounded-tl-2xl text-left text-[#86868b] font-medium"
+                      ? "w-[24%] rounded-tl-2xl text-left text-[#6e6e73] font-medium"
                       : `text-center text-[#1d1d1f] ${i === headers.length - 1 ? "rounded-tr-2xl" : ""} ${i >= 3 ? DIVIDER : ""}`
                   }`}
                   style={i === 1 ? { background: "rgba(236,242,246,0.97)" } : undefined}

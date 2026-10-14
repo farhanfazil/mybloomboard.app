@@ -1,3 +1,15 @@
+/* The demo never asks visitors for notification permission (the app asks on start):
+   it answers with whatever the browser already has, without a prompt. */
+try {
+  if (window.Notification && Notification.requestPermission) {
+    Notification.requestPermission = function (cb) {
+      var p = Notification.permission;
+      if (typeof cb === 'function') { try { cb(p); } catch (e) {} }
+      return Promise.resolve(p);
+    };
+  }
+} catch (e) {}
+
 /**
  * BloomBoard web demo — in-memory stand-in for the Supabase JS client.
  *

@@ -11,6 +11,9 @@ import {
   type DemoReactionId,
 } from "@/lib/demo-reactions";
 
+/* The emoji files are 128px; through the image optimiser they come as small WebPs. */
+const small = (src: string) => `/_next/image?url=${encodeURIComponent(src)}&w=64&q=80`;
+
 type DemoReactionsBarProps = {
   className?: string;
 };
@@ -131,7 +134,7 @@ export default function DemoReactionsBar({ className }: DemoReactionsBarProps) {
               </span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={r.img}
+                src={small(r.img)}
                 alt=""
                 width={28}
                 height={28}
@@ -150,7 +153,7 @@ export default function DemoReactionsBar({ className }: DemoReactionsBarProps) {
               className={cn("inline-flex items-center gap-1 text-xs tabular-nums", r.id === votedId ? "font-semibold text-white" : "text-white/55")}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={r.img} alt="" width={18} height={18} className={cn("h-[18px] w-[18px]", r.id === votedId ? "" : "opacity-80")} />
+              <img src={small(r.img)} alt="" width={18} height={18} className={cn("h-[18px] w-[18px]", r.id === votedId ? "" : "opacity-80")} />
               <span className="sr-only">{r.label}</span>
               {pct[r.id]}%
             </span>

@@ -144,10 +144,11 @@ export default function LiveDemoFrame({
           {!peek && phone !== true ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src="/bloomboard-demo/poster.jpg"
+              /* a small WebP/AVIF through the image optimiser; normal priority, so it
+                 never competes with the hero picture above it */
+              src="/_next/image?url=%2Fbloomboard-demo%2Fposter.jpg&w=1200&q=80"
               alt=""
               aria-hidden
-              fetchPriority="high"
               decoding="async"
               className="absolute left-0 top-0 h-full w-full object-cover object-left-top"
             />
