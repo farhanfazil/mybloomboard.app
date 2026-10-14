@@ -25,17 +25,17 @@ export default function AppPreviewScroll() {
         /* Hero copy */
         <div className="flex flex-col items-center px-4 pb-2 pt-28 text-center sm:px-6 sm:pt-32 md:pt-36 lg:pt-40">
           <h1
-            className="max-w-5xl font-bold tracking-tight text-white [text-wrap:balance]"
-            style={{ fontSize: "clamp(2rem, 4.4vw, 4.75rem)", lineHeight: 1.06 }}
+            className="font-bold tracking-tight text-white"
+            style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", lineHeight: 1.04 }}
           >
-            <span className="sm:block">Tasks, team chat, calls </span>
-            <span className="sm:block">and a live office in one app.</span>
+            Teamwork. Reworked.
           </h1>
 
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/75 sm:mt-6 sm:text-xl">
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-white/75 sm:mt-6 sm:text-xl">
+            <span className="block">Tasks, boards, chat, calls and a live office, in one app.</span>
             {/* phones: a plain line (the typing word needs room a phone line doesn't have) */}
-            <span className="sm:hidden">The productivity app that thinks with you.</span>
-            <span className="hidden sm:inline">
+            <span className="block sm:hidden">The productivity app that thinks with you.</span>
+            <span className="hidden sm:block">
               <span className="sr-only">The productivity app that thinks with you.</span>
               <span aria-hidden>The productivity app that <HeroVerb /> with you.</span>
             </span>

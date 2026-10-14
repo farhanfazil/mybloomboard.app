@@ -6,6 +6,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { spawnSync } from 'child_process';
 import { minify } from 'html-minifier-terser';
 import { minify as minifyJs } from 'terser';
 
@@ -35,6 +36,17 @@ const BOOT_SCRIPT = [
     (f) => `<script src="${f}?v=${VERSION}"></script>`
   ),
 ].join('\n  ');
+
+// The app's stylesheet imports Geist from Google Fonts, which held up the demo's
+// first paint by over a second. The demo uses the same font files from this site
+// (public/bloomboard-demo/fonts, kept in the repo), so it never waits on another server.
+const FONT_CSS = path.join(OUT, 'fonts', 'geist.css');
+const FONT_PRELOAD = 'fonts/geist-v5-gyByhwUxId8gMEwcGFWNOITd.woff2'; // Geist, latin
+function localFonts(css) {
+  if (!fs.existsSync(FONT_CSS)) return css;
+  return css.replace(/@import url\(["']?https:\/\/fonts\.googleapis\.com\/css2\?family=Geist[^)]*\);?/, () => fs.readFileSync(FONT_CSS, 'utf8'));
+}
+const FONT_HEAD = `<link rel="preload" href="${FONT_PRELOAD}" as="font" type="font/woff2" crossorigin>`;
 
 function ensureDir(p) {
   fs.mkdirSync(p, { recursive: true });
@@ -94,7 +106,7 @@ function patchIndexHtml(html) {
     patched = next;
   };
 
-  replaceOnce(/<head>/i, `<head>\n  ${PATCH_MARKER}\n  ${BOOT_SCRIPT}`, '<head>');
+  replaceOnce(/<head>/i, `<head>\n  ${PATCH_MARKER}\n  ${FONT_HEAD}\n  ${BOOT_SCRIPT}`, '<head>');
   replaceOnce(/<title>[^<]*<\/title>/i, '<title>BloomBoard — Demo</title>', '<title>');
   // Electron-only policy; in a browser iframe it only gets in the way.
   replaceOnce(/\s*<meta http-equiv="Content-Security-Policy"[^>]*>/i, '', 'CSP <meta>');
@@ -269,7 +281,10 @@ async function main() {
     const names = fs.readdirSync(vendorSrc).filter((n) => /\.(js|css)$/.test(n) && n !== 'supabase.js');
     for (const name of names) {
       // Stylesheets (the Bloom design lives in vendor/bb-bloom.css) are copied as they are.
-      if (name.endsWith('.css')) { fs.copyFileSync(path.join(vendorSrc, name), path.join(vendorOut, name)); continue; }
+      if (name.endsWith('.css')) {
+        fs.writeFileSync(path.join(vendorOut, name), localFonts(fs.readFileSync(path.join(vendorSrc, name), 'utf8')), 'utf8');
+        continue;
+      }
       const code = scrubScript(fs.readFileSync(path.join(vendorSrc, name), 'utf8'));
       const out = process.env.BB_DEMO_READABLE ? code : await minifyScript(code);
       fs.writeFileSync(path.join(vendorOut, name), out, 'utf8');
@@ -297,6 +312,11 @@ async function main() {
   if (!fs.existsSync(bootSrc)) {
     console.warn('demo-boot.js missing — create public/bloomboard-demo/demo-boot.js');
   }
+
+  // The picture of the demo the home page shows while the live one loads.
+  // Best effort: an old picture is only seen for a moment, so this never fails the sync.
+  const poster = spawnSync(process.execPath, [path.join(__dirname, 'demo-poster.mjs')], { stdio: 'inherit' });
+  if (poster.status !== 0) console.warn('Demo picture not updated: run npm run demo-poster');
 
   console.log('Done. Demo bundle ready at public/bloomboard-demo/');
 }

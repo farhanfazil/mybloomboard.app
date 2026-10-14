@@ -162,7 +162,7 @@ export default function LiveDemoFrame({
             <DemoIframe
               fadeIn={!peek}
               title="BloomBoard interactive demo"
-              src={`/bloomboard-demo/index.html?embed=home&ws=${workspaces}&v=34`}
+              src={`/bloomboard-demo/index.html?embed=home&ws=${workspaces}&v=35`}
               className="!absolute left-0 top-0"
               onState={onState}
               commandRef={commandRef}
