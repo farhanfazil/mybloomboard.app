@@ -39,6 +39,11 @@ export default function MountainRise({ words, children }: { words: ReactNode; ch
     const dusk = duskRef.current, wordsEl = wordsRef.current, rest = restRef.current;
     if (!dusk || !wordsEl || !rest) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    /* Phones: the hills and demo just scroll (pure CSS, so nothing can lag
+       behind the finger), and the screen height is measured once, so the
+       address bar sliding in and out never makes anything jump. */
+    const phone = window.matchMedia("(max-width: 639px)").matches;
+    let vh = window.innerHeight, lastW = window.innerWidth;
     let queued = false, maxLift = 0, span = 1;
     /* The live demo climbs faster than the hills: about twice the scroll speed
        at first, easing back to normal speed after three quarters of a screen,
@@ -46,8 +51,8 @@ export default function MountainRise({ words, children }: { words: ReactNode; ch
        up ahead of the hills. The page after it is pulled up by the same amount,
        so there's no gap below it. Only a translate (no resizing), so it stays smooth. */
     const size = () => {
-      maxLift = reduce ? 0 : Math.round(window.innerHeight * 0.45);
-      span = Math.max(1, Math.round(window.innerHeight * 0.75));
+      maxLift = reduce || phone ? 0 : Math.round(vh * 0.45);
+      span = Math.max(1, Math.round(vh * 0.75));
       rest.style.marginBottom = -maxLift + "px";
       /* SnapPoints needs to know how this part moves to land on it exactly */
       rest.dataset.liftMax = String(maxLift);
@@ -60,11 +65,11 @@ export default function MountainRise({ words, children }: { words: ReactNode; ch
       /* like a sunset: the sky is completely black by the time the hills reach
          the buttons (about a quarter of a screen of scrolling); the words dim
          a little */
-      const t = Math.min(1, Math.max(0, window.scrollY / (window.innerHeight * 0.24)));
+      const t = Math.min(1, Math.max(0, window.scrollY / (vh * 0.24)));
       const e = t * t * (3 - 2 * t);
       dusk.style.opacity = e.toFixed(3);
       /* then, as the demo climbs up to them, the words fade away completely */
-      const g = Math.min(1, Math.max(0, (window.scrollY - window.innerHeight * 0.2) / (window.innerHeight * 0.18)));
+      const g = Math.min(1, Math.max(0, (window.scrollY - vh * 0.2) / (vh * 0.18)));
       wordsEl.style.opacity = ((1 - e * 0.25) * (1 - g * g * (3 - 2 * g))).toFixed(3);
     };
     const onScroll = () => {
@@ -72,7 +77,13 @@ export default function MountainRise({ words, children }: { words: ReactNode; ch
       queued = true;
       requestAnimationFrame(update);
     };
-    const onResize = () => { size(); onScroll(); };
+    const onResize = () => {
+      if (phone && window.innerWidth === lastW) return;
+      lastW = window.innerWidth;
+      vh = window.innerHeight;
+      size();
+      onScroll();
+    };
     size();
     update();
     window.addEventListener("scroll", onScroll, { passive: true });

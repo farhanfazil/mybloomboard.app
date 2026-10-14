@@ -284,7 +284,7 @@ export default function Pricing() {
             Start free. Upgrade when ready.
           </h2>
           <p className="mx-auto mb-8 max-w-xl text-base leading-relaxed text-white/60">
-            Free covers the core app. Bloom makes everything unlimited, including AI. Team adds your people:
+            Free covers the core app. Bloom makes everything unlimited and adds Bloom AI. Team adds your people:
             replace Trello and Slack with one app, for less.
           </p>
 

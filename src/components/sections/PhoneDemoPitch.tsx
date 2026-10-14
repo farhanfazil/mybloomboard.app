@@ -177,20 +177,27 @@ export default function PhoneDemoPitch() {
         </div>
       </div>
 
+      {/* Every message (and the replies) holds its place from the start and just
+          appears in it, so the card never grows while you're scrolling past. */}
       <div className="space-y-2" aria-live="polite">
-        {messages.slice(0, shown).map((text, i) => (
-          <div key={i} className="flex items-end gap-2 motion-safe:animate-[bbMsgIn_.25s_ease-out]">
-            {i === shown - 1 || (typing && i === shown - 1) ? (
-              <Image src="/logo.png" alt="" width={28} height={28} className="h-7 w-7 shrink-0 rounded-full" />
-            ) : (
-              <span className="h-7 w-7 shrink-0" aria-hidden />
-            )}
-            <p className="max-w-[85%] rounded-2xl rounded-bl-md bg-white/[0.08] px-3.5 py-2.5 text-[15px] leading-snug text-white">
-              {text}
-            </p>
-          </div>
-        ))}
-        {typing ? <Typing /> : null}
+        {messages.map((text, i) => {
+          const isIn = i < shown;
+          return (
+            <div key={i} className="relative" aria-hidden={!isIn || undefined}>
+              <div className={`flex items-end gap-2 ${isIn ? "motion-safe:animate-[bbMsgIn_.25s_ease-out]" : "invisible"}`}>
+                {i === shown - 1 ? (
+                  <Image src="/logo.png" alt="" width={28} height={28} className="h-7 w-7 shrink-0 rounded-full" />
+                ) : (
+                  <span className="h-7 w-7 shrink-0" aria-hidden />
+                )}
+                <p className="max-w-[85%] rounded-2xl rounded-bl-md bg-white/[0.08] px-3.5 py-2.5 text-[15px] leading-snug text-white">
+                  {text}
+                </p>
+              </div>
+              {typing && i === shown ? <div className="absolute left-0 top-0"><Typing /></div> : null}
+            </div>
+          );
+        })}
 
         {thread.map((m, i) =>
           m.from === "you" ? (
@@ -211,12 +218,16 @@ export default function PhoneDemoPitch() {
       </div>
 
       {/* Their answer: tap a reply, like in a chat. */}
-      {allIn && !done ? (
-        <div className="mt-4 flex flex-col items-end gap-2 motion-safe:animate-[bbMsgIn_.3s_ease-out]">
+      {!done ? (
+        <div
+          aria-hidden={!allIn || undefined}
+          className={`mt-4 flex flex-col items-end gap-2 ${allIn ? "motion-safe:animate-[bbMsgIn_.3s_ease-out]" : "invisible"}`}
+        >
           {replies.map((r) => (
             <button
               key={r.key}
               type="button"
+              tabIndex={allIn ? undefined : -1}
               onClick={() => onReply(r)}
               className={`inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-[15px] font-semibold transition-colors ${
                 r.primary

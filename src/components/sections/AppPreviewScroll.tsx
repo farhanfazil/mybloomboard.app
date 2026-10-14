@@ -68,7 +68,7 @@ export default function AppPreviewScroll() {
             the demo, so the window stands out from the black (no colour, no glow) */}
         <div
           aria-hidden
-          className="bb-moonlight pointer-events-none absolute left-1/2 top-[-35vh] -z-10 h-[170vh] w-screen -translate-x-1/2"
+          className="bb-moonlight pointer-events-none absolute hidden sm:block left-1/2 top-[-35vh] -z-10 h-[170vh] w-screen -translate-x-1/2"
           style={{ background: "radial-gradient(ellipse 75% 45% at 50% 50%, rgba(205,218,255,0.14) 0%, rgba(205,218,255,0.075) 50%, rgba(205,218,255,0) 100%)" }}
         />
         <LiveDemoFrame eager className="mx-auto" />

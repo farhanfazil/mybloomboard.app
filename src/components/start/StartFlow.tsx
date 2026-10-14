@@ -33,7 +33,7 @@ const PLANS: Record<Plan, { name: string; monthly: string; yearly: string; blurb
     name: "Bloom", monthly: "$8 a month", yearly: "$72 a year", blurb: "$8 a month",
     perks: [
       "Unlimited tasks, boards and notes",
-      "Unlimited Bloom AI: Plan My Day, email replies, meeting notes to tasks",
+      "Bloom AI included: Plan My Day, email replies, meeting notes to tasks",
       "Gmail and Outlook inbox, Google and Outlook calendar sync",
       "Goals, KPI reports and PDF exports",
       "Import from Trello, Asana, Jira, ClickUp, Notion and Monday.com",

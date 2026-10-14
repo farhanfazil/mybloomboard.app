@@ -128,7 +128,10 @@ export function Header({
     const check = () => {
       queued = false;
       const probe = 80;
+      /* phones get a short chat card instead of the live demo: no need to hide for it */
+      const phone = window.innerWidth < 640;
       const hit = Array.from(document.querySelectorAll<HTMLElement>("[data-hide-header]")).some((el) => {
+        if (phone && el.id === "live-demo") return false;
         const r = el.getBoundingClientRect();
         return r.top <= probe && r.bottom > probe;
       });

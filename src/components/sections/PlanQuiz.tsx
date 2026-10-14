@@ -28,7 +28,7 @@ const HOME_STEPS: QuizStep[] = [
     options: [
       { label: "Keeping tasks, notes and bookmarks simple", points: { free: 3 } },
       { label: "Unlimited boards and notes, with AI help every day", points: { bloom: 3 } },
-      { label: "Unlimited AI, KPI reports and my full performance history", points: { bloom: 3 } },
+      { label: "Bloom AI every day, KPI reports and my full performance history", points: { bloom: 3 } },
     ],
   },
 ];

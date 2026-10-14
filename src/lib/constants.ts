@@ -425,7 +425,7 @@ export const FAQS = [
   {
     question: "What do I get with Bloom?",
     answer:
-      "Bloom makes everything unlimited for one person, including AI. You get unlimited boards, notes and bookmarks, unlimited Bloom AI (up to 1,500 AI requests a day), Plan My Day, goals and KPI tracking with PDF reports, your full history, and import from Trello, Asana, Jira, ClickUp, Notion and Monday.com. Bloom costs $8 a month, or $72 a year ($6 a month), and starts with a 7-day free trial. No card needed to start.",
+      "Bloom makes everything unlimited for one person and adds Bloom AI. You get unlimited boards, notes and bookmarks, Bloom AI (up to 3,000 requests a month), Plan My Day, goals and KPI tracking with PDF reports, your full history, and import from Trello, Asana, Jira, ClickUp, Notion and Monday.com. Bloom costs $8 a month, or $72 a year ($6 a month), and starts with a 7-day free trial. No card needed to start.",
   },
   {
     question: "What's the difference between Bloom and Team?",
@@ -438,9 +438,9 @@ export const FAQS = [
       "The prices you see now are our launch prices. If we raise prices later for new customers, your active subscription keeps the price you signed up at, for as long as it stays active on the same plan and billing period. If you cancel, or move to a different plan or billing period, the price at that time applies.",
   },
   {
-    question: "Is Bloom AI really unlimited?",
+    question: "How much Bloom AI do I get?",
     answer:
-      "There's no monthly quota on Bloom and Team, and fair-use limits apply: up to 1,500 AI requests a day per account, plus short-term limits on very rapid requests. That's far more than a busy day of work. The limits protect against automated misuse and keep Bloom AI fast for everyone.",
+      "Bloom and Team include up to 3,000 Bloom AI requests a month per person, about 100 a day, which is far more than a busy month of work. There are also short-term limits on very rapid requests. The limits protect against automated misuse and keep Bloom AI fast for everyone. Want the smartest model? The Bloom AI Plus add-on is $5 a month per person.",
   },
   {
     question: "Can teams use BloomBoard together?",
@@ -553,7 +553,7 @@ export const TEAM_SEAT_TIERS: TeamSeatTier[] = [
   { label: "20+ seats", min: 20, max: Infinity, monthly: 10, yearly: 8 },
 ];
 
-export const AI_LIMIT_NOTE = "Unlimited Bloom AI includes up to 1,500 AI requests a day, far more than a busy day of work.";
+export const AI_LIMIT_NOTE = "Bloom AI is included on Bloom and Team: up to 3,000 requests a month per person, about 100 a day.";
 
 const COWORKER_BADGES = ["Ask anything", "Create tasks", "Automation", "Write emails", "and more..."];
 const EMAIL_BADGES = ["Grammar fix", "Rewrite emails", "Professional", "Formal", "Friendly"];
@@ -643,7 +643,7 @@ export const PRICING_PLANS: PricingPlan[] = [
   },
   {
     name: "Bloom",
-    tagline: "Everything unlimited, including AI. For one person.",
+    tagline: "Everything unlimited, plus Bloom AI. For one person.",
     price: "$8",
     yearlyPrice: "$72",
     unit: "/ month",
@@ -689,8 +689,8 @@ export const PRICING_PLANS: PricingPlan[] = [
       {
         category: "AI Assistant Hub",
         items: [
-          { text: "Unlimited Bloom AI: up to 1,500 AI requests a day", included: true },
-          { text: "Unlimited 🦋 Bloom AI Coworker", included: true, badges: COWORKER_BADGES },
+          { text: "Bloom AI: up to 3,000 requests a month", included: true },
+          { text: "🦋 Bloom AI Coworker", included: true, badges: COWORKER_BADGES },
           { text: "Unlimited Email & Messages", included: true, badges: EMAIL_BADGES },
           { text: "Unlimited Meeting Notes to Tasks", included: true },
           { text: "Daily Recap (last 180 days)", included: true, badges: ["Daily", "180 days", "Copy to chat"] },
@@ -757,8 +757,8 @@ export const PRICING_PLANS: PricingPlan[] = [
       {
         category: "AI Assistant Hub",
         items: [
-          { text: "Unlimited Bloom AI: up to 1,500 AI requests a day", included: true },
-          { text: "Unlimited 🦋 Bloom AI Coworker", included: true, badges: COWORKER_BADGES },
+          { text: "Bloom AI: up to 3,000 requests a month", included: true },
+          { text: "🦋 Bloom AI Coworker", included: true, badges: COWORKER_BADGES },
           { text: "Unlimited Email & Messages", included: true, badges: EMAIL_BADGES },
           { text: "Unlimited Meeting Notes to Tasks", included: true },
           { text: "Daily Recap (last 180 days)", included: true, badges: ["Daily", "180 days", "Copy to chat"] },

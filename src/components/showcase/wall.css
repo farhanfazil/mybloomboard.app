@@ -377,3 +377,11 @@
 
 /* The panel under the wall is hidden: the big tiles already lead to their pages. */
 .bbw .detail{display:none}
+
+/* Phones: every feature is its own card with space around it, instead of one
+   box cut up by hairlines. */
+@media (max-width:760px){
+  .bbw .wall{border:0;border-radius:0;overflow:visible;gap:10px}
+  .bbw .big{border:1px solid var(--line-hi);border-radius:16px}
+  .bbw .big + .t:not(.big), .bbw .t:not(.big){border:1px solid var(--line);border-radius:12px}
+}
