@@ -13,19 +13,19 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   title: "BloomBoard: Tasks, team chat and a live office in one app",
   description:
-    "Your tasks, your team and a live office, in one calm app. Shared boards, team chat and calls, a virtual office and an AI that plans each day. Free to start on Mac, Windows and web.",
+    "Tasks, boards, chat, calls and a live office, in one app. The productivity app that thinks with you. Free to start on Mac, Windows and web.",
   openGraph: {
-    title: "BloomBoard: Tasks, team chat and a live office in one app",
+    title: "BloomBoard: Teamwork. Reworked.",
     description:
-      "Your tasks, your team and a live office, in one calm app. Shared boards, team chat and calls, a virtual office and an AI that plans each day. Free to start on Mac, Windows and web.",
+      "Tasks, boards, chat, calls and a live office, in one app. The productivity app that thinks with you. Free to start on Mac, Windows and web.",
     type: "website",
     siteName: "BloomBoard",
   },
   twitter: {
     card: "summary_large_image",
-    title: "BloomBoard: Tasks, team chat and a live office in one app",
+    title: "BloomBoard: Teamwork. Reworked.",
     description:
-      "Your tasks, your team and a live office, in one calm app. Shared boards, team chat and calls, a virtual office and an AI that plans each day. Free to start on Mac, Windows and web.",
+      "Tasks, boards, chat, calls and a live office, in one app. The productivity app that thinks with you. Free to start on Mac, Windows and web.",
   },
   icons: {
     /* The bare logo, as big as the tab allows: navy on light tab bars, white on dark
