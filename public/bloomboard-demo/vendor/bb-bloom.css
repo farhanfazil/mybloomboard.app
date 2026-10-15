@@ -1984,3 +1984,18 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp-t b { font:650 13.5px var(--b
 html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp-t span { display:inline-flex; align-items:center; gap:6px; font:400 12.5px var(--bl-ui); color:var(--bl-fg3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp-hd .office-btn { flex:none; padding:4px 12px !important; font-size:12px !important; min-height:0 !important; height:28px !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-grp .station-grid { display:grid !important; }
+/* Department header (stations layout): name on its own line, counts under it */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .office-dept-name { display:flex; flex-direction:column; align-items:flex-start; gap:2px; min-width:0; flex:1 1 auto; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .office-dept-name b { max-width:100%; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .office-dept-pill:empty { display:none; }
+/* "+2" on a station card: everything in progress */
+html body.bloom:not(#_1):not(#_2):not(#_3) .station-card-foot .st-more { flex:none; margin-left:6px; height:20px; padding:0 6px !important; border:1px solid var(--bl-line) !important; border-radius:6px !important; background:var(--bl-raise) !important; color:var(--bl-fg2) !important; font:600 11px var(--bl-ui); cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .station-card-foot .st-more:hover { color:var(--bl-fg) !important; border-color:var(--bl-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #ctx-menu .ctx-item.ctx-head { pointer-events:none; color:var(--bl-fg3); font-size:11.5px; font-weight:600; min-height:0; padding-top:6px; padding-bottom:4px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #ctx-menu .ctx-item:has(.bb-att-ic) .bb-att-ic svg { width:14px; height:14px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .station-card-foot { display:flex; align-items:center; gap:5px; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .station-card-foot > span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .station-card-foot > svg { flex:none; }
+/* A card with "+N" keeps its bottom line on hover; the action buttons sit just above it. */
+html body.bloom:not(#_1):not(#_2):not(#_3) .station-card.has-more:hover .station-card-foot, html body.bloom:not(#_1):not(#_2):not(#_3) .station-card.has-more:focus-within .station-card-foot { opacity:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .station-card.has-more .station-card-actions { bottom:36px; }
