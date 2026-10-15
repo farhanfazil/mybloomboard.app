@@ -2196,8 +2196,8 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-subs { gap:6px; font:600 12.5p
    length everywhere so nothing arrives before anything else. */
 html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar { overflow-x:hidden; transition:width .32s cubic-bezier(.4,0,.2,1), min-width .32s cubic-bezier(.4,0,.2,1), padding .32s cubic-bezier(.4,0,.2,1) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav { transition:padding .32s cubic-bezier(.4,0,.2,1), height .32s cubic-bezier(.4,0,.2,1), gap .32s cubic-bezier(.4,0,.2,1), background-color .15s ease, color .15s ease; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav :is(> span, .bl-badge, .bl-chev, .bl-faces) { white-space:nowrap; flex-shrink:0; transition:opacity .26s ease .04s, transform .32s cubic-bezier(.4,0,.2,1); }
-html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav :is(> span, .bl-badge, .bl-chev, .bl-faces) { transition:opacity .2s ease, transform .32s cubic-bezier(.4,0,.2,1); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span, html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav :is(.bl-badge, .bl-chev, .bl-faces) { white-space:nowrap; flex-shrink:0; transition:opacity .26s ease .04s, transform .32s cubic-bezier(.4,0,.2,1); }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span, html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav :is(.bl-badge, .bl-chev, .bl-faces) { transition:opacity .2s ease, transform .32s cubic-bezier(.4,0,.2,1); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > .bl-i { transition:width .32s cubic-bezier(.4,0,.2,1), height .32s cubic-bezier(.4,0,.2,1) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter { transition:padding .32s cubic-bezier(.4,0,.2,1), background-color .15s ease !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter :is(.soe-txt,.soe-count,.soe-faces,.soe-pulse) { white-space:nowrap; flex-shrink:0; transition:opacity .26s ease .04s, transform .32s cubic-bezier(.4,0,.2,1); }
@@ -2222,4 +2222,26 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .calendar-task-pill.bbm-cal-pill { di
 /* Fold = the sidebar edge sweeps left over the labels (they slide left and fade behind it) while the
    icons grow; unfold = labels slide back out from the left with the edge. Items never wrap or squash. */
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav { overflow:visible; flex-wrap:nowrap; }
-html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span { opacity:0; transform:translateX(-14px); }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span { opacity:0; transform:translateX(-30px); }
+/* The icon sits above its label, so the label visibly slides in behind it and out from behind it. */
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > .bl-i { position:relative; z-index:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span { position:relative; z-index:0; }
+
+/* ── Calendar week: same split as the month ──
+   Meetings (timed and all-day) are solid blocks with a coloured left edge, plus a camera when they
+   have a call. Tasks in the Due row have no block: a round check in the priority colour and the title. */
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid :is(.bbcw-ev, .bbcw-allday) { background:color-mix(in srgb, var(--bl-accent) 16%, var(--bl-raise)) !important; color:var(--bl-fg) !important; border:0 !important; border-left:3px solid var(--bl-accent) !important; border-radius:6px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid :is(.bbcw-ev, .bbcw-allday):hover { background:color-mix(in srgb, var(--bl-accent) 24%, var(--bl-raise)) !important; filter:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid :is(.bbcw-ev, .bbcw-allday).ext-microsoft { border-left-color:#0f78d4 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid :is(.bbcw-ev, .bbcw-allday).ext-google { border-left-color:#1e8e3e !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-ev.past { opacity:.6; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-ev small { color:var(--bl-fg2); opacity:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-cam { color:var(--bl-fg2); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-task { background:transparent !important; border:0 !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-task:hover { background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-task .bbcw-check { color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-task.p-urgent .bbcw-check { color:var(--bl-bad); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-task.p-high .bbcw-check { color:var(--bl-high); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-task.done .bbcw-check { color:var(--bl-ok); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-task.overdue span.t { color:var(--bl-bad); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-task.done span.t { color:var(--bl-fg3); text-decoration:line-through; }
