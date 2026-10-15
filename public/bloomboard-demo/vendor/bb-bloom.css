@@ -1963,3 +1963,12 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .office-space-t { min-width:0; displa
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-space-t b { font:600 13.5px var(--bl-ui); color:var(--bl-fg); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-space-t span { display:flex; align-items:center; gap:6px; font:400 12.5px var(--bl-ui); color:var(--bl-fg3); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-space .office-btn { flex:none; padding:4px 12px !important; font-size:12px !important; min-height:0 !important; height:28px !important; }
+/* Files on a task: paperclip with a count (list rows and cards) */
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-att-btn { display:inline-flex; align-items:center; gap:4px; height:24px; margin-left:10px; padding:0 7px !important; border:0 !important; border-radius:6px !important; background:none !important; color:var(--bl-fg3) !important; font:500 12.5px var(--bl-ui); cursor:pointer; vertical-align:middle; flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-att-btn svg { width:14px; height:14px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-att-btn:hover, html body.bloom:not(#_1):not(#_2):not(#_3) .bb-att-btn:focus-visible { background:var(--bl-hover) !important; color:var(--bl-fg) !important; outline:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .task-meta .bb-att-btn { margin-left:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #ctx-menu .bb-att-thumb { width:28px; height:28px; border-radius:5px; object-fit:cover; vertical-align:middle; margin-right:4px; background:var(--bl-raise); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #ctx-menu .bb-att-ic { display:inline-grid; place-items:center; width:28px; height:28px; vertical-align:middle; margin-right:4px; color:var(--bl-fg2); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #ctx-menu .bb-att-ic svg { width:15px; height:15px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #ctx-menu .ctx-item:has(.bb-att-thumb, .bb-att-ic) { display:flex; align-items:center; gap:6px; max-width:380px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
