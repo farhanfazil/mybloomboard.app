@@ -2034,3 +2034,53 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-item.compact .chat-conv-in
 html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-item.compact .chat-conv-name { font-size:14px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-item.compact.unread .chat-conv-name { font-weight:700; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-udot { flex:none; width:8px; height:8px; border-radius:50%; background:var(--bl-accent); }
+/* ── Desks (Office, stations layout): the person sits beside their screen, and the screen shows
+   what they are doing (task in the normal colour, room blue, focus red, back soon amber, switched off when away) ── */
+html body.bloom:not(#_1):not(#_2):not(#_3) .dk-mon { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st { --dk-frame:color-mix(in srgb, var(--bl-fg3) 32%, var(--bl-line)); --dk-scr:var(--bl-bg); --dk-room:#38bdf8; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .office-dept.bl-st { --dk-scr:var(--bl-win); --dk-room:#0b7fb8; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card { aspect-ratio:auto !important; height:auto !important; min-height:0 !important; padding:12px 10px 10px !important; border-radius:12px !important; background:var(--bl-raise) !important; border:1px solid var(--bl-line) !important; box-shadow:none !important; transform:none !important; display:flex !important; flex-direction:column; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card:hover { border-color:color-mix(in srgb, var(--bl-fg3) 45%, var(--bl-line)) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card.me { border-color:color-mix(in srgb, var(--bl-accent) 40%, var(--bl-line)) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card-body { order:0; display:flex !important; align-items:flex-start; gap:10px; padding:0 !important; width:100%; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card .station-avatar { flex:none; width:36px !important; height:36px !important; margin-top:12px; font-size:12px !important; box-shadow:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card .station-avatar .chat-avatar-status { width:12px !important; height:12px !important; border:2px solid var(--bl-raise) !important; right:-2px !important; bottom:-2px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card.is-off .station-avatar, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card.sig-leave .station-avatar, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card[data-tone="off"] .station-avatar { opacity:.5; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-mon { display:flex; flex:1; min-width:0; flex-direction:column; align-items:center; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr { width:100%; height:58px; border:3px solid var(--dk-frame); border-radius:7px; background:var(--dk-scr); display:flex; align-items:center; justify-content:center; padding:4px 8px; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-stand { width:6px; height:7px; background:var(--dk-frame); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-base { width:28px; height:3px; border-radius:2px 2px 0 0; background:var(--dk-frame); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-foot { order:0; min-height:0 !important; margin:0; justify-content:center; text-align:center; max-width:100%; font-size:11.5px !important; font-weight:500 !important; line-height:1.3; color:var(--bl-fg) !important; opacity:1 !important; white-space:normal; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-foot > span { white-space:normal !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-foot > svg { width:12px; height:12px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card[data-tone="room"] .dk-scr .station-card-foot { color:var(--dk-room) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card[data-tone="focus"] .dk-scr .station-card-foot { color:var(--bl-bad) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card[data-tone="back"] .dk-scr .station-card-foot { color:var(--bl-high) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card[data-tone="off"] .dk-scr, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card.is-off .dk-scr, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card.sig-leave .dk-scr { background:color-mix(in srgb, var(--dk-frame) 55%, var(--bl-raise)); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card[data-tone="off"] .dk-scr .station-card-foot, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card.is-off .dk-scr .station-card-foot, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card.sig-leave .dk-scr .station-card-foot { color:var(--bl-fg2) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card-hd { order:1; justify-content:center; margin-top:8px; width:100%; gap:6px; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card-hd .office-dot, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card-hd .chat-status-dot { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card-name { flex:0 1 auto !important; min-width:0; text-align:center; font-size:13.5px !important; font-weight:600 !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card-you { flex:none; font-size:11.5px !important; font-weight:500 !important; }
+/* Hover: the call, chat and wave buttons show on the screen, so the name stays put */
+/* Glacier colours every span in a station card; the screen keeps its own status colours */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept.bl-st .station-card .dk-scr .station-card-foot > span { color:inherit !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept.bl-st .station-card[data-tone="room"] .dk-scr .station-card-foot { color:var(--dk-room) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept.bl-st .station-card[data-tone="focus"] .dk-scr .station-card-foot { color:var(--bl-bad) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept.bl-st .station-card[data-tone="back"] .dk-scr .station-card-foot { color:var(--bl-high) !important; }
+/* Smaller screen: the person and the screen sit together in the middle of the card, so the card isn't mostly screen */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card-body { justify-content:center; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card .station-avatar { width:40px !important; height:40px !important; margin-top:5px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-mon { flex:0 1 150px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr { height:50px; border-width:2.5px; border-radius:6px; padding:3px 7px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-stand { height:6px; } html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-base { width:24px; }
+/* Hover buttons sit inside the screen frame (the screen swaps its status for the buttons) */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr { position:relative; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-actions { position:absolute !important; inset:0 !important; width:auto !important; height:auto !important; margin:0 !important; transform:none !important; display:flex; align-items:center; justify-content:center; gap:2px; padding:0 4px; border-radius:3px; background:var(--dk-scr) !important; box-shadow:none !important; border:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-action { width:28px !important; height:28px !important; border-radius:7px !important; background:transparent !important; color:var(--bl-fg2) !important; box-shadow:none !important; border:0 !important; transform:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-action:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-action svg { width:15px !important; height:15px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card:hover .dk-scr .station-card-foot, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card:focus-within .dk-scr .station-card-foot { opacity:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card.has-more:hover .dk-scr .station-card-foot { opacity:1 !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .office-dept.bl-st { --dk-frame:color-mix(in srgb, var(--bl-fg3) 48%, var(--bl-line)); }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-action:hover { background:#e6eaf0 !important; }
