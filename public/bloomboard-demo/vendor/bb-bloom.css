@@ -2175,3 +2175,15 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-gif-btn { width:auto !impo
 
 /* Subtask count in the task list: a readable bar and number, no arrow */
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-subs { gap:6px; font:600 12.5px var(--bl-ui); color:var(--bl-fg2); font-variant-numeric:tabular-nums; }
+/* Collage letters sit toward the centre of the circle so none touches the curved edge */
+.bb-collage i b { display:block; font-size:9.5px; line-height:1; }
+.bb-collage.n2 i:nth-child(1) b { transform:translateX(18%); }
+.bb-collage.n2 i:nth-child(2) b { transform:translateX(-18%); }
+.bb-collage.n3 i:nth-child(1) b { transform:translateX(22%); }
+.bb-collage.n3 i:nth-child(2) b { transform:translate(-30%, 28%); }
+.bb-collage.n3 i:nth-child(3) b { transform:translate(-30%, -28%); }
+.bb-collage.n4 i:nth-child(1) b { transform:translate(28%, 28%); }
+.bb-collage.n4 i:nth-child(2) b { transform:translate(-28%, 28%); }
+.bb-collage.n4 i:nth-child(3) b { transform:translate(28%, -28%); }
+.bb-collage.n4 i:nth-child(4) b { transform:translate(-28%, -28%); }
+.bb-collage.n3 i b, .bb-collage.n4 i b { font-size:8.5px; }
