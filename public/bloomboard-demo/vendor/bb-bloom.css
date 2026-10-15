@@ -1115,7 +1115,7 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav { position:relative; 
 #bl-railpin[hidden] { display:none !important; }
 /* pages move with the sidebar */
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) :is(.boards-overlay,.chat-overlay,.bb-email-overlay,.overview-overlay,.bookmarks-overlay,.team-overlay,.fl-overlay) { left:64px !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) :is(.boards-overlay,main.main-area,.chat-overlay,.bb-email-overlay,.overview-overlay,.bookmarks-overlay,.team-overlay,.fl-overlay) { transition:left .32s cubic-bezier(.4,0,.2,1), right .32s cubic-bezier(.4,0,.2,1), margin-right .32s cubic-bezier(.4,0,.2,1) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.boards-overlay,main.main-area,.chat-overlay,.bb-email-overlay,.overview-overlay,.bookmarks-overlay,.team-overlay,.fl-overlay) { transition:left .32s cubic-bezier(.65,0,.35,1), right .32s cubic-bezier(.65,0,.35,1), margin-right .32s cubic-bezier(.65,0,.35,1) !important; }
 /* rail tooltip */
 #bl-tip { position:fixed; z-index:200002; transform:translateY(-50%); background:var(--bl-fg); color:var(--bl-win); font:500 12px var(--bl-ui); padding:4px 8px; border-radius:6px; pointer-events:none; white-space:nowrap; }
 #bl-tip[hidden] { display:none; }
@@ -2194,15 +2194,18 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-subs { gap:6px; font:600 12.5p
    One motion: the sidebar narrows, labels fade and slide away (max-width, never an instant jump),
    icons glide to the middle, and every page (Office, chat, boards…) moves with it. Same curve and
    length everywhere so nothing arrives before anything else. */
-html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar { overflow-x:hidden; transition:width .32s cubic-bezier(.4,0,.2,1), min-width .32s cubic-bezier(.4,0,.2,1), padding .32s cubic-bezier(.4,0,.2,1) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav { transition:padding .32s cubic-bezier(.4,0,.2,1), height .32s cubic-bezier(.4,0,.2,1), gap .32s cubic-bezier(.4,0,.2,1), background-color .15s ease, color .15s ease; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span, html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav :is(.bl-badge, .bl-chev, .bl-faces) { white-space:nowrap; flex-shrink:0; transition:opacity .26s ease .04s, transform .32s cubic-bezier(.4,0,.2,1); }
-html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span, html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav :is(.bl-badge, .bl-chev, .bl-faces) { transition:opacity .2s ease, transform .32s cubic-bezier(.4,0,.2,1); }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > .bl-i { transition:width .32s cubic-bezier(.4,0,.2,1), height .32s cubic-bezier(.4,0,.2,1) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter { transition:padding .32s cubic-bezier(.4,0,.2,1), background-color .15s ease !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter :is(.soe-txt,.soe-count,.soe-faces,.soe-pulse) { white-space:nowrap; flex-shrink:0; transition:opacity .26s ease .04s, transform .32s cubic-bezier(.4,0,.2,1); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar { overflow-x:hidden; transition:width .32s cubic-bezier(.65,0,.35,1), min-width .32s cubic-bezier(.65,0,.35,1), padding .32s cubic-bezier(.65,0,.35,1) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav { transition:padding .32s cubic-bezier(.65,0,.35,1), height .32s cubic-bezier(.65,0,.35,1), gap .32s cubic-bezier(.65,0,.35,1), background-color .15s ease, color .15s ease; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span, html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav :is(.bl-badge, .bl-chev, .bl-faces) { white-space:nowrap; flex-shrink:0; transition:opacity .2s cubic-bezier(.75,0,.75,.9) .12s, transform .32s cubic-bezier(.65,0,.35,1); }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span, html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav :is(.bl-badge, .bl-chev, .bl-faces) { transition:opacity .2s ease, transform .32s cubic-bezier(.65,0,.35,1); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > .bl-i { transition:width .32s cubic-bezier(.65,0,.35,1), height .32s cubic-bezier(.65,0,.35,1) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter { transition:padding .32s cubic-bezier(.65,0,.35,1), background-color .15s ease !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter :is(.soe-txt,.soe-count,.soe-faces,.soe-pulse) { white-space:nowrap; flex-shrink:0; transition:opacity .2s cubic-bezier(.75,0,.75,.9) .12s, transform .32s cubic-bezier(.65,0,.35,1); }
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter { overflow:hidden; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter .soe-ic, html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter .soe-ic svg { transition:width .32s cubic-bezier(.4,0,.2,1), height .32s cubic-bezier(.4,0,.2,1) !important; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter :is(.soe-txt,.soe-count,.soe-faces,.soe-pulse) { transition:opacity .2s ease, transform .32s cubic-bezier(.65,0,.35,1); }
+/* Unfold is the fold played backwards: labels stay hidden while the sidebar is still narrow and only
+   fade in over the last part, as they come out from behind the icon (reverse of the fold's ease). */
+html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter .soe-ic, html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter .soe-ic svg { transition:width .32s cubic-bezier(.65,0,.35,1), height .32s cubic-bezier(.65,0,.35,1) !important; }
 /* ── Calendar month: tasks read as to-dos, meetings as events ──
    Task: no block, a round checkbox (priority colour; green tick when done) and the title.
    Meeting: keeps its block with the time first and the blue edge, plus a camera when it has a call. */
