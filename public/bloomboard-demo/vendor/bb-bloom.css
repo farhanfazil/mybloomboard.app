@@ -2280,3 +2280,15 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .calendar-day-num { wi
 html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .calendar-day-name { font:500 12.5px var(--bl-ui) !important; color:var(--bl-fg2) !important; text-transform:none !important; letter-spacing:0 !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .calendar-day.today .calendar-day-num { background:var(--bl-accent) !important; color:var(--bl-accent-fg, #fff) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .calendar-day.muted :is(.calendar-day-num, .calendar-day-name) { color:var(--bl-fg3) !important; }
+/* The calendar's day side panel is 0 wide when closed, but its border still drew a 1px line down the
+   right edge of the month and week grids. No border while it is closed. */
+html body:not(#_1):not(#_2):not(#_3) .cal-task-panel:not(.open) { border-width:0 !important; }
+
+/* ── Calendar toolbar ──
+   New meeting sits at the end of the toolbar (after Week/Month and the arrows) as the one solid
+   accent button, the same height as its neighbours. The header row it used to fill is gone, so the
+   calendar starts higher. */
+html body.bloom.bl-v-calendar:not(#_1):not(#_2):not(#_3) #main-section-header { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .calendar-actions #bbm-cal-new { height:34px !important; padding:0 14px !important; margin-left:8px !important; border-radius:8px !important; background:var(--bl-accent) !important; color:var(--bl-accent-fg, #fff) !important; border:0 !important; font:600 13.5px var(--bl-ui) !important; gap:6px; display:inline-flex; align-items:center; white-space:nowrap; box-shadow:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .calendar-actions #bbm-cal-new:hover { filter:brightness(1.08); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .calendar-actions #bbm-cal-new svg { width:15px; height:15px; }
