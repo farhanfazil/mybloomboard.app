@@ -2110,3 +2110,9 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bbr ul { margin:3px 0 0; padding-lef
 html body.bloom:not(#_1):not(#_2):not(#_3) .bbr li { margin:2px 0; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bbr li::marker { color:var(--bl-fg3); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bbr-m { color:var(--bl-fg3); opacity:1; }
+/* @mention list under "Type your tasks": solid, above everything */
+html body.bloom:not(#_1):not(#_2):not(#_3) .t2t-mention-menu { background:var(--bl-win) !important; border:1px solid var(--bl-line) !important; border-radius:12px !important; box-shadow:0 14px 34px rgba(0,0,0,.32) !important; padding:6px !important; opacity:1 !important; backdrop-filter:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .t2t-mention-item { color:var(--bl-fg) !important; font:500 13.5px var(--bl-ui) !important; padding:8px 10px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .t2t-mention-item:hover, html body.bloom:not(#_1):not(#_2):not(#_3) .t2t-mention-item.active { background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .t2t-mention-handle { color:var(--bl-fg3) !important; font:400 12px var(--bl-ui) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3).light-mode .t2t-mention-menu { box-shadow:0 12px 28px rgba(15,23,42,.14) !important; }
