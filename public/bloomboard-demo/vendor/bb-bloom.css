@@ -2298,3 +2298,7 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .calendar-actions #bbm-cal-new svg { 
    which outranked the avatar's corner placement and left the dot sitting on top of the face in the
    Chat tab. On an avatar the dot always lives in the bottom-right corner. */
 html body:not(#_1):not(#_2):not(#_3) .chat-avatar-status.chat-status-dot { position:absolute !important; right:-1px; bottom:-1px; }
+
+/* Task cards are solid in Bloom; the old glass blur still ran underneath on every card (a GPU cost
+   when dragging or scrolling a hundred of them). */
+html body.bloom:not(#_1):not(#_2):not(#_3) .task-card { backdrop-filter:none !important; -webkit-backdrop-filter:none !important; }
