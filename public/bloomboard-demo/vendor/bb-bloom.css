@@ -2271,3 +2271,12 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bb-bc-card:hover { background:var(--
 .bb-bc-foot { display:flex; align-items:center; gap:12px; }
 .bb-bc-due { font:400 12px var(--bl-ui); color:var(--bl-fg2); }
 .bb-bc-due.overdue { color:var(--bl-bad); }
+
+/* ── Calendar month: readable dates ──
+   The date and day name were 11px and 9px (the day name barely readable). Date 14px, day name 12.5px,
+   both in the normal text colours; days outside the month stay quieter. */
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .calendar-day-hd { gap:8px; margin-bottom:8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .calendar-day-num { width:28px; height:28px; font:600 14px var(--bl-ui) !important; color:var(--bl-fg) !important; font-variant-numeric:tabular-nums; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .calendar-day-name { font:500 12.5px var(--bl-ui) !important; color:var(--bl-fg2) !important; text-transform:none !important; letter-spacing:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .calendar-day.today .calendar-day-num { background:var(--bl-accent) !important; color:var(--bl-accent-fg, #fff) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .calendar-day.muted :is(.calendar-day-num, .calendar-day-name) { color:var(--bl-fg3) !important; }
