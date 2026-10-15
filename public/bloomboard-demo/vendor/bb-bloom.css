@@ -2164,3 +2164,30 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .sc-acts [data-sctask] svg { width:14
 .bbw-empty { padding:36px 12px; text-align:center; display:flex; flex-direction:column; gap:4px; } .bbw-empty b { font-size:14.5px; } .bbw-empty span { font-size:13px; color:var(--bl-fg3,#8d93a0); }
 .bbw-ft { padding:10px 18px 14px; font-size:12px; color:var(--bl-fg3,#8d93a0); border-top:1px solid var(--bl-line,#26282e); }
 @media (max-width:560px) { .bbw-it { grid-template-columns:auto minmax(0,1fr) auto; } .bbw-due { display:none; } }
+/* Group chats and rooms: round photo collage */
+.bb-collage { position:relative; display:grid; width:100%; height:100%; border-radius:50%; overflow:hidden; gap:1.5px; background:var(--bl-win, #141519); }
+.bb-collage i { display:grid; place-items:center; min-width:0; min-height:0; background-size:cover !important; background-position:center !important; font-style:normal; width:auto !important; height:auto !important; border-radius:0 !important; }
+.bb-collage i b { font:600 9px/1 var(--bl-ui, system-ui); color:#fff; letter-spacing:0; }
+.bb-collage.n1 { grid-template-columns:1fr; }
+.bb-collage.n1 i b { font-size:12px; }
+.bb-collage.n2 { grid-template-columns:1fr 1fr; }
+.bb-collage.n3 { grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; }
+.bb-collage.n3 i:first-child { grid-row:1 / span 2; }
+.bb-collage.n4 { grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; }
+.chat-conv-avatar.bb-has-collage { background:transparent !important; padding:0 !important; overflow:hidden; }
+/* Tasks header: quiet "Waiting on others · N", ⋯ menu */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-header-actions .bb-more-btn { width:34px; padding:0 !important; justify-content:center; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-header-actions .bb-more-btn svg { width:16px; height:16px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-header-actions .bb-wait-btn[hidden] { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-wait-n { margin-left:6px; font:600 12px var(--bl-ui); color:var(--bl-fg3); font-variant-numeric:tabular-nums; }
+.bb-more-menu { position:fixed; z-index:5000; min-width:200px; padding:5px; background:var(--bl-win,#141519); border:1px solid var(--bl-line,#26282e); border-radius:10px; box-shadow:0 12px 30px rgba(0,0,0,.28); }
+.bb-more-menu[hidden] { display:none; }
+.bb-more-menu button { display:flex; align-items:center; gap:9px; width:100%; height:34px; padding:0 10px; border:0; border-radius:7px; background:transparent; color:var(--bl-fg,#eceef2); font:500 13px var(--bl-ui, system-ui); cursor:pointer; text-align:left; }
+.bb-more-menu button:hover { background:var(--bl-hover,#202227); }
+.bb-more-menu button svg { width:15px; height:15px; color:var(--bl-fg2,#b4b9c3); flex:none; }
+.bb-more-menu button span { margin-left:auto; font-size:12px; color:var(--bl-fg3,#8d93a0); }
+/* Make a task: one-tap When */
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-mt-when { display:flex; flex-wrap:wrap; gap:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-mt-when button { height:32px; padding:0 12px; border:1px solid var(--bl-line); border-radius:8px; background:transparent; color:var(--bl-fg2); font:500 13px var(--bl-ui); cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-mt-when button:hover { border-color:var(--bl-fg3); color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-mt-when button.on { border-color:var(--bl-accent); color:var(--bl-fg); background:color-mix(in srgb, var(--bl-accent) 14%, transparent); }
