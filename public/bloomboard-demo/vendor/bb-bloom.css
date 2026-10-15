@@ -2116,3 +2116,8 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .t2t-mention-item { color:var(--bl-fg
 html body.bloom:not(#_1):not(#_2):not(#_3) .t2t-mention-item:hover, html body.bloom:not(#_1):not(#_2):not(#_3) .t2t-mention-item.active { background:var(--bl-hover) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .t2t-mention-handle { color:var(--bl-fg3) !important; font:400 12px var(--bl-ui) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3).light-mode .t2t-mention-menu { box-shadow:0 12px 28px rgba(15,23,42,.14) !important; }
+/* Screen buttons: the app-wide button style adds 12px side padding and a 36px minimum height, which
+   pushed the third button out of the screen. Equal shares of the screen, never wider than 32px. */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-actions { display:grid !important; grid-auto-flow:column; grid-auto-columns:minmax(0, 32px); justify-content:space-evenly !important; align-items:center; gap:2px !important; padding:0 4px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-action { width:100% !important; max-width:32px; min-width:0 !important; height:30px !important; min-height:0 !important; padding:0 !important; box-sizing:border-box !important; display:grid !important; place-items:center; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-action svg { width:16px !important; height:16px !important; }
