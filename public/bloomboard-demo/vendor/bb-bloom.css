@@ -2097,3 +2097,7 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-sub { margin-top:12px; font:6
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-vispick .bb-org-plist { margin-top:6px; max-height:min(190px,28vh); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-none { padding:10px 12px; font:400 12.5px var(--bl-ui); color:var(--bl-fg3); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-visnote { margin-top:12px !important; font-size:12.5px !important; color:var(--bl-fg3) !important; }
+/* Screen buttons always fit inside the frame, however narrow the desk */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr { overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-actions { gap:0 !important; padding:0 2px !important; justify-content:space-evenly !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-action { flex:0 1 28px; min-width:0; }
