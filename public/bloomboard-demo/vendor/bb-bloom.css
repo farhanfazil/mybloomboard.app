@@ -1972,3 +1972,15 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #ctx-menu .bb-att-thumb { width:28px;
 html body.bloom:not(#_1):not(#_2):not(#_3) #ctx-menu .bb-att-ic { display:inline-grid; place-items:center; width:28px; height:28px; vertical-align:middle; margin-right:4px; color:var(--bl-fg2); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #ctx-menu .bb-att-ic svg { width:15px; height:15px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #ctx-menu .ctx-item:has(.bb-att-thumb, .bb-att-ic) { display:flex; align-items:center; gap:6px; max-width:380px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+/* Office (Bloom): stations are people, rooms are calls */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st > .station-grid { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .office-dept-room { display:flex; flex-direction:column; gap:14px; max-width:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-live:empty, html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp-live[hidden], html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp-hd[hidden] { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp { display:flex; flex-direction:column; gap:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp + .bl-grp { padding-top:14px; border-top:1px solid var(--bl-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp-hd { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp-t { min-width:0; display:flex; align-items:baseline; gap:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp-t b { font:650 13.5px var(--bl-ui); color:var(--bl-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp-t span { display:inline-flex; align-items:center; gap:6px; font:400 12.5px var(--bl-ui); color:var(--bl-fg3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp-hd .office-btn { flex:none; padding:4px 12px !important; font-size:12px !important; min-height:0 !important; height:28px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-grp .station-grid { display:grid !important; }
