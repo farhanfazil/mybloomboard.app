@@ -2019,3 +2019,8 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bb-seg { display:flex; flex-directio
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-seg label { display:flex; align-items:center; gap:10px; padding:9px 12px; border:1px solid var(--bl-line); border-radius:9px; cursor:pointer; font:500 13.5px var(--bl-ui); color:var(--bl-fg); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-seg label:has(input:checked) { border-color:var(--bl-accent); background:var(--bl-accent-soft); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-seg input { width:16px; height:16px; margin:0; accent-color:var(--bl-accent); }
+/* Light theme: room tables and chairs a little more visible (still quiet) */
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .ofr-plan .ofr-tbl { stroke:#c4cad4 !important; fill:#ffffff !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .ofr-plan :is(.ofr-chair,.ofr-cush) { fill:#dfe3e9 !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .ofr-plan :is(.ofr-chair,.ofr-cush)[data-ofr-seat]:hover { fill:#cfd5de !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept-act .office-btn .ofr-door { width:14px; height:14px; margin-right:6px; vertical-align:-2px; }
