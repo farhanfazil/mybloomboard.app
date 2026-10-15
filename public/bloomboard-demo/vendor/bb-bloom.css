@@ -2025,3 +2025,12 @@ html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .ofr-plan :is(.ofr-chair,.
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .ofr-plan :is(.ofr-chair,.ofr-cush)[data-ofr-seat]:hover { fill:#cfd5de !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept-act .office-btn .ofr-door { width:14px; height:14px; margin-right:6px; vertical-align:-2px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-desk-hint { margin-top:6px; font:400 13px/1.5 var(--bl-ui); color:var(--bl-fg3); }
+/* Chat page list: compact rows, avatar + name only */
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-item.compact { display:flex; align-items:center; gap:10px; min-height:40px; padding:5px 10px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-item.compact .chat-conv-avatar { width:30px !important; height:30px !important; min-width:30px; font-size:11px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-item.compact .chat-conv-avatar svg { width:15px; height:15px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-item.compact .chat-avatar-status { width:9px !important; height:9px !important; right:-1px !important; bottom:-1px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-item.compact .chat-conv-info { flex:1; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-item.compact .chat-conv-name { font-size:14px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-item.compact.unread .chat-conv-name { font-weight:700; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-udot { flex:none; width:8px; height:8px; border-radius:50%; background:var(--bl-accent); }
