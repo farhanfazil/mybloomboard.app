@@ -2187,8 +2187,3 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-subs { gap:6px; font:600 12.5p
 .bb-collage.n3 i:nth-child(3) b, .bb-collage.n4 i:nth-child(4) b { transform:translate(-1.5px, -1.5px); }
 .bb-collage.n4 i:nth-child(1) b { transform:translate(1.5px, 1.5px); }
 .bb-collage.n4 i:nth-child(3) b { transform:translate(1.5px, -1.5px); }
-/* Subtasks slide open and shut under their task (no list redraw, no blink) */
-.bb-tl-subrow.bb-tl-sub-in { animation:bbTlSubIn .2s ease both; overflow:hidden; }
-@keyframes bbTlSubIn { from { opacity:0; max-height:0; min-height:0; transform:translateY(-4px); } to { opacity:1; max-height:48px; transform:none; } }
-.bb-tl-subrow.bb-tl-sub-out { overflow:hidden; min-height:0 !important; transition:height .18s ease, opacity .15s ease; }
-@media (prefers-reduced-motion: reduce) { .bb-tl-subrow.bb-tl-sub-in { animation:none; } .bb-tl-subrow.bb-tl-sub-out { transition:none; } }
