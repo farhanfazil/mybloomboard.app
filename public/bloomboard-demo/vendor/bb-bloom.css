@@ -1102,12 +1102,12 @@ html body.bloom #bl-home .bl-row.bl-ticked .bl-chk { background:var(--bl-ok) !im
 html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar { transition:width .28s cubic-bezier(.2,.8,.2,1), min-width .28s cubic-bezier(.2,.8,.2,1), padding .28s cubic-bezier(.2,.8,.2,1) !important; }
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar { width:64px !important; min-width:64px !important; padding:14px 8px !important; }
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav { padding:0 13px !important; height:38px; gap:0; }
-html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span, html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-badge, html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-chev, html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-faces { opacity:0; max-width:0 !important; overflow:hidden; margin:0 !important; pointer-events:none; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span, html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-badge, html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-chev, html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-faces { opacity:0; transform:translateX(-14px); pointer-events:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span { transition:opacity .16s ease; white-space:nowrap; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > .bl-i { transition:width .28s cubic-bezier(.2,.8,.2,1), height .28s cubic-bezier(.2,.8,.2,1); }
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > .bl-i { width:20px !important; height:20px !important; }
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter { padding:11px !important; justify-content:center; }
-html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter :is(.soe-txt,.soe-count) { opacity:0; max-width:0 !important; overflow:hidden; margin:0 !important; pointer-events:none; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter :is(.soe-txt,.soe-count) { opacity:0; transform:translateX(-14px); pointer-events:none; }
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter .soe-ic { width:24px !important; height:24px !important; }
 /* the unread count stays visible on the rail, in the icon's corner */
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav.bl-unread::after { content:""; position:absolute; top:9px; left:31px; width:7px; height:7px; border-radius:50%; background:var(--bl-accent); box-shadow:0 0 0 2px var(--bl-side); }
@@ -1622,7 +1622,7 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-acts .sc-unsend.sc-sure sp
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter { position:relative; height:38px !important; min-height:38px !important; box-sizing:border-box !important; padding:0 13px !important; margin:0 0 8px !important; justify-content:flex-start; gap:0; background:none !important; border-color:transparent !important; border-radius:8px !important; }
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter:hover { background:var(--bl-hover) !important; border-color:transparent !important; }
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter.bl-on { background:var(--bl-hover) !important; border-color:transparent !important; }
-html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter :is(.soe-faces,.soe-pulse) { opacity:0; max-width:0 !important; overflow:hidden; margin:0 !important; pointer-events:none; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter :is(.soe-faces,.soe-pulse) { opacity:0; transform:translateX(-14px); pointer-events:none; }
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter .soe-ic { width:20px !important; height:20px !important; flex:none; }
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter .soe-ic svg { width:20px !important; height:20px !important; }
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter .bl-oe-n { display:block; position:absolute; left:35px; top:6px; font:600 10px/1 var(--bl-ui); font-style:normal; color:var(--bl-ok); pointer-events:none; }
@@ -2196,11 +2196,12 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-subs { gap:6px; font:600 12.5p
    length everywhere so nothing arrives before anything else. */
 html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar { overflow-x:hidden; transition:width .32s cubic-bezier(.4,0,.2,1), min-width .32s cubic-bezier(.4,0,.2,1), padding .32s cubic-bezier(.4,0,.2,1) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav { transition:padding .32s cubic-bezier(.4,0,.2,1), height .32s cubic-bezier(.4,0,.2,1), gap .32s cubic-bezier(.4,0,.2,1), background-color .15s ease, color .15s ease; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav :is(> span, .bl-badge, .bl-chev, .bl-faces) { max-width:200px; white-space:nowrap; transition:opacity .2s ease, max-width .32s cubic-bezier(.4,0,.2,1), margin .32s cubic-bezier(.4,0,.2,1); }
-html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav :is(> span, .bl-badge, .bl-chev, .bl-faces) { transition:opacity .12s ease, max-width .32s cubic-bezier(.4,0,.2,1), margin .32s cubic-bezier(.4,0,.2,1); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav :is(> span, .bl-badge, .bl-chev, .bl-faces) { white-space:nowrap; flex-shrink:0; transition:opacity .26s ease .04s, transform .32s cubic-bezier(.4,0,.2,1); }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav :is(> span, .bl-badge, .bl-chev, .bl-faces) { transition:opacity .2s ease, transform .32s cubic-bezier(.4,0,.2,1); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > .bl-i { transition:width .32s cubic-bezier(.4,0,.2,1), height .32s cubic-bezier(.4,0,.2,1) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter { transition:padding .32s cubic-bezier(.4,0,.2,1), background-color .15s ease !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter :is(.soe-txt,.soe-count,.soe-faces,.soe-pulse) { max-width:200px; white-space:nowrap; transition:opacity .2s ease, max-width .32s cubic-bezier(.4,0,.2,1), margin .32s cubic-bezier(.4,0,.2,1); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter :is(.soe-txt,.soe-count,.soe-faces,.soe-pulse) { white-space:nowrap; flex-shrink:0; transition:opacity .26s ease .04s, transform .32s cubic-bezier(.4,0,.2,1); }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter { overflow:hidden; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter .soe-ic, html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter .soe-ic svg { transition:width .32s cubic-bezier(.4,0,.2,1), height .32s cubic-bezier(.4,0,.2,1) !important; }
 /* ── Calendar month: tasks read as to-dos, meetings as events ──
    Task: no block, a round checkbox (priority colour; green tick when done) and the title.
@@ -2217,3 +2218,8 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .calendar-task-pill.is
 html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .calendar-task-pill.is-task.done .calendar-task-t { color:var(--bl-fg3); text-decoration:line-through; text-decoration-color:color-mix(in srgb, var(--bl-fg3) 60%, transparent); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .calendar-task-pill.bbm-cal-pill { display:flex !important; align-items:center; gap:0; min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
 .bbm-cal-cam { flex:none; width:12px; height:12px; margin-right:5px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; opacity:.75; }
+
+/* Fold = the sidebar edge sweeps left over the labels (they slide left and fade behind it) while the
+   icons grow; unfold = labels slide back out from the left with the edge. Items never wrap or squash. */
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav { overflow:visible; flex-wrap:nowrap; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span { opacity:0; transform:translateX(-14px); }
