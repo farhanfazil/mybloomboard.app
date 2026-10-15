@@ -2101,3 +2101,12 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-visnote { margin-top:12px !im
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr { overflow:hidden; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-actions { gap:0 !important; padding:0 2px !important; justify-content:space-evenly !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-action { flex:0 1 28px; min-width:0; }
+/* Daily recap card in chat (side chat and full chat) */
+html body.bloom:not(#_1):not(#_2):not(#_3) .bbr { min-width:0; font:400 13px/1.5 var(--bl-ui); color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bbr-h { font-weight:600; font-size:13.5px; margin-bottom:2px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bbr-n { margin:4px 0 2px; color:var(--bl-fg2); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bbr-s { margin-top:10px; font:600 11px var(--bl-ui); letter-spacing:.05em; text-transform:uppercase; color:var(--bl-fg3); opacity:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bbr ul { margin:3px 0 0; padding-left:18px; list-style:disc; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bbr li { margin:2px 0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bbr li::marker { color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bbr-m { color:var(--bl-fg3); opacity:1; }
