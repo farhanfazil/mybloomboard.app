@@ -2024,3 +2024,4 @@ html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .ofr-plan .ofr-tbl { strok
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .ofr-plan :is(.ofr-chair,.ofr-cush) { fill:#dfe3e9 !important; }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .ofr-plan :is(.ofr-chair,.ofr-cush)[data-ofr-seat]:hover { fill:#cfd5de !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept-act .office-btn .ofr-door { width:14px; height:14px; margin-right:6px; vertical-align:-2px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-desk-hint { margin-top:6px; font:400 13px/1.5 var(--bl-ui); color:var(--bl-fg3); }
