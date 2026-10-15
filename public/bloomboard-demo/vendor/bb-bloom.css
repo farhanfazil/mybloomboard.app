@@ -1216,7 +1216,9 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #bb-shortcuts .bl-sc-btn.on { backgro
 html body.bloom:not(#_1):not(#_2):not(#_3) #bb-shortcuts .bl-sc-btn.on span { color:var(--bl-fg) !important; }
 .bl-sc-count { position:absolute; top:2px; left:calc(50% + 4px); min-width:17px; height:17px; padding:0 4px; border-radius:9px; background:var(--bl-bad); color:#fff; font:600 10.5px/17px var(--bl-ui); font-style:normal; text-align:center; box-shadow:0 0 0 2px var(--bl-win); }
 .bl-sc-count:empty { display:none; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc-board { display:inline-flex !important; align-items:center; gap:7px; }
+/* The board Chat button lives inside a board (its own board chat); the boards list has none. */
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc-board { display:none !important; align-items:center; gap:7px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .boards-overlay.in-board #bl-sc-board:not([hidden]) { display:inline-flex !important; }
 /* The Chat button shows on the boards list too, so a closed side chat can always come back. */
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc-board.on { color:var(--bl-accent) !important; border-color:color-mix(in srgb, var(--bl-accent) 45%, var(--bl-line)) !important; }
 #bl-sc-board .bl-sc-count { position:static; margin-left:2px; box-shadow:none; }
