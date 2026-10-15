@@ -2292,3 +2292,9 @@ html body.bloom.bl-v-calendar:not(#_1):not(#_2):not(#_3) #main-section-header { 
 html body.bloom:not(#_1):not(#_2):not(#_3) .calendar-actions #bbm-cal-new { height:34px !important; padding:0 14px !important; margin-left:8px !important; border-radius:8px !important; background:var(--bl-accent) !important; color:var(--bl-accent-fg, #fff) !important; border:0 !important; font:600 13.5px var(--bl-ui) !important; gap:6px; display:inline-flex; align-items:center; white-space:nowrap; box-shadow:none !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .calendar-actions #bbm-cal-new:hover { filter:brightness(1.08); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .calendar-actions #bbm-cal-new svg { width:15px; height:15px; }
+
+/* ── Status dot on avatars ──
+   The away / do-not-disturb / offline dot rules set position:relative (for their little marks),
+   which outranked the avatar's corner placement and left the dot sitting on top of the face in the
+   Chat tab. On an avatar the dot always lives in the bottom-right corner. */
+html body:not(#_1):not(#_2):not(#_3) .chat-avatar-status.chat-status-dot { position:absolute !important; right:-1px; bottom:-1px; }
