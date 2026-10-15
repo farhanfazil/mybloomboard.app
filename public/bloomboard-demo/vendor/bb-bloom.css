@@ -1101,7 +1101,7 @@ html body.bloom #bl-home .bl-row.bl-ticked .bl-chk { background:var(--bl-ok) !im
 /* ═══ pass 23: icon rail + side chat (Tasks and Boards) ═══ */
 html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar { transition:width .28s cubic-bezier(.2,.8,.2,1), min-width .28s cubic-bezier(.2,.8,.2,1), padding .28s cubic-bezier(.2,.8,.2,1) !important; }
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar { width:64px !important; min-width:64px !important; padding:14px 8px !important; }
-html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav { padding:0 13px !important; height:38px; gap:0; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav { padding:0 13px !important; height:32px; gap:0; }
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span, html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-badge, html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-chev, html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-faces { opacity:0; transform:translateX(-14px); pointer-events:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span { transition:opacity .16s ease; white-space:nowrap; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > .bl-i { transition:width .28s cubic-bezier(.2,.8,.2,1), height .28s cubic-bezier(.2,.8,.2,1); }
@@ -1110,7 +1110,7 @@ html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter { p
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter :is(.soe-txt,.soe-count) { opacity:0; transform:translateX(-14px); pointer-events:none; }
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter .soe-ic { width:24px !important; height:24px !important; }
 /* the unread count stays visible on the rail, in the icon's corner */
-html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav.bl-unread::after { content:""; position:absolute; top:9px; left:31px; width:7px; height:7px; border-radius:50%; background:var(--bl-accent); box-shadow:0 0 0 2px var(--bl-side); }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav.bl-unread::after { content:""; position:absolute; top:6px; left:31px; width:7px; height:7px; border-radius:50%; background:var(--bl-accent); box-shadow:0 0 0 2px var(--bl-side); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav { position:relative; }
 #bl-railpin[hidden] { display:none !important; }
 /* pages move with the sidebar */
@@ -2195,11 +2195,11 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-subs { gap:6px; font:600 12.5p
    icons glide to the middle, and every page (Office, chat, boards…) moves with it. Same curve and
    length everywhere so nothing arrives before anything else. */
 html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar { overflow-x:hidden; transition:width .32s cubic-bezier(.65,0,.35,1), min-width .32s cubic-bezier(.65,0,.35,1), padding .32s cubic-bezier(.65,0,.35,1) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav { transition:padding .32s cubic-bezier(.65,0,.35,1), height .32s cubic-bezier(.65,0,.35,1), gap .32s cubic-bezier(.65,0,.35,1), background-color .15s ease, color .15s ease; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav { transition:padding-left .32s cubic-bezier(.65,0,.35,1), padding-right .32s cubic-bezier(.65,0,.35,1), gap .32s cubic-bezier(.65,0,.35,1), background-color .15s ease, color .15s ease; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span, html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav :is(.bl-badge, .bl-chev, .bl-faces) { white-space:nowrap; flex-shrink:0; transition:opacity .2s cubic-bezier(.75,0,.75,.9) .12s, transform .32s cubic-bezier(.65,0,.35,1); }
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span, html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav :is(.bl-badge, .bl-chev, .bl-faces) { transition:opacity .2s ease, transform .32s cubic-bezier(.65,0,.35,1); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > .bl-i { transition:width .32s cubic-bezier(.65,0,.35,1), height .32s cubic-bezier(.65,0,.35,1) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter { transition:padding .32s cubic-bezier(.65,0,.35,1), background-color .15s ease !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter { transition:background-color .15s ease !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter :is(.soe-txt,.soe-count,.soe-faces,.soe-pulse) { white-space:nowrap; flex-shrink:0; transition:opacity .2s cubic-bezier(.75,0,.75,.9) .12s, transform .32s cubic-bezier(.65,0,.35,1); }
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter { overflow:hidden; }
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter :is(.soe-txt,.soe-count,.soe-faces,.soe-pulse) { transition:opacity .2s ease, transform .32s cubic-bezier(.65,0,.35,1); }
@@ -2248,3 +2248,26 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-task.p-high .bbc
 html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-task.done .bbcw-check { color:var(--bl-ok); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-task.overdue span.t { color:var(--bl-bad); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-task.done span.t { color:var(--bl-fg3); text-decoration:line-through; }
+
+/* ── Tasks: board cards assigned to you ("From boards") ──
+   Read-only here: a board icon instead of a status button, the board and column under the title.
+   Board view: its own column at the end, styled like the task columns. */
+.bb-bc-ic { color:var(--bl-fg3); cursor:inherit; }
+.bb-bc-ic svg { width:15px; height:15px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-bcrow .bb-tl-c-name { display:flex !important; flex-direction:column !important; align-items:flex-start !important; justify-content:center !important; text-align:left !important; gap:1px; min-width:0; }
+.bb-tl-bcrow .bb-bc-where { font:400 11.5px var(--bl-ui); color:var(--bl-fg3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-bc-col { display:flex; flex-direction:column; min-width:0; background:var(--bl-side); border:1px solid var(--bl-line); border-radius:10px; align-self:start; }
+.bb-bc-hd { display:flex; align-items:center; gap:8px; padding:12px 14px 10px; color:var(--bl-fg); }
+.bb-bc-hic { display:inline-grid; color:var(--bl-fg3); } .bb-bc-hic svg { width:15px; height:15px; }
+.bb-bc-name { font:600 13.5px var(--bl-ui); }
+.bb-bc-n { font:500 12.5px var(--bl-ui); color:var(--bl-fg3); }
+.bb-bc-body { display:flex; flex-direction:column; gap:8px; padding:0 10px 10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-bc-card { display:flex; flex-direction:column; align-items:stretch; gap:6px; width:100%; text-align:left; background:var(--bl-win); border:1px solid var(--bl-line); border-radius:8px; padding:10px 12px; cursor:pointer; color:var(--bl-fg); font-family:var(--bl-ui); transition:background-color .12s, border-color .12s; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-bc-card:hover { background:var(--bl-hover); }
+.bb-bc-card .bb-bc-where { display:flex; align-items:center; gap:6px; font:400 11.5px var(--bl-ui); color:var(--bl-fg3); min-width:0; }
+.bb-bc-card .bb-bc-where svg { width:12px; height:12px; flex:none; }
+.bb-bc-card .bb-bc-where span { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.bb-bc-title { font:500 13.5px/1.35 var(--bl-ui); color:var(--bl-fg); }
+.bb-bc-foot { display:flex; align-items:center; gap:12px; }
+.bb-bc-due { font:400 12px var(--bl-ui); color:var(--bl-fg2); }
+.bb-bc-due.overdue { color:var(--bl-bad); }
