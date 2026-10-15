@@ -953,7 +953,7 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-merged > .station-gri
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-merged .office-dept-room .ofr { max-width:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-merged .ofr-t b { display:none; }
 /* A department with teams names each of its rooms, so you can tell them apart. */
-html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-merged.has-squads .ofr-t b { display:inline; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-merged.has-squads .ofr-t b { display:block; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-merged .ofr-st { margin-top:0; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-av[data-person] { pointer-events:auto; cursor:pointer; overflow:visible; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-av[data-person]:hover { box-shadow:0 0 0 3px var(--ofr-bg), 0 0 0 5px var(--bl-fg3); }
@@ -1465,7 +1465,11 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-status-opt .bb-tl-st 
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-status-opt .bb-tl-st svg { width:14px; height:14px; }
 /* List: group menu, Add status, subtask progress */
 .bb-tl-ghd-row { display:flex; align-items:center; gap:4px; }
-.bb-tl-ghd-row .bb-tl-ghd { flex:1; }
+.bb-tl-ghd-row .bb-tl-ghd { flex:0 1 auto; width:auto; min-width:0; }
+.bb-tl-gsp { flex:1; }
+.bb-tl-gadd { display:grid; place-items:center; width:26px; height:26px; flex:none; border:0; border-radius:6px; background:none; color:var(--bl-fg3); cursor:pointer; }
+.bb-tl-gadd svg { width:15px; height:15px; }
+.bb-tl-gadd:hover, .bb-tl-gadd:focus-visible { background:var(--bl-hover); color:var(--bl-fg); outline:none; }
 .bb-tl-gmenu { display:grid; place-items:center; width:28px; height:28px; border:0; border-radius:6px; background:none; color:var(--bl-fg3); cursor:pointer; opacity:0; transition:opacity .12s; }
 .bb-tl-gmenu svg { width:16px; height:16px; }
 .bb-tl-ghd-row:hover .bb-tl-gmenu, .bb-tl-gmenu:focus-visible { opacity:1; }
@@ -1922,3 +1926,40 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd-n { min-width:0; overflow:hidd
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd-n.none { color:var(--bl-fg2); font-weight:400; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd-sep { height:1px; margin:4px 6px; background:var(--bl-line); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dd-empty { padding:8px 10px 9px; font:400 12.5px/1.45 var(--bl-ui); color:var(--bl-fg3); }
+
+/* Office (Bloom): long room names end with … instead of running under the buttons */
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-t { min-width:0; flex:1 1 auto; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-t b { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-acts { flex:none; }
+/* Department header: Walk in for the whole department (when it has teams) */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept-hd { display:flex; align-items:center; gap:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept-hd .office-dept-name { min-width:0; flex:1 1 auto; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept-hd .office-dept-name b { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept-act { flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept-act .office-btn { padding:4px 12px !important; font-size:12px !important; min-height:0 !important; height:28px !important; }
+/* One line per person under each table */
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-who { display:flex; flex-direction:column; gap:2px; padding:4px 10px 8px; border-top:1px solid var(--bl-line); margin-top:4px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-who-row { display:grid; grid-template-columns:auto auto minmax(0,1fr); align-items:center; gap:10px; width:100%; min-height:36px; padding:4px 6px !important; border:0 !important; border-radius:8px !important; background:none !important; color:var(--bl-fg) !important; text-align:left; cursor:pointer; font:500 13px var(--bl-ui); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-who-row:hover { background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-who-av { position:relative; display:grid; place-items:center; width:26px; height:26px; border-radius:50%; color:#fff; font:600 10.5px var(--bl-ui); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-who-av i { position:absolute; right:-2px; bottom:-2px; width:9px; height:9px; border-radius:50%; border:2px solid var(--bl-win); background:#64748b; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-who-av i.d-available { background:var(--bl-ok); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-who-av i.d-inroom { background:#38bdf8; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-who-av i.d-dnd, html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-who-av i.d-busy { background:#ef4444; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-who-av i.d-brb, html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-who-av i.d-away { background:#f59e0b; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-who-n { white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-who-s { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--bl-fg3); font-weight:400; font-size:12.5px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-who-row.t-off { color:var(--bl-fg2) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr-who-row.t-off .ofr-who-av { opacity:.55; }
+/* A department without a room yet: just the list */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-list > .station-grid { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr.ofr-list { background:transparent; border:0; padding:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr.ofr-list .ofr-who { border-top:0; margin:0; padding:2px 0 4px; }
+/* Company spaces: one slim row */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-shared { display:grid !important; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-space { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; border:1px solid var(--bl-line); border-radius:12px; background:var(--bl-win); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-space.live { border-color:color-mix(in srgb, #ef4444 45%, var(--bl-line)); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-space-t { min-width:0; display:flex; flex-direction:column; gap:3px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-space-t b { font:600 13.5px var(--bl-ui); color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-space-t span { display:flex; align-items:center; gap:6px; font:400 12.5px var(--bl-ui); color:var(--bl-fg3); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-space .office-btn { flex:none; padding:4px 12px !important; font-size:12px !important; min-height:0 !important; height:28px !important; }
