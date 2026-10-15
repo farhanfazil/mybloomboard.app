@@ -514,8 +514,19 @@ try {
         units().filter(function (u) { return low(u.department) === low(d) && u.squad; }).map(function (u) { return u.squad; })
           .concat(ppl.map(function (m) { return m.squad; }).filter(Boolean))
           .forEach(function (t) { if (teams.every(function (x) { return low(x) !== low(t); })) teams.push(String(t).trim()); });
-        return { name: d, people: ppl.length, teams: teams.sort().map(function (t) { return { name: t, people: ppl.filter(function (m) { return low(m.squad) === low(t); }).length }; }) };
+        var vu = units().filter(function (u) { return low(u.department) === low(d) && !u.squad; })[0] || {};
+        return { name: d, only: !!vu.vis_only, depts: vu.vis_depts || [], users: vu.vis_users || [], people: ppl.length, teams: teams.sort().map(function (t) { return { name: t, people: ppl.filter(function (m) { return low(m.squad) === low(t); }).length }; }) };
       }) });
+    }
+    /* Who can see a department: the demo user is the owner, who always sees everyone, so only the setting is kept. */
+    if (fn === 'org_set_department_visibility') {
+      var vd = String(args.p_department || '').trim(); if (!vd) return bad('no_department');
+      var vu2 = units().filter(function (u) { return low(u.department) === low(vd) && !u.squad; })[0];
+      if (!vu2) { vu2 = { id: 'ou_' + Math.random().toString(36).slice(2), team_id: tid, department: vd, squad: '' }; table('org_units').push(vu2); }
+      vu2.vis_only = !!args.p_only;
+      vu2.vis_depts = vu2.vis_only ? (args.p_depts || []).filter(function (x) { return low(x) !== low(vd); }) : [];
+      vu2.vis_users = vu2.vis_only ? (args.p_users || []).slice() : [];
+      return ok();
     }
     if (fn === 'org_save_department' || fn === 'org_save_team') {
       var isTeam = fn === 'org_save_team', nw = String(args.p_new || '').trim().slice(0, 40), old = args.p_old;

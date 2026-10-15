@@ -2084,3 +2084,16 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card:hove
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card.has-more:hover .dk-scr .station-card-foot { opacity:1 !important; }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .office-dept.bl-st { --dk-frame:color-mix(in srgb, var(--bl-fg3) 48%, var(--bl-line)); }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-action:hover { background:#e6eaf0 !important; }
+/* Who can see a department (Settings › Company › Departments) */
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-vis { margin-top:3px; display:flex; align-items:center; gap:5px; font:500 12px/1.4 var(--bl-ui); color:var(--bl-fg2); min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-vis svg { width:12px; height:12px; flex:none; color:var(--bl-high); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-visbox { width:min(520px, calc(100vw - 32px)) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-opt { display:flex; gap:10px; align-items:flex-start; margin-top:10px; padding:10px 12px; border:1px solid var(--bl-line); border-radius:10px; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-opt:has(input:checked) { border-color:var(--bl-accent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-opt input { margin:3px 0 0; accent-color:var(--bl-accent); flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-opt b { display:block; font:600 13.5px var(--bl-ui); color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-opt small { display:block; font:400 12.5px/1.4 var(--bl-ui); color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-sub { margin-top:12px; font:600 11px var(--bl-ui); letter-spacing:.06em; text-transform:uppercase; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-vispick .bb-org-plist { margin-top:6px; max-height:min(190px,28vh); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-none { padding:10px 12px; font:400 12.5px var(--bl-ui); color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-visnote { margin-top:12px !important; font-size:12.5px !important; color:var(--bl-fg3) !important; }
