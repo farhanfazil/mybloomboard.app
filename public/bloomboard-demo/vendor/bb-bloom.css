@@ -1998,4 +1998,24 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .station-card-foot > span { min-width
 html body.bloom:not(#_1):not(#_2):not(#_3) .station-card-foot > svg { flex:none; }
 /* A card with "+N" keeps its bottom line on hover; the action buttons sit just above it. */
 html body.bloom:not(#_1):not(#_2):not(#_3) .station-card.has-more:hover .station-card-foot, html body.bloom:not(#_1):not(#_2):not(#_3) .station-card.has-more:focus-within .station-card-foot { opacity:1; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .station-card.has-more .station-card-actions { bottom:36px; }
+/* Hover buttons get their own row below the face (the bottom line makes room for them) */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card-foot { min-height:30px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card-actions { bottom:8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .station-card-foot span.st-more { display:inline-grid; place-items:center; height:20px; }
+/* Everything in progress: a small panel above the Office */
+#office-work-pop { position:fixed; z-index:3600; display:none; width:300px; max-height:340px; overflow:auto; padding:6px; border-radius:12px; }
+#office-work-pop.open { display:block; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-work-pop { background:var(--bl-win); border:1px solid var(--bl-line); box-shadow:0 12px 32px rgba(0,0,0,.3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-work-pop .owp-hd { padding:6px 8px 6px; font:600 11.5px var(--bl-ui); color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-work-pop .owp-it { display:grid; grid-template-columns:14px minmax(0,1fr) auto; align-items:center; gap:9px; width:100%; min-height:34px; padding:6px 8px !important; border:0 !important; border-radius:8px !important; background:none !important; color:var(--bl-fg) !important; font:500 13px var(--bl-ui); text-align:left; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-work-pop .owp-it:hover { background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-work-pop .owp-it.ro { cursor:default; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-work-pop .owp-it svg { width:14px; height:14px; color:var(--bl-accent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-work-pop .owp-t { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-work-pop .owp-d { font:400 12px var(--bl-ui); color:var(--bl-fg3); white-space:nowrap; }
+/* "Who can see it" choice in the Working on dialog */
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-ask-focus .bb-ask-lbl { margin:16px 0 8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-seg { display:flex; flex-direction:column; gap:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-seg label { display:flex; align-items:center; gap:10px; padding:9px 12px; border:1px solid var(--bl-line); border-radius:9px; cursor:pointer; font:500 13.5px var(--bl-ui); color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-seg label:has(input:checked) { border-color:var(--bl-accent); background:var(--bl-accent-soft); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-seg input { width:16px; height:16px; margin:0; accent-color:var(--bl-accent); }

@@ -561,6 +561,17 @@ try {
       mems().forEach(function (m) { if (same(m.user_id, args.p_user)) touch(m, { department: d2, squad: q2 }); });
       return ok({ department: d2, squad: q2 });
     }
+    /* "Working on" with who can see it (mirrors set_my_focus / visible_focus). */
+    if (fn === 'set_my_focus') {
+      mems().forEach(function (m) { if (same(m.user_id, ME_USER.id)) touch(m, { focus_task: String(args.p_task || '').slice(0, 80), focus_scope: args.p_scope === 'all' ? 'all' : 'dept' }); });
+      return ok();
+    }
+    if (fn === 'visible_focus') {
+      var meRow = mems().find(function (m) { return same(m.user_id, ME_USER.id); }) || {};
+      return Promise.resolve({ data: mems().filter(function (m) {
+        return m.focus_task && (same(m.user_id, ME_USER.id) || m.focus_scope === 'all' || (meRow.department && low(m.department) === low(meRow.department)));
+      }).map(function (m) { return { user_id: m.user_id, task: m.focus_task, scope: m.focus_scope || 'dept' }; }), error: null });
+    }
     if (fn === 'set_member_department') {
       var dept = String(args.p_department || '').trim().slice(0, 40);
       table('team_members').forEach(function (m) {
