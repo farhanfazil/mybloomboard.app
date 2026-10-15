@@ -2175,15 +2175,20 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-gif-btn { width:auto !impo
 
 /* Subtask count in the task list: a readable bar and number, no arrow */
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-subs { gap:6px; font:600 12.5px var(--bl-ui); color:var(--bl-fg2); font-variant-numeric:tabular-nums; }
-/* Collage letters sit toward the centre of the circle so none touches the curved edge */
-.bb-collage i b { display:block; font-size:9.5px; line-height:1; }
-.bb-collage.n2 i:nth-child(1) b { transform:translateX(18%); }
-.bb-collage.n2 i:nth-child(2) b { transform:translateX(-18%); }
-.bb-collage.n3 i:nth-child(1) b { transform:translateX(22%); }
-.bb-collage.n3 i:nth-child(2) b { transform:translate(-30%, 28%); }
-.bb-collage.n3 i:nth-child(3) b { transform:translate(-30%, -28%); }
-.bb-collage.n4 i:nth-child(1) b { transform:translate(28%, 28%); }
-.bb-collage.n4 i:nth-child(2) b { transform:translate(-28%, 28%); }
-.bb-collage.n4 i:nth-child(3) b { transform:translate(28%, -28%); }
-.bb-collage.n4 i:nth-child(4) b { transform:translate(-28%, -28%); }
-.bb-collage.n3 i b, .bb-collage.n4 i b { font-size:8.5px; }
+/* Collage letters sit at the visual middle of each slice (a slice's centre of mass is ~8% nearer
+   the circle's centre than its box centre), with clear gaps between slices. */
+.bb-collage { gap:2px !important; }
+.bb-collage i b { display:block; line-height:1; font-weight:600; }
+.bb-collage.n2 i b, .bb-collage.n3 i:nth-child(1) b { font-size:11px; }
+.bb-collage.n3 i:nth-child(n+2) b, .bb-collage.n4 i b { font-size:8px; }
+.bb-collage.n2 i:nth-child(1) b, .bb-collage.n3 i:nth-child(1) b { transform:translateX(1px); }
+.bb-collage.n2 i:nth-child(2) b { transform:translateX(-1px); }
+.bb-collage.n3 i:nth-child(2) b, .bb-collage.n4 i:nth-child(2) b { transform:translate(-1.5px, 1.5px); }
+.bb-collage.n3 i:nth-child(3) b, .bb-collage.n4 i:nth-child(4) b { transform:translate(-1.5px, -1.5px); }
+.bb-collage.n4 i:nth-child(1) b { transform:translate(1.5px, 1.5px); }
+.bb-collage.n4 i:nth-child(3) b { transform:translate(1.5px, -1.5px); }
+/* Subtasks slide open and shut under their task (no list redraw, no blink) */
+.bb-tl-subrow.bb-tl-sub-in { animation:bbTlSubIn .2s ease both; overflow:hidden; }
+@keyframes bbTlSubIn { from { opacity:0; max-height:0; min-height:0; transform:translateY(-4px); } to { opacity:1; max-height:48px; transform:none; } }
+.bb-tl-subrow.bb-tl-sub-out { overflow:hidden; min-height:0 !important; transition:height .18s ease, opacity .15s ease; }
+@media (prefers-reduced-motion: reduce) { .bb-tl-subrow.bb-tl-sub-in { animation:none; } .bb-tl-subrow.bb-tl-sub-out { transition:none; } }
