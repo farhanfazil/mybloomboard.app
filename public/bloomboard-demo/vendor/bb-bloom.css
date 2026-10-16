@@ -2688,3 +2688,12 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msgs { padding-bottom:8px 
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msgs-area::after, html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msgs::after { content:""; display:block; flex:none; height:16px; }
 /* Meeting notes: a point is plain text that wraps, no box behind it */
 html body.bloom:not(#_1):not(#_2):not(#_3) #mn2 textarea.mn2-pt-in { background:transparent !important; border:0 !important; box-shadow:none !important; border-radius:0 !important; padding:7px 0 !important; color:var(--bl-fg) !important; font:500 14px/1.45 var(--bl-ui) !important; }
+
+/* ── Smooth page switches (View Transitions) ── */
+html.bl-vt *, html.bl-vt *::before, html.bl-vt *::after { animation-duration:1ms !important; animation-delay:0s !important; transition-duration:1ms !important; transition-delay:0s !important; }
+html.bl-vtn body.bloom .sidebar { view-transition-name:bl-side; }
+html.bl-vtn body.bloom #bl-sc { view-transition-name:bl-sc; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration:.2s; animation-timing-function:cubic-bezier(.2,.8,.2,1); }
+::view-transition-group(bl-side), ::view-transition-group(bl-sc) { animation-duration:.3s; animation-timing-function:cubic-bezier(.32,.72,0,1); }
+::view-transition-old(bl-side), ::view-transition-new(bl-side), ::view-transition-old(bl-sc), ::view-transition-new(bl-sc) { animation-duration:.22s; height:100%; object-fit:none; object-position:left top; }
+@media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation:none !important; } }
