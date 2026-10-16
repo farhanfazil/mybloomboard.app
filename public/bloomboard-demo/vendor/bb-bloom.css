@@ -2330,3 +2330,11 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .office-dept.office-dep
 html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .office-dept.office-dept-ghost { position:absolute !important; z-index:60; margin:0 !important; pointer-events:none; box-shadow:0 18px 44px rgba(0,0,0,.30), 0 2px 8px rgba(0,0,0,.18) !important; will-change:transform, left, top; transform-origin:50% 40%; }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #office-depts .office-dept.office-dept-ghost { box-shadow:0 18px 40px rgba(15,23,42,.16), 0 2px 8px rgba(15,23,42,.10) !important; }
 body.bb-office-dragging, body.bb-office-dragging * { cursor:grabbing !important; user-select:none !important; }
+
+/* Chat list: Rooms fold to one line (2026-10-16) */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-section-lbl.chat-conv-fold { display:flex; align-items:center; gap:6px; width:calc(100% - 8px); margin:0 4px; padding:6px 8px !important; border:0 !important; border-radius:7px !important; background:none !important; box-shadow:none !important; cursor:pointer; text-align:left; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-section-lbl.chat-conv-fold:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-fold .chat-conv-chev { width:14px; height:14px; flex:none; transition:transform .18s ease; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-fold.open .chat-conv-chev { transform:rotate(90deg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-fold em { margin-left:auto; font:500 12px var(--bl-ui); font-style:normal; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-fold:focus-visible { outline:2px solid var(--bl-accent); outline-offset:-2px; }
