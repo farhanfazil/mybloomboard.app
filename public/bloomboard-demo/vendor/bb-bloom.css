@@ -2699,9 +2699,12 @@ body.bb-office-dragging, body.bb-office-dragging * { user-select:none !important
 html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .station-card { -webkit-user-select:none; user-select:none; }
 
 /* New message / New room inside the chat sidebar */
-html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-sidebar.bl-new-on #chat-conv-list { display:none !important; }
+/* A layer over the chat list (the list stays put underneath); takes no space when closed. */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-sidebar { position:relative; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-new-btn.on { background:var(--bl-accent-soft) !important; border-color:var(--bl-accent) !important; color:var(--bl-accent) !important; }
-#bl-chat-new { flex:1; min-height:0; display:flex; flex-direction:column; padding:4px 0 8px; }
+#bl-chat-new { display:none; position:absolute; left:8px; right:8px; bottom:8px; z-index:20; flex-direction:column; padding:6px 0 8px; background:var(--bl-win); border:1px solid var(--bl-line); border-radius:12px; box-shadow:0 14px 36px rgba(0,0,0,.34); }
+body.light-mode #bl-chat-new { box-shadow:0 14px 32px rgba(15,23,42,.14); }
+.chat-sidebar.bl-new-on #bl-chat-new { display:flex; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-box { width:auto !important; max-width:none !important; flex:1; min-height:0; display:flex; flex-direction:column; gap:10px; background:none !important; border:0 !important; box-shadow:none !important; border-radius:0 !important; padding:6px 12px 0 !important; animation:none !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-title { font:600 13px var(--bl-ui) !important; color:var(--bl-fg2) !important; margin:4px 4px 0 !important; display:flex; align-items:center; gap:8px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-title svg { width:15px; height:15px; }
@@ -2716,6 +2719,6 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-mem-name { f
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-mem-sub { font:400 12px var(--bl-ui) !important; color:var(--bl-fg3) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new[data-kind="dm"] .chat-modal-check { display:none !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new[data-kind="dm"] .chat-modal-btn.confirm { display:none !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-btns { display:flex; justify-content:flex-end; gap:8px; padding:10px 0 4px; border-top:1px solid var(--bl-line); margin:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-btns { display:flex; justify-content:flex-end; gap:8px; padding:10px 0 2px; border-top:1px solid var(--bl-line); margin:0 !important; flex:none; }
 /* More breathing room around the Rooms fold */
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-section-lbl.chat-conv-fold { margin-top:14px !important; }
