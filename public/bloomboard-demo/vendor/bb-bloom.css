@@ -2338,3 +2338,8 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-fold .chat-c
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-fold.open .chat-conv-chev { transform:rotate(90deg); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-fold em { margin-left:auto; font:500 12px var(--bl-ui); font-style:normal; color:var(--bl-fg3); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-fold:focus-visible { outline:2px solid var(--bl-accent); outline-offset:-2px; }
+
+/* Group avatars: one initial per slice, never past its edge (2026-10-16) */
+.bb-collage i { overflow:hidden; }
+html body .bb-collage.n2 i b, html body .bb-collage.n3 i:nth-child(1) b { font-size:11px !important; }
+html body .bb-collage.n3 i:nth-child(n+2) b, html body .bb-collage.n4 i b { font-size:8px !important; }
