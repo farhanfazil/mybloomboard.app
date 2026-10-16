@@ -2694,3 +2694,28 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #mn2 textarea.mn2-pt-in { background:
 html.bl-snap body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) :is(.sidebar, #bl-sc, main.main-area, .boards-overlay, .chat-overlay, .bb-email-overlay, .overview-overlay, .bookmarks-overlay, .team-overlay, .fl-overlay),
 html.bl-snap body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-nav .bl-nav :is(.bl-i, span, .bl-badge, .bl-chev, .bl-faces),
 html.bl-snap body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .sidebar .sb-office-enter, html.bl-snap body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .sidebar .sb-office-enter * { transition:none !important; }
+/* Dragging desks, teams or sidebar rows never selects text */
+body.bb-office-dragging, body.bb-office-dragging * { user-select:none !important; -webkit-user-select:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .station-card { -webkit-user-select:none; user-select:none; }
+
+/* New message / New room inside the chat sidebar */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-sidebar.bl-new-on #chat-conv-list { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-new-btn.on { background:var(--bl-accent-soft) !important; border-color:var(--bl-accent) !important; color:var(--bl-accent) !important; }
+#bl-chat-new { flex:1; min-height:0; display:flex; flex-direction:column; padding:4px 0 8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-box { width:auto !important; max-width:none !important; flex:1; min-height:0; display:flex; flex-direction:column; gap:10px; background:none !important; border:0 !important; box-shadow:none !important; border-radius:0 !important; padding:6px 12px 0 !important; animation:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-title { font:600 13px var(--bl-ui) !important; color:var(--bl-fg2) !important; margin:4px 4px 0 !important; display:flex; align-items:center; gap:8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-title svg { width:15px; height:15px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-group-name { width:100%; box-sizing:border-box; height:38px; padding:0 12px; background:var(--bl-raise) !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; color:var(--bl-fg) !important; font:400 14px var(--bl-ui) !important; box-shadow:none !important; margin:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-group-name:focus { border-color:var(--bl-fg3) !important; outline:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-members { flex:1; min-height:0; max-height:none !important; overflow-y:auto; display:flex; flex-direction:column; gap:2px; margin:0 -4px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-member { display:flex; align-items:center; gap:12px; padding:8px 10px !important; border:0 !important; border-radius:8px !important; background:none !important; cursor:pointer; box-shadow:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-member:hover { background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-member.selected { background:var(--bl-accent-soft) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-mem-av { width:34px !important; height:34px !important; flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-mem-name { font:500 14px var(--bl-ui) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-mem-sub { font:400 12px var(--bl-ui) !important; color:var(--bl-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new[data-kind="dm"] .chat-modal-check { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new[data-kind="dm"] .chat-modal-btn.confirm { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-btns { display:flex; justify-content:flex-end; gap:8px; padding:10px 0 4px; border-top:1px solid var(--bl-line); margin:0 !important; }
+/* More breathing room around the Rooms fold */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-section-lbl.chat-conv-fold { margin-top:14px !important; }
