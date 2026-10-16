@@ -2734,3 +2734,11 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bookmarks-overlay .bm-pill { backgro
 .bb-tl-group.is-empty .bb-tl-glabel { background:var(--bl-raise) !important; color:var(--bl-fg3) !important; box-shadow:inset 0 0 0 1px var(--bl-line); transition:background-color .2s ease, color .2s ease; }
 .bb-tl-group.is-empty .bb-tl-glabel .bb-tl-st { color:var(--bl-fg3) !important; }
 .bb-tl-group .bb-tl-glabel { transition:background-color .2s ease, color .2s ease; }
+/* Kanban column title: the list view's status mark in its colour (title text stays plain) */
+html body.bloom:not(#_1):not(#_2):not(#_3) .kb-col-hd .kb-col-st { display:inline-grid; place-items:center; width:16px; height:16px; flex:none; margin-right:8px; color:var(--gc); --bb-tl-on:var(--bl-win); transition:color .2s ease; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kb-col-hd .kb-col-st svg { width:15px; height:15px; display:block; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kb-col.is-empty .kb-col-hd .kb-col-st { color:var(--bl-fg3); }
+/* Empty group label: readable grey text in every theme (the name has its own white rule) */
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-group.is-empty .bb-tl-glabel, html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-group.is-empty .bb-tl-glabel * { color:var(--bl-fg2) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-group.is-empty .bb-tl-glabel { background:var(--bl-raise) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-group.is-empty .bb-tl-glabel .bb-tl-st { --bb-tl-on:var(--bl-raise); }
