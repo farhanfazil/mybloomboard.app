@@ -2343,3 +2343,11 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-fold:focus-v
 .bb-collage i { overflow:hidden; }
 html body .bb-collage.n2 i b, html body .bb-collage.n3 i:nth-child(1) b { font-size:11px !important; }
 html body .bb-collage.n3 i:nth-child(n+2) b, html body .bb-collage.n4 i b { font-size:8px !important; }
+
+/* Office: drag desks within a team and teams within a department (2026-10-16) */
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .station-grid, html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .office-dept-room { position:relative; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .bl-grp-hd { cursor:grab; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .office-sort-slot { background:color-mix(in srgb, var(--bl-accent) 5%, transparent) !important; outline:1.5px dashed color-mix(in srgb, var(--bl-accent) 45%, var(--bl-line)); outline-offset:-1.5px; border-color:transparent !important; box-shadow:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .office-sort-slot > * { visibility:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .office-sort-ghost { position:absolute !important; z-index:70; margin:0 !important; pointer-events:none; box-shadow:0 14px 34px rgba(0,0,0,.30), 0 2px 6px rgba(0,0,0,.18) !important; will-change:transform, left, top; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #office-depts .office-sort-ghost { box-shadow:0 14px 32px rgba(15,23,42,.16), 0 2px 6px rgba(15,23,42,.10) !important; }
