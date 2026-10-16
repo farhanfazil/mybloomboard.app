@@ -1539,8 +1539,9 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal #tm-assignee-picker .cd-a
 }
 /* card descriptions: two lines at most, "More" opens the task */
 html body.bloom:not(#_1):not(#_2):not(#_3) .task-card .task-desc { display:-webkit-box !important; -webkit-box-orient:vertical; -webkit-line-clamp:2; line-clamp:2; overflow:hidden !important; max-height:none !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .task-card .task-desc.bl-desc-fit { display:block !important; -webkit-line-clamp:unset; line-clamp:unset; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .task-card .bl-desc-more { display:inline; margin:0; padding:0; border:0; background:none; color:var(--bl-fg2); font:inherit; font-weight:500; text-decoration:underline; text-underline-offset:2px; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .task-card .task-desc.bl-desc-fit { display:-webkit-box !important; -webkit-box-orient:vertical; -webkit-line-clamp:2; line-clamp:2; overflow:hidden; position:relative; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .task-card .bl-desc-more { position:absolute !important; right:0 !important; bottom:0 !important; margin:0 !important; padding:0 0 0 10px !important; border:0 !important; border-radius:0 !important; box-shadow:none !important; background:var(--bl-desc-bg, var(--bl-win)) !important; color:var(--bl-fg2) !important; font:inherit !important; font-weight:500 !important; cursor:pointer; line-height:inherit !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .task-card .bl-desc-more:hover { color:var(--bl-fg) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .task-card .bl-desc-more:hover { color:var(--bl-fg); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .task-card.has-card-color .bl-desc-more { color:rgba(255,255,255,.85); }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .task-card.has-card-color .bl-desc-more { color:#2b3038; }
