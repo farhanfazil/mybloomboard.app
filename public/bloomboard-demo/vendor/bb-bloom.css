@@ -1980,6 +1980,8 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .office-dept-room 
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-live:empty, html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp-live[hidden], html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp-hd[hidden] { display:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp { display:flex; flex-direction:column; gap:10px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp + .bl-grp { padding-top:14px; border-top:1px solid var(--bl-line); }
+/* a hidden group above (nothing to show) must not leave its divider behind */
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp[hidden] + .bl-grp { padding-top:0; border-top:0; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp-hd { display:flex; align-items:center; justify-content:space-between; gap:12px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp-t { min-width:0; display:flex; align-items:baseline; gap:10px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bl-grp-t b { font:650 13.5px var(--bl-ui); color:var(--bl-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -2369,7 +2371,7 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-priv { margin-top:14px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-both > .bb-org-help { margin:-4px 0 10px; }
 
 /* Office: "Also here" slim line of small faces (2026-10-16) */
-html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .bl-also { display:flex; align-items:center; gap:10px; min-width:0; padding:10px 2px 2px; border-top:1px solid var(--bl-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .bl-also { display:flex; align-items:center; gap:10px; min-width:0; padding:2px 2px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .bl-also b { font:650 12.5px var(--bl-ui); color:var(--bl-fg); white-space:nowrap; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .bl-also-faces { display:flex; gap:6px; flex:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .bl-also-face { position:relative; width:28px; height:28px; padding:0 !important; border:0 !important; background:none !important; border-radius:50% !important; cursor:pointer; box-shadow:none !important; }
@@ -2380,3 +2382,13 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .bl-also-dot.on { backg
 html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .bl-also-dot.away { background:var(--bl-high, #f59e0b); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .bl-also-dot.focus { background:var(--bl-bad, #ef4444); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .bl-also-sub { min-width:0; font:400 12px var(--bl-ui); color:var(--bl-fg3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+/* Status menu growing out of your own desk (2026-10-16) */
+@keyframes bbDeskMenuGrow { from { opacity:0; transform:scale(.86); } to { opacity:1; transform:scale(1); } }
+html body:not(#_1):not(#_2) .office-status-menu.from-desk { position:fixed; overflow-y:auto; overscroll-behavior:contain; }
+html body:not(#_1):not(#_2) .office-status-menu.from-desk.open.grow { animation:bbDeskMenuGrow .26s cubic-bezier(.32,.72,0,1) both; }
+@media (prefers-reduced-motion: reduce) { html body:not(#_1):not(#_2) .office-status-menu.from-desk.open.grow { animation:none; } }
+/* compact enough to fit a laptop screen without scrolling */
+html body:not(#_1):not(#_2) .office-status-menu.from-desk button { height:31px; }
+html body:not(#_1):not(#_2) .office-status-menu.from-desk .office-menu-label { padding-top:4px; }
+/* Office: no double line above "Also here" when a block has nobody of its own */
