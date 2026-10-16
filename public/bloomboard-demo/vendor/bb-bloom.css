@@ -2650,3 +2650,28 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bl-rtime-ap button { background:none
 html body.bloom:not(#_1):not(#_2):not(#_3) .bl-rtime-ap button.on { background:var(--bl-accent) !important; color:var(--bl-accent-fg) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bl-rtime input { background:none !important; border:0 !important; box-shadow:none !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bl-rtime input:focus { background:var(--bl-hover) !important; }
+
+/* ── Typing, everywhere (main chat, side chat, chat list, Office desk) ── */
+@keyframes bbTypeDot { 0%, 60%, 100% { opacity:.3; transform:translateY(0); } 30% { opacity:1; transform:translateY(-2px); } }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-typing-row { padding:2px 20px 6px 62px !important; gap:8px !important; animation:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-typing-av { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-typing-bubble { display:inline-flex !important; align-items:center; gap:3px; padding:8px 11px !important; background:var(--bl-bub, var(--bl-raise)) !important; border:0 !important; border-radius:8px !important; box-shadow:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-typing-bubble span { width:5px !important; height:5px !important; border-radius:50% !important; background:var(--bl-fg2) !important; animation:bbTypeDot 1.2s infinite ease-in-out !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-typing-bubble span:nth-child(2) { animation-delay:.15s !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-typing-bubble span:nth-child(3) { animation-delay:.3s !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-typing-name { font:400 12.5px var(--bl-ui) !important; color:var(--bl-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-typing { display:flex; align-items:center; gap:8px; padding:2px 16px 6px; font:400 12px var(--bl-ui); color:var(--bl-fg3); flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-typing[hidden] { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.bb-dots, .bb-typing-txt, .dk-typing) { display:inline-flex; align-items:center; gap:3px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dots { padding:6px 9px; background:var(--bl-bub, var(--bl-raise)); border-radius:8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.bb-dots, .bb-typing-txt, .dk-typing) i { width:4px; height:4px; border-radius:50%; background:currentColor; animation:bbTypeDot 1.2s infinite ease-in-out; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-dots i { background:var(--bl-fg2); }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.bb-dots, .bb-typing-txt, .dk-typing) i:nth-child(2) { animation-delay:.15s; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.bb-dots, .bb-typing-txt, .dk-typing) i:nth-child(3) { animation-delay:.3s; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-typing-txt { color:var(--bl-accent); font-style:normal; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-typing-txt i:first-of-type { margin-left:3px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .station-card.bb-typing .dk-scr { position:relative; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .station-card.bb-typing .dk-scr > :not(.dk-typing) { visibility:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .dk-typing { position:absolute; inset:0; justify-content:center; font:500 12.5px var(--bl-ui); color:var(--bl-accent); gap:3px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .dk-typing i:first-of-type { margin-left:4px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-typing-tag { margin-left:8px; font:500 12px var(--bl-ui); }
