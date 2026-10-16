@@ -1080,7 +1080,8 @@ html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #ch
 html body.bloom.bl-v-home #bl-home, html body.bloom.bl-v-goals #bl-goals,
 html body.bloom.bl-v-tasks #task-list, html body.bloom.bl-v-tasks .dash-duo,
 html body.bloom.bl-v-calendar #main-calendar-panel,
-html body.bloom :is(.boards-overlay,.chat-overlay,.bb-email-overlay,.team-overlay,.overview-overlay,.bookmarks-overlay,.fl-overlay).open { animation:blIn .18s cubic-bezier(.2,.8,.2,1) both; }
+/* Pages appear in place, fully drawn: no fade-in (it showed the page underneath for a moment). */
+html body.bloom :is(.boards-overlay,.chat-overlay,.bb-email-overlay,.team-overlay,.overview-overlay,.bookmarks-overlay,.fl-overlay).open { animation:none; }
 /* windows */
 html body.bloom .modal-overlay.visible { animation:blFade .14s ease-out both; }
 html body.bloom .modal-overlay.visible :is(.modal-sheet,.new-board-modal,.kpi-modal-card,.event-modal-card,.bbm-card) { animation:blPop .18s cubic-bezier(.2,.8,.2,1) both; }
