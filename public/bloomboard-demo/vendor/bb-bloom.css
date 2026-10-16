@@ -2510,3 +2510,40 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-fmt-btn svg { wid
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-fmt-btn:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-fmt-btn.on { background:var(--bl-accent-soft) !important; color:var(--bl-accent) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-fmt-div { width:1px; height:18px; background:var(--bl-line); margin:0 6px; }
+
+/* ── Message hover bars (2026-10-16) ──────────────────────────────────────
+   Main chat: 3 quick reactions + add reaction | Reply, Task, Pin (| Edit, Delete).
+   The bar grows away from the window edge, so a short message never clips it:
+   other people's messages anchor it on the left, yours on the right. */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-toolbar { flex-wrap:nowrap !important; white-space:nowrap; top:-20px !important; animation:none !important; backdrop-filter:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row:not(.own) .chat-msg-toolbar { left:0 !important; right:auto !important; transform-origin:top left; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.own .chat-msg-toolbar { right:0 !important; left:auto !important; transform-origin:top right; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-main { position:relative !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-tool-btn { flex:none; width:30px !important; height:30px !important; border-radius:7px !important; transform:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-tool-btn.more:hover, html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-tool-btn.edit:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-tool-btn.danger:hover { background:var(--bl-hover) !important; color:var(--bl-bad) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-tool-sep { flex:none; width:1px !important; height:18px !important; background:var(--bl-line) !important; margin:0 4px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-tool-btn svg { width:17px !important; height:17px !important; }
+
+/* Office chat bar: quick reactions straight away, then add reaction | Reply (| Delete) */
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .sp-tools { background:var(--bl-win) !important; border:1px solid var(--bl-line) !important; box-shadow:0 4px 12px rgba(0,0,0,.22) !important; align-items:center; white-space:nowrap; top:-16px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .sp-tool { width:28px !important; height:28px !important; color:var(--bl-fg2) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .sp-tool:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .sp-tool.sp-rx :is(img,svg) { width:18px !important; height:18px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .sp-tool-sep { width:1px; height:16px; background:var(--bl-line); margin:0 3px; flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .station-peek-messages { padding-top:24px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .station-peek-msg { margin-top:6px; }
+
+/* Replies: what it answers, small, above the text; and the "Replying to" strip above the box */
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.sp-quote, .sc-quote) { display:flex; flex-direction:column; gap:1px; margin:2px 0 6px; padding:4px 9px; border-left:2px solid var(--bl-fg3); border-radius:2px 6px 6px 2px; background:rgba(127,127,127,.12); font:400 12.5px/1.35 var(--bl-ui); color:var(--bl-fg2); max-width:100%; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.sp-quote, .sc-quote) b { font-weight:600; color:var(--bl-fg); font-size:12px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.sp-quote, .sc-quote) span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .sc-quote { margin:0 0 3px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.sp-reply, .sc-reply) { display:flex; align-items:center; gap:8px; margin:0 10px 6px; padding:6px 8px 6px 10px; border-left:2px solid var(--bl-accent); background:var(--bl-raise); border-radius:2px 8px 8px 2px; font:400 12.5px var(--bl-ui); color:var(--bl-fg2); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .sc-reply { margin:0 0 6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .sc-reply[hidden] { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.sp-reply, .sc-reply) > span { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.sp-reply, .sc-reply) b { color:var(--bl-fg); font-weight:600; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.sp-reply-x, [data-screplyx]) { flex:none; width:22px; height:22px; display:grid; place-items:center; border:0; border-radius:6px; background:none; color:var(--bl-fg2); cursor:pointer; padding:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.sp-reply-x, [data-screplyx]):hover { background:var(--bl-hover); color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.sp-reply-x, [data-screplyx]) svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; }
