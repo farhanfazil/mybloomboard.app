@@ -2470,3 +2470,43 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-own .sc-mb { align-
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-own .sc-mh b { display:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-own .sc-mt:not(:empty) { background:var(--bl-bub-own); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-own .sc-rxs { justify-content:flex-end; }
+
+/* ── Chat composer pickers and tools (2026-10-16) ─────────────────────────
+   Emoji and GIF pickers open right above their own button, never clipped,
+   flat surfaces. Emoji: 6 per row and bigger, "Recent" on top. */
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#chat-emoji-picker, #chat-gif-picker) { background:var(--bl-win) !important; border:1px solid var(--bl-line) !important; border-radius:12px !important; box-shadow:0 12px 32px rgba(0,0,0,.32) !important; animation:none !important; z-index:13000 !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) :is(#chat-emoji-picker, #chat-gif-picker) { box-shadow:0 12px 32px rgba(15,23,42,.14) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-emoji-picker .chat-emoji-grid { grid-template-columns:repeat(6,minmax(0,1fr)) !important; gap:4px !important; padding:6px 12px 12px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-emoji-picker .chat-emoji-sec { grid-column:1 / -1; font:600 12px var(--bl-ui); color:var(--bl-fg2); padding:10px 4px 4px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-emoji-picker .chat-emoji-btn { aspect-ratio:auto !important; height:52px !important; border-radius:8px !important; background:none !important; transform:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-emoji-picker .chat-emoji-btn:hover { background:var(--bl-hover) !important; transform:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-emoji-picker .chat-emoji-btn :is(img, svg) { width:32px !important; height:32px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-emoji-picker .chat-emoji-cats { background:var(--bl-side) !important; border-top:1px solid var(--bl-line) !important; padding:6px 8px !important; justify-content:space-around !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-emoji-picker .chat-emoji-cat-btn { border-radius:8px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-emoji-picker .chat-emoji-cat-btn:hover { background:var(--bl-hover) !important; transform:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-emoji-picker .chat-emoji-cat-btn.active { background:var(--bl-raise) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-emoji-picker .chat-emoji-cat-btn.active::after { background:var(--bl-accent) !important; bottom:-6px !important; height:2px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-gif-picker .chat-gif-search { background:var(--bl-raise) !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; color:var(--bl-fg) !important; box-shadow:none !important; font:400 13.5px var(--bl-ui) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-gif-picker .chat-gif-search:focus { border-color:var(--bl-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-gif-picker .chat-gif-thumb { border-radius:8px !important; height:120px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-gif-picker .chat-gif-thumb:hover { transform:none !important; box-shadow:none !important; outline-color:var(--bl-accent) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-gif-picker .chat-gif-attr { border-top:1px solid var(--bl-line) !important; color:var(--bl-fg3) !important; font:500 11px var(--bl-ui) !important; text-transform:none !important; letter-spacing:0 !important; }
+
+/* Suggest reply: Bloom AI, a labelled button so it is easy to find */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-ai-suggest { display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 10px; margin-right:4px; border:1px solid var(--bl-line); border-radius:8px; background:var(--bl-win); color:var(--bl-accent); font:600 13px var(--bl-ui); cursor:pointer; flex:none; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-ai-suggest svg { width:16px; height:16px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-ai-suggest:hover { background:var(--bl-accent-soft); border-color:var(--bl-accent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-ai-suggest.busy { color:var(--bl-fg2); cursor:default; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-ai-suggest.busy svg { animation:blAiSpin 1.2s linear infinite; }
+@keyframes blAiSpin { to { transform:rotate(360deg); } }
+@media (max-width:760px) { html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-ai-suggest .chat-ai-lbl { display:none; } }
+
+/* Formatting: Aa opens a toolbar row along the top of the message box (Teams style) */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-input-row { flex-wrap:wrap !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-input-row .chat-fmt-sep { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-input-row.bl-fmt-on .chat-fmt-bar { display:flex !important; order:-1; flex:0 0 calc(100% + 2px); align-items:center; gap:2px; margin:-1px -1px 6px !important; padding:5px 8px !important; background:var(--bl-side) !important; border:0 !important; border-bottom:1px solid var(--bl-line) !important; border-radius:10px 10px 0 0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-fmt-btn { width:30px !important; height:28px !important; border-radius:6px !important; color:var(--bl-fg2) !important; background:none !important; box-shadow:none !important; transform:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-fmt-btn svg { width:16px; height:16px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-fmt-btn:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-fmt-btn.on { background:var(--bl-accent-soft) !important; color:var(--bl-accent) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-fmt-div { width:1px; height:18px; background:var(--bl-line); margin:0 6px; }
