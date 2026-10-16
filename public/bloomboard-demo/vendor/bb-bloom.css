@@ -2675,3 +2675,16 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .station-card.bb-typing .dk-scr > :no
 html body.bloom:not(#_1):not(#_2):not(#_3) .dk-typing { position:absolute; inset:0; justify-content:center; font:500 12.5px var(--bl-ui); color:var(--bl-accent); gap:3px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .dk-typing i:first-of-type { margin-left:4px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-typing-tag { margin-left:8px; font:500 12px var(--bl-ui); }
+/* Typing never overlaps: the desk screen shows only "typing" while it is there, and the chat
+   keeps a fixed slot for the typing line so a new message is never covered or cut off. */
+html body.bloom:not(#_1):not(#_2):not(#_3) .dk-scr:has(> .dk-typing) > :not(.dk-typing) { visibility:hidden !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .dk-scr:has(> .dk-typing) { position:relative; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-typing-zone { flex:none; height:30px; display:flex; align-items:center; overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-typing-zone .chat-typing-row { padding:0 20px 0 62px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msgs-area { padding-bottom:10px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-typing, html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-typing[hidden] { display:flex !important; height:26px; padding:0 16px; box-sizing:border-box; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-typing[hidden] { visibility:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msgs { padding-bottom:8px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msgs-area::after, html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msgs::after { content:""; display:block; flex:none; height:16px; }
+/* Meeting notes: a point is plain text that wraps, no box behind it */
+html body.bloom:not(#_1):not(#_2):not(#_3) #mn2 textarea.mn2-pt-in { background:transparent !important; border:0 !important; box-shadow:none !important; border-radius:0 !important; padding:7px 0 !important; color:var(--bl-fg) !important; font:500 14px/1.45 var(--bl-ui) !important; }
