@@ -2722,3 +2722,11 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new[data-kind="dm"] .chat-mo
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-chat-new .chat-modal-btns { display:flex; justify-content:flex-end; gap:8px; padding:10px 0 2px; border-top:1px solid var(--bl-line); margin:0 !important; flex:none; }
 /* More breathing room around the Rooms fold */
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-section-lbl.chat-conv-fold { margin-top:14px !important; }
+
+/* Bookmarks: one Add link (top right), no Close, "+" beside Categories, plain category label */
+html body.bloom:not(#_1):not(#_2):not(#_3) .bookmarks-overlay .bm-rail-head { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bookmarks-overlay .bm-cat-add { width:26px; height:26px; display:grid; place-items:center; padding:0; border:1px solid var(--bl-line); border-radius:7px; background:none; color:var(--bl-fg2); cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bookmarks-overlay .bm-cat-add:hover { background:var(--bl-hover); color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bookmarks-overlay .bm-cat-add svg { width:14px; height:14px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bookmarks-overlay .bm-toolbar .bm-search { flex:1; width:100%; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bookmarks-overlay .bm-pill { background:none !important; border:0 !important; border-radius:0 !important; padding:0 !important; color:var(--bl-fg3) !important; font:500 12px var(--bl-ui) !important; }
