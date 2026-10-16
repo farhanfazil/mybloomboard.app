@@ -2363,3 +2363,7 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-both .bb-org-sub { margin:16p
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-help { font:400 12.5px/1.45 var(--bl-ui); color:var(--bl-fg3); margin:0 0 8px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-both .bb-org-plist { max-height:min(220px,30vh); margin-top:4px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-p.bb-org-off { display:none; }
+
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-co-also { color:var(--bl-accent); font-weight:600; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-priv { margin-top:14px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-both > .bb-org-help { margin:-4px 0 10px; }
