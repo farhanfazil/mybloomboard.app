@@ -601,17 +601,10 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-ch-name { font:65
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-ch-sub, html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-ch-status { font:400 12.5px var(--bl-ui) !important; color:var(--bl-fg3) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .bb-call-header-btn, html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-close-btn.chat-icon-btn { background:var(--bl-win) !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; color:var(--bl-fg2) !important; box-shadow:none !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .bb-call-header-btn:hover, html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-close-btn.chat-icon-btn:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
-/* messages as calm rows, everyone on the left, like the mock-up */
+/* messages: see "Chat messages, Teams style" at the end of this file */
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-date-sep-txt { background:none !important; border:0 !important; box-shadow:none !important; font:500 12px var(--bl-ui) !important; color:var(--bl-fg3) !important; padding:0 10px !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-date-sep::before, html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-date-sep::after { background:var(--bl-line) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.own { flex-direction:row !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.own .chat-msg-main { align-self:flex-start !important; align-items:flex-start !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row:hover { background:var(--bl-side) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-av { box-shadow:none !important; filter:none !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-name { font:600 14px var(--bl-ui) !important; color:var(--bl-fg) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.own .chat-msg-head::before { content:"You"; font:600 14px var(--bl-ui); color:var(--bl-fg); margin-right:8px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-headtime, html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-hovertime { font:500 11.5px var(--bl-mono) !important; color:var(--bl-fg3) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-text.chat-bubble, html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.own .chat-msg-text.chat-bubble { background:none !important; border:0 !important; box-shadow:none !important; padding:0 !important; border-radius:0 !important; color:var(--bl-fg2) !important; font:400 14.5px/1.5 var(--bl-ui) !important; max-width:72ch !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-text a { color:var(--bl-accent) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-file, html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-link-chip, html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-reply-quote { background:var(--bl-win) !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; box-shadow:none !important; color:var(--bl-fg) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-reaction-chip, html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-react-add { background:var(--bl-win) !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; box-shadow:none !important; color:var(--bl-fg2) !important; }
@@ -637,7 +630,6 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .bl-fmt-btn { font:600 
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-input-row.bl-fmt-on .bl-fmt-btn { background:var(--bl-accent-soft) !important; color:var(--bl-accent) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-send-btn { background:var(--bl-accent) !important; color:var(--bl-accent-fg) !important; border:0 !important; border-radius:8px !important; box-shadow:none !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-send-btn svg { stroke:currentColor !important; color:var(--bl-accent-fg) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.own .chat-msg-head { flex-direction:row !important; justify-content:flex-start !important; }
 /* Type your tasks: same surface as the task columns (only the card and its frame; the live text layer is untouched) */
 body.bloom:not(#_1):not(#_2):not(#_3) .t2t-card { background:var(--bl-side) !important; border:1px solid var(--bl-line) !important; border-radius:10px !important; box-shadow:none !important; }
 body.bloom:not(#_1):not(#_2):not(#_3) .t2t-input-wrap { background:var(--bl-win) !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; box-shadow:none !important; }
@@ -2161,8 +2153,6 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #task-header-actions .bb-more-btn svg
 .bb-more-menu button:hover { background:var(--bl-hover,#202227); }
 .bb-more-menu button svg { width:15px; height:15px; color:var(--bl-fg2,#b4b9c3); flex:none; }
 .bb-more-menu button span { margin-left:auto; font-size:12px; color:var(--bl-fg3,#8d93a0); }
-/* Your own messages read left to right like everyone else's (a multi-line nudge was right-aligned) */
-html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.own .chat-msg-text, html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.own .chat-msg-main { text-align:left !important; }
 /* Side chat: reactions and the GIF button */
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-rxs { display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-rx { display:inline-flex; align-items:center; gap:4px; height:26px; padding:0 7px; border:1px solid var(--bl-line); border-radius:8px; background:var(--bl-raise); color:var(--bl-fg2); font:600 12px var(--bl-ui); cursor:pointer; }
@@ -2436,3 +2426,47 @@ html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #ch
 html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .ofr .ofr-scr { fill:#174f72 !important; }
 .team-modal.tm-wide .tm-head + .tm-row{margin-top:16px}
 .team-modal.tm-wide .tm-org-ro{margin-top:16px}
+
+/* ── Chat messages, Teams style (2026-10-16) ──────────────────────────────
+   Everyone else on the left (avatar, small grey name and time, a grey block);
+   your own messages on the right (time only, a tinted block). Lines sent within
+   5 minutes stack under one header. Blocks grow with the message. Flat, no glow. */
+body.bloom { --bl-bub:#1f2126; --bl-bub-own:#1d2b46; }
+body.bloom:not(.light-mode):not(.black-mode) { --bl-bub:#173a54; --bl-bub-own:#1f5079; }
+body.bloom.light-mode { --bl-bub:#eef0f3; --bl-bub-own:#dce8fc; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row { background:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row:not(.grouped) { margin-top:10px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.grouped { padding-top:1px !important; padding-bottom:1px !important; margin-top:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-head { display:flex !important; align-items:baseline !important; gap:8px !important; margin-bottom:3px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-name { font:500 12.5px var(--bl-ui) !important; color:var(--bl-fg2) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-headtime { font:400 12px var(--bl-ui) !important; color:var(--bl-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-hovertime { font:400 11px var(--bl-ui) !important; color:var(--bl-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-main { min-width:0 !important; max-width:78% !important; display:flex !important; flex-direction:column !important; align-items:flex-start !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-text.chat-bubble { display:inline-block !important; width:auto !important; max-width:100% !important; background:var(--bl-bub) !important; border:0 !important; box-shadow:none !important; border-radius:8px !important; padding:7px 12px !important; color:var(--bl-fg) !important; font:400 14.5px/1.45 var(--bl-ui) !important; text-align:left !important; overflow-wrap:anywhere; }
+/* yours: right side, no avatar, time only */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.own { flex-direction:row !important; justify-content:flex-end !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.own .chat-msg-gutter { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.own .chat-msg-main { align-items:flex-end !important; margin-left:auto !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.own .chat-msg-head { justify-content:flex-end !important; flex-direction:row !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.own .chat-msg-head::before { content:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.own .chat-msg-text.chat-bubble { background:var(--bl-bub-own) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.own :is(.chat-reactions, .chat-receipt, .chat-msg-reply-quote) { align-self:flex-end !important; }
+
+/* side chat: the same rules in the narrow panel */
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msgs { gap:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg { margin-top:12px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg:first-child { margin-top:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-cont { margin-top:3px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-cont > .sc-av, html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-cont > .sc-avw { visibility:hidden; height:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-cont .sc-mh { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-mb { display:flex; flex-direction:column; align-items:flex-start; max-width:85%; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-mh { margin-bottom:3px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-mh b { font:500 12px var(--bl-ui); color:var(--bl-fg2); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-mh time { font:400 11.5px var(--bl-ui); color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-mt:not(:empty) { background:var(--bl-bub); color:var(--bl-fg); border-radius:8px; padding:6px 11px; font-size:14px; line-height:1.45; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-own { grid-template-columns:minmax(0,1fr); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-own > :is(.sc-av, .sc-avw) { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-own .sc-mb { align-items:flex-end; margin-left:auto; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-own .sc-mh b { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-own .sc-mt:not(:empty) { background:var(--bl-bub-own); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-own .sc-rxs { justify-content:flex-end; }
