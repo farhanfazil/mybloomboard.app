@@ -932,13 +932,22 @@ html body.bloom:not(#_1):not(#_2):not(#_3) [contenteditable]:empty::before, html
 html body.bloom:not(#_1):not(#_2):not(#_3) :is(input,textarea,[contenteditable]) { caret-color:var(--bl-accent) !important; }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) :is(input,textarea)::placeholder { color:#9aa1ac !important; -webkit-text-fill-color:#9aa1ac !important; }
 /* Customise sidebar */
-.bl-cust { width:min(420px, calc(100vw - 32px)) !important; }
-.bl-cust-list { display:flex; flex-direction:column; gap:2px; max-height:min(60vh, 520px); overflow:auto; margin:4px -6px; }
-.bl-cust-row { display:flex; align-items:center; gap:10px; padding:8px 8px; border-radius:7px; cursor:pointer; color:var(--bl-fg); font:500 13.5px var(--bl-ui); }
+.bl-cust { width:min(640px, calc(100vw - 32px)) !important; }
+/* two columns that read top to bottom, like the sidebar itself; drag a row to move it */
+.bl-cust-list { position:relative; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:repeat(8, auto); grid-auto-flow:column; column-gap:12px; row-gap:2px; margin:6px -4px 2px; }
+@media (max-width:560px) { .bl-cust-list { grid-template-columns:1fr; grid-template-rows:none; grid-auto-flow:row; max-height:60vh; overflow:auto; } }
+.bl-cust-row { display:flex; align-items:center; gap:10px; height:38px; padding:0 10px 0 4px; border-radius:7px; cursor:grab; color:var(--bl-fg); font:500 13.5px var(--bl-ui); background:var(--bl-win); user-select:none; touch-action:none; }
 .bl-cust-row:hover { background:var(--bl-raise); }
-.bl-cust-row span { flex:1; }
-.bl-cust-row .bl-i { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; color:var(--bl-fg2); }
-.bl-cust-row input { width:16px; height:16px; accent-color:var(--bl-accent); }
+.bl-cust-row span { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.bl-cust-row .bl-i { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; color:var(--bl-fg2); flex:none; }
+.bl-cust-row input { width:16px; height:16px; margin:0; accent-color:var(--bl-accent); flex:none; cursor:pointer; }
+.bl-cust-grip { width:14px; height:14px; flex:none; fill:var(--bl-fg3); stroke:none; opacity:0; transition:opacity .12s; }
+.bl-cust-row:hover .bl-cust-grip { opacity:1; }
+.bl-cust-list .office-sort-slot { background:color-mix(in srgb, var(--bl-accent) 6%, transparent); outline:1.5px dashed color-mix(in srgb, var(--bl-accent) 45%, var(--bl-line)); outline-offset:-1.5px; }
+.bl-cust-list .office-sort-slot > * { visibility:hidden; }
+.bl-cust-list .office-sort-ghost { position:absolute !important; z-index:5; margin:0 !important; pointer-events:none; background:var(--bl-raise); border:1px solid var(--bl-line); box-shadow:0 10px 26px rgba(0,0,0,.28); cursor:grabbing; }
+.bl-cust-list .office-sort-ghost .bl-cust-grip { opacity:1; }
+body.light-mode .bl-cust-list .office-sort-ghost { box-shadow:0 10px 24px rgba(15,23,42,.14); }
 .bl-ask-box button[data-reset] { height:36px; padding:0 4px; border:0; background:none; color:var(--bl-fg3); font:500 13px var(--bl-ui); cursor:pointer; }
 /* ── pass 19: department people sit in their room ── */
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-merged > .station-grid { display:none !important; }
@@ -2549,3 +2558,36 @@ html body.bloom:not(#_1):not(#_2):not(#_3) :is(.sp-reply, .sc-reply) b { color:v
 html body.bloom:not(#_1):not(#_2):not(#_3) :is(.sp-reply-x, [data-screplyx]) { flex:none; width:22px; height:22px; display:grid; place-items:center; border:0; border-radius:6px; background:none; color:var(--bl-fg2); cursor:pointer; padding:0; }
 html body.bloom:not(#_1):not(#_2):not(#_3) :is(.sp-reply-x, [data-screplyx]):hover { background:var(--bl-hover); color:var(--bl-fg); }
 html body.bloom:not(#_1):not(#_2):not(#_3) :is(.sp-reply-x, [data-screplyx]) svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; }
+
+/* New (Home): wider, reads as a menu; opens a two-column Create panel */
+body.bloom:not(#_1):not(#_2):not(#_3) #bl-home .bl-new { min-width:132px; justify-content:center; padding:9px 14px 9px 16px; }
+body.bloom:not(#_1):not(#_2):not(#_3) #bl-home .bl-new .bl-new-chev { width:14px; height:14px; transform:rotate(90deg); margin-left:4px; opacity:.85; }
+#bl-more.bl-new-pop { width:min(520px, calc(100vw - 16px)); padding:8px; }
+#bl-more.bl-new-pop .bl-new-h { font:600 12px var(--bl-ui); color:var(--bl-fg3); padding:4px 8px 6px; }
+#bl-more.bl-new-pop .bl-new-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
+@media (max-width:540px) { #bl-more.bl-new-pop .bl-new-grid { grid-template-columns:1fr; } }
+#bl-more.bl-new-pop .bl-new-it { display:flex; align-items:flex-start; gap:10px; padding:9px 10px; border:0; border-radius:8px; background:none; color:var(--bl-fg); text-align:left; cursor:pointer; font:inherit; }
+#bl-more.bl-new-pop .bl-new-it:hover, #bl-more.bl-new-pop .bl-new-it:focus-visible { background:var(--bl-raise); outline:none; }
+#bl-more.bl-new-pop .bl-new-it .bl-i { width:17px; height:17px; margin-top:1px; stroke:currentColor; fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; color:var(--bl-fg2); flex:none; }
+#bl-more.bl-new-pop .bl-new-tx { flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
+#bl-more.bl-new-pop .bl-new-tx b { font:600 13.5px var(--bl-ui); }
+#bl-more.bl-new-pop .bl-new-tx small { font:400 12px/1.35 var(--bl-ui); color:var(--bl-fg2); }
+#bl-more.bl-new-pop kbd { flex:none; min-width:20px; height:20px; padding:0 5px; border:1px solid var(--bl-line); border-radius:5px; font:600 11px var(--bl-mono); color:var(--bl-fg2); display:grid; place-items:center; background:var(--bl-side); }
+
+/* Home: counts, scrolling boxes (Given to you, Reminders) and reminder rows */
+body.bloom:not(#_1):not(#_2):not(#_3) #bl-home .bl-n { font:500 12.5px var(--bl-ui); color:var(--bl-fg3); margin-left:4px; }
+body.bloom:not(#_1):not(#_2):not(#_3) #bl-home .bl-box.bl-scroll { max-height:276px; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; }
+body.bloom:not(#_1):not(#_2):not(#_3) #bl-home .bl-rem-row { display:flex; align-items:center; gap:12px; cursor:pointer; }
+body.bloom:not(#_1):not(#_2):not(#_3) #bl-home .bl-rem-row time { flex:none; min-width:62px; font:500 12.5px var(--bl-mono); color:var(--bl-fg2); }
+
+/* Reminder window: wider, Date and Time side by side, quick picks in one line */
+html body.bloom:not(#_1):not(#_2):not(#_3) #event-modal:has(#em-reminder-row.visible) .modal-sheet { width:min(600px, calc(100vw - 32px)) !important; max-width:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #em-reminder-row.visible { display:grid !important; grid-template-columns:1fr 1fr; column-gap:12px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #em-reminder-row > :not(.em-reminder-date-row):not(.em-reminder-time-row) { grid-column:1 / -1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #em-reminder-row .em-reminder-date-row, html body.bloom:not(#_1):not(#_2):not(#_3) #em-reminder-row .em-reminder-time-row { margin-top:4px !important; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #em-reminder-row .em-reminder-time-row:not(:has(~ *)):first-of-type, html body.bloom:not(#_1):not(#_2):not(#_3) #em-reminder-row .em-reminder-date-row:not(.visible) + .em-reminder-time-row { grid-column:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-rem-quick { display:flex; flex-wrap:wrap; gap:6px; margin:10px 0 2px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-rem-quick[hidden] { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-rem-quick button { height:30px; padding:0 12px; border:1px solid var(--bl-line); border-radius:8px; background:var(--bl-win); color:var(--bl-fg2); font:500 12.5px var(--bl-ui); cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-rem-quick button:hover { background:var(--bl-hover); color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-rem-quick button.on { border-color:var(--bl-accent); color:var(--bl-accent); background:var(--bl-accent-soft); }
