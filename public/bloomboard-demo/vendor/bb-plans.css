@@ -467,3 +467,11 @@ html body:not(#_1):not(#_2):not(#_3) .pl-sum .pl-search { height:30px; }
 /* counts: one bordered button group (they filter the table), same height as By week | Whole list */
 html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button { height:30px; padding:0 11px; }
 html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-seg button { height:30px; }
+/* search first (used most), progress as a compact readout on the right */
+html body:not(#_1):not(#_2):not(#_3) .pl-sum .pl-search { width:300px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-sum .pl-prog { gap:10px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-sum .pl-bar { width:160px; height:6px; border-radius:3px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-sum .pl-bar i { border-radius:3px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-kbd { font:500 11px/1 inherit; font-family:inherit; color:var(--bl-fg3) !important; border:1px solid var(--bl-line) !important; border-radius:5px; padding:3px 5px; flex:none; background:none !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-search:focus-within { border-color:var(--bl-accent) !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-search:focus-within .pl-kbd { display:none; }
