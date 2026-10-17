@@ -447,3 +447,28 @@ html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button { border:0 !important
 html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button + button { border-left:1px solid var(--bl-line) !important; }
 html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
 html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button.on { background:var(--bl-accent-soft) !important; color:var(--bl-fg) !important; box-shadow:inset 0 -2px 0 var(--bl-accent) !important; }
+
+/* ── calmer header (2026-10-17): only Share and New plan are boxed; the rest are quiet text buttons,
+      grouped with hairline dividers, and the rows get more air ── */
+html body:not(#_1):not(#_2):not(#_3) .pl-head { padding:14px 24px; gap:6px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-title { font-size:16px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-vdiv { width:1px; height:18px; background:var(--bl-line) !important; margin:0 8px; flex:none; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tabs { gap:2px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-head .pl-btn { height:30px; padding:0 10px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-head .pl-btn.icon { width:30px; padding:0; }
+html body:not(#_1):not(#_2):not(#_3) .pl-head .pl-btn.ghost.on { background:var(--bl-accent-soft) !important; color:var(--bl-fg) !important; border-color:transparent !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-head .pl-btn.ghost.open { background:var(--bl-hover) !important; border-color:transparent !important; color:var(--bl-fg) !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-head .pl-btn.pri { margin-left:6px; }
+/* progress + counts read as one block: no line between them, a line under them */
+html body:not(#_1):not(#_2):not(#_3) .pl-sum { padding:16px 24px 8px; border-bottom:0 !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-prog b { font-size:14px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb { padding:4px 24px 14px 18px; min-height:0; }
+html body:not(#_1):not(#_2):not(#_3) .pl-sum .pl-search { height:30px; }
+/* counts: plain clickable items, no outer box */
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt { border:0 !important; background:none !important; gap:2px; overflow:visible; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button { height:30px; padding:0 10px; border-radius:7px !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button + button { border-left:0 !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button[data-late] { margin-left:6px; position:relative; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button[data-late]::before { content:''; position:absolute; left:-5px; top:7px; bottom:7px; width:1px; background:var(--bl-line); }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button.on { box-shadow:none !important; background:var(--bl-accent-soft) !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-seg button { padding:0 11px; height:28px; }
