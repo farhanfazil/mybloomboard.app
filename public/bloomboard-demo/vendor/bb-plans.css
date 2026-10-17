@@ -84,11 +84,6 @@ html body:not(#_1):not(#_2):not(#_3) .pl-search { display:flex; align-items:cent
 html body:not(#_1):not(#_2):not(#_3) .pl-search input { border:0 !important; outline:0; background:transparent !important; color:var(--bl-fg) !important; font:inherit; font-size:13px; width:100%; }
 html body:not(#_1):not(#_2):not(#_3) .pl-search input::placeholder { color:var(--bl-fg3) !important; }
 html body:not(#_1):not(#_2):not(#_3) .pl-search svg { width:14px; height:14px; flex:none; }
-html body:not(#_1):not(#_2):not(#_3) .pl-afil { display:flex; align-items:center; gap:14px; font-size:13px; color:var(--bl-fg2) !important; flex-wrap:wrap; }
-html body:not(#_1):not(#_2):not(#_3) .pl-afil span b { color:var(--bl-fg) !important; font-weight:500; }
-html body:not(#_1):not(#_2):not(#_3) .pl-afil button { border:0 !important; background:none !important; color:var(--bl-fg3) !important; cursor:pointer; padding:0 2px; font-size:15px; line-height:1; }
-html body:not(#_1):not(#_2):not(#_3) .pl-afil button:hover { color:var(--bl-fg) !important; }
-html body:not(#_1):not(#_2):not(#_3) .pl-afil .pl-clr { color:var(--bl-accent) !important; font-size:13px; font-weight:500; }
 html body:not(#_1):not(#_2):not(#_3) .pl-seg { display:inline-flex; border:1px solid var(--bl-line) !important; border-radius:8px; overflow:hidden; background:var(--bl-win) !important; flex:none; }
 html body:not(#_1):not(#_2):not(#_3) .pl-seg button { border:0 !important; background:transparent !important; padding:6px 12px; cursor:pointer; color:var(--bl-fg2) !important; font-weight:500; font-size:13px; }
 html body:not(#_1):not(#_2):not(#_3) .pl-seg button.on { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
@@ -442,7 +437,6 @@ html body:not(#_1):not(#_2):not(#_3) .pl-sum { padding:12px 22px; gap:16px; flex
 html body:not(#_1):not(#_2):not(#_3) .pl-sum .pl-search { width:260px; height:32px; flex:none; }
 html body:not(#_1):not(#_2):not(#_3) .pl-tb { padding:8px 22px 8px 18px; gap:12px; min-height:48px; }
 html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt { gap:2px; }
-html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-afil:not(:empty) { padding-left:12px; border-left:1px solid var(--bl-line) !important; }
 html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-seg button { padding:5px 11px; }
 /* short text stays on one line; only long-text columns (and notes) wrap */
 html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-txt:not(.long) .pl-ed, html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-tt:not(.long) .pl-ed, html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-num .pl-ed, html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-lk .pl-ed { white-space:nowrap; max-width:none; }
