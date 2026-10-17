@@ -120,7 +120,7 @@ html body:not(#_1):not(#_2):not(#_3) .pl-row td.pl-rdel { border-left:0 !importa
 html body:not(#_1):not(#_2):not(#_3) .pl-row.alt td { background:var(--pl-alt) !important; }
 html body:not(#_1):not(#_2):not(#_3) .pl-row:hover td { background:var(--bl-raise) !important; }
 html body:not(#_1):not(#_2):not(#_3) .pl-tt { white-space:normal !important; min-width:220px; font-weight:500; }
-html body:not(#_1):not(#_2):not(#_3) .pl-t td .pl-ed { display:inline-block; min-width:16px; white-space:pre-wrap; overflow-wrap:anywhere; max-width:340px; vertical-align:top; }
+html body:not(#_1):not(#_2):not(#_3) .pl-t td .pl-ed { display:inline-block; min-width:16px; white-space:pre-wrap; overflow-wrap:break-word; word-break:normal; max-width:340px; vertical-align:top; }
 html body:not(#_1):not(#_2):not(#_3) .pl-row:not(:hover) td:not(.pl-tt) .pl-ed:empty:not(:focus)::before { opacity:0; }
 html body:not(#_1):not(#_2):not(#_3) .pl-ed.note:empty::before { content:"+ " attr(data-ph); }
 html body:not(#_1):not(#_2):not(#_3) .pl-note { color:var(--bl-fg2) !important; white-space:normal !important; min-width:180px; max-width:360px; }
