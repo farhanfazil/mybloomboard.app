@@ -2814,3 +2814,14 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay:not(.office-on) .chat-t
 
 /* conversation list on the window colour, as in the mockup (was the darker sidebar shade) */
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay:not(.office-on) .chat-sidebar { background:var(--bl-win) !important; }
+/* Office room cards: the ring around a seated person is a gap in the card's own colour (it was the old card colour, a dark circle on Glacier) */
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofr { --ofr-bg:var(--bl-side); }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .ofr { --ofr-bg:#22628a; }
+
+/* Side chat (2026-10-18): the Chats page's warmer canvas and clearer bubbles, inside the side chat panel only */
+body.bloom #bl-sc { --bl-scbg:#1b1c20; --bl-bub:#2a2c32; --bl-bub-own:#25395f; }
+body.bloom:not(.light-mode):not(.black-mode) #bl-sc { --bl-scbg:#14415f; --bl-bub:#1e5277; --bl-bub-own:#276596; }
+body.bloom.light-mode #bl-sc { --bl-scbg:#f6f6f4; --bl-bub:#ffffff; --bl-bub-own:#d9e6fd; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #bl-sc .sc-mt:not(:empty) { border:1px solid #e6e8ec; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-own .sc-mt:not(:empty) { border-color:#c9daf9; }
+html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #bl-sc { background:var(--bl-scbg) !important; }
