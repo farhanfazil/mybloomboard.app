@@ -385,3 +385,17 @@ html body:not(#_1):not(#_2):not(#_3) #pl-toast button { border:0 !important; bac
   html body:not(#_1):not(#_2):not(#_3) .pl-np2 .pl-q + .pl-q { border-left:0 !important; border-top:1px solid var(--bl-line) !important; }
   html body:not(#_1):not(#_2):not(#_3) .pl-tpls { grid-template-columns:1fr 1fr; }
 }
+
+/* column menu: sort and a tick list of values, like a spreadsheet filter */
+html body:not(#_1):not(#_2):not(#_3) .pl-checks { max-height:260px; overflow:auto; padding:2px 0; }
+html body:not(#_1):not(#_2):not(#_3) .pl-checks label { display:flex; align-items:center; gap:9px; padding:6px 10px; border-radius:7px; cursor:pointer; font-size:13px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-checks label:hover { background:var(--bl-hover) !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-checks label span:not(.pl-dot):not(.pl-av) { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body:not(#_1):not(#_2):not(#_3) .pl-checks small { display:inline !important; color:var(--bl-fg3) !important; font-size:12px; margin-left:auto; }
+html body:not(#_1):not(#_2):not(#_3) .pl-checks input { accent-color:var(--bl-accent); width:14px; height:14px; flex:none; margin:0; }
+html body:not(#_1):not(#_2):not(#_3) .pl-fact { display:flex; gap:4px; padding:4px 6px 2px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-fact button { width:auto !important; padding:4px 8px !important; color:var(--bl-accent) !important; font-weight:500; font-size:12.5px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-colh.filt { color:var(--bl-fg) !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-fmark { display:inline-grid; vertical-align:-2px; margin-left:5px; color:var(--bl-accent) !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-fmark svg { width:13px; height:13px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-smark { margin-left:5px; color:var(--bl-accent) !important; font-weight:600; }
