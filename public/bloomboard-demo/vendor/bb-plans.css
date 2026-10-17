@@ -480,3 +480,14 @@ html body:not(#_1):not(#_2):not(#_3) .pl-t thead th { background:var(--bl-raise)
 html body:not(#_1):not(#_2):not(#_3) .pl-thic { display:inline-grid; vertical-align:-2px; margin-right:7px; color:var(--bl-fg3) !important; }
 html body:not(#_1):not(#_2):not(#_3) .pl-thic svg { width:14px; height:14px; }
 html body:not(#_1):not(#_2):not(#_3) .pl-colh:hover { background:var(--bl-hover) !important; }
+/* plan colour: a 3px line on top of the header row, a dot by the plan name and in the plan list */
+html body:not(#_1):not(#_2):not(#_3) .pl-t thead th { box-shadow:inset 0 3px 0 var(--pl-pc, transparent), inset 0 -1px 0 var(--bl-line) !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-pdot { width:10px; height:10px; border-radius:3px; flex:none; display:inline-block; }
+html body:not(#_1):not(#_2):not(#_3) .pl-pdot.none { border:1.5px solid var(--bl-line) !important; background:none !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-head > .pl-pdot { margin-right:2px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-menu button[data-p] .pl-pdot { margin-right:8px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-pcs { display:flex; gap:8px; padding:4px 10px 8px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-pcs button { width:22px; height:22px; border-radius:6px; border:1.5px solid transparent !important; padding:0; cursor:pointer; flex:none; }
+html body:not(#_1):not(#_2):not(#_3) .pl-pcs button[data-pc=""] { background:none !important; border-color:var(--bl-line) !important; position:relative; }
+html body:not(#_1):not(#_2):not(#_3) .pl-pcs button[data-pc=""]::after { content:''; position:absolute; left:3px; right:3px; top:50%; height:1.5px; background:var(--bl-fg3); transform:rotate(-45deg); }
+html body:not(#_1):not(#_2):not(#_3) .pl-pcs button.cur { box-shadow:0 0 0 2px var(--bl-win), 0 0 0 3.5px var(--bl-fg) !important; }
