@@ -2768,3 +2768,58 @@ html body:not(#_1):not(#_2):not(#_3) .chat-bg-grid button span { white-space:now
 html body:not(#_1):not(#_2):not(#_3) .chat-bg-grid button:hover i { border-color:var(--bl-fg3); }
 html body:not(#_1):not(#_2):not(#_3) .chat-bg-grid button.cur i { border-color:var(--bl-accent); box-shadow:0 0 0 1px var(--bl-accent) !important; }
 html body:not(#_1):not(#_2):not(#_3) .chat-bg-grid button.cur { color:var(--bl-fg) !important; }
+
+/* ── Chat refresh (2026-10-18): warmer canvas, clearer bubbles, bigger text, reaction chips,
+      lighter header, one top bar, accent line in the message box, gentle motion.
+      Main chat, side chat and Office chat share the bubbles. ── */
+body.bloom { --bl-chatbg:#1b1c20; --bl-bub:#2a2c32; --bl-bub-own:#25395f; --bl-chip:#23252b; --bl-chipline:#34363d; }
+body.bloom:not(.light-mode):not(.black-mode) { --bl-chatbg:#14415f; --bl-bub:#1e5277; --bl-bub-own:#276596; --bl-chip:#184863; --bl-chipline:#2c5b7b; }
+body.bloom.light-mode { --bl-chatbg:#f6f6f4; --bl-bub:#ffffff; --bl-bub-own:#d9e6fd; --bl-chip:#ffffff; --bl-chipline:#dfe2e8; }
+/* the conversation sits on the warmer canvas; the list keeps the window colour */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay :is(#chat-active-conv, #chat-conv-header, #chat-msgs-area, .chat-typing-zone, .chat-input-area) { background-color:var(--bl-chatbg) !important; }
+/* bubbles: 15px text, more room */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-text.chat-bubble { font:400 15px/1.45 var(--bl-ui) !important; padding:9px 14px !important; border-radius:10px !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-text.chat-bubble { border:1px solid #e6e8ec !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.own .chat-msg-text.chat-bubble { border-color:#c9daf9 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-text.chat-bubble.emoji-only { background:none !important; border:0 !important; padding:2px 0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-name { font-size:13px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row:not(.grouped) { margin-top:14px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.grouped { padding-top:2px !important; padding-bottom:2px !important; }
+/* reactions: chips under the message, yours outlined in the accent, add-reaction chip beside them */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-reactions { display:flex !important; gap:4px !important; margin-top:4px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay :is(.chat-reaction-chip, .chat-react-add) { display:inline-flex !important; align-items:center !important; gap:4px !important; height:28px !important; padding:0 8px !important; background:var(--bl-chip) !important; border:1px solid var(--bl-chipline) !important; border-radius:8px !important; color:var(--bl-fg) !important; font:500 12.5px var(--bl-ui) !important; transform:none !important; opacity:1 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-reaction-chip.active { border-color:var(--bl-accent) !important; background:var(--bl-accent-soft) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-react-add { color:var(--bl-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-react-add:hover { color:var(--bl-fg) !important; border-color:var(--bl-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-react-add svg { width:16px !important; height:16px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-reaction-chip.rx-pop { animation:blRxPop .3s cubic-bezier(.3,1.6,.5,1) both !important; }
+@keyframes blRxPop { from { transform:scale(.6); } to { transform:scale(1); } }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row.chat-msg-in { animation:chat-msg-in .22s cubic-bezier(.2,.8,.2,1) both !important; }
+/* header: borderless icons, a slightly bigger name */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-conv-header :is(.bb-call-header-btn, .chat-icon-btn) { background:transparent !important; border-color:transparent !important; box-shadow:none !important; color:var(--bl-fg2) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-conv-header :is(.bb-call-header-btn, .chat-icon-btn):hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-conv-header .chat-ch-name { font-size:15.5px !important; }
+/* one top bar: on the Chats view the separate "Chat · N available" bar goes; that line sits under "Chat" in the list */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay:not(.office-on) .chat-topbar { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-sidebar-head { flex-direction:column !important; align-items:stretch !important; gap:10px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-side-title { display:flex; flex-direction:column; gap:2px; padding:2px 2px 0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-side-title b { font:600 16px var(--bl-ui); color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-side-title span { font:400 12.5px var(--bl-ui); color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-side-title span:empty { display:none; }
+/* message box: a soft field with an accent line along the bottom */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-input-row { background:var(--bl-raise) !important; box-shadow:inset 0 -2px 0 var(--bl-accent) !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-input-row { background:#ffffff !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-text-input { font-size:15px !important; }
+
+/* side chat: same bubbles and text size, fitted to the narrow panel */
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-mt:not(:empty) { border-radius:10px; padding:8px 12px; font-size:14.5px; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #bl-sc .sc-mt:not(:empty) { border:1px solid #e6e8ec; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-own .sc-mt:not(:empty) { border-color:#c9daf9; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-rx { background:var(--bl-chip); border-color:var(--bl-chipline); }
+
+/* Office chat: the same bubbles */
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .station-peek-msg { background:var(--bl-bub) !important; color:var(--bl-fg) !important; border-radius:10px !important; padding:9px 13px !important; font-size:15px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .station-peek-msg.mine { background:var(--bl-bub-own) !important; color:var(--bl-fg) !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .station-peek-msg { border:1px solid #e6e8ec !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .station-peek-msg.mine { border-color:#c9daf9 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .chat-reaction-chip { background:var(--bl-chip) !important; border:1px solid var(--bl-chipline) !important; border-radius:8px !important; }
