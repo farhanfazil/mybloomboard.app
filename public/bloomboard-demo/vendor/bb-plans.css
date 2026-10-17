@@ -499,3 +499,10 @@ html body:not(#_1):not(#_2):not(#_3) .plans-overlay.pl-hfill .pl-t thead th + th
 html body:not(#_1):not(#_2):not(#_3) .plans-overlay.pl-hfill .pl-t thead th:hover { filter:brightness(1.1); }
 html body:not(#_1):not(#_2):not(#_3) .plans-overlay.pl-hfill .pl-t thead th :is(.pl-thic, .pl-cm, .pl-fmark, .pl-smark, button, svg) { color:#fff !important; }
 html body:not(#_1):not(#_2):not(#_3) .plans-overlay.pl-hfill .pl-t thead th .pl-thic { opacity:.8; }
+/* header colour button in the table's corner cell */
+html body:not(#_1):not(#_2):not(#_3) .pl-hpaint { width:26px; height:26px; display:inline-grid; place-items:center; border-radius:6px; border:0 !important; background:none !important; color:var(--bl-fg3) !important; cursor:pointer; padding:0; }
+html body:not(#_1):not(#_2):not(#_3) .pl-hpaint:hover, html body:not(#_1):not(#_2):not(#_3) .pl-hpaint.open { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-hpaint svg { width:15px; height:15px; }
+html body:not(#_1):not(#_2):not(#_3) .plans-overlay.pl-hfill .pl-hpaint { color:rgba(255,255,255,.8) !important; }
+html body:not(#_1):not(#_2):not(#_3) .plans-overlay.pl-hfill .pl-hpaint:hover { background:rgba(255,255,255,.15) !important; color:#fff !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-t thead th.pl-c0 { padding-left:14px !important; }
