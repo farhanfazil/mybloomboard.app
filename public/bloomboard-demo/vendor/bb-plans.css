@@ -327,7 +327,7 @@ html body:not(#_1):not(#_2):not(#_3) .pl-carry small { display:block; color:var(
 /* share */
 html body:not(#_1):not(#_2):not(#_3) .pl-sug button { display:flex; align-items:center; gap:10px; width:100%; border:0 !important; background:none !important; padding:7px 8px; border-radius:7px; cursor:pointer; text-align:left; font-size:13px; }
 html body:not(#_1):not(#_2):not(#_3) .pl-sug button:hover { background:var(--bl-hover) !important; }
-html body:not(#_1):not(#_2):not(#_3) .pl-sug button span { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body:not(#_1):not(#_2):not(#_3) .pl-sug button .pl-sugn { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:left; }
 html body:not(#_1):not(#_2):not(#_3) .pl-sug small { color:var(--bl-fg3) !important; font-size:12px; }
 html body:not(#_1):not(#_2):not(#_3) .pl-sug { margin-top:8px; max-height:340px; overflow:auto; }
 html body:not(#_1):not(#_2):not(#_3) .pl-acc { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--bl-line) !important; font-size:13px; }
@@ -399,3 +399,34 @@ html body:not(#_1):not(#_2):not(#_3) .pl-colh.filt { color:var(--bl-fg) !importa
 html body:not(#_1):not(#_2):not(#_3) .pl-fmark { display:inline-grid; vertical-align:-2px; margin-left:5px; color:var(--bl-accent) !important; }
 html body:not(#_1):not(#_2):not(#_3) .pl-fmark svg { width:13px; height:13px; }
 html body:not(#_1):not(#_2):not(#_3) .pl-smark { margin-left:5px; color:var(--bl-accent) !important; font-weight:600; }
+html body:not(#_1):not(#_2):not(#_3) .pl-colacts { display:flex; align-items:center; gap:2px; padding:2px 4px 4px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-colacts button { width:auto !important; padding:5px 9px !important; font-size:13px; font-weight:500; border-radius:7px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-colacts button.danger { color:var(--pl-late) !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-keep { font-size:12px; color:var(--bl-fg3) !important; padding:0 8px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-checks { max-height:220px; }
+/* words columns keep room to breathe; an ID still never splits (its column grows instead) */
+html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-txt { min-width:180px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-txt .pl-ed { max-width:320px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-txt.long { min-width:260px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-tt { min-width:240px; }
+
+/* share window: tidy rows, fixed-size faces and icons */
+html body:not(#_1):not(#_2):not(#_3) .pl-share .pl-two { grid-template-columns:1fr 1fr; gap:28px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-sug button { justify-content:flex-start !important; min-height:38px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-sug .pl-av, html body:not(#_1):not(#_2):not(#_3) .pl-acc .pl-av { width:26px; height:26px; flex:0 0 26px; font-size:10px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-sug .pl-shic, html body:not(#_1):not(#_2):not(#_3) .pl-acc .pl-shic { width:26px; height:26px; flex:0 0 26px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-sug small { flex:none; }
+html body:not(#_1):not(#_2):not(#_3) .pl-acc { min-height:46px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-share .pl-hint { margin-top:14px; }
+
+/* columns fit their content: short values stay narrow, long text gets room up to ~320px and wraps,
+   and the spare width goes to the empty end column instead of being spread over every column */
+html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-txt { min-width:0; }
+html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-txt.long { min-width:220px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-tt { min-width:140px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-tt:has(.pl-ed:not(:empty)) { min-width:0; }
+html body:not(#_1):not(#_2):not(#_3) .pl-t th.pl-addc, html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-rdel { width:100%; text-align:left; }
+html body:not(#_1):not(#_2):not(#_3) .pl-t th.pl-colh, html body:not(#_1):not(#_2):not(#_3) .pl-row td:not(.pl-c0):not(.pl-rdel) { padding-left:14px; padding-right:18px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-note { min-width:200px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-tt.long { min-width:220px !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-txt.long, html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-tt.long { min-width:300px !important; }
