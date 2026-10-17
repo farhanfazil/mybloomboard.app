@@ -430,3 +430,6 @@ html body:not(#_1):not(#_2):not(#_3) .pl-t th.pl-colh, html body:not(#_1):not(#_
 html body:not(#_1):not(#_2):not(#_3) .pl-note { min-width:200px; }
 html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-tt.long { min-width:220px !important; }
 html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-txt.long, html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-tt.long { min-width:300px !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-finsay { flex-basis:100%; margin-top:6px; }
+/* no floating dock on the Plans page */
+html body:has(#plans-overlay.open):not(#_1):not(#_2):not(#_3) #bb-float-nav { display:none !important; }
