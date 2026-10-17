@@ -2743,3 +2743,16 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .kb-col.is-empty .kb-col-hd .kb-col-s
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-group.is-empty .bb-tl-glabel, html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-group.is-empty .bb-tl-glabel * { color:var(--bl-fg2) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-group.is-empty .bb-tl-glabel { background:var(--bl-raise) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-group.is-empty .bb-tl-glabel .bb-tl-st { --bb-tl-on:var(--bl-raise); }
+
+/* Chat list status dot: one solid colour (no inner border eating the green); the ring comes from the row. */
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-item .chat-avatar-status:not(.offline) { border:0 !important; width:11px !important; height:11px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-item .chat-avatar-status.available { box-shadow:0 0 0 2px var(--bl-win) !important; }
+
+/* Office: search and "my status" match the app's main search field in every theme. */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-search,
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-me { background:var(--bl-raise) !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; color:var(--bl-fg3) !important; box-shadow:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-me { color:var(--bl-fg) !important; font:500 13px var(--bl-ui) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-me:hover { background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-search input { color:var(--bl-fg) !important; font:400 13.5px var(--bl-ui) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-search input::placeholder { color:var(--bl-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-search:focus-within { border-color:var(--bl-accent) !important; }
