@@ -2823,3 +2823,5 @@ html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .station-p
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .station-peek-msg { border:1px solid #e6e8ec !important; }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .station-peek-msg.mine { border-color:#c9daf9 !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .chat-reaction-chip { background:var(--bl-chip) !important; border:1px solid var(--bl-chipline) !important; border-radius:8px !important; }
+/* conversation list on the window colour, as in the mockup (was the darker sidebar shade) */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-sidebar { background:var(--bl-win) !important; }
