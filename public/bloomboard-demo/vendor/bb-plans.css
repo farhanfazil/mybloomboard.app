@@ -437,3 +437,19 @@ html body:not(#_1):not(#_2):not(#_3) .pl-grip { display:inline-grid; place-items
 html body:not(#_1):not(#_2):not(#_3) .pl-grip svg { width:13px; height:13px; }
 html body:not(#_1):not(#_2):not(#_3) .pl-step.drag { opacity:.4; }
 html body:not(#_1):not(#_2):not(#_3) .pl-step.over { border-color:var(--bl-accent) !important; }
+/* two tidy rows above the table */
+html body:not(#_1):not(#_2):not(#_3) .pl-sum { padding:12px 22px; gap:16px; flex-wrap:nowrap; }
+html body:not(#_1):not(#_2):not(#_3) .pl-sum .pl-search { width:260px; height:32px; flex:none; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb { padding:8px 22px 8px 18px; gap:12px; min-height:48px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt { gap:2px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-afil:not(:empty) { padding-left:12px; border-left:1px solid var(--bl-line) !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-seg button { padding:5px 11px; }
+/* short text stays on one line; only long-text columns (and notes) wrap */
+html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-txt:not(.long) .pl-ed, html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-tt:not(.long) .pl-ed, html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-num .pl-ed, html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-lk .pl-ed { white-space:nowrap; max-width:none; }
+/* the step counts are filters, so they look like the By week | Whole list switch: one bordered group */
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt { display:inline-flex; gap:0; flex-wrap:wrap; border:1px solid var(--bl-line) !important; border-radius:8px; overflow:hidden; background:var(--bl-win) !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt:empty { display:none; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button { border:0 !important; border-radius:0 !important; padding:6px 11px; height:32px; background:transparent !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button + button { border-left:1px solid var(--bl-line) !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button.on { background:var(--bl-accent-soft) !important; color:var(--bl-fg) !important; box-shadow:inset 0 -2px 0 var(--bl-accent) !important; }
