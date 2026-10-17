@@ -462,13 +462,8 @@ html body:not(#_1):not(#_2):not(#_3) .pl-head .pl-btn.pri { margin-left:6px; }
 /* progress + counts read as one block: no line between them, a line under them */
 html body:not(#_1):not(#_2):not(#_3) .pl-sum { padding:16px 24px 8px; border-bottom:0 !important; }
 html body:not(#_1):not(#_2):not(#_3) .pl-prog b { font-size:14px; }
-html body:not(#_1):not(#_2):not(#_3) .pl-tb { padding:4px 24px 14px 18px; min-height:0; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb { padding:4px 24px 14px; min-height:0; }
 html body:not(#_1):not(#_2):not(#_3) .pl-sum .pl-search { height:30px; }
-/* counts: plain clickable items, no outer box */
-html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt { border:0 !important; background:none !important; gap:2px; overflow:visible; }
-html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button { height:30px; padding:0 10px; border-radius:7px !important; }
-html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button + button { border-left:0 !important; }
-html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button[data-late] { margin-left:6px; position:relative; }
-html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button[data-late]::before { content:''; position:absolute; left:-5px; top:7px; bottom:7px; width:1px; background:var(--bl-line); }
-html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button.on { box-shadow:none !important; background:var(--bl-accent-soft) !important; }
-html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-seg button { padding:0 11px; height:28px; }
+/* counts: one bordered button group (they filter the table), same height as By week | Whole list */
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-cnt button { height:30px; padding:0 11px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-tb .pl-seg button { height:30px; }
