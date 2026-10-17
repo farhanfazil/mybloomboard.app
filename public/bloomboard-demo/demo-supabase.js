@@ -101,7 +101,32 @@ try {
     'boards', 'board_cards', 'tasks', 'notifications', 'user_app_data', 'shared_leaves',
     'leave_shares', 'handovers', 'handover_items', 'bloom_calls', 'fl_client_actions',
   ].forEach(function (t) { DB[t] = []; });
-  function table(name) { return DB[name] || (DB[name] = []); }
+  function table(name) { if (name === 'plans' && !plansSeeded) seedPlans(); return DB[name] || (DB[name] = []); }
+  /* A sample plan for the Plans page: a content calendar for this month, partly done, a couple late. */
+  var plansSeeded = false;
+  function seedPlans() {
+    plansSeeded = true;
+    var now = new Date(), y = now.getFullYear(), m = now.getMonth(), today = now.getDate(), last = new Date(y, m + 1, 0).getDate();
+    var MF = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var pid = 'b1f0a0d0-0000-4000-8000-0000000000p1'.replace('p1', 'f1'), tab = 'tdemo1';
+    DB.plans = [{ id: pid, team_id: IDS.team, created_by: IDS.me, deleted: false, name: 'Content calendar', description: 'Social posts for the spring launch',
+      cols: [{ k: 'c0', label: 'Post', type: 'text' }, { k: 'c1', label: 'Publish date', type: 'date' }, { k: 'c2', label: 'Channel', type: 'text' }, { k: 'c3', label: 'Status', type: 'status' }, { k: 'c4', label: 'Owner', type: 'person' }, { k: 'c5', label: 'Notes', type: 'text', note: true }],
+      statuses: [{ k: 's0', label: 'Idea', c: 'not' }, { k: 's1', label: 'Writing', c: 'prog' }, { k: 's2', label: 'Waiting on design', c: 'miss' }, { k: 's3', label: 'Ready', c: 'done' }, { k: 's4', label: 'Posted', c: 'done' }],
+      final: 's3', reached: ['s3', 's4'], split: 'month', tabs: [{ id: tab, name: MF[m] + ' ' + y, y: y, m: m }],
+      share: [{ t: 'dept', v: 'Marketing', r: 'edit' }], created_at: nowIso(), updated_at: nowIso() }];
+    var posts = [['Launch teaser', 'Instagram', IDS.maya], ['Behind the scenes', 'TikTok', IDS.daniel], ['Customer story', 'LinkedIn', IDS.priya], ['Product tips #1', 'Instagram', IDS.maya],
+      ['Team spotlight', 'LinkedIn', IDS.leo], ['Launch countdown', 'Instagram', IDS.maya], ['How it works video', 'YouTube', IDS.daniel], ['Product tips #2', 'Instagram', IDS.nora],
+      ['Founder Q&A', 'LinkedIn', IDS.priya], ['Launch day post', 'Instagram', IDS.maya], ['Thank you post', 'TikTok', IDS.daniel], ['Newsletter recap', 'Email', IDS.leo],
+      ['Product tips #3', 'Instagram', IDS.nora], ['Month in review', 'LinkedIn', IDS.priya]];
+    DB.plan_rows = posts.map(function (p, i) {
+      var day = Math.min(last, 1 + Math.round(i * (last - 1) / (posts.length - 1)));
+      var st = day < today - 3 ? 's4' : day < today ? (i % 3 === 0 ? 's1' : 's3') : day < today + 6 ? ['s1', 's2', 's3'][i % 3] : 's0';
+      return { id: 'b1f0a0d0-0000-4000-8000-0000000a' + String(1000 + i), plan_id: pid, team_id: IDS.team, tab_id: tab, pos: i + 1, status: st,
+        due: y + '-' + String(m + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0'), owner_id: p[2], deleted: false,
+        data: { c0: p[0], c2: p[1], c5: st === 's2' ? 'Needs the final product photos' : '' }, created_by: IDS.me, created_at: nowIso(), updated_at: nowIso() };
+    });
+    DB.plan_events = [];
+  }
 
   function withDefaults(name, row) {
     var out = Object.assign({}, DEFAULTS[name] || {}, row);
@@ -490,8 +515,44 @@ try {
     return rooms.length;
   }
 
+  /* Plans: the server writes a history line for every row change (mirrors plan_rows_log). */
+  var planEventId = 0;
+  function planEvent(row, kind, from, to) {
+    var plan = table('plans').find(function (p) { return same(p.id, row.plan_id); }) || {};
+    var k = plan.cols && plan.cols[0] ? plan.cols[0].k : '';
+    var ev = { id: ++planEventId, plan_id: row.plan_id, row_id: row.id, actor_id: IDS.me, kind: kind, from_status: from || null, to_status: to || null, title: String((row.data || {})[k] || '').slice(0, 140), created_at: nowIso() };
+    table('plan_events').push(ev); emitChange('plan_events', 'INSERT', ev, null);
+  }
+  changeListeners.push(function (name, type, row) { if (name === 'plan_rows' && type === 'INSERT' && row) planEvent(row, 'add', null, row.status); });
+  function planRowPatch(id, set) {
+    var r = table('plan_rows').find(function (x) { return same(x.id, id); });
+    if (!r) return;
+    var before = clone(r);
+    if (set.data) r.data = Object.assign({}, r.data || {}, set.data);
+    if ('status' in set) r.status = set.status || '';
+    if ('due' in set) r.due = set.due || null;
+    if ('owner_id' in set) r.owner_id = set.owner_id || null;
+    if ('tab_id' in set) r.tab_id = set.tab_id;
+    if ('pos' in set) r.pos = +set.pos;
+    if ('deleted' in set) r.deleted = !!set.deleted;
+    r.updated_at = nowIso(); r.updated_by = IDS.me;
+    if (r.deleted && !before.deleted) planEvent(r, 'delete');
+    else if (r.status !== before.status) planEvent(r, 'status', before.status, r.status);
+    else if (JSON.stringify(r.data) !== JSON.stringify(before.data) || r.due !== before.due || r.owner_id !== before.owner_id) planEvent(r, 'edit');
+    emitChange('plan_rows', 'UPDATE', r, before);
+  }
+
   function rpc(fn, args) {
     args = args || {};
+    if (fn === 'plan_role') return Promise.resolve({ data: 'owner', error: null });
+    if (fn === 'plan_row_patch') { planRowPatch(args.p_id, args.p_set || {}); return Promise.resolve({ data: null, error: null }); }
+    if (fn === 'plan_insights') {
+      var from = new Date(args.p_from), to = new Date(args.p_to);
+      var rows = table('plan_rows');
+      var out = table('plan_events').filter(function (e) { var at = new Date(e.created_at); return same(e.plan_id, args.p_plan) && (e.kind === 'status' || e.kind === 'add') && at >= from && at < to; })
+        .map(function (e) { var r = rows.find(function (x) { return same(x.id, e.row_id); }) || {}; return { at: e.created_at, from_status: e.from_status, to_status: e.to_status, due: r.due || null, owner_id: r.owner_id || null, data: r.data || {} }; });
+      return Promise.resolve({ data: out, error: null });
+    }
     if (fn === 'ensure_team_rooms') {
       return Promise.resolve({ data: ensureTeamRooms(args.p_team || IDS.team), error: null });
     }
