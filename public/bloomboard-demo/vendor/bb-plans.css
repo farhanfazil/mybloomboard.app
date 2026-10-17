@@ -433,3 +433,7 @@ html body:not(#_1):not(#_2):not(#_3) .pl-t td.pl-txt.long, html body:not(#_1):no
 html body:not(#_1):not(#_2):not(#_3) .pl-finsay { flex-basis:100%; margin-top:6px; }
 /* no floating dock on the Plans page */
 html body:has(#plans-overlay.open):not(#_1):not(#_2):not(#_3) #bb-float-nav { display:none !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-grip { display:inline-grid; place-items:center; color:var(--bl-fg3) !important; cursor:grab; margin:0 -2px 0 -4px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-grip svg { width:13px; height:13px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-step.drag { opacity:.4; }
+html body:not(#_1):not(#_2):not(#_3) .pl-step.over { border-color:var(--bl-accent) !important; }
