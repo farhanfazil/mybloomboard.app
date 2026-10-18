@@ -2867,3 +2867,25 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-file-txt { d
 html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-file-txt b { font:500 13px var(--bl-ui); color:var(--bl-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-file-txt small { font:400 12px var(--bl-ui); color:var(--bl-fg3); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-file .cd-thumb-del { top:50% !important; right:8px !important; transform:translateY(-50%); }
+/* board card preview: the first 3 lines of the description, then "…" (the full text is in the card) */
+html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-card .kc-desc { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; white-space:normal; }
+/* Board cover picker: flat, click applies at once, upload your own */
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .thumb-picker-box { width:min(560px, calc(100vw - 32px)); max-height:min(620px, calc(100vh - 80px)); overflow:auto; padding:18px 20px 20px; border-radius:14px; background:var(--bl-raise) !important; border:1px solid var(--bl-line) !important; box-shadow:0 18px 48px rgba(0,0,0,.35) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-head b { font:600 16px var(--bl-ui); color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-x { width:30px; height:30px; border-radius:8px; border:0 !important; background:none !important; color:var(--bl-fg2) !important; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-x:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-sec { font:600 12px var(--bl-ui); color:var(--bl-fg2); margin:14px 0 8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-photo { aspect-ratio:16/10; border-radius:8px; border:0 !important; background-size:cover; background-position:center; cursor:pointer; box-shadow:none !important; outline:2px solid transparent; outline-offset:2px; padding:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-photo:hover { outline-color:var(--bl-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay :is(.tpk-photo, .tpk-col).on { outline-color:var(--bl-accent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-cols { display:flex; gap:10px; flex-wrap:wrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-col { width:44px; height:30px; border-radius:7px; border:0 !important; cursor:pointer; outline:2px solid transparent; outline-offset:2px; box-shadow:none !important; padding:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-col:hover { outline-color:var(--bl-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-foot { display:flex; justify-content:space-between; gap:10px; margin-top:18px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay :is(.tpk-up, .tpk-none) { height:36px; padding:0 14px; border-radius:8px; font:500 13.5px var(--bl-ui); cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-up { border:1px solid var(--bl-accent) !important; background:var(--bl-accent-soft) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-up:disabled { opacity:.6; cursor:default; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-none { border:1px solid var(--bl-line) !important; background:none !important; color:var(--bl-fg2) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay :is(.tpk-up, .tpk-none):hover { filter:brightness(1.08); }
