@@ -2897,3 +2897,8 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept .station-grid, html body
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept .station-grid:has(> :nth-child(2)) { grid-template-columns:repeat(2, minmax(0, 290px)) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept .station-grid:has(> :nth-child(3)) { grid-template-columns:repeat(3, minmax(0, 290px)) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept .office-dept-room { min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-file .cd-file-dl { position:absolute; right:40px; top:50%; transform:translateY(-50%); width:30px; height:30px; display:grid; place-items:center; border:1px solid var(--bl-line) !important; border-radius:7px; background:var(--bl-win) !important; color:var(--bl-fg2) !important; cursor:pointer; padding:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-file .cd-file-dl:hover { color:var(--bl-fg) !important; background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-file .cd-file-dl svg { width:16px; height:16px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-thumb-wrap.cd-file { padding-right:80px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-file .cd-thumb-del { opacity:1; }
