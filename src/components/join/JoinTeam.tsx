@@ -18,7 +18,7 @@ export default function JoinTeam() {
   const code = linkCode || typed;
   const email = useMemo(() => (params.get("email") || "").slice(0, 200), [params]);
   const appLink = `bloombooard://join?code=${encodeURIComponent(code)}${email ? `&email=${encodeURIComponent(email)}` : ""}`;
-  const webLink = `https://app.mybloomboard.app/login.html?join=${encodeURIComponent(code)}${email ? `&email=${encodeURIComponent(email)}` : ""}`;
+  const webLink = `https://app.mybloomboard.app/login?join=${encodeURIComponent(code)}${email ? `&email=${encodeURIComponent(email)}` : ""}`;
   const [copied, setCopied] = useState(false);
 
   const copy = async () => {
@@ -67,7 +67,7 @@ export default function JoinTeam() {
               {email && <div className="text-sm text-[#a1a1aa]">Sent to {email}. Join with this email.</div>}
             </>
           )}
-          <a href={code ? webLink : "https://app.mybloomboard.app/login.html?join="} className="mt-1 flex h-12 items-center justify-center rounded-xl bg-[#f5f5f7] text-[15px] font-bold text-black">Join on the web app</a>
+          <a href={code ? webLink : "https://app.mybloomboard.app/login?join="} className="mt-1 flex h-12 items-center justify-center rounded-xl bg-[#f5f5f7] text-[15px] font-bold text-black">Join on the web app</a>
           <p className="text-sm text-[#a1a1aa]">No download. Create your account (or log in) with {email ? <b className="text-[#f5f5f7]">{email}</b> : "the invited email"} and you&apos;re in.</p>
         </div>
 

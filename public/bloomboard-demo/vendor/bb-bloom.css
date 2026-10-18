@@ -2889,3 +2889,11 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-up { borde
 html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-up:disabled { opacity:.6; cursor:default; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay .tpk-none { border:1px solid var(--bl-line) !important; background:none !important; color:var(--bl-fg2) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay :is(.tpk-up, .tpk-none):hover { filter:brightness(1.08); }
+/* Office (2026-10-18): desks wrap three to a row (4 people = 3 + 1), and each team block is as wide
+   as its desks, so blocks sit side by side instead of one long line with empty space after it */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-depts { display:flex !important; flex-wrap:wrap !important; align-items:flex-start !important; gap:16px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.solo { width:fit-content !important; max-width:100% !important; flex:0 1 auto !important; grid-column:auto !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept .station-grid, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.solo .station-grid { grid-template-columns:repeat(1, minmax(0, 290px)) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept .station-grid:has(> :nth-child(2)) { grid-template-columns:repeat(2, minmax(0, 290px)) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept .station-grid:has(> :nth-child(3)) { grid-template-columns:repeat(3, minmax(0, 290px)) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept .office-dept-room { min-width:0; }

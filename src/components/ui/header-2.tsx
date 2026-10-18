@@ -20,6 +20,8 @@ interface NavLink {
 /** The web app; its sign-in page is where "Log in" goes. */
 /* NEXT_PUBLIC_WEB_APP_URL (set only in .env.local) points it at a web app running on this Mac while previewing. */
 export const WEB_APP_URL = process.env.NEXT_PUBLIC_WEB_APP_URL || "https://app.mybloomboard.app/";
+/** Straight to the sign-in page (the app page itself is big and only redirects there when signed out). */
+export const WEB_LOGIN_URL = WEB_APP_URL + "login";
 
 /** The Product menu: one page per part of the app. Office first, with its live dot. */
 type ProductItem = { label: string; href: string; desc: string; icon: LucideIcon; live?: boolean };
@@ -212,9 +214,15 @@ export function Header({
           ))}
           <a
             className={buttonVariants({ variant: "ghost", className: "ml-2 px-3 text-sm" })}
-            href={WEB_APP_URL}
+            href={WEB_LOGIN_URL}
           >
             Log in
+          </a>
+          <a
+            className="ml-1 shrink-0 rounded-lg border border-white/25 px-3.5 py-1.5 text-sm font-semibold text-white hover:bg-white/10"
+            href="/join"
+          >
+            Join your team
           </a>
           <Button
             asChild
@@ -305,7 +313,19 @@ export function Header({
             Try BloomBoard free
           </a>
           <a
-            href={WEB_APP_URL}
+            href="/join"
+            onClick={() => setOpen(false)}
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "center",
+              borderRadius: "10px", padding: "12px 0", width: "100%", boxSizing: "border-box",
+              fontSize: "14px", fontWeight: 600, textDecoration: "none",
+              border: "1px solid rgba(255,255,255,0.16)", color: "#f5f5f7",
+            }}
+          >
+            Join your team
+          </a>
+          <a
+            href={WEB_LOGIN_URL}
             onClick={() => setOpen(false)}
             style={{
               display: "flex", alignItems: "center", justifyContent: "center",
