@@ -2825,3 +2825,36 @@ body.bloom.light-mode #bl-sc { --bl-scbg:#f6f6f4; --bl-bub:#ffffff; --bl-bub-own
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #bl-sc .sc-mt:not(:empty) { border:1px solid #e6e8ec; }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-own .sc-mt:not(:empty) { border-color:#c9daf9; }
 html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #bl-sc { background:var(--bl-scbg) !important; }
+
+/* ── Board card window fixes (2026-10-18) ── */
+/* Column and Priority: plain button rows like every other field (Black drew them as a floating dropdown strip with a heavy shadow) */
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.cd-column-picker, .cd-priority-picker) { background:none !important; border:0 !important; box-shadow:none !important; padding:0 !important; gap:6px !important; display:flex !important; flex-wrap:wrap; margin-top:4px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.cd-col-btn, .cd-prio-btn) { height:32px; padding:0 12px !important; border-radius:8px !important; border:1px solid var(--bl-line) !important; background:var(--bl-raise) !important; color:var(--bl-fg2) !important; font:500 13px var(--bl-ui) !important; box-shadow:none !important; max-width:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.cd-col-btn, .cd-prio-btn):hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.cd-col-btn, .cd-prio-btn).active { border-color:var(--bl-accent) !important; background:var(--bl-accent-soft) !important; color:var(--bl-fg) !important; }
+/* Assignee: only the people on the card, + Assign opens a search */
+html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-compact .cd-assignee-item:not(.selected), html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-compact .cd-assignee-item[data-member-id=""] { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-compact .cd-assignee-item.selected { position:relative; padding-right:28px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-compact .cd-assignee-item.selected::after { content:'×'; position:absolute; right:10px; top:50%; transform:translateY(-52%); color:var(--bl-fg3); font-size:15px; line-height:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-compact .cd-assignee-item.selected:hover::after { color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-add { height:34px; padding:0 12px; border-radius:8px; border:1px dashed var(--bl-line) !important; background:none !important; color:var(--bl-fg2) !important; font:500 13px var(--bl-ui); cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-add:hover { border-style:solid !important; color:var(--bl-fg) !important; background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-pop { position:fixed; z-index:20000; width:260px; max-height:280px; display:flex; flex-direction:column; padding:8px; border-radius:12px; background:var(--bl-raise) !important; border:1px solid var(--bl-line) !important; box-shadow:0 12px 32px rgba(0,0,0,.3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-pop input { height:34px; padding:0 10px; border-radius:8px; border:1px solid var(--bl-line) !important; background:var(--bl-win) !important; color:var(--bl-fg) !important; font:400 13.5px var(--bl-ui); outline:0; margin-bottom:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-pop input:focus { border-color:var(--bl-accent) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-list { overflow:auto; display:flex; flex-direction:column; gap:2px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-list button { display:flex; align-items:center; gap:9px; width:100%; padding:6px 8px; border:0 !important; border-radius:8px; background:none !important; color:var(--bl-fg) !important; font:500 13.5px var(--bl-ui); text-align:left; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-list button:is(:hover, .hi) { background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-list .cd-assignee-avatar { width:24px; height:24px; flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-empty { padding:10px 8px; color:var(--bl-fg3); font:400 13px var(--bl-ui); }
+/* the floating bottom bar stays under an open card */
+html body:has(#card-detail-overlay.open) #bb-float-nav { display:none !important; }
+/* long links never push a card wider than its column (no sideways scrollbar) */
+html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-cards { overflow-x:hidden !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-card { min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-card :is(.kc-title, .kc-desc) { overflow-wrap:anywhere; word-break:break-word; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-desc-editor { overflow-wrap:anywhere; }
+/* board header controls stay readable on any board photo */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) #boards-overlay :is(.boards-topbar-back, .bih-member-add) { background:var(--bl-win) !important; border:1px solid var(--bl-line) !important; color:var(--bl-fg) !important; opacity:1 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) #boards-overlay :is(.boards-topbar-back, .bih-member-add):hover { background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #boards-overlay .bih-member-add svg { color:var(--bl-fg2) !important; }
