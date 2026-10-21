@@ -245,12 +245,14 @@ body.bloom {
   --bl-bg:#0b0c0f; --bl-win:#141519; --bl-side:#111216; --bl-raise:#1b1d22; --bl-hover:#202227; --bl-line:#26282e;
   --bl-fg:#eceef2; --bl-fg2:#b4b9c3; --bl-fg3:#8d93a0; --bl-accent:#5b93ff; --bl-accent-fg:#0b0c0f; --bl-accent-soft:#1a2740;
   --bl-ok:#3cc283; --bl-bad:#f06464; --bl-urgent:#f06464; --bl-high:#e8913c; --bl-medium:#d9b23a; --bl-low:#8d93a0;
-  --bl-ui:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif; --bl-mono:"Geist Mono",ui-monospace,Menlo,monospace;
+  --bl-ui:"Geist","Noto Color Emoji",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif; --bl-mono:"Geist Mono",ui-monospace,Menlo,monospace;
 }
-/* Glacier keeps its navy character, in the calm Bloom style */
+/* Glacier "Deep harbor" (2026-10-19): one calm navy ladder, each layer about 3.5% lighter than the one below
+   (side, win, panel, raise, hover, line). Office and Chat use these steps only, so they can never drift apart. */
 body.bloom:not(.light-mode):not(.black-mode) {
-  --bl-bg:#0b1d2a; --bl-win:#10283a; --bl-side:#0d2231; --bl-raise:#163349; --bl-hover:#1b3b53; --bl-line:#24465f;
-  --bl-fg:#eaf2f8; --bl-fg2:#b6c8d6; --bl-fg3:#8ba3b6; --bl-accent:#5fb2ff; --bl-accent-fg:#06192a; --bl-accent-soft:#163d5e;
+  --bl-bg:#0f1d29; --bl-win:#152735; --bl-side:#0f1d29; --bl-panel:#1b3041; --bl-raise:#21394d; --bl-hover:#284258; --bl-line:#304e66;
+  --bl-fg:#e9f0f6; --bl-fg2:#bdcedb; --bl-fg3:#9fb2c1; --bl-accent:#6fb6f2; --bl-accent-fg:#08192a; --bl-accent-soft:#1f405c;
+  --bl-mine:#254c6f; --bl-urgent:#ff8f8f;
 }
 body.bloom.light-mode {
   --bl-bg:#eef0f3; --bl-win:#ffffff; --bl-side:#f7f8fa; --bl-raise:#f1f3f6; --bl-hover:#e9ecf1; --bl-line:#e1e4ea;
@@ -370,7 +372,12 @@ body.bloom:not(#_1):not(#_2):not(#_3) .board-card { border:1px solid var(--bl-li
 body.bloom:not(#_1):not(#_2):not(#_3) .board-card-icon, body.bloom:not(#_1):not(#_2):not(#_3) .boards-category-icon { display:none !important; }
 body.bloom:not(#_1):not(#_2):not(#_3) .board-card-title { font:600 14px var(--bl-ui) !important; }
 body.bloom:not(#_1):not(#_2):not(#_3) .kanban-col { background:var(--bl-side) !important; border:1px solid var(--bl-line) !important; border-radius:10px !important; box-shadow:none !important; }
-body.bloom:not(#_1):not(#_2):not(#_3) .kanban-card { background:var(--bl-win) !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; box-shadow:none !important; }
+/* Cards sit one clear step above their column (stepped surfaces): raised on dark themes, white on a grey column in Light */
+body.bloom:not(#_1):not(#_2):not(#_3) .kanban-card { background:var(--bl-raise) !important; border:1px solid color-mix(in srgb, var(--bl-line) 60%, transparent) !important; border-radius:8px !important; box-shadow:none !important; }
+body.bloom:not(#_1):not(#_2):not(#_3) .kanban-card:hover { background:var(--bl-hover) !important; }
+body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .kanban-col:not(.has-color) { background:var(--bl-raise) !important; }
+body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .kanban-card { background:#fff !important; border-color:var(--bl-line) !important; box-shadow:0 1px 2px rgba(20,24,32,.06) !important; }
+body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .kanban-card:hover { background:#fff !important; box-shadow:0 2px 6px rgba(20,24,32,.10) !important; }
 body.bloom:not(#_1):not(#_2):not(#_3) .kanban-card .kc-title { font:550 14px var(--bl-ui) !important; color:var(--bl-fg) !important; }
 body.bloom:not(#_1):not(#_2):not(#_3) .kc-priority { background:none !important; border:0 !important; padding:0 !important; color:var(--bl-fg2) !important; font:500 12px var(--bl-ui) !important; }
 body.bloom:not(#_1):not(#_2):not(#_3) .kc-due { background:none !important; border:0 !important; padding:0 !important; color:var(--bl-fg2) !important; font:500 12px var(--bl-ui) !important; }
@@ -609,7 +616,7 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-text a { colo
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-file, html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-link-chip, html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-reply-quote { background:var(--bl-win) !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; box-shadow:none !important; color:var(--bl-fg) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-reaction-chip, html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-react-add { background:var(--bl-win) !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; box-shadow:none !important; color:var(--bl-fg2) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-reaction-chip.active { border-color:var(--bl-accent) !important; background:var(--bl-accent-soft) !important; color:var(--bl-fg) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-receipt, html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-receipt * { color:var(--bl-fg3) !important; font:500 11.5px var(--bl-ui) !important; }
+
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-toolbar { background:var(--bl-win) !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; box-shadow:0 6px 20px rgba(0,0,0,.25) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-tool-btn { color:var(--bl-fg2) !important; background:none !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-tool-btn:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
@@ -701,8 +708,6 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-main-empty-sub,
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-list > div[style*="text-align:center"] { color:var(--bl-fg3) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bbcw-hd.today .bbcw-num { background:var(--bl-accent) !important; color:var(--bl-accent-fg) !important; }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .swipe-bg-right-label { color:#17844f !important; }
-/* Glacier: muted text one step brighter so it reads on the raised navy panels */
-body.bloom:not(.light-mode):not(.black-mode) { --bl-fg3:#a3b8c9; }
 /* Ask Bloom quick actions: plain buttons, not capsules */
 html body.bloom:not(#_1):not(#_2):not(#_3) .bloom-quick-btn { border-radius:8px !important; background:var(--bl-win) !important; border:1px solid var(--bl-line) !important; color:var(--bl-fg2) !important; box-shadow:none !important; font:500 13px var(--bl-ui) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bloom-quick-btn:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
@@ -923,6 +928,13 @@ body.bloom:not(#_1):not(#_2):not(#_3) .task-card .bl-meta { display:flex !import
 body.bloom:not(#_1):not(#_2):not(#_3) .task-card .bl-meta-row { display:flex; align-items:center; gap:16px; min-width:0; }
 body.bloom:not(#_1):not(#_2):not(#_3) .task-card .bl-meta-row > .tag, body.bloom:not(#_1):not(#_2):not(#_3) .task-card .bl-meta-row > .bb-assign-line { flex:none; margin:0 !important; padding-right:0 !important; min-width:0; }
 body.bloom:not(#_1):not(#_2):not(#_3) .task-card .bl-meta-row > .task-people.bl-ppl { position:static !important; margin-left:auto !important; flex:none; }
+/* the From / For name shrinks with "…" so subtasks, name and faces always fit inside the card */
+body.bloom:not(#_1):not(#_2):not(#_3) .task-card .bl-meta-row { gap:12px; max-width:100%; }
+/* the card's text column takes the card's width, never its content's, so narrow columns (side chat open) shrink the name instead of pushing the faces out */
+body.bloom:not(#_1):not(#_2):not(#_3) .task-card :is(.task-body, .bl-meta) { min-width:0 !important; max-width:100%; }
+body.bloom:not(#_1):not(#_2):not(#_3) .task-card .bl-meta { align-self:stretch !important; }
+body.bloom:not(#_1):not(#_2):not(#_3) .task-card .bl-meta-row > .bb-assign-line { flex:0 1 auto !important; display:flex; align-items:baseline; gap:5px; overflow:hidden; white-space:nowrap; }
+body.bloom:not(#_1):not(#_2):not(#_3) .task-card .bl-meta-row > .bb-assign-line .bb-assign-to { min-width:0; flex-shrink:1 !important; max-width:none !important; overflow:hidden; text-overflow:ellipsis; }
 body.bloom:not(#_1):not(#_2):not(#_3) .task-card:has(.bl-ppl) :is(.bb-assign-line,.milestone-bar-row) { padding-right:0 !important; }
 /* ── pass 18: empty fields look empty ──
    Placeholder text was bright and bold (big titles read as if already typed).
@@ -989,7 +1001,7 @@ html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .sb-kpi-score.below { colo
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) :is(.bb-switch-tile-new-lbl) { color:var(--bl-fg2) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .nbm-bg-tab { color:var(--bl-fg2) !important; }
 /* Office muted text in Glacier */
-html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) .ofr { --ofr-mut:#b3c6d6; }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) .ofr { --ofr-mut:var(--bl-fg2); }
 html body.bloom:not(.light-mode):not(#_1):not(#_2):not(#_3) .ov-chip.late { color:#ff8a8a !important; }
 /* no glows: status dots, the water popup */
 html body.bloom:not(#_1):not(#_2):not(#_3) .chat-status-dot { box-shadow:0 0 0 2px var(--bl-win) !important; }
@@ -999,7 +1011,7 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bb-cap-status { background:none !imp
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-cap-status.connected { color:var(--bl-ok) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .mn2-person { border-radius:7px !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) [style*="color:#7aadcc"] { color:var(--bl-fg2) !important; }
-html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .station-card :is(span,div):not(.station-avatar) { color:#c3d3e0; }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .station-card :is(span,div):not(.station-avatar) { color:var(--bl-fg2); }
 
 /* ═══ pass 21: polish pass (one modal system) ═══ */
 /* every window: same corners, surface, border and shadow */
@@ -1059,8 +1071,8 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bl-more-cards { width:100%; margin:4
 html body.bloom:not(#_1):not(#_2):not(#_3) .bl-more-cards:hover { color:var(--bl-fg) !important; border-color:var(--bl-fg3) !important; }
 /* last faint texts from the audit */
 html body.bloom:not(#_1):not(#_2):not(#_3) :is(.bb-switch-empty,.sb-kpi-empty) { color:var(--bl-fg3) !important; -webkit-text-fill-color:var(--bl-fg3) !important; }
-html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .station-card :is(.station-card-name,.station-card-you,span) { color:#d5e2ec !important; }
-html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .station-card .station-card-name { color:#ffffff !important; }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .station-card :is(.station-card-name,.station-card-you,span:not(.station-pip)) { color:var(--bl-fg2) !important; }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .station-card .station-card-name { color:var(--bl-fg) !important; }
 /* keyboard shortcuts sheet */
 .bl-keys { width:min(720px, calc(100vw - 32px)) !important; }
 .bl-keys-hd { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid var(--bl-line); }
@@ -1093,9 +1105,9 @@ html body.bloom .bl-pal, html body.bloom .bl-ask-box { animation:blPop .16s cubi
 html body.bloom :is(.bl-nav,.bl-row,.bl-more-it,.bl-meet-it,.bl-pal-it,.bl-pm-row,.bl-g-btn,.bl-new,.bl-ib,.bl-btn,.task-card,.board-card,.kanban-card,.ofr,.station-card,.bb-float-item) { transition:background-color .12s ease, border-color .12s ease, color .12s ease, box-shadow .12s ease, opacity .2s ease; }
 html body.bloom :is(.bl-new,.bl-g-btn,.btn-primary,.bl-btn):active { transform:translateY(1px); }
 /* ticking a task on Home: the circle fills and the row settles away */
-html body.bloom #bl-home .bl-row.bl-ticked { opacity:.45; }
-html body.bloom #bl-home .bl-row.bl-ticked .t { text-decoration:line-through; text-decoration-color:var(--bl-fg3); }
-html body.bloom #bl-home .bl-row.bl-ticked .bl-chk { background:var(--bl-ok) !important; border-color:var(--bl-ok) !important; box-shadow:inset 0 0 0 3px var(--bl-win) !important; }
+html body.bloom #bl-home :is(.bl-row,.bl-urg-row).bl-ticked { opacity:.45; }
+html body.bloom #bl-home :is(.bl-row,.bl-urg-row).bl-ticked .t { text-decoration:line-through; text-decoration-color:var(--bl-fg3); }
+html body.bloom #bl-home :is(.bl-row,.bl-urg-row).bl-ticked .bl-chk { background:var(--bl-ok) !important; border-color:var(--bl-ok) !important; box-shadow:inset 0 0 0 3px var(--bl-win) !important; }
 @media (prefers-reduced-motion: reduce) {
   html body.bloom *, html body.bloom *::before, html body.bloom *::after { animation:none !important; transition:none !important; }
 }
@@ -1230,12 +1242,12 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-dm { grid-template-columns
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-dm.un { background:var(--bl-accent-soft) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-dm.un:hover { background:color-mix(in srgb, var(--bl-accent) 22%, var(--bl-win)) !important; }
 .sc-avw { position:relative; display:inline-flex; }
-.sc-pres { position:absolute; right:-1px; bottom:-1px; width:10px; height:10px; border-radius:50%; box-shadow:0 0 0 2px var(--bl-win); background:var(--bl-fg3); }
+.sc-pres { position:absolute; right:-1px; bottom:-1px; width:10px; height:10px; border-radius:50%; box-shadow:0 0 0 2px var(--tl-ring); background:var(--bl-fg3); }
 .sc-dm.un .sc-pres { box-shadow:0 0 0 2px var(--bl-accent-soft); }
 .sc-pres.on { background:var(--bl-ok); }
 .sc-pres.busy { background:var(--bl-bad); }
 .sc-pres.away { background:var(--bl-high); }
-.sc-pres.off { background:transparent; box-shadow:inset 0 0 0 2px var(--bl-fg3), 0 0 0 2px var(--bl-win); }
+.sc-pres.off { background:transparent; box-shadow:inset 0 0 0 2px var(--bl-fg3), 0 0 0 2px var(--tl-ring); }
 .sc-dmt { min-width:0; }
 .sc-dmn { display:flex; align-items:baseline; gap:7px; min-width:0; }
 .sc-dmn b { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -2040,18 +2052,24 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-item.compact .chat-avatar-
 html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-item.compact .chat-conv-info { flex:1; min-width:0; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-item.compact .chat-conv-name { font-size:14px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-item.compact.unread .chat-conv-name { font-weight:700; }
+/* The Chat page list is one list (pinned, then newest first), so read and unread must differ:
+   the #chat-overlay name rule above sets 600 for everything; read rows are regular, unread bold. */
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-item.compact .chat-conv-name { font-weight:500 !important; color:var(--bl-fg2) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-item.compact.unread .chat-conv-name,
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-item.compact.active .chat-conv-name { font-weight:700 !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-conv-item.compact.active:not(.unread) .chat-conv-name { font-weight:600 !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .chat-conv-udot { flex:none; width:8px; height:8px; border-radius:50%; background:var(--bl-accent); }
 /* ── Desks (Office, stations layout): the person sits beside their screen, and the screen shows
    what they are doing (task in the normal colour, room blue, focus red, back soon amber, switched off when away) ── */
 html body.bloom:not(#_1):not(#_2):not(#_3) .dk-mon { display:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st { --dk-frame:color-mix(in srgb, var(--bl-fg3) 32%, var(--bl-line)); --dk-scr:var(--bl-bg); --dk-room:#38bdf8; }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .office-dept.bl-st { --dk-scr:var(--bl-win); --dk-room:#0b7fb8; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card { aspect-ratio:auto !important; height:auto !important; min-height:0 !important; padding:12px 10px 10px !important; border-radius:12px !important; background:var(--bl-raise) !important; border:1px solid var(--bl-line) !important; box-shadow:none !important; transform:none !important; display:flex !important; flex-direction:column; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card { aspect-ratio:auto !important; height:auto !important; min-height:0 !important; padding:12px 10px 10px !important; border-radius:12px !important; background:var(--dk-card) !important; border:1px solid var(--bl-line) !important; box-shadow:none !important; transform:none !important; display:flex !important; flex-direction:column; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card:hover { border-color:color-mix(in srgb, var(--bl-fg3) 45%, var(--bl-line)) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card.me { border-color:color-mix(in srgb, var(--bl-accent) 40%, var(--bl-line)) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card-body { order:0; display:flex !important; align-items:flex-start; gap:10px; padding:0 !important; width:100%; min-width:0; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card .station-avatar { flex:none; width:36px !important; height:36px !important; margin-top:12px; font-size:12px !important; box-shadow:none !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card .station-avatar .chat-avatar-status { width:12px !important; height:12px !important; border:2px solid var(--bl-raise) !important; right:-2px !important; bottom:-2px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card .station-avatar .chat-avatar-status { width:12px !important; height:12px !important; border:2px solid var(--dk-card) !important; right:-2px !important; bottom:-2px !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card.is-off .station-avatar, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card.sig-leave .station-avatar, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card[data-tone="off"] .station-avatar { opacity:.5; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-mon { display:flex; flex:1; min-width:0; flex-direction:column; align-items:center; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr { width:100%; height:58px; border:3px solid var(--dk-frame); border-radius:7px; background:var(--dk-scr); display:flex; align-items:center; justify-content:center; padding:4px 8px; min-width:0; }
@@ -2091,6 +2109,35 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card:hove
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card.has-more:hover .dk-scr .station-card-foot { opacity:1 !important; }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .office-dept.bl-st { --dk-frame:color-mix(in srgb, var(--bl-fg3) 48%, var(--bl-line)); }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-action:hover { background:#e6eaf0 !important; }
+/* ═══ Office desk: a new message (or a knock) lights the desk, Roam-style (2026-10-19) ═══
+   The border is one hue in three tones (deep, bright, mid) that slowly turns, so the bright part wanders round
+   the edge; ::before is that 2px ring, ::after the same gradient blurred BEHIND the card as its glow, so the glow
+   is strongest where the ring is bright. The desk row is the stacking context (not the card), which is what puts
+   z-index:-1 behind the card. The card takes a faint tint of the hue. Read: everything fades out in 300 ms.
+   The hue is the sender's own colour (--dk-hue, set on the desk with --dk-pip, the badge colour that keeps a white
+   number at 4.5:1); members with only a photo keep mint. The three tones come from that one colour. Knocks stay amber. */
+@property --dk-angle { syntax:'<angle>'; inherits:false; initial-value:0deg; }
+@property --dk-on { syntax:'<number>'; inherits:true; initial-value:0; }
+@keyframes dkTurn { to { --dk-angle:360deg; } }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st { --dk-hue:#2dd4bf; --dk-pip:#0f766e; --dk-k1:#b45309; --dk-k2:#fcd34d; --dk-k3:#f59e0b; --dk-ktext:#fbbf24; --dk-desk:var(--bl-raise); --dk-glow:.7; --dk-tint:7%; }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) .office-dept.bl-st { --dk-k1:#c2610c; --dk-ktext:#fcd34d; --dk-desk:var(--bl-hover); --dk-glow:.65; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .office-dept.bl-st { --dk-hue:#14b8a6; --dk-k1:#9a3412; --dk-k2:#f59e0b; --dk-k3:#c2410c; --dk-ktext:#9a4508; --dk-glow:.4; --dk-tint:6%; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-grid { isolation:isolate; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card { --dk-r1:color-mix(in srgb, var(--dk-hue), #000 40%); --dk-r2:color-mix(in srgb, var(--dk-hue), #fff 40%); --dk-r3:var(--dk-hue); --dk-card:color-mix(in srgb, var(--dk-r2) calc(var(--dk-on) * var(--dk-tint)), var(--dk-desk)); isolation:auto; z-index:auto; animation:none; transition:border-color .3s ease, --dk-on .3s ease; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card { --dk-r1:color-mix(in srgb, var(--dk-hue), #000 50%); --dk-r2:var(--dk-hue); --dk-r3:color-mix(in srgb, var(--dk-hue), #000 25%); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card.sig-knock { --dk-r1:var(--dk-k1); --dk-r2:var(--dk-k2); --dk-r3:var(--dk-k3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card:is(.is-unread, .sig-knock) { --dk-on:1; border-color:var(--dk-r1) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card::before, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card::after {
+  content:''; position:absolute; pointer-events:none; animation:dkTurn 5s linear infinite paused;
+  --dk-ring:conic-gradient(from var(--dk-angle), var(--dk-r1) 0deg, var(--dk-r2) 110deg, var(--dk-r3) 200deg, var(--dk-r1) 290deg, var(--dk-r1) 360deg);
+}
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card:is(.is-unread, .sig-knock)::before, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card:is(.is-unread, .sig-knock)::after { animation-play-state:running; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card::before { inset:-1px; padding:2px; border-radius:13px; z-index:1; background:var(--dk-ring); -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; opacity:var(--dk-on); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card::after { inset:-3px; border:6px solid transparent; border-image:var(--dk-ring) 1; z-index:-1; filter:blur(12px); opacity:calc(var(--dk-on) * var(--dk-glow)); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card[data-tone="knock"] .dk-scr .station-card-foot, html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept.bl-st .station-card[data-tone="knock"] .dk-scr .station-card-foot { color:var(--dk-ktext) !important; font-weight:600 !important; }
+/* count badge: solid, readable number, 2px ring in the desk colour */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-pip { top:-5px; right:-6px; min-width:18px; height:18px; padding:0 5px; border-radius:9px; background:var(--dk-pip) !important; color:#fff !important; font:700 10.5px/18px var(--bl-ui) !important; font-variant-numeric:tabular-nums; box-shadow:0 0 0 2px var(--dk-card) !important; }
+@media (prefers-reduced-motion: reduce) { html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card::before, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .station-card::after { animation:none !important; } }
 /* Who can see a department (Settings › Company › Departments) */
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-vis { margin-top:3px; display:flex; align-items:center; gap:5px; font:500 12px/1.4 var(--bl-ui); color:var(--bl-fg2); min-width:0; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-org-vis svg { width:12px; height:12px; flex:none; color:var(--bl-high); }
@@ -2252,28 +2299,6 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-task.done .bbcw-
 html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-task.overdue span.t { color:var(--bl-bad); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #calendar-grid .bbcw-task.done span.t { color:var(--bl-fg3); text-decoration:line-through; }
 
-/* ── Tasks: board cards assigned to you ("From boards") ──
-   Read-only here: a board icon instead of a status button, the board and column under the title.
-   Board view: its own column at the end, styled like the task columns. */
-.bb-bc-ic { color:var(--bl-fg3); cursor:inherit; }
-.bb-bc-ic svg { width:15px; height:15px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-bcrow .bb-tl-c-name { display:flex !important; flex-direction:column !important; align-items:flex-start !important; justify-content:center !important; text-align:left !important; gap:1px; min-width:0; }
-.bb-tl-bcrow .bb-bc-where { font:400 11.5px var(--bl-ui); color:var(--bl-fg3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .bb-bc-col { display:flex; flex-direction:column; min-width:0; background:var(--bl-side); border:1px solid var(--bl-line); border-radius:10px; align-self:start; }
-.bb-bc-hd { display:flex; align-items:center; gap:8px; padding:12px 14px 10px; color:var(--bl-fg); }
-.bb-bc-hic { display:inline-grid; color:var(--bl-fg3); } .bb-bc-hic svg { width:15px; height:15px; }
-.bb-bc-name { font:600 13.5px var(--bl-ui); }
-.bb-bc-n { font:500 12.5px var(--bl-ui); color:var(--bl-fg3); }
-.bb-bc-body { display:flex; flex-direction:column; gap:8px; padding:0 10px 10px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .bb-bc-card { display:flex; flex-direction:column; align-items:stretch; gap:6px; width:100%; text-align:left; background:var(--bl-win); border:1px solid var(--bl-line); border-radius:8px; padding:10px 12px; cursor:pointer; color:var(--bl-fg); font-family:var(--bl-ui); transition:background-color .12s, border-color .12s; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .bb-bc-card:hover { background:var(--bl-hover); }
-.bb-bc-card .bb-bc-where { display:flex; align-items:center; gap:6px; font:400 11.5px var(--bl-ui); color:var(--bl-fg3); min-width:0; }
-.bb-bc-card .bb-bc-where svg { width:12px; height:12px; flex:none; }
-.bb-bc-card .bb-bc-where span { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.bb-bc-title { font:500 13.5px/1.35 var(--bl-ui); color:var(--bl-fg); }
-.bb-bc-foot { display:flex; align-items:center; gap:12px; }
-.bb-bc-due { font:400 12px var(--bl-ui); color:var(--bl-fg2); }
-.bb-bc-due.overdue { color:var(--bl-bad); }
 
 /* ── Calendar month: readable dates ──
    The date and day name were 11px and 9px (the day name barely readable). Date 14px, day name 12.5px,
@@ -2314,7 +2339,15 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-face:focus-visible { outli
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-face .sc-fn { max-width:50px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font:500 11.5px var(--bl-ui); color:var(--bl-fg3); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-face.on .sc-fn { color:var(--bl-fg); font-weight:600; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-face.on::after { content:''; position:absolute; left:14px; right:14px; bottom:-7px; height:2px; border-radius:2px; background:var(--bl-accent); }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-fdot { position:absolute; top:3px; right:9px; width:9px; height:9px; border-radius:50%; background:var(--bl-accent); box-shadow:0 0 0 2px var(--bl-win); }
+/* unread, as on Home's Team live (the tl-unread badge, tlBreathe and tlPop are defined once in index.html): a status-colour ring that breathes */
+#bl-sc .sc-face { --tl-c:var(--bl-fg3); }
+#bl-sc .sc-face:has(.sc-pres.on) { --tl-c:var(--bl-ok); } #bl-sc .sc-face:has(.sc-pres.busy) { --tl-c:var(--bl-bad); } #bl-sc .sc-face:has(.sc-pres.away) { --tl-c:var(--bl-high); }
+#bl-sc .sc-face.un .sc-avw::before, #bl-sc .sc-face.un .sc-avw::after { content:''; position:absolute; inset:-4px; border-radius:50%; border:2px solid var(--tl-c); pointer-events:none; }
+#bl-sc .sc-face.un .sc-avw::after { opacity:0; animation:tlBreathe 3.2s ease-in-out infinite; }
+#bl-sc .sc-face.pop .sc-avw { animation:tlPop .5s cubic-bezier(.34,1.56,.64,1); }
+#bl-sc .sc-face .tl-unread { top:-7px; right:-11px; min-width:18px; height:18px; padding:0 5px; border-radius:9px; font:700 10.5px/18px var(--bl-ui); font-variant-numeric:tabular-nums; z-index:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-face.un .sc-fn { color:var(--bl-fg); font-weight:600; }
+@media (prefers-reduced-motion: reduce) { #bl-sc .sc-face .sc-avw, #bl-sc .sc-face .sc-avw::after { animation:none !important; } #bl-sc .sc-face .tl-unread { transition:none; } }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-fplus { width:32px; height:32px; display:grid; place-items:center; color:var(--bl-fg2); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-fplus .bl-i { width:18px; height:18px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-face-new:hover .sc-fplus, html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-face-new:hover .sc-fn { color:var(--bl-fg); }
@@ -2424,19 +2457,17 @@ html body:not(#_1):not(#_2):not(#_3) #team-modal-overlay .team-modal.tm-wide { w
 .tm-org-ro-note{display:flex;justify-content:space-between;gap:12px;margin-top:8px;font-size:12px;color:var(--bl-fg2)}
 .tm-org-ro-note .tm-org-ro-link{font-size:12.5px}
 
-/* Glacier Office (2026-10-16): the page and blocks use the Team Space blue, so desks and the
-   meeting room climb in the same blue (page, block, then desk one step lighter) instead of
-   dropping to Bloom's dark navy, which read as dark holes on a bright page. */
-html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept .station-card:not(.room) { background:#276d97 !important; border-color:rgba(255,255,255,.14) !important; }
-html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept .station-card:not(.room):hover { background:#2d78a5 !important; }
-html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept .station-card.is-off:not(.seat) { background:#22628a !important; }
+/* Glacier Office: page (win), block (panel), team room (raise), desk (hover), one ladder step each. */
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept .station-card:not(.room) { background:var(--dk-card, var(--bl-hover)) !important; }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept .station-card:not(.room):hover { background:var(--bl-line) !important; }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept .station-card.is-off:not(.seat) { background:var(--bl-raise) !important; }
 html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept .station-card .dk-scr,
-html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept .station-card .station-card-actions { background:#174f72 !important; border-color:rgba(255,255,255,.22) !important; }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept .station-card .station-card-actions { background:var(--bl-win) !important; border-color:var(--bl-line) !important; }
 html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept .station-card :is(.dk-stand, .dk-base) { background:rgba(255,255,255,.28) !important; }
-html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .ofr { background:#22628a !important; border-color:rgba(255,255,255,.14) !important; }
-html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .ofr :is(.ofr-chair, .ofr-cush, .ofr-obj) { fill:#2f7aa6 !important; }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .ofr { background:var(--bl-raise) !important; border-color:var(--bl-line) !important; }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .ofr :is(.ofr-chair, .ofr-cush, .ofr-obj) { fill:var(--bl-hover) !important; }
 html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .ofr .ofr-tbl { stroke:rgba(255,255,255,.28) !important; }
-html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .ofr .ofr-scr { fill:#174f72 !important; }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .ofr .ofr-scr { fill:var(--bl-win) !important; }
 .team-modal.tm-wide .tm-head + .tm-row{margin-top:16px}
 .team-modal.tm-wide .tm-org-ro{margin-top:16px}
 
@@ -2445,7 +2476,7 @@ html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #ch
    your own messages on the right (time only, a tinted block). Lines sent within
    5 minutes stack under one header. Blocks grow with the message. Flat, no glow. */
 body.bloom { --bl-bub:#1f2126; --bl-bub-own:#1d2b46; }
-body.bloom:not(.light-mode):not(.black-mode) { --bl-bub:#173a54; --bl-bub-own:#1f5079; }
+body.bloom:not(.light-mode):not(.black-mode) { --bl-bub:var(--bl-raise); --bl-bub-own:var(--bl-mine); }
 body.bloom.light-mode { --bl-bub:#eef0f3; --bl-bub-own:#dce8fc; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row { background:none !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msg-row:not(.grouped) { margin-top:10px !important; }
@@ -2774,7 +2805,7 @@ html body:not(#_1):not(#_2):not(#_3) .chat-bg-grid button.cur { color:var(--bl-f
       Main chat, side chat and Office chat share the bubbles. ── */
 /* Chats view only: the Office view (same window), the Office chat and the side chat keep their colours */
 body.bloom #chat-overlay:not(.office-on) { --bl-chatbg:#1b1c20; --bl-bub:#2a2c32; --bl-bub-own:#25395f; --bl-chip:#23252b; --bl-chipline:#34363d; }
-body.bloom:not(.light-mode):not(.black-mode) #chat-overlay:not(.office-on) { --bl-chatbg:#14415f; --bl-bub:#1e5277; --bl-bub-own:#276596; --bl-chip:#184863; --bl-chipline:#2c5b7b; }
+body.bloom:not(.light-mode):not(.black-mode) #chat-overlay:not(.office-on) { --bl-chatbg:var(--bl-panel); --bl-bub:var(--bl-raise); --bl-bub-own:var(--bl-mine); --bl-chip:var(--bl-raise); --bl-chipline:var(--bl-line); }
 body.bloom.light-mode #chat-overlay:not(.office-on) { --bl-chatbg:#f6f6f4; --bl-bub:#ffffff; --bl-bub-own:#d9e6fd; --bl-chip:#ffffff; --bl-chipline:#dfe2e8; }
 /* the conversation sits on the warmer canvas; the list keeps the window colour */
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay:not(.office-on) :is(#chat-active-conv, #chat-conv-header, #chat-msgs-area, .chat-typing-zone, .chat-input-area) { background-color:var(--bl-chatbg) !important; }
@@ -2816,57 +2847,28 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay:not(.office-on) .chat-t
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay:not(.office-on) .chat-sidebar { background:var(--bl-win) !important; }
 /* Office room cards: the ring around a seated person is a gap in the card's own colour (it was the old card colour, a dark circle on Glacier) */
 html body.bloom:not(#_1):not(#_2):not(#_3) .ofr { --ofr-bg:var(--bl-side); }
-html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .ofr { --ofr-bg:#22628a; }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .ofr { --ofr-bg:var(--bl-raise); }
 
 /* Side chat (2026-10-18): the Chats page's warmer canvas and clearer bubbles, inside the side chat panel only */
 body.bloom #bl-sc { --bl-scbg:#1b1c20; --bl-bub:#2a2c32; --bl-bub-own:#25395f; }
-body.bloom:not(.light-mode):not(.black-mode) #bl-sc { --bl-scbg:#14415f; --bl-bub:#1e5277; --bl-bub-own:#276596; }
+body.bloom:not(.light-mode):not(.black-mode) #bl-sc { --bl-scbg:var(--bl-panel); --bl-bub:var(--bl-raise); --bl-bub-own:var(--bl-mine); }
 body.bloom.light-mode #bl-sc { --bl-scbg:#f6f6f4; --bl-bub:#ffffff; --bl-bub-own:#d9e6fd; }
+body.bloom #bl-sc { --tl-ring:var(--bl-scbg); }   /* badge and status-dot cut-outs match the panel */
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #bl-sc .sc-mt:not(:empty) { border:1px solid #e6e8ec; }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-own .sc-mt:not(:empty) { border-color:#c9daf9; }
 html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #bl-sc { background:var(--bl-scbg) !important; }
 
 /* ── Board card window fixes (2026-10-18) ── */
-/* Column and Priority: plain button rows like every other field (Black drew them as a floating dropdown strip with a heavy shadow) */
-html body.bloom:not(#_1):not(#_2):not(#_3) :is(.cd-column-picker, .cd-priority-picker) { background:none !important; border:0 !important; box-shadow:none !important; padding:0 !important; gap:6px !important; display:flex !important; flex-wrap:wrap; margin-top:4px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) :is(.cd-col-btn, .cd-prio-btn) { height:32px; padding:0 12px !important; border-radius:8px !important; border:1px solid var(--bl-line) !important; background:var(--bl-raise) !important; color:var(--bl-fg2) !important; font:500 13px var(--bl-ui) !important; box-shadow:none !important; max-width:none; }
-html body.bloom:not(#_1):not(#_2):not(#_3) :is(.cd-col-btn, .cd-prio-btn):hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) :is(.cd-col-btn, .cd-prio-btn).active { border-color:var(--bl-accent) !important; background:var(--bl-accent-soft) !important; color:var(--bl-fg) !important; }
-/* Assignee: only the people on the card, + Assign opens a search */
-html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-compact .cd-assignee-item:not(.selected), html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-compact .cd-assignee-item[data-member-id=""] { display:none !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-compact .cd-assignee-item.selected { position:relative; padding-right:28px !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-compact .cd-assignee-item.selected::after { content:'×'; position:absolute; right:10px; top:50%; transform:translateY(-52%); color:var(--bl-fg3); font-size:15px; line-height:1; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-compact .cd-assignee-item.selected:hover::after { color:var(--bl-fg); }
-html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-add { height:34px; padding:0 12px; border-radius:8px; border:1px dashed var(--bl-line) !important; background:none !important; color:var(--bl-fg2) !important; font:500 13px var(--bl-ui); cursor:pointer; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-add:hover { border-style:solid !important; color:var(--bl-fg) !important; background:var(--bl-hover) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-pop { position:fixed; z-index:20000; width:260px; max-height:280px; display:flex; flex-direction:column; padding:8px; border-radius:12px; background:var(--bl-raise) !important; border:1px solid var(--bl-line) !important; box-shadow:0 12px 32px rgba(0,0,0,.3) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-pop input { height:34px; padding:0 10px; border-radius:8px; border:1px solid var(--bl-line) !important; background:var(--bl-win) !important; color:var(--bl-fg) !important; font:400 13.5px var(--bl-ui); outline:0; margin-bottom:6px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-pop input:focus { border-color:var(--bl-accent) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-list { overflow:auto; display:flex; flex-direction:column; gap:2px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-list button { display:flex; align-items:center; gap:9px; width:100%; padding:6px 8px; border:0 !important; border-radius:8px; background:none !important; color:var(--bl-fg) !important; font:500 13.5px var(--bl-ui); text-align:left; cursor:pointer; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-list button:is(:hover, .hi) { background:var(--bl-hover) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-list .cd-assignee-avatar { width:24px; height:24px; flex:none; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .cd-asg-empty { padding:10px 8px; color:var(--bl-fg3); font:400 13px var(--bl-ui); }
 /* the floating bottom bar stays under an open card */
 html body:has(#card-detail-overlay.open) #bb-float-nav { display:none !important; }
 /* long links never push a card wider than its column (no sideways scrollbar) */
 html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-cards { overflow-x:hidden !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-card { min-width:0; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-card :is(.kc-title, .kc-desc) { overflow-wrap:anywhere; word-break:break-word; min-width:0; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-desc-editor { overflow-wrap:anywhere; }
 /* board header controls stay readable on any board photo */
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) #boards-overlay :is(.boards-topbar-back, .bih-member-add) { background:var(--bl-win) !important; border:1px solid var(--bl-line) !important; color:var(--bl-fg) !important; opacity:1 !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) #boards-overlay :is(.boards-topbar-back, .bih-member-add):hover { background:var(--bl-hover) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #boards-overlay .bih-member-add svg { color:var(--bl-fg2) !important; }
-/* card attachments: files (PDF, Word, any type) as a row with type badge, name and size; click opens */
-html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-thumb-wrap.cd-file { width:100%; height:auto; display:flex; align-items:center; gap:10px; padding:8px 34px 8px 10px; border:1px solid var(--bl-line); border-radius:8px; background:var(--bl-raise); cursor:pointer; box-sizing:border-box; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-thumb-wrap.cd-file:hover { background:var(--bl-hover); }
-html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-thumb-wrap.cd-file.up { cursor:default; opacity:.7; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-file-ext { flex:none; width:38px; height:38px; display:grid; place-items:center; border-radius:7px; background:var(--bl-accent-soft); color:var(--bl-accent); font:700 10.5px var(--bl-ui); letter-spacing:.02em; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-file-txt { display:flex; flex-direction:column; min-width:0; gap:1px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-file-txt b { font:500 13px var(--bl-ui); color:var(--bl-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-file-txt small { font:400 12px var(--bl-ui); color:var(--bl-fg3); }
-html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-file .cd-thumb-del { top:50% !important; right:8px !important; transform:translateY(-50%); }
 /* board card preview: the first 3 lines of the description, then "…" (the full text is in the card) */
 html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-card .kc-desc { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; white-space:normal; }
 /* Board cover picker: flat, click applies at once, upload your own */
@@ -2893,12 +2895,1050 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #thumb-picker-overlay :is(.tpk-up, .t
    as its desks, so blocks sit side by side instead of one long line with empty space after it */
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-depts { display:flex !important; flex-wrap:wrap !important; align-items:flex-start !important; gap:16px !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.solo { width:fit-content !important; max-width:100% !important; flex:0 1 auto !important; grid-column:auto !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept .station-grid, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.solo .station-grid { grid-template-columns:repeat(1, minmax(0, 290px)) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept .station-grid:has(> :nth-child(2)) { grid-template-columns:repeat(2, minmax(0, 290px)) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept .station-grid:has(> :nth-child(3)) { grid-template-columns:repeat(3, minmax(0, 290px)) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept .station-grid, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.solo .station-grid { grid-template-columns:repeat(1, minmax(0, 200px)) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept .station-grid:has(> :nth-child(2)) { grid-template-columns:repeat(2, minmax(0, 200px)) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept .station-grid:has(> :nth-child(3)) { grid-template-columns:repeat(3, minmax(0, 200px)) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept .office-dept-room { min-width:0; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-file .cd-file-dl { position:absolute; right:40px; top:50%; transform:translateY(-50%); width:30px; height:30px; display:grid; place-items:center; border:1px solid var(--bl-line) !important; border-radius:7px; background:var(--bl-win) !important; color:var(--bl-fg2) !important; cursor:pointer; padding:0; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-file .cd-file-dl:hover { color:var(--bl-fg) !important; background:var(--bl-hover) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-file .cd-file-dl svg { width:16px; height:16px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-thumb-wrap.cd-file { padding-right:80px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cd-file .cd-thumb-del { opacity:1; }
+/* shared files in chat (main + Office): click opens, the button downloads */
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-msg-file { display:flex !important; align-items:center; gap:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-msg-file .chat-msg-file-meta { min-width:0; flex:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-file-dl { flex:none; margin-left:auto; width:30px; height:30px; display:grid; place-items:center; border:1px solid var(--bl-line) !important; border-radius:7px; background:var(--bl-win) !important; color:var(--bl-fg2) !important; cursor:pointer; padding:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-file-dl:hover { color:var(--bl-fg) !important; background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-file-dl svg { width:16px; height:16px; }
+/* Office for bigger teams (2026-10-18, approved mockup): every department is a room as wide as its desks
+   (three desks to a row at most, 200px each, growing down as people join), rooms sit side by side and wrap.
+   A department's teams are smaller rooms inside it, side by side too. The heading reads
+   "Name · N people · N here"; the chevron folds a room to a small block (faces, counts, Show desks). */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st { --sum-bg:var(--bl-side); display:flex !important; flex-direction:column !important; gap:12px !important; padding:14px !important; border-radius:12px !important; min-width:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-mon { flex:0 1 130px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .office-dept-hd { display:flex; align-items:center; flex-wrap:nowrap; gap:8px; min-width:0; padding:0; min-height:26px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .office-dept-name { flex-direction:row !important; align-items:baseline !important; gap:6px !important; flex:1 1 auto; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .office-dept-name b { flex:0 1 auto; min-width:0; max-width:none; font:600 14.5px var(--bl-ui) !important; color:var(--bl-fg) !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .office-dept-name span { flex:none; font:400 12.5px var(--bl-ui) !important; color:var(--bl-fg3) !important; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .office-dept-name span:not(:empty)::before { content:'\00B7\00A0'; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .office-dept-hd .office-dept-pill { margin-left:0; flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-yours { flex:none; padding-left:6px; font:400 12px var(--bl-ui); color:var(--bl-fg3); white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-yours[hidden] { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .office-dept-hd .bl-dept-min { margin-left:0; flex:none; }
+/* room line: door, room name, who is in, and Walk in / Join / Leave */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st :is(.bl-droom, .bl-troom) { display:flex; align-items:center; gap:12px; min-width:0; padding:9px 12px; border:1px solid var(--bl-line); border-radius:10px; background:var(--bl-win); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-troom { background:transparent; padding:8px 10px; gap:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-droom[hidden] { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st :is(.bl-droom, .bl-troom) > .ofr-door { width:18px; height:18px; flex:none; color:var(--bl-fg3); margin:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-room-t { flex:1 1 auto; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-room-t b { display:block; font:600 13px var(--bl-ui); color:var(--bl-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-room-t small { display:flex; align-items:center; gap:6px; margin-top:1px; font:400 11.5px var(--bl-ui); color:var(--bl-fg3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st :is(.bl-droom, .bl-troom) .office-dept-act { flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st :is(.bl-droom, .bl-troom) .office-btn { flex:none; height:28px !important; min-height:0 !important; padding:0 11px !important; font-size:12.5px !important; white-space:nowrap; }
+/* teams as rooms inside the department */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .office-dept-room.bl-rooms { flex-direction:row !important; flex-wrap:wrap; align-items:flex-start; gap:12px !important; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .office-dept-room.bl-rooms > :is(.bl-live, .bl-grp:not(.bl-team)) { flex:1 0 100%; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .office-dept-room.bl-rooms > .bl-grp + .bl-grp { padding-top:0; border-top:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-grp.bl-team { --sum-bg:var(--bl-win); display:flex; flex-direction:column; gap:10px; width:fit-content; max-width:100%; min-width:0; padding:10px; border:1px solid var(--bl-line); border-radius:10px; background:var(--bl-win); box-sizing:border-box; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-grp.bl-team[hidden] { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-team > .bl-grp-hd { flex-direction:column; align-items:stretch; justify-content:flex-start; gap:8px; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-team-hd { display:flex; align-items:center; gap:8px; min-width:0; margin:-3px -4px 0; padding:3px 4px; border-radius:7px; cursor:pointer; font:400 12.5px var(--bl-ui); color:var(--bl-fg2); outline:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-team-hd:hover { background:var(--bl-hover); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-team-hd:focus-visible { outline:2px solid var(--bl-accent); outline-offset:1px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-team-chev { width:14px; height:14px; flex:none; color:var(--bl-fg3); transition:transform .15s ease; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-team.bl-min .bl-team-chev { transform:rotate(-90deg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-team-hd b { flex:0 1 auto; min-width:0; font:600 13px var(--bl-ui); color:var(--bl-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-team-meta { flex:0 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-team-hd .bl-yours { margin-left:auto; padding-left:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-team-sub { font:400 12px var(--bl-ui); color:var(--bl-fg3); }
+/* folded: a small block, about 264px wide */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-sum { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st.bl-min > .bl-sum, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-team.bl-min > .bl-sum { display:flex; flex-direction:column; gap:8px; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st.bl-min { width:264px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-team.bl-min { width:264px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-team.bl-min > :is(.station-grid, .bl-grp-live) { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-sum-faces { display:flex; align-items:center; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-sum-face { position:relative; flex:none; width:28px !important; height:28px !important; min-width:0 !important; min-height:0 !important; margin:0 0 0 -7px !important; padding:0 !important; border:2px solid var(--sum-bg) !important; border-radius:50% !important; background:var(--sum-bg) !important; box-shadow:none !important; cursor:pointer; box-sizing:border-box; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-sum-face:first-child { margin-left:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-sum-face:hover, html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-sum-face:focus-visible { z-index:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-sum-face:focus-visible { outline:2px solid var(--bl-accent); outline-offset:1px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-sum-av { display:grid; place-items:center; width:100%; height:100%; border-radius:50%; font:600 10px var(--bl-ui); color:#fff; background-size:cover; background-position:center; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-sum-face.out .bl-sum-av { opacity:.5; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-sum-more { flex:none; display:grid; place-items:center; width:28px; height:28px; margin-left:-7px; border:2px solid var(--sum-bg); border-radius:50%; background:var(--bl-hover); color:var(--bl-fg2); font:600 10.5px var(--bl-ui); box-sizing:border-box; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-sum-counts { display:flex; flex-wrap:wrap; gap:4px 10px; font:400 12px var(--bl-ui); color:var(--bl-fg2); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-sum-counts span { display:inline-flex; align-items:center; gap:5px; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-sum-dot { flex:none; width:8px; height:8px; border-radius:50%; background:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-sum-dot.room { background:var(--dk-room, #38bdf8); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-sum-dot.focus { background:var(--bl-bad, #ef4444); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-sum-dot.away { background:var(--bl-high, #f59e0b); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-sum-open { align-self:flex-start; height:28px !important; min-height:0 !important; padding:0 11px !important; font-size:12.5px !important; }
+/* folded faces: the ring is the block's own colour in every theme */
+html body.bloom.black-mode:not(#_1):not(#_2):not(#_3) .office-dept.bl-st { --sum-bg:#1b1d22; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .office-dept.bl-st { --sum-bg:#f3f6f9; }
+/* Glacier: block (panel), team and room lines (raise), desks (hover), one ladder step each */
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept.bl-st { --sum-bg:var(--bl-panel); }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept.bl-st .bl-grp.bl-team { --sum-bg:var(--bl-raise); background:var(--bl-raise); border-color:var(--bl-line); }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept.bl-st .bl-droom { background:var(--bl-raise); border-color:var(--bl-line); }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept.bl-st .bl-troom { border-color:var(--bl-line); }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept.bl-st .bl-team-hd:hover { background:rgba(255,255,255,.08); }
+html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .office-dept.bl-st .bl-sum-more { background:var(--bl-hover); color:var(--bl-fg); }
+/* a narrow (folded) block keeps the name readable: the counts give way first, the focus count is in the summary */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .office-dept-name span { flex:0 100 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-team-meta { flex-shrink:100; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st.bl-min .office-dept-hd .office-dept-pill { display:none; }
+/* Office view settings (2026-10-18, approved mockup "Office three across"): per person, from the
+   Office menu in the top bar. #office-depts carries ofc-side | ofc-row (layout) and ofc-compact |
+   ofc-comfy (desk size). Default: side by side + compact. Every rule is scoped to #office-depts. */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-view-btn { display:none; align-items:center; justify-content:center; width:36px; height:36px; padding:0; flex:none; background:var(--bl-raise) !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; color:var(--bl-fg2) !important; box-shadow:none !important; cursor:pointer; -webkit-app-region:no-drag; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-overlay.office-on .office-view-btn { display:flex; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-view-btn:hover, html body.bloom:not(#_1):not(#_2):not(#_3) .office-view-btn[aria-expanded="true"] { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-view-btn:focus-visible { outline:2px solid var(--bl-accent); outline-offset:1px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-view-btn svg { width:16px; height:16px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-view-menu { width:220px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-view-menu button { justify-content:flex-start; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-view-menu button .ofv-check { margin-left:auto; width:14px; height:14px; flex:none; color:var(--bl-accent, #5b8def); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-view-menu .office-menu-label { text-transform:none; letter-spacing:0; font:600 11.5px var(--bl-ui); color:var(--bl-fg3); padding:6px 10px 2px; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #office-view-menu .office-menu-label { color:#5f6672; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #office-view-menu button .ofv-check { color:#2563d9; }
+
+/* Side by side: department blocks share a row three across (about a third each, at least 300px,
+   so they drop to two, then one). Blocks grow down, never wider. */
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side { --ofc-gap:12px; display:grid !important; gap:var(--ofc-gap) !important; align-items:start !important; grid-auto-flow:row !important; grid-template-columns:repeat(auto-fill, minmax(max(300px, calc((100% - 2 * var(--ofc-gap)) / 3)), 1fr)) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side > :is(.bl-dept-ask, .station-empty) { grid-column:1 / -1 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side > .office-dept:not(.office-dept-ghost), html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side > .office-dept.bl-st.bl-min:not(.office-dept-ghost) { width:auto !important; max-width:none !important; min-width:0 !important; flex:none !important; grid-column:auto !important; container:ofcdept / inline-size; }
+/* Teams inside a block: a small heading line and their desks, no box inside the box */
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side .office-dept.bl-st .office-dept-room.bl-rooms { flex-direction:column !important; flex-wrap:nowrap !important; align-items:stretch !important; gap:12px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side .office-dept.bl-st .bl-grp.bl-team { --sum-bg:inherit !important; width:auto !important; max-width:none !important; padding:0 !important; border:0 !important; border-radius:0 !important; background:transparent !important; gap:8px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side .office-dept.bl-st .bl-team-hd { margin:-3px -4px 0; font-size:12.5px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side .office-dept.bl-st .bl-team-hd b { font-size:12.5px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side .office-dept.bl-st .bl-troom { padding:6px 10px; }
+/* Desks: three to a row, sharing the block width evenly */
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side .office-dept .station-grid { grid-template-columns:repeat(3, minmax(0, 1fr)) !important; }
+@container ofcdept (max-width:559px) { html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side.ofc-comfy .office-dept .station-grid { grid-template-columns:repeat(2, minmax(0, 1fr)) !important; } }
+@container ofcdept (max-width:299px) { html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side.ofc-comfy .office-dept .station-grid { grid-template-columns:minmax(0, 1fr) !important; } }
+@container ofcdept (max-width:339px) { html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side.ofc-compact .office-dept .station-grid { grid-template-columns:repeat(2, minmax(0, 1fr)) !important; } }
+
+/* One per row: each department full width; its teams sit side by side inside it (the earlier layout) */
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-row > .office-dept:not(.office-dept-ghost), html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-row > .office-dept.bl-st.bl-min:not(.office-dept-ghost) { width:100% !important; flex:1 1 100% !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-row.ofc-compact .office-dept .station-grid { grid-template-columns:repeat(1, minmax(0, 156px)) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-row.ofc-compact .office-dept .station-grid:has(> :nth-child(2)) { grid-template-columns:repeat(2, minmax(0, 156px)) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-row.ofc-compact .office-dept .station-grid:has(> :nth-child(3)) { grid-template-columns:repeat(3, minmax(0, 156px)) !important; }
+
+/* Compact desk: 32px photo beside a 40px tall screen, name 13px, status 11px (two lines, then ...) */
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st { padding:10px !important; gap:10px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .station-grid { gap:6px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .station-card { padding:8px 5px 7px !important; border-radius:10px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .station-card-body { gap:5px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .station-card .station-avatar { width:32px !important; height:32px !important; min-width:32px; margin-top:4px; font-size:11px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .station-card .station-avatar .chat-avatar-status { width:10px !important; height:10px !important; right:-1px !important; bottom:-1px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .dk-mon { flex:0 1 104px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .dk-scr { height:40px; border-width:2px; border-radius:5px; padding:2px 3px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .dk-scr .station-card-foot { font-size:11px !important; line-height:1.25; gap:3px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .dk-scr .station-card-foot > span { overflow:hidden; overflow-wrap:break-word; -webkit-hyphens:auto; hyphens:auto; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .dk-scr .station-card-foot > svg { width:11px; height:11px; }
+/* a compact screen is too small for the status icon too; the status colour still says it */
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .dk-scr .station-card-foot > svg { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .dk-stand { width:5px; height:4px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .dk-base { width:20px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .station-card-hd { margin-top:6px; gap:3px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .station-card-name { font-size:13px !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .station-card-you { font-size:11px !important; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .dk-scr .station-card-actions { padding:0 1px !important; gap:0 !important; grid-auto-columns:minmax(0, 28px); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .dk-scr .station-card-action { height:28px !important; max-width:28px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .dk-scr .station-card-action svg { width:14px !important; height:14px !important; }
+/* A third-width block keeps the name readable: the header's focus / in the room count gives way
+   (the desks and the room line already say it) */
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side .office-dept.bl-st .office-dept-hd .office-dept-pill { display:none; }
+/* Compact desk: "(you)" instead of "your desk", so your own name is not cut short */
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .station-card-you { font-size:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-compact .office-dept.bl-st .station-card-you::after { content:'(you)'; font-size:11px; }
+/* While the screen shows knock / call / video, the status underneath is hidden outright (not only faded) */
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts .office-dept.bl-st .station-card:not(.has-more):is(:hover, :focus-within) .dk-scr .station-card-foot { visibility:hidden; }
+/* Side by side, as in the mockup: the count stays whole and a long department name is cut instead (full name on hover) */
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side .office-dept.bl-st:not(.bl-min) .office-dept-name span { flex:0 0 auto; }
+
+/* Office view controls (2026-10-18): two plain button pairs above the status key, Office only.
+   Compact | Comfortable sets desk size; 2 per row | 3 per row sets how many departments share a row. */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-intro-side { display:flex; flex-direction:column; align-items:flex-end; gap:12px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofv-bar { display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofv-seg { display:inline-flex; padding:2px; gap:2px; background:var(--bl-raise) !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofv-seg button { height:28px; padding:0 12px !important; margin:0 !important; border:0 !important; border-radius:6px !important; background:transparent !important; box-shadow:none !important; color:var(--bl-fg2) !important; font:600 12px/28px inherit !important; font-family:inherit !important; cursor:pointer; white-space:nowrap; min-width:0 !important; width:auto !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofv-seg button:hover { color:var(--bl-fg) !important; background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofv-seg button.on { color:var(--bl-fg) !important; background:var(--bl-hover) !important; box-shadow:inset 0 0 0 1px var(--bl-line) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofv-seg button:focus-visible { outline:2px solid var(--bl-accent); outline-offset:1px; }
+/* 2 per row: departments share the row in halves (still never under 300px, so narrow windows drop to one) */
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side.ofc-c2 { grid-template-columns:repeat(auto-fill, minmax(max(300px, calc((100% - var(--ofc-gap)) / 2)), 1fr)) !important; }
+/* the chosen option reads clearly in every theme: accent text on the raised step */
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofv-seg button.on { color:var(--bl-accent, #5b8def) !important; font-weight:700 !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .ofv-seg button.on { color:#2563d9 !important; background:#ffffff !important; }
+
+/* Office view buttons are icons now (2026-10-18): 28x24 each, name on hover (title) */
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofv-bar { gap:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofv-seg { padding:2px; gap:1px; border-radius:7px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofv-seg button { width:28px !important; height:24px; padding:0 !important; display:inline-flex !important; align-items:center; justify-content:center; border-radius:5px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .ofv-seg button svg { width:16px; height:16px; display:block; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .ofv-seg button.on { background:var(--bl-hover) !important; }
+
+/* Board header chat is an icon (2026-10-18): square button the height of "+ Add column", unread number on its corner */
+html body.bloom:not(#_1):not(#_2):not(#_3) .boards-overlay.in-board #bl-sc-board:not([hidden]) { position:relative; justify-content:center; width:36px !important; min-width:36px !important; padding:0 !important; gap:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc-board .bl-i { width:17px; height:17px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc-board .bl-sc-count { position:absolute !important; top:-5px; right:-5px; margin:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc-board .bl-sc-count:empty { display:none !important; }
+
+/* ── Board card window (2026-10-18 redesign, approved mockup) ──
+   The title is the heading, "in list" moves the card, a details line (members, labels, due, priority),
+   one row of Add buttons, then description, checklists and attachments; comments on the right.
+   Flat stepped surfaces, accents only. Tokens follow the mockup for Black, Glacier and Light. */
+body.bloom #card-detail-overlay, body.bloom #cw-pop {
+  --cw-win:#1b1c20; --cw-side:#17181b; --cw-raise:#23252b; --cw-line:#2c2e35; --cw-line2:#34363d;
+  --cw-fg:#eceef2; --cw-fg2:#b4b9c3; --cw-fg3:#8d93a0; --cw-hover:#26282e; --cw-acc:#5b8def; --cw-accfg:#8fb2f5;
+  --cw-field:#141519; --cw-over:#ff7b72; --cw-shade:rgba(0,0,0,.55); --cw-pop:#23252b; --cw-popsh:0 12px 32px rgba(0,0,0,.45);
+  --cw-cover:#25395f; --cw-accbtn:#3f73d9; --cw-ok:#3cb07a; --cw-red:#d93a3f;
+}
+body.bloom:not(.light-mode):not(.black-mode) #card-detail-overlay, body.bloom:not(.light-mode):not(.black-mode) #cw-pop {
+  --cw-win:var(--bl-panel); --cw-side:var(--bl-win); --cw-raise:var(--bl-raise); --cw-line:var(--bl-line); --cw-line2:#385771;
+  --cw-fg:var(--bl-fg); --cw-fg2:var(--bl-fg2); --cw-fg3:var(--bl-fg3); --cw-hover:var(--bl-hover); --cw-acc:var(--bl-accent); --cw-accfg:var(--bl-accent);
+  --cw-field:var(--bl-win); --cw-over:var(--bl-urgent); --cw-shade:rgba(4,12,20,.55); --cw-pop:var(--bl-raise); --cw-popsh:0 12px 32px rgba(0,0,0,.4);
+  --cw-cover:var(--bl-mine); --cw-accbtn:#2a73b8;
+}
+body.bloom.light-mode #card-detail-overlay, body.bloom.light-mode #cw-pop {
+  --cw-win:#ffffff; --cw-side:#f7f8fa; --cw-raise:#ffffff; --cw-line:#e1e4ea; --cw-line2:#d5d9e0;
+  --cw-fg:#15171c; --cw-fg2:#3f4550; --cw-fg3:#5f6672; --cw-hover:#eef0f3; --cw-acc:#2f6fe0; --cw-accfg:#2459c0;
+  --cw-field:#ffffff; --cw-over:#c62828; --cw-shade:rgba(20,24,32,.38); --cw-pop:#ffffff; --cw-popsh:0 12px 32px rgba(20,24,32,.16);
+  --cw-cover:#dce8fc; --cw-accbtn:#2f6fe0; --cw-ok:#17844f; --cw-red:#c62f2f;
+}
+body.bloom:is(.black-mode, :not(.light-mode)) #card-detail-overlay, body.bloom:is(.black-mode, :not(.light-mode)) #cw-pop { color-scheme:dark; }
+body.bloom.light-mode #card-detail-overlay, body.bloom.light-mode #cw-pop { color-scheme:light; }
+
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay { background:var(--cw-shade) !important; padding:16px; box-sizing:border-box; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay * , html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop * { box-sizing:border-box; }
+/* every button and field in the window starts plain (the Black theme paints all buttons) */
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay :is(button, input, textarea), html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop :is(button, input, textarea) { font-family:var(--bl-ui) !important; background-image:none !important; box-shadow:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay button, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop button { background:transparent !important; border:0 !important; color:inherit !important; padding:0; margin:0; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-win { position:relative; width:min(1040px, 100%); max-height:min(768px, calc(100vh - 32px)); min-height:min(560px, calc(100vh - 32px)); display:flex; flex-direction:column; background:var(--cw-win) !important; border:1px solid var(--cw-line) !important; border-radius:12px; box-shadow:0 24px 64px rgba(0,0,0,.35) !important; color:var(--cw-fg) !important; overflow:hidden; font:400 14px/1.45 var(--bl-ui); transform:translateY(10px); transition:transform .2s ease; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay.open .cw-win { transform:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-win.drag-over-whole { outline:2px solid var(--cw-acc); outline-offset:-2px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-win.drag-over-whole::after { content:'Drop files to attach'; position:absolute; inset:0; z-index:30; display:flex; align-items:center; justify-content:center; background:color-mix(in srgb, var(--cw-win) 82%, transparent); color:var(--cw-fg); font:600 15px var(--bl-ui); pointer-events:none; }
+
+/* cover band */
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cover { position:relative; height:116px; flex:none; background:var(--cw-cover); border-bottom:1px solid var(--cw-line); overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cover[hidden] { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cover img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cover .cw-cbtn { position:absolute; right:12px; bottom:10px; }
+
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-body { display:grid; grid-template-columns:minmax(0, 1fr) 310px; grid-template-rows:minmax(0, 1fr); min-height:0; flex:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-main { overflow:auto; padding:24px 32px; min-width:0; min-height:0; position:relative; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-side { background:var(--cw-side); border-left:1px solid var(--cw-line); display:flex; flex-direction:column; min-height:0; min-width:0; }
+
+/* small buttons */
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-gb, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-gb { height:28px; display:inline-flex; align-items:center; gap:6px; padding:0 9px !important; border-radius:6px; background:transparent !important; color:var(--cw-fg2) !important; font:500 12.5px var(--bl-ui) !important; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-gb:hover, html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-gb.on, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-gb:hover { background:var(--cw-hover) !important; color:var(--cw-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-gb svg, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-gb svg { width:15px; height:15px; flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-gb.cw-sm, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-gb.cw-sm { height:24px; padding:0 7px !important; font-size:12px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-gb.cw-solid, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-gb.cw-solid { background:var(--cw-raise) !important; border:1px solid var(--cw-line) !important; color:var(--cw-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-gb.cw-solid:hover, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-gb.cw-solid:hover { background:var(--cw-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ib, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-ib { width:28px; height:28px; display:grid; place-items:center; border-radius:6px; background:transparent !important; color:var(--cw-fg2) !important; flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ib:hover, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-ib:hover { background:var(--cw-hover) !important; color:var(--cw-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ib svg, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-ib svg { width:16px; height:16px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ib.cw-sm, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-ib.cw-sm { width:24px; height:24px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ib.cw-sm svg, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-ib.cw-sm svg { width:14px; height:14px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-pb, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-pb { height:28px; padding:0 12px !important; border-radius:6px; background:var(--cw-accbtn) !important; color:#fff !important; font:500 12.5px var(--bl-ui) !important; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-pb:hover, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-pb:hover { filter:brightness(1.08); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-pb.cw-pb-sm { height:24px; padding:0 10px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-pb.cw-red { background:var(--cw-red) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-full { width:100%; justify-content:center; display:flex; align-items:center; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-sp, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-sp { flex:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-vh { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-tin, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-tin { width:100%; height:30px; border:1px solid var(--cw-line) !important; border-radius:6px; background:var(--cw-field) !important; color:var(--cw-fg) !important; font:400 13px var(--bl-ui) !important; padding:0 10px !important; outline:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-tin:focus, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-tin:focus { border-color:var(--cw-acc) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay :is(input, textarea)::placeholder, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop :is(input, textarea)::placeholder { color:var(--cw-fg3) !important; opacity:1; }
+
+/* title + in list */
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ttl { display:block; width:calc(100% + 12px); margin:0 0 4px -6px; padding:2px 6px !important; border:1px solid transparent !important; border-radius:6px; background:transparent !important; color:var(--cw-fg) !important; font:600 21px/1.3 var(--bl-ui) !important; resize:none; overflow:hidden; outline:0; min-height:0; cursor:text; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ttl:hover { background:var(--cw-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ttl:focus { background:var(--cw-field) !important; border-color:var(--cw-acc) !important; cursor:text; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-inlist { font-size:12.5px; color:var(--cw-fg3); display:flex; align-items:center; gap:2px; margin-bottom:20px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-inlist .cw-gb { height:22px; padding:0 4px 0 6px !important; color:var(--cw-fg) !important; font-size:12.5px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-inlist .cw-gb svg { width:13px; height:13px; color:var(--cw-fg3); }
+
+/* details line */
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-props { display:flex; flex-wrap:wrap; gap:12px 32px; margin-bottom:18px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-props[hidden], html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-props:empty { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cap { font-size:11.5px; color:var(--cw-fg3); margin:0 0 5px 1px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-pv { display:flex; align-items:center; gap:6px; min-height:28px; flex-wrap:wrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-faces { display:flex !important; align-items:center; padding-left:6px !important; height:28px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-av, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-av { width:26px; height:26px; border-radius:50%; display:grid; place-items:center; color:#fff; font:600 10px var(--bl-ui); flex:none; box-shadow:0 0 0 2px var(--cw-win); background:#64748b; overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-faces .cw-av { margin-left:-6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-av.cw-more { background:var(--cw-raise); color:var(--cw-fg2); box-shadow:0 0 0 2px var(--cw-win), inset 0 0 0 1px var(--cw-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-addface { width:26px; height:26px; border-radius:50%; border:1px dashed var(--cw-line2) !important; color:var(--cw-fg3) !important; display:grid; place-items:center; margin-left:4px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-addface:hover { border-style:solid !important; color:var(--cw-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-addface svg { width:13px; height:13px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-lab { display:inline-flex; align-items:center; gap:6px; font:400 13px var(--bl-ui) !important; color:var(--cw-fg) !important; margin-right:8px !important; height:28px; border-radius:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-lab:hover { text-decoration:underline; text-underline-offset:3px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-lab i { width:8px; height:8px; border-radius:50%; flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-due { display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 8px !important; border-radius:6px; border:1px solid var(--cw-line) !important; font:400 13px var(--bl-ui) !important; color:var(--cw-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-due:hover { background:var(--cw-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-due svg { width:14px; height:14px; color:var(--cw-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-due.over { color:var(--cw-over) !important; border-color:color-mix(in srgb, var(--cw-over) 45%, transparent) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-due.over svg { color:var(--cw-over); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-due small { font-size:12px; font-weight:500; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-prio { display:inline-flex; align-items:center; gap:6px; font:400 13px var(--bl-ui) !important; color:var(--cw-fg) !important; height:28px; border-radius:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-prio:hover { text-decoration:underline; text-underline-offset:3px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-prio svg { width:15px; height:15px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-adds { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 0 -10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-adds .cw-gb { height:30px; padding:0 10px !important; }
+
+/* time line */
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay #cd-time-tracker[hidden] { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-tline { display:flex; align-items:center; flex-wrap:wrap; gap:4px 8px; font-size:13px; color:var(--cw-fg2); margin:16px 0 0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-tline .cw-ic { width:15px; height:15px; color:var(--cw-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-tline b { color:var(--cw-fg); font-weight:500; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-dot { width:7px; height:7px; border-radius:50%; background:var(--cw-over); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-sep { color:var(--cw-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-lk { padding:2px 4px !important; border-radius:5px; color:var(--cw-accfg) !important; font:500 13px var(--bl-ui) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-lk:hover { background:var(--cw-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-lk.cw-stop { color:var(--cw-over) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-mut { color:var(--cw-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-min { width:62px; height:24px; border:1px solid var(--cw-line) !important; border-radius:6px; background:var(--cw-field) !important; color:var(--cw-fg) !important; font:400 12.5px var(--bl-ui) !important; padding:0 6px !important; outline:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-min:focus { border-color:var(--cw-acc) !important; }
+
+/* sections */
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-sec { margin-top:20px; padding-top:16px; border-top:1px solid var(--cw-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-sec[hidden] { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-sh { display:flex; align-items:center; gap:8px; min-height:26px; margin-bottom:8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-sh .cw-ic { width:16px; height:16px; color:var(--cw-fg2); flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-t { font-size:14px; font-weight:600; color:var(--cw-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-n { font-size:12.5px; color:var(--cw-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-hint { font-size:12px; color:var(--cw-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-sh [hidden] { display:none !important; }
+
+/* description: reads as text, the toolbar shows only while editing */
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-desc { font:400 14px/1.6 var(--bl-ui); color:var(--cw-fg); padding:4px 6px; margin:0 -6px; border-radius:6px; cursor:text; outline:0; overflow-wrap:anywhere; word-break:break-word; min-height:24px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-desc[contenteditable="false"]:hover { background:var(--cw-hover); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-desc:empty::before { content:attr(data-placeholder); color:var(--cw-fg3); pointer-events:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-desc p { margin:0 0 6px; } html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-desc p:last-child { margin:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-desc :is(ul, ol) { margin:2px 0 6px; padding-left:20px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-desc li { margin:2px 0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-desc :is(b, strong) { font-weight:600; color:var(--cw-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-desc a { color:var(--cw-accfg); text-decoration:underline; text-underline-offset:2px; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-desc img { max-width:100%; border-radius:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ed .cw-tb, html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ed .cw-edf { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ed.on { border:1px solid var(--cw-acc); border-radius:8px; background:var(--cw-field); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ed.on .cw-tb { display:flex; align-items:center; gap:1px; padding:3px 4px; border-bottom:1px solid var(--cw-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ed.on .cw-edf { display:flex; justify-content:flex-end; gap:6px; padding:0 8px 8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ed.on .cw-desc { margin:0; border-radius:0; padding:8px 10px; min-height:60px; max-height:320px; overflow:auto; background:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-tb .cw-ib { width:26px; height:26px; font:600 12.5px var(--bl-ui) !important; color:var(--cw-fg2) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-tb .cw-ib svg { width:15px; height:15px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-tb .cw-aa { font-size:11.5px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-vs { width:1px; height:16px; background:var(--cw-line); margin:0 4px; }
+
+/* checklists */
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-clt { flex:0 1 auto; min-width:40px; width:auto; field-sizing:content; max-width:60%; height:26px; padding:0 4px !important; margin-left:-4px; border:1px solid transparent !important; border-radius:6px; background:transparent !important; color:var(--cw-fg) !important; font:600 14px var(--bl-ui) !important; outline:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-clt:hover { background:var(--cw-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-clt:focus { border-color:var(--cw-acc) !important; background:var(--cw-field) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-clp { display:flex; align-items:center; gap:8px; margin:2px 0 6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-clp span { font-size:11.5px; color:var(--cw-fg3); width:30px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-bar4 { flex:1; height:4px; border-radius:2px; background:var(--cw-hover); overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-bar4 i { display:block; height:100%; background:var(--cw-acc); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-bar4 i.complete { background:var(--cw-ok); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ci { display:flex; align-items:center; gap:10px; min-height:34px; padding:0 6px; margin:0 -6px; border-radius:6px; font-size:13.5px; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ci:hover { background:var(--cw-hover); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-bx { width:16px; height:16px; border-radius:4px; border:1.5px solid var(--cw-line2) !important; flex:none; display:grid; place-items:center; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ci.d .cw-bx { background:var(--cw-accbtn) !important; border-color:var(--cw-accbtn) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-bx svg { width:11px; height:11px; color:#fff; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-citx { flex:1; min-width:0; border:0 !important; background:transparent !important; color:var(--cw-fg) !important; font:400 13.5px/1.4 var(--bl-ui) !important; padding:7px 0 !important; resize:none; outline:0; overflow:hidden; display:block; cursor:text; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-citx:focus { box-shadow:inset 0 -1px 0 var(--cw-acc) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ci.d .cw-citx { color:var(--cw-fg3) !important; text-decoration:line-through; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ci .cw-x { margin-left:auto; opacity:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ci:hover .cw-x, html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ci .cw-x:focus-visible { opacity:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-hidden-n { font-size:12.5px; color:var(--cw-fg3); padding:4px 0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cladd { margin:6px 0 0 -9px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ciadd, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-ciadd { display:flex; gap:6px; align-items:center; margin:4px 0 2px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ciadd .cw-tin, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-ciadd .cw-tin { flex:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-ciadd0 { margin:0; }
+
+/* attachments */
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-at { display:flex; align-items:center; gap:10px; min-height:54px; padding:8px 10px; margin:0 -10px; border-radius:6px; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-at + .cw-at { margin-top:2px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-at:hover { background:var(--cw-hover); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-at.up { cursor:default; opacity:.7; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-th { width:46px; height:32px; border-radius:5px; flex:none; overflow:hidden; border:1px solid var(--cw-line); background:var(--cw-raise); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-th img { width:100%; height:100%; object-fit:cover; display:block; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-fi { width:46px; height:32px; display:grid; place-items:center; flex:none; color:var(--cw-fg2); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-fi svg { width:20px; height:20px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-tx { min-width:0; flex:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-tx b { display:block; font-size:13.5px; font-weight:500; color:var(--cw-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-tx small { font-size:12px; color:var(--cw-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-acts { display:flex; gap:2px; }
+
+/* comments */
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-shd { display:flex; align-items:center; gap:6px; padding:16px 14px 14px 20px; border-bottom:1px solid var(--cw-line); flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-shd .cw-t { font-size:14px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cms { flex:1; overflow:auto; padding:12px 14px; min-height:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-empty { color:var(--cw-fg3); font-size:13px; text-align:center; padding:24px 0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cm { display:flex; gap:9px; padding:10px 8px; border-radius:8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cm + .cw-cm { margin-top:8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cm:hover { background:var(--cw-hover); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cm .cw-av { width:24px; height:24px; font-size:9.5px; box-shadow:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cb { min-width:0; flex:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-mh { font-size:12px; color:var(--cw-fg3); display:flex; align-items:baseline; gap:6px; flex-wrap:wrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-mh b { font-size:13px; font-weight:600; color:var(--cw-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ct { font-size:13.5px; line-height:1.45; margin-top:1px; overflow-wrap:anywhere; white-space:pre-wrap; color:var(--cw-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-ca { display:flex; gap:2px; margin:2px 0 0 -7px; opacity:0; height:0; overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cm:hover .cw-ca, html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cm:focus-within .cw-ca { opacity:1; height:24px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-vc { display:flex; align-items:center; gap:8px; margin-top:4px; max-width:220px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-play { width:28px; height:28px; border-radius:50%; border:1px solid var(--cw-line2) !important; color:var(--cw-fg) !important; display:grid; place-items:center; flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-play:hover { background:var(--cw-raise) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-play svg { width:12px; height:12px; margin-left:1px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-trk { flex:1; height:3px; border-radius:2px; background:var(--cw-line2); overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-trk i { display:block; width:0; height:100%; background:var(--cw-fg2); border-radius:2px; transition:width .25s linear; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-vc small { font-size:12px; color:var(--cw-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cmt-ed { border:1px solid var(--cw-acc); border-radius:6px; background:var(--cw-field); padding:0 8px; margin-top:3px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cmt-ed textarea { width:100%; border:0 !important; outline:0; background:transparent !important; color:var(--cw-fg) !important; font:400 13.5px/1.4 var(--bl-ui) !important; resize:none; padding:6px 0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cmt-ed .cw-row { display:flex; justify-content:flex-end; gap:4px; padding-bottom:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-voice { display:none; margin:8px 14px 0; padding:8px 10px; border:1px solid var(--cw-line); border-radius:8px; background:var(--cw-raise); flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-voice.visible { display:block; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-vrec { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--cw-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-vdot { width:8px; height:8px; border-radius:50%; background:var(--cw-over); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-vtime { color:var(--cw-fg2); font-variant-numeric:tabular-nums; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-vpb { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-vpb.visible { display:block; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-vaudio { width:100%; height:32px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-vbtns { display:flex; justify-content:flex-end; gap:6px; margin-top:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-comp { margin:10px 14px 16px; border:1px solid var(--cw-line); border-radius:8px; background:var(--cw-field); display:flex; align-items:flex-end; gap:2px; padding:4px 4px 4px 12px; flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-comp:focus-within { border-color:var(--cw-acc); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-comp textarea { flex:1; min-width:0; max-height:110px; border:0 !important; outline:0; background:transparent !important; color:var(--cw-fg) !important; font:400 13.5px/1.4 var(--bl-ui) !important; resize:none; padding:5px 0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-comp .cw-send { color:var(--cw-accfg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-comp .cw-rec.recording { color:var(--cw-over) !important; }
+
+/* popovers */
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop { position:fixed; z-index:4600; max-height:calc(100vh - 16px); overflow:auto; background:var(--cw-pop) !important; border:1px solid var(--cw-line); border-radius:10px; box-shadow:var(--cw-popsh); padding:10px; color:var(--cw-fg); font:400 13px/1.4 var(--bl-ui); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop[hidden] { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-poph { display:flex; align-items:center; justify-content:center; position:relative; height:24px; margin-bottom:8px; font-size:13px; font-weight:600; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-poph .cw-ib { position:absolute; right:-4px; top:-2px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-fld { width:100%; height:32px; border:1px solid var(--cw-line); border-radius:6px; background:var(--cw-field); display:flex; align-items:center; gap:8px; padding:0 10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-fld:focus-within { border-color:var(--cw-acc); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-fld svg { width:14px; height:14px; color:var(--cw-fg3); flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-fld input { flex:1; min-width:0; border:0 !important; outline:0; background:transparent !important; color:var(--cw-fg) !important; font:400 13px var(--bl-ui) !important; padding:0 !important; height:30px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-pcap { font-size:11.5px; color:var(--cw-fg3); margin:10px 2px 4px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-pcap0 { margin-top:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-prow { width:100%; display:flex !important; align-items:center; gap:9px; padding:5px 6px !important; border-radius:6px; font:400 13px var(--bl-ui) !important; color:var(--cw-fg) !important; text-align:left; min-height:32px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-prow:hover, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-prow.hi { background:var(--cw-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-tx1 { flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-ck { margin-left:auto; color:var(--cw-accfg); display:flex; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-ck svg { width:15px; height:15px; display:block; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-fl svg { width:15px; height:15px; display:block; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-fl0 { color:var(--cw-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-dt2 { width:8px; height:8px; border-radius:50%; flex:none; margin:0 3px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-av.cw-sm { width:24px; height:24px; font-size:9.5px; box-shadow:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-cth { width:40px; height:28px; border-radius:4px; overflow:hidden; flex:none; border:1px solid var(--cw-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-cth img { width:100%; height:100%; object-fit:cover; display:block; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-sws { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-sw { width:22px; height:22px; border-radius:5px; background:var(--sw) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-sw.on { box-shadow:0 0 0 2px var(--cw-pop), 0 0 0 4px var(--cw-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-pmsg { font-size:13px; color:var(--cw-fg2); margin:0 2px 10px; line-height:1.45; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-pmsg-t { margin-top:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-pbig { font:600 26px var(--bl-ui); text-align:center; margin:4px 0 2px; font-variant-numeric:tabular-nums; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-psub { text-align:center; font-size:12.5px; color:var(--cw-fg3); margin-bottom:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-gap { height:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-pf { display:flex; justify-content:space-between; align-items:center; margin-top:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-calh { display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; font-size:13px; font-weight:500; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-calg { display:grid; grid-template-columns:repeat(7, 1fr); gap:2px; text-align:center; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-wd { font-size:11px; color:var(--cw-fg3); height:22px; line-height:22px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-d { height:30px; line-height:30px; font:400 12.5px var(--bl-ui) !important; border-radius:6px; color:var(--cw-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-d:hover { background:var(--cw-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-d.o { color:var(--cw-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-d.td { box-shadow:inset 0 0 0 1px var(--cw-line2) !important; font-weight:600 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-d.sel { background:var(--cw-accbtn) !important; color:#fff !important; font-weight:600 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop .cw-calsel { margin:8px 2px 0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #cw-pop input[type="time"]::-webkit-calendar-picker-indicator { filter:none; opacity:.7; }
+
+/* narrow windows (web on a phone, small laptop windows): comments go under the card */
+@media (max-width: 760px) {
+  html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay { padding:8px; }
+  html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-win { max-height:calc(100vh - 16px); min-height:0; overflow:auto; }
+  html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-body { display:flex; flex-direction:column; flex:none; min-height:auto; }
+  html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cover { height:96px; }
+  html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-main { overflow:visible; padding:18px 16px; }
+  html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-side { border-left:0; border-top:1px solid var(--cw-line); min-height:360px; }
+  html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cms { max-height:360px; }
+}
+
+/* Coloured board columns, Trello style (2026-10-18): the whole column takes a deep tint of its colour and the
+   title a light one; cards stay on their own surface. */
+html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-col.has-color { background:color-mix(in srgb, var(--col-c) 34%, var(--bl-side)) !important; border-color:color-mix(in srgb, var(--col-c) 45%, var(--bl-line)) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-col.has-color .kanban-col-header { border-bottom-color:transparent !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-col.has-color .kanban-col-title { color:color-mix(in srgb, var(--col-c) 40%, #ffffff) !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .kanban-col.has-color { background:color-mix(in srgb, var(--col-c) 18%, #ffffff) !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .kanban-col.has-color .kanban-col-title { color:color-mix(in srgb, var(--col-c) 70%, #111827) !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .kanban-col.has-color .kanban-col-dot { color:color-mix(in srgb, var(--col-c) 80%, #111827) !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .kanban-col.has-color .kanban-col-count { background:rgba(255,255,255,.75) !important; color:color-mix(in srgb, var(--col-c) 70%, #111827) !important; }
+
+/* ═══ Urgent (2026-10-18): red only ever means Urgent, High is orange ═══
+   Urgent items: a thin red bar on the left, a red flag with the bold word Urgent, and a countdown.
+   The siren's dot is the only thing that moves (never with Reduce motion). */
+body.bloom { --bl-urgbar:#e5484d; --bl-urgedge:#7a2e31; --bl-urgbtn:#d93a3f; }
+body.bloom:not(.light-mode):not(.black-mode) { --bl-urgbar:#ff6b70; --bl-urgedge:#8a4651; }
+body.bloom.light-mode { --bl-urgedge:#efb3b5; --bl-urgbtn:#d1343a; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-urg-cd { font-variant-numeric:tabular-nums; font-weight:600; color:var(--bl-fg); white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-urg-cd.hot { color:var(--bl-urgent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-urg-w { display:inline-flex; align-items:center; gap:5px; color:var(--bl-urgent) !important; font-weight:700 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-urg-w .bb-flag { width:13px; height:13px; color:var(--bl-urgbar); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-urg-on { display:inline-flex; align-items:center; gap:6px; color:var(--bl-fg2); white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-urg-tk { width:13px; height:13px; color:var(--bl-ok); flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-urg-sep, html body.bloom:not(#_1):not(#_2):not(#_3) .bb-urg-mut { color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .bb-urg-btn { height:28px; padding:0 10px !important; border-radius:7px !important; border:1px solid var(--bl-urgedge) !important; background:none !important; color:var(--bl-urgent) !important; font:600 12.5px var(--bl-ui) !important; cursor:pointer; white-space:nowrap; box-shadow:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .bb-urg-btn:hover { background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .bb-urg-lnk { border:0 !important; background:none !important; padding:2px 4px !important; border-radius:5px; color:var(--bl-fg3) !important; font:500 12px var(--bl-ui) !important; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .bb-urg-lnk:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-siren { width:18px; height:18px; color:var(--bl-urgent); flex:none; display:block; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-siren.muted { color:var(--bl-fg3); }
+.bb-siren .bb-siren-dot { transform-box:fill-box; transform-origin:center; animation:bbSirenDot 1.8s ease-in-out infinite; }
+.bb-siren.still .bb-siren-dot { animation:none; }
+@keyframes bbSirenDot { 0%, 100% { opacity:1; transform:scale(1); } 50% { opacity:.35; transform:scale(.7); } }
+@media (prefers-reduced-motion: reduce) { .bb-siren .bb-siren-dot { animation:none; } }
+/* board cards: priority as a flag in its colour; an urgent card gets the bar, the Urgent line and who is on it */
+html body.bloom:not(#_1):not(#_2):not(#_3) .kc-priority { display:inline-flex; align-items:center; gap:5px; text-transform:capitalize; animation:none !important; box-shadow:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kc-priority::before { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kc-priority .bb-flag { width:12px; height:12px; color:var(--bl-low); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kc-priority.medium .bb-flag { color:var(--bl-medium); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kc-priority.high .bb-flag { color:var(--bl-high); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kc-priority.urgent .bb-flag { color:var(--bl-urgbar); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-card.bb-urg { border-color:var(--bl-urgedge) !important; box-shadow:inset 3px 0 0 var(--bl-urgbar) !important; animation:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-card.bb-urg .kc-title { font-weight:650 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-card .kc-urg { display:flex; align-items:center; gap:8px; margin-bottom:5px; font:400 12.5px var(--bl-ui); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-card .kc-body > .bb-urg-on { display:flex; margin-top:6px; font:400 12px var(--bl-ui); }
+/* card window: bar on the left, Urgent in bold red, the countdown on the due date, the who and when line */
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-win.bb-urg::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--bl-urgbar); z-index:3; pointer-events:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-prio.bb-urg-w { color:var(--bl-urgent) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-urgl { flex-basis:100%; display:flex; align-items:center; flex-wrap:wrap; gap:4px 8px; padding-top:12px; border-top:1px solid var(--cw-line); font:400 13px var(--bl-ui); color:var(--cw-fg2); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-urgl b { color:var(--cw-fg); font-weight:600; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-urgl .bb-siren { width:16px; height:16px; }
+/* task list rows */
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-row.bb-urg { box-shadow:inset 3px 0 0 var(--bl-urgbar); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-row.bb-urg .bb-tl-title { font-weight:650; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-row.bb-urg .bb-tl-c-pri { color:var(--bl-urgent); font-weight:700; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-tl-c-pri.pri-urgent .bb-flag { color:var(--bl-urgbar); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal #tm-psel .p-opt.urgent.active { color:var(--bl-urgent) !important; font-weight:700 !important; }
+/* Home: Urgent today, first thing on the page; its count beside Home in the sidebar */
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-nav[data-bl=home] .bl-badge:not(:empty) { color:var(--bl-urgent) !important; font:700 12.5px var(--bl-ui); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-urg { min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg { border:1px solid var(--bl-urgedge); border-radius:12px; background:var(--bl-win); overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-hd { display:flex; align-items:center; gap:10px; padding:13px 16px 11px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-hd h3 { margin:0; font:700 15px var(--bl-ui); color:var(--bl-urgent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-sub { font-size:13px; color:var(--bl-fg2); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-sub b { color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-r { margin-left:auto; font-size:12.5px; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-row { display:grid; grid-template-columns:18px minmax(0,1fr) auto auto auto 16px; align-items:center; gap:12px; padding:11px 16px 11px 19px; font:400 13.5px var(--bl-ui); border-top:1px solid var(--bl-line); box-shadow:inset 3px 0 0 var(--bl-urgbar); cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-row:hover { background:var(--bl-hover); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-row .t { min-width:0; font:600 14px var(--bl-ui); color:var(--bl-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-row .t small { display:flex; align-items:center; gap:6px; margin-top:2px; font:400 12.5px var(--bl-ui); color:var(--bl-fg3); white-space:nowrap; overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-row .t small .bl-i { width:13px; height:13px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-row:hover .bb-face { border-color:var(--bl-hover); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-act { display:flex; align-items:center; gap:6px; font-size:13px; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-go { color:var(--bl-fg3); display:grid; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-empty { display:flex; align-items:center; gap:10px; padding:11px 16px; border:1px solid var(--bl-line); border-radius:12px; font-size:13.5px; color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-empty b { font-weight:600; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-empty span { font-size:13px; color:var(--bl-fg3); }
+@media (max-width: 760px) {
+  html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-row { grid-template-columns:18px minmax(0,1fr) auto; }
+  html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-row :is(.bb-faces, .bl-urg-go) { display:none; }
+  html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-act { grid-column:2 / -1; }
+  html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-r, html body.bloom:not(#_1):not(#_2):not(#_3) .bl-urg-empty span { display:none; }
+}
+/* Priority pickers: the line under the choices when Urgent is picked */
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-urg-hint { display:flex; align-items:flex-start; gap:9px; margin:6px 3px 2px; padding:10px 6px 4px; border-top:1px solid var(--bl-line); font:400 13px/1.4 var(--bl-ui); color:var(--bl-fg); white-space:normal; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-urg-hint b { display:block; font-weight:600; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-urg-hint small { display:block; margin-top:1px; font-size:12px; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-urg-hint.calm { color:var(--bl-fg2); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-urg-hint .bb-siren { width:16px; height:16px; margin-top:1px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #tm-urg-hint .bb-urg-hint { margin:10px 0 0; padding:10px 0 0; }
+/* The urgent alert: top right over any page, like the reminder card (flat raised surface, red bar) */
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert { position:fixed; top:64px; right:20px; z-index:100000; width:392px; max-width:calc(100vw - 32px); box-sizing:border-box; padding:13px 14px 14px 18px; overflow:hidden; background:var(--bl-raise); border:1px solid var(--bl-line); border-radius:12px; box-shadow:0 12px 32px rgba(0,0,0,.45); font:400 13px/1.4 var(--bl-ui); color:var(--bl-fg); opacity:0; transform:translateY(-8px); transition:opacity .18s ease, transform .18s ease; pointer-events:none; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #bb-urg-alert { background:var(--bl-win); box-shadow:0 12px 32px rgba(20,24,32,.16); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert.on { opacity:1; transform:none; pointer-events:auto; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--bl-urgbar); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert .ua-hd { display:flex; align-items:center; gap:8px; font-size:12.5px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert .ua-where { min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert .ua-now { margin-left:auto; white-space:nowrap; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bb-urg-alert .ua-x { width:26px; height:26px; margin:-4px -6px -4px 0; padding:0; flex:none; display:grid; place-items:center; border:0 !important; border-radius:6px; background:none !important; color:var(--bl-fg3) !important; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bb-urg-alert .ua-x:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert .ua-x svg { width:15px; height:15px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert .ua-title { margin:8px 0 6px; font:600 15.5px/1.3 var(--bl-ui); color:var(--bl-fg); overflow-wrap:anywhere; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert .ua-meta { display:flex; align-items:center; gap:7px; color:var(--bl-fg2); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert .ua-meta b { font-weight:600; color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert .ua-meta .bb-face { width:20px; height:20px; font-size:8.5px; border-color:var(--bl-raise); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert :is(.ua-due, .ua-done) { display:flex; align-items:center; gap:7px; margin-top:8px; color:var(--bl-fg2); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert .ua-done { margin-top:12px; color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert :is(.ua-due, .ua-done) svg { width:15px; height:15px; flex:none; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert .ua-done .bb-urg-tk { color:var(--bl-ok); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert .ua-act { display:flex; gap:8px; margin-top:13px; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bb-urg-alert .ua-b { height:32px; padding:0 12px; display:inline-flex; align-items:center; gap:6px; border:1px solid var(--bl-line) !important; border-radius:7px; background:var(--bl-win) !important; color:var(--bl-fg) !important; font:500 13px var(--bl-ui); white-space:nowrap; cursor:pointer; box-shadow:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bb-urg-alert .ua-b:hover { background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bb-urg-alert .ua-b.red { background:var(--bl-urgbtn) !important; border-color:var(--bl-urgbtn) !important; color:#fff !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bb-urg-alert .ua-b.red:hover { filter:brightness(1.08); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bb-urg-alert .ua-b.ghost { border-color:transparent !important; background:none !important; color:var(--bl-fg2) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bb-urg-alert .ua-b.ghost:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert .ua-b svg { width:14px; height:14px; }
+@media (prefers-reduced-motion: reduce) { html body.bloom:not(#_1):not(#_2):not(#_3) #bb-urg-alert { transition:none; } }
+
+/* Tasks board view: an urgent task card gets the red bar, bold red Urgent flag and its countdown, like board cards */
+html body.bloom:not(#_1):not(#_2):not(#_3) .task-card.bb-urg { border-color:var(--bl-urgedge) !important; box-shadow:inset 3px 0 0 var(--bl-urgbar) !important; animation:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) .task-card.bb-urg .task-tags .tag:first-child, html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) .task-card.bb-urg .task-tags .tag:first-child .tag-label { color:var(--bl-urgent) !important; font-weight:700 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .task-card .bb-urg-line { display:flex; align-items:center; gap:6px; margin-top:6px; font:400 12.5px var(--bl-ui); }
+
+/* Board columns: "+ Add a card" footer under the list (quiet row; black mode's button rule must not box it) */
+html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-add-card { background:transparent !important; border:0 !important; box-shadow:none !important; color:var(--bl-fg2) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-add-card:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-col.has-color .kanban-add-card { color:color-mix(in srgb, var(--col-c) 40%, #ffffff) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kanban-col.has-color .kanban-add-card:hover { background:color-mix(in srgb, var(--col-c) 22%, transparent) !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .kanban-col.has-color .kanban-add-card { color:color-mix(in srgb, var(--col-c) 70%, #111827) !important; }
+
+/* "I'm on it" (2026-10-19): who is working on a task or card now. Their face gets a green ring, the other people go quieter. */
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.task-person, .kc-assignee-avatar).is-on { box-shadow:0 0 0 2px var(--bl-win), 0 0 0 3.5px var(--bl-ok) !important; z-index:5 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.task-person, .kc-assignee-avatar).not-on { opacity:.45; filter:grayscale(.4); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-onit-line { display:flex; margin-top:6px; font:500 12px var(--bl-ui); color:var(--bl-fg2); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .cw-onit-btn { height:26px; padding:0 10px !important; border-radius:7px !important; border:1px solid var(--bl-line) !important; background:none !important; color:var(--bl-fg) !important; font:600 12.5px var(--bl-ui) !important; cursor:pointer; box-shadow:none !important; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .cw-onit-btn:hover { background:var(--bl-hover) !important; border-color:var(--bl-ok) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .cw-onit { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-onit { margin-top:14px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-onit-row { display:flex; align-items:center; gap:10px; font:500 13px var(--bl-ui); }
+
+/* Side chat: "Sent" / "Seen · time" under your latest message */
+
+/* Task card details, option A (2026-10-19): details on one wrapping line, people on their own line */
+body.bloom:not(#_1):not(#_2):not(#_3) .task-card .bl-meta-row.bl-meta-tags { flex-wrap:wrap; row-gap:6px; }
+body.bloom:not(#_1):not(#_2):not(#_3) .task-card .bl-meta-row.bl-meta-who > .bb-assign-line { flex:0 1 auto !important; }
+
+/* Task window Links: compact rows (host bold, path quiet, opens in the browser), one-line add field */
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-links { display:flex; flex-direction:column; gap:4px; margin-bottom:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-links:empty { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-link { display:flex; align-items:center; gap:6px; min-width:0; border:1px solid var(--bl-line); border-radius:8px; padding:0 4px 0 0; background:var(--bl-raise); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .tm-link-open { flex:1; min-width:0; display:flex; align-items:center; gap:8px; height:34px; padding:0 10px !important; background:none !important; border:0 !important; box-shadow:none !important; color:var(--bl-fg) !important; font:400 13px var(--bl-ui) !important; cursor:pointer; text-align:left; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-link-open:hover b { text-decoration:underline; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-link-open svg { width:14px; height:14px; flex:none; color:var(--bl-accent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-link-open b { font-weight:600; flex:none; color:var(--bl-accent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-link-open span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-link small { flex:none; padding:0 8px; font-size:11px; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .tm-link-x { flex:none; width:26px; height:26px; padding:0 !important; border:0 !important; background:none !important; color:var(--bl-fg3) !important; font-size:16px !important; cursor:pointer; border-radius:6px !important; box-shadow:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .tm-link-x:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-link-add { display:flex; align-items:center; gap:8px; height:36px; padding:0 12px; margin-bottom:14px; border:1px dashed var(--bl-line); border-radius:10px; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-link-add svg { width:14px; height:14px; flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-link-add input { flex:1; min-width:0; background:none !important; border:0 !important; outline:none; box-shadow:none !important; color:var(--bl-fg) !important; font:400 13px var(--bl-ui); padding:0 !important; height:100%; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-link-open em { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-style:normal; color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-link-open em::before { content:'·'; margin-right:6px; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-link-x svg { display:block; margin:auto; }
+
+/* Link chips in chat and side chat: service name, then the shared folder or file name when known */
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-link-chip-host { display:flex; align-items:center; gap:6px; min-width:0; overflow:hidden; white-space:nowrap; font-size:12.5px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-link-chip-host b { font-weight:600; color:var(--bl-accent); flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-link-chip-host .ln-name { min-width:0; overflow:hidden; text-overflow:ellipsis; color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .chat-link-chip-host .ln-name:not(:empty)::before { content:'·'; margin-right:6px; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .chat-link-chip { display:flex; max-width:100%; margin-top:6px; padding:6px 10px !important; background:var(--bl-raise) !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; cursor:pointer; box-shadow:none !important; color:var(--bl-fg) !important; text-align:left; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-link { color:var(--bl-accent); text-decoration:underline; word-break:break-all; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .cw-dlinks { margin-top:8px; }
+
+/* Tasks board: columns end at the bottom of the window and scroll inside (2026-10-19) */
+html body.bloom:not(#_1):not(#_2):not(#_3) #kb-board { align-items:flex-start; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #kb-board > .kb-col { display:flex; flex-direction:column; max-height:calc(100vh - var(--kb-top, 280px) - 28px); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #kb-board > .kb-col > .kb-col-body { flex:1 1 auto; min-height:0; overflow-y:auto; overflow-x:hidden; overscroll-behavior-y:contain; overscroll-behavior-x:auto; }   /* up/down stays in the column; a sideways swipe moves the board */
+
+/* Office chat: edit your own message in place */
+html body.bloom:not(#_1):not(#_2):not(#_3) .station-peek-msg .sp-edit { width:100%; min-width:200px; box-sizing:border-box; resize:none; border:1px solid var(--bl-accent); border-radius:8px; background:var(--bl-win); color:var(--bl-fg); font:inherit; padding:6px 8px; outline:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .station-peek-msg.editing .sp-tools { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .station-peek-msg .sp-edited { margin-left:6px; font-style:italic; opacity:.75; }
+/* the board's side arrows: quiet until hovered */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-list > .kb-edge { opacity:.45; transition:opacity .15s ease; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-list > .kb-edge:hover { opacity:1; }
+html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #task-list > .kb-edge { color:var(--bl-fg2) !important; border-color:var(--bl-line) !important; background:var(--bl-win) !important; }
+
+/* Message receipts, one look everywhere (Chats, side chat, Office): same size, same place, no stroke.
+   Right-aligned under your latest message, 5px below it. Sent/delivered circles in the quiet text colour; seen = the reader's face, full colour. */
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.chat-receipt.latest, .sc-rcpt, .sp-rcpt) { display:flex !important; justify-content:flex-end !important; align-items:center; height:18px; margin:5px 2px 4px 0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-rc { display:inline-flex; align-items:center; gap:3px; height:18px; color:var(--bl-fg3) !important; opacity:1 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-rc svg { width:16px; height:16px; display:block; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bb-rc .bb-rc-face { width:18px; height:18px; border-radius:50%; display:inline-grid; place-items:center; font:700 8px/1 var(--bl-ui) !important; color:#fff !important; background-size:cover; background-position:center; overflow:hidden; box-shadow:none !important; border:0 !important; opacity:1 !important; filter:none !important; }
+/* Office headers, one line each (2026-10-19): Walk in sits at the end of the department / team line */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept-hd > .bl-walk { margin-left:auto; display:inline-flex; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept-hd > .bl-walk[hidden] { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-team-hd > .bl-walk { margin-left:auto; display:inline-flex; flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-team-hd > .bl-yours + .bl-walk { margin-left:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.office-dept-hd, .bl-team-hd) > .bl-walk .office-btn { height:28px !important; padding:0 10px !important; font-size:12.5px !important; }
+/* Cards keep only the title; a description shows as a three-line mark in the details row (Trello style), its start on hover. */
+html body.bloom:not(#_1):not(#_2):not(#_3) .task-card .tag.t-desc { color:var(--fg3, #9aa3b2) !important; cursor:default; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .task-card .tag.t-desc .tag-label { display:none !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .task-card .tag.t-desc { color:#5b6472 !important; }
+/* Office chat reactions: a small badge sitting on the bubble's bottom edge (WhatsApp/Teams), on the outer side. */
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .station-peek-msg.has-rx { margin-bottom:16px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .station-peek-msg .chat-reactions.sp-rxs { position:absolute !important; bottom:-14px !important; left:10px; right:auto; display:flex !important; gap:3px !important; margin:0 !important; z-index:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .station-peek-msg.mine .chat-reactions.sp-rxs { left:auto; right:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .sp-rxs .chat-reaction-chip { display:inline-flex !important; align-items:center !important; gap:3px !important; height:28px !important; min-width:0 !important; width:auto !important; padding:0 6px !important; border-radius:12px !important; border:1px solid var(--bl-line) !important; background:var(--bl-raise) !important; color:var(--bl-fg2) !important; font:600 11px/1 var(--bl-font, inherit) !important; box-shadow:0 0 0 2px var(--bl-win) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .sp-rxs .chat-reaction-chip :is(img,svg) { width:18px !important; height:18px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .sp-rxs .chat-reaction-chip .bb-emoji-font { font-size:15px !important; line-height:1 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .sp-rxs .chat-reaction-chip.active { border-color:var(--bl-accent) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#station-peek,.sp-win) .sp-rxs .chat-reaction-count { font-size:11px !important; }
+/* Side chat closed: four columns fit once each can be about 250px wide (Done in view, cards a touch more compact).
+   With the side chat open the bl-sc-on rules above keep three. */
+@container (min-width:1040px) { html body.bloom:not(.bl-sc-on):not(#_1):not(#_2):not(#_3) #task-list > #kb-board { grid-auto-columns:calc((100% - 3 * var(--kb-gap, 16px)) / 4) !important; } }
+/* Room above the first card for its hover/selected lift, so it never tucks under the column header. */
+html body.bloom:not(#_1):not(#_2):not(#_3) #kb-board > .kb-col > .kb-col-body { padding-top:6px !important; margin-top:-6px !important; }
+/* Task comments: Delete on your own, quiet until hovered. */
+html body.bloom:not(#_1):not(#_2):not(#_3) .tc-comment .tc-del { margin-left:10px; padding:0; border:0; background:none; color:var(--bl-fg3); font:inherit; cursor:pointer; opacity:0; transition:opacity .15s; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tc-comment:hover .tc-del, html body.bloom:not(#_1):not(#_2):not(#_3) .tc-comment .tc-del:focus-visible { opacity:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tc-comment .tc-del:hover { color:#f87171; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(.tc-comment-text, .cw-ct) { white-space:pre-wrap; }
+/* ═══ Task window: comments panel on the right (option A, 2026-10-20). Task | details | comments,
+   the comments panel styled like the board card window's. ═══ */
+/* Option 3 (picked 2026-10-20): the right panel has two tabs, Details and Comments; the task stays the focus. */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .modal-sheet.task-sheet.has-cmts { width:min(880px, calc(100vw - 48px)) !important; height:min(80vh, 720px) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-tabs { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .task-sheet.has-cmts .tm-cols { grid-template-columns:minmax(0,1fr) 340px !important; grid-template-rows:auto minmax(0,1fr); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .task-sheet.has-cmts .tm-main { grid-column:1; grid-row:1 / 3; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .task-sheet.has-cmts .tm-tabs { grid-column:2; grid-row:1; display:flex; gap:2px; padding:10px 16px 0; background:var(--bl-side); border-left:1px solid var(--bl-line); border-bottom:1px solid var(--bl-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .task-sheet.has-cmts :is(.tm-side, .tm-cmts) { grid-column:2; grid-row:2; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .task-sheet.has-cmts.tab-comments .tm-side, html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .task-sheet.has-cmts:not(.tab-comments) .tm-cmts { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-tabs button { position:relative; display:inline-flex; align-items:center; gap:6px; height:34px; margin-bottom:-1px; padding:0 10px !important; border:0 !important; border-bottom:2px solid transparent !important; border-radius:0 !important; background:none !important; color:var(--bl-fg3) !important; font:500 13px var(--bl-ui) !important; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-tabs button:hover { color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-tabs button.on { color:var(--bl-fg) !important; border-bottom-color:var(--bl-accent) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-tab-n { font-size:12px; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-tab-n:empty { display:none; }
+/* new comments: the count turns accent with a dot, so it is seen from the Details tab */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-tabs button.has-new .tm-tab-n { color:var(--bl-accent); font-weight:600; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-tabs button.has-new::after { content:""; position:absolute; top:8px; right:-3px; width:7px; height:7px; border-radius:50%; background:var(--bl-accent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm.is-new { margin-left:-10px; padding-left:8px; border-left:2px solid var(--bl-accent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cmts { min-height:0; display:flex; flex-direction:column; background:var(--bl-side); border-left:1px solid var(--bl-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .task-sheet.has-cmts .tm-side { border-left:1px solid var(--bl-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-hd { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-hd { flex:none; display:flex; align-items:baseline; gap:8px; padding:14px 18px 12px; border-bottom:1px solid var(--bl-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-t { font:600 13.5px var(--bl-ui); color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-n { font:500 12px var(--bl-ui); color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-list { flex:1 1 auto; min-height:120px; overflow-y:auto; padding:14px 18px; display:flex; flex-direction:column; gap:16px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-empty { margin:auto; color:var(--bl-fg3); font-size:12.5px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm { display:flex; gap:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-av { width:26px; height:26px; border-radius:50%; flex:none; display:inline-grid; place-items:center; overflow:hidden; font:600 10.5px var(--bl-ui); color:#fff; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-av img { width:100%; height:100%; object-fit:cover; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-b { flex:1; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-mh { display:flex; align-items:baseline; gap:8px; font-size:12.5px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-mh b { font-weight:600; color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-mh span { color:var(--bl-fg3); font-size:11.5px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-t2 { margin-top:3px; color:var(--bl-fg2); font-size:13.5px; line-height:1.45; white-space:pre-wrap; overflow-wrap:anywhere; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-acts { display:flex; gap:12px; margin-top:4px; opacity:0; transition:opacity .15s; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm:hover .tm-cm-acts, html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-acts:focus-within, html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-ta + .tm-cm-acts { opacity:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-acts button { padding:0; border:0; background:none; font:500 12px var(--bl-ui); color:var(--bl-fg3); cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-acts button:hover { color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-acts button.del:hover { color:var(--bl-bad); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-acts button.pri { color:var(--bl-accent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-ta { width:100%; margin-top:6px; resize:none; min-height:56px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-comp { flex:none; border-top:1px solid var(--bl-line); padding:12px 18px 14px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-comp .tc-input { width:100%; resize:none; min-height:64px; max-height:160px; border-radius:10px; padding:9px 11px; font:13.5px/1.45 var(--bl-ui); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-row { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-hint { font-size:11.5px; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-post { flex:none; height:30px !important; padding:0 14px !important; border:0 !important; border-radius:8px !important; background:var(--bl-accent) !important; color:var(--bl-accent-fg) !important; font:600 12.5px var(--bl-ui) !important; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-post:hover { filter:brightness(1.08); }
+@media (max-width: 900px) {
+  html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .modal-sheet.task-sheet.has-cmts { height:auto !important; }
+  html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .task-sheet.has-cmts .tm-cols { display:block !important; overflow-y:auto; }
+  html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .task-sheet.has-cmts :is(.tm-main, .tm-side, .tm-cmts) { overflow:visible; min-height:auto; border-left:0; }
+  html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .task-sheet.has-cmts .tm-tabs { border-left:0; border-top:1px solid var(--bl-line); }
+}
+/* Task window, Assign to: the people on the task, an Assign button, and a search list (like board cards). */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal #tm-assignee-section { position:relative; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg { display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-p { display:inline-flex; align-items:center; gap:7px; height:30px; padding:0 6px 0 4px; border:1px solid var(--bl-line); border-radius:8px; background:var(--bl-raise); color:var(--bl-fg); font:500 13px var(--bl-ui); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-av { width:22px; height:22px; border-radius:50%; flex:none; display:inline-grid; place-items:center; overflow:hidden; font:600 9.5px var(--bl-ui); color:#fff; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-av img { width:100%; height:100%; object-fit:cover; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-x { width:18px; height:18px; padding:0 !important; border:0 !important; border-radius:4px !important; background:none !important; color:var(--bl-fg3) !important; font-size:10px !important; cursor:pointer; opacity:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-p:hover .tm-asg-x, html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-x:focus-visible { opacity:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-x:hover { color:var(--bl-fg) !important; background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-add { height:30px; min-width:30px; padding:0 10px !important; border:1px dashed var(--bl-line) !important; border-radius:8px !important; background:none !important; color:var(--bl-fg2) !important; font:500 13px var(--bl-ui) !important; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-add:hover { color:var(--bl-fg) !important; border-color:var(--bl-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-pop { position:absolute; left:0; right:0; top:100%; margin-top:6px; z-index:20; padding:8px; border:1px solid var(--bl-line); border-radius:10px; background:var(--bl-win); box-shadow:0 18px 40px -16px rgba(0,0,0,.6); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-q { width:100%; height:32px; padding:0 10px; border:1px solid var(--bl-line); border-radius:8px; background:var(--bl-side); color:var(--bl-fg); font:13px var(--bl-ui); outline:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-q:focus { border-color:var(--bl-accent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-list { max-height:220px; overflow-y:auto; margin-top:6px; display:flex; flex-direction:column; gap:1px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-row { display:flex; align-items:center; gap:9px; width:100%; height:34px; padding:0 8px !important; border:0 !important; border-radius:7px !important; background:none !important; color:var(--bl-fg) !important; font:13px var(--bl-ui) !important; text-align:left; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-row:hover, html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-row.hi { background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-nm { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-ck { color:var(--bl-accent); font-weight:700; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-none { padding:10px 8px; color:var(--bl-fg3); font-size:12.5px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal #tm-assignee-section #tm-assignee-picker { display:none !important; }
+/* ═══ Task window Details as rows (option A, 2026-10-20): label left, value right, click a value to change it.
+   Status is a small label under the title. ═══ */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-side.tm-rows { padding:10px 16px 18px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-row { display:grid; grid-template-columns:104px minmax(0,1fr); align-items:center; min-height:38px; margin:0 -8px !important; padding:3px 8px; border-radius:7px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-row:hover { background:var(--bl-hover); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-rk { display:flex; align-items:center; gap:8px; color:var(--bl-fg3) !important; font:500 12.5px var(--bl-ui) !important; margin:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-rk svg { width:14px; height:14px; flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-sep { height:1px; background:var(--bl-line); margin:8px 0; }
+/* values: plain text that reads as a sentence, no boxes */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows :is(.tm-rv, .picker-field.tm-rv, select.tm-rv) { justify-self:start; display:inline-flex; align-items:center; gap:8px; width:auto !important; max-width:100%; min-height:28px !important; height:28px !important; padding:0 8px !important; margin:0 0 0 -8px !important; border:0 !important; border-radius:6px !important; background:transparent !important; box-shadow:none !important; color:var(--bl-fg) !important; font:500 13px var(--bl-ui) !important; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows :is(.tm-rv, .picker-field.tm-rv, select.tm-rv):hover { background:var(--bl-raise) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .picker-field-val.placeholder { color:var(--bl-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .picker-field .picker-field-clear { position:static !important; margin-left:2px; width:18px; height:18px; padding:0 !important; border:0 !important; background:none !important; color:var(--bl-fg3) !important; font-size:10px !important; opacity:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-row:hover .picker-field-clear { opacity:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .picker-field-val.placeholder ~ .picker-field-clear { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows select.tm-rv { -webkit-appearance:none; appearance:none; padding-right:8px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows #tm-urg-hint:not(:empty) { margin:2px 0 6px; }
+/* priority flag colours */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-flag-low, html body.bloom:not(#_1):not(#_2):not(#_3) .tm-menu .tm-flag-low { background:var(--bl-low) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-flag-medium { background:var(--bl-medium) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-flag-high { background:var(--bl-high) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-flag-urgent { background:var(--bl-urgent) !important; }
+/* people, on it, repeat as rows */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows #tm-assignee-section { margin-top:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-rv-wrap { position:relative; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-asg-pop { left:-112px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-onit:not([hidden]) { display:grid; grid-template-columns:104px minmax(0,1fr); align-items:center; min-height:38px; margin:0 -8px !important; padding:3px 8px; border-radius:7px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-onit:hover { background:var(--bl-hover); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-onit .form-label { margin:0 !important; padding-left:22px; color:var(--bl-fg3) !important; font:500 12.5px var(--bl-ui) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .recurring-row { margin:0 -8px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .recurring-row .toggle-switch { justify-self:start; }
+/* colour: small, brighter dots on one line */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-card-colors { display:flex !important; flex-wrap:nowrap !important; gap:7px !important; align-items:center; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-card-color { width:18px !important; height:18px !important; flex:0 0 18px !important; border:0 !important; filter:saturate(1.35) brightness(1.45); box-shadow:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-card-color[data-label="None"] { filter:none; background:transparent !important; box-shadow:inset 0 0 0 1.5px var(--bl-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-card-color[data-label="None"]::before { background:linear-gradient(135deg,transparent calc(50% - .75px),var(--bl-fg3) 50%,transparent calc(50% + .75px)) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-card-color:hover { transform:scale(1.12); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-card-color.selected { box-shadow:0 0 0 2px var(--bl-side), 0 0 0 3.5px var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-card-color[data-label="None"].selected { box-shadow:inset 0 0 0 1.5px var(--bl-fg3), 0 0 0 2px var(--bl-side), 0 0 0 3.5px var(--bl-fg) !important; }
+/* status label under the title */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-st-chip { display:inline-flex; align-items:center; gap:7px; height:28px; margin:-2px 0 14px; padding:0 9px !important; border:1px solid var(--bl-line) !important; border-radius:7px !important; background:var(--bl-raise) !important; color:var(--bl-fg) !important; font:500 12.5px var(--bl-ui) !important; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-st-chip:hover { border-color:var(--bl-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal :is(.tm-st-chip, .tm-menu) .bb-tl-st { display:inline-flex; width:14px; height:14px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal :is(.tm-st-chip, .tm-menu) .bb-tl-st svg { width:14px; height:14px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-st-caret { color:var(--bl-fg3); font-size:9px; margin-left:1px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .task-sheet:not(.tm-is-edit) .tm-st-chip { margin-top:8px; }
+/* the small menus */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-menu { position:absolute; z-index:30; min-width:170px; padding:5px; border:1px solid var(--bl-line); border-radius:10px; background:var(--bl-win); box-shadow:0 18px 40px -16px rgba(0,0,0,.6); display:flex; flex-direction:column; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-menu .tm-mi { display:flex; align-items:center; gap:9px; width:100%; height:32px; padding:0 9px !important; border:0 !important; border-radius:7px !important; background:none !important; color:var(--bl-fg) !important; font:500 13px var(--bl-ui) !important; text-align:left; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-menu .tm-mi:hover, html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-menu .tm-mi:focus-visible { background:var(--bl-hover) !important; outline:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-menu .tm-mi-ck { margin-left:auto; color:var(--bl-accent); font-weight:700; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #task-modal .tm-menu { box-shadow:0 18px 40px -16px rgba(15,23,42,.25); }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-card-color { filter:saturate(1.2) brightness(1.15); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-side :is(#tm-status-sel, #tm-psel)[hidden] { display:none !important; }
+/* people in the row: face + first name as plain text (× on hover), like the mockup */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-asg { gap:2px 10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-asg-p { height:28px; padding:0 2px 0 0; border:0; background:none; gap:6px; position:relative; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-asg-av { width:20px; height:20px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-asg-x { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-asg-p:hover .tm-asg-x { display:inline-grid; place-items:center; opacity:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-asg-add { height:26px; min-width:26px; padding:0 8px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-card-colors { gap:6px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-card-color { width:17px !important; height:17px !important; flex-basis:17px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-onit .form-label { padding-left:0; display:flex; align-items:center; gap:8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-onit .form-label::before { content:""; width:14px; height:14px; flex:none; background:currentColor; -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-onit-row { padding-left:14px; }
+/* Details values as buttons (2026-10-20): a raised button with its icon (flag, calendar, bell, folder);
+   the labels on the left are plain text. */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-rk svg, html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-onit .form-label::before { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-row { grid-template-columns:92px minmax(0,1fr); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-onit:not([hidden]) { grid-template-columns:92px minmax(0,1fr); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-onit-row { padding-left:14px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-row:hover, html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-onit:hover { background:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows :is(.tm-rv, .picker-field.tm-rv) { height:30px !important; min-height:30px !important; margin:0 !important; padding:0 10px !important; gap:7px; border:1px solid var(--bl-line) !important; border-radius:8px !important; background:var(--bl-raise) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows :is(.tm-rv, .picker-field.tm-rv):hover { border-color:var(--bl-fg3) !important; background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-rv-ic { display:inline-flex; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-rv-ic svg { width:15px; height:15px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .picker-field-val { font:500 13px var(--bl-ui) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-sel-wrap { position:relative; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-sel-wrap select { -webkit-appearance:none; appearance:none; height:28px !important; min-height:0 !important; padding:0 16px 0 0 !important; margin:0 !important; border:0 !important; background:none !important; box-shadow:none !important; color:var(--bl-fg) !important; font:500 13px var(--bl-ui) !important; cursor:pointer; outline:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-sel-caret { position:absolute; right:10px; color:var(--bl-fg3); font-size:9px; pointer-events:none; }
+/* the Assign search floats on the window */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-pop { position:absolute !important; left:auto; right:auto; top:auto; width:280px; margin:0 !important; z-index:40; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-asg-list { max-height:240px; }
+/* Chat beside a plan (2026-10-20): the plan makes room for the side chat, like Boards. */
+html body.bloom.bl-sc-plans:not(#_1):not(#_2):not(#_3) .plans-overlay { right:var(--bl-scw, 340px) !important; }
+@media (min-width:960px) { html body.bloom.bl-sc-plans:not(#_1):not(#_2):not(#_3) .plans-overlay { right:calc(var(--bl-scw, 340px) + var(--bl-gap) * 2) !important; } }
+html body.bloom.bl-sc-plans:not(#_1):not(#_2):not(#_3) #bl-sc { z-index:3001 !important; }
+/* the header button: chat icon, or the sender's face (+N more people) with an accent ring when someone wrote */
+html body.bloom:not(#_1):not(#_2):not(#_3) .plans-overlay .pl-chatbtn { position:relative; display:inline-flex; align-items:center; gap:4px; min-width:34px; justify-content:center; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .plans-overlay .pl-chatbtn svg { width:16px; height:16px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .plans-overlay .pl-chatbtn.on { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .plans-overlay .pl-chatbtn.has-new { padding:0 8px 0 4px !important; border:1px solid color-mix(in srgb, var(--bl-accent) 55%, var(--bl-line)) !important; background:var(--bl-accent-soft) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .plans-overlay .pl-chatfaces { display:inline-flex; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .plans-overlay .pl-chatfaces .cn-av { width:24px; height:24px; border-radius:50%; display:inline-grid; place-items:center; font:700 9.5px var(--bl-ui); color:#fff; background-size:cover; background-position:center; box-shadow:0 0 0 2px var(--bl-accent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .plans-overlay .pl-chatmore { font:600 12px var(--bl-ui); color:var(--bl-accent); margin-left:3px; }
+/* Plan header beside the open chat: the long plan name shortens, Import / Export / New plan become icons,
+   so Share and the rest stay in view instead of sliding under the chat. */
+html body.bloom.bl-sc-plans:not(#_1):not(#_2):not(#_3) .plans-overlay .pl-head { gap:4px; padding-left:18px; padding-right:14px; }
+html body.bloom.bl-sc-plans:not(#_1):not(#_2):not(#_3) .plans-overlay .pl-head .pl-title { max-width:220px; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom.bl-sc-plans:not(#_1):not(#_2):not(#_3) .plans-overlay .pl-head :is([data-a="import"], [data-a="export"], [data-a="new"]) { font-size:0 !important; gap:0 !important; width:30px; padding:0 !important; justify-content:center; }
+html body.bloom.bl-sc-plans:not(#_1):not(#_2):not(#_3) .plans-overlay .pl-head :is([data-a="import"], [data-a="export"], [data-a="new"]) svg { width:15px; height:15px; margin:0 !important; }
+html body.bloom.bl-sc-plans:not(#_1):not(#_2):not(#_3) .plans-overlay .pl-head .pl-vdiv { margin:0 2px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal #tm-desc[hidden] { display:none !important; }
+/* Task description editor: board-card formatting */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rt { border:1px solid var(--bl-line); border-radius:10px; background:var(--bl-side); overflow:hidden; margin-bottom:4px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rt:focus-within { border-color:var(--bl-accent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rt-tb { display:flex; align-items:center; gap:2px; padding:5px 6px; border-bottom:1px solid var(--bl-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rt-tb button { width:28px; height:26px; display:inline-grid; place-items:center; padding:0 !important; border:0 !important; border-radius:6px !important; background:none !important; color:var(--bl-fg2) !important; font:600 13px var(--bl-ui) !important; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rt-tb button:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rt-tb button svg { width:16px; height:16px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rt-tb .tm-rt-aa { width:32px; font-size:12.5px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rt-vs { width:1px; height:16px; background:var(--bl-line); margin:0 4px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rt-ed { min-height:72px; max-height:40vh; overflow-y:auto; padding:10px 12px; outline:none; color:var(--bl-fg); font:14px/1.55 var(--bl-ui); white-space:pre-wrap; overflow-wrap:anywhere; cursor:text; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rt-ed:empty::before { content:attr(data-placeholder); color:var(--bl-fg3); pointer-events:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rt-ed :is(ul, ol) { margin:4px 0; padding-left:22px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rt-ed li { margin:2px 0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rt-ed a { color:var(--bl-accent); text-decoration:underline; text-underline-offset:2px; cursor:pointer; }
+/* Task window colour band (2026-10-20): the card's colour across the top of the window, live as you pick it.
+   Same mix as the card on the board (accent into the window colour, per theme); no colour, no band. */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .modal-sheet.task-sheet { position:relative; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .task-sheet > .tm-band { position:absolute; top:0; left:0; right:0; height:0; z-index:4; pointer-events:none; border-radius:inherit; border-bottom-left-radius:0; border-bottom-right-radius:0; background:color-mix(in srgb, var(--tm-band, transparent) var(--bl-cardk, 70%), var(--bl-win)); transition:height .18s ease, background-color .18s ease; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .task-sheet.has-band > .tm-band { height:8px; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #task-modal .task-sheet > .tm-band { background:color-mix(in srgb, var(--tm-band, transparent) 60%, #ffffff); }
+/* ═══ Task window: Files and links (option A, 2026-10-20) ═══ */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl { margin-top:16px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl-hd { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px; min-height:30px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl-t { font:500 12.5px var(--bl-ui); color:var(--bl-fg2); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl-n { color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl-mini { display:flex; gap:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl.is-empty .tm-fl-mini { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl-mb { display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 10px !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; background:var(--bl-raise) !important; color:var(--bl-fg2) !important; font:500 12.5px var(--bl-ui) !important; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl-mb:hover { color:var(--bl-fg) !important; border-color:var(--bl-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl-mb svg { width:14px; height:14px; }
+/* the two big buttons, only while empty */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl-tiles { display:none; grid-template-columns:1fr 1fr; gap:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl.is-empty:not(.adding) .tm-fl-tiles { display:grid; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl-tile { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; height:84px; padding:0 8px !important; border:1px dashed var(--bl-line) !important; border-radius:10px !important; background:var(--bl-side) !important; color:var(--bl-fg2) !important; cursor:pointer; text-align:center; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl-tile:hover { border-color:var(--bl-fg3) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl-tile svg { width:20px; height:20px; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl-tile b { font:500 13px var(--bl-ui); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl-tile span { font:11.5px var(--bl-ui); color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .tm-link-add { margin-top:8px; }
+/* files as a thumbnail grid */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal #tm-attach-zone { margin:0 !important; border-radius:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl #tm-attachments-list { display:grid !important; grid-template-columns:repeat(4, minmax(0,1fr)); gap:8px; margin:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl #tm-attachments-list:empty { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item { position:relative; display:flex !important; flex-direction:column; align-items:center; justify-content:center; gap:6px; aspect-ratio:1; min-width:0; margin:0 !important; padding:8px 6px !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; background:var(--bl-raise) !important; overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item[hidden] { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item .ta-icon { font-size:22px; line-height:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item .ta-name { max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font:500 11px var(--bl-ui) !important; color:var(--bl-fg2) !important; text-align:center; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item-img { padding:0 !important; justify-content:flex-end; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item-img .ta-thumb { position:absolute; inset:0; width:100% !important; height:100% !important; max-width:none !important; max-height:none !important; object-fit:cover; border-radius:0 !important; margin:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item-img .ta-meta { position:relative; width:100%; padding:14px 6px 4px; background:linear-gradient(transparent, rgba(0,0,0,.7)); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item-img .ta-name { color:#fff !important; display:block; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item-img .ta-sub { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item :is(.ta-rm, .ta-dl) { position:absolute; top:4px; width:22px; height:22px; display:inline-grid; place-items:center; padding:0 !important; border:0 !important; border-radius:6px !important; background:rgba(0,0,0,.6) !important; color:#fff !important; font-size:10px !important; opacity:0; transition:opacity .15s; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item .ta-rm { right:4px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item .ta-dl { right:30px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item .ta-dl svg { width:12px; height:12px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item:hover :is(.ta-rm, .ta-dl) { opacity:1; }
+/* links as full-width rows */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl #tm-links { display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl #tm-links:empty { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl #tm-attachments-list:empty + * { margin-top:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .tm-link[hidden] { display:none !important; }
+/* +N more */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .tm-fl-more { padding:0 !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; background:var(--bl-side) !important; color:var(--bl-fg2) !important; font:600 12.5px var(--bl-ui) !important; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl #tm-attachments-list > .tm-fl-more { aspect-ratio:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl #tm-links > .tm-fl-more { height:34px; font-weight:500 !important; color:var(--bl-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .tm-fl-more:hover { color:var(--bl-fg) !important; border-color:var(--bl-fg3) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .tm-link-add[hidden] { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item-img .ta-meta { height:auto !important; min-height:0 !important; flex:none !important; margin-top:auto !important; display:block !important; }
+/* Title box: soft corners like everything else in the window (it was square when focused). */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal #tm-title { border-radius:8px !important; outline:none !important; }
+/* No status label in the task window: the column a task sits in is its status (drag the card, or its circle). */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-st-chip { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal #tm-title { margin-bottom:12px !important; }
+/* Emoji playing once (Telegram style): the animation takes the picture's exact place while it plays. */
+.bb-emo-wrap { position:relative; display:inline-block; vertical-align:middle; line-height:0; }
+.bb-emo-wrap > :not(.bb-emo-anim) { transition:opacity .26s ease; }
+.bb-emo-wrap > .bb-emo-hide { opacity:0 !important; }
+.bb-emo-anim { position:absolute; inset:0; pointer-events:none; transition:opacity .26s ease; }
+.bb-emo-anim.out { opacity:0; }
+.bb-emo-anim svg { width:100% !important; height:100% !important; display:block; }
+
+
+/* Typing boxes use Google's emoji font too (the pictures cannot go inside a text box). */
+html body.bloom :is(input, textarea, [contenteditable="true"], select) { font-family:"Geist","Noto Color Emoji",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif; }
+
+/* Emoji-only messages: big and no bubble, like Teams, in the side chat and the Office chat too
+   (main chat: 56 / 44 / 32 px). One emoji biggest, two or three smaller, four or more smaller still. */
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-mt.emoji-only:not(:empty) { background:none !important; border:0 !important; padding:0 !important; font-size:38px !important; line-height:1.15 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-mt.emoji-only.emo-1:not(:empty) { font-size:48px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-mt.emoji-only.emo-many:not(:empty) { font-size:28px !important; }
+html body:not(#_1):not(#_2):not(#_3) .station-peek-msg.sp-jumbo { background:none !important; border:0 !important; box-shadow:none !important; padding:0 2px !important; }
+html body:not(#_1):not(#_2):not(#_3) .station-peek-msg.sp-jumbo .sp-text { font-size:38px !important; line-height:1.15 !important; }
+html body:not(#_1):not(#_2):not(#_3) .station-peek-msg.sp-jumbo.emo-1 .sp-text { font-size:48px !important; }
+html body:not(#_1):not(#_2):not(#_3) .station-peek-msg.sp-jumbo.emo-many .sp-text { font-size:28px !important; }
+html body:not(#_1):not(#_2):not(#_3) .station-peek-msg.sp-jumbo .station-peek-msg-meta { margin-bottom:2px; }
+
+/* Picker search stays at the top while the list scrolls (Emoji and GIFs) */
+#bb-pick .bbp-sbar { flex:none; display:flex; flex-direction:column; border-bottom:1px solid var(--bl-line); }
+#bb-pick .bbp-sbar[hidden] { display:none; }
+#bb-pick .bbp-sbar .bbp-q { margin:10px 10px 10px; }
+#bb-pick .bbp-body > .bbp-note { padding:24px 12px; text-align:center; color:var(--bl-fg3); font:400 13px var(--bl-ui); }
+
+/* Replies (2026-10-21): the quoted message inside the reply bubble, a bar and name in the sender's colour,
+   two lines of the original; click jumps to it. Main chat, side chat and Office chat. */
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) .bb-rq { display:block !important; margin:1px 0 7px !important; padding:6px 10px 6px 11px !important; border:0 !important; border-left:3px solid var(--rq) !important; border-radius:7px !important; background:rgba(0,0,0,.24) !important; box-shadow:none !important; text-align:left !important; white-space:normal !important; max-width:100% !important; min-width:140px; cursor:pointer; font:400 12.5px/1.38 var(--bl-ui, inherit) !important; color:var(--bl-fg2, #b4b9c3) !important; align-self:auto !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) .bb-rq:hover { background:rgba(0,0,0,.32) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) .bb-rq b { display:block; font-weight:700; font-size:12px; color:var(--rq) !important; margin:0 0 1px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) .bb-rq span { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; white-space:normal !important; text-overflow:ellipsis; }
+.bb-rq[data-c="0"] { --rq:#e0a43a; } .bb-rq[data-c="1"] { --rq:#5bb0ff; } .bb-rq[data-c="2"] { --rq:#c084fc; }
+.bb-rq[data-c="3"] { --rq:#34d399; } .bb-rq[data-c="4"] { --rq:#f472b6; } .bb-rq[data-c="5"] { --rq:#fb923c; }
+html body.light-mode:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) .bb-rq { background:rgba(15,23,42,.06) !important; color:#3f4550 !important; }
+html body.light-mode:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) .bb-rq:hover { background:rgba(15,23,42,.1) !important; }
+body.light-mode .bb-rq[data-c="0"] { --rq:#9a5b00; } body.light-mode .bb-rq[data-c="1"] { --rq:#1d5fbf; } body.light-mode .bb-rq[data-c="2"] { --rq:#7e22ce; }
+body.light-mode .bb-rq[data-c="3"] { --rq:#047857; } body.light-mode .bb-rq[data-c="4"] { --rq:#be185d; } body.light-mode .bb-rq[data-c="5"] { --rq:#c2410c; }
+
+/* ── Chat notification card (bottom right, with reminders) and the bells (2026-10-21) ── */
+#bb-chat-card.bb-cc { width:100%; background:var(--bl-win, #1f2126); color:var(--bl-fg, #eceef2); border:1px solid var(--bl-line, #3a3d45); border-radius:14px; box-shadow:0 16px 38px -14px rgba(0,0,0,.55); overflow:hidden; font:400 13.5px/1.42 var(--bl-ui, -apple-system, sans-serif); animation:bbRemIn .25s ease-out; }
+#bb-chat-card.bb-cc-wait { display:none; }
+.bb-cc-hd { display:flex; align-items:center; gap:10px; padding:12px 10px 0 12px; }
+.bb-cc-av { width:30px; height:30px; border-radius:50%; flex:none; display:inline-flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; color:#fff; background-size:cover; background-position:center; }
+.bb-cc-who { flex:1; min-width:0; text-align:left; background:none; border:0; padding:0; color:inherit; font:inherit; cursor:pointer; }
+.bb-cc-who b { display:block; font-size:13.5px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.bb-cc-who small { display:block; font-size:11.5px; color:var(--bl-fg3, #8d93a0); }
+.bb-cc-ib { width:28px; height:28px; flex:none; border:0; border-radius:7px; background:none; color:var(--bl-fg3, #8d93a0); display:grid; place-items:center; cursor:pointer; }
+.bb-cc-ib svg { width:16px; height:16px; }
+.bb-cc-ib:hover { background:var(--bl-hover, #26282e); color:var(--bl-fg, #eceef2); }
+.bb-cc-msg { display:block; width:100%; text-align:left; background:none; border:0; color:var(--bl-fg2, #b4b9c3); font:inherit; padding:8px 12px 10px 52px; cursor:pointer; }
+.bb-cc-msg span { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; overflow-wrap:anywhere; }
+.bb-cc-msg small { display:block; margin-top:3px; font-size:12px; color:var(--bl-fg3, #8d93a0); }
+.bb-cc-rep { display:flex; gap:8px; padding:0 12px 12px; margin:0; }
+.bb-cc-rep input { flex:1; min-width:0; height:34px; background:var(--bl-raise, #16171b); border:1px solid var(--bl-line, #34363d); border-radius:9px; color:var(--bl-fg, #eceef2); padding:0 11px; font:inherit; font-size:13px; outline:none; }
+.bb-cc-rep input:focus { border-color:var(--bl-fg3, #8d93a0); }
+.bb-cc-send { border:0; border-radius:9px; background:var(--bl-accent, #5b93ff); color:var(--bl-accent-fg, #0b0c0f); font:700 13px var(--bl-ui, sans-serif); padding:0 13px; cursor:pointer; }
+.bb-cc-more { display:flex; align-items:center; gap:8px; width:100%; border:0; border-top:1px solid var(--bl-line, #2e3036); background:var(--bl-side, #1a1c20); color:var(--bl-fg2, #b4b9c3); padding:9px 12px; font:inherit; font-size:12.5px; cursor:pointer; text-align:left; }
+.bb-cc-more:hover { color:var(--bl-fg, #eceef2); }
+.bb-cc-faces { display:flex; }
+.bb-cc-faces .bb-cc-av { margin-left:-5px; box-shadow:0 0 0 2px var(--bl-side, #1a1c20); }
+.bb-cc-faces .bb-cc-av:first-child { margin-left:0; }
+.bb-cc-show { margin-left:auto; color:var(--bl-fg3, #8d93a0); }
+.bb-cc-row { display:flex; gap:10px; align-items:center; width:100%; padding:9px 12px; border:0; border-top:1px solid var(--bl-line, #2e3036); background:none; color:inherit; font:inherit; text-align:left; cursor:pointer; }
+.bb-cc-row:first-of-type { margin-top:10px; }
+.bb-cc-row:hover { background:var(--bl-hover, #26282e); }
+.bb-cc-rt { flex:1; min-width:0; }
+.bb-cc-rt b { display:block; font-size:13px; }
+.bb-cc-rt span { display:block; font-size:12.5px; color:var(--bl-fg3, #8d93a0); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.bb-cc-n { font-size:11.5px; font-weight:800; color:var(--bl-accent, #5b93ff); }
+body.light-mode #bb-chat-card.bb-cc { box-shadow:0 14px 34px -12px rgba(15,23,42,.25); }
+
+.bb-bell svg { width:17px; height:17px; }
+.bb-bell.off { color:#d97706 !important; }
+body:not(.light-mode) .bb-bell.off { color:#fbbf24 !important; }
+#sc-bell svg { width:16px; height:16px; }
+.bb-bell-menu { position:fixed; z-index:2147483000; min-width:240px; max-width:300px; background:var(--bl-win, #1f2126); color:var(--bl-fg, #eceef2); border:1px solid var(--bl-line, #3a3d45); border-radius:12px; padding:6px; box-shadow:0 18px 40px -16px rgba(0,0,0,.6); font:400 13px var(--bl-ui, -apple-system, sans-serif); }
+.bb-bm-h { font-size:11.5px; color:var(--bl-fg3, #8d93a0); padding:6px 10px 4px; }
+.bb-bm-it { display:flex; align-items:center; gap:10px; width:100%; padding:8px 10px; border:0; border-radius:8px; background:none; color:inherit; font:inherit; text-align:left; cursor:pointer; }
+.bb-bm-it:hover { background:var(--bl-hover, #26282e); }
+.bb-bm-it.on { font-weight:600; }
+.bb-bm-ck { margin-left:auto; color:var(--bl-accent, #5b93ff); }
+.bb-bell-menu hr { border:0; border-top:1px solid var(--bl-line, #2e3036); margin:5px 4px; }
+.bb-chat-paused { display:flex; align-items:center; gap:8px; padding:6px 12px 8px; font:400 12.5px var(--bl-ui, sans-serif); color:var(--bl-fg2, #b4b9c3); }
+.bb-chat-paused[hidden] { display:none; }
+.bb-chat-paused button { margin-left:auto; border:0; background:none; color:var(--bl-accent, #5b93ff); font:600 12.5px var(--bl-ui, sans-serif); cursor:pointer; padding:0; }
+#st-chat-notif .st-select { min-width:150px; }
+@media (prefers-reduced-motion: reduce) { #bb-chat-card.bb-cc { animation:none; } }
+/* the themes' general button rules must not reach the card and menus */
+html body:not(#_1):not(#_2) #bb-chat-card .bb-cc-send { background:var(--bl-accent, #5b93ff) !important; color:var(--bl-accent-fg, #0b0c0f) !important; border:0 !important; }
+html body:not(#_1):not(#_2) #bb-chat-card .bb-cc-more { background:var(--bl-side, #1a1c20) !important; color:var(--bl-fg2, #b4b9c3) !important; border:0 !important; border-top:1px solid var(--bl-line, #2e3036) !important; }
+html body:not(#_1):not(#_2) #bb-chat-card :is(.bb-cc-who, .bb-cc-msg, .bb-cc-row, .bb-cc-ib) { background:none !important; border-color:transparent !important; }
+html body:not(#_1):not(#_2) #bb-chat-card .bb-cc-row { border:0 !important; border-top:1px solid var(--bl-line, #2e3036) !important; }
+html body:not(#_1):not(#_2) #bb-chat-card :is(.bb-cc-row, .bb-cc-ib):hover { background:var(--bl-hover, #26282e) !important; }
+html body:not(#_1):not(#_2) .bb-bell-menu .bb-bm-it { background:none !important; border:0 !important; color:var(--bl-fg, #eceef2) !important; }
+html body:not(#_1):not(#_2) .bb-bell-menu .bb-bm-it:hover { background:var(--bl-hover, #26282e) !important; }
+html body:not(#_1):not(#_2) .bb-chat-paused button { background:none !important; border:0 !important; color:var(--bl-accent, #5b93ff) !important; }
+#st-cn-muted[hidden], #st-cn-muted-h[hidden] { display:none !important; }
+/* quick answers on the chat card (from the old dashboard bubble): quiet text buttons */
+.bb-cc-quick { display:flex; gap:14px; align-items:center; padding:0 12px 8px 52px; }
+html body:not(#_1):not(#_2) #bb-chat-card .bb-cc-quick button { background:none !important; border:0 !important; padding:2px 0 !important; color:var(--bl-accent, #5b93ff) !important; font:600 12.5px var(--bl-ui, sans-serif); cursor:pointer; }
+html body:not(#_1):not(#_2) #bb-chat-card .bb-cc-quick button:hover { text-decoration:underline; }
+/* G: with the side chat open, the cards sit beside it instead of over its message box */
+body.bl-sc-on #bb-rem-cards { right:calc(var(--bl-scw, 340px) + 16px); }
