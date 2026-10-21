@@ -506,3 +506,12 @@ html body:not(#_1):not(#_2):not(#_3) .pl-hpaint svg { width:15px; height:15px; }
 html body:not(#_1):not(#_2):not(#_3) .plans-overlay.pl-hfill .pl-hpaint { color:rgba(255,255,255,.8) !important; }
 html body:not(#_1):not(#_2):not(#_3) .plans-overlay.pl-hfill .pl-hpaint:hover { background:rgba(255,255,255,.15) !important; color:#fff !important; }
 html body:not(#_1):not(#_2):not(#_3) .pl-t thead th.pl-c0 { padding-left:14px !important; }
+
+/* Updates (bell): a panel over the page from the right, never a column that squeezes or drops the page below */
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .plans-overlay.feed-on { grid-template-columns:minmax(0,1fr) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-feed { position:fixed !important; right:0; top:var(--bl-top,52px); bottom:0; width:min(360px, 92vw); z-index:60; box-shadow:-20px 0 44px -26px rgba(0,0,0,.6); animation:plFeedIn .2s cubic-bezier(.22,1,.36,1); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-feed[hidden] { display:none !important; }
+html body.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .pl-feed { box-shadow:-18px 0 40px -24px rgba(15,23,42,.25); }
+body.bl-sc-on .pl-feed { right:var(--bl-scw, 340px) !important; }
+@keyframes plFeedIn { from { transform:translateX(24px); opacity:0; } to { transform:none; opacity:1; } }
+@media (prefers-reduced-motion: reduce) { .pl-feed { animation:none !important; } }
