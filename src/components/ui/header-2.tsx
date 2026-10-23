@@ -212,21 +212,23 @@ export function Header({
               {link.label}
             </a>
           ))}
+          {/* One main button (Try BloomBoard free). The two ways in for people who
+              already have an account or an invite are quiet links of equal weight. */}
           <a
-            className={buttonVariants({ variant: "ghost", className: "ml-2 px-3 text-sm" })}
-            href={WEB_LOGIN_URL}
-          >
-            Log in
-          </a>
-          <a
-            className="ml-1 shrink-0 rounded-lg border border-white/25 px-3.5 py-1.5 text-sm font-semibold text-white hover:bg-white/10"
+            className={buttonVariants({ variant: "ghost", className: "px-3 text-sm" })}
             href="/join"
           >
             Join your team
           </a>
+          <a
+            className={buttonVariants({ variant: "ghost", className: "px-3 text-sm" })}
+            href={WEB_LOGIN_URL}
+          >
+            Log in
+          </a>
           <Button
             asChild
-            className="ml-1 h-auto shrink-0 rounded-lg border border-transparent bg-white px-3.5 py-1.5 text-sm font-semibold text-[#0a0f1c] hover:bg-white/90"
+            className="ml-4 h-auto shrink-0 rounded-lg border border-transparent bg-white px-3.5 py-1.5 text-sm font-semibold text-[#0a0f1c] hover:bg-white/90"
           >
             <a href="/start?plan=bloom">
               Try BloomBoard free
@@ -313,18 +315,6 @@ export function Header({
             Try BloomBoard free
           </a>
           <a
-            href="/join"
-            onClick={() => setOpen(false)}
-            style={{
-              display: "flex", alignItems: "center", justifyContent: "center",
-              borderRadius: "10px", padding: "12px 0", width: "100%", boxSizing: "border-box",
-              fontSize: "14px", fontWeight: 600, textDecoration: "none",
-              border: "1px solid rgba(255,255,255,0.16)", color: "#f5f5f7",
-            }}
-          >
-            Join your team
-          </a>
-          <a
             href={WEB_LOGIN_URL}
             onClick={() => setOpen(false)}
             style={{
@@ -335,6 +325,13 @@ export function Header({
             }}
           >
             Log in
+          </a>
+          <a
+            href="/join"
+            onClick={() => setOpen(false)}
+            style={{ textAlign: "center", padding: "6px 0", fontSize: "14px", color: "rgba(245,245,247,0.75)", textDecoration: "none" }}
+          >
+            Got an invite? <span style={{ color: "#f5f5f7", fontWeight: 600, textDecoration: "underline", textUnderlineOffset: "3px" }}>Join your team</span>
           </a>
         </div>
       </div>

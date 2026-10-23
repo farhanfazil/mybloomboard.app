@@ -131,7 +131,10 @@ export default function MountainRise({ words, children }: { words: ReactNode; ch
 
       {/* over it: the hills, laid exactly on the sky, then the page that follows */}
       {/* clicks pass through the see-through sky part to the buttons underneath */}
-      <div className="pointer-events-none relative" style={{ marginTop: "-100svh" }}>
+      {/* flow-root: the demo's negative bottom margin (it climbs ahead) must stay inside
+          this box; otherwise the box, and with it the pinned sky, reached past the hero
+          and its dusk layer covered the next section's heading */}
+      <div className="pointer-events-none relative flow-root" style={{ marginTop: "-100svh" }}>
         <div aria-hidden className="bb-scene-part pointer-events-none relative h-[100svh]">
           <Image data-scene src="/backgrounds/hero-mountains.png" alt="" fill priority className="object-cover object-center" sizes="100vw" quality={90} />
           <div

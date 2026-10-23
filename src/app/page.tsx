@@ -1,5 +1,7 @@
 import dynamic from "next/dynamic";
 import { Header } from "@/components/ui/header-2";
+import CurtainReveal from "@/components/sections/CurtainReveal";
+import PinnedSection from "@/components/sections/PinnedSection";
 import AppPreviewScroll from "@/components/sections/AppPreviewScroll";
 import FeatureWall from "@/components/showcase/FeatureWall";
 
@@ -13,6 +15,7 @@ import FeatureWall from "@/components/showcase/FeatureWall";
 const PlanQuiz          = dynamic(() => import("@/components/sections/PlanQuiz"));
 const TrustBar          = dynamic(() => import("@/components/sections/TrustBar"));
 const Pricing           = dynamic(() => import("@/components/sections/Pricing"));
+const GlassOffice       = dynamic(() => import("@/components/sections/GlassOffice"));
 const Proof             = dynamic(() => import("@/components/sections/Proof"));
 const FAQ               = dynamic(() => import("@/components/sections/FAQ"));
 const ComparisonSection = dynamic(() => import("@/components/sections/ComparisonSection"));
@@ -24,8 +27,8 @@ export default function Home() {
     <main>
       <Header />
       <AppPreviewScroll />
-      {/* After the hero the page scrolls plainly: no snapping, pinning or curtain
-          (SnapPoints, PinnedSection and CurtainReveal are kept for later use). */}
+      {/* After the hero the page scrolls plainly up to the comparison, which lifts
+          away like a lid over Pricing (SnapPoints kept for later use). */}
       <FeatureWall />
       <Proof />
       {/* Hidden while the live demo carries the product story — restore by uncommenting.
@@ -35,14 +38,26 @@ export default function Home() {
         <StatsBar />
       </DeepDiveFlight>
       */}
-      <div className="bg-black px-2 sm:px-4">
-        <div data-hide-header className="flex flex-col rounded-[28px] bg-[#f5f5f7] sm:rounded-[36px]">
-          <ComparisonSection tables={["teams"]} embedded />
-          <PlanQuiz light />
-          <TrustBar light />
-        </div>
+      {/* The office stays put while the light panel (the comparison, the plan quiz and
+          the trust row) slides up over it, straight-edged and full width; the panel
+          then lifts away like a lid, uncovering Pricing waiting in black underneath. */}
+      <div className="relative">
+        <PinnedSection>
+          <GlassOffice />
+        </PinnedSection>
+        <CurtainReveal
+          lidClassName="flex flex-col bg-[#f5f5f7]"
+          lidShadow="none"
+          lid={
+            <div data-hide-header className="flex flex-1 flex-col">
+              <ComparisonSection tables={["teams"]} embedded />
+              <PlanQuiz light />
+              <TrustBar light />
+            </div>
+          }
+          under={<Pricing />}
+        />
       </div>
-      <Pricing />
       <FAQ />
       <DownloadCTA />
       <Footer />

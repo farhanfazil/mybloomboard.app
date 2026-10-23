@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import DemoIframe, { type DemoCommand, type DemoState } from "@/components/sections/DemoIframe";
-import DemoReactionsBar from "@/components/sections/DemoReactionsBar";
 import DemoUsefulPoll from "@/components/sections/DemoUsefulPoll";
 import PhoneDemoPitch from "@/components/sections/PhoneDemoPitch";
 import StickyPopouts from "@/components/sections/StickyPopouts";
@@ -86,7 +85,6 @@ export default function LiveDemoFrame({
   if (phone && !peek) {
     return (
       <div className={className}>
-        <DemoReactionsBar className="mb-4" />
         {/* A real recording of the demo (it types tasks, organises them and moves a
             card), so phone visitors see the product, not just words about it. */}
         <div className="mb-4 overflow-hidden rounded-2xl border border-white/[0.12] bg-[#171717]">
@@ -109,7 +107,8 @@ export default function LiveDemoFrame({
 
   return (
     <div className={className}>
-      <DemoReactionsBar className="bb-demo-reacts mb-4" />
+      {/* The "How does it feel?" emoji row (DemoReactionsBar) was retired 2026-10-19: one quiet
+          question under the demo (DemoUsefulPoll) is enough. Its past votes stay on /demo-insights. */}
       {/* the bar and the window together: the home page snaps to this (SnapPoints) */}
       <div data-snap="demo">
       {!peek && <DemoControls demo={demo} pending={pending} send={send} />}

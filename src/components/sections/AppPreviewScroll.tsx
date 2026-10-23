@@ -14,7 +14,7 @@ export default function AppPreviewScroll() {
   const device = useDevice();
 
   return (
-    <section id="hero" className="relative bg-black pb-14 sm:pb-20">
+    <section id="hero" className="relative bg-black pb-12 sm:pb-14">
       {/* The spotlight's full-screen shade lives out here: inside the hero's moving
           part (MountainRise) a transform would trap it in that box. */}
       <DemoSpotlight targetId="live-demo" />

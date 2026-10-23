@@ -33,11 +33,14 @@ export default function DemoSpotlight({ targetId }: { targetId: string }) {
     const update = () => {
       queued = false;
       if (phone.matches) { shade.style.opacity = "0"; set(false); return; }
-      const r = target.getBoundingClientRect(), vh = window.innerHeight;
+      /* measured on the demo window itself (not the poll and pop-outs under it), so
+         the page comes back as soon as the window has gone */
+      const win = (target.querySelector("[data-snap=\"demo\"]") as HTMLElement | null) || target;
+      const r = win.getBoundingClientRect(), vh = window.innerHeight;
       /* Darkens step by step as the demo comes up, reaching full black only when
          it fills the screen (its top at the top); the same on the way out. */
       const comeIn = Math.min(1, Math.max(0, 1 - r.top / (vh * 0.8)));
-      const goOut = Math.min(1, Math.max(0, (r.bottom - vh * 0.2) / (vh * 0.8)));
+      const goOut = Math.min(1, Math.max(0, (r.bottom - vh * 0.35) / (vh * 0.5)));
       const t = Math.min(comeIn, goOut), f = t * t * (3 - 2 * t);
       shade.style.opacity = (f * 0.94).toFixed(3);
       /* the rest (header, emojis, the demo's bar) switches once, near full screen */
