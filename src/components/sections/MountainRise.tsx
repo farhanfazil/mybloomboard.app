@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import { preload } from "react-dom";
 
 const SHADE = [
   "linear-gradient(to bottom,",
@@ -29,6 +29,20 @@ const SCENE_SCRIPT =
   "function c(){for(var i=0;i<m.length;i++)if(!(m[i].complete&&m[i].naturalWidth))return;s()}" +
   "for(var i=0;i<m.length;i++)m[i].addEventListener('load',c);c();setTimeout(s,2500)})()";
 
+/* The hero pictures, ready-made at three widths (no resizing per visit) and cached for a
+   year (netlify.toml). A 48 px blurred copy of each sits in the page itself, so the horizon
+   shows at the very first paint and sharpens when the real pictures arrive. Re-make them
+   with new names (hero-v2/…) whenever the pictures change. */
+const HERO = "/backgrounds/hero-v1/";
+const srcSet = (name: string) => [828, 1280, 1920].map((w) => `${HERO}${name}-${w}.webp ${w}w`).join(", ");
+const SKY_SET = srcSet("sky"), MOUNTAINS_SET = srcSet("mountains");
+const SKY_TINY = "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAACwBQCdASowABsAPtFWn0uoJKKhsAqpABoJZQCuT4CDTq2P8w13Iv/jkEOF+4naJ4ZO5FSk6AAA/vaCeMsSi5KhG0nAbYUYvx37yegyj5gXjkqJ54qszvgA8BM1YpT3AkqYPmTLZ4sTst74ls5fwzQIDh59WfqXukub7iCHcgiT45K5HYuVxIoA";
+const MOUNTAINS_TINY = "data:image/webp;base64,UklGRlQBAABXRUJQVlA4WAoAAAAQAAAALwAAGgAAQUxQSF4AAAARb6CgbSQUvwNmiIgAIX5SNwzhBZNa254wKhBgJiHCxiPB7gZT4vA/GThUIAG8af7pQEb0fwK03/MaTEXA6isJAGDwZeyIgF3qIuHxQrCqc50qRgLp3bK3E0rvB18SVlA4INAAAACwBQCdASowABsAPtFYokuoJSMhtVQIAQAaCWM7ggnw8ThGLCzxWgwNPAU0fTNPrT9mRmz9fgAA/vm88W0PVqX3Gh7dH4bXPNf2DyW0HS7uMDlqymATZAcBZAp18ZrNOo/SMYZ8O1CftIv8ERcGSqe6YsKQBqOaLbFZz5R5LedvP8Kz6BkFL3yBTBYCgnegYqT0RsCBXgMkg9sP4iWltwUdptRvPc3YDssddUj856H8yZh2dknAZ92JTWohJXQOGYS6jZsM8+U1fEid2NPzMAAA";
+const tiny = (src: string): CSSProperties => ({
+  backgroundImage: `url(${src})`, backgroundSize: "cover", backgroundPosition: "center",
+  filter: "blur(14px)", transform: "scale(1.08)",
+});
+
 /** How far the faster part has climbed ahead after scrolling y: eases out, so
  *  the speed glides back to normal with no kink. Shared with SnapPoints. */
 export function liftAt(y: number, max: number, span: number) {
@@ -37,6 +51,9 @@ export function liftAt(y: number, max: number, span: number) {
 }
 
 export default function MountainRise({ words, children }: { words: ReactNode; children: ReactNode }) {
+  /* start both pictures in the page's first request (a <link rel=preload> in the head) */
+  preload(HERO + "sky-1920.webp", { as: "image", imageSrcSet: SKY_SET, imageSizes: "100vw", fetchPriority: "high" });
+  preload(HERO + "mountains-1920.webp", { as: "image", imageSrcSet: MOUNTAINS_SET, imageSizes: "100vw", fetchPriority: "high" });
   const duskRef = useRef<HTMLDivElement>(null);
   const wordsRef = useRef<HTMLDivElement>(null);
   const restRef = useRef<HTMLDivElement>(null);
@@ -120,10 +137,14 @@ export default function MountainRise({ words, children }: { words: ReactNode; ch
     <div ref={rootRef} className="bb-scene relative" suppressHydrationWarning>
       {/* backdrop: the sky and the words, held in place */}
       <div className="sticky top-0 z-0 h-[100svh] overflow-hidden">
-        <div aria-hidden className="bb-scene-part pointer-events-none absolute inset-0">
-          <Image data-scene src="/backgrounds/hero-sky.jpg" alt="" fill priority className="object-cover object-center" sizes="100vw" quality={90} />
-          <div className="absolute inset-0" style={{ background: SHADE }} />
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0" style={tiny(SKY_TINY)} />
         </div>
+        <div aria-hidden className="bb-scene-part pointer-events-none absolute inset-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img data-scene srcSet={SKY_SET} sizes="100vw" src={HERO + "sky-1920.webp"} alt="" fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-cover object-center" />
+        </div>
+        <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: SHADE }} />
         {/* dusk: the sky goes dark as the hills come up (under the words) */}
         <div ref={duskRef} aria-hidden className="pointer-events-none absolute inset-0 bg-black" style={{ opacity: 0, willChange: "opacity" }} />
         <div ref={wordsRef} className="relative" style={{ willChange: "opacity" }}>{words}</div>
@@ -135,8 +156,12 @@ export default function MountainRise({ words, children }: { words: ReactNode; ch
           this box; otherwise the box, and with it the pinned sky, reached past the hero
           and its dusk layer covered the next section's heading */}
       <div className="pointer-events-none relative flow-root" style={{ marginTop: "-100svh" }}>
-        <div aria-hidden className="bb-scene-part pointer-events-none relative h-[100svh]">
-          <Image data-scene src="/backgrounds/hero-mountains.png" alt="" fill priority className="object-cover object-center" sizes="100vw" quality={90} />
+        <div aria-hidden className="pointer-events-none relative h-[100svh] overflow-hidden">
+          <div className="absolute inset-0" style={tiny(MOUNTAINS_TINY)} />
+        </div>
+        <div aria-hidden className="bb-scene-part pointer-events-none absolute inset-x-0 top-0 h-[100svh]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img data-scene srcSet={MOUNTAINS_SET} sizes="100vw" src={HERO + "mountains-1920.webp"} alt="" fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-cover object-center" />
           <div
             className="absolute inset-0"
             style={{

@@ -15,3 +15,10 @@
     X-Robots-Tag = "noindex"
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
+
+# The hero pictures are ready-made and never change under the same name (new pictures get a
+# new folder, hero-v2/…), so browsers and the CDN can keep them for a year.
+[[headers]]
+  for = "/backgrounds/hero-v1/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
