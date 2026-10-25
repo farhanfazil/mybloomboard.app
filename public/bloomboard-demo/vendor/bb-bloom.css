@@ -1134,7 +1134,6 @@ html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) .sidebar .sb-office-enter .so
 /* the unread count stays visible on the rail, in the icon's corner */
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav.bl-unread::after { content:""; position:absolute; top:6px; left:31px; width:7px; height:7px; border-radius:50%; background:var(--bl-accent); box-shadow:0 0 0 2px var(--bl-side); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav { position:relative; }
-#bl-railpin[hidden] { display:none !important; }
 /* pages move with the sidebar */
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) :is(.boards-overlay,.chat-overlay,.bb-email-overlay,.overview-overlay,.bookmarks-overlay,.team-overlay,.fl-overlay) { left:64px !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) :is(.boards-overlay,main.main-area,.chat-overlay,.bb-email-overlay,.overview-overlay,.bookmarks-overlay,.team-overlay,.fl-overlay) { transition:left .32s cubic-bezier(.65,0,.35,1), right .32s cubic-bezier(.65,0,.35,1), margin-right .32s cubic-bezier(.65,0,.35,1) !important; }
@@ -4396,3 +4395,8 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #bl-hello .bl-hk { display:flex; flex
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-hello .bl-hk button { display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 6px 0 3px; border:0 !important; border-radius:7px !important; background:transparent !important; color:var(--bl-fg3) !important; font:500 13px var(--bl-ui) !important; cursor:pointer; box-shadow:none !important; transition:background .12s, color .12s; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-hello .bl-hk button:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-hello .bl-hk kbd { display:inline-grid; place-items:center; min-width:22px; height:22px; padding:0 5px; border-radius:6px; border:1px solid var(--bl-line); background:var(--bl-raise); color:var(--bl-fg2); font:600 11.5px ui-monospace, SFMono-Regular, Menlo, monospace; }
+/* Fold / unfold the sidebar: a panel icon right after the logo in the top bar (2026-10-26) */
+body.bloom:not(#_1):not(#_2):not(#_3) #bl-railpin { display:inline-grid; place-items:center; width:32px; height:32px; margin-left:6px; padding:0; border:0 !important; border-radius:8px; background:transparent !important; color:var(--bl-fg3) !important; cursor:pointer; -webkit-app-region:no-drag; flex:none; box-shadow:none !important; }
+body.bloom:not(#_1):not(#_2):not(#_3) #bl-railpin:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+body.bloom:not(#_1):not(#_2):not(#_3) #bl-railpin .bl-i { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+body.bloom:not(#_1):not(#_2):not(#_3) #bl-railpin + #bl-back { margin-left:6px; }
