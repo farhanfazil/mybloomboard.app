@@ -5,5 +5,10 @@
   "compatibility_date": "2025-03-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
+  // the real addresses (www sends visitors on to mybloomboard.app, as on Netlify: see next.config.mjs)
+  "routes": [
+    { "pattern": "mybloomboard.app", "custom_domain": true },
+    { "pattern": "www.mybloomboard.app", "custom_domain": true }
+  ]
 }
