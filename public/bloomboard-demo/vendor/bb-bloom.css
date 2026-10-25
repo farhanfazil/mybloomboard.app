@@ -4277,3 +4277,4 @@ html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.tm-is-edit
 html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.tm-is-edit .tm-hd-del:hover { background:var(--bl-hover); color:var(--bl-bad, #e5484d); }
 html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.tm-is-edit .tm-hd-del svg { width:17px; height:17px; }
 html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.tm-is-edit .tm-footer { display:none !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet > .modal-topbar { align-items:center; }
