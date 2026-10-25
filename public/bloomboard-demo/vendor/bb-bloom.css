@@ -4333,3 +4333,6 @@ html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows .toggle-switc
 html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows .toggle-slider::before { width:17px; height:17px; left:2px; bottom:2px; }
 html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows .toggle-switch input:checked + .toggle-slider::before { transform:translateX(15px); }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows .tm-sel-wrap { position:relative; padding-right:28px !important; }
+/* Task window: the comments/details side is a rounded panel set in from the window's edge (no sharp corners) */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs { margin:12px 12px 0 0; border:1px solid var(--bl-line) !important; border-bottom:1px solid var(--bl-line) !important; border-radius:12px 12px 0 0; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts :is(.tm-cmts, .tm-side) { margin:0 12px 12px 0; border:1px solid var(--bl-line) !important; border-top:0 !important; border-radius:0 0 12px 12px; overflow:hidden; }
