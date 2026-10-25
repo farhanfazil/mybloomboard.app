@@ -27,6 +27,8 @@
   var REPLIES = ['On it 👍', 'Sounds good!', 'Got it, thanks', 'Give me 10 mins', '👍', 'Perfect 🙌', 'Will check now'];
   /* The visitor's own clicks, keys, taps or scrolls pause everything; it carries on after 10 s of quiet. */
   var IDLE_MS = 10000;
+  /* the sidebar stays folded to icons on every page (it used to open on Chat and the Office) */
+  try { if (localStorage.getItem('bb-sidebar-fold-v1') == null) localStorage.setItem('bb-sidebar-fold-v1', '1'); } catch (e) {}
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var lineIdx = Math.floor(Math.random() * LINES.length);
@@ -298,10 +300,11 @@
     var card = boardCard(id), col = boardCol(toStatus);
     if (!card || !col || !onScreen(card)) return false;
     var r = card.getBoundingClientRect();
-    var last = [].slice.call(col.querySelectorAll('.swipe-outer')).filter(function (c) { return c.offsetParent; }).pop();
+    /* the card lands on top of the column (newest arrivals first), so it is carried there */
+    var top1 = [].slice.call(col.querySelectorAll('.swipe-outer')).filter(function (c) { return c.offsetParent && c !== card; })[0];
     var hd = col.querySelector('.kb-col-hd');
-    var lr = last ? last.getBoundingClientRect() : null, cr = col.getBoundingClientRect();
-    var tx = cr.left + 8, ty = lr ? lr.bottom + 8 : (hd ? hd.getBoundingClientRect().bottom + 8 : cr.top + 56);
+    var cr = col.getBoundingClientRect();
+    var tx = cr.left + 8, ty = top1 ? top1.getBoundingClientRect().top : (hd ? hd.getBoundingClientRect().bottom + 8 : cr.top + 56);
     if (ty + r.height > window.innerHeight - 10) ty = Math.max(cr.top + 56, window.innerHeight - 10 - r.height);
     if (ty < 70 || ty + r.height > window.innerHeight - 10) return false;
 
@@ -774,7 +777,7 @@
               later(300, results); return;
             }
             /* Time to read the dates and names, then add them all. */
-            later(readMs || 1400, function () {
+            later(readMs || 1000, function () {
               if (touched() || !res.classList.contains('show')) { finish(null); return; }
               ghostClick(add, function () {
                 var before = {};
@@ -974,9 +977,10 @@
      own drag does the rest (the card lifts, a gap opens where it will land, it glides into place). */
   function carry(card, body, done) {
     var r = card.getBoundingClientRect(), br = body.getBoundingClientRect();
-    var last = [].slice.call(body.querySelectorAll('.kanban-card')).pop();
+    var first = [].slice.call(body.querySelectorAll('.kanban-card')).filter(function (c) { return c !== card; })[0];
     var sx = r.left + Math.min(40, r.width / 3), sy = r.top + r.height / 2;
-    var tx = br.left + Math.min(40, br.width / 3), ty = Math.min(window.innerHeight - 20, (last ? last.getBoundingClientRect().bottom : br.top) + r.height / 2 + 8);
+    /* onto the top of the list: the board puts it above the first card */
+    var tx = br.left + Math.min(40, br.width / 3), ty = first ? first.getBoundingClientRect().top + 8 : br.top + 20;
     var g = ghostCursor('');
     if (g.style.opacity !== '1') { placeGhost(sx + 120, sy + 80, true); void g.offsetWidth; g.style.opacity = '1'; }
     placeGhost(sx, sy);
@@ -1149,8 +1153,14 @@
       n();
     }),
     /* a message in the team room; the reply comes from the room's people */
-    step(function (n) {
+    step(function roomMsg(n) {
       var inp = q('#sc-in'), form = q('#sc-comp');
+      if (window.bbSideChat && window.bbSideChat.toggle && !(window.bbSideChat.isOn && window.bbSideChat.isOn())) { try { window.bbSideChat.toggle(); } catch (e) {} }
+      /* the team room tab (the Chats tab is a list with no message box) */
+      var rt = q('#bl-sc .sc-tab[data-sct="room"]');
+      if (rt && !rt.classList.contains('on') && !roomMsg._tab) { roomMsg._tab = 1; tap(rt, function () { rt.click(); later(600, function () { roomMsg(n); }); }); return; }
+      roomMsg._tab = 0;
+      inp = q('#sc-in'); form = q('#sc-comp');
       if (!inp || !form || !vis(inp)) return n();
       tap(inp, function () {
         inp.focus();
@@ -1174,16 +1184,25 @@
       if (!card || !vis(card)) return n();
       carry(card, cols[1].querySelector('.kanban-cards'), function () { later(1800, n); });
     }),
-    /* the Office: a look at the meeting going on, then a message at someone's desk */
+    /* the Office: everyone at their desks, a meeting going on, a knock on someone's desk, then a message */
     step(function (n) {
       var b = q('#bl-nav [data-bl="office"]') || q('#sb-office-enter');
       if (!b) return n();
-      if (vis(b)) tap(b, function () { b.click(); later(1400, n); }); else { b.click(); later(1400, n); }
+      if (vis(b)) tap(b, function () { b.click(); later(1600, n); }); else { b.click(); later(1600, n); }
     }),
     step(function (n) {
-      var live = [].slice.call(document.querySelectorAll('.office-dept .bl-droom')).filter(function (r) { return vis(r) && r.querySelector('.ofr-dot.red'); })[0];
+      /* a call with people in it: a room's live line in a department, or a live room below */
+      var live = [].slice.call(document.querySelectorAll('.office-dept .bl-droom, .ofr')).filter(function (r) { return vis(r) && r.querySelector('.ofr-dot.red'); })[0];
       if (!live) return n();
-      point(live.querySelector('.bl-live-faces') || live, function () { later(2600, n); }, 'Live meeting');
+      point(live.querySelector('.bl-live-faces, .ofr-av') || live, function () { later(2800, n); }, 'In a call');
+    }),
+    step(function (n) {
+      var desks = [].slice.call(document.querySelectorAll('.office-dept .station-card')).filter(function (c) {
+        return vis(c) && !c.classList.contains('me') && !c.classList.contains('sig-focus') && c.querySelector('[title="Knock"]');
+      });
+      if (!desks.length) return n();
+      var k = pick(desks).querySelector('[title="Knock"]');
+      tap(k, function () { k.click(); later(4200, n); }, 'Knock');
     }),
     step(function (n) {
       var cards = [].slice.call(document.querySelectorAll('.office-dept .station-card')).filter(function (c) {
@@ -1219,7 +1238,7 @@
         var id = ids && ids[0];
         if (id) later(1800, function () { if (!dragCard(id, 'ongoing', '', function () { moveMine(id, 'ongoing'); })) moveMine(id, 'ongoing'); later(3000, n); });
         else later(2000, n);
-      }, 1600);
+      }, 1000);
     }),
   ];
   function cycle() {
