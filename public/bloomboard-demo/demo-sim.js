@@ -294,7 +294,7 @@
     return ghost;
   }
   function placeGhost(x, y, instant) {
-    ghost.style.transition = instant ? 'none' : 'transform .6s cubic-bezier(.65,0,.35,1),opacity .25s';
+    ghost.style.transition = instant ? 'none' : 'transform .5s cubic-bezier(.65,0,.35,1),opacity .25s';
     ghost.style.transform = 'translate(' + x + 'px,' + y + 'px)';
   }
   /* Returns false (and does nothing) when the drag can't be shown right now. */
@@ -320,7 +320,15 @@
     later(700, function () {
       if (!document.body.contains(card)) { g.style.opacity = '0'; return; }
       var clone = card.cloneNode(true);
+      clone.classList.remove('bbd-pop');
+      clone.style.animation = 'none';
       clone.classList.add('bbd-clone');
+      /* the card's look comes from the board around it: carry it over so the moving copy is solid */
+      var realTc = card.querySelector('.task-card'), cloneTc = clone.querySelector('.task-card');
+      if (realTc && cloneTc) {
+        var tcs = getComputedStyle(realTc);
+        ['backgroundColor', 'border', 'borderRadius', 'color', 'padding'].forEach(function (k) { cloneTc.style[k] = tcs[k]; });
+      }
       clone.removeAttribute('data-taskid');
       clone.style.cssText = 'position:fixed;left:' + r.left + 'px;top:' + r.top + 'px;width:' + r.width + 'px;height:' + r.height + 'px;overflow:hidden;margin:0;z-index:9998;pointer-events:none;' +
         'transition:transform .6s cubic-bezier(.65,0,.35,1),opacity .2s;box-shadow:0 10px 24px rgba(0,0,0,.28);border-radius:12px';
@@ -331,6 +339,7 @@
       host.innerHTML = '<div class="kb-col-body"></div>';
       host.firstChild.appendChild(clone);
       document.body.appendChild(host);
+      card.style.animation = 'none';
       card.style.opacity = '.3';
       void clone.offsetWidth;
       clone.style.transform = 'rotate(-1.5deg) scale(1.02)';
@@ -342,7 +351,7 @@
           clone.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
           later(160, function () {
             try { drop(); } catch (e) {}
-            card.style.opacity = '';
+            card.style.opacity = ''; card.style.animation = '';
             clone.style.opacity = '0';
             later(220, function () { host.remove(); });
             later(500, function () { g.style.opacity = '0'; });
@@ -607,14 +616,14 @@
   /* [line, column, cursor label] */
   /* A column of 'file:<key>' drops that image onto the card instead. */
   var STORY_MOVES = [
-    [0, 'ongoing', 'Drag cards to move them'], [1, 'file:banners', 'Maya Chen'], [0, 'review', ''],
+    [0, 'ongoing', 'Drag cards to move them'], [1, 'file:banners', 'Maya Chen'],
   ];
   var storyRunning = false;
   if (STORY) { try { localStorage.setItem('bbd-dash-tasks', '[]'); } catch (e) {} forgetAttachments(); }
 
   var fxCss = document.createElement('style');
   fxCss.textContent =
-    '.kb-board .bbd-pop{animation:bbdPop .4s cubic-bezier(.2,.8,.2,1) both}' +
+    '.kb-board .bbd-pop{animation:bbdPop .4s cubic-bezier(.2,.8,.2,1) backwards}' +
     '@keyframes bbdPop{from{opacity:0;transform:translateY(-10px) scale(.97)}to{opacity:1;transform:none}}' +
     '#bbd-hint{position:fixed;z-index:9997;max-width:220px;padding:9px 12px;border-radius:10px;background:#111;color:#fff;cursor:pointer;' +
       'font:500 12.5px/1.35 -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;box-shadow:0 6px 18px rgba(0,0,0,.22);' +
@@ -659,7 +668,7 @@
       if (file ? dropFile(id, file, m[2]) : dragCard(id, m[1], m[2], function () { moveMine(id, m[1]); })) {
         shownHint = true;
         left.shift();
-        later(1500 + rand(300, 600), function () { step(0); });
+        later(1000 + rand(200, 400), function () { step(0); });
         return;
       }
       /* Wait while the visitor is busy; if the card is out of sight, move it quietly. */
@@ -668,13 +677,13 @@
       if (file) attachFile(id, file); else moveMine(id, m[1]);
       later(800, function () { step(0); });
     }
-    later(1400, function () { step(0); });
+    later(900, function () { step(0); });
   }
   function storyEnd(ids) {
     storyRunning = window.__bbStoryRunning = false;
     storyEndedAt = Date.now();
     if (ids && ids[1]) MAYA_TASK = ids[1];
-    later(3000, cycle);
+    later(1500, cycle);
   }
   function popNew(ids) {
     later(60, function () {
@@ -759,7 +768,7 @@
       if (ghost) ghost.style.opacity = '0';
       setTimeout(function () { window.__bbAutoTasks = false; }, 3500);
       /* Tasks added: fold the box away until the next round types into it. */
-      if (ids && ids.length) later(1300, function () {
+      if (ids && ids.length) later(900, function () {
         var c = document.getElementById('t2t-dashboard-card');
         if (c && !c.classList.contains('collapsed') && !scripting && document.activeElement !== document.getElementById('t2t-input') &&
             typeof window.toggleT2T === 'function') window.toggleT2T();
@@ -778,7 +787,7 @@
       if (text.charAt(i - 2) === '\n') i--;
       n.value = text.slice(0, i);
       n.dispatchEvent(new Event('input', { bubbles: true }));
-      if (i < text.length) { later(text.charAt(i - 1) === '\n' ? 300 : 24 + Math.random() * 26, type); return; }
+      if (i < text.length) { later(text.charAt(i - 1) === '\n' ? 220 : 14 + Math.random() * 16, type); return; }
       later(600, function () {
         if (touched()) { bail(); return; }
         ghostClick(btn, function () {
@@ -792,7 +801,7 @@
               later(300, results); return;
             }
             /* Time to read the dates and names, then add them all. */
-            later(readMs || 1000, function () {
+            later(readMs || 800, function () {
               if (touched() || !res.classList.contains('show')) { finish(null); return; }
               ghostClick(add, function () {
                 var before = {};
@@ -964,7 +973,7 @@
     var x = r.left + Math.min(r.width * 0.5, 60), y = r.top + r.height * 0.55;
     if (g.style.opacity !== '1') { placeGhost(x + 120, y + 80, true); void g.offsetWidth; g.style.opacity = '1'; }
     placeGhost(x, y);
-    later(650, function () {
+    later(520, function () {
       el.style.transition = 'transform .12s';
       el.style.transform = 'scale(.96)';
       later(140, function () { el.style.transform = ''; then(); });
@@ -978,13 +987,25 @@
     placeGhost(x, y);
     later(650, then);
   }
+  /* typing into a box the app may redraw: get() finds the current one on every keystroke */
+  function typeInto(get, text, done) {
+    var i = 0;
+    (function step() {
+      var el = get(); if (!el) return done();
+      i = Math.min(text.length, i + 2);
+      el.value = text.slice(0, i);
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+      if (i < text.length) { later(32 + Math.random() * 24, step); return; }
+      later(300, done);
+    })();
+  }
   function typeText(el, text, isEditable, done) {
     var i = 0;
     (function step() {
       i = Math.min(text.length, i + 2);
       if (isEditable) el.textContent = text.slice(0, i); else el.value = text.slice(0, i);
       el.dispatchEvent(new Event('input', { bubbles: true }));
-      if (i < text.length) { later(45 + Math.random() * 35, step); return; }
+      if (i < text.length) { later(32 + Math.random() * 24, step); return; }
       later(400, done);
     })();
   }
@@ -1198,7 +1219,7 @@
       dock.classList.add('ending');
       setTimeout(function () { dock.className = 'bb-call-dock'; grid.innerHTML = ''; }, 320);
       overview();
-      if (ok !== false) later(1400, done); else done(false);
+      if (ok !== false) later(900, done); else done(false);
     }
     dock.className = 'bb-call-dock show group audio-only room-call bbd-meet';
     grid.innerHTML = ''; grid.dataset.count = '0';
@@ -1207,39 +1228,39 @@
     var dot = q('#bb-call-live-dot'); if (dot) dot.className = 'bb-call-live-dot connecting';
     shot([dock]);
     if (ghost) ghost.style.opacity = '0';
-    at(800, function () {
+    at(600, function () {
       grid.innerHTML = people.map(function (id) { return callTile(id, (mate(id) || {}).name || ''); }).join('') + callTile(ME, 'You', 'self');
       grid.dataset.count = String(people.length + 1);
       if (dot) dot.className = 'bb-call-live-dot';
       count();
       var k = 0;
       speak(people[0]);
-      talk = setInterval(function () { k++; speak(people[k % people.length]); }, 1900);
+      talk = setInterval(function () { k++; speak(people[k % people.length]); }, 1500);
     });
     if (guest) {
-      at(4200, function () {
+      at(2800, function () {
         grid.insertAdjacentHTML('beforeend', callTile(guest.id, guest.name.split(' ')[0] + ' · joining…', 'pending'));
         grid.dataset.count = String(people.length + 2);
       });
-      at(5600, function () {
+      at(3900, function () {
         var t = tile(guest.id); if (!t) return;
         t.classList.remove('pending'); t.querySelector('.bb-call-tile-label').textContent = guest.name;
         set('bb-call-state', guest.name.split(' ')[0] + ' joined');
-        later(1800, count);
+        later(1400, count);
       });
     }
-    at(7600, function () {
+    at(5400, function () {
       var h = q('#bb-call-hand'); if (!h) return;
       tap(h, function () { h.classList.add('on'); h.setAttribute('aria-pressed', 'true'); var me = tile(ME); if (me) me.classList.add('hand'); }, 'Raise hand');
     });
-    at(10400, function () {
+    at(7600, function () {
       clearInterval(talk);
       var h = q('#bb-call-hand'); if (h) { h.classList.remove('on'); h.setAttribute('aria-pressed', 'false'); }
       var me = tile(ME); if (me) me.classList.remove('hand');
       speak(ME);
     });
-    at(13000, function () { speak(people[1] || people[0]); });
-    at(14600, function () {
+    at(9400, function () { speak(people[1] || people[0]); });
+    at(10600, function () {
       var end = q('#bb-call-dock .bb-call-control.end');
       if (!end) return close();
       tap(end, function () { close(); }, 'Leave');
@@ -1259,50 +1280,13 @@
   function step(fn) { return function (n) { if (lastInput > cycleStart || hidden()) return n(false); try { fn(n); } catch (e) { n(); } }; }
   var cycleStart = 0;
   var CYCLE = [
-    /* always start from Tasks (after a pause the visitor may have left it somewhere else) */
+    /* the Office first: the whole floor, then a quick meeting, then a chat at someone's desk */
     step(function (n) {
-      var t = q('#bl-nav [data-bl="tasks"]');
-      if (t && !t.classList.contains('on')) { try { if (typeof window.closeEmailInbox === 'function') window.closeEmailInbox(); } catch (e) {} nav('tasks', n, 1800); return; }
-      n();
-    }),
-    /* a message in the team room; the reply comes from the room's people */
-    step(function roomMsg(n) {
-      var inp = q('#sc-in'), form = q('#sc-comp');
-      if (window.bbSideChat && window.bbSideChat.toggle && !(window.bbSideChat.isOn && window.bbSideChat.isOn())) { try { window.bbSideChat.toggle(); } catch (e) {} }
-      /* the team room tab (the Chats tab is a list with no message box) */
-      var rt = q('#bl-sc .sc-tab[data-sct="room"]');
-      if (rt && !rt.classList.contains('on') && !roomMsg._tab) { roomMsg._tab = 1; tap(rt, function () { rt.click(); later(600, function () { roomMsg(n); }); }); return; }
-      roomMsg._tab = 0;
-      inp = q('#sc-in'); form = q('#sc-comp');
-      if (!inp || !form || !vis(inp)) return n();
-      tap(inp, function () {
-        inp.focus();
-        typeText(inp, ROOM_LINES[roomIdx++ % ROOM_LINES.length], false, function () {
-          try { form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); } catch (e) {}
-          inp.blur();
-          later(6500, n);
-        });
-      });
-    }),
-    /* Boards: open Product Launch and move one card along */
-    step(function (n) { nav('boards', n, 1600); }),
-    step(function (n) {
-      var c = [].slice.call(document.querySelectorAll('.board-card')).filter(function (x) { return /Product Launch/.test(x.textContent); })[0];
-      if (!c || !vis(c)) return n();
-      tap(c, function () { rebalance(); c.click(); later(1600, n); });
-    }),
-    step(function (n) {
-      var cols = boardCols(); if (cols.length < 2) return n();
-      var card = cols[0].querySelector('.kanban-card');
-      if (!card || !vis(card)) return n();
-      carry(card, cols[1].querySelector('.kanban-cards'), function () { later(1800, n); });
-    }),
-    /* the Office: the whole floor first, then a quick meeting, a knock on a desk, and a chat at someone's desk */
-    step(function (n) {
+      try { if (typeof window.closeEmailInbox === 'function') window.closeEmailInbox(); } catch (e) {}
       overview();
       var b = q('#bl-nav [data-bl="office"]') || q('#sb-office-enter');
       if (!b) return n();
-      if (vis(b)) tap(b, function () { b.click(); later(2200, n); }); else { b.click(); later(2200, n); }
+      if (vis(b)) tap(b, function () { b.click(); later(1500, n); }); else { b.click(); later(1500, n); }
     }),
     /* a quick meeting: walk into a live room, people talk, someone drops in, a hand goes up, then leave */
     step(function (n) {
@@ -1316,56 +1300,96 @@
       var title = (room.querySelector('.bl-room-t b') || {}).textContent || 'Meeting room';
       if (!conv) return n();
       shot([room]);
-      later(900, function () {
+      later(600, function () {
         var j = q('.office-dept .bl-droom .office-btn.primary[onclick*="' + conv[1] + '"]') || join;
         tap(j, function () { meeting(conv[1], title, n); }, 'Join the meeting');
       });
     }),
-    /* a knock on a free teammate's desk: they say come in, and the app opens the chat with them */
+    /* a chat at a free teammate's desk: the cursor clicks Message, the desk's chat window opens, held
+       whole in shot with the desk; two messages, each answered after they type */
     step(function (n) {
       overview();
-      var desks = deskCards('[title="Knock"]');
-      if (!desks.length) return n();
-      var card = pick(desks), key = card.getAttribute('data-station-key');
-      var name = ((card.querySelector('.station-card-name') || {}).textContent || '').split(' ')[0];
+      var cards = deskCards('[title="Message"]');
+      if (!cards.length) return n();
+      var card = pick(cards), key = card.getAttribute('data-station-key');
       /* the office redraws as people come and go: find the desk again each time */
       function desk() { return q('.office-dept .station-card[data-station-key="' + key + '"]') || card; }
       shot([desk], true);
-      later(700, function () {
-        var k = desk().querySelector('[title="Knock"]');
-        if (!k) return n();
-        tap(k, function () { window.__bbTourKnock = 1; k.click(); open(0); }, 'Knock');
+      later(500, function () {
+        var m = desk().querySelector('[title="Message"]');
+        if (!m) return n();
+        tap(m, function () {
+          m.click();
+          later(400, function () {
+            if (!q('#station-peek.open')) return n();
+            shot([desk, '#station-peek'], true);
+            var lines = CHAT_THREADS[chatIdx++ % CHAT_THREADS.length];
+            /* the window redraws while people come and go: find the box and the button again each time */
+            var box = function () { return q('#station-peek-input'); }, send = function () { return q('.station-peek-send'); };
+            (function say(k) {
+              if (k >= lines.length || !vis(box()) || !send() || lastInput > cycleStart) return closePeek();
+              tap(box(), function () {
+                box().focus();
+                typeInto(box, lines[k][0], function () {
+                  if (!send()) return closePeek();
+                  tap(send(), function () {
+                    var bt = send(); tourReply = lines[k][1];
+                    if (bt) bt.click();
+                    if (box()) box().blur();
+                    later(4000, function () { say(k + 1); });
+                  });
+                });
+              });
+            })(0);
+          });
+        }, 'Message');
       });
-      function open(waited) {
-        var inp = q('#chat-text-input');
-        if (q('#bl-nav [data-bl="chat"].on') && vis(inp)) { window.__bbTourKnock = 0; overview(); return later(900, n); }
-        if (waited < 9000) return later(300, function () { open(waited + 300); });
-        /* no answer: open the chat with them anyway */
-        window.__bbTourKnock = 0; overview();
-        nav('chat', function () {
-          var it = [].slice.call(document.querySelectorAll('.chat-conv-item')).filter(function (x) { return vis(x) && x.textContent.indexOf(name) >= 0; })[0];
-          if (!it) return n();
-          tap(it, function () { it.click(); later(900, n); });
-        }, 1300);
+      function closePeek() {
+        var x = [].slice.call(document.querySelectorAll('#station-peek button')).filter(function (b) { return vis(b) && /close/i.test((b.title || '') + (b.getAttribute('aria-label') || '')); })[0];
+        overview();
+        if (!x) return later(400, n);
+        tap(x, function () { x.click(); later(700, n); });
       }
     }),
-    /* the whole chat in shot: a short back and forth, with them typing back each time */
-    step(function (n) {
-      shot(['.chat-main'], true);
-      var lines = CHAT_THREADS[chatIdx++ % CHAT_THREADS.length];
-      (function say(k) {
-        var i = q('#chat-text-input'), b = q('#chat-send-btn');
-        if (k >= lines.length || !vis(i) || !b || lastInput > cycleStart) return n();
-        tap(i, function () {
-          i.focus();
-          typeText(i, lines[k][0], true, function () { tap(b, function () { tourReply = lines[k][1]; b.click(); later(4800, function () { say(k + 1); }); }); });
+    /* Tasks, with a message in the team room of the side chat (the whole chat in shot) */
+    step(function (n) { overview(); nav('tasks', n, 1200); }),
+    step(function roomMsg(n) {
+      if (window.bbSideChat && window.bbSideChat.toggle && !(window.bbSideChat.isOn && window.bbSideChat.isOn())) { try { window.bbSideChat.toggle(); } catch (e) {} }
+      later(400, function () {
+        shot(['#bl-sc']);
+        /* the team room tab (the Chats tab is a list with no message box) */
+        var rt = q('#bl-sc .sc-tab[data-sct="room"]');
+        if (rt && !rt.classList.contains('on')) { tap(rt, function () { rt.click(); later(500, write); }); return; }
+        write();
+      });
+      function write() {
+        var inp = q('#sc-in'), form = q('#sc-comp');
+        if (!inp || !form || !vis(inp)) { overview(); return n(); }
+        tap(inp, function () {
+          inp.focus();
+          typeText(inp, ROOM_LINES[roomIdx++ % ROOM_LINES.length], false, function () {
+            try { form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); } catch (e) {}
+            inp.blur();
+            later(4500, function () { overview(); n(); });
+          });
         });
-      })(0);
+      }
     }),
-    step(function (n) { overview(); later(800, n); }),
-    /* back to Tasks */
-    step(function (n) { nav('tasks', n, 1800); }),
-    /* three new tasks */
+    /* Boards: open Product Launch and move one card along */
+    step(function (n) { nav('boards', n, 1200); }),
+    step(function (n) {
+      var c = [].slice.call(document.querySelectorAll('.board-card')).filter(function (x) { return /Product Launch/.test(x.textContent); })[0];
+      if (!c || !vis(c)) return n();
+      tap(c, function () { rebalance(); c.click(); later(1200, n); });
+    }),
+    step(function (n) {
+      var cols = boardCols(); if (cols.length < 2) return n();
+      var card = cols[0].querySelector('.kanban-card');
+      if (!card || !vis(card)) return n();
+      carry(card, cols[1].querySelector('.kanban-cards'), function () { later(1200, n); });
+    }),
+    /* back to Tasks: three new tasks, the first one dragged to In Progress */
+    step(function (n) { nav('tasks', n, 1200); }),
     step(function (n) {
       while (colCount('pending') >= 6) { var old = firstCardIn('pending'); if (!old) break; moveMine(old, 'done'); }
       trimDone(2);
@@ -1373,9 +1397,9 @@
       t2tWalk(lines.join('\n'), function (ids) {
         if (ids && ids.length) popNew(ids);
         var id = ids && ids[0];
-        if (id) later(1800, function () { if (!dragCard(id, 'ongoing', '', function () { moveMine(id, 'ongoing'); })) moveMine(id, 'ongoing'); later(3000, n); });
-        else later(2000, n);
-      }, 1000);
+        if (id) later(1200, function () { if (!dragCard(id, 'ongoing', '', function () { moveMine(id, 'ongoing'); })) moveMine(id, 'ongoing'); later(2200, n); });
+        else later(1500, n);
+      }, 800);
     }),
   ];
   function cycle() {
