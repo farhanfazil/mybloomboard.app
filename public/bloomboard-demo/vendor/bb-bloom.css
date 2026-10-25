@@ -1574,10 +1574,14 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .kb-board .task-card.bl-inl .bl-proj 
 html body.bloom:not(#_1):not(#_2):not(#_3) .kb-board .task-card.bl-inl .bl-proj + .task-title { clear:left; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .kb-board .task-card.bl-inl .task-title { line-height:20px !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .kb-board .task-card.bl-inl .task-tags, html body.bloom:not(#_1):not(#_2):not(#_3) .kb-board .task-card.bl-inl .task-desc { clear:both; }
-/* chat open: sidebar folded shows all four columns (To Do, In Progress, In Review, Done); unfolded shows three, Done scrolls in */
+/* chat open + sidebar unfolded: two wide columns instead of three squeezed ones (the rest scroll) */
 @media (min-width:960px) {
-  html body.bloom.bl-sc-on.bl-rail:not(#_1):not(#_2):not(#_3) #task-list > .kb-board { grid-auto-columns:max(220px, calc((100% - 42px) / 4)) !important; }
-  html body.bloom.bl-sc-on:not(.bl-rail):not(#_1):not(#_2):not(#_3) #task-list > .kb-board { grid-auto-columns:max(240px, calc((100% - 28px) / 3)) !important; }
+  html body.bloom.bl-sc-on:not(.bl-rail):not(#_1):not(#_2):not(#_3) #task-list > .kb-board { grid-auto-columns:max(240px, calc((100% - 14px) / 2)) !important; }
+}
+/* Web app only (browser): chat open, sidebar folded shows all four columns; unfolded shows three, the rest scroll in */
+@media (min-width:960px) {
+  html body.bloom.bb-web.bl-sc-on.bl-rail:not(#_1):not(#_2):not(#_3) #task-list > .kb-board { grid-auto-columns:max(220px, calc((100% - 42px) / 4)) !important; }
+  html body.bloom.bb-web.bl-sc-on:not(.bl-rail):not(#_1):not(#_2):not(#_3) #task-list > .kb-board { grid-auto-columns:max(240px, calc((100% - 28px) / 3)) !important; }
 }
 /* Home: priority as a flag, like everywhere else */
 .bl-flag { display:inline-block; width:12px; height:12px; margin-right:6px; vertical-align:-1px; -webkit-mask:var(--bl-flag) center/contain no-repeat; mask:var(--bl-flag) center/contain no-repeat; }
