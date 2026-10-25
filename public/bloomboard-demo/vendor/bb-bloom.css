@@ -4300,3 +4300,9 @@ html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm .tm-cm-qu
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal #tm-comment-input { background:var(--bl-raise) !important; border:1px solid var(--bl-line) !important; color:var(--bl-fg) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal #tm-comment-input:focus { border-color:color-mix(in srgb, var(--bl-accent) 50%, var(--bl-line)) !important; }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal #tm-comment-input { background:var(--bl-win) !important; }
+/* Task window, option A (2026-10-25): the description box in the same grey as the comment boxes and subtasks,
+   so both sides share one card colour; the left keeps its dark base. */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rt { background:var(--bl-raise) !important; }
+/* switches (Repeat): a visible track on any panel */
+html body:not(#_1):not(#_2):not(#_3) #task-modal .toggle-slider { background:color-mix(in srgb, var(--bl-fg, #e8e9ec) 22%, transparent) !important; }
+html body:not(#_1):not(#_2):not(#_3) #task-modal .toggle-switch input:checked + .toggle-slider { background:var(--bl-accent, #4d9fff) !important; }
