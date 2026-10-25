@@ -1,0 +1,25 @@
+/* The chat card that floats over other apps (served by main.js /chat-card.html). Part of the page bundle, so it updates silently. */
+:root{--bg:#1f2126;--fg:#eceef2;--fg2:#b4b9c3;--fg3:#8d93a0;--line:#34363d;--raise:#16171b;--hover:#2a2c32;--side:#1a1c20;--accent:#5b93ff;--accentfg:#0b0c0f}
+body.light{--bg:#ffffff;--fg:#15171c;--fg2:#3f4550;--fg3:#5f6672;--line:#e1e4ea;--raise:#f1f3f6;--hover:#eef0f3;--side:#f7f8fa;--accent:#2563d9;--accentfg:#ffffff}
+*{box-sizing:border-box}html,body{margin:0;background:transparent;overflow:hidden;-webkit-user-select:none;user-select:none}
+body{font:400 13.5px/1.42 -apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif,"Noto Color Emoji";color:var(--fg);padding:6px}
+.c{background:var(--bg);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 10px 26px -12px rgba(0,0,0,.55)}
+.hd{display:flex;align-items:center;gap:10px;padding:12px 10px 0 12px}
+.av{width:30px;height:30px;border-radius:50%;flex:none;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;background:#5b93ff center/cover}
+.who{flex:1;min-width:0;text-align:left;background:none;border:0;padding:0;color:inherit;font:inherit;cursor:pointer}
+.who b{display:block;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.who small{display:block;font-size:11.5px;color:var(--fg3)}
+.ib{width:28px;height:28px;flex:none;border:0;border-radius:7px;background:none;color:var(--fg3);display:grid;place-items:center;cursor:pointer}.ib:hover{background:var(--hover);color:var(--fg)}
+.ib svg{width:16px;height:16px}
+.msg{display:block;width:100%;text-align:left;background:none;border:0;color:var(--fg2);font:inherit;padding:8px 12px 8px 52px;cursor:pointer}
+.msg span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}.msg small{display:block;margin-top:3px;font-size:12px;color:var(--fg3)}
+.q{display:flex;gap:14px;padding:0 12px 8px 52px}.q button{background:none;border:0;padding:2px 0;color:var(--accent);font-weight:600;font-size:12.5px;font-family:inherit;cursor:pointer}
+form{display:flex;gap:8px;padding:0 12px 12px;margin:0}
+input{flex:1;min-width:0;height:34px;background:var(--raise);border:1px solid var(--line);border-radius:9px;color:var(--fg);padding:0 11px;font:inherit;font-size:13px;outline:none;-webkit-user-select:text;user-select:text}
+input:focus{border-color:var(--fg3)}
+.send{border:0;border-radius:9px;background:var(--accent);color:var(--accentfg);font-weight:700;font-size:13px;font-family:inherit;padding:0 13px;cursor:pointer}
+.more{display:flex;align-items:center;gap:8px;width:100%;border:0;border-top:1px solid var(--line);background:var(--side);color:var(--fg2);padding:9px 12px;font:inherit;font-size:12.5px;cursor:pointer;text-align:left}
+.faces{display:flex}.faces .av{width:20px;height:20px;font-size:8px;margin-left:-5px;box-shadow:0 0 0 2px var(--side)}.faces .av:first-child{margin-left:0}
+.show{margin-left:auto;color:var(--fg3)}
+.row{display:flex;gap:10px;align-items:center;width:100%;padding:9px 12px;border:0;border-top:1px solid var(--line);background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}.row:hover{background:var(--hover)}
+.row .av{width:28px;height:28px}.rt{flex:1;min-width:0}.rt b{display:block;font-size:13px}.rt span{display:block;font-size:12.5px;color:var(--fg3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.n{font-size:11.5px;font-weight:800;color:var(--accent)}
