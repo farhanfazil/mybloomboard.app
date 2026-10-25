@@ -44,3 +44,7 @@ next-env.d.ts
 # Local dev counts from /api/demo-events
 data/demo-events.json
 data/demo-visits.json
+
+# Cloudflare (OpenNext) build output
+.open-next
+.wrangler
