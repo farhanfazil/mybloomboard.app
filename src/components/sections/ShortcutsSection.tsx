@@ -28,7 +28,7 @@ export default function ShortcutsSection() {
   const [active, setActive] = useState(-1);
   const [open, setOpen] = useState<Kind | null>(null);
   const [typed, setTyped] = useState("");
-  const [todo, setTodo] = useState<{ t: string; fresh?: boolean }[]>([{ t: "Homepage hero" }, { t: "Launch email copy" }]);
+  const [todo, setTodo] = useState<{ t: string; s: string; fresh?: boolean }[]>([{ t: "Homepage hero", s: "Due tomorrow" }, { t: "Launch email copy", s: "Due Thu" }]);
   const timers = useRef<number[]>([]);
   const loop = useRef<number | null>(null);
   const step = useRef(0);
@@ -49,7 +49,7 @@ export default function ShortcutsSection() {
       setOpen(null);
       if (k.kind === "task") {
         taskN.current++;
-        setTodo(list => [{ t: text, fresh: true }, ...list.map(x => ({ t: x.t }))].slice(0, 3));
+        setTodo(list => [{ t: text, s: "Due tomorrow", fresh: true }, ...list.map(x => ({ t: x.t, s: x.s }))].slice(0, 3));
       }
     });
   };
@@ -113,12 +113,12 @@ export default function ShortcutsSection() {
               {[0, 1, 2, 3, 4, 5].map(n => <u key={n} className={`block h-4 w-4 rounded border-[1.6px] ${n === 1 ? "border-white/90" : "border-[#4a4d55]"}`} />)}
             </div>
             <div className="grid grid-cols-3 content-start gap-2.5 p-[18px]">
-              {[["To Do", todo.map(x => x), todo.length + 0], ["In Progress", [{ t: "Pricing page" }], 1], ["Done", [{ t: "Brand colours" }], 3]].map(([name, cards, n]) => (
+              {[["To Do", todo, todo.length], ["In Progress", [{ t: "Pricing page", s: "Due today" }], 1], ["Done", [{ t: "Brand colours", s: "Done" }], 3]].map(([name, cards, n]) => (
                 <div key={name as string} className="min-h-[220px] rounded-[10px] border border-[#26282e] p-2.5">
                   <h5 className="mb-2 flex justify-between text-[11.5px] font-semibold text-white">{name as string}<em className="not-italic text-white/40">{n as number}</em></h5>
-                  {(cards as { t: string; fresh?: boolean }[]).map(c => (
+                  {(cards as { t: string; s: string; fresh?: boolean }[]).map(c => (
                     <div key={c.t} className={`mb-[7px] rounded-lg bg-[#1b1d22] px-2.5 py-2 text-[11.5px] font-semibold text-white ${c.fresh ? "outline outline-[1.5px] outline-[#4d9fff]/60" : ""}`}>
-                      {c.t}<small className="mt-0.5 block text-[10.5px] font-medium text-white/45">Due tomorrow</small>
+                      {c.t}<small className="mt-0.5 block text-[10.5px] font-medium text-white/45">{c.s}</small>
                     </div>
                   ))}
                 </div>
