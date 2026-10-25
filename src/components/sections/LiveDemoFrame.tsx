@@ -192,7 +192,7 @@ export default function LiveDemoFrame({
                 transform: `scale(${scale})${cam}`,
                 transformOrigin: "top left",
                 /* slow and smooth, no bounce; the text is drawn sharp again once it settles */
-                transition: "transform 1.3s cubic-bezier(.65,0,.35,1)",
+                transition: "transform .8s cubic-bezier(.65,0,.35,1)",
               }}
             />
           )}
