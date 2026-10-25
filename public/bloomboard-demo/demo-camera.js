@@ -5,7 +5,7 @@
    the camera lets go and stays out until they have left the demo alone for a while. */
 (function () {
   if (window.parent === window) return;
-  var HOST = location.origin, IDLE_MS = 15000, HOLD_MS = 2600;
+  var HOST = location.origin, IDLE_MS = 15000, HOLD_MS = 1600;
   var W = function () { return window.innerWidth || 1280; }, H = function () { return window.innerHeight || 920; };
   /* The part of the app a focus point belongs to, most specific first. A part bigger than most of the
      window is no help, so then a box around the point is used instead. */
@@ -72,8 +72,9 @@
     if (!idleSince) idleSince = now;
     if (now - idleSince > HOLD_MS) send(null);
   }
-  ['pointerdown', 'wheel', 'keydown', 'touchstart'].forEach(function (ev) {
+  /* Not wheel: scrolling the page with the pointer over the demo is not using it. */
+  ['pointerdown', 'keydown', 'touchstart'].forEach(function (ev) {
     window.addEventListener(ev, function (e) { if (!e.isTrusted) return; lastInput = Date.now(); send(null); }, { passive: true, capture: true });
   });
-  setInterval(tick, 300);
+  setInterval(tick, 200);
 })();

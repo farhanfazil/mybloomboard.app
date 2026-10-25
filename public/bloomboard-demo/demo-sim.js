@@ -255,8 +255,8 @@
      the board is drag-and-drop. It only plays while the board is on screen and
      the visitor has been still for a moment; otherwise the move just happens. */
   var lastInput = 0;
-  ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach(function (ev) {
-    window.addEventListener(ev, function () { lastInput = Date.now(); if (ghost) ghost.style.opacity = '0'; }, { passive: true, capture: true });
+  ['pointerdown', 'keydown', 'touchstart'].forEach(function (ev) {
+    window.addEventListener(ev, function (e) { if (!e.isTrusted) return; lastInput = Date.now(); if (ghost) ghost.style.opacity = '0'; }, { passive: true, capture: true });
   });
   function boardCol(status) {
     return [].slice.call(document.querySelectorAll('.kb-board .kb-col[data-colid="' + status + '"]')).filter(function (c) { return c.offsetParent; })[0] || null;
@@ -278,7 +278,7 @@
       ghost = document.createElement('div');
       ghost.id = 'bb-demo-ghost';
       ghost.setAttribute('aria-hidden', 'true');
-      ghost.style.cssText = 'position:fixed;left:0;top:0;z-index:9999;pointer-events:none;opacity:0;transition:transform .9s cubic-bezier(.65,0,.35,1),opacity .25s';
+      ghost.style.cssText = 'position:fixed;left:0;top:0;z-index:9999;pointer-events:none;opacity:0;transition:transform .6s cubic-bezier(.65,0,.35,1),opacity .25s';
       ghost.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24"><path d="M4 2l15 8.5-6.6 1.6L9.6 19z" fill="#fff" stroke="#111" stroke-width="1.4" stroke-linejoin="round"/></svg>' +
         '<span style="position:absolute;left:16px;top:18px;white-space:nowrap;font:600 12px/1 -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;color:#fff;background:#111;border-radius:6px;padding:5px 8px"></span>';
       document.body.appendChild(ghost);
@@ -289,7 +289,7 @@
     return ghost;
   }
   function placeGhost(x, y, instant) {
-    ghost.style.transition = instant ? 'none' : 'transform .9s cubic-bezier(.65,0,.35,1),opacity .25s';
+    ghost.style.transition = instant ? 'none' : 'transform .6s cubic-bezier(.65,0,.35,1),opacity .25s';
     ghost.style.transform = 'translate(' + x + 'px,' + y + 'px)';
   }
   /* Returns false (and does nothing) when the drag can't be shown right now. */
@@ -311,13 +311,13 @@
     void g.offsetWidth;
     g.style.opacity = '1';
     placeGhost(gx, gy);
-    later(1000, function () {
+    later(700, function () {
       if (!document.body.contains(card)) { g.style.opacity = '0'; return; }
       var clone = card.cloneNode(true);
       clone.classList.add('bbd-clone');
       clone.removeAttribute('data-taskid');
       clone.style.cssText = 'position:fixed;left:' + r.left + 'px;top:' + r.top + 'px;width:' + r.width + 'px;height:' + r.height + 'px;overflow:hidden;margin:0;z-index:9998;pointer-events:none;' +
-        'transition:transform .9s cubic-bezier(.65,0,.35,1),opacity .2s;box-shadow:0 10px 24px rgba(0,0,0,.28);border-radius:12px';
+        'transition:transform .6s cubic-bezier(.65,0,.35,1),opacity .2s;box-shadow:0 10px 24px rgba(0,0,0,.28);border-radius:12px';
       /* Inside a board-like wrapper so the board's card styles still apply. */
       var host = document.createElement('div');
       host.className = 'kb-board bbd-clone-host';
@@ -332,7 +332,7 @@
         var dx = tx - r.left, dy = ty - r.top;
         clone.style.transform = 'translate(' + dx + 'px,' + dy + 'px) rotate(-1.5deg) scale(1.02)';
         placeGhost(gx + dx, gy + dy);
-        later(1000, function () {
+        later(700, function () {
           clone.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
           later(160, function () {
             try { drop(); } catch (e) {}
@@ -523,7 +523,7 @@
       if (!id) { i++; step(0); return; }
       if (dragCard(id, p[1], Math.random() < 0.5 ? mateName() : '', function () { moveMine(id, p[1]); })) {
         i++;
-        later(2400 + rand(500, 900), function () { step(0); });
+        later(1500 + rand(300, 600), function () { step(0); });
         return;
       }
       if (hidden() || busyScreen() || Date.now() - lastInput < 1500 || stalls < 3) { later(1500, function () { step(stalls + 1); }); return; }
@@ -641,7 +641,7 @@
       if (file ? dropFile(id, file, m[2]) : dragCard(id, m[1], m[2], function () { moveMine(id, m[1]); })) {
         shownHint = true;
         left.shift();
-        later(2400 + rand(500, 900), function () { step(0); });
+        later(1500 + rand(300, 600), function () { step(0); });
         return;
       }
       /* Wait while the visitor is busy; if the card is out of sight, move it quietly. */
@@ -708,7 +708,7 @@
     var x = r.left + r.width * 0.55, y = r.top + r.height * 0.55;
     if (g.style.opacity !== '1') { placeGhost(x + 120, y + 80, true); void g.offsetWidth; g.style.opacity = '1'; }
     placeGhost(x, y);
-    later(950, function () {
+    later(650, function () {
       el.style.transition = 'transform .12s';
       el.style.transform = 'scale(.95)';
       later(140, function () { el.style.transform = ''; then(); });
@@ -774,7 +774,7 @@
               later(300, results); return;
             }
             /* Time to read the dates and names, then add them all. */
-            later(readMs || 3000, function () {
+            later(readMs || 1400, function () {
               if (touched() || !res.classList.contains('show')) { finish(null); return; }
               ghostClick(add, function () {
                 var before = {};
@@ -920,7 +920,7 @@
      calendar, then comes back to the dashboard. One visit at a time, never two
      in a row of the same kind, and it stops the moment the visitor does anything. */
   var lastTour = 0, lastKind = '', touring = false, tourIdx = 0;
-  var TOUR_ORDER = ['office', 'email', 'boards', 'chat', 'calendar'];
+  var TOUR_ORDER = ['office', 'boards', 'chat', 'calendar'];
   var OFFICE_LINES = ['Got a minute for the banner review?', 'Can you look at the new hero before lunch?', 'Free for a quick call at 3?'];
   var MAIL_LINES = ['Thanks, this all makes sense. We will have it ready by Thursday.', 'Got it, I will share a first draft tomorrow morning.', 'Thanks for the details. Looping in the team now.'];
   var CHAT_LINES = ['Pushed the new version, can you check it?', 'Sending the files over now', 'Shall we sync after lunch?', 'Looks great, ship it'];
@@ -946,11 +946,19 @@
     var x = r.left + Math.min(r.width * 0.5, 60), y = r.top + r.height * 0.55;
     if (g.style.opacity !== '1') { placeGhost(x + 120, y + 80, true); void g.offsetWidth; g.style.opacity = '1'; }
     placeGhost(x, y);
-    later(950, function () {
+    later(650, function () {
       el.style.transition = 'transform .12s';
       el.style.transform = 'scale(.96)';
       later(140, function () { el.style.transform = ''; then(); });
     });
+  }
+  function point(el, then, label) {
+    var r = el.getBoundingClientRect();
+    var g = ghostCursor(label || '');
+    var x = r.left + Math.min(r.width * 0.5, 60), y = r.top + r.height * 0.55;
+    if (g.style.opacity !== '1') { placeGhost(x + 120, y + 80, true); void g.offsetWidth; g.style.opacity = '1'; }
+    placeGhost(x, y);
+    later(650, then);
   }
   function typeText(el, text, isEditable, done) {
     var i = 0;
@@ -962,65 +970,52 @@
       later(400, done);
     })();
   }
-  /* a board card carried from one column to another; the board's own drop
-     handler makes the move */
+  /* A board card dragged to another column the way a person does it: press, move, let go. The board's
+     own drag does the rest (the card lifts, a gap opens where it will land, it glides into place). */
   function carry(card, body, done) {
-    var r = card.getBoundingClientRect();
+    var r = card.getBoundingClientRect(), br = body.getBoundingClientRect();
     var last = [].slice.call(body.querySelectorAll('.kanban-card')).pop();
-    var lr = last ? last.getBoundingClientRect() : body.getBoundingClientRect();
-    var tx = body.getBoundingClientRect().left, ty = last ? lr.bottom + 8 : lr.top + 4;
+    var sx = r.left + Math.min(40, r.width / 3), sy = r.top + r.height / 2;
+    var tx = br.left + Math.min(40, br.width / 3), ty = Math.min(window.innerHeight - 20, (last ? last.getBoundingClientRect().bottom : br.top) + r.height / 2 + 8);
     var g = ghostCursor('');
-    var gx = r.left + 30, gy = r.top + r.height / 2;
-    if (g.style.opacity !== '1') { placeGhost(gx + 120, gy + 80, true); void g.offsetWidth; g.style.opacity = '1'; }
-    placeGhost(gx, gy);
-    later(1000, function () {
+    if (g.style.opacity !== '1') { placeGhost(sx + 120, sy + 80, true); void g.offsetWidth; g.style.opacity = '1'; }
+    placeGhost(sx, sy);
+    function fire(type, x, y, el) {
+      try { (el || document).dispatchEvent(new PointerEvent(type, { bubbles: true, cancelable: true, pointerId: 77, pointerType: 'mouse', button: 0, buttons: type === 'pointerup' ? 0 : 1, clientX: x, clientY: y })); } catch (e) {}
+    }
+    later(650, function () {
       if (!document.body.contains(card)) { done(); return; }
-      var clone = card.cloneNode(true);
-      clone.style.cssText = 'position:fixed;left:' + r.left + 'px;top:' + r.top + 'px;width:' + r.width + 'px;height:' + r.height + 'px;margin:0;z-index:9998;pointer-events:none;' +
-        'transition:transform .9s cubic-bezier(.65,0,.35,1);box-shadow:0 10px 24px rgba(0,0,0,.3)';
-      document.body.appendChild(clone);
-      card.style.opacity = '.3';
-      void clone.offsetWidth;
-      var dx = tx - r.left, dy = ty - r.top;
-      clone.style.transform = 'translate(' + dx + 'px,' + dy + 'px) rotate(-1.5deg)';
-      placeGhost(gx + dx, gy + dy);
-      later(1000, function () {
-        var dt = new DataTransfer();
-        try {
-          card.dispatchEvent(new DragEvent('dragstart', { bubbles: true, dataTransfer: dt }));
-          body.dispatchEvent(new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer: dt, clientY: 99999 }));
-          body.dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer: dt, clientY: 99999 }));
-          card.dispatchEvent(new DragEvent('dragend', { bubbles: true, dataTransfer: dt }));
-        } catch (e) {}
-        /* the board redraws on drop, so the old card never hears dragend: clear it by hand */
-        [].slice.call(document.querySelectorAll('.kanban-card.dragging, .kanban-col.drag-over')).forEach(function (x) { x.classList.remove('dragging'); x.classList.remove('drag-over'); });
-        card.style.opacity = '';
-        clone.remove();
-        later(500, done);
-      });
+      fire('pointerdown', sx, sy, card);
+      var t0 = performance.now(), MS = 750;
+      (function move() {
+        var k = Math.min(1, (performance.now() - t0) / MS), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+        var x = sx + (tx - sx) * e, y = sy + (ty - sy) * e;
+        fire('pointermove', x, y);
+        placeGhost(x, y, true);
+        if (k < 1) { requestAnimationFrame(move); return; }
+        later(180, function () { fire('pointerup', tx, ty); later(600, done); });
+      })();
     });
   }
+
   function boardCols() {
     return [].slice.call(document.querySelectorAll('.kanban-col')).filter(function (c) { return c.getBoundingClientRect().width > 0; });
   }
   /* Keeps the board from ending up all Done: before it shows, a finished card
      or two go back to To Do (it is drawn in the same moment, so nobody sees it). */
   function rebalance() {
-    var cols = boardCols();
-    if (cols.length < 3) return;
-    var todo = cols[0].querySelector('.kanban-cards'), doneC = cols[cols.length - 1].querySelector('.kanban-cards');
-    for (var k = 0; k < 2; k++) {
-      var d = doneC.querySelectorAll('.kanban-card');
-      if (todo.querySelectorAll('.kanban-card').length >= 2 || d.length <= 1) break;
-      var dt = new DataTransfer();
-      try {
-        d[0].dispatchEvent(new DragEvent('dragstart', { bubbles: true, dataTransfer: dt }));
-        todo.dispatchEvent(new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer: dt, clientY: 99999 }));
-        todo.dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer: dt, clientY: 99999 }));
-        d[0].dispatchEvent(new DragEvent('dragend', { bubbles: true, dataTransfer: dt }));
-      } catch (e) {}
-      cols = boardCols(); todo = cols[0].querySelector('.kanban-cards'); doneC = cols[cols.length - 1].querySelector('.kanban-cards');
-    }
+    try {
+      var KEY = 'bloombooard-boards-v1', d = JSON.parse(localStorage.getItem(KEY) || '{}');
+      var board = (d.boards || []).filter(function (x) { return /Product Launch/.test(x.name || x.title || ''); })[0];
+      if (!board || !board.columns || board.columns.length < 3) return;
+      var cols = board.columns.slice().sort(function (a, b) { return a.order - b.order; });
+      var inCol = function (id) { return (d.cards || []).filter(function (c) { return c.boardId === board.id && c.columnId === id; }); };
+      var todo = inCol(cols[0].id), done = inCol(cols[cols.length - 1].id);
+      for (var k = 0; k < 2 && todo.length < 2 && done.length > 1; k++) {
+        var c = done.shift(); c.columnId = cols[0].id; delete c.completedAt; todo.push(c);
+      }
+      localStorage.setItem(KEY, JSON.stringify(d));
+    } catch (e) {}
   }
   var TOURS = {
     email: [
@@ -1054,11 +1049,11 @@
       function (n) { var b = q('.station-peek-send'); if (!vis(b)) return n(false); tap(b, function () { b.click(); later(4200, n); }); },
     ],
     boards: [
-      function (n) { var b = q('.sidebar .sb-nav-item[onclick="openBoards()"]'); if (!vis(b)) return n(false); tap(b, function () { b.click(); later(1300, n); }); },
+      function (n) { nav('boards', n, 1300); },
       function (n) {
         var c = [].slice.call(document.querySelectorAll('.board-card')).filter(function (x) { return /Product Launch/.test(x.textContent); })[0];
         if (!vis(c)) return n(false);
-        tap(c, function () { c.click(); rebalance(); later(1500, n); });
+        tap(c, function () { rebalance(); c.click(); later(1500, n); });
       },
       function (n) {
         var cols = boardCols(); if (cols.length < 2) return n(false);
@@ -1171,7 +1166,7 @@
     step(function (n) {
       var c = [].slice.call(document.querySelectorAll('.board-card')).filter(function (x) { return /Product Launch/.test(x.textContent); })[0];
       if (!c || !vis(c)) return n();
-      tap(c, function () { c.click(); rebalance(); later(1600, n); });
+      tap(c, function () { rebalance(); c.click(); later(1600, n); });
     }),
     step(function (n) {
       var cols = boardCols(); if (cols.length < 2) return n();
@@ -1179,20 +1174,39 @@
       if (!card || !vis(card)) return n();
       carry(card, cols[1].querySelector('.kanban-cards'), function () { later(1800, n); });
     }),
-    /* a look around the Office */
+    /* the Office: a look at the meeting going on, then a message at someone's desk */
     step(function (n) {
       var b = q('#bl-nav [data-bl="office"]') || q('#sb-office-enter');
       if (!b) return n();
-      if (vis(b)) tap(b, function () { b.click(); later(4500, n); }); else { b.click(); later(4500, n); }
+      if (vis(b)) tap(b, function () { b.click(); later(1400, n); }); else { b.click(); later(1400, n); }
     }),
-    /* one email */
-    step(function (n) { nav('email', n, 1700); }),
     step(function (n) {
-      var items = [].slice.call(document.querySelectorAll('.bb-email-item')).filter(vis).slice(0, 3);
+      var live = [].slice.call(document.querySelectorAll('.office-dept .bl-droom')).filter(function (r) { return vis(r) && r.querySelector('.ofr-dot.red'); })[0];
+      if (!live) return n();
+      point(live.querySelector('.bl-live-faces') || live, function () { later(2600, n); }, 'Live meeting');
+    }),
+    step(function (n) {
+      var cards = [].slice.call(document.querySelectorAll('.office-dept .station-card')).filter(function (c) {
+        return vis(c) && !c.classList.contains('me') && !c.classList.contains('sig-focus') && c.querySelector('[title="Message"]');
+      });
+      if (!cards.length) return n();
+      var m = pick(cards).querySelector('[title="Message"]');
+      tap(m, function () { m.click(); later(700, n); });
+    }),
+    step(function (n) { var i = q('#station-peek-input'); if (!vis(i)) return n(); typeText(i, pick(OFFICE_LINES), false, n); }),
+    step(function (n) { var b = q('.station-peek-send'); if (!vis(b)) return n(); tap(b, function () { b.click(); later(3200, n); }); }),
+    /* Chat: open a conversation, say something, a teammate types back */
+    step(function (n) { nav('chat', n, 1300); }),
+    step(function (n) {
+      var items = [].slice.call(document.querySelectorAll('.chat-conv-item')).filter(function (x) {
+        return vis(x) && !x.classList.contains('active') && /Maya|Daniel|Priya|Leo|Ethan/.test(x.textContent);
+      });
       if (!items.length) return n();
       var it = pick(items);
-      tap(it, function () { it.click(); later(3800, n); });
+      tap(it, function () { it.click(); later(800, n); });
     }),
+    step(function (n) { var i = q('#chat-text-input'); if (!vis(i)) return n(); typeText(i, pick(CHAT_LINES), true, n); }),
+    step(function (n) { var b = q('#chat-send-btn'); if (!vis(b)) return n(); tap(b, function () { b.click(); later(4200, n); }); }),
     /* back to Tasks */
     step(function (n) { nav('tasks', n, 1800); }),
     /* three new tasks */
@@ -1205,7 +1219,7 @@
         var id = ids && ids[0];
         if (id) later(1800, function () { if (!dragCard(id, 'ongoing', '', function () { moveMine(id, 'ongoing'); })) moveMine(id, 'ongoing'); later(3000, n); });
         else later(2000, n);
-      }, 2600);
+      }, 1600);
     }),
   ];
   function cycle() {
