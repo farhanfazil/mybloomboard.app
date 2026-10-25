@@ -351,6 +351,10 @@ body.bloom:not(#_1):not(#_2):not(#_3) .kb-col { background:var(--bl-side) !impor
 body.bloom:not(#_1):not(#_2):not(#_3) .kb-col-name { font:600 13.5px var(--bl-ui) !important; color:var(--bl-fg) !important; letter-spacing:0 !important; text-transform:none !important; }
 body.bloom:not(#_1):not(#_2):not(#_3) .kb-col-count { color:var(--bl-fg3) !important; background:none !important; }
 body.bloom:not(#_1):not(#_2):not(#_3) .task-card { background:var(--bl-win) !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; box-shadow:none !important; }
+/* Dark themes: task cards take the board cards' surface (raised, softer border), so they stand out from the
+   column like cards on a board instead of nearly disappearing into it (2026-10-22). Light mode is unchanged. */
+body.bloom:not(.light-mode):not(#_1):not(#_2):not(#_3) .task-card { background:var(--bl-raise) !important; border-color:color-mix(in srgb, var(--bl-line) 60%, transparent) !important; }
+body.bloom:not(.light-mode):not(#_1):not(#_2):not(#_3) .task-card:not(.has-card-color):hover { background:var(--bl-hover) !important; }
 body.bloom:not(#_1):not(#_2):not(#_3) .task-card:hover { border-color:var(--bl-fg3) !important; }
 body.bloom:not(#_1):not(#_2):not(#_3) .task-title { font:550 14px/1.35 var(--bl-ui) !important; color:var(--bl-fg) !important; }
 body.bloom:not(#_1):not(#_2):not(#_3) .task-icon, body.bloom:not(#_1):not(#_2):not(#_3) .task-icon * { filter:none !important; text-shadow:none !important; --evo-glow:transparent !important; }
@@ -394,7 +398,8 @@ body.bloom:not(#_1):not(#_2):not(#_3) .kb-col-dot { display:none !important; }
 body.bloom:not(#_1):not(#_2):not(#_3) .task-card .tag, body.bloom:not(#_1):not(#_2):not(#_3) .task-card .tag * { font-weight:500 !important; }
 body.bloom:not(#_1):not(#_2):not(#_3) .task-desc { color:var(--bl-fg3) !important; font:400 13px/1.45 var(--bl-ui) !important; }
 body.bloom:not(#_1):not(#_2):not(#_3) .milestone-bar-fill { background:var(--bl-accent) !important; box-shadow:none !important; }
-body.bloom:not(#_1):not(#_2):not(#_3) .milestone-bar-wrap { background:var(--bl-raise) !important; }
+/* the empty part of a progress bar: a tint of the text colour, so it shows on any card surface (cards now use --bl-raise) */
+body.bloom:not(#_1):not(#_2):not(#_3) .milestone-bar-wrap { background:color-mix(in srgb, var(--bl-fg) 14%, transparent) !important; }
 body.bloom:not(#_1):not(#_2):not(#_3) #bl-home:not(:has(.tl-strip:not([hidden]))) { grid-template-columns:minmax(0,880px); }
 body.bloom:not(#_1):not(#_2):not(#_3) #task-header-actions .add-btn { background:var(--bl-accent) !important; color:var(--bl-accent-fg) !important; box-shadow:none !important; border:0 !important; }
 /* full-screen sections open beside the sidebar, so the sidebar is always there */
@@ -1593,13 +1598,13 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-tools .sc-send { margin-le
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-comp.sc-has .sc-send { background:var(--bl-accent) !important; color:var(--bl-accent-fg, #fff) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-atts { display:flex; flex-wrap:wrap; gap:6px; padding:10px 10px 0; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-atts[hidden] { display:none; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-att { display:flex; align-items:center; gap:6px; max-width:100%; height:36px; padding:0 4px 0 4px; border:1px solid var(--bl-line); border-radius:8px; background:var(--bl-side); color:var(--bl-fg2); font-size:12px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-att img { width:28px; height:28px; border-radius:5px; object-fit:cover; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-att .bl-i { width:16px; height:16px; margin-left:4px; color:var(--bl-fg3); }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-att span { max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-att button { width:22px; height:22px; display:grid; place-items:center; border:0 !important; background:none !important; color:var(--bl-fg3) !important; border-radius:5px !important; cursor:pointer; padding:0 !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-att button:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-att button .bl-i { width:13px; height:13px; margin:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-atts > .sc-att { display:flex; align-items:center; gap:6px; max-width:100%; height:36px; padding:0 4px 0 4px; border:1px solid var(--bl-line); border-radius:8px; background:var(--bl-side); color:var(--bl-fg2); font-size:12px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-atts > .sc-att img { width:28px; height:28px; border-radius:5px; object-fit:cover; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-atts > .sc-att .bl-i { width:16px; height:16px; margin-left:4px; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-atts > .sc-att span { max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-atts > .sc-att button { width:22px; height:22px; display:grid; place-items:center; border:0 !important; background:none !important; color:var(--bl-fg3) !important; border-radius:5px !important; cursor:pointer; padding:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-atts > .sc-att button:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-atts > .sc-att button .bl-i { width:13px; height:13px; margin:0; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-emo { position:absolute; left:6px; bottom:calc(100% + 6px); z-index:5; display:grid; grid-template-columns:repeat(8, 32px); gap:2px; padding:6px; border:1px solid var(--bl-line); border-radius:10px; background:var(--bl-win); box-shadow:0 8px 24px rgba(0,0,0,.18); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-emo[hidden] { display:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-emo button { width:32px; height:32px; display:grid; place-items:center; border:0 !important; background:none !important; border-radius:7px !important; font-size:18px; line-height:1; cursor:pointer; padding:0 !important; }
@@ -3533,10 +3538,8 @@ html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .chat-link-chip { dis
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-link { color:var(--bl-accent); text-decoration:underline; word-break:break-all; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .cw-dlinks { margin-top:8px; }
 
-/* Tasks board: columns end at the bottom of the window and scroll inside (2026-10-19) */
+/* Tasks board: each column is as tall as its tasks and the page scrolls (2026-10-22) */
 html body.bloom:not(#_1):not(#_2):not(#_3) #kb-board { align-items:flex-start; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #kb-board > .kb-col { display:flex; flex-direction:column; max-height:calc(100vh - var(--kb-top, 280px) - 28px); }
-html body.bloom:not(#_1):not(#_2):not(#_3) #kb-board > .kb-col > .kb-col-body { flex:1 1 auto; min-height:0; overflow-y:auto; overflow-x:hidden; overscroll-behavior-y:contain; overscroll-behavior-x:auto; }   /* up/down stays in the column; a sideways swipe moves the board */
 
 /* Office chat: edit your own message in place */
 html body.bloom:not(#_1):not(#_2):not(#_3) .station-peek-msg .sp-edit { width:100%; min-width:200px; box-sizing:border-box; resize:none; border:1px solid var(--bl-accent); border-radius:8px; background:var(--bl-win); color:var(--bl-fg); font:inherit; padding:6px 8px; outline:none; }
@@ -3942,3 +3945,247 @@ html body:not(#_1):not(#_2) #bb-chat-card .bb-cc-quick button { background:none 
 html body:not(#_1):not(#_2) #bb-chat-card .bb-cc-quick button:hover { text-decoration:underline; }
 /* G: with the side chat open, the cards sit beside it instead of over its message box */
 body.bl-sc-on #bb-rem-cards { right:calc(var(--bl-scw, 340px) + 16px); }
+
+/* Board columns: drag by the header (pointer-driven, like cards) */
+#kanban-wrap .kanban-col-header.kcol-grip { cursor:grab; touch-action:none; }
+body.kcol-dragging, body.kcol-dragging * { cursor:grabbing !important; user-select:none !important; }
+.kanban-col.kcol-slot { opacity:.35; }
+.kanban-col.kcol-ghost { position:fixed !important; left:0; top:0; margin:0 !important; z-index:2147483000; pointer-events:none; overflow:hidden; box-shadow:0 22px 50px -18px rgba(0,0,0,.6); will-change:transform; }
+body.light-mode .kanban-col.kcol-ghost { box-shadow:0 20px 44px -18px rgba(15,23,42,.3); }
+/* while a column is dragged the others slide aside (transform only, no re-layout) */
+body.kcol-dragging #kanban-wrap .kanban-col { transition:transform .22s cubic-bezier(.2,.8,.2,1); }
+@media (prefers-reduced-motion: reduce) { body.kcol-dragging #kanban-wrap .kanban-col { transition:none; } }
+.kanban-col.kcol-ghost { contain:layout paint; }
+/* card positions are measured inside their list */
+#kanban-wrap .kanban-cards { position:relative; }
+
+/* Photos and files sent together: one block, pictures on top, the text underneath (like Teams) */
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) .chat-msg-text.chat-att-block { display:flex !important; flex-direction:column; gap:0; padding:4px !important; max-width:min(420px, 86%) !important; width:fit-content; overflow:hidden; }
+.chat-att-media { display:grid; gap:4px; grid-template-columns:1fr 1fr; }
+.chat-att-media[data-n="0"], .chat-att-media[data-n="1"] { grid-template-columns:1fr; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .chat-att-media :is(img.chat-msg-img, img.chat-msg-gif) { display:block; width:100% !important; max-width:none !important; height:100%; max-height:none !important; margin:0 !important; border-radius:9px !important; object-fit:cover; cursor:zoom-in; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .chat-att-media:not([data-n="0"]):not([data-n="1"]) :is(img.chat-msg-img, img.chat-msg-gif) { aspect-ratio:1 / 1; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .chat-att-media[data-n="1"] :is(img.chat-msg-img, img.chat-msg-gif) { max-height:420px !important; width:auto !important; max-width:100% !important; }
+.chat-att-media[data-n="3"] > img:first-child { grid-column:1 / -1; aspect-ratio:2 / 1 !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .chat-att-media .chat-msg-file { grid-column:1 / -1; margin:0 !important; }
+.chat-att-text { padding:7px 9px 4px; overflow-wrap:anywhere; }
+/* side chat and Office chat: the same block */
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-mt:has(> .sc-attb) { padding:4px !important; }
+.sc-attb, .sp-att-media + .sp-att-text { display:block; min-width:0; }
+.sc-att-media, .sp-att-media { display:grid; gap:4px; grid-template-columns:1fr 1fr; }
+.sc-att-media[data-n="0"], .sc-att-media[data-n="1"], .sp-att-media[data-n="0"], .sp-att-media[data-n="1"] { grid-template-columns:1fr; }
+.sc-att-media .sc-photo, .sc-att-media .sc-file, .sc-att-media .sc-img { margin:0 !important; width:100%; }
+.sc-att-media:not([data-n="0"]):not([data-n="1"]) .sc-img, .sp-att-media:not([data-n="0"]):not([data-n="1"]) img { aspect-ratio:1 / 1; object-fit:cover; }
+.sc-att-media .sc-file, .sp-att-media > :not(img) { grid-column:1 / -1; }
+.sp-att-media img { width:100% !important; max-width:none !important; margin:0 !important; border-radius:9px; display:block; }
+.sc-att-text { padding:6px 7px 3px; }
+.sp-att-text { padding:7px 4px 2px; }
+html body:not(#_1):not(#_2):not(#_3) .station-peek-msg.sp-att { padding:5px !important; }
+html body:not(#_1):not(#_2):not(#_3) .station-peek-msg.sp-att .station-peek-msg-meta { padding:4px 6px 6px; margin:0; }
+.sp-att-media[data-n="3"] > img:first-child { grid-column:1 / -1; aspect-ratio:2 / 1 !important; }
+.sc-att-media[data-n="3"] > .sc-photo:first-child { grid-column:1 / -1; }
+.sc-att-media[data-n="3"] > .sc-photo:first-child .sc-img { aspect-ratio:2 / 1 !important; }
+
+/* Links everywhere: "Dropbox · file name", like a task's Files and links (never the long address) */
+.bb-ilink { display:inline-flex; align-items:center; gap:6px; max-width:100%; vertical-align:middle; margin:1px 0; padding:3px 9px 3px 7px; border-radius:7px; border:1px solid var(--bl-line, rgba(127,127,127,.25)); background:var(--bl-raise, rgba(127,127,127,.12)); color:var(--bl-fg, inherit) !important; text-decoration:none !important; font-size:.94em; line-height:1.35; cursor:pointer; overflow:hidden; }
+.bb-ilink:hover { border-color:var(--bl-fg3, #8d93a0); }
+.bb-ilink img { width:14px; height:14px; flex:none; border-radius:3px; }
+.bb-ilink b { color:var(--bl-accent, #5b93ff); font-weight:600; flex:none; }
+.bb-ilink .ln-name, .bb-ilink .ln-path { min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.bb-ilink .ln-name:not(:empty)::before, .bb-ilink .ln-path::before { content:'·'; margin:0 6px 0 0; color:var(--bl-fg3, #8d93a0); }
+.bb-ilink.named .ln-path { display:none; }
+.bb-ilink .ln-path { color:var(--bl-fg3, #8d93a0); }
+/* inside your own (blue) chat bubbles */
+.chat-msg-row.own .bb-ilink, .sc-own .bb-ilink, .station-peek-msg.mine .bb-ilink { background:rgba(0,0,0,.2); border-color:rgba(255,255,255,.16); }
+body.light-mode .chat-msg-row.own .bb-ilink, body.light-mode .sc-own .bb-ilink { background:rgba(255,255,255,.6); border-color:rgba(15,23,42,.12); }
+
+/* ── Comment extras: emoji / attach buttons, waiting files, files on a comment (2026-10-22) ── */
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-tools { display:inline-flex; align-items:center; gap:2px; flex:none; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-ib { width:30px !important; height:30px !important; min-width:0 !important; padding:0 !important; border:0 !important; border-radius:7px !important; background:transparent !important; color:var(--bl-fg3, #8b8f98) !important; display:inline-flex !important; align-items:center; justify-content:center; cursor:pointer; box-shadow:none !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-ib:hover { color:var(--bl-fg, #e8e9ec) !important; background:var(--bl-hover, rgba(127,127,127,.12)) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-ib svg { width:18px; height:18px; }
+html body:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-hint { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-comp .bb-cm-tools { align-self:flex-end; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-pendbox { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 8px; }
+html body:not(#_1):not(#_2):not(#_3) #card-detail-overlay .bb-cm-pendbox { margin:10px 14px -2px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-pendbox[hidden] { display:none; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-pend { position:relative; display:inline-flex; align-items:center; gap:6px; max-width:200px; height:36px; padding:0 26px 0 9px; border:1px solid var(--bl-line, rgba(127,127,127,.25)); border-radius:8px; background:var(--bl-raise, rgba(127,127,127,.08)); color:var(--bl-fg2, #c5c8cf); font:500 12px var(--bl-ui, system-ui); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-pend span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-pend svg { width:15px; height:15px; flex:none; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-pend.img { width:52px; height:52px; padding:0; overflow:hidden; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-pend.img img { width:100%; height:100%; object-fit:cover; display:block; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-pend button { position:absolute; top:3px; right:3px; width:18px !important; height:18px !important; min-width:0 !important; padding:0 !important; border:0 !important; border-radius:50% !important; background:rgba(0,0,0,.6) !important; color:#fff !important; font:600 13px/18px var(--bl-ui, system-ui) !important; cursor:pointer; box-shadow:none !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-pend:not(.img) button { top:50%; transform:translateY(-50%); background:transparent !important; color:var(--bl-fg3, #8b8f98) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-files { display:flex; flex-direction:column; gap:6px; margin-top:6px; max-width:320px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-pics { display:grid; grid-template-columns:1fr 1fr; gap:4px; border-radius:10px; overflow:hidden; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-pics[data-n="1"] { grid-template-columns:1fr; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-pics img { width:100%; aspect-ratio:4/3; object-fit:cover; display:block; cursor:zoom-in; background:var(--bl-raise, rgba(127,127,127,.08)); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-pics[data-n="1"] img { aspect-ratio:auto; max-height:240px; object-fit:contain; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-doc { display:flex !important; align-items:center; gap:8px; width:100%; height:auto !important; padding:8px 10px !important; border:1px solid var(--bl-line, rgba(127,127,127,.25)) !important; border-radius:8px !important; background:var(--bl-raise, rgba(127,127,127,.08)) !important; color:var(--bl-fg, #e8e9ec) !important; font:500 12.5px var(--bl-ui, system-ui) !important; text-align:left; cursor:pointer; box-shadow:none !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-doc:hover { border-color:var(--bl-fg3, #8b8f98) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-doc svg { width:16px; height:16px; flex:none; color:var(--bl-accent, #3b82f6); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-doc span { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-doc small { flex:none; color:var(--bl-fg3, #8b8f98); font-size:11px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-drop { outline:2px dashed var(--bl-accent, #3b82f6); outline-offset:-6px; }
+
+/* ── Unread comments: comment icon + red count at the top right of a task or card, red count on the Comments tab ── */
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-cmt-new { position:relative; display:inline-flex; align-items:center; justify-content:center; width:26px; height:24px; flex:none; color:var(--bl-fg2, #c5c8cf); pointer-events:auto; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-cmt-new svg { width:17px; height:17px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-cmt-new b { position:absolute; top:-3px; right:-3px; min-width:16px; height:16px; padding:0 3px; border-radius:8px; background:#e5484d; color:#fff; font:700 10px/16px var(--bl-ui, system-ui); text-align:center; box-sizing:border-box; box-shadow:0 0 0 2px var(--bl-panel, var(--bl-win)); }
+html body:not(#_1):not(#_2):not(#_3) .task-meta .bb-cmt-new { margin-right:2px; }
+html body:not(#_1):not(#_2):not(#_3) .kanban-card .kc-body { position:relative; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) .kanban-card .kc-body > .bb-cmt-new { position:absolute; top:8px; right:8px; z-index:2; }
+html body:not(#_1):not(#_2):not(#_3) .kanban-card .kc-body:has(> .bb-cmt-new) .kc-title { padding-right:28px; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-tabs button.has-new::after { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-tabs button.has-new .tm-tab-n { display:inline-block; min-width:18px; height:18px; margin-left:6px; padding:0 5px; border-radius:9px; background:#e5484d; color:#fff; font:700 11px/18px var(--bl-ui); text-align:center; box-sizing:border-box; vertical-align:1px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #card-detail-overlay .cw-cm.is-new { box-shadow:inset 2px 0 0 var(--bl-accent, #3b82f6); background:color-mix(in srgb, var(--bl-accent, #3b82f6) 7%, transparent); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #card-detail-overlay .cw-n.has-new { display:inline-block; min-width:18px; height:18px; padding:0 5px; border-radius:9px; background:#e5484d; color:#fff !important; font:700 11px/18px var(--bl-ui); text-align:center; box-sizing:border-box; }
+
+/* side chat photo block (fix 2026-10-22): its own class (it shared .sc-att with the file chips above the
+   message box, which made it a 36px row), a fixed width, and pictures that fill their grid cells. */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-attb { display:block; width:248px; max-width:none; min-width:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-mt:has(> .sc-attb) { width:max-content; max-width:100%; box-sizing:border-box; padding:4px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-att-media { display:grid; gap:4px; grid-template-columns:1fr 1fr; border-radius:10px; overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-att-media:is([data-n="0"], [data-n="1"]) { grid-template-columns:1fr; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-att-media .sc-photo { width:100%; max-width:none; margin:0 !important; border-radius:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-att-media .sc-img { display:block; width:100%; height:auto; max-width:none; max-height:320px; margin:0; border:0; border-radius:0; object-fit:cover; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-att-media:not([data-n="0"]):not([data-n="1"]) .sc-img { aspect-ratio:1 / 1; height:auto; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-att-media[data-n="3"] > .sc-photo:first-child { grid-column:1 / -1; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-att-media[data-n="3"] > .sc-photo:first-child .sc-img { aspect-ratio:2 / 1; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-att-media .sc-file { grid-column:1 / -1; margin:0 !important; max-width:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-att-text { padding:7px 6px 3px; overflow-wrap:anywhere; white-space:normal; }
+
+/* Tasks board columns, like Trello (2026-10-22): a column is as tall as its cards, down to about the bottom
+   edge of the floating nav (--kb-colmax, measured by bb-bloom.js; it never shrinks while you open things
+   above the board, only a window resize measures again); past that the cards scroll inside it.
+   "+ Add task" is a real button at the foot: 38px, 8px corners, fills on hover. An empty column is its
+   header and that button, nothing else. Spacing as Trello: 8px inside the column, 4px header to button. */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #kb-board > .kb-col { display:flex; flex-direction:column; box-sizing:border-box !important; gap:0 !important; min-height:0 !important; max-height:var(--kb-colmax, 640px); padding:4px 8px 8px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #kb-board > .kb-col > .kb-col-hd { flex:none; margin:0 !important; padding:0 6px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #kb-board > .kb-col > .kb-col-body { flex:0 1 auto; min-height:0 !important; overflow-y:auto; overflow-x:hidden; overscroll-behavior-y:auto; margin:0 !important; padding:4px 0 2px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #kb-board > .kb-col.is-empty > .kb-col-body { padding:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #kb-board > .kb-col.is-empty > .kb-col-body > .kb-col-empty { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) #kb-board > .kb-col > .kb-col-addtask { flex:none; display:flex !important; align-items:center; gap:8px; width:100%; height:38px !important; margin:6px 0 0 !important; padding:0 10px !important; border:0 !important; border-radius:8px !important; background:transparent !important; color:var(--bl-fg2) !important; font:600 13.5px var(--bl-ui) !important; opacity:1 !important; cursor:pointer; transition:background .12s, color .12s; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) #kb-board > .kb-col.is-empty > .kb-col-addtask { margin-top:2px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) #kb-board > .kb-col > .kb-col-addtask:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) #kb-board > .kb-col > .kb-col-addtask svg { width:16px; height:16px; flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #kb-board > .kb-col > .kb-archive-link { flex:none; margin-top:6px; }
+
+/* ── Search everywhere, by kind (2026-10-22): plain tabs with counts, rows with plain icons,
+   photo thumbnails, a go-to arrow on photos / links / files ── */
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #global-results-panel .global-results-head { display:block; padding:0 8px; border-bottom:1px solid var(--bl-line, rgba(127,127,127,.2)); text-transform:none; letter-spacing:0; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-tabs { display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-tab { flex:none; display:inline-flex; align-items:center; gap:6px; height:40px !important; padding:0 10px !important; border:0 !important; border-bottom:2px solid transparent !important; border-radius:0 !important; background:none !important; box-shadow:none !important; color:var(--bl-fg3, #8b8f98) !important; font:600 12.5px var(--bl-ui, system-ui) !important; cursor:pointer; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-tab span { font-weight:500; opacity:.75; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-tab:hover { color:var(--bl-fg, #e8e9ec) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-tab.on { color:var(--bl-fg, #e8e9ec) !important; border-bottom-color:var(--bl-accent, #3b82f6) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #global-results-panel .global-results-list { max-height:min(520px, calc(100vh - 150px)); padding:6px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-sec { display:flex; align-items:center; justify-content:space-between; padding:10px 8px 4px; font:600 11.5px var(--bl-ui, system-ui); color:var(--bl-fg3, #8b8f98); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-more { padding:0 !important; border:0 !important; background:none !important; box-shadow:none !important; color:var(--bl-accent, #3b82f6) !important; font:600 11.5px var(--bl-ui, system-ui) !important; cursor:pointer; height:auto !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-more:hover { text-decoration:underline; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-row { display:flex; align-items:flex-start; gap:10px; padding:8px; border-radius:8px; cursor:pointer; outline:none; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-row:hover, html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-row.sel { background:var(--bl-hover, rgba(127,127,127,.12)); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-ic { flex:none; width:20px; height:20px; margin-top:1px; color:var(--bl-fg3, #8b8f98); display:flex; align-items:center; justify-content:center; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-ic svg { width:18px; height:18px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-ic.done { color:var(--bl-good, #22c55e); --gs-on:var(--bl-panel, var(--bl-win)); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-emo { font-size:15px; line-height:20px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-av { flex:none; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; overflow:hidden; font:700 11px var(--bl-ui, system-ui); color:#fff; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-av img { width:100%; height:100%; object-fit:cover; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-thumb { flex:none; width:44px; height:44px; border-radius:6px; object-fit:cover; background:var(--bl-raise, rgba(127,127,127,.1)); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-body { flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-title { font:600 13.5px/1.35 var(--bl-ui, system-ui); color:var(--bl-fg, #e8e9ec); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-meta { font:500 11.5px/1.3 var(--bl-ui, system-ui); color:var(--bl-fg3, #8b8f98); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-snip { font:400 12.5px/1.4 var(--bl-ui, system-ui); color:var(--bl-fg2, #c5c8cf); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .global-result-mark { background:color-mix(in srgb, var(--bl-accent, #3b82f6) 22%, transparent); color:inherit; border-radius:3px; padding:0 1px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-go { flex:none; align-self:center; width:30px !important; height:30px !important; padding:0 !important; border:0 !important; border-radius:7px !important; background:none !important; box-shadow:none !important; color:var(--bl-fg3, #8b8f98) !important; display:flex !important; align-items:center; justify-content:center; cursor:pointer; opacity:0; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-row:hover .gs-go, html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-row.sel .gs-go { opacity:1; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-go:hover { background:var(--bl-raise, rgba(127,127,127,.16)) !important; color:var(--bl-fg, #e8e9ec) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-go svg { width:16px; height:16px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(104px, 1fr)); gap:6px; padding:6px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-cell { padding:0 !important; border:0 !important; border-radius:8px !important; overflow:hidden; aspect-ratio:1; background:var(--bl-raise, rgba(127,127,127,.1)) !important; cursor:pointer; box-shadow:none !important; height:auto !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-cell img { width:100%; height:100%; object-fit:cover; display:block; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-cell.sel { outline:2px solid var(--bl-accent, #3b82f6); outline-offset:-2px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#global-results-panel, #bl-pal) .gs-title .bb-ilink { pointer-events:none; }
+
+/* ── Profile card (2026-10-22): photo on top, who they are, actions, details, tasks together ── */
+html body [data-person] { cursor:pointer; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf { position:fixed; z-index:9000; width:340px; max-height:calc(100vh - 24px); overflow-y:auto; overflow-x:hidden; scrollbar-width:thin; background:var(--bl-panel, var(--bl-win)); border:1px solid var(--bl-line, rgba(127,127,127,.22)); border-radius:14px; box-shadow:0 18px 48px rgba(0,0,0,.45); color:var(--bl-fg, #e8e9ec); font-family:var(--bl-ui, system-ui); animation:bbPfIn .14s ease-out; }
+html body.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf { box-shadow:0 18px 48px rgba(15,23,42,.16); }
+@keyframes bbPfIn { from { opacity:0; transform:translateY(4px) scale(.985); } to { opacity:1; transform:none; } }
+@media (prefers-reduced-motion: reduce) { html body .bb-pf { animation:none; } }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-photo { position:relative; height:240px; background:var(--bl-raise, #23252b); overflow:hidden; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-photo img { width:100%; height:100%; object-fit:cover; object-position:50% 25%; display:block; cursor:zoom-in; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-photo.none { height:150px; display:flex; align-items:center; justify-content:center; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-ini { font:700 54px/1 var(--bl-ui, system-ui); letter-spacing:.02em; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-x { position:absolute; top:10px; right:10px; width:30px !important; height:30px !important; padding:0 !important; border:0 !important; border-radius:50% !important; background:rgba(0,0,0,.5) !important; color:#fff !important; display:flex !important; align-items:center; justify-content:center; cursor:pointer; box-shadow:none !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-x:hover { background:rgba(0,0,0,.72) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-x svg { width:15px; height:15px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-main { padding:16px 18px 4px; display:flex; flex-direction:column; gap:4px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-name { font:700 20px/1.25 var(--bl-ui, system-ui); letter-spacing:-.01em; color:var(--bl-fg, #e8e9ec); overflow-wrap:anywhere; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-status { display:flex; align-items:center; gap:7px; font:500 12.5px var(--bl-ui, system-ui); color:var(--bl-fg2, #c5c8cf); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-status i { width:8px; height:8px; border-radius:50%; flex:none; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-pos { margin-top:6px; font:600 14px/1.35 var(--bl-ui, system-ui); color:var(--bl-fg, #e8e9ec); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-org { font:500 13px/1.35 var(--bl-ui, system-ui); color:var(--bl-fg3, #8b8f98); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-focus { margin-top:8px; padding:8px 10px; border-left:2px solid var(--bl-accent, #3b82f6); background:var(--bl-raise, rgba(127,127,127,.08)); border-radius:0 6px 6px 0; font:500 13px/1.4 var(--bl-ui, system-ui); color:var(--bl-fg, #e8e9ec); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-focus span { display:block; font:600 11px var(--bl-ui, system-ui); color:var(--bl-fg3, #8b8f98); margin-bottom:2px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-acts { display:flex; gap:6px; padding:14px 18px; border-bottom:1px solid var(--bl-line, rgba(127,127,127,.2)); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-btn { flex:1; min-width:0; height:auto !important; display:flex !important; flex-direction:column; align-items:center; gap:4px; padding:9px 4px !important; border:1px solid var(--bl-line, rgba(127,127,127,.25)) !important; border-radius:10px !important; background:none !important; color:var(--bl-fg2, #c5c8cf) !important; font:600 11.5px var(--bl-ui, system-ui) !important; cursor:pointer; box-shadow:none !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-btn:hover { background:var(--bl-hover, rgba(127,127,127,.12)) !important; color:var(--bl-fg, #e8e9ec) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-btn svg { width:18px; height:18px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-btn.pri { background:var(--bl-accent, #3b82f6) !important; border-color:var(--bl-accent, #3b82f6) !important; color:var(--bl-accent-fg, #fff) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-btn.pri:hover { filter:brightness(1.08); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-acts .bb-pf-btn.pri:only-child { flex-direction:row; justify-content:center; padding:10px !important; font-size:13px !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-info { padding:8px 10px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-row { width:100%; display:flex !important; align-items:center; gap:12px; padding:8px !important; border:0 !important; border-radius:8px !important; background:none !important; box-shadow:none !important; color:var(--bl-fg, #e8e9ec) !important; text-align:left; font:500 13px var(--bl-ui, system-ui) !important; height:auto !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) button.bb-pf-row { cursor:pointer; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) button.bb-pf-row:hover { background:var(--bl-hover, rgba(127,127,127,.1)) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-row > svg { width:17px; height:17px; flex:none; color:var(--bl-fg3, #8b8f98); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-row > span { flex:1; min-width:0; display:flex; flex-direction:column; gap:1px; overflow-wrap:anywhere; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-row small { font:500 11px var(--bl-ui, system-ui); color:var(--bl-fg3, #8b8f98); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-copy { opacity:0; color:var(--bl-fg3, #8b8f98); display:flex; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-copy svg { width:15px; height:15px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-row:hover .bb-pf-copy { opacity:1; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-tasks { padding:4px 10px 12px; border-top:1px solid var(--bl-line, rgba(127,127,127,.2)); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-h { padding:10px 8px 4px; font:600 11.5px var(--bl-ui, system-ui); color:var(--bl-fg3, #8b8f98); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-h b { color:var(--bl-fg2, #c5c8cf); font-weight:600; margin-left:4px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-task { width:100%; display:flex !important; align-items:center; gap:10px; padding:7px 8px !important; border:0 !important; border-radius:8px !important; background:none !important; box-shadow:none !important; color:var(--bl-fg, #e8e9ec) !important; text-align:left; font:500 13px var(--bl-ui, system-ui) !important; cursor:pointer; height:auto !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-task:hover { background:var(--bl-hover, rgba(127,127,127,.1)) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-task svg { width:16px; height:16px; flex:none; color:var(--bl-fg3, #8b8f98); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .bb-pf-task span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+
+/* ⌘K: the same search in a big box (2026-10-22) */
+.bl-pal.bl-pal2 { width:min(720px, calc(100vw - 32px)); }
+.bl-pal-ov:has(> .bl-pal2) { padding-top:max(8vh, calc(50vh - 150px)); }   /* opens in the middle; results grow downwards */
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-pal2 .bl-pal-in { padding:16px 18px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-pal2 .bl-pal-in input { font:400 18px var(--bl-ui) !important; }
+.bl-pal2 .bl-pal-s { width:19px !important; height:19px !important; }
+.bl-pal2 .bl-pal-tabs { padding:0 10px; border-bottom:1px solid var(--bl-line); }
+.bl-pal2 .bl-pal-tabs[hidden] { display:none; }
+.bl-pal2 .bl-pal-list { max-height:max(220px, calc(100vh - max(8vh, 50vh - 150px) - 190px)); padding:6px 8px 8px; }
+.bl-pal2 .bl-pal-quick { display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; padding:8px 4px 6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-pal2 .bl-pal-q { display:flex; flex-direction:column; align-items:flex-start; gap:10px; padding:12px !important; height:auto !important; border:1px solid var(--bl-line) !important; border-radius:10px !important; background:none !important; box-shadow:none !important; color:var(--bl-fg) !important; font:600 13px var(--bl-ui) !important; cursor:pointer; text-align:left; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-pal2 .bl-pal-q .bl-i { width:18px; height:18px; color:var(--bl-fg2); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-pal2 .bl-pal-q:hover, html body.bloom:not(#_1):not(#_2):not(#_3) .bl-pal2 .bl-pal-q.sel { background:var(--bl-hover) !important; border-color:var(--bl-fg3) !important; }
+.bl-pal2 .bl-pal-act .gs-ic .bl-i { width:17px; height:17px; }
+.bl-pal2 .bl-pal-kind { flex:none; align-self:center; font:500 12px var(--bl-ui); color:var(--bl-fg3); }
+@media (max-width:560px) { .bl-pal2 .bl-pal-quick { grid-template-columns:repeat(2, 1fr); } .bl-pal2 .bl-pal-ft span:nth-child(3) { display:none; } }
+
+/* No scrollbars anywhere (2026-10-22): everything still scrolls (trackpad, wheel, keys, dragging),
+   the bar itself is never drawn. Wins over every older scrollbar style in the app. */
+html, html body, html body:not(#_1):not(#_2):not(#_3):not(#_4) *, html body:not(#_1):not(#_2):not(#_3):not(#_4) *::before, html body:not(#_1):not(#_2):not(#_3):not(#_4) *::after { scrollbar-width:none !important; }
+html::-webkit-scrollbar, html body::-webkit-scrollbar, html body:not(#_1):not(#_2):not(#_3):not(#_4) *::-webkit-scrollbar { width:0 !important; height:0 !important; display:none !important; background:transparent !important; }
+
+/* Light mode, Trello-style cards on columns (2026-10-22): columns a step greyer (#EEF0F3, no outline),
+   cards white with a soft 1px shadow instead of an outline, so they clearly sit on top. Same for the Tasks
+   board and Boards. Coloured columns, coloured / selected / urgent cards keep their own look. */
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) #kb-board > .kb-col,
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .kanban-col:not(.has-color) { background:#eef0f3 !important; border-color:transparent !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .task-card:not(.has-card-color):not(.is-selected):not(.bb-urg),
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .kanban-card { background:#ffffff !important; border:1px solid rgba(15,23,42,.04) !important; box-shadow:0 1px 2px rgba(15,23,42,.10), 0 1px 1px rgba(15,23,42,.06) !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .task-card:not(.has-card-color):not(.is-selected):not(.bb-urg):hover,
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .kanban-card:hover { background:#ffffff !important; box-shadow:0 2px 6px rgba(15,23,42,.12), 0 1px 2px rgba(15,23,42,.08) !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) #kb-board > .kb-col > .kb-col-addtask:hover { background:rgba(15,23,42,.07) !important; }
+/* progress track: flat, no inner rim (all themes); lighter tint in light mode */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .milestone-bar-wrap { box-shadow:none !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .milestone-bar-wrap { background:rgba(15,23,42,.09) !important; }
