@@ -21,6 +21,7 @@ const FAQ               = dynamic(() => import("@/components/sections/FAQ"));
 const ComparisonSection = dynamic(() => import("@/components/sections/ComparisonSection"));
 const DownloadCTA       = dynamic(() => import("@/components/sections/DownloadCTA"));
 const Footer            = dynamic(() => import("@/components/sections/Footer"));
+const ShortcutsSection  = dynamic(() => import("@/components/sections/ShortcutsSection"));
 
 export default function Home() {
   return (
@@ -31,6 +32,7 @@ export default function Home() {
           away like a lid over Pricing (SnapPoints kept for later use). */}
       <FeatureWall />
       <Proof />
+      <ShortcutsSection />
       {/* Hidden while the live demo carries the product story — restore by uncommenting.
       <AIFeatureCarousel />
       <DeepDiveFlight>
