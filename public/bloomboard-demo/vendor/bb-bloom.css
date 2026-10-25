@@ -4207,35 +4207,35 @@ html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .milestone-bar-wr
 #bl-sc .sc-avw.sc-grp.two > :first-child { left:0; top:0; }
 #bl-sc .sc-avw.sc-grp.two > :last-child { left:10px; top:10px; box-shadow:0 0 0 2px var(--bl-panel, var(--bl-win)); border-radius:50%; }
 /* Task comments: replies and reactions (2026-10-25) */
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-quote { display:flex; flex-direction:column; gap:1px; width:100%; max-width:440px; margin:4px 0 2px; padding:5px 9px; border:0; border-left:2px solid var(--bl-accent); border-radius:6px; background:var(--bl-hover); text-align:left; cursor:pointer; font:inherit; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-quote b { font-size:12px; color:var(--bl-fg); }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-quote span { font-size:12.5px; color:var(--bl-fg3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-rx { display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-rxc { display:inline-flex; align-items:center; gap:4px; height:24px; padding:0 7px; border:1px solid var(--bl-line); border-radius:6px; background:none; color:var(--bl-fg2) !important; font:600 12px var(--bl-ui, system-ui); cursor:pointer; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-rxc:hover { background:var(--bl-hover); }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-rxc.mine { border-color:var(--bl-accent); color:var(--bl-fg) !important; background:color-mix(in srgb, var(--bl-accent) 12%, transparent); }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-rxc img { width:15px; height:15px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-acts { position:relative; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-pick { position:absolute; left:0; bottom:calc(100% + 6px); z-index:5; display:flex; gap:2px; padding:4px; border:1px solid var(--bl-line); border-radius:10px; background:var(--bl-panel, var(--bl-win)); box-shadow:0 8px 24px rgba(0,0,0,.28); }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-pick button { width:32px; height:32px; display:grid; place-items:center; border-radius:7px; font-size:18px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-pick button:hover { background:var(--bl-hover); }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-pick button img { width:20px; height:20px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm:has(.tm-cm-pick) .tm-cm-acts { opacity:1; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-replying { display:flex; align-items:center; gap:8px; margin-bottom:6px; padding:6px 8px 6px 10px; border-left:2px solid var(--bl-accent); border-radius:6px; background:var(--bl-hover); font-size:12.5px; color:var(--bl-fg3); }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-replying span { flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-replying b { color:var(--bl-fg); }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-replying button { border:0; background:none; color:var(--bl-fg3); font-size:17px; line-height:1; cursor:pointer; padding:0 2px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm.tm-cm-flash { animation:tmCmFlash 1.2s ease; border-radius:8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm-quote { display:flex; flex-direction:column; gap:1px; width:100%; max-width:440px; margin:4px 0 2px; padding:5px 9px; border:0; border-left:2px solid var(--bl-accent); border-radius:6px; background:var(--bl-hover); text-align:left; cursor:pointer; font:inherit; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm-quote b { font-size:12px; color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm-quote span { font-size:12.5px; color:var(--bl-fg3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm-rx { display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm-rxc { display:inline-flex; align-items:center; gap:4px; height:24px; padding:0 7px; border:1px solid var(--bl-line); border-radius:6px; background:none; color:var(--bl-fg2) !important; font:600 12px var(--bl-ui, system-ui); cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm-rxc:hover { background:var(--bl-hover); }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm-rxc.mine { border-color:var(--bl-accent); color:var(--bl-fg) !important; background:color-mix(in srgb, var(--bl-accent) 12%, transparent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm-rxc img { width:15px; height:15px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm-acts { position:relative; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm-pick { position:absolute; left:0; bottom:calc(100% + 6px); z-index:5; display:flex; gap:2px; padding:4px; border:1px solid var(--bl-line); border-radius:10px; background:var(--bl-panel, var(--bl-win)); box-shadow:0 8px 24px rgba(0,0,0,.28); }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm-pick button { width:32px; height:32px; display:grid; place-items:center; border-radius:7px; font-size:18px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm-pick button:hover { background:var(--bl-hover); }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm-pick button img { width:20px; height:20px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm:has(.tm-cm-pick), html body.bloom:not(#_1):not(#_2):not(#_3) #cw-side .cw-cm:has(.tm-cm-pick) .tm-cm-acts { opacity:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm-replying { display:flex; align-items:center; gap:8px; margin-bottom:6px; padding:6px 8px 6px 10px; border-left:2px solid var(--bl-accent); border-radius:6px; background:var(--bl-hover); font-size:12.5px; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm-replying span { flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm-replying b { color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm-replying button { border:0; background:none; color:var(--bl-fg3); font-size:17px; line-height:1; cursor:pointer; padding:0 2px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) :is(#task-modal, #cw-side) .tm-cm.tm-cm-flash, html body.bloom:not(#_1):not(#_2):not(#_3) #cw-side .cw-cm.tm-cm-flash { animation:tmCmFlash 1.2s ease; border-radius:8px; }
 @keyframes tmCmFlash { 0%, 40% { background:color-mix(in srgb, var(--bl-accent) 14%, transparent); } 100% { background:transparent; } }
 
 /* Comment actions like Trello (2026-10-25): a small add-reaction icon · Reply · Edit · Delete, quiet and always there */
-html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts { display:flex; align-items:center; gap:0; margin-top:5px; opacity:1 !important; }
-html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > button { display:inline-flex; align-items:center; height:22px; padding:0; border:0; background:none; font:500 12px/1 var(--bl-ui, system-ui); color:var(--bl-fg3) !important; cursor:pointer; }
-html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > button + button::before { content:'·'; margin:0 7px; color:var(--bl-fg3); text-decoration:none; display:inline-block; }
-html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > button:hover { color:var(--bl-fg) !important; text-decoration:underline; text-underline-offset:2px; }
-html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > button.del:hover { color:var(--bl-bad) !important; }
-html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > .tm-cm-rxbtn:hover { text-decoration:none; }
-html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > .tm-cm-rxbtn svg { width:16px; height:16px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#task-modal, #cw-side) .tm-cm-acts { display:flex; align-items:center; gap:0; margin-top:5px; opacity:1 !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#task-modal, #cw-side) .tm-cm-acts > button { display:inline-flex; align-items:center; height:22px; padding:0; border:0; background:none; font:500 12px/1 var(--bl-ui, system-ui); color:var(--bl-fg3) !important; cursor:pointer; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#task-modal, #cw-side) .tm-cm-acts > button + button::before { content:'·'; margin:0 7px; color:var(--bl-fg3); text-decoration:none; display:inline-block; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#task-modal, #cw-side) .tm-cm-acts > button:hover { color:var(--bl-fg) !important; text-decoration:underline; text-underline-offset:2px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#task-modal, #cw-side) .tm-cm-acts > button.del:hover { color:var(--bl-bad) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#task-modal, #cw-side) .tm-cm-acts > .tm-cm-rxbtn:hover { text-decoration:none; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(#task-modal, #cw-side) .tm-cm-acts > .tm-cm-rxbtn svg { width:16px; height:16px; }
 /* Text with dir="auto" (Arabic or English by its first letters) aligns to its own start (2026-10-25) */
 html body [dir="auto"]:not(input[type="checkbox"]) { text-align:start !important; unicode-bidi:plaintext; }
 /* Bell: "Needs you" folded to one line at the top, notifications right below (2026-10-25) */
@@ -4265,3 +4265,6 @@ html body:not(#_1):not(#_2):not(#_3) .bb-pf-btn:hover svg { transform:scale(1.18
   html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-action svg,
   html body:not(#_1):not(#_2):not(#_3) .bb-pf-btn svg { transition:none; }
 }
+/* Desk screen button labels (Knock, Message, Call), the same look as the sidebar's labels */
+#bl-desk-tip { position:fixed; z-index:200002; background:var(--bl-fg, #e8e9ec); color:var(--bl-win, #141519); font:500 12px var(--bl-ui, system-ui); padding:4px 8px; border-radius:6px; pointer-events:none; white-space:nowrap; }
+#bl-desk-tip[hidden] { display:none; }
