@@ -2929,6 +2929,14 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .office-dept-hd .b
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st :is(.bl-droom, .bl-troom) { display:flex; align-items:center; gap:12px; min-width:0; padding:9px 12px; border:1px solid var(--bl-line); border-radius:10px; background:var(--bl-win); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-troom { background:transparent; padding:8px 10px; gap:10px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-droom[hidden] { display:none !important; }
+/* A live call on the room line: the faces inside, overlapped (2026-10-25: replaces the room map in departments) */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-live-faces { display:flex; align-items:center; flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-live-av { width:24px; height:24px; border-radius:50%; margin-left:-7px; display:grid; place-items:center; font-size:9px; font-weight:700; color:#fff; background-size:cover; background-position:center; box-shadow:0 0 0 2px var(--bl-raise, var(--bl-win)); cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-live-av:first-child { margin-left:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-live-more { margin-left:5px; font-size:11.5px; font-weight:600; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-room-t small .ofr-eq { margin:0 2px; --ofr-acc:#60a5fa; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-room-t small .ofr-eq { --ofr-acc:#2563eb; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-grp-live > .bl-droom { margin-bottom:8px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st :is(.bl-droom, .bl-troom) > .ofr-door { width:18px; height:18px; flex:none; color:var(--bl-fg3); margin:0; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-room-t { flex:1 1 auto; min-width:0; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .bl-room-t b { display:block; font:600 13px var(--bl-ui); color:var(--bl-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
