@@ -4268,3 +4268,12 @@ html body:not(#_1):not(#_2):not(#_3) .bb-pf-btn:hover svg { transform:scale(1.18
 /* Desk screen button labels (Knock, Message, Call), the same look as the sidebar's labels */
 #bl-desk-tip { position:fixed; z-index:200002; background:var(--bl-fg, #e8e9ec); color:var(--bl-win, #141519); font:500 12px var(--bl-ui, system-ui); padding:4px 8px; border-radius:6px; pointer-events:none; white-space:nowrap; }
 #bl-desk-tip[hidden] { display:none; }
+/* Task window, an open task (2026-10-25): no bottom bar; "Saves when you close" and a trash icon sit next to ✕
+   in the header, and the comment box reaches the bottom. A new task keeps its Cancel / Add task bar. */
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .modal-topbar { display:flex; align-items:center; gap:4px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-hd-hint, html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-hd-del { display:none; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.tm-is-edit .tm-hd-hint { display:inline; margin-right:6px; font:400 12.5px var(--bl-ui, system-ui); color:var(--bl-fg3); white-space:nowrap; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.tm-is-edit .tm-hd-del { display:grid; place-items:center; width:30px; height:30px; padding:0; border:0; border-radius:8px; background:none; color:var(--bl-fg3); cursor:pointer; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.tm-is-edit .tm-hd-del:hover { background:var(--bl-hover); color:var(--bl-bad, #e5484d); }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.tm-is-edit .tm-hd-del svg { width:17px; height:17px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.tm-is-edit .tm-footer { display:none !important; }
