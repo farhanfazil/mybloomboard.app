@@ -1190,6 +1190,7 @@
   ];
   var chatIdx = 0;
   var TOUR_LEAVE = 'Long weekend';
+  var KEY_TASKS = ['Send the banners to Maya', 'Book the launch photographer', 'Share the pricing draft'], keyIdx = 0;
 
   /* ── A quick meeting ──
      Calls need real people, so the tour plays one in the app's own call panel: the room's
@@ -1448,6 +1449,33 @@
     }),
     /* back to Tasks: three new tasks, the first one dragged to In Progress */
     step(function (n) { nav('tasks', n, 1200); }),
+    /* the shortcuts card: T lights up and a task window opens, a task is typed and lands on the board;
+       then B, M and R light up in turn */
+    step(function (n) {
+      var K = window.bbKeysCoach;
+      if (!K || typeof window.openAddTask !== 'function') return n();
+      var card = K.show(false);
+      shot([card], true);
+      later(900, function () {
+        K.light(0);
+        later(500, function () {
+          window.openAddTask();
+          later(500, function () {
+            var title = function () { return q('#task-modal.visible #tm-title'); };
+            if (!title()) { K.hide(); return n(); }
+            shot(['#task-modal .modal-sheet', card], true);
+            typeInto(title, KEY_TASKS[keyIdx++ % KEY_TASKS.length], function () {
+              later(500, function () {
+                try { window.tmSaveAndClose(); } catch (e) {}
+                overview();   /* the whole board: the new task lands in To Do */
+                [4, 1, 2].forEach(function (row, i) { later(700 + i * 800, function () { K.light(row); }); });
+                later(700 + 3 * 800, function () { K.hide(); overview(); later(500, n); });
+              });
+            });
+          });
+        });
+      });
+    }),
     step(function (n) {
       while (colCount('pending') >= 6) { var old = firstCardIn('pending'); if (!old) break; moveMine(old, 'done'); }
       trimDone(2);
