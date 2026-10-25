@@ -4255,3 +4255,13 @@ html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(.notif-meta, .act-meta) :is(.n
 html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(.notif-meta, .act-meta) :is(.notif-link, .act-goto):hover { text-decoration:underline; text-underline-offset:2px; }
 html body:not(#_1):not(#_2):not(#_3) :is(.notif-item, .act-item.has-link) { cursor:pointer; }
 html body:not(#_1):not(#_2):not(#_3) :is(.notif-list, .act-list) { overscroll-behavior:contain; }
+/* Hover: the button's icon grows a little (desk screen: Knock, Message, Call; profile card actions).
+   Transform only, so it runs on the graphics card and never redraws the page (2026-10-25). */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-action svg,
+html body:not(#_1):not(#_2):not(#_3) .bb-pf-btn svg { transition:transform .14s cubic-bezier(.2,.8,.2,1); transform-origin:center; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-action:hover svg,
+html body:not(#_1):not(#_2):not(#_3) .bb-pf-btn:hover svg { transform:scale(1.18); }
+@media (prefers-reduced-motion: reduce) {
+  html body.bloom:not(#_1):not(#_2):not(#_3) .office-dept.bl-st .dk-scr .station-card-action svg,
+  html body:not(#_1):not(#_2):not(#_3) .bb-pf-btn svg { transition:none; }
+}
