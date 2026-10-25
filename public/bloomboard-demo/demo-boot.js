@@ -1534,13 +1534,26 @@
   }, true);
 })();
 
-/* ── Bloom design: the demo opens on Tasks with the side chat open ──
-   The story types into Type Your Tasks, which lives on Tasks, and the team chat sits
-   beside the board so visitors see work and conversation together. Once per load;
+/* ── Bloom design: the demo opens on Tasks, calm, with the side chat closed ──
+   The story types into Type Your Tasks, which lives on Tasks; the tour opens the side
+   chat itself when it posts in the team room. Once per load;
    after that the visitor goes wherever they like. */
 (function () {
   'use strict';
-  try { localStorage.setItem('bb-sidechat-v1', JSON.stringify({ on: true, pinned: false })); } catch (e) {}
+  try { localStorage.setItem('bb-sidechat-v1', JSON.stringify({ on: false, pinned: false })); } catch (e) {}
+  /* The bell starts at zero: what "Needs you" holds at launch counts as already seen. */
+  var seenTries = 0;
+  (function seeNeeds() {
+    try {
+      if (typeof window.chiefActiveSignals === 'function') {
+        localStorage.setItem('bb-needs-you-seen-v1', JSON.stringify(window.chiefActiveSignals().map(function (x) { return x.id; })));
+        var unread = (JSON.parse(localStorage.getItem('bloomboard-notif-v1') || '{}').items || []).filter(function (x) { return !x.read; }).length;
+        var badge = document.getElementById('sb-notif-badge');
+        if (badge && !unread) badge.style.display = 'none';
+      }
+    } catch (e) {}
+    if (++seenTries < 12) setTimeout(seeNeeds, 1000);
+  })();
   var tries = 0;
   (function go() {
     var b = document.querySelector('#bl-nav [data-bl="tasks"]');

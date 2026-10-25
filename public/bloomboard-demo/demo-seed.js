@@ -1137,7 +1137,18 @@
 
       var lastRead = {};
       var localConvs = [];
+      /* The demo opens calm: every chat is there, but empty and read. The tour and the teammates
+         fill them as it plays, so what a visitor sees in chat is what just happened. */
+      var CLEAN_CHAT = true;
       CONVS.forEach(function (c, ci) {
+        if (CLEAN_CHAT) {
+          var made = now - (30 + ci) * hour;
+          demo.seed('conversations', { id: c.id, type: c.type, name: c.name || null, members: c.members, last_msg_text: null, last_msg_ts: null, created_at: new Date(made).toISOString() });
+          localConvs.push({ id: c.id, type: c.type, name: c.name || null, members: c.members, createdAt: made, lastMsgTime: 0, lastMsgText: '' });
+          localStorage.setItem('bloom_chat_msgs_' + c.id, '[]');
+          lastRead[c.id] = now;
+          return;
+        }
         var n = c.script.length;
         var start = now - (6 + ci * 2) * hour;
         var step = Math.floor((5 * hour) / n);
@@ -1203,8 +1214,6 @@
       demo.seed('bloom_calls', [
         liveCall(DESIGN_ROOM, 'Design room', [ID.maya, ID.ethan], 12),
         liveCall(LOUNGE, 'Lounge', [ID.leo, ID.priya], 7),
-        liveCall(MARKETING_ROOM, 'Marketing room', [ID.sofia, ID.omar], 18),
-        liveCall(PRODUCT_ROOM, 'Product room', [ID.james, ID.hana], 4),
       ]);
       /* Room convs locally too, so the office paints before the first pull lands. */
       demo.rows('conversations').forEach(function (c) {
@@ -1213,8 +1222,8 @@
         localConvs.push({ id: c.id, type: 'group', name: c.name, members: c.members, kind: c.kind, department: c.department || '', squad: c.squad || null,
           createdAt: now - 24 * hour, lastMsgTime: 0, lastMsgText: '' });
       });
-      /* A short chat in the Design room, so the side chat on Tasks opens on a live thread. */
-      (function () {
+      /* A short chat in the Design room (off while the demo opens with empty chats). */
+      if (!CLEAN_CHAT) (function () {
         var lines = [
           [ID.maya, 'Pushed the new pricing cards to the board'],
           [ID.ethan, 'Nice. Spacing on mobile looks much better'],
@@ -1250,8 +1259,6 @@
       demo.liveRooms = [
         { conv: DESIGN_ROOM, anchor: ID.maya, guests: [ID.ethan] },
         { conv: LOUNGE, anchor: ID.leo, guests: [ID.priya] },
-        { conv: MARKETING_ROOM, anchor: ID.sofia, guests: [ID.omar] },
-        { conv: PRODUCT_ROOM, anchor: ID.james, guests: [ID.hana] },
       ];
 
       /* ── Meetings & reminders ── */

@@ -35,6 +35,8 @@
   var knockCooldown = {};
   var selfSending = false;
   var busyReplying = {};
+  /* the tour's chat sets the answer it expects (demo-sim's CHAT_THREADS) */
+  var tourReply = '';
 
   function rand(min, max) { return min + Math.random() * (max - min); }
   function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
@@ -75,18 +77,18 @@
     demo.broadcast('chat_conv_' + convId, 'typing', { convId: convId, userId: from.id, name: from.name });
   }
 
-  /* ── Ambient chatter: every 18–28 s, into a chat the visitor isn't reading ── */
+  /* ── Ambient chatter: now and then (60–90 s) a teammate DMs, never into the chat being read ── */
   var storyChats = 0, storyEndedAt = 0;
   function ambientChat() {
     if (storyRunning && storyChats >= 1) { later(5000, ambientChat); return; }
     if (storyRunning) storyChats++;
     var from = pick(MATES.filter(function (m) { return isOnline(m.id); })) || MATES[0];
-    var options = [dmId(from.id)].concat(ROOMS).filter(function (c) { return c !== activeConvId(); });
+    var options = [dmId(from.id)].filter(function (c) { return c !== activeConvId() && !touring; });
     if (options.length) {
       postMessage(pick(options), from, LINES[lineIdx % LINES.length]);
       lineIdx++;
     }
-    later(rand(18000, 28000), ambientChat);
+    later(rand(60000, 90000), ambientChat);
   }
 
   /* ── A teammate knocks every 75–95 s ── */
@@ -111,10 +113,10 @@
     var who = p.to;
     if (knockCooldown[who] && Date.now() - knockCooldown[who] < 30000) return;
     knockCooldown[who] = Date.now();
-    var roll = Math.random();
+    var tour = !!window.__bbTourKnock, roll = tour ? 0 : Math.random();
     if (roll >= 0.9) return; /* the app shows "No answer" on its own timeout */
     var answer = roll < 0.7 ? 'in' : 'soon';
-    later(rand(3000, 6000), function () {
+    later(tour ? 2200 : rand(3000, 6000), function () {
       demo.broadcast('team_live_', 'knock_reply', { id: p.id, from: who, to: ME, answer: answer });
     });
   });
@@ -134,7 +136,8 @@
       typing(convId, from);
       later(1500, function () {
         busyReplying[convId] = false;
-        postMessage(convId, from, pick(REPLIES));
+        postMessage(convId, from, tourReply || pick(REPLIES));
+        tourReply = '';
       });
     });
   });
@@ -628,6 +631,18 @@
     '.bbd-file img{width:46px;height:24px;object-fit:cover;border-radius:4px;display:block}' +
     '.kb-board .task-cover img,.bbd-clone .task-cover img{max-height:150px;object-fit:cover;object-position:top}' +
     '.bbd-nudge{animation:bbdNudge 1.6s ease-in-out 3}' +
+    /* the tour's meeting: the app's own call panel, as a proper meeting window in the middle */
+    '#bb-call-dock.bbd-meet{position:fixed!important;left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;' +
+      'width:min(860px,calc(100vw - 80px))!important;height:min(540px,calc(100vh - 150px))!important;max-height:none!important;' +
+      'transform:translate(-50%,-50%)!important;z-index:9990;animation:bbdMeetIn .35s cubic-bezier(.2,.85,.2,1) both!important}' +
+    '@keyframes bbdMeetIn{from{opacity:0;scale:.96}to{opacity:1;scale:1}}' +
+    '#bb-call-dock.bbd-meet.ending{opacity:0;scale:.97;transition:opacity .3s,scale .3s}' +
+    '#bb-call-dock.bbd-meet .bb-call-stage{flex:1;min-height:0;display:block!important;padding:16px}' +
+    '#bb-call-dock.bbd-meet .bb-call-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-auto-rows:1fr;gap:12px!important;height:100%}' +
+    '#bb-call-dock.bbd-meet .bb-call-tile{aspect-ratio:auto!important;min-height:0;border-radius:14px;transition:box-shadow .25s,opacity .3s}' +
+    '#bb-call-dock.bbd-meet .bb-call-tile.pending{opacity:.55}' +
+    '#bb-call-dock.bbd-meet .bb-call-tile-av{width:96px;height:96px;font-size:30px}' +
+    '#bb-call-dock.bbd-meet .bb-call-tile-name{left:12px;bottom:12px;font-size:12.5px}' +
     '@keyframes bbdNudge{0%,100%{transform:none}50%{transform:scale(1.06)}}';
   (document.head || document.documentElement).appendChild(fxCss);
 
@@ -1134,6 +1149,103 @@
      Then Boards (open one, move a card), a look at the Office, one email,
      and back to Tasks to type three new tasks. Waits while the visitor uses
      the demo themselves, and never runs two things at once. */
+  /* Where the demo's camera looks (demo-camera.js): the whole app, or these parts held still. */
+  function shot(els, wide) { window.__bbDemoShot = { els: els, wide: !!wide }; }
+  function overview() { window.__bbDemoShot = { all: true }; }
+  function noShot() { window.__bbDemoShot = null; }
+  /* desks of teammates who are free and at their desk (knocking someone away opens a chat instead) */
+  function deskCards(btn) {
+    return [].slice.call(document.querySelectorAll('.office-dept .station-card')).filter(function (c) {
+      var id = (c.getAttribute('data-station-key') || '').replace('person:', '');
+      return vis(c) && isFree(id) && !c.classList.contains('me') && !c.classList.contains('in-room') && c.querySelector(btn);
+    });
+  }
+  var CHAT_THREADS = [
+    /* [what Sam says, what they answer] */
+    [['Thanks! Got a minute for the banner review?', 'Sure, send them over'], ['The new versions are on the Product Launch board', 'Second one is great 👏']],
+    [['Hey, can you look at the new hero before lunch?', 'Yes, opening it now'], ['Mainly the spacing on mobile', 'Looks much better already']],
+    [['Quick one: are we still on for the launch sync?', 'Yes, 3pm'], ['I will bring the pricing numbers', 'Perfect, see you there']],
+  ];
+  var chatIdx = 0;
+
+  /* ── A quick meeting ──
+     Calls need real people, so the tour plays one in the app's own call panel: the room's
+     people with their photos, whoever talks lights up, a teammate drops in, Sam raises a
+     hand and speaks, then leaves. Nothing connects; it is the real panel, filled by hand. */
+  var MIC_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M1 1l22 22M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/><path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23M12 19v4"/></svg>';
+  function esc(t) { return String(t || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function callTile(id, label, cls) {
+    var m = (window.chatMemberById && window.chatMemberById(id)) || mate(id) || {};
+    var style = window.bbAvatarStyle ? window.bbAvatarStyle(m) : '';
+    return '<div class="bb-call-tile ' + (cls || '') + '" data-id="' + id + '"><div class="bb-call-tile-av" style="' + esc(style) + '"></div>' +
+      '<div class="bb-call-tile-name"><span class="bb-call-tile-mic" aria-hidden="true">' + MIC_OFF + '</span><span class="bb-call-tile-label">' + esc(label) + '</span></div></div>';
+  }
+  function meeting(convId, title, done) {
+    var dock = q('#bb-call-dock'), grid = q('#bb-call-grid');
+    var call = liveCalls().filter(function (c) { return c.conversation_id === convId; })[0];
+    if (!dock || !grid || !call) return done();
+    var people = joinedIn(call).filter(function (id) { return id !== ME; }).slice(0, 2);
+    if (!people.length) return done();
+    var guest = pick(MATES.filter(function (x) { return isFree(x.id) && people.indexOf(x.id) < 0 && x.id !== ME; }));
+    var timers = [], talk = null;
+    function at(ms, fn) { timers.push(setTimeout(function () { if (lastInput > cycleStart || hidden()) { close(false); return; } try { fn(); } catch (e) { close(); } }, ms)); }
+    function set(id, txt) { var e = q('#' + id); if (e) e.textContent = txt; }
+    function count() { set('bb-call-state', grid.querySelectorAll('.bb-call-tile:not(.pending)').length + ' in call'); }
+    function tile(id) { return grid.querySelector('.bb-call-tile[data-id="' + id + '"]'); }
+    function speak(id) { [].forEach.call(grid.querySelectorAll('.bb-call-tile'), function (t) { t.classList.toggle('speaking', t.getAttribute('data-id') === id); }); }
+    function close(ok) {
+      timers.forEach(clearTimeout); clearInterval(talk);
+      dock.classList.add('ending');
+      setTimeout(function () { dock.className = 'bb-call-dock'; grid.innerHTML = ''; }, 320);
+      overview();
+      if (ok !== false) later(1400, done); else done(false);
+    }
+    dock.className = 'bb-call-dock show group audio-only room-call bbd-meet';
+    grid.innerHTML = ''; grid.dataset.count = '0';
+    var ph = q('#bb-call-remote-placeholder'); if (ph) ph.style.display = 'none';
+    set('bb-call-person', title); set('bb-call-state', 'Connecting…');
+    var dot = q('#bb-call-live-dot'); if (dot) dot.className = 'bb-call-live-dot connecting';
+    shot([dock]);
+    if (ghost) ghost.style.opacity = '0';
+    at(800, function () {
+      grid.innerHTML = people.map(function (id) { return callTile(id, (mate(id) || {}).name || ''); }).join('') + callTile(ME, 'You', 'self');
+      grid.dataset.count = String(people.length + 1);
+      if (dot) dot.className = 'bb-call-live-dot';
+      count();
+      var k = 0;
+      speak(people[0]);
+      talk = setInterval(function () { k++; speak(people[k % people.length]); }, 1900);
+    });
+    if (guest) {
+      at(4200, function () {
+        grid.insertAdjacentHTML('beforeend', callTile(guest.id, guest.name.split(' ')[0] + ' · joining…', 'pending'));
+        grid.dataset.count = String(people.length + 2);
+      });
+      at(5600, function () {
+        var t = tile(guest.id); if (!t) return;
+        t.classList.remove('pending'); t.querySelector('.bb-call-tile-label').textContent = guest.name;
+        set('bb-call-state', guest.name.split(' ')[0] + ' joined');
+        later(1800, count);
+      });
+    }
+    at(7600, function () {
+      var h = q('#bb-call-hand'); if (!h) return;
+      tap(h, function () { h.classList.add('on'); h.setAttribute('aria-pressed', 'true'); var me = tile(ME); if (me) me.classList.add('hand'); }, 'Raise hand');
+    });
+    at(10400, function () {
+      clearInterval(talk);
+      var h = q('#bb-call-hand'); if (h) { h.classList.remove('on'); h.setAttribute('aria-pressed', 'false'); }
+      var me = tile(ME); if (me) me.classList.remove('hand');
+      speak(ME);
+    });
+    at(13000, function () { speak(people[1] || people[0]); });
+    at(14600, function () {
+      var end = q('#bb-call-dock .bb-call-control.end');
+      if (!end) return close();
+      tap(end, function () { close(); }, 'Leave');
+    });
+  }
+
   var ROOM_LINES = ['Pushed the new hero, can someone take a look?', 'Banners are ready for review', 'Pricing copy draft is in the doc', 'Who can check the launch checklist today?'];
   var roomIdx = 0;
   function nav(key, then, wait) {
@@ -1143,7 +1255,8 @@
     else { b.click(); later(wait || 1500, then); }
   }
   function quiet() { return !hidden() && frameOnScreen() && !busyScreen() && Date.now() - lastInput > IDLE_MS; }
-  function step(fn) { return function (n) { if (lastInput > cycleStart || hidden()) return n(false); fn(n); }; }
+  /* a step that goes wrong (the page changed under it) moves on instead of stopping the tour */
+  function step(fn) { return function (n) { if (lastInput > cycleStart || hidden()) return n(false); try { fn(n); } catch (e) { n(); } }; }
   var cycleStart = 0;
   var CYCLE = [
     /* always start from Tasks (after a pause the visitor may have left it somewhere else) */
@@ -1184,48 +1297,72 @@
       if (!card || !vis(card)) return n();
       carry(card, cols[1].querySelector('.kanban-cards'), function () { later(1800, n); });
     }),
-    /* the Office: everyone at their desks, a meeting going on, a knock on someone's desk, then a message */
+    /* the Office: the whole floor first, then a quick meeting, a knock on a desk, and a chat at someone's desk */
     step(function (n) {
+      overview();
       var b = q('#bl-nav [data-bl="office"]') || q('#sb-office-enter');
       if (!b) return n();
-      if (vis(b)) tap(b, function () { b.click(); later(1600, n); }); else { b.click(); later(1600, n); }
+      if (vis(b)) tap(b, function () { b.click(); later(2200, n); }); else { b.click(); later(2200, n); }
     }),
+    /* a quick meeting: walk into a live room, people talk, someone drops in, a hand goes up, then leave */
     step(function (n) {
-      /* a call with people in it: a room's live line in a department, or a live room below */
-      var live = [].slice.call(document.querySelectorAll('.office-dept .bl-droom, .ofr')).filter(function (r) { return vis(r) && r.querySelector('.ofr-dot.red'); })[0];
-      if (!live) return n();
-      point(live.querySelector('.bl-live-faces, .ofr-av') || live, function () { later(2800, n); }, 'In a call');
-    }),
-    step(function (n) {
-      var desks = [].slice.call(document.querySelectorAll('.office-dept .station-card')).filter(function (c) {
-        return vis(c) && !c.classList.contains('me') && !c.classList.contains('sig-focus') && c.querySelector('[title="Knock"]');
+      var room = [].slice.call(document.querySelectorAll('.office-dept .bl-droom')).filter(function (r) {
+        return vis(r) && r.querySelector('.ofr-dot.red') && r.querySelector('.office-btn.primary');
+      })[0];
+      if (!room) return n();
+      /* read the room now: the office redraws while people come and go */
+      var join = room.querySelector('.office-btn.primary');
+      var conv = /officeJoin\("([^"]+)"\)/.exec(join.getAttribute('onclick') || '');
+      var title = (room.querySelector('.bl-room-t b') || {}).textContent || 'Meeting room';
+      if (!conv) return n();
+      shot([room]);
+      later(900, function () {
+        var j = q('.office-dept .bl-droom .office-btn.primary[onclick*="' + conv[1] + '"]') || join;
+        tap(j, function () { meeting(conv[1], title, n); }, 'Join the meeting');
       });
+    }),
+    /* a knock on a free teammate's desk: they say come in, and the app opens the chat with them */
+    step(function (n) {
+      overview();
+      var desks = deskCards('[title="Knock"]');
       if (!desks.length) return n();
-      var k = pick(desks).querySelector('[title="Knock"]');
-      tap(k, function () { k.click(); later(4200, n); }, 'Knock');
-    }),
-    step(function (n) {
-      var cards = [].slice.call(document.querySelectorAll('.office-dept .station-card')).filter(function (c) {
-        return vis(c) && !c.classList.contains('me') && !c.classList.contains('sig-focus') && c.querySelector('[title="Message"]');
+      var card = pick(desks), key = card.getAttribute('data-station-key');
+      var name = ((card.querySelector('.station-card-name') || {}).textContent || '').split(' ')[0];
+      /* the office redraws as people come and go: find the desk again each time */
+      function desk() { return q('.office-dept .station-card[data-station-key="' + key + '"]') || card; }
+      shot([desk], true);
+      later(700, function () {
+        var k = desk().querySelector('[title="Knock"]');
+        if (!k) return n();
+        tap(k, function () { window.__bbTourKnock = 1; k.click(); open(0); }, 'Knock');
       });
-      if (!cards.length) return n();
-      var m = pick(cards).querySelector('[title="Message"]');
-      tap(m, function () { m.click(); later(700, n); });
+      function open(waited) {
+        var inp = q('#chat-text-input');
+        if (q('#bl-nav [data-bl="chat"].on') && vis(inp)) { window.__bbTourKnock = 0; overview(); return later(900, n); }
+        if (waited < 9000) return later(300, function () { open(waited + 300); });
+        /* no answer: open the chat with them anyway */
+        window.__bbTourKnock = 0; overview();
+        nav('chat', function () {
+          var it = [].slice.call(document.querySelectorAll('.chat-conv-item')).filter(function (x) { return vis(x) && x.textContent.indexOf(name) >= 0; })[0];
+          if (!it) return n();
+          tap(it, function () { it.click(); later(900, n); });
+        }, 1300);
+      }
     }),
-    step(function (n) { var i = q('#station-peek-input'); if (!vis(i)) return n(); typeText(i, pick(OFFICE_LINES), false, n); }),
-    step(function (n) { var b = q('.station-peek-send'); if (!vis(b)) return n(); tap(b, function () { b.click(); later(3200, n); }); }),
-    /* Chat: open a conversation, say something, a teammate types back */
-    step(function (n) { nav('chat', n, 1300); }),
+    /* the whole chat in shot: a short back and forth, with them typing back each time */
     step(function (n) {
-      var items = [].slice.call(document.querySelectorAll('.chat-conv-item')).filter(function (x) {
-        return vis(x) && !x.classList.contains('active') && /Maya|Daniel|Priya|Leo|Ethan/.test(x.textContent);
-      });
-      if (!items.length) return n();
-      var it = pick(items);
-      tap(it, function () { it.click(); later(800, n); });
+      shot(['.chat-main'], true);
+      var lines = CHAT_THREADS[chatIdx++ % CHAT_THREADS.length];
+      (function say(k) {
+        var i = q('#chat-text-input'), b = q('#chat-send-btn');
+        if (k >= lines.length || !vis(i) || !b || lastInput > cycleStart) return n();
+        tap(i, function () {
+          i.focus();
+          typeText(i, lines[k][0], true, function () { tap(b, function () { tourReply = lines[k][1]; b.click(); later(4800, function () { say(k + 1); }); }); });
+        });
+      })(0);
     }),
-    step(function (n) { var i = q('#chat-text-input'); if (!vis(i)) return n(); typeText(i, pick(CHAT_LINES), true, n); }),
-    step(function (n) { var b = q('#chat-send-btn'); if (!vis(b)) return n(); tap(b, function () { b.click(); later(4200, n); }); }),
+    step(function (n) { overview(); later(800, n); }),
     /* back to Tasks */
     step(function (n) { nav('tasks', n, 1800); }),
     /* three new tasks */
@@ -1248,6 +1385,7 @@
     (function next(ok) {
       if (ok === false || !steps.length) {
         if (ghost) ghost.style.opacity = '0';
+        noShot();
         touring = false;
         /* if the visitor took over, leave them be and try again later */
         later(ok === false ? 2000 : rand(4000, 6000), cycle);
@@ -1260,6 +1398,8 @@
   window.__bbDemoState = function () { return { touring: touring, scripting: scripting, storyRunning: storyRunning, idle: Date.now() - lastInput, quiet: quiet(), hidden: hidden(), frame: frameOnScreen(), busy: busyScreen() }; };
   /* for checking one visit by hand: __bbDemoTour('office') */
   window.__bbDemoTour = function (kind) { runTour(function () {}, kind); };
+  /* and the whole cycle: __bbDemoCycle() */
+  window.__bbDemoCycle = function () { cycle(); };
 
   if (STORY) watchStory();
   else later(10000, firstMoves);

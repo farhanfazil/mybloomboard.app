@@ -49,9 +49,30 @@
   function inside(px, py, r) { return r && px > r.x + 60 && px < r.x + r.w - 60 && py > r.y + 50 && py < r.y + r.h - 50; }
   function visible(el) { if (!el) return false; var r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && r.bottom > 0 && r.top < H(); }
 
+  /* A shot the tour picked (demo-sim.js): { all: true } keeps the whole app in view while the cursor
+     moves around; { els: [...] } frames those parts together and holds them still, so a chat or a
+     meeting is shown whole instead of the camera chasing the cursor in and out. */
+  function shotRect(shot) {
+    var r = null;
+    (shot.els || []).forEach(function (el) {
+      if (typeof el === 'function') el = el();
+      if (typeof el === 'string') el = document.querySelector(el);
+      if (!visible(el)) return;
+      var b = el.getBoundingClientRect();
+      r = union({ left: b.left, top: b.top, right: b.right, bottom: b.bottom, width: b.width, height: b.height }, r && { left: r.left, top: r.top, right: r.left + r.width, bottom: r.top + r.height });
+    });
+    return r;
+  }
   function tick() {
     var now = Date.now();
     if (now - lastInput < IDLE_MS || document.visibilityState === 'hidden') { send(null); return; }
+    var shot = window.__bbDemoShot;
+    if (shot) {
+      idleSince = 0;
+      if (shot.all) { send(null); return; }
+      var sr = shotRect(shot);
+      if (sr) { send(frame(sr, shot.wide)); return; }
+    }
     /* A teammate knocking: look at the knock for a few seconds. */
     var k = document.querySelector('#tl-knocks .tl-knock:not(.missed)');
     if (k && visible(k) && k.getAttribute('data-id') !== knockSeen) { knockSeen = k.getAttribute('data-id'); knockUntil = now + 4500; }
