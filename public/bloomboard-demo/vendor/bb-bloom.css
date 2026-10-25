@@ -4306,3 +4306,30 @@ html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rt { backgro
 /* switches (Repeat): a visible track on any panel */
 html body:not(#_1):not(#_2):not(#_3) #task-modal .toggle-slider { background:color-mix(in srgb, var(--bl-fg, #e8e9ec) 22%, transparent) !important; }
 html body:not(#_1):not(#_2):not(#_3) #task-modal .toggle-switch input:checked + .toggle-slider { background:var(--bl-accent, #4d9fff) !important; }
+/* ── Task window Details, roomier (2026-10-25): 48px rows, a 15px line icon before each name, 36px buttons with
+   their own line icon, 20px colour dots in one row, people as chips (four, then +N), a visible Repeat switch. ── */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-side.tm-rows { padding:10px 20px 22px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows :is(.tm-row, .tm-onit:not([hidden])) { min-height:48px; grid-template-columns:110px minmax(0,1fr); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows :is(.tm-row, .tm-onit):hover { background:color-mix(in srgb, var(--bl-fg) 4%, transparent); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows .tm-rk { font:500 13.5px var(--bl-ui, system-ui) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows .tm-rk svg { width:15px; height:15px; opacity:.85; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows :is(.tm-rv, .picker-field.tm-rv, select.tm-rv) { min-height:36px !important; height:36px; padding:0 12px !important; border:1px solid var(--bl-line) !important; border-radius:8px !important; background:var(--bl-raise) !important; font:500 14px var(--bl-ui, system-ui) !important; color:var(--bl-fg) !important; gap:8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows :is(.tm-rv, .picker-field.tm-rv):hover { border-color:color-mix(in srgb, var(--bl-fg) 22%, var(--bl-line)) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows .tm-rv-ic svg { width:16px; height:16px; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows .tm-sep { margin:10px 0; }
+/* people: chips with a round face, four then +N; the add button is a dashed square with a plus */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows .tm-asg { gap:6px; padding:6px 0; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-asg-p { height:32px; padding:0 8px 0 4px; border-radius:16px 8px 8px 16px; font-size:13.5px; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-asg-av { width:24px; height:24px; font-size:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal :is(.tm-asg-add, .tm-asg-more) { display:inline-flex; align-items:center; gap:6px; height:32px !important; min-width:32px; justify-content:center; padding:0 9px !important; border-radius:8px !important; color:var(--bl-fg3) !important; font:500 13.5px var(--bl-ui, system-ui) !important; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-asg-more { border:1px solid var(--bl-line) !important; background:var(--bl-raise) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-asg-add svg { width:15px; height:15px; }
+/* colours: small dots in one row */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-side .tm-card-colors { display:flex !important; flex-wrap:wrap !important; gap:8px !important; align-items:center; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows .tm-card-color { width:20px !important; height:20px !important; min-width:20px !important; flex:0 0 20px !important; padding:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows .tm-card-color.selected { box-shadow:0 0 0 2px var(--bl-hover), 0 0 0 3.5px var(--bl-fg2, var(--bl-fg)) !important; }
+/* Repeat */
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows .toggle-switch { width:36px; height:21px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows .toggle-slider::before { width:17px; height:17px; left:2px; bottom:2px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows .toggle-switch input:checked + .toggle-slider::before { transform:translateX(15px); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rows .tm-sel-wrap { position:relative; padding-right:28px !important; }
