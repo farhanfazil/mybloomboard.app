@@ -32,7 +32,7 @@ const APP_VERSION = (() => {
 })();
 const BOOT_SCRIPT = [
   `<script>window.BB_APP_VERSION = ${JSON.stringify(APP_VERSION)};</script>`,
-  ...['demo-supabase.js', 'demo-seed.js', 'demo-boot.js', 'demo-mail.js', 'demo-convert.js', 'demo-sim.js'].map(
+  ...['demo-supabase.js', 'demo-seed.js', 'demo-boot.js', 'demo-mail.js', 'demo-convert.js', 'demo-sim.js', 'demo-camera.js'].map(
     (f) => `<script src="${f}?v=${VERSION}"></script>`
   ),
 ].join('\n  ');

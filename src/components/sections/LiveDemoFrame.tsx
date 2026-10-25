@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import DemoIframe, { type DemoCommand, type DemoState } from "@/components/sections/DemoIframe";
+import DemoIframe, { type DemoCommand, type DemoFocus, type DemoState } from "@/components/sections/DemoIframe";
 import DemoUsefulPoll from "@/components/sections/DemoUsefulPoll";
 import PhoneDemoPitch from "@/components/sections/PhoneDemoPitch";
 import StickyPopouts from "@/components/sections/StickyPopouts";
@@ -37,6 +37,25 @@ export default function LiveDemoFrame({
   const [pending, setPending] = useState<string | null>(null);
   const commandRef = useRef<((cmd: DemoCommand) => void) | null>(null);
   const onState = (st: DemoState) => { setDemo(st); setPending(null); };
+  /* The camera: the demo says what it is doing and the window zooms in on it, then back out.
+     Off for the hero peek and for people who ask for less motion. */
+  const [focus, setFocus] = useState<DemoFocus>(null);
+  const [calm, setCalm] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setCalm(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  const cam = (() => {
+    if (!focus || peek || calm) return "";
+    const z = Math.min(1.8, Math.max(1, Math.min(APP_W / focus.w, APP_H / focus.h)));
+    if (z < 1.05) return "";
+    const tx = Math.min(0, Math.max(APP_W - APP_W * z, -focus.x * z));
+    const ty = Math.min(0, Math.max(APP_H - APP_H * z, -focus.y * z));
+    return ` translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px) scale(${z.toFixed(3)})`;
+  })();
   const send = (cmd: DemoCommand, key: string) => { setPending(key); commandRef.current?.(cmd); };
 
   useEffect(() => {
@@ -166,11 +185,14 @@ export default function LiveDemoFrame({
               className="!absolute left-0 top-0"
               onState={onState}
               commandRef={commandRef}
+              onFocus={setFocus}
               style={{
                 width: APP_W,
                 height: APP_H,
-                transform: `scale(${scale})`,
+                transform: `scale(${scale})${cam}`,
                 transformOrigin: "top left",
+                /* slow and smooth, no bounce; the text is drawn sharp again once it settles */
+                transition: "transform 1.3s cubic-bezier(.65,0,.35,1)",
               }}
             />
           )}

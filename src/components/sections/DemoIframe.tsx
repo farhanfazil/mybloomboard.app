@@ -6,6 +6,8 @@ type Frame = { id: number; shown: boolean };
 
 export type DemoState = { ws: string; data: string; options: string[] };
 export type DemoCommand = { ws?: string; data?: string };
+/** A part of the demo window (in its own 1280 x 920 pixels) to zoom in on; null shows all of it. */
+export type DemoFocus = { x: number; y: number; w: number; h: number } | null;
 
 type DemoIframeProps = {
   src: string;
@@ -19,6 +21,8 @@ type DemoIframeProps = {
   /** Something is shown underneath (a picture of the demo): keep the first load
    *  out of sight too, and fade it in once it has drawn. */
   fadeIn?: boolean;
+  /** The demo's camera: what it is doing right now (public/bloomboard-demo/demo-camera.js). */
+  onFocus?: (focus: DemoFocus) => void;
 };
 
 const FADE_MS = 220;
@@ -33,12 +37,14 @@ const READY_TIMEOUT_MS = 7000;
  * swap: the new version loads out of sight under the current one and fades in once
  * it has drawn, then the old one is removed.
  */
-export default function DemoIframe({ src, title, className = "", style, onState, commandRef, fadeIn = false }: DemoIframeProps) {
+export default function DemoIframe({ src, title, className = "", style, onState, commandRef, fadeIn = false, onFocus }: DemoIframeProps) {
   const [frames, setFrames] = useState<Frame[]>([{ id: 0, shown: !fadeIn }]);
   const refs = useRef(new Map<number, HTMLIFrameElement>());
   const nextId = useRef(1);
   const onStateRef = useRef(onState);
   onStateRef.current = onState;
+  const onFocusRef = useRef(onFocus);
+  onFocusRef.current = onFocus;
 
   useEffect(() => {
     if (!commandRef) return;
@@ -75,6 +81,10 @@ export default function DemoIframe({ src, title, className = "", style, onState,
         window.setTimeout(() => reveal(newId), READY_TIMEOUT_MS);
       } else if (e.data.type === "bb-demo-ready") {
         reveal(id);
+      } else if (e.data.type === "bb-demo-focus") {
+        const r = e.data.rect;
+        const ok = r && [r.x, r.y, r.w, r.h].every((n: unknown) => typeof n === "number" && Number.isFinite(n)) && r.w > 0 && r.h > 0;
+        onFocusRef.current?.(ok ? { x: r.x, y: r.y, w: r.w, h: r.h } : null);
       } else if (e.data.type === "bb-demo-state") {
         onStateRef.current?.({ ws: String(e.data.ws), data: String(e.data.data), options: Array.isArray(e.data.options) ? e.data.options : [] });
       }
