@@ -4236,3 +4236,5 @@ html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > button:h
 html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > button.del:hover { color:var(--bl-bad) !important; }
 html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > .tm-cm-rxbtn:hover { text-decoration:none; }
 html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > .tm-cm-rxbtn svg { width:16px; height:16px; }
+/* Text with dir="auto" (Arabic or English by its first letters) aligns to its own start (2026-10-25) */
+html body [dir="auto"]:not(input[type="checkbox"]) { text-align:start !important; unicode-bidi:plaintext; }
