@@ -4272,3 +4272,12 @@ html body:not(#_1):not(#_2):not(#_3) .bb-pf-btn:hover svg { transform:scale(1.18
    "Edit task · Saves when you close", and the comment box reaches the bottom. A new task keeps its Cancel / Add task bar. */
 html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.tm-is-edit #task-modal-title::after { content:' · Saves when you close'; font-weight:400; color:var(--bl-fg3); opacity:.85; }
 html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.tm-is-edit .tm-footer { display:none !important; }
+/* Task window, open task (2026-10-25, Trello-like): wider; a header bar across the top ("Edit task · Saves when
+   you close" left, ✕ right, a line under it); the comments side in the task card grey; each comment in its own box. */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .modal-sheet.task-sheet.has-cmts { width:min(1120px, calc(100vw - 64px)) !important; height:min(86vh, 820px) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-cols { grid-template-columns:minmax(0,1fr) 420px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts #task-modal-title { display:flex; align-items:center; height:52px; margin:0 !important; padding:0 64px 0 24px !important; border-bottom:1px solid var(--bl-line); flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts > .modal-topbar { top:11px !important; right:14px !important; height:30px !important; padding:0 !important; display:flex; align-items:center; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts :is(.tm-tabs, .tm-cmts, .tm-side) { background:var(--bl-raise) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm .tm-cm-t2 { background:var(--bl-win); border:1px solid var(--bl-line); border-radius:8px; padding:8px 12px; margin-top:5px; color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm .tm-cm-quote { max-width:none; }
