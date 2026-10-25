@@ -4289,8 +4289,14 @@ html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs > button:first-child { border-radius:7px 0 0 7px !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs > button:last-child { border-radius:0 7px 7px 0 !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs > button:hover { color:var(--bl-fg) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs > button.on { background:var(--bl-accent) !important; color:#fff !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs > button.on .tm-tab-n { color:rgba(255,255,255,.85) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs > button.on { background:color-mix(in srgb, var(--bl-fg) 13%, var(--bl-raise)) !important; color:var(--bl-fg) !important; box-shadow:0 1px 1px rgba(0,0,0,.25); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs > button.on .tm-tab-n { color:var(--bl-fg2, var(--bl-fg3)) !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs > button.on { background:#ffffff !important; box-shadow:0 1px 2px rgba(15,23,42,.12); }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs { --tray:#e3e6ec; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs > button.has-new::after { top:6px; right:8px; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm .tm-cm-quote { max-width:none; }
+
+/* the comment box in the same grey as the comment bubbles (it was the darkest thing on the side) */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal #tm-comment-input { background:var(--bl-raise) !important; border:1px solid var(--bl-line) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal #tm-comment-input:focus { border-color:color-mix(in srgb, var(--bl-accent) 50%, var(--bl-line)) !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal #tm-comment-input { background:var(--bl-win) !important; }
