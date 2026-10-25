@@ -4238,3 +4238,14 @@ html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > .tm-cm-r
 html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > .tm-cm-rxbtn svg { width:16px; height:16px; }
 /* Text with dir="auto" (Arabic or English by its first letters) aligns to its own start (2026-10-25) */
 html body [dir="auto"]:not(input[type="checkbox"]) { text-align:start !important; unicode-bidi:plaintext; }
+/* Bell: "Needs you" folded to one line at the top, notifications right below (2026-10-25) */
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-needs { padding-bottom:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-needs.open { padding-bottom:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-needs-hd { display:flex; align-items:center; gap:8px; width:100%; padding:11px 16px; border:0; background:none; cursor:pointer; text-align:left; color:var(--bl-fg); font:600 13px var(--bl-ui, system-ui); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-needs-hd:hover { background:var(--bl-hover); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-needs-n { color:var(--bl-fg3); font-weight:600; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-needs-dots { display:flex; gap:3px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-needs-sum { flex:1; min-width:0; font-weight:400; color:var(--bl-fg3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-needs.open .notif-needs-sum { visibility:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-needs-hd svg { width:15px; height:15px; flex:none; color:var(--bl-fg3); transition:transform .15s; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-needs.open .notif-needs-hd svg { transform:rotate(180deg); }
