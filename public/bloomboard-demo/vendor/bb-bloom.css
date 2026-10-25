@@ -2221,7 +2221,7 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #task-header-actions .bb-more-btn svg
 .bb-more-menu button span { margin-left:auto; font-size:12px; color:var(--bl-fg3,#8d93a0); }
 /* Side chat: reactions and the GIF button */
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-rxs { display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-rx { display:inline-flex; align-items:center; gap:4px; height:26px; padding:0 7px; border:1px solid var(--bl-line); border-radius:8px; background:var(--bl-raise); color:var(--bl-fg2); font:600 12px var(--bl-ui); cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-rx { display:inline-flex; align-items:center; gap:4px; height:26px; padding:0 7px; border:1px solid var(--bl-line); border-radius:8px; background:var(--bl-raise); color:var(--bl-fg2) !important; font:600 12px var(--bl-ui, system-ui); cursor:pointer; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-rx:hover { border-color:var(--bl-fg3); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-rx.on { border-color:color-mix(in srgb, var(--bl-accent) 60%, var(--bl-line)); background:color-mix(in srgb, var(--bl-accent) 12%, var(--bl-raise)); color:var(--bl-fg); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-rx-e { display:inline-flex; align-items:center; font-size:15px; line-height:1; }
@@ -4211,9 +4211,9 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-quote { display:fl
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-quote b { font-size:12px; color:var(--bl-fg); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-quote span { font-size:12.5px; color:var(--bl-fg3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-rx { display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-rxc { display:inline-flex; align-items:center; gap:4px; height:24px; padding:0 7px; border:1px solid var(--bl-line); border-radius:6px; background:none; color:var(--bl-fg2); font:600 12px var(--bl-ui); cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-rxc { display:inline-flex; align-items:center; gap:4px; height:24px; padding:0 7px; border:1px solid var(--bl-line); border-radius:6px; background:none; color:var(--bl-fg2) !important; font:600 12px var(--bl-ui, system-ui); cursor:pointer; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-rxc:hover { background:var(--bl-hover); }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-rxc.mine { border-color:var(--bl-accent); color:var(--bl-fg); background:color-mix(in srgb, var(--bl-accent) 12%, transparent); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-rxc.mine { border-color:var(--bl-accent); color:var(--bl-fg) !important; background:color-mix(in srgb, var(--bl-accent) 12%, transparent); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-rxc img { width:15px; height:15px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-acts { position:relative; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-pick { position:absolute; left:0; bottom:calc(100% + 6px); z-index:5; display:flex; gap:2px; padding:4px; border:1px solid var(--bl-line); border-radius:10px; background:var(--bl-panel, var(--bl-win)); box-shadow:0 8px 24px rgba(0,0,0,.28); }
@@ -4227,3 +4227,12 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-replying b { color
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-replying button { border:0; background:none; color:var(--bl-fg3); font-size:17px; line-height:1; cursor:pointer; padding:0 2px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm.tm-cm-flash { animation:tmCmFlash 1.2s ease; border-radius:8px; }
 @keyframes tmCmFlash { 0%, 40% { background:color-mix(in srgb, var(--bl-accent) 14%, transparent); } 100% { background:transparent; } }
+
+/* Comment actions like Trello (2026-10-25): a small add-reaction icon · Reply · Edit · Delete, quiet and always there */
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts { display:flex; align-items:center; gap:0; margin-top:5px; opacity:1 !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > button { display:inline-flex; align-items:center; height:22px; padding:0; border:0; background:none; font:500 12px/1 var(--bl-ui, system-ui); color:var(--bl-fg3) !important; cursor:pointer; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > button + button::before { content:'·'; margin:0 7px; color:var(--bl-fg3); text-decoration:none; display:inline-block; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > button:hover { color:var(--bl-fg) !important; text-decoration:underline; text-underline-offset:2px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > button.del:hover { color:var(--bl-bad) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > .tm-cm-rxbtn:hover { text-decoration:none; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm-acts > .tm-cm-rxbtn svg { width:16px; height:16px; }
