@@ -16,7 +16,8 @@ const nextConfig = {
   async redirects() {
     return [
       // www goes to the main address, as it did on Netlify (one address for search engines and links).
-      { source: "/:path*", has: [{ type: "host", value: "www.mybloomboard.app" }], destination: "https://mybloomboard.app/:path*", permanent: true },
+      { source: "/", has: [{ type: "host", value: "www.mybloomboard.app" }], destination: "https://mybloomboard.app/", permanent: true },
+      { source: "/:path+", has: [{ type: "host", value: "www.mybloomboard.app" }], destination: "https://mybloomboard.app/:path*", permanent: true },
       // The old "Team plan coming soon" waitlist: Team is now on the pricing section.
       { source: "/team", destination: "/#pricing", permanent: true },
       // The Freelance product is hidden for now.
