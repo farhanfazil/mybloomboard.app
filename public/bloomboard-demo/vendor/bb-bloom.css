@@ -4366,3 +4366,28 @@ html body:not(#_1):not(#_2):not(#_3):not(#_4) #act-panel { width:min(420px, calc
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-home :is(.bl-box, .bl-urg-empty) { background:var(--bl-raise) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-home .bl-foot { background:var(--bl-raise) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-home :is(.bl-row, .bl-slot):hover { background:var(--bl-hover) !important; }
+/* ── T for task (2026-10-26): the key on Add task, on hover in each column, and the one-time shortcuts card ── */
+html body.bloom:not(#_1):not(#_2):not(#_3) .add-btn .bl-addk { display:inline-grid; place-items:center; min-width:20px; height:20px; margin:0 -4px 0 6px; padding:0 5px; border:0; border-radius:5px; background:color-mix(in srgb, currentColor 18%, transparent); color:inherit; font:700 11.5px ui-monospace, SFMono-Regular, Menlo, monospace; box-shadow:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kb-col-addtask .bl-addk-h { margin:0 0 0 auto; background:var(--bl-raise); color:var(--bl-fg2); border:1px solid var(--bl-line); opacity:0; transition:opacity .15s; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .kb-col-addtask:hover .bl-addk-h { opacity:1; }
+#bl-coach { position:fixed; right:22px; bottom:22px; z-index:8000; width:320px; padding:16px; border-radius:14px; background:var(--bl-raise, #1b1d22); border:1px solid var(--bl-line, #26282e); color:var(--bl-fg, #eceef2); box-shadow:0 14px 34px rgba(0,0,0,.35); font:13px/1.45 var(--bl-ui, -apple-system, system-ui, sans-serif); opacity:0; transform:translateY(8px); transition:opacity .2s, transform .2s; }
+#bl-coach.on { opacity:1; transform:none; }
+#bl-coach .bl-coach-hd { display:flex; align-items:center; justify-content:space-between; margin-bottom:2px; }
+#bl-coach .bl-coach-hd b { font-size:14px; font-weight:650; }
+#bl-coach .bl-coach-x { width:28px; height:28px; display:grid; place-items:center; border:0; border-radius:7px; background:transparent; color:var(--bl-fg3, #8d93a0); cursor:pointer; }
+#bl-coach .bl-coach-x:hover { background:var(--bl-hover, #202227); color:var(--bl-fg, #eceef2); }
+#bl-coach .bl-coach-x svg { width:15px; height:15px; }
+#bl-coach p { margin:0 0 10px; color:var(--bl-fg3, #8d93a0); font-size:12.5px; }
+#bl-coach .bl-coach-keys { display:flex; flex-direction:column; gap:2px; margin-bottom:12px; }
+#bl-coach .bl-coach-row { display:flex; align-items:center; gap:10px; padding:5px 8px; border-radius:9px; transition:background .2s; }
+#bl-coach .bl-coach-row kbd { display:inline-grid; place-items:center; min-width:28px; height:26px; padding:0 6px; border-radius:6px; border:1px solid var(--bl-line, #26282e); background:var(--bl-win, #141519); color:var(--bl-fg2, #c5c8cf); font:600 12px ui-monospace, SFMono-Regular, Menlo, monospace; transition:background .2s, color .2s, border-color .2s, transform .12s; }
+#bl-coach .bl-coach-row span { color:var(--bl-fg2, #c5c8cf); }
+#bl-coach .bl-coach-row.lit { background:var(--bl-hover, #202227); }
+#bl-coach .bl-coach-row.lit kbd { background:var(--bl-accent, #5b93ff); border-color:var(--bl-accent, #5b93ff); color:var(--bl-accent-fg, #0b0c0f); transform:translateY(1px); }
+#bl-coach .bl-coach-ft { display:flex; align-items:center; justify-content:space-between; }
+#bl-coach .bl-coach-ft small { color:var(--bl-fg3, #8d93a0); font-size:12px; }
+#bl-coach .bl-coach-ok { border:0; border-radius:8px; padding:7px 12px; background:var(--bl-accent, #5b93ff); color:var(--bl-accent-fg, #0b0c0f); font:600 13px var(--bl-ui, inherit); cursor:pointer; }
+body.light-mode #bl-coach { box-shadow:0 10px 28px rgba(15,23,42,.14); }
+html body #bl-coach .bl-coach-ok:not(#_1) { background:var(--bl-accent, #5b93ff) !important; color:var(--bl-accent-fg, #0b0c0f) !important; border:0 !important; }
+html body #bl-coach .bl-coach-x:not(#_1) { background:transparent !important; border:0 !important; }
+html body #bl-coach .bl-coach-x:not(#_1):hover { background:var(--bl-hover, #202227) !important; }
