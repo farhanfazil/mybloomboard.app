@@ -29,7 +29,7 @@
     if (w / h > ar) { var nh = w / ar; y -= (nh - h) / 2; h = nh; } else { var nw = h * ar; x -= (nw - w) / 2; w = nw; }
     if (w >= W() * 0.92) return null;   /* almost everything: just show everything */
     x = Math.max(0, Math.min(W() - w, x)); y = Math.max(0, Math.min(H() - h, y));
-    if (x < 160) x = 0;   /* close to the left: keep the sidebar in the shot */
+    if (x < 160 && r.left + r.width + pad <= w) x = 0;   /* close to the left: keep the sidebar in the shot, if the scene still fits */
     return { x: x, y: y, w: w, h: h };
   }
   function around(px, py) {

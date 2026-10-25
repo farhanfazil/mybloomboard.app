@@ -38,18 +38,10 @@ export default function LiveDemoFrame({
   const commandRef = useRef<((cmd: DemoCommand) => void) | null>(null);
   const onState = (st: DemoState) => { setDemo(st); setPending(null); };
   /* The camera: the demo says what it is doing and the window zooms in on it, then back out.
-     Off for the hero peek and for people who ask for less motion. */
+     Off for the hero peek. */
   const [focus, setFocus] = useState<DemoFocus>(null);
-  const [calm, setCalm] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setCalm(mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
-  }, []);
   const cam = (() => {
-    if (!focus || peek || calm) return "";
+    if (!focus || peek) return "";
     const z = Math.min(1.8, Math.max(1, Math.min(APP_W / focus.w, APP_H / focus.h)));
     if (z < 1.05) return "";
     const tx = Math.min(0, Math.max(APP_W - APP_W * z, -focus.x * z));

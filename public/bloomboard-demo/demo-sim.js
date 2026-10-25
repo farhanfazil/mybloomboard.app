@@ -29,7 +29,7 @@
   var IDLE_MS = 10000;
   /* the sidebar stays folded to icons on every page (it used to open on Chat and the Office) */
   try { if (localStorage.getItem('bb-sidebar-fold-v1') == null) localStorage.setItem('bb-sidebar-fold-v1', '1'); } catch (e) {}
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* The demo plays for everyone, Reduce Motion or not: it is a guided preview the visitor came to watch. */
 
   var lineIdx = Math.floor(Math.random() * LINES.length);
   var knockCooldown = {};
@@ -299,7 +299,7 @@
   }
   /* Returns false (and does nothing) when the drag can't be shown right now. */
   function dragCard(id, toStatus, label, drop) {
-    if (reduceMotion || hidden() || scripting || busyScreen() || Date.now() - lastInput < IDLE_MS) return false;
+    if (hidden() || scripting || busyScreen() || Date.now() - lastInput < IDLE_MS) return false;
     var card = boardCard(id), col = boardCol(toStatus);
     if (!card || !col || !onScreen(card)) return false;
     var r = card.getBoundingClientRect();
@@ -389,7 +389,7 @@
   }
   /* Returns false (and does nothing) when the drop can't be shown right now. */
   function dropFile(id, key, label) {
-    if (reduceMotion || hidden() || scripting || busyScreen() || Date.now() - lastInput < IDLE_MS) return false;
+    if (hidden() || scripting || busyScreen() || Date.now() - lastInput < IDLE_MS) return false;
     var card = boardCard(id);
     if (!card || !onScreen(card)) return false;
     var r = card.getBoundingClientRect();
@@ -607,7 +607,7 @@
      adds them all to To Do, then works through them: In Progress, In Review,
      Done. Maya finishes with her banners and a notification. Once per load. */
   /* ?nostory=1 skips the opening story (for checking the visits on their own) */
-  var STORY = !reduceMotion && !window.__bbDemoFresh && !/[?&]nostory=1/.test(location.search);
+  var STORY = !window.__bbDemoFresh && !/[?&]nostory=1/.test(location.search);
   var STORY_LINES = [
     'Finish the homepage hero redesign tomorrow at 3pm',
     'Review the new banners with @maya today at 5pm',
@@ -619,7 +619,8 @@
     [0, 'ongoing', 'Drag cards to move them'], [1, 'file:banners', 'Maya Chen'],
   ];
   var storyRunning = false;
-  if (STORY) { try { localStorage.setItem('bbd-dash-tasks', '[]'); } catch (e) {} forgetAttachments(); }
+  /* The board always opens empty; the story (or the visitor) fills it. */
+  if (!window.__bbDemoFresh) { try { localStorage.setItem('bbd-dash-tasks', '[]'); } catch (e) {} forgetAttachments(); }
 
   var fxCss = document.createElement('style');
   fxCss.textContent =
@@ -841,7 +842,7 @@
   function answerDone() { scripting = false; lastAnswer = Date.now(); if (ghost) ghost.style.opacity = '0'; }
   function answerPopups() {
     later(1500, answerPopups);
-    if (reduceMotion || scripting || hidden() || busyScreen() || Date.now() - lastInput < 4000 || Date.now() - lastAnswer < 6000) return;
+    if (scripting || hidden() || busyScreen() || Date.now() - lastInput < 4000 || Date.now() - lastAnswer < 6000) return;
     var knock = [].slice.call(document.querySelectorAll('#tl-strip .tl-knock')).filter(shown)[0];
     var bubble = [].slice.call(document.querySelectorAll('.tl-bubble')).filter(function (b) { return shown(b) && b.querySelector('.tl-b-chips'); })[0];
     var target = knock || bubble;
@@ -963,7 +964,7 @@
     } catch (e) { return true; }
   }
   function tourDue() {
-    return !reduceMotion && !storyRunning && !touring && !hidden() && frameOnScreen() && !busyScreen() &&
+    return !storyRunning && !touring && !hidden() && frameOnScreen() && !busyScreen() &&
       Date.now() - storyEndedAt > 6000 && Date.now() - lastTour > rand(16000, 26000) && Date.now() - lastInput > 8000 && Math.random() < 0.85;
   }
   /* the cursor moves to an element, presses it, then the click happens */
@@ -1188,6 +1189,7 @@
     [['Quick one: are we still on for the launch sync?', 'Yes, 3pm'], ['I will bring the pricing numbers', 'Perfect, see you there']],
   ];
   var chatIdx = 0;
+  var TOUR_LEAVE = 'Long weekend';
 
   /* ── A quick meeting ──
      Calls need real people, so the tour plays one in the app's own call panel: the room's
@@ -1387,6 +1389,62 @@
       var card = cols[0].querySelector('.kanban-card');
       if (!card || !vis(card)) return n();
       carry(card, cols[1].querySelector('.kanban-cards'), function () { later(1200, n); });
+    }),
+    /* Time off: the team calendar, next month, three days picked and saved as a long weekend */
+    step(function (n) {
+      /* the tour's booking from last time comes off first, so they never pile up */
+      try {
+        if (typeof events !== 'undefined' && Array.isArray(events)) {
+          var had = events.length;
+          for (var e = events.length - 1; e >= 0; e--) if (events[e] && events[e].type === 'leave' && events[e].title === TOUR_LEAVE) events.splice(e, 1);
+          if (events.length !== had && typeof saveEvents === 'function') saveEvents();
+        }
+      } catch (err) {}
+      overview();
+      nav('vacation', function () { if (!q('.vx-win')) return n(); shot(['.vx-win']); later(900, n); }, 1200);
+    }),
+    step(function (n) {
+      var nx = q('.vx-win .vx-nav[onclick*="vacCalNext"]');
+      if (!vis(nx)) return n();
+      tap(nx, function () { nx.click(); later(900, n); });
+    }),
+    step(function (n) {
+      /* three free weekdays in a row, around the middle of the month */
+      var days = [].slice.call(document.querySelectorAll('.vx-win .vx-day[data-d]'));
+      var free = function (c) { return c && c.children.length <= 1 && !c.classList.contains('today'); };
+      var start = null;
+      for (var i = 8; i < days.length - 2 && !start; i++) {
+        var wd = new Date(days[i].getAttribute('data-d') + 'T12:00').getDay();
+        if (wd >= 1 && wd <= 3 && free(days[i]) && free(days[i + 1]) && free(days[i + 2])) start = i;
+      }
+      if (start == null) return n();
+      var d1 = days[start].getAttribute('data-d'), d2 = days[start + 2].getAttribute('data-d');
+      var cell = function (d) { return q('.vx-win .vx-day[data-d="' + d + '"]'); };
+      tap(cell(d1), function () {
+        var c = cell(d1); if (c) c.click();
+        later(500, function () {
+          if (!cell(d2)) return n();
+          tap(cell(d2), function () { var c2 = cell(d2); if (c2) c2.click(); later(600, n); });
+        });
+      });
+    }),
+    step(function (n) {
+      var name = function () { return [].slice.call(document.querySelectorAll('.vx-win input.vx-in')).filter(vis)[0]; };
+      if (!name()) return n();
+      tap(name(), function () {
+        name().focus();
+        typeInto(name, TOUR_LEAVE, function () {
+          var sv = [].slice.call(document.querySelectorAll('.vx-win .vx-btn.pri')).filter(function (b) { return vis(b) && /save/i.test(b.textContent); })[0];
+          if (!sv) return n();
+          tap(sv, function () { sv.click(); later(2200, n); });
+        });
+      });
+    }),
+    step(function (n) {
+      var x = q('.vx-win .vx-x[onclick*="closeVacationPanel"]');
+      overview();
+      if (!vis(x)) { try { window.closeVacationPanel(); } catch (e) {} return later(500, n); }
+      tap(x, function () { x.click(); later(700, n); });
     }),
     /* back to Tasks: three new tasks, the first one dragged to In Progress */
     step(function (n) { nav('tasks', n, 1200); }),
