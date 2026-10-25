@@ -4270,7 +4270,7 @@ html body:not(#_1):not(#_2):not(#_3) .bb-pf-btn:hover svg { transform:scale(1.18
 #bl-desk-tip[hidden] { display:none; }
 /* Task window, an open task (2026-10-25): no bottom bar (delete is in the task's ⋮ menu); the title says
    "Edit task · Saves when you close", and the comment box reaches the bottom. A new task keeps its Cancel / Add task bar. */
-html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.tm-is-edit #task-modal-title::after { content:' · Saves when you close'; font-weight:400; color:var(--bl-fg3); opacity:.85; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.tm-is-edit #task-modal-title::after { content:'· Saves when you close'; margin-left:.35em; font-weight:400; color:var(--bl-fg3); opacity:.85; }
 html body:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.tm-is-edit .tm-footer { display:none !important; }
 /* Task window, open task (2026-10-25, Trello-like): wider; a header bar across the top ("Edit task · Saves when
    you close" left, ✕ right, a line under it); the comments side in the task card grey; each comment in its own box. */
@@ -4278,6 +4278,19 @@ html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .modal-sheet.tas
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-cols { grid-template-columns:minmax(0,1fr) 420px !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts #task-modal-title { display:flex; align-items:center; height:52px; margin:0 !important; padding:0 64px 0 24px !important; border-bottom:1px solid var(--bl-line); flex:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts > .modal-topbar { top:11px !important; right:14px !important; height:30px !important; padding:0 !important; display:flex; align-items:center; }
-html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts :is(.tm-tabs, .tm-cmts, .tm-side) { background:var(--bl-raise) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm .tm-cm-t2 { background:var(--bl-win); border:1px solid var(--bl-line); border-radius:8px; padding:8px 12px; margin-top:5px; color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts :is(.tm-tabs, .tm-cmts, .tm-side) { background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm .tm-cm-t2 { background:var(--bl-raise); border:0; border-radius:8px; padding:8px 12px; margin-top:5px; color:var(--bl-fg); box-shadow:0 1px 1px rgba(0,0,0,.25), 0 0 1px rgba(0,0,0,.3); }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts :is(.tm-tabs, .tm-cmts, .tm-side) { background:var(--bl-raise) !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm .tm-cm-t2 { background:var(--bl-win); box-shadow:0 1px 1px rgba(15,23,42,.10), 0 0 1px rgba(15,23,42,.18); }
+/* Details | Comments as a switch: two buttons in a tray, the chosen one raised (no underline tabs) */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs { align-items:center; gap:2px; padding:12px 16px !important; border-bottom:1px solid var(--bl-line) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs { --tray:color-mix(in srgb, var(--bl-win) 70%, transparent); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs > button { flex:1; justify-content:center; height:32px !important; margin:0 !important; border:0 !important; border-radius:7px !important; background:var(--tray) !important; color:var(--bl-fg3) !important; font:600 13px var(--bl-ui, system-ui) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs > button:first-child { border-radius:7px 0 0 7px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs > button:last-child { border-radius:0 7px 7px 0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs > button:hover { color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs > button.on { background:var(--bl-accent) !important; color:#fff !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs > button.on .tm-tab-n { color:rgba(255,255,255,.85) !important; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs { --tray:#e3e6ec; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .task-sheet.has-cmts .tm-tabs > button.has-new::after { top:6px; right:8px; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-cm .tm-cm-quote { max-width:none; }
