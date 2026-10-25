@@ -4249,3 +4249,9 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-needs-sum { flex:1
 html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-needs.open .notif-needs-sum { visibility:hidden; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-needs-hd svg { width:15px; height:15px; flex:none; color:var(--bl-fg3); transition:transform .15s; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #notif-list .notif-needs.open .notif-needs-hd svg { transform:rotate(180deg); }
+
+/* Bell and Activity rows: compact; the link sits on the time line, the whole row opens it (2026-10-25) */
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(.notif-meta, .act-meta) :is(.notif-link, .act-goto) { display:inline; padding:0; margin:0; border:0; background:none; font:inherit; color:var(--bl-accent, #5b93ff) !important; cursor:pointer; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(.notif-meta, .act-meta) :is(.notif-link, .act-goto):hover { text-decoration:underline; text-underline-offset:2px; }
+html body:not(#_1):not(#_2):not(#_3) :is(.notif-item, .act-item.has-link) { cursor:pointer; }
+html body:not(#_1):not(#_2):not(#_3) :is(.notif-list, .act-list) { overscroll-behavior:contain; }
