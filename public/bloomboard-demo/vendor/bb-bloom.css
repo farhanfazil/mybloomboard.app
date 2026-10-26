@@ -4414,3 +4414,40 @@ html body #bl-spell button:not(#_1):hover { background:var(--bl-hover, #202227) 
 html body #bl-spell button.bl-spell-add:not(#_1) { color:var(--bl-fg3, #8d93a0) !important; font-weight:500 !important; margin-left:2px; border-left:1px solid var(--bl-line, #26282e) !important; border-radius:0 7px 7px 0 !important; }
 #bl-spell .bl-spell-none { color:var(--bl-fg3, #8d93a0); padding:6px 10px; }
 body.light-mode #bl-spell { box-shadow:0 8px 22px rgba(15,23,42,.14); }
+/* ── Review: Approve or Send back (2026-10-26) ── */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv { flex:none; margin:0 0 10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv[hidden] { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-bar { display:flex; flex-wrap:wrap; align-items:center; gap:10px 12px; padding:12px 14px; border-radius:10px; background:var(--bl-raise); border:1px solid var(--bl-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-t { flex:1 1 200px; min-width:0; font-size:13px; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-t b { display:block; color:var(--bl-fg); font-size:14px; font-weight:650; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-acts { display:flex; gap:8px; margin-left:auto; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-btn { display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 12px; border:1px solid var(--bl-line) !important; border-radius:8px !important; background:var(--bl-win) !important; color:var(--bl-fg) !important; font:600 13px var(--bl-ui) !important; white-space:nowrap; cursor:pointer; box-shadow:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-btn:hover { background:var(--bl-hover) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-btn.pri { background:var(--bl-accent) !important; border-color:var(--bl-accent) !important; color:var(--bl-accent-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-btn:disabled { opacity:.45; cursor:default; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-btn svg { width:15px; height:15px; flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-note { display:flex; flex-direction:column; border-radius:12px; background:var(--bl-raise); border:1px solid var(--bl-line); overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-hd { padding:12px 14px 6px; font-size:12.5px; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-hd b { display:block; color:var(--bl-fg); font-size:14px; font-weight:650; margin-bottom:2px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-note .tm-rt { border:0 !important; border-radius:0 !important; background:transparent !important; margin:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-note .tm-rt-tb { border-top:1px solid var(--bl-line); }
+/* the note grows with what you write, up to about 15 lines, then scrolls inside */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-ed { min-height:84px !important; max-height:min(40vh, 340px) !important; height:auto !important; overflow-y:auto !important; padding:12px 14px !important; font-size:14px; line-height:1.55; outline:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-ed:empty::before { content:attr(data-placeholder); color:var(--bl-fg3); pointer-events:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-ft { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:10px 12px; border-top:1px solid var(--bl-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-subs { flex:1 1 100%; display:flex; align-items:center; gap:8px; color:var(--bl-fg2); font-size:13px; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-subs[hidden] { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-subs input { accent-color:var(--bl-accent); width:15px; height:15px; margin:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-hint { margin-right:auto; color:var(--bl-fg3); font-size:12px; }
+/* a sent-back note in the comments */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm.tm-cm-sb .tm-cm-t2 { box-shadow:inset 3px 0 0 var(--bl-high) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-sbtag { display:flex; align-items:center; gap:6px; margin:2px 0 4px; color:var(--bl-high); font-size:12px; font-weight:700; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-sbtag svg { width:13px; height:13px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-rich :is(ul, ol) { margin:4px 0; padding-left:20px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-cm-rich p { margin:0 0 4px; }
+/* subtasks that came from a review */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-sub-rv { flex:none; color:var(--bl-high); font-size:11.5px; font-weight:600; white-space:nowrap; margin-right:4px; }
+/* on the card: changes needed */
+.bb-rv-line { display:flex; align-items:center; gap:6px; margin-top:6px; color:var(--bl-high, #f0a830); font-size:12.5px; font-weight:600; }
+.bb-rv-line svg { width:13px; height:13px; flex:none; }
+.bb-rv-line small { color:var(--bl-fg3, #8d93a0); font-weight:500; font-size:12px; }
