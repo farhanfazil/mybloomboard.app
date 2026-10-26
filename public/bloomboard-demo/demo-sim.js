@@ -43,6 +43,12 @@
   function dmId(other) { return 'dm_' + [ME, other].sort().join('_'); }
   function mate(id) { return MATES.filter(function (m) { return m.id === id; })[0]; }
   function hidden() { return document.visibilityState === 'hidden'; }
+  /* The site's page scrolling past the demo: everything holds still until it settles, so typing
+     and moving cards never compete with the visitor's scroll (they share one main thread). */
+  var pageScrollAt = 0;
+  try { if (window.parent !== window) window.parent.addEventListener('scroll', function () { pageScrollAt = Date.now(); }, { passive: true }); } catch (e) {}
+  function pageScrolling() { return Date.now() - pageScrollAt < 600; }
+  window.__bbPageScrolling = pageScrolling;
   function activeConvId() {
     try { return typeof window._chatActiveConvId === 'string' ? window._chatActiveConvId : null; } catch (e) { return null; }
   }
@@ -58,6 +64,7 @@
   function later(ms, fn) {
     setTimeout(function tick() {
       if (hidden()) { setTimeout(tick, 1500); return; }
+      if (pageScrolling()) { setTimeout(tick, 200); return; }
       fn();
     }, ms);
   }
@@ -705,7 +712,7 @@
   /* Starts when the whole Type Your Tasks box is on the visitor's screen. */
   function watchStory() {
     var n = document.getElementById('t2t-input'), card = document.getElementById('t2t-dashboard-card');
-    if (n && card && !hidden() && fullyVisible(card) && !busyScreen() && Date.now() - lastInput > IDLE_MS) {
+    if (n && card && !hidden() && !pageScrolling() && frameOnScreen() && fullyVisible(card) && !busyScreen() && Date.now() - lastInput > IDLE_MS) {
       later(700, startStory);
       return;
     }

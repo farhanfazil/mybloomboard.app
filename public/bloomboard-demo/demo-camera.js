@@ -66,6 +66,8 @@
   function tick() {
     var now = Date.now();
     if (now - lastInput < IDLE_MS || document.visibilityState === 'hidden') { send(null); return; }
+    /* hold the shot while the site's page scrolls (demo-sim.js) */
+    if (window.__bbPageScrolling && window.__bbPageScrolling()) return;
     var shot = window.__bbDemoShot;
     if (shot) {
       idleSince = 0;

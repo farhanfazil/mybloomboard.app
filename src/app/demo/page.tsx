@@ -59,7 +59,7 @@ export default function DemoPage() {
         <>
           <DemoIframe
             title="BloomBoard live demo"
-            src="/bloomboard-demo/index.html?ws=personal,team&v=35"
+            src="/bloomboard-demo/index.html?ws=personal,team&v=36"
             className="min-h-0 w-full flex-1 bg-[#171717]"
           />
           <StickyPopouts />
