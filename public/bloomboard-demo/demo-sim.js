@@ -1435,7 +1435,7 @@
       tap(name(), function () {
         name().focus();
         typeInto(name, TOUR_LEAVE, function () {
-          var sv = [].slice.call(document.querySelectorAll('.vx-win .vx-btn.pri')).filter(function (b) { return vis(b) && /save/i.test(b.textContent); })[0];
+          var sv = [].slice.call(document.querySelectorAll('.vx-win .vx-btn.pri')).filter(function (b) { return vis(b) && /^\s*(add \d|save)/i.test(b.textContent); })[0];   /* "Add 3 days" */
           if (!sv) return n();
           tap(sv, function () { sv.click(); later(2200, n); });
         });
