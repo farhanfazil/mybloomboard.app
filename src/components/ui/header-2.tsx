@@ -61,7 +61,7 @@ function ProductMenu() {
         aria-expanded={open}
         aria-haspopup="true"
         onClick={() => setOpen((v) => !v)}
-        className={buttonVariants({ variant: "ghost", className: "gap-1 px-3 text-sm" })}
+        className={buttonVariants({ variant: "ghost", className: "gap-1 px-3 text-[15px]" })}
       >
         Product
         <ChevronDown aria-hidden className={cn("size-3.5 opacity-60 transition-transform duration-200", open && "rotate-180")} />
@@ -184,18 +184,18 @@ export function Header({
     >
       <nav
         className={cn(
-          "flex h-16 w-full items-center justify-between px-4 md:h-14 md:px-3",
+          "flex h-16 w-full items-center justify-between px-4 md:h-[62px] md:pl-4 md:pr-3",
         )}
       >
         <a href={logoHref ?? "#hero"} className="flex items-center gap-2.5">
           <Image
             src="/brand/mark-on-dark-tight.svg"
             alt="BloomBoard logo"
-            width={22}
-            height={26}
+            width={24}
+            height={28}
             unoptimized
           />
-          <span className="text-sm font-semibold text-text-primary">BloomBoard</span>
+          <span className="text-[18px] font-semibold tracking-[-0.025em] text-text-primary">BloomBoard</span>
         </a>
 
         <div className="hidden items-center gap-2 md:flex">
@@ -203,7 +203,7 @@ export function Header({
           {links.map((link) => (
             <a
               key={link.label}
-              className={buttonVariants({ variant: "ghost", className: "px-3 text-sm" })}
+              className={buttonVariants({ variant: "ghost", className: "px-3 text-[15px]" })}
               href={link.href}
               target={link.external ? "_blank" : undefined}
               rel={link.external ? "noreferrer" : undefined}
@@ -215,20 +215,20 @@ export function Header({
           {/* One main button (Try BloomBoard free). The two ways in for people who
               already have an account or an invite are quiet links of equal weight. */}
           <a
-            className={buttonVariants({ variant: "ghost", className: "px-3 text-sm" })}
+            className={buttonVariants({ variant: "ghost", className: "px-3 text-[15px]" })}
             href="/join"
           >
             Join your team
           </a>
           <a
-            className={buttonVariants({ variant: "ghost", className: "px-3 text-sm" })}
+            className={buttonVariants({ variant: "ghost", className: "px-3 text-[15px]" })}
             href={WEB_LOGIN_URL}
           >
             Log in
           </a>
           <Button
             asChild
-            className="ml-4 h-auto shrink-0 rounded-lg border border-transparent bg-white px-3.5 py-1.5 text-sm font-semibold text-[#0a0f1c] hover:bg-white/90"
+            className="ml-4 h-10 shrink-0 rounded-[9px] border border-transparent bg-white px-4 text-[15px] font-semibold text-[#0a0f1c] hover:bg-white/90"
           >
             <a href="/start?plan=bloom">
               Try BloomBoard free
