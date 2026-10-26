@@ -135,7 +135,7 @@ export default function OfficeStory() {
 
   return (
     <>
-      <section ref={storyRef} aria-labelledby="office-story-title" className="relative hidden h-[520vh] bg-[#070B12] md:block">
+      <section ref={storyRef} aria-labelledby="office-story-title" className="relative hidden h-[520vh] bg-[#0A223A] md:block">
         <div className="sticky top-0 h-screen overflow-hidden">
           <div ref={planRef} aria-hidden className="absolute left-0 top-0 h-[640px] w-[1200px] origin-top-left" style={{ willChange: "transform" }}>
             <svg viewBox="0 0 1200 640" className="absolute inset-0 overflow-visible">
@@ -165,18 +165,18 @@ export default function OfficeStory() {
             {/* you */}
             <div className="absolute -ml-8 -mt-8 h-16 w-16" style={{ left: 600, top: 470 }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={P("women-26")} alt="" className="h-16 w-16 rounded-full object-cover ring-[2.5px] ring-[#070B12]" />
+              <img src={P("women-26")} alt="" className="h-16 w-16 rounded-full object-cover ring-[2.5px] ring-[#0A223A]" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img data-me-grey src={P("women-26")} alt="" className="absolute inset-0 h-16 w-16 rounded-full object-cover" style={{ filter: "grayscale(1) brightness(.75)" }} />
-              <span data-me-dot className="absolute -bottom-px -right-px h-3 w-3 rounded-full border-[2.5px] border-[#070B12] bg-[#34C77B] opacity-0" />
+              <span data-me-dot className="absolute -bottom-px -right-px h-3 w-3 rounded-full border-[2.5px] border-[#0A223A] bg-[#34C77B] opacity-0" />
               <span className={`absolute left-1/2 top-[74px] -translate-x-1/2 text-[11px] text-[rgba(220,228,240,0.8)] ${mono}`}>You</span>
             </div>
 
             {TEAM.map(([f, x, y, , st]) => (
               <div key={f} data-mate className="absolute -ml-[23px] -mt-[23px] h-[46px] w-[46px] opacity-0" style={{ left: x, top: y, willChange: "transform, opacity" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={P(f)} alt="" className="h-[46px] w-[46px] rounded-full object-cover ring-[2.5px] ring-[#070B12]" />
-                <span className="absolute -bottom-px -right-px h-3 w-3 rounded-full border-[2.5px] border-[#070B12]" style={{ background: DOT[st] }} />
+                <img src={P(f)} alt="" className="h-[46px] w-[46px] rounded-full object-cover ring-[2.5px] ring-[#0A223A]" />
+                <span className="absolute -bottom-px -right-px h-3 w-3 rounded-full border-[2.5px] border-[#0A223A]" style={{ background: DOT[st] }} />
               </div>
             ))}
 

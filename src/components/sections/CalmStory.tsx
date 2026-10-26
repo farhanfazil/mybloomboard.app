@@ -134,7 +134,7 @@ export default function CalmStory() {
         const c = seg(k, 0.6, 0.92);
         (el.firstElementChild as HTMLElement).style.opacity = String(1 - c);
         (el.lastElementChild as HTMLElement).style.opacity = String(c);
-        el.style.opacity = String(0.4 + 0.6 * Math.max(seg(p, 0.12, 0.2), k));
+        el.style.opacity = String(0.8 + 0.2 * Math.max(seg(p, 0.12, 0.2), k));
       });
       panels.forEach((el, i) => { el.style.opacity = String(0.35 + 0.65 * seg(p, wake[i], wake[i] + 0.06)); });
 
@@ -163,16 +163,16 @@ export default function CalmStory() {
     };
   }, []);
 
-  const big = { fontSize: "clamp(2.2rem, 4.2vw, 4rem)", lineHeight: 1.06, textShadow: "0 2px 30px #000, 0 0 60px #000" };
+  const big = { fontSize: "clamp(2.2rem, 4.2vw, 4rem)", lineHeight: 1.06, textShadow: "0 2px 30px #F2F3F5, 0 0 60px #F2F3F5" };
 
   return (
     <>
       {/* desktop and tablet: the scroll story */}
-      <section ref={storyRef} aria-labelledby="calm-title" className="relative hidden h-[560vh] bg-black md:block">
+      <section ref={storyRef} aria-labelledby="calm-title" className="relative hidden h-[560vh] bg-[#F2F3F5] md:block">
         <div className="sticky top-0 h-screen overflow-hidden">
           <div ref={worldRef} className="absolute left-1/2 top-[55%] h-0 w-0" style={{ willChange: "transform" }}>
             {/* the BloomBoard window everything lands in */}
-            <div data-win aria-hidden style={{ willChange: "opacity, transform" }} className="absolute -left-[620px] -top-[262px] h-[524px] w-[1240px] rounded-[20px] bg-[#0E1014] opacity-0 shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_50px_120px_-40px_rgba(0,0,0,0.95)]">
+            <div data-win aria-hidden style={{ willChange: "opacity, transform" }} className="absolute -left-[620px] -top-[262px] h-[524px] w-[1240px] rounded-[20px] bg-[#0E1014] opacity-0 shadow-[0_0_0_1px_rgba(10,15,26,0.1),0_50px_120px_-40px_rgba(16,24,40,0.5)]">
               <div className="absolute inset-x-0 top-0 flex h-[52px] items-center gap-2.5 border-b border-white/[0.06] px-[18px] text-[13.5px]">
                 <span className="mr-2 flex gap-[7px]">{[0, 1, 2].map((n) => <i key={n} className="h-[11px] w-[11px] rounded-full bg-[#2A2E36]" />)}</span>
                 <b className="font-semibold text-white">BloomBoard</b>
@@ -212,7 +212,7 @@ export default function CalmStory() {
 
             {BITS.map((b) => (
               <div key={b.title} data-bit aria-hidden className="absolute left-0 top-0 h-[66px] w-[250px]" style={{ willChange: "transform, opacity" }}>
-                <div className={`absolute inset-0 rounded-[11px] px-3 py-[9px] text-[12.5px] leading-[1.35] shadow-[0_18px_40px_-16px_rgba(0,0,0,0.7)] ${b.look}`} style={{ willChange: "opacity" }}>
+                <div className={`absolute inset-0 rounded-[11px] px-3 py-[9px] text-[12.5px] leading-[1.35] shadow-[0_0_0_1px_rgba(10,15,26,0.06),0_18px_40px_-16px_rgba(16,24,40,0.3)] ${b.look}`} style={{ willChange: "opacity" }}>
                   <div className="mb-1 flex items-center gap-1.5 font-sans text-[10.5px] font-semibold uppercase tracking-[0.04em] opacity-60">
                     <Ic n={b.icon} size={12} />{b.kind}
                   </div>
@@ -226,16 +226,16 @@ export default function CalmStory() {
           </div>
 
           <div data-intro className="pointer-events-none absolute inset-x-0 top-1/2 z-[5] -translate-y-1/2 text-center" style={{ willChange: "opacity, transform" }}>
-            <p className="font-semibold tracking-tight text-white" style={big}>Your work is everywhere.</p>
-            <p className="mt-2.5 font-semibold tracking-tight text-[#5D636F]" style={{ ...big, fontSize: "clamp(1.3rem, 2.2vw, 2rem)" }}>
+            <p className="font-semibold tracking-tight text-[#0A0F1A]" style={big}>Your work is everywhere.</p>
+            <p className="mt-2.5 font-semibold tracking-tight text-[#8A909C]" style={{ ...big, fontSize: "clamp(1.3rem, 2.2vw, 2rem)" }}>
               Emails, chats, calls, meetings, notes and sheets.
             </p>
           </div>
           <div data-outro className="pointer-events-none absolute inset-x-0 top-[10vh] z-[5] px-6 text-center opacity-0" style={{ willChange: "opacity, transform" }}>
-            <h2 id="calm-title" className="font-semibold tracking-tight text-white" style={{ fontSize: "clamp(2.2rem, 4vw, 3.8rem)", lineHeight: 1.04 }}>
+            <h2 id="calm-title" className="font-semibold tracking-tight text-[#0A0F1A]" style={{ fontSize: "clamp(2.2rem, 4vw, 3.8rem)", lineHeight: 1.04 }}>
               All of it, in one place.
             </h2>
-            <p className="mx-auto mt-3.5 max-w-[600px] text-lg leading-relaxed text-white/65">
+            <p className="mx-auto mt-3.5 max-w-[600px] text-lg leading-relaxed text-[#5B6474]">
               Mail, chat, calls, meetings, notes, plans and tasks, with your whole team in the office. Everything falls into place, so nothing slips.
             </p>
           </div>
@@ -243,12 +243,12 @@ export default function CalmStory() {
       </section>
 
       {/* phones: the same idea, still */}
-      <section aria-labelledby="calm-title-phone" className="bg-black px-5 py-20 md:hidden">
-        <p className="text-center text-[15px] text-white/45">Your work is everywhere. Emails, chats, calls, meetings, notes and sheets.</p>
-        <h2 id="calm-title-phone" className="mt-3 text-center text-[2rem] font-semibold leading-tight tracking-tight text-white">
+      <section aria-labelledby="calm-title-phone" className="bg-[#F2F3F5] px-5 py-20 md:hidden">
+        <p className="text-center text-[15px] text-[#8A909C]">Your work is everywhere. Emails, chats, calls, meetings, notes and sheets.</p>
+        <h2 id="calm-title-phone" className="mt-3 text-center text-[2rem] font-semibold leading-tight tracking-tight text-[#0A0F1A]">
           All of it, in one place.
         </h2>
-        <p className="mx-auto mt-3 max-w-sm text-center text-base leading-relaxed text-white/65">
+        <p className="mx-auto mt-3 max-w-sm text-center text-base leading-relaxed text-[#5B6474]">
           Mail, chat, calls, meetings, notes, plans and tasks, with your whole team in the office. Everything falls into place, so nothing slips.
         </p>
         <div className="mx-auto mt-8 max-w-sm space-y-2.5">
