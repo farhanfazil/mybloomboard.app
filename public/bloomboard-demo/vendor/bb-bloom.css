@@ -4403,7 +4403,6 @@ body.bloom:not(#_1):not(#_2):not(#_3) #bl-railpin + #bl-back { margin-left:6px; 
 /* the shortcuts card keeps clear of the side chat's message box, and steps aside while a window is open */
 body.bl-sc-on #bl-coach { right:calc(var(--bl-scw, 340px) + var(--bl-gap, 0px) + 22px); }
 #bl-coach.tucked { opacity:0 !important; pointer-events:none; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item.ta-shared .ta-dl { right:4px; }
 #bl-coach { bottom:80px; }   /* clear of the floating view bar at the bottom of the page */
 /* ── Spelling (2026-10-26): a quiet dotted underline under misspelled words (instead of the red squiggle),
    and the hover card with suggestions ── */
