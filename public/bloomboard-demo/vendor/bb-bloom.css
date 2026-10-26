@@ -2669,10 +2669,15 @@ body.light-mode #bb-pick { box-shadow:0 12px 32px rgba(15,23,42,.14); }
 #bb-pick .bbp-meme:hover { outline:2px solid var(--bl-accent); outline-offset:-2px; }
 #bb-pick .bbp-mtx { position:absolute; display:flex; flex-direction:column; align-items:center; overflow:hidden; text-align:center; font:900 10px/1.1 Impact, "Anton", "Arial Black", sans-serif; text-transform:uppercase; color:#fff; -webkit-text-stroke:.5px #000; text-shadow:0 1px 2px rgba(0,0,0,.9), 0 0 2px #000; pointer-events:none; padding:1px; box-sizing:border-box; }
 #bb-pick .bbp-mtx.dk { font:700 9.5px/1.15 var(--bl-ui); text-transform:none; color:#111; -webkit-text-stroke:0; text-shadow:none; }
-#bb-pick .bbp-qs { position:absolute; right:5px; bottom:5px; width:26px; height:26px; border:0; border-radius:7px; background:rgba(17,18,22,.85); color:#fff; display:grid; place-items:center; cursor:pointer; opacity:0; transition:opacity .12s; }
-#bb-pick .bbp-qs svg { width:14px; height:14px; }
-#bb-pick .bbp-meme:hover .bbp-qs, #bb-pick .bbp-qs:focus-visible { opacity:1; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bb-pick .bbp-qs { background:rgba(17,18,22,.85) !important; color:#fff !important; border-radius:7px !important; }
+/* on hover: Edit (opens the editor, same as clicking the meme) and the arrow (send as it is) */
+#bb-pick .bbp-act { position:absolute; right:5px; bottom:5px; display:flex; gap:4px; opacity:0; transition:opacity .12s; }
+#bb-pick .bbp-meme:hover .bbp-act, #bb-pick .bbp-act:focus-within { opacity:1; }
+#bb-pick .bbp-act button { height:26px; border:0; border-radius:7px; background:rgba(17,18,22,.88); color:#fff; display:flex; align-items:center; justify-content:center; gap:4px; cursor:pointer; font:600 12px var(--bl-ui); }
+#bb-pick .bbp-act .bbp-ed { padding:0 9px 0 7px; }
+#bb-pick .bbp-act .bbp-qs { width:26px; padding:0; }
+#bb-pick .bbp-act button:hover { background:#000; }
+#bb-pick .bbp-act svg { width:13px; height:13px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-pick .bbp-act button { background:rgba(17,18,22,.88) !important; color:#fff !important; border:0 !important; border-radius:7px !important; }
 #bb-pick .bbp-own { height:96px; border:1.5px dashed var(--bl-line) !important; background:none; color:var(--bl-fg2); font:600 12px var(--bl-ui); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; }
 #bb-pick .bbp-own svg { width:22px; height:22px; }
 #bb-pick .bbp-own:hover { color:var(--bl-fg); background:var(--bl-hover); outline:0; }
