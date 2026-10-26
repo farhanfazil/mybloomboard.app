@@ -3,13 +3,17 @@
 import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { preload } from "react-dom";
 
+/* Over the pictures: a light veil at the top for the words, clear around the horizon so
+   its glow comes through as in the original, and black only at the very bottom, where the
+   live demo rises out of it. */
 const SHADE = [
   "linear-gradient(to bottom,",
-  "rgba(0,0,0,0.22) 0%,",
-  "rgba(0,0,0,0.08) 28%,",
-  "rgba(0,0,0,0.35) 55%,",
-  "rgba(0,0,0,0.72) 72%,",
-  "rgba(0,0,0,0.94) 86%,",
+  "rgba(0,0,0,0.18) 0%,",
+  "rgba(0,0,0,0.04) 30%,",
+  "rgba(0,0,0,0) 50%,",
+  "rgba(0,0,0,0.12) 66%,",
+  "rgba(0,0,0,0.55) 82%,",
+  "rgba(0,0,0,0.9) 93%,",
   "#000000 100%)",
 ].join(" ");
 
@@ -32,12 +36,16 @@ const SCENE_SCRIPT =
 /* The hero pictures, ready-made at three widths (no resizing per visit) and cached for a
    year (public/_headers). A 48 px blurred copy of each sits in the page itself, so the horizon
    shows at the very first paint and sharpens when the real pictures arrive. Re-make them
-   with new names (hero-v3/…) whenever the pictures change. The blurred copies fade out
+   with new names (hero-v4/…) whenever the pictures change. The blurred copies fade out
    completely once the real pictures are in (globals.css .bb-scene-tiny), so they never
    soften the finished scene. */
-const HERO = "/backgrounds/hero-v2/";
-const srcSet = (name: string) => [828, 1280, 1920].map((w) => `${HERO}${name}-${w}.webp ${w}w`).join(", ");
-const SKY_SET = srcSet("sky"), MOUNTAINS_SET = srcSet("mountains");
+const HERO = "/backgrounds/hero-v3/";
+/* Large screens get the original pictures themselves: the sky JPG untouched and the
+   mountains as lossless WebP (every visible pixel identical to the PNG). Phones and small
+   windows get high-quality smaller copies. */
+const SKY_FULL = HERO + "sky-1920.jpg", MOUNTAINS_FULL = HERO + "mountains-1920.webp";
+const SKY_SET = `${HERO}sky-828.webp 828w, ${HERO}sky-1280.webp 1280w, ${SKY_FULL} 1920w`;
+const MOUNTAINS_SET = `${HERO}mountains-828.webp 828w, ${HERO}mountains-1280.webp 1280w, ${MOUNTAINS_FULL} 1920w`;
 const SKY_TINY = "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAACwBQCdASowABsAPtFWn0uoJKKhsAqpABoJZQCuT4CDTq2P8w13Iv/jkEOF+4naJ4ZO5FSk6AAA/vaCeMsSi5KhG0nAbYUYvx37yegyj5gXjkqJ54qszvgA8BM1YpT3AkqYPmTLZ4sTst74ls5fwzQIDh59WfqXukub7iCHcgiT45K5HYuVxIoA";
 const MOUNTAINS_TINY = "data:image/webp;base64,UklGRlQBAABXRUJQVlA4WAoAAAAQAAAALwAAGgAAQUxQSF4AAAARb6CgbSQUvwNmiIgAIX5SNwzhBZNa254wKhBgJiHCxiPB7gZT4vA/GThUIAG8af7pQEb0fwK03/MaTEXA6isJAGDwZeyIgF3qIuHxQrCqc50qRgLp3bK3E0rvB18SVlA4INAAAACwBQCdASowABsAPtFYokuoJSMhtVQIAQAaCWM7ggnw8ThGLCzxWgwNPAU0fTNPrT9mRmz9fgAA/vm88W0PVqX3Gh7dH4bXPNf2DyW0HS7uMDlqymATZAcBZAp18ZrNOo/SMYZ8O1CftIv8ERcGSqe6YsKQBqOaLbFZz5R5LedvP8Kz6BkFL3yBTBYCgnegYqT0RsCBXgMkg9sP4iWltwUdptRvPc3YDssddUj856H8yZh2dknAZ92JTWohJXQOGYS6jZsM8+U1fEid2NPzMAAA";
 const tiny = (src: string): CSSProperties => ({
@@ -54,8 +62,8 @@ export function liftAt(y: number, max: number, span: number) {
 
 export default function MountainRise({ words, children }: { words: ReactNode; children: ReactNode }) {
   /* start both pictures in the page's first request (a <link rel=preload> in the head) */
-  preload(HERO + "sky-1920.webp", { as: "image", imageSrcSet: SKY_SET, imageSizes: "100vw", fetchPriority: "high" });
-  preload(HERO + "mountains-1920.webp", { as: "image", imageSrcSet: MOUNTAINS_SET, imageSizes: "100vw", fetchPriority: "high" });
+  preload(SKY_FULL, { as: "image", imageSrcSet: SKY_SET, imageSizes: "100vw", fetchPriority: "high" });
+  preload(MOUNTAINS_FULL, { as: "image", imageSrcSet: MOUNTAINS_SET, imageSizes: "100vw", fetchPriority: "high" });
   const duskRef = useRef<HTMLDivElement>(null);
   const wordsRef = useRef<HTMLDivElement>(null);
   const restRef = useRef<HTMLDivElement>(null);
@@ -144,7 +152,7 @@ export default function MountainRise({ words, children }: { words: ReactNode; ch
         </div>
         <div aria-hidden className="bb-scene-part pointer-events-none absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img data-scene srcSet={SKY_SET} sizes="100vw" src={HERO + "sky-1920.webp"} alt="" fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-cover object-center" />
+          <img data-scene srcSet={SKY_SET} sizes="100vw" src={SKY_FULL} alt="" fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-cover object-center" />
         </div>
         <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: SHADE }} />
         {/* dusk: the sky goes dark as the hills come up (under the words) */}
@@ -165,7 +173,7 @@ export default function MountainRise({ words, children }: { words: ReactNode; ch
         </div>
         <div aria-hidden className="bb-scene-part pointer-events-none absolute inset-x-0 top-0 h-[100svh]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img data-scene srcSet={MOUNTAINS_SET} sizes="100vw" src={HERO + "mountains-1920.webp"} alt="" fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-cover object-center" />
+          <img data-scene srcSet={MOUNTAINS_SET} sizes="100vw" src={MOUNTAINS_FULL} alt="" fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-cover object-center" />
           <div
             className="absolute inset-0"
             style={{
