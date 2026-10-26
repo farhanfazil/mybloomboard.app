@@ -2662,24 +2662,42 @@ body.light-mode #bb-pick { box-shadow:0 12px 32px rgba(15,23,42,.14); }
 #bb-pick .bbp-gifs img:hover { outline:2px solid var(--bl-accent); outline-offset:-2px; }
 #bb-pick .bbp-note { grid-column:1 / -1; color:var(--bl-fg3); font-size:13px; text-align:center; padding:24px 0; margin:0; }
 #bb-pick .bbp-attr { flex:none; margin-top:auto; padding:7px 12px; border-top:1px solid var(--bl-line); color:var(--bl-fg3); font:500 11px var(--bl-ui); text-align:right; }
-#bb-pick .bbp-memes { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:6px; padding:10px; }
-#bb-pick .bbp-meme { position:relative; aspect-ratio:1; border-radius:8px; overflow:hidden; background:var(--bl-raise); cursor:pointer; }
-#bb-pick .bbp-meme img { width:100%; height:100%; object-fit:cover; display:block; }
+/* Memes (2026-10-26): a masonry of real shapes, so every caption sits where it will be sent */
+#bb-pick .bbp-memes { columns:3; column-gap:6px; padding:8px 10px 10px; }
+#bb-pick .bbp-meme { position:relative; display:block; width:100%; break-inside:avoid; margin:0 0 6px; border-radius:8px; overflow:hidden; background:var(--bl-raise); cursor:pointer; }
+#bb-pick .bbp-meme img { width:100%; height:auto; display:block; }
 #bb-pick .bbp-meme:hover { outline:2px solid var(--bl-accent); outline-offset:-2px; }
-#bb-pick .bbp-pen { position:absolute; right:6px; bottom:6px; width:28px; height:28px; border:0; border-radius:50%; background:rgba(0,0,0,.6); color:#fff; display:grid; place-items:center; cursor:pointer; opacity:0; transition:opacity .12s; }
-#bb-pick .bbp-pen svg { width:14px; height:14px; }
-#bb-pick .bbp-meme:hover .bbp-pen, #bb-pick .bbp-pen:focus-visible { opacity:1; }
-#bb-pick .bbp-cap { display:flex; flex-direction:column; padding:8px 0 10px; }
-#bb-pick .bbp-cap canvas { width:calc(100% - 20px); margin:4px 10px 4px; border-radius:8px; max-height:200px; object-fit:contain; background:var(--bl-raise); }
-#bb-pick .bbp-cap .bbp-q { margin:6px 10px 0; }
-#bb-pick .bbp-back { align-self:flex-start; margin:2px 6px 4px; border:0; background:none; color:var(--bl-accent); font:600 12.5px var(--bl-ui); cursor:pointer; padding:4px; }
+#bb-pick .bbp-mtx { position:absolute; display:flex; flex-direction:column; align-items:center; overflow:hidden; text-align:center; font:900 10px/1.1 Impact, "Anton", "Arial Black", sans-serif; text-transform:uppercase; color:#fff; -webkit-text-stroke:.5px #000; text-shadow:0 1px 2px rgba(0,0,0,.9), 0 0 2px #000; pointer-events:none; padding:1px; box-sizing:border-box; }
+#bb-pick .bbp-mtx.dk { font:700 9.5px/1.15 var(--bl-ui); text-transform:none; color:#111; -webkit-text-stroke:0; text-shadow:none; }
+#bb-pick .bbp-qs { position:absolute; right:5px; bottom:5px; width:26px; height:26px; border:0; border-radius:7px; background:rgba(17,18,22,.85); color:#fff; display:grid; place-items:center; cursor:pointer; opacity:0; transition:opacity .12s; }
+#bb-pick .bbp-qs svg { width:14px; height:14px; }
+#bb-pick .bbp-meme:hover .bbp-qs, #bb-pick .bbp-qs:focus-visible { opacity:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-pick .bbp-qs { background:rgba(17,18,22,.85) !important; color:#fff !important; border-radius:7px !important; }
+#bb-pick .bbp-own { height:96px; border:1.5px dashed var(--bl-line) !important; background:none; color:var(--bl-fg2); font:600 12px var(--bl-ui); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; }
+#bb-pick .bbp-own svg { width:22px; height:22px; }
+#bb-pick .bbp-own:hover { color:var(--bl-fg); background:var(--bl-hover); outline:0; }
+#bb-pick .bbp-chips { display:flex; gap:14px; padding:0 12px; overflow-x:auto; scrollbar-width:none; }
+#bb-pick .bbp-chips[hidden] { display:none; }
+#bb-pick .bbp-chips button { flex:none; height:28px; padding:0; border:0; background:none; color:var(--bl-fg2); font:500 12.5px var(--bl-ui); cursor:pointer; box-shadow:inset 0 -2px 0 transparent; }
+#bb-pick .bbp-chips button:hover { color:var(--bl-fg); }
+#bb-pick .bbp-chips button.on { color:var(--bl-fg); font-weight:600; box-shadow:inset 0 -2px 0 var(--bl-accent); }
+#bb-pick .bbp-cap { display:flex; flex-direction:column; padding:6px 0 10px; }
+#bb-pick .bbp-cap canvas { display:block; width:auto; max-width:calc(100% - 20px); max-height:230px; margin:4px auto; border-radius:8px; background:var(--bl-raise); }
+#bb-pick .bbp-ins { display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:6px 10px 0; }
+#bb-pick .bbp-ins .bbp-q { margin:0; min-width:0; }
+#bb-pick .bbp-ins .bbp-q:only-child, #bb-pick .bbp-ins .bbp-q:nth-child(3):last-child { grid-column:1 / -1; }
+#bb-pick .bbp-capft { display:flex; align-items:center; gap:10px; padding:10px 10px 0; color:var(--bl-fg3); font:500 12px var(--bl-ui); }
+#bb-pick .bbp-capft span { flex:1; }
+#bb-pick .bbp-capft .bbp-send { margin:0; padding:0 16px; }
+#bb-pick .bbp-back { align-self:flex-start; display:inline-flex; align-items:center; gap:3px; margin:2px 6px 4px; border:0; background:none; color:var(--bl-fg2); font:600 12.5px var(--bl-ui); cursor:pointer; padding:4px; }
+#bb-pick .bbp-back:hover { color:var(--bl-fg); }
+#bb-pick .bbp-back svg { width:14px; height:14px; }
+.bb-meme-tip { position:fixed; z-index:13001; width:220px; padding:10px 12px; border-radius:10px; background:var(--bl-fg, #eceef1); color:var(--bl-win, #141518); font:400 12.5px/1.4 var(--bl-ui, inherit); box-shadow:0 8px 24px rgba(0,0,0,.28); pointer-events:none; }
+.bb-meme-tip b { display:block; font-weight:700; font-size:13px; margin-bottom:2px; }
+.bb-meme-tip::after { content:''; position:absolute; top:100%; left:var(--ax, 50%); margin-left:-6px; border:6px solid transparent; border-top-color:var(--bl-fg, #eceef1); }
 #bb-pick .bbp-send { margin:10px 10px 0; height:36px; border:0; border-radius:8px; background:var(--bl-accent); color:var(--bl-accent-fg); font:600 13.5px var(--bl-ui); cursor:pointer; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bb-pick .bbp-send { background:var(--bl-accent) !important; color:var(--bl-accent-fg) !important; border:0 !important; border-radius:8px !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #bb-pick .bbp-pen { background:rgba(0,0,0,.6) !important; color:#fff !important; border-radius:50% !important; }
 /* meme tiles show their ready-made caption */
-#bb-pick .bbp-meme :is(.bbp-mt, .bbp-mb) { position:absolute; left:4px; right:4px; text-align:center; font:900 10.5px/1.1 Impact, "Anton", "Arial Black", sans-serif; text-transform:uppercase; color:#fff; -webkit-text-stroke:.6px #000; text-shadow:0 1px 2px rgba(0,0,0,.9), 0 0 2px #000; pointer-events:none; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
-#bb-pick .bbp-meme .bbp-mt { top:4px; }
-#bb-pick .bbp-meme .bbp-mb { bottom:4px; }
 
 /* Reminder time: typed in the form, no pop-up */
 html body.bloom:not(#_1):not(#_2):not(#_3) .bl-rtime { display:flex; align-items:center; gap:6px; height:46px; padding:0 6px 0 12px; border:1px solid var(--bl-line); border-radius:10px; background:var(--bl-raise); }
