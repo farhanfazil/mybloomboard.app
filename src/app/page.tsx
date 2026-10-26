@@ -15,7 +15,8 @@ import FeatureWall from "@/components/showcase/FeatureWall";
 const PlanQuiz          = dynamic(() => import("@/components/sections/PlanQuiz"));
 const TrustBar          = dynamic(() => import("@/components/sections/TrustBar"));
 const Pricing           = dynamic(() => import("@/components/sections/Pricing"));
-const GlassOffice       = dynamic(() => import("@/components/sections/GlassOffice"));
+const OfficeStory       = dynamic(() => import("@/components/sections/OfficeStory"));
+const CalmStory         = dynamic(() => import("@/components/sections/CalmStory"));
 const Proof             = dynamic(() => import("@/components/sections/Proof"));
 const FAQ               = dynamic(() => import("@/components/sections/FAQ"));
 const ComparisonSection = dynamic(() => import("@/components/sections/ComparisonSection"));
@@ -28,6 +29,8 @@ export default function Home() {
     <main>
       <Header />
       <AppPreviewScroll />
+      {/* Chaos to calm: scattered work pulled onto one board, right after the demo. */}
+      <CalmStory />
       {/* After the hero the page scrolls plainly up to the comparison, which lifts
           away like a lid over Pricing (SnapPoints kept for later use). */}
       <FeatureWall />
@@ -45,7 +48,8 @@ export default function Home() {
           then lifts away like a lid, uncovering Pricing waiting in black underneath. */}
       <div className="relative">
         <PinnedSection>
-          <GlassOffice />
+          {/* From alone to together: the live office as a scroll story (phones: the still picture). */}
+          <OfficeStory />
         </PinnedSection>
         <CurtainReveal
           lidClassName="flex flex-col bg-[#f5f5f7]"
