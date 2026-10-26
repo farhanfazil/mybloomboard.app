@@ -4405,3 +4405,13 @@ body.bl-sc-on #bl-coach { right:calc(var(--bl-scw, 340px) + var(--bl-gap, 0px) +
 #bl-coach.tucked { opacity:0 !important; pointer-events:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item.ta-shared .ta-dl { right:4px; }
 #bl-coach { bottom:80px; }   /* clear of the floating view bar at the bottom of the page */
+/* ── Spelling (2026-10-26): a quiet dotted underline under misspelled words (instead of the red squiggle),
+   and the hover card with suggestions ── */
+::spelling-error { text-decoration-line:underline; text-decoration-style:dotted; text-decoration-color:color-mix(in srgb, var(--bl-fg, #eceef2) 80%, transparent); text-decoration-thickness:2px; text-underline-offset:3px; }
+#bl-spell { position:fixed; z-index:10050; display:flex; align-items:center; gap:2px; padding:4px; border-radius:10px; background:var(--bl-raise, #1b1d22); border:1px solid var(--bl-line, #26282e); box-shadow:0 10px 26px rgba(0,0,0,.35); font:13px/1.2 var(--bl-ui, -apple-system, system-ui, sans-serif); }
+#bl-spell[hidden] { display:none; }
+html body #bl-spell button:not(#_1) { border:0 !important; background:transparent !important; color:var(--bl-fg, #eceef2) !important; font:600 13px var(--bl-ui, inherit) !important; padding:6px 10px !important; border-radius:7px !important; cursor:pointer; box-shadow:none !important; }
+html body #bl-spell button:not(#_1):hover { background:var(--bl-hover, #202227) !important; }
+html body #bl-spell button.bl-spell-add:not(#_1) { color:var(--bl-fg3, #8d93a0) !important; font-weight:500 !important; margin-left:2px; border-left:1px solid var(--bl-line, #26282e) !important; border-radius:0 7px 7px 0 !important; }
+#bl-spell .bl-spell-none { color:var(--bl-fg3, #8d93a0); padding:6px 10px; }
+body.light-mode #bl-spell { box-shadow:0 8px 22px rgba(15,23,42,.14); }
