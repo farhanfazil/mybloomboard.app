@@ -36,17 +36,10 @@ function int(v: unknown, max: number): number {
   return Number.isFinite(n) && n > 0 ? Math.min(n, max) : 0;
 }
 
-/* Netlify passes the visitor's country in x-nf-geo (base64 JSON). Only the code is kept. */
+/* Cloudflare passes the visitor's country code in cf-ipcountry. Only the code is kept. */
 function country(request: Request): string | null {
-  const geo = request.headers.get("x-nf-geo");
-  if (geo) {
-    try {
-      const code = JSON.parse(Buffer.from(geo, "base64").toString("utf8"))?.country?.code;
-      if (typeof code === "string" && /^[A-Z]{2}$/.test(code)) return code;
-    } catch {}
-  }
-  const plain = request.headers.get("x-country");
-  return plain && /^[A-Z]{2}$/.test(plain) ? plain : null;
+  const code = request.headers.get("cf-ipcountry");
+  return code && /^[A-Z]{2}$/.test(code) ? code : null;
 }
 
 export type DemoVisit = {

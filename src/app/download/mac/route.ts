@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
  *
  * Every Mac download button points here, so pages never show where the file is
  * hosted. To move the installer set MAC_DMG_URL
- * on Netlify; no code change needed.
+ * on the bloomboard-website Worker; no code change needed.
  */
 /* The installer lives in Cloudflare R2 (bucket bloomboard-downloads) under our own domain. */
 const FALLBACK = "https://downloads.mybloomboard.app/BloomBoard-Installer.dmg";

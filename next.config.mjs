@@ -13,6 +13,15 @@ const nextConfig = {
   compress: true,
   // Remove X-Powered-By header (minor security + perf)
   poweredByHeader: false,
+  // Same headers as public/_headers, for pages the Worker renders.
+  async headers() {
+    return [
+      { source: "/:path*", headers: [
+        { key: "X-Frame-Options", value: "SAMEORIGIN" },
+        { key: "X-Content-Type-Options", value: "nosniff" },
+      ] },
+    ];
+  },
   async redirects() {
     return [
       // www goes to the main address, as it did on Netlify (one address for search engines and links).

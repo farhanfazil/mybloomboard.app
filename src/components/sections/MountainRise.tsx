@@ -30,7 +30,7 @@ const SCENE_SCRIPT =
   "for(var i=0;i<m.length;i++)m[i].addEventListener('load',c);c();setTimeout(s,2500)})()";
 
 /* The hero pictures, ready-made at three widths (no resizing per visit) and cached for a
-   year (netlify.toml). A 48 px blurred copy of each sits in the page itself, so the horizon
+   year (public/_headers). A 48 px blurred copy of each sits in the page itself, so the horizon
    shows at the very first paint and sharpens when the real pictures arrive. Re-make them
    with new names (hero-v2/…) whenever the pictures change. */
 const HERO = "/backgrounds/hero-v1/";
