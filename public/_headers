@@ -8,5 +8,5 @@
 
 # Hero pictures never change under the same name (new pictures get a new folder),
 # so browsers and the CDN can keep them for a year.
-/backgrounds/hero-v1/*
+/backgrounds/hero-v2/*
   Cache-Control: public, max-age=31536000, immutable

@@ -32,8 +32,10 @@ const SCENE_SCRIPT =
 /* The hero pictures, ready-made at three widths (no resizing per visit) and cached for a
    year (public/_headers). A 48 px blurred copy of each sits in the page itself, so the horizon
    shows at the very first paint and sharpens when the real pictures arrive. Re-make them
-   with new names (hero-v2/…) whenever the pictures change. */
-const HERO = "/backgrounds/hero-v1/";
+   with new names (hero-v3/…) whenever the pictures change. The blurred copies fade out
+   completely once the real pictures are in (globals.css .bb-scene-tiny), so they never
+   soften the finished scene. */
+const HERO = "/backgrounds/hero-v2/";
 const srcSet = (name: string) => [828, 1280, 1920].map((w) => `${HERO}${name}-${w}.webp ${w}w`).join(", ");
 const SKY_SET = srcSet("sky"), MOUNTAINS_SET = srcSet("mountains");
 const SKY_TINY = "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAACwBQCdASowABsAPtFWn0uoJKKhsAqpABoJZQCuT4CDTq2P8w13Iv/jkEOF+4naJ4ZO5FSk6AAA/vaCeMsSi5KhG0nAbYUYvx37yegyj5gXjkqJ54qszvgA8BM1YpT3AkqYPmTLZ4sTst74ls5fwzQIDh59WfqXukub7iCHcgiT45K5HYuVxIoA";
@@ -137,7 +139,7 @@ export default function MountainRise({ words, children }: { words: ReactNode; ch
     <div ref={rootRef} className="bb-scene relative" suppressHydrationWarning>
       {/* backdrop: the sky and the words, held in place */}
       <div className="sticky top-0 z-0 h-[100svh] overflow-hidden">
-        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div aria-hidden className="bb-scene-tiny pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute inset-0" style={tiny(SKY_TINY)} />
         </div>
         <div aria-hidden className="bb-scene-part pointer-events-none absolute inset-0">
@@ -157,7 +159,9 @@ export default function MountainRise({ words, children }: { words: ReactNode; ch
           and its dusk layer covered the next section's heading */}
       <div className="pointer-events-none relative flow-root" style={{ marginTop: "-100svh" }}>
         <div aria-hidden className="pointer-events-none relative h-[100svh] overflow-hidden">
-          <div className="absolute inset-0" style={tiny(MOUNTAINS_TINY)} />
+          <div className="bb-scene-tiny absolute inset-0">
+            <div className="absolute inset-0" style={tiny(MOUNTAINS_TINY)} />
+          </div>
         </div>
         <div aria-hidden className="bb-scene-part pointer-events-none absolute inset-x-0 top-0 h-[100svh]">
           {/* eslint-disable-next-line @next/next/no-img-element */}

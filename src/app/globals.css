@@ -415,4 +415,7 @@ html.demo-focus .bb-demo-controls:hover, html.demo-focus .bb-demo-controls:focus
 /* Hero scene (MountainRise): the sky and the hills fade in together once both are loaded. */
 .bb-scene .bb-scene-part { opacity: 0; transition: opacity .5s ease-out; }
 .bb-scene[data-scene="in"] .bb-scene-part { opacity: 1; }
+/* the blurred first-paint copies leave once the real pictures are in */
+.bb-scene .bb-scene-tiny { transition: opacity .5s ease-out .25s; }
+.bb-scene[data-scene="in"] .bb-scene-tiny { opacity: 0; }
 @media (prefers-reduced-motion: reduce) { .bb-scene .bb-scene-part { transition: none; } }
