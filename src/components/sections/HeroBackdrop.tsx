@@ -1,121 +1,125 @@
 "use client";
 
-import { forwardRef, useEffect, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 
 /**
- * Behind the hero words, so the page doesn't open on flat black. Everything lives at
- * the edges; the middle, behind the headline and buttons, stays clear. It fades out as
- * the demo comes up (AppPreviewScroll sets its opacity); motion is CSS/SVG only.
- * While we choose, ?bg=edges|team|words picks one.
+ * Behind the hero words, so the page doesn't open on flat black: abstract, thin lines
+ * only (white at low strength, one line of brand blue), the middle kept calm. It fades
+ * out as the demo comes up (AppPreviewScroll sets its opacity).
+ * While we choose, ?bg=contours|waves|ripples picks one.
  */
-type Kind = "edges" | "team" | "words";
-const P = (f: string) => `/bloomboard-demo/people/${f}.jpg`;
-const VFADE = "linear-gradient(180deg, transparent 0, #000 14%, #000 58%, transparent 92%)";
+type Kind = "contours" | "waves" | "ripples";
 
-function Column({ c }: { c: number }) {
-  return (
-    <div className="relative h-full w-[170px] flex-none">
-      <div className="bb-bd-col absolute inset-x-0 top-0" style={{ animationDuration: `${52 + (c % 2) * 11}s`, animationDelay: `${-c * 9}s` }}>
-        {[0, 1].map((rep) => (
-          <div key={rep} className="flex flex-col gap-5 pb-5">
-            {Array.from({ length: 9 }, (_, i) => (
-              <div
-                key={i}
-                className="rounded-xl border bg-white/[0.015]"
-                style={{ height: 56 + ((i * 7 + c * 3) % 4) * 14, borderColor: (i + c) % 7 === 0 ? "rgba(91,139,255,0.4)" : "rgba(255,255,255,0.11)" }}
-              >
-                <i className="ml-3 mt-3 block h-1.5 rounded bg-white/[0.08]" style={{ width: `${40 + ((i * 13 + c * 5) % 45)}%` }} />
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+/* one wobbly ring of a contour map */
+function ring(cx: number, cy: number, r: number, k: number) {
+  const pts: string[] = [];
+  for (let a = 0; a <= 360; a += 6) {
+    const t = (a * Math.PI) / 180;
+    const rr = r + 16 * Math.sin(3 * t + k * 0.35) + 9 * Math.sin(5 * t - k * 0.22) + 5 * Math.sin(8 * t + k * 0.5);
+    pts.push(`${(cx + rr * Math.cos(t)).toFixed(1)},${(cy + rr * Math.sin(t)).toFixed(1)}`);
+  }
+  return `M${pts.join("L")}Z`;
+}
+const CONTOUR_SETS = [
+  { cx: 0, cy: 0, spin: "bb-bd-spin" },
+  { cx: 0, cy: 0, spin: "bb-bd-spin-r" },
+];
+
+/* the waves: fine parallel lines drawn on a canvas, only while the hero is on screen */
+function Waves() {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const cv = ref.current;
+    if (!cv) return;
+    const ctx = cv.getContext("2d");
+    if (!ctx) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let w = 0, h = 0, raf = 0, on = true;
+    const size = () => {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      w = cv.clientWidth; h = cv.clientHeight;
+      cv.width = w * dpr; cv.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    const N = 42;
+    const draw = (ms: number) => {
+      const t = reduce ? 0 : ms / 9000;
+      ctx.clearRect(0, 0, w, h);
+      for (let i = 0; i < N; i++) {
+        const f = i / (N - 1);
+        ctx.beginPath();
+        for (let x = -20; x <= w + 20; x += 14) {
+          const u = x / w;
+          const y = h * (0.66 + 0.16 * Math.sin(u * 4.2 + t + f * 1.6) * Math.sin(u * 1.3 - t * 0.6)) + (f - 0.5) * h * 0.22 * (0.6 + 0.4 * Math.sin(u * 3 + t));
+          if (x === -20) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        const blue = i === Math.round(N * 0.62);
+        ctx.strokeStyle = blue ? "rgba(91,139,255,0.55)" : `rgba(255,255,255,${(0.035 + 0.075 * Math.sin(f * Math.PI)).toFixed(3)})`;
+        ctx.lineWidth = blue ? 1.2 : 1;
+        ctx.stroke();
+      }
+      if (on && !reduce) raf = requestAnimationFrame(draw);
+    };
+    size();
+    raf = requestAnimationFrame(draw);
+    /* stop drawing once the hero is scrolled away */
+    const io = new IntersectionObserver(([e]) => {
+      on = !!e?.isIntersecting;
+      cancelAnimationFrame(raf);
+      if (on) raf = requestAnimationFrame(draw);
+    });
+    io.observe(cv);
+    const onResize = () => { size(); if (reduce) draw(0); };
+    window.addEventListener("resize", onResize);
+    return () => { cancelAnimationFrame(raf); io.disconnect(); window.removeEventListener("resize", onResize); };
+  }, []);
+  return <canvas ref={ref} className="absolute inset-0 h-full w-full" />;
 }
 
-/* team: where each face sits (% of the hero) and the faint lines between them */
-const FACES: [string, number, number][] = [
-  ["women-44", 9, 24], ["men-32", 15, 60], ["women-12", 6, 82],
-  ["men-86", 91, 20], ["women-79", 85, 55], ["men-75", 93, 80],
-];
-const LINKS: [number, number, number][] = [[0, 1, 7], [1, 2, 9], [3, 4, 8], [4, 5, 10], [0, 3, 14], [2, 5, 16]];
-const SAY: [number, string][] = [[1, "On it"], [4, "Sent the file"], [3, "Joining now"]];
-
-const WORDS = "TASKS · CHAT · CALLS · OFFICE · PLANS · ";
-
 const HeroBackdrop = forwardRef<HTMLDivElement>(function HeroBackdrop(_, ref) {
-  const [kind, setKind] = useState<Kind>("edges");
+  const [kind, setKind] = useState<Kind>("contours");
   useEffect(() => {
     const k = new URLSearchParams(window.location.search).get("bg");
-    if (k === "edges" || k === "team" || k === "words") setKind(k);
+    if (k === "contours" || k === "waves" || k === "ripples") setKind(k);
   }, []);
 
   return (
     <div ref={ref} aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[112vh] overflow-hidden" style={{ willChange: "opacity" }}>
-      {kind === "edges" && (
-        <div className="absolute inset-0 flex justify-between px-4" style={{ WebkitMaskImage: VFADE, maskImage: VFADE }}>
-          <div className="flex gap-5 opacity-90"><Column c={0} /><Column c={1} /></div>
-          <div className="flex gap-5 opacity-90"><Column c={2} /><Column c={3} /></div>
-        </div>
-      )}
-
-      {kind === "team" && (
-        <div className="absolute inset-0" style={{ WebkitMaskImage: VFADE, maskImage: VFADE }}>
-          <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-            {LINKS.map(([a, b, dur]) => {
-              const [, x1, y1] = FACES[a], [, x2, y2] = FACES[b];
-              const across = Math.abs(x2 - x1) > 50;
-              const d = across
-                ? `M${x1} ${y1} C ${x1 + 20} ${y1 - 18}, ${x2 - 20} ${y2 - 18}, ${x2} ${y2}`
-                : `M${x1} ${y1} C ${x1 + 6} ${(y1 + y2) / 2}, ${x2 + 6} ${(y1 + y2) / 2}, ${x2} ${y2}`;
-              return (
-                <g key={`${a}-${b}`}>
-                  <path d={d} fill="none" stroke={across ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.09)"} strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                  <circle r="0.32" fill="#5B8BFF">
-                    <animateMotion dur={`${dur}s`} repeatCount="indefinite" path={d} />
-                  </circle>
-                </g>
-              );
-            })}
-          </svg>
-          {FACES.map(([f, x, y], i) => (
-            <div key={f} className="bb-bd-bob absolute -ml-5 -mt-5 h-10 w-10" style={{ left: `${x}%`, top: `${y}%`, animationDelay: `${-i * 1.7}s` }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={P(f)} alt="" className="h-10 w-10 rounded-full object-cover opacity-70 ring-2 ring-black" />
-              <span className="absolute -bottom-px -right-px h-3 w-3 rounded-full border-2 border-black bg-[#34C77B]" />
-              {SAY.filter(([n]) => n === i).map(([, t]) => (
-                <span
-                  key={t}
-                  className={`bb-bd-say absolute top-1.5 whitespace-nowrap rounded-lg bg-[#16171B] px-2.5 py-1 text-[11.5px] text-white/70 ring-1 ring-white/10 ${x > 50 ? "right-12" : "left-12"}`}
-                  style={{ animationDelay: `${i * 2.3}s` }}
-                >
-                  {t}
-                </span>
+      {kind === "contours" && (
+        <>
+          {/* two contour fields, one rising from the bottom left and one from the top right, turning slowly */}
+          {[{ side: "left-[-18vw] bottom-[-30vh]", spin: CONTOUR_SETS[0].spin }, { side: "right-[-20vw] top-[-38vh]", spin: CONTOUR_SETS[1].spin }].map((s, n) => (
+            <svg key={n} viewBox="-460 -460 920 920" className={`absolute h-[110vh] w-[110vh] ${s.side} ${s.spin}`} fill="none">
+              {Array.from({ length: 17 }, (_, k) => (
+                <path
+                  key={k}
+                  d={ring(0, 0, 40 + k * 25, k + n * 7)}
+                  stroke={k === 9 ? "rgba(91,139,255,0.5)" : `rgba(255,255,255,${(0.05 + 0.06 * (1 - k / 17)).toFixed(3)})`}
+                  strokeWidth={1}
+                  vectorEffect="non-scaling-stroke"
+                />
               ))}
-            </div>
+            </svg>
           ))}
-        </div>
+        </>
       )}
 
-      {kind === "words" && (
-        <div className="absolute inset-0 flex justify-between" style={{ WebkitMaskImage: VFADE, maskImage: VFADE }}>
-          {[0, 1].map((side) => (
-            <div key={side} className="relative h-full w-[min(18vw,220px)] overflow-hidden">
-              <div className={`bb-bd-words absolute left-1/2 top-0 ${side ? "bb-bd-words-down" : ""}`}>
-                {[0, 1].map((rep) => (
-                  <div
-                    key={rep}
-                    className="font-semibold leading-none tracking-[-0.03em]"
-                    style={{ writingMode: "vertical-rl", fontSize: "min(15vw, 190px)", color: "transparent", WebkitTextStroke: "1px rgba(255,255,255,0.11)", transform: side ? "rotate(180deg)" : undefined }}
-                  >
-                    {WORDS.repeat(2)}
-                  </div>
-                ))}
-              </div>
-            </div>
+      {kind === "waves" && <Waves />}
+
+      {kind === "ripples" && (
+        <svg viewBox="-500 -500 1000 1000" className="absolute left-1/2 top-[86vh] h-[150vh] w-[150vh] -translate-x-1/2 -translate-y-1/2" fill="none">
+          {Array.from({ length: 7 }, (_, k) => (
+            <circle
+              key={k}
+              r={480}
+              className="bb-bd-ripple"
+              stroke={k === 3 ? "rgba(91,139,255,0.6)" : "rgba(255,255,255,0.16)"}
+              strokeWidth={1}
+              vectorEffect="non-scaling-stroke"
+              style={{ animationDelay: `${-k * (21 / 7)}s` }}
+            />
           ))}
-        </div>
+        </svg>
       )}
     </div>
   );

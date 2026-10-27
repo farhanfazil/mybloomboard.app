@@ -445,16 +445,10 @@ html.demo-focus .bb-demo-controls:hover, html.demo-focus .bb-demo-controls:focus
    redrawn at an angle every frame and shows steps; tight layers stay clean. */
 .bb-sh-chip { box-shadow: 0 0 0 1px rgba(255,255,255,0.07), 0 1px 1px rgba(0,0,0,0.22), 0 2px 4px rgba(0,0,0,0.2), 0 5px 10px rgba(0,0,0,0.16); backface-visibility: hidden; }
 
-/* Hero backdrop (src/components/sections/HeroBackdrop.tsx): cards rising slowly, transform only */
-.bb-bd-col { animation-name: bb-bd-rise; animation-timing-function: linear; animation-iteration-count: infinite; will-change: transform; }
-@keyframes bb-bd-rise { to { transform: translateY(-50%); } }
-/* team: faces breathe a little, a short line now and then */
-.bb-bd-bob { animation: bb-bd-bob 7s ease-in-out infinite alternate; }
-@keyframes bb-bd-bob { to { transform: translateY(-8px); } }
-.bb-bd-say { opacity: 0; animation: bb-bd-say 9s ease-in-out infinite; }
-@keyframes bb-bd-say { 0%, 55%, 100% { opacity: 0; transform: translateY(4px); } 62%, 88% { opacity: 1; transform: none; } }
-/* words: huge outlined lettering running slowly up one edge and down the other */
-.bb-bd-words { transform: translateX(-50%); animation: bb-bd-up 80s linear infinite; will-change: transform; }
-.bb-bd-words-down { animation-direction: reverse; }
-@keyframes bb-bd-up { to { transform: translate(-50%, -50%); } }
-@media (prefers-reduced-motion: reduce) { .bb-bd-col, .bb-bd-bob, .bb-bd-say, .bb-bd-words { animation: none; } .bb-bd-say { opacity: 1; } }
+/* Hero backdrop (src/components/sections/HeroBackdrop.tsx): thin lines, slow, transform only */
+.bb-bd-spin { animation: bb-bd-spin 240s linear infinite; }
+.bb-bd-spin-r { animation: bb-bd-spin 300s linear infinite reverse; }
+@keyframes bb-bd-spin { to { transform: rotate(360deg); } }
+.bb-bd-ripple { transform-origin: center; transform-box: fill-box; animation: bb-bd-ripple 21s linear infinite; }
+@keyframes bb-bd-ripple { 0% { transform: scale(0.08); opacity: 0; } 12% { opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .bb-bd-spin, .bb-bd-spin-r, .bb-bd-ripple { animation: none; } }
