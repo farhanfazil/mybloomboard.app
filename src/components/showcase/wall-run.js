@@ -67,7 +67,7 @@ const SMALL = [
  ['download','Trello Import','Bring your boards over in a minute.'],
  ['laptop','Mac & Windows','A real desktop app on both.'],
  ['smartphone','iPhone App','Your tasks and calls on the go. Coming soon.'],
- ['search','Search','Find tasks, boards, chats and goals from one box.'],
+ ['search','Search','Find anything with ⌘K. Press T for a task, M for a meeting.'],
  ['paperclip','Attachments','Drop files and images into tasks and chats.'],
  ['user-plus','Invite Your Team','Priced per seat, from 3 to 50 people.'],
 ];

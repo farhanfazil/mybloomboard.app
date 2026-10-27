@@ -15,25 +15,35 @@ import GlassOffice from "@/components/sections/GlassOffice";
 
 const P = (f: string) => `/bloomboard-demo/people/${f}.jpg`;
 
-/* teammates: picture, x, y on the 1200 x 640 floor, when they appear (0..1), status */
+/* The floor (1200 x 640): the Weekly sync meeting room, and the team by department. */
+const ME = { x: 885, y: 434 }; /* your desk, in Marketing */
+/* teammates: picture, x, y (where they sit), when they appear (0..1), status */
 const TEAM: [string, number, number, number, "" | "focus" | "away"][] = [
-  ["women-44", 120, 150, 0.0, ""], ["men-32", 200, 150, 0.08, ""], ["women-12", 280, 150, 0.16, ""], ["men-75", 160, 220, 0.24, ""],
-  ["women-79", 520, 160, 0.3, ""], ["men-86", 640, 160, 0.38, ""],
-  ["men-22", 960, 165, 0.44, "focus"],
-  ["women-65", 160, 405, 0.52, ""], ["women-33", 300, 535, 0.6, "away"], ["men-45", 860, 405, 0.68, ""], ["women-68", 1000, 535, 0.76, ""],
+  ["women-44", 180, 113, 0.0, ""], ["men-32", 240, 113, 0.06, ""], ["women-12", 300, 113, 0.12, ""], ["men-75", 240, 227, 0.18, ""],
+  ["women-79", 555, 159, 0.26, ""], ["men-86", 705, 159, 0.32, ""],
+  ["men-22", 915, 159, 0.38, "focus"], ["women-65", 1065, 264, 0.44, "away"],
+  ["men-45", 135, 434, 0.5, ""], ["women-33", 305, 544, 0.56, ""],
+  ["women-68", 715, 544, 0.62, ""],
 ];
-const DESKS = [[110, 380], [250, 380], [390, 380], [810, 380], [950, 380], [110, 510], [250, 510], [810, 510], [950, 510], [1060, 445]];
+/* desks (top-left corner); each has a chair in front, where the person sits */
+const DESKS = [
+  [490, 100], [640, 100], [490, 205], [640, 205],
+  [850, 100], [1000, 100], [850, 205], [1000, 205],
+  [70, 375], [240, 375], [410, 375], [70, 485], [240, 485], [410, 485],
+  [650, 375], [820, 375], [990, 375], [650, 485], [820, 485], [990, 485],
+];
 const ROOMS = [
-  { x: 40, y: 40, w: 360, h: 250, name: "● Weekly sync · on a call", call: true },
-  { x: 420, y: 40, w: 340, h: 250, name: "Design" },
-  { x: 780, y: 40, w: 380, h: 250, name: "Focus room" },
-  { x: 40, y: 310, w: 1120, h: 290, name: "Open desks" },
+  { x: 40, y: 40, w: 400, h: 260, name: "● Weekly sync · on a call", call: true },
+  { x: 460, y: 40, w: 340, h: 260, name: "Design" },
+  { x: 820, y: 40, w: 340, h: 260, name: "Sales" },
+  { x: 40, y: 320, w: 560, h: 280, name: "Engineering" },
+  { x: 620, y: 320, w: 540, h: 280, name: "Marketing" },
 ];
 const CALLOUTS: { id: string; label: string; x: number; y: number; line?: [number, number, number, number] }[] = [
-  { id: "c1", label: "See who's free", x: 880, y: 330, line: [0, 28, -60, 88] },
-  { id: "c2", label: "Knock to talk", x: 720, y: -74, line: [0, 28, -60, 74] },
-  { id: "c3", label: "Walk into a call", x: -150, y: 96, line: [150, 28, 196, 70] },
-  { id: "c4", label: "Pass a task across the room", x: 780, y: 600, line: [0, 0, -120, -80] },
+  { id: "c1", label: "See who's free", x: -170, y: 402, line: [170, 28, 262, 32] },
+  { id: "c2", label: "Knock to talk", x: 740, y: -74, line: [0, 28, -60, 74] },
+  { id: "c3", label: "Walk into a call", x: -170, y: 120, line: [170, 28, 210, 40] },
+  { id: "c4", label: "Pass a task across the room", x: 940, y: 612, line: [0, 0, -90, -150] },
 ];
 const DOT = { "": "#34C77B", focus: "#E5484D", away: "#F5A524" };
 
@@ -69,8 +79,8 @@ export default function OfficeStory() {
       const pull = eio(seg(p, 0.1, 0.48)), settle = eio(seg(p, 0.8, 0.92));
       const fit = Math.min((vw * 0.86) / 1200, (vh * 0.66) / 640);
       const S = fit * lerp(2.7, 1, pull) * lerp(1, 0.7, settle);
-      const fy = lerp(470, 320, pull), cy = lerp(vh * 0.52, vh * 0.54, pull) + settle * vh * 0.155;
-      plan.style.transform = `translate(${(vw / 2 - 600 * S).toFixed(1)}px,${(cy - fy * S).toFixed(1)}px) scale(${S.toFixed(4)})`;
+      const fx = lerp(ME.x, 600, pull), fy = lerp(ME.y, 320, pull), cy = lerp(vh * 0.52, vh * 0.54, pull) + settle * vh * 0.155;
+      plan.style.transform = `translate(${(vw / 2 - fx * S).toFixed(1)}px,${(cy - fy * S).toFixed(1)}px) scale(${S.toFixed(4)})`;
 
       /* 1. alone */
       const i = 1 - seg(p, 0.12, 0.24);
@@ -103,7 +113,7 @@ export default function OfficeStory() {
       knock.style.transform = `translateY(${((1 - kn) * 10).toFixed(1)}px)`;
       const tk = eio(seg(p, 0.7, 0.8));
       task.style.opacity = String(seg(p, 0.68, 0.71) * (1 - seg(p, 0.82, 0.85)));
-      task.style.transform = `translateY(${(tk * 262).toFixed(1)}px) rotate(${((1 - tk) * -3).toFixed(2)}deg)`;
+      task.style.transform = `translate(${(tk * 240).toFixed(1)}px,${(tk * 185).toFixed(1)}px) rotate(${((1 - tk) * -3).toFixed(2)}deg)`;
 
       /* 5. the headline */
       const o = seg(p, 0.84, 0.94);
@@ -158,18 +168,34 @@ export default function OfficeStory() {
                 {r.name}
               </div>
             ))}
-            {DESKS.map(([x, y]) => (
-              <div key={`${x}-${y}`} data-desk className="absolute h-[52px] w-24 rounded-[10px] border border-white/[0.08] bg-white/[0.02] opacity-0" style={{ left: x, top: y }} />
-            ))}
+            {/* the furniture: a desk with a screen and a chair in front of it; a table and chairs in Weekly sync */}
+            <svg viewBox="0 0 1200 640" className="absolute inset-0 overflow-visible">
+              <g data-desk style={{ opacity: 0 }}>
+                {DESKS.map(([x, y]) => (
+                  <g key={`${x}-${y}`}>
+                    <rect x={x} y={y} width={130} height={40} rx={8} fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.08)" />
+                    <rect x={x + 45} y={y + 6} width={40} height={6} rx={2} fill="rgba(255,255,255,0.1)" />
+                    <rect x={x + 50} y={y + 48} width={30} height={22} rx={8} fill="rgba(255,255,255,0.06)" />
+                  </g>
+                ))}
+                <rect x={150} y={135} width={180} height={70} rx={16} fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" />
+                {[180, 240, 300].map((x) => (
+                  <g key={x}>
+                    <rect x={x - 15} y={103} width={30} height={22} rx={8} fill="rgba(255,255,255,0.06)" />
+                    <rect x={x - 15} y={216} width={30} height={22} rx={8} fill="rgba(255,255,255,0.06)" />
+                  </g>
+                ))}
+              </g>
+            </svg>
 
             {/* you */}
-            <div className="absolute -ml-8 -mt-8 h-16 w-16" style={{ left: 600, top: 470 }}>
+            <div className="absolute -ml-8 -mt-8 h-16 w-16" style={{ left: ME.x, top: ME.y }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={P("women-26")} alt="" className="h-16 w-16 rounded-full object-cover ring-[2.5px] ring-[#17181C]" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img data-me-grey src={P("women-26")} alt="" className="absolute inset-0 h-16 w-16 rounded-full object-cover" style={{ filter: "grayscale(1) brightness(.75)" }} />
               <span data-me-dot className="absolute -bottom-px -right-px h-3 w-3 rounded-full border-[2.5px] border-[#17181C] bg-[#34C77B] opacity-0" />
-              <span className={`absolute left-1/2 top-[74px] -translate-x-1/2 text-[11px] text-[rgba(220,228,240,0.8)] ${mono}`}>You</span>
+              <span className={`absolute left-[72px] top-[24px] text-[11px] text-[rgba(220,228,240,0.8)] ${mono}`}>You</span>
             </div>
 
             {TEAM.map(([f, x, y, , st]) => (
@@ -184,7 +210,7 @@ export default function OfficeStory() {
               <b className="font-semibold">Maya</b> knocked
               <span className="inline-flex h-[26px] items-center rounded-[7px] bg-[#0A0F1A] px-2.5 text-xs font-semibold text-white">Come in</span>
             </div>
-            <div data-task className="absolute w-[190px] rounded-[10px] bg-white px-3 py-2.5 text-[12.5px] text-[#0A0F1A] opacity-0 bb-sh-pop" style={{ left: 500, top: 150 }}>
+            <div data-task className="absolute w-[190px] rounded-[10px] bg-white px-3 py-2.5 text-[12.5px] text-[#0A0F1A] opacity-0 bb-sh-pop" style={{ left: 560, top: 175 }}>
               <b className="font-semibold">Final pricing page</b>
               <div className="mt-1.5 flex items-center gap-1.5 text-[11.5px] text-[#6B7385]">
                 <i className="h-[7px] w-[7px] rounded-[2px] bg-[#E5484D]" />Today · from Leo

@@ -226,7 +226,7 @@ export default function CalmStory() {
 
             {BITS.map((b) => (
               <div key={b.title} data-bit aria-hidden className="absolute left-0 top-0 h-[66px] w-[250px]" style={{ willChange: "transform, opacity" }}>
-                <div className={`absolute inset-0 rounded-[11px] px-3 py-[9px] text-[12.5px] leading-[1.35] bb-sh-card ${b.look}`} style={{ willChange: "opacity" }}>
+                <div className={`absolute inset-0 rounded-[11px] px-3 py-[9px] text-[12.5px] leading-[1.35] bb-sh-chip ${b.look}`} style={{ willChange: "opacity" }}>
                   <div className="mb-1 flex items-center gap-1.5 font-sans text-[10.5px] font-semibold uppercase tracking-[0.04em] opacity-60">
                     <Ic n={b.icon} size={12} />{b.kind}
                   </div>

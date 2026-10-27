@@ -424,14 +424,15 @@ html.demo-focus .bb-demo-controls:hover, html.demo-focus .bb-demo-controls:focus
    (src/components/sections/AppPreviewScroll.tsx). CSS only, so it plays even before
    the page's scripts run; with Reduce Motion it is simply the finished word. */
 .bb-re { display: inline-block; white-space: nowrap; }
-/* the tight letter spacing lets the e reach past its own box, so once Re is in, nothing clips it any more */
-.bb-re-re { display: inline-block; overflow: hidden; vertical-align: bottom; color: #5b8bff; max-width: 0; animation: bb-re-in 0.8s cubic-bezier(0.65, 0, 0.35, 1) 0.6s forwards, bb-re-open 0.01s step-end 1.4s forwards; }
+/* The tight letter spacing lets the e reach past its own box: the window it slides in
+   through grows a little room on the right (padding, given back by the margin), so the
+   e is never cut while it arrives and nothing changes when it lands. */
+.bb-re-re { display: inline-block; overflow: hidden; vertical-align: bottom; color: #5b8bff; max-width: 0; padding-right: 0; margin-right: 0; animation: bb-re-in 0.8s cubic-bezier(0.65, 0, 0.35, 1) 0.6s forwards; }
 .bb-re-worked { color: #5d636f; animation: bb-re-white 0.6s ease 1.1s forwards; }
-@keyframes bb-re-in { to { max-width: 2.4em; } }
-@keyframes bb-re-open { to { overflow: visible; } }
+@keyframes bb-re-in { to { max-width: 2.4em; padding-right: 0.12em; margin-right: -0.12em; } }
 @keyframes bb-re-white { to { color: #fff; } }
 @media (prefers-reduced-motion: reduce) {
-  .bb-re-re { max-width: none; animation: none; }
+  .bb-re-re { max-width: none; padding-right: 0.12em; margin-right: -0.12em; animation: none; }
   .bb-re-worked { color: #fff; animation: none; }
 }
 /* the task by the demo ticks itself off as you start scrolling */
@@ -447,3 +448,7 @@ html.demo-focus .bb-demo-controls:hover, html.demo-focus .bb-demo-controls:focus
 .bb-sh-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 1px 2px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.14), 0 7px 14px rgba(0,0,0,0.12), 0 14px 28px rgba(0,0,0,0.1), 0 24px 48px rgba(0,0,0,0.08); }
 .bb-sh-pop { box-shadow: 0 1px 2px rgba(0,0,0,0.18), 0 3px 6px rgba(0,0,0,0.16), 0 7px 14px rgba(0,0,0,0.14), 0 14px 28px rgba(0,0,0,0.12), 0 24px 48px rgba(0,0,0,0.1); }
 .bb-sh-window { box-shadow: 0 0 0 1px rgba(255,255,255,0.09), 0 2px 4px rgba(0,0,0,0.18), 0 6px 12px rgba(0,0,0,0.16), 0 14px 28px rgba(0,0,0,0.15), 0 28px 56px rgba(0,0,0,0.14), 0 48px 96px rgba(0,0,0,0.12); }
+
+/* Cards that tilt and move (Chaos to calm): a short, crisp shadow. A wide soft one is
+   redrawn at an angle every frame and shows steps; tight layers stay clean. */
+.bb-sh-chip { box-shadow: 0 0 0 1px rgba(255,255,255,0.07), 0 1px 1px rgba(0,0,0,0.22), 0 2px 4px rgba(0,0,0,0.2), 0 5px 10px rgba(0,0,0,0.16); backface-visibility: hidden; }

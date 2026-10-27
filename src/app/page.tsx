@@ -12,6 +12,7 @@ import FeatureWall from "@/components/showcase/FeatureWall";
 //   AIFeatureCarousel, DeepDiveFlight, Walkthrough, StatsBar  (all in @/components/sections)
 // Testimonials (@/components/sections/Testimonials) was removed before launch.
 // HowItWorks ("Up and running in minutes", @/components/sections/HowItWorks) removed 2026-10-03.
+// ShortcutsSection ("One key. It's done.") off the home page 2026-10-27; shortcuts live on the Search tile.
 const PlanQuiz          = dynamic(() => import("@/components/sections/PlanQuiz"));
 const TrustBar          = dynamic(() => import("@/components/sections/TrustBar"));
 const Pricing           = dynamic(() => import("@/components/sections/Pricing"));
@@ -22,7 +23,6 @@ const FAQ               = dynamic(() => import("@/components/sections/FAQ"));
 const ComparisonSection = dynamic(() => import("@/components/sections/ComparisonSection"));
 const DownloadCTA       = dynamic(() => import("@/components/sections/DownloadCTA"));
 const Footer            = dynamic(() => import("@/components/sections/Footer"));
-const ShortcutsSection  = dynamic(() => import("@/components/sections/ShortcutsSection"));
 
 export default function Home() {
   return (
@@ -35,7 +35,6 @@ export default function Home() {
           away like a lid over Pricing (SnapPoints kept for later use). */}
       <FeatureWall />
       <Proof />
-      <ShortcutsSection />
       {/* Hidden while the live demo carries the product story — restore by uncommenting.
       <AIFeatureCarousel />
       <DeepDiveFlight>
