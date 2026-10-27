@@ -3580,7 +3580,6 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .cw-dlinks { margin-top:8px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #kb-board { align-items:flex-start; }
 
 /* Office chat: edit your own message in place */
-html body.bloom:not(#_1):not(#_2):not(#_3) .station-peek-msg .sp-edit { width:100%; min-width:200px; box-sizing:border-box; resize:none; border:1px solid var(--bl-accent); border-radius:8px; background:var(--bl-win); color:var(--bl-fg); font:inherit; padding:6px 8px; outline:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .station-peek-msg.editing .sp-tools { display:none !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .station-peek-msg .sp-edited { margin-left:6px; font-style:italic; opacity:.75; }
 /* the board's side arrows: quiet until hovered */
