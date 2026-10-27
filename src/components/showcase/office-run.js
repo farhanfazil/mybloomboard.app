@@ -549,7 +549,7 @@ lucide.createIcons();
         hint.style.opacity = started ? "0" : "1";
         /* people arrive, room by room, as the doors part */
         if (!live && p > 0.08) { live = true; plan.classList.add("og-live"); }
-        /* .3 to .7: you walk in; Nora waves as you pass reception */
+        /* .3 to .7: you walk in; Nora waves from All hands as you pass */
         const wk = seg(p, 0.3, 0.7);
         const [mx, my] = along(ease(wk));
         me.style.transform = `translate(${mx}px,${my}px)`;

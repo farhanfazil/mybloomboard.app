@@ -647,7 +647,7 @@
 .bbo .og-you .og-p{left:75px;top:76px}
 .bbo .og-fcx{position:absolute;left:200px;top:226px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px}
 .bbo .og-walker{position:absolute;left:0;top:0;z-index:5}
-/* you: walk in at the front door, past reception, down the corridor and into the Design room */
+/* you: walk in at the front door, past All hands, down the corridor and into the Design room */
 .bbo .og-mewalk{position:absolute;left:0;top:0;z-index:6;opacity:0;pointer-events:none}
 /* "You" is a pointer, not a face: the visitor moving through the office */
 .bbo .og-cur{display:block;fill:var(--cyan);stroke:#0b0b0c;stroke-width:1.4;stroke-linejoin:round}
