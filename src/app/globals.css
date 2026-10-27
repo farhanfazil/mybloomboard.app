@@ -448,4 +448,13 @@ html.demo-focus .bb-demo-controls:hover, html.demo-focus .bb-demo-controls:focus
 /* Hero backdrop (src/components/sections/HeroBackdrop.tsx): cards rising slowly, transform only */
 .bb-bd-col { animation-name: bb-bd-rise; animation-timing-function: linear; animation-iteration-count: infinite; will-change: transform; }
 @keyframes bb-bd-rise { to { transform: translateY(-50%); } }
-@media (prefers-reduced-motion: reduce) { .bb-bd-col { animation: none; } }
+/* team: faces breathe a little, a short line now and then */
+.bb-bd-bob { animation: bb-bd-bob 7s ease-in-out infinite alternate; }
+@keyframes bb-bd-bob { to { transform: translateY(-8px); } }
+.bb-bd-say { opacity: 0; animation: bb-bd-say 9s ease-in-out infinite; }
+@keyframes bb-bd-say { 0%, 55%, 100% { opacity: 0; transform: translateY(4px); } 62%, 88% { opacity: 1; transform: none; } }
+/* words: huge outlined lettering running slowly up one edge and down the other */
+.bb-bd-words { transform: translateX(-50%); animation: bb-bd-up 80s linear infinite; will-change: transform; }
+.bb-bd-words-down { animation-direction: reverse; }
+@keyframes bb-bd-up { to { transform: translate(-50%, -50%); } }
+@media (prefers-reduced-motion: reduce) { .bb-bd-col, .bb-bd-bob, .bb-bd-say, .bb-bd-words { animation: none; } .bb-bd-say { opacity: 1; } }
