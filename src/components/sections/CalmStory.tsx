@@ -41,9 +41,16 @@ function Ic({ n, size = 15, className = "" }: { n: IconName; size?: number; clas
 
 /* the window and its eight areas, 4 x 2, in world units (the window is 1240 x 524, centred) */
 const COLX = [-540, -251, 38, 327], ROWY = [-194, 34], PW = 273, PH = 212;
-const PANELS: [IconName, string, string][] = [
-  ["mail", "Mail", "3 new"], ["chat", "Chat", "Team room"], ["phone", "Calls", ""], ["cal", "Calendar", "Today"],
-  ["note", "Notes & files", ""], ["plan", "Plans", "Q3 launch"], ["task", "Tasks", "12 open"], ["office", "Office", "8 here"],
+/* icon, name, note, and the quieter items already there (under where a bit lands) */
+const PANELS: [IconName, string, string, [string, string][]][] = [
+  ["mail", "Mail", "3 new", [["Invoice for October", "Finance"], ["Welcome the new designer", "People team"]]],
+  ["chat", "Chat", "Team room", [["Maya: banners are up for review", "2 min"], ["Daniel: looks great, ship it", "5 min"]]],
+  ["phone", "Calls", "", []],
+  ["cal", "Calendar", "Today", [["Design review", "3:00 pm"], ["Client call", "4:00 pm"]]],
+  ["note", "Notes & files", "", []],
+  ["plan", "Plans", "Q3 launch", [["Launch page", "Week 4 · Maya"], ["Press kit", "Week 4 · Nora"]]],
+  ["task", "Tasks", "12 open", [["Book the venue", "Friday"], ["Press kit review", "Wednesday"]]],
+  ["office", "Office", "8 here", [["Weekly sync", "3 in the room"], ["Daniel", "Focus until 3 pm"]]],
 ];
 
 const BLUE = "text-[#9DB7FF]", GREEN = "text-[#5BE3A0]";
@@ -192,7 +199,7 @@ export default function CalmStory() {
                   <span key={n} className={i ? "" : "text-white"}><Ic n={n} size={18} /></span>
                 ))}
               </div>
-              {PANELS.map(([icon, name, note], i) => (
+              {PANELS.map(([icon, name, note, rows], i) => (
                 <div
                   key={name}
                   data-panel
@@ -203,9 +210,16 @@ export default function CalmStory() {
                     <Ic n={icon} className="text-[#8D94A3]" />{name}
                     {note ? <small className="ml-auto text-[11.5px] font-medium text-[#5D636F]">{note}</small> : null}
                   </h5>
-                  {[[52, "60%"], [34, "78%"], [16, "45%"]].map(([b, w]) => (
-                    <span key={b} className="absolute left-3.5 h-2 rounded bg-[#1E222A]" style={{ bottom: b, width: w }} />
-                  ))}
+                  {rows.length ? (
+                    <div className="absolute inset-x-3.5 bottom-3 divide-y divide-white/[0.05]">
+                      {rows.map(([t, m]) => (
+                        <div key={t} className="flex items-center justify-between gap-3 py-2 text-[11.5px]">
+                          <span className="truncate text-[#9AA1AE]">{t}</span>
+                          <span className="flex-none text-[#5D636F]">{m}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
               ))}
             </div>
