@@ -373,6 +373,7 @@ const CLIPS={
 const ID={desk:'c-desk',side:'c-side',allhands:'c-allhands',status:'c-status',wave:'c-wave',lounge:'c-lounge',knock:'c-knock',lock:'c-lock',note:'c-note',meet:'c-meet',share:'c-share',chat:'c-chat',focus:'c-focus',cal:'c-cal',n2t:'c-n2t'};
 Object.entries(ID).forEach(([k,id])=>{
   const el=document.getElementById(id), c=CLIPS[k];
+  if(!el) return; /* the page shows one clip per stop; the rest are listed by name */
   el.insertAdjacentHTML('beforeend',c.html); c.init&&c.init(el);
   let token=0;
   new IntersectionObserver(([e])=>{ token++; if(e.isIntersecting){const me=token;c.loop(el,()=>me===token&&!document.hidden)} },{threshold:.35}).observe(el);
@@ -678,16 +679,13 @@ lucide.createIcons();
     }
   }
 
-  /* ── The tour map and the soft zoom ──
-     "You" walks along the map's hallway to the room being read about: it stays
-     in a room for most of the chapter and walks over near the end. Each clip's
-     screen starts close up (1.22) and settles to normal size as it comes up. */
+  /* ── The tour map ──
+     "You" walks along the map's hallway to the stop being read about: it stays
+     at a stop for most of the chapter and walks over near the end. */
   {
     const mapIn = root.querySelector("#cmap-in"), you = root.querySelector("#cmap-you");
     const rooms = [...root.querySelectorAll(".cm-room")];
     const chaps = rooms.map((a) => root.querySelector("#" + a.dataset.ch)).filter(Boolean);
-    const scrs = [...root.querySelectorAll(".tour .clip .scr")];
-    const reduceZ = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
     const smooth = (t) => t * t * (3 - 2 * t);
     let lastY = 0, lastOn = "";
@@ -721,16 +719,6 @@ lucide.createIcons();
             mapIn.scrollTo({ left: Math.max(0, r.left - t.left + r.width / 2 - mapIn.clientWidth / 2), behavior: "smooth" });
           }
         }
-      }
-      if (!reduceZ) {
-        const vh = innerHeight;
-        scrs.forEach((el) => {
-          const r = el.getBoundingClientRect();
-          if (r.bottom < -50 || r.top > vh + 50) return;
-          /* from the moment it peeks in until it reaches the upper third */
-          const t = clamp((vh - r.top) / (vh * 0.72), 0, 1);
-          el.style.transform = `scale(${(1.22 - 0.22 * smooth(t)).toFixed(4)})`;
-        });
       }
     };
     let queued = false;

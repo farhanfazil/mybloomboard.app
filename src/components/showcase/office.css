@@ -722,6 +722,15 @@
 /* the old footpath "You" is replaced by the map */
 .bbo .tour-path{display:none!important}
 
-/* soft zoom: each clip starts a touch close and settles as it comes into view */
-.bbo .tour .clip .scr{transform-origin:50% 50%;will-change:transform}
-.bbo .tour .clip .txt{position:relative;z-index:1;background:var(--page)}
+/* the tour: one stop at a time. A number, a short title and one line on the left,
+   one large live demo on the right; nothing else competing with it */
+.bbo .tour .chap{align-items:start;padding-bottom:140px}
+.bbo .tour .chap-l h2{font-size:34px;line-height:1.1;margin:12px 0 12px}
+.bbo .tour .chap-l p{font-size:16.5px;max-width:270px}
+.bbo .clip.one .scr{height:340px;border-bottom:0}
+.bbo .clip.one .scr[id="c-meet"]{height:520px!important}
+.bbo .clip.one .scr[id="c-n2t"]{height:auto!important;min-height:420px}
+.bbo .also{max-width:1160px;margin:0 auto;padding:40px 16px 120px;border-top:1px solid var(--line)}
+.bbo .also b{display:block;font-size:15px;margin-bottom:14px}
+.bbo .also div{display:flex;flex-wrap:wrap;gap:6px 0;color:var(--muted);font-size:15px}
+.bbo .also span:not(:last-child)::after{content:"\00b7";margin:0 12px;color:var(--dim)}
