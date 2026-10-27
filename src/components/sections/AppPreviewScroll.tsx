@@ -4,12 +4,14 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import LiveDemoFrame from "@/components/sections/LiveDemoFrame";
 import HeroVerb from "@/components/sections/HeroVerb";
+import HeroSignals from "@/components/sections/HeroSignals";
 import { useDevice } from "@/lib/downloads";
 import { AlsoAvailable, DownloadButton } from "@/components/ui/DownloadButton";
 import { WEB_APP_URL } from "@/components/ui/header-2";
 
 /**
- * The opening scene, "Product stage": charcoal with a faint dot grid, no picture; the product is the picture. A big
+ * The opening scene, "Product stage": charcoal with a faint dot grid (and Signals running along it,
+ * HeroSignals.tsx), no picture; the product is the picture. A big
  * two-line headline where a blue "Re" arrives in front of "worked." (CSS only,
  * globals.css .bb-re), then the live demo lying back slightly; as you scroll the
  * window stands up. Script only sets transforms and opacity, once a frame,
@@ -71,6 +73,8 @@ export default function AppPreviewScroll() {
           maskImage: "linear-gradient(180deg,#000 0,#000 45%,transparent 75%)",
         }}
       />
+      {/* now and then a point of light runs along the grid toward the headline */}
+      <HeroSignals avoid={copyRef} />
 
       <div ref={copyRef} className="relative flex flex-col items-center px-4 pb-2 pt-44 text-center sm:px-6 md:pt-48" style={{ willChange: "transform, opacity" }}>
         <h1 className="font-semibold text-white" style={{ fontSize: "clamp(3.2rem, 7vw, 6.8rem)", lineHeight: 0.96, letterSpacing: "-0.052em" }}>
