@@ -242,7 +242,7 @@ export default function CalmStory() {
           <div data-intro className="pointer-events-none absolute inset-x-0 top-1/2 z-[5] -translate-y-1/2 text-center" style={{ willChange: "opacity, transform" }}>
             <p className="font-semibold tracking-tight text-white" style={big}>Your work is everywhere.</p>
             <p className="mt-2.5 font-semibold tracking-tight text-[#8E94A0]" style={{ ...big, fontSize: "clamp(1.3rem, 2.2vw, 2rem)" }}>
-              Emails, chats, calls, meetings, notes and sheets.
+              Emails, chats, calls, meetings, tasks and plans.
             </p>
           </div>
           <div data-outro className="pointer-events-none absolute inset-x-0 top-[10vh] z-[5] px-6 text-center opacity-0" style={{ willChange: "opacity, transform" }}>
@@ -258,7 +258,7 @@ export default function CalmStory() {
 
       {/* phones: the same idea, still */}
       <section aria-labelledby="calm-title-phone" className="bg-[#2A2B30] px-5 py-20 md:hidden">
-        <p className="text-center text-[15px] text-[#8E94A0]">Your work is everywhere. Emails, chats, calls, meetings, notes and sheets.</p>
+        <p className="text-center text-[15px] text-[#8E94A0]">Your work is everywhere. Emails, chats, calls, meetings, tasks and plans.</p>
         <h2 id="calm-title-phone" className="mt-3 text-center text-[2rem] font-semibold leading-tight tracking-tight text-white">
           All of it, in one place.
         </h2>
