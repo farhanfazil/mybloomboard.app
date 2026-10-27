@@ -14,8 +14,14 @@ import { forwardRef, useEffect, useRef, useState, type ReactNode } from "react";
  *  - "cards": faint task cards rising (the first try)
  * While we choose, ?bg=bloom|office|links|cards|contours|waves|ripples picks one.
  */
-type Kind = "bloom" | "office" | "links" | "cards" | "contours" | "waves" | "ripples";
-const KINDS: Kind[] = ["bloom", "office", "links", "cards", "contours", "waves", "ripples"];
+type Kind = "photo-bloom" | "photo-glass" | "photo-silk" | "bloom" | "office" | "links" | "cards" | "contours" | "waves" | "ripples";
+const KINDS: Kind[] = ["photo-bloom", "photo-glass", "photo-silk", "bloom", "office", "links", "cards", "contours", "waves", "ripples"];
+/* one still picture, low in the hero: the demo rises out of it (mockup pictures while we choose) */
+const PHOTOS: Partial<Record<Kind, string>> = {
+  "photo-bloom": "/_mockup/hero-img/bloom.jpg",
+  "photo-glass": "/_mockup/hero-img/glass.jpg",
+  "photo-silk": "/_mockup/hero-img/silk.jpg",
+};
 
 /* a column of faint task cards, rising slowly (globals.css .bb-bd-col) */
 function Column({ c }: { c: number }) {
@@ -227,7 +233,7 @@ function Waves() {
 }
 
 const HeroBackdrop = forwardRef<HTMLDivElement>(function HeroBackdrop(_, ref) {
-  const [kind, setKind] = useState<Kind>("bloom");
+  const [kind, setKind] = useState<Kind>("photo-bloom");
   useEffect(() => {
     const k = new URLSearchParams(window.location.search).get("bg");
     if (KINDS.includes(k as Kind)) setKind(k as Kind);
@@ -254,6 +260,15 @@ const HeroBackdrop = forwardRef<HTMLDivElement>(function HeroBackdrop(_, ref) {
         </>
       )}
 
+      {PHOTOS[kind] ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={PHOTOS[kind]}
+          alt=""
+          className="absolute inset-x-0 top-[17vh] h-[100vh] w-full object-cover object-bottom"
+          style={{ WebkitMaskImage: "linear-gradient(180deg, transparent 0, #000 35%, #000 82%, transparent 100%)", maskImage: "linear-gradient(180deg, transparent 0, #000 35%, #000 82%, transparent 100%)" }}
+        />
+      ) : null}
       {kind === "bloom" && (
         <Reveal base={<div className="absolute inset-0" style={{ backgroundImage: DOT }} />}>
           <div className="absolute inset-0" style={{ backgroundImage: `${FLOWER_BLUE}, ${FLOWER}` }} />
