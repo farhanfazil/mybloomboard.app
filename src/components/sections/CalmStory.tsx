@@ -81,7 +81,7 @@ function Clean({ b }: { b: Bit }) {
   return (
     <>
       <div>{b.title}</div>
-      <div className="mt-[5px] flex items-center gap-1.5 text-[11px] text-[#7D8492]">
+      <div className="mt-[5px] flex items-center gap-1.5 text-[11px] text-[#959CA8]">
         {b.meta}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         {b.who ? <img src={P(b.who)} alt="" className="ml-auto h-4 w-4 rounded-full object-cover" /> : null}
@@ -183,7 +183,7 @@ export default function CalmStory() {
               <div className="absolute inset-x-0 top-0 flex h-[52px] items-center gap-2.5 border-b border-white/[0.06] px-[18px] text-[13.5px]">
                 <span className="mr-2 flex gap-[7px]">{[0, 1, 2].map((n) => <i key={n} className="h-[11px] w-[11px] rounded-full bg-[#2A2E36]" />)}</span>
                 <b className="font-semibold text-white">BloomBoard</b>
-                <span className="text-[#5D636F]">Launch week</span>
+                <span className="text-[#8A909C]">Launch week</span>
                 <span className="ml-auto flex items-center gap-2.5 text-[12.5px] text-[#7D8492]">
                   <span className="flex">
                     {["women-44", "men-32", "women-12", "men-75", "women-79"].map((f, i) => (
@@ -194,7 +194,7 @@ export default function CalmStory() {
                   8 in the office
                 </span>
               </div>
-              <div className="absolute bottom-0 left-0 top-[52px] flex w-16 flex-col items-center gap-4 border-r border-white/[0.06] pt-[18px] text-[#5D636F]">
+              <div className="absolute bottom-0 left-0 top-[52px] flex w-16 flex-col items-center gap-4 border-r border-white/[0.06] pt-[18px] text-[#8A909C]">
                 {(["home", "mail", "chat", "phone", "cal", "note", "plan", "task", "office"] as IconName[]).map((n, i) => (
                   <span key={n} className={i ? "" : "text-white"}><Ic n={n} size={18} /></span>
                 ))}
@@ -208,14 +208,14 @@ export default function CalmStory() {
                 >
                   <h5 className="flex items-center gap-2 text-[12.5px] font-semibold text-[#C9CDD5]">
                     <Ic n={icon} className="text-[#8D94A3]" />{name}
-                    {note ? <small className="ml-auto text-[11.5px] font-medium text-[#5D636F]">{note}</small> : null}
+                    {note ? <small className="ml-auto text-[11.5px] font-medium text-[#8A909C]">{note}</small> : null}
                   </h5>
                   {rows.length ? (
                     <div className="absolute inset-x-3.5 bottom-3 divide-y divide-white/[0.05]">
                       {rows.map(([t, m]) => (
                         <div key={t} className="flex items-center justify-between gap-3 py-2 text-[11.5px]">
                           <span className="truncate text-[#9AA1AE]">{t}</span>
-                          <span className="flex-none text-[#5D636F]">{m}</span>
+                          <span className="flex-none text-[#8A909C]">{m}</span>
                         </div>
                       ))}
                     </div>

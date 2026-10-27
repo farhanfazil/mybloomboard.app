@@ -42,7 +42,7 @@ const config: Config = {
         "accent-red": "#ff453a",
         "accent-purple": "#a78bfa",
         "text-primary": "#eeeeee",
-        "text-muted": "#607080",
+        "text-muted": "#8a9aab",
       },
       fontFamily: {
         sans: [

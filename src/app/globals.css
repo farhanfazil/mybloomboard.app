@@ -426,3 +426,11 @@ body {
    redrawn at an angle every frame and shows steps; tight layers stay clean. */
 .bb-sh-chip { box-shadow: 0 0 0 1px rgba(255,255,255,0.07), 0 1px 1px rgba(0,0,0,0.22), 0 2px 4px rgba(0,0,0,0.2), 0 5px 10px rgba(0,0,0,0.16); backface-visibility: hidden; }
 
+
+/* Keyboard focus, everywhere: a clear blue outline on whatever Tab lands on. Only for the
+   keyboard (:focus-visible), never on a mouse click. Several components turned the browser's
+   own outline off, so this wins over them. */
+:where(a, button, [role="button"], [role="link"], [role="tab"], input, select, textarea, summary, iframe, [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 2px solid #5b8bff !important;
+  outline-offset: 3px !important;
+}

@@ -111,7 +111,7 @@ export function SeoFooter() {
       <nav className="grid gap-8 border-t border-white/10 pt-10 sm:grid-cols-3" aria-label="Explore BloomBoard">
         {EXPLORE.map((g) => (
           <div key={g.label}>
-            <p className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#71717a]">{g.label}</p>
+            <p className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#8b8b94]">{g.label}</p>
             <ul className="mt-3 space-y-2">
               {g.links.map((l) => (
                 <li key={l.href}><Link href={l.href} className="text-[14px] text-[#a1a1aa] hover:text-white">{l.title}</Link></li>
@@ -120,7 +120,7 @@ export function SeoFooter() {
           </div>
         ))}
       </nav>
-      <p className="mt-10 text-[12.5px] text-[#71717a]">© 2026 BloomBoard · <Link href="/privacy.html" className="hover:text-white">Privacy</Link> · <Link href="/terms.html" className="hover:text-white">Terms</Link></p>
+      <p className="mt-10 text-[12.5px] text-[#8b8b94]">© 2026 BloomBoard · <Link href="/privacy.html" className="hover:text-white">Privacy</Link> · <Link href="/terms.html" className="hover:text-white">Terms</Link></p>
     </footer>
   );
 }

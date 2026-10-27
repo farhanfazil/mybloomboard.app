@@ -458,7 +458,7 @@ export default function StartFlow() {
                     <button type="submit" className="h-12 rounded-xl bg-[#f5f5f7] text-[15px] font-bold text-black transition-opacity hover:opacity-90">{busy ? "Creating your account…" : "Create account"}</button>
                     {error && <p className="text-[13px] text-[#ff8a80]">{error}</p>}
                     <p className="text-xs leading-relaxed text-[#a1a1aa]">
-                      By continuing you agree to the <a className="text-[#4d9fff]" href="/terms.html">Terms</a> and <a className="text-[#4d9fff]" href="/privacy.html">Privacy Policy</a>. This is the same account you use in the BloomBoard app.
+                      By continuing you agree to the <a className="text-[#4d9fff] underline underline-offset-2" href="/terms.html">Terms</a> and <a className="text-[#4d9fff] underline underline-offset-2" href="/privacy.html">Privacy Policy</a>. This is the same account you use in the BloomBoard app.
                     </p>
                     <span data-bloom-anchor="account" className="pointer-events-none absolute right-0 top-0 h-0 w-0" />
                   </form>

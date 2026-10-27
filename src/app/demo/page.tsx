@@ -28,7 +28,7 @@ export default function DemoPage() {
             <span className="sm:hidden">Live demo</span>
             <span className="hidden sm:inline">You&apos;re trying BloomBoard</span>
           </p>
-          <p className="hidden truncate text-xs text-[#607080] sm:block">
+          <p className="hidden truncate text-xs text-[#8a9aab] sm:block">
             The full app in your browser: tasks, boards, chat and meetings all work
           </p>
         </div>

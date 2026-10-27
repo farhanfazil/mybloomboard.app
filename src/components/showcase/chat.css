@@ -1,7 +1,7 @@
 /* Chat page. Every rule is scoped to .bbc; flat Black theme, single accent, 3D emoji for the fun. */
 .bbc{
   --bg:#000; --page:#0f0f10; --panel:#151517; --tile:#1c1c1f; --tile-hi:#242428; --line:rgba(255,255,255,.08); --line-hi:rgba(255,255,255,.16);
-  --fg:#fff; --muted:rgba(255,255,255,.66); --dim:rgba(255,255,255,.42); --accent:#67e8f9; --accent-ink:#062a33;
+  --fg:#fff; --muted:rgba(255,255,255,.66); --dim:rgba(255,255,255,.58); --accent:#67e8f9; --accent-ink:#062a33;
   background:var(--bg); color:var(--fg); font-family:inherit; -webkit-font-smoothing:antialiased; overflow:hidden;
 }
 .bbc *{box-sizing:border-box}

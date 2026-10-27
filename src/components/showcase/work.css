@@ -1,7 +1,7 @@
 /* Tasks & Boards page. Scoped to .bbk. Tasks are cyan, boards are lavender; flat surfaces, no glow. */
 .bbk{
   --bg:#000; --page:#0f0f10; --panel:#151517; --tile:#1c1c1f; --tile-hi:#242428; --line:rgba(255,255,255,.08); --line-hi:rgba(255,255,255,.16);
-  --fg:#fff; --muted:rgba(255,255,255,.66); --dim:rgba(255,255,255,.42); --t:#67e8f9; --b:#c4b5fd;
+  --fg:#fff; --muted:rgba(255,255,255,.66); --dim:rgba(255,255,255,.58); --t:#67e8f9; --b:#c4b5fd;
   background:var(--bg); color:var(--fg); font-family:inherit; -webkit-font-smoothing:antialiased;
 }
 .bbk *{box-sizing:border-box}

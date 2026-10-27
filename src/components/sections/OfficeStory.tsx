@@ -294,7 +294,7 @@ export default function OfficeStory() {
 
         <div data-intro className={`absolute max-w-[620px] ${phone ? "left-6 right-6 top-[12vh]" : "left-[8vw] top-[22vh]"}`} style={{ willChange: "opacity, transform" }}>
           <p className="font-semibold tracking-tight text-white" style={{ fontSize: "clamp(2rem, 3.6vw, 3.4rem)", lineHeight: 1.06 }}>Remote work.</p>
-          <p className="font-semibold tracking-tight text-[#5D636F]" style={{ fontSize: "clamp(2rem, 3.6vw, 3.4rem)", lineHeight: 1.06 }}>
+          <p className="font-semibold tracking-tight text-[#6E7480]" style={{ fontSize: "clamp(2rem, 3.6vw, 3.4rem)", lineHeight: 1.06 }}>
             Everyone&apos;s somewhere.<br />No one&apos;s here.
           </p>
         </div>

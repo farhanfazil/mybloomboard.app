@@ -41,7 +41,7 @@ function Mark({ v }: { v: string }) {
       ) : c.kind === "part" ? (
         <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-[#fbbf24]" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" aria-label="Partly"><path d="M5 12h14" /></svg>
       ) : (
-        <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-[#71717a]" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" aria-label="No"><path d="M18 6L6 18M6 6l12 12" /></svg>
+        <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-[#8b8b94]" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" aria-label="No"><path d="M18 6L6 18M6 6l12 12" /></svg>
       )}
       {c.text && <span className="text-[13px] text-[#a1a1aa]">{c.text}</span>}
     </span>
@@ -133,7 +133,7 @@ export default async function VsPageView({ params }: { params: Promise<{ slug: s
               <span className="font-semibold text-[#d4d4d8]">Both have:</span> {both.join(", ")}.
             </p>
           )}
-          <p className="mt-2 text-[12.5px] text-[#71717a]">Compared October 2026. Other apps change often; if something here is out of date, tell us at hello@mybloomboard.app and we will fix it.</p>
+          <p className="mt-2 text-[12.5px] text-[#8b8b94]">Compared October 2026. Other apps change often; if something here is out of date, tell us at hello@mybloomboard.app and we will fix it.</p>
         </section>
 
         <section className="mt-16 rounded-2xl border border-white/10 bg-[#111113] p-6">

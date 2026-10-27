@@ -52,7 +52,7 @@ export default function JoinTeam() {
                 placeholder="From your invite email"
                 autoComplete="off"
                 spellCheck={false}
-                className="h-14 rounded-xl border border-white/20 bg-black px-4 font-mono text-[22px] font-bold tracking-[0.2em] text-[#f5f5f7] outline-none placeholder:font-sans placeholder:text-[15px] placeholder:font-normal placeholder:tracking-normal placeholder:text-[#71717a] focus:border-[#4d9fff]"
+                className="h-14 rounded-xl border border-white/20 bg-black px-4 font-mono text-[22px] font-bold tracking-[0.2em] text-[#f5f5f7] outline-none placeholder:font-sans placeholder:text-[15px] placeholder:font-normal placeholder:tracking-normal placeholder:text-[#8b8b94] focus:border-[#4d9fff]"
               />
               <p className="text-sm text-[#a1a1aa]">Ask whoever invited you if you can&apos;t find it.</p>
             </>

@@ -67,7 +67,7 @@ export function run(root) {
   const stepbar = (n) => `<div class="stepbar">${["Choose work", "Assign and brief", "Review and send"].map((s, i) => `${i ? '<span class="ln"></span>' : ""}<span class="${i + 1 < n ? "done" : i + 1 === n ? "on" : ""}"><span class="n">${i + 1 < n ? '<i data-lucide="check" style="width:12px;height:12px"></i>' : i + 1}</span>${s}</span>`).join("")}</div>`;
   const winHd = `<div class="win-hd"><i data-lucide="users"></i><b>Hand over your work</b><span>Vacation · Oct 12 – Oct 15</span></div>`;
   canvas.innerHTML = `
-    <div class="appbg"><div class="tabs"><span>Tasks</span><span>My Boards</span><b>Handover</b><span>Calendar</span></div><div class="cols"><div class="col"></div><div class="col"></div><div class="col"></div></div></div>
+    <div class="appbg" aria-hidden="true"><div class="tabs"><span>Tasks</span><span>My Boards</span><b>Handover</b><span>Calendar</span></div><div class="cols"><div class="col"></div><div class="col"></div><div class="col"></div></div></div>
     <div class="scene" data-s="remind"><div class="remind" id="fr"><div class="r1"><i data-lucide="plane"></i>Your leave starts in 3 days</div><p>Vacation, Oct 12 – Oct 15. Hand over your work so nothing waits for you.</p><span class="bt p" id="fr-b"><i data-lucide="users"></i>Hand over work</span></div></div>
     <div class="scene" data-s="choose"><div class="win">${winHd}${stepbar(1)}<div class="win-bd">
       <div class="tbar"><span class="seg"><span class="on">All 5</span><span>Tasks 3</span><span>Board cards 2</span></span><span class="srch"><i data-lucide="search"></i>Search</span><span class="link" id="fc-sel" style="margin-left:auto">Select the 4 due by the end of your leave</span></div>

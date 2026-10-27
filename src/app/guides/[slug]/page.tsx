@@ -45,7 +45,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
         <div className="text-center">
           <Link href="/guides" className="text-[12px] font-bold uppercase tracking-[0.12em] text-[#9fdcff]">Guides</Link>
           <h1 className="mx-auto mt-3 text-[32px] font-bold leading-[1.1] tracking-[-0.03em] md:text-[42px]" style={{ textWrap: "balance" }}>{g.h1}</h1>
-          <p className="mt-3 text-[13px] text-[#71717a]">{date} · {g.readMinutes} min read</p>
+          <p className="mt-3 text-[13px] text-[#8b8b94]">{date} · {g.readMinutes} min read</p>
         </div>
         <article className="mt-10 text-[16px] leading-[1.75] text-[#d4d4d8]">
           <p className="text-[17px] text-[#e4e4e7]">{g.intro}</p>
@@ -55,7 +55,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
             if (b.type === "tip") return <p key={i} className="mt-5 border-l-2 border-[#9fdcff]/60 pl-4 text-[15px] text-[#c4c4cc]">{b.text}</p>;
             const Tag = b.type === "ol" ? "ol" : "ul";
             return (
-              <Tag key={i} className={`mt-4 space-y-1.5 pl-5 ${b.type === "ol" ? "list-decimal" : "list-disc"} marker:text-[#71717a]`}>
+              <Tag key={i} className={`mt-4 space-y-1.5 pl-5 ${b.type === "ol" ? "list-decimal" : "list-disc"} marker:text-[#8b8b94]`}>
                 {b.items.map((it) => <li key={it}>{it}</li>)}
               </Tag>
             );

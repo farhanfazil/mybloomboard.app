@@ -49,7 +49,7 @@ export const MARKUP = `
   </div>
 </div>
 
-<div class="say" data-say="Now, try it yourself."><div class="say-big" aria-label="Now, try it yourself."><span class="say-t"></span><span class="say-car"></span></div><p class="say-sub">Type a message, or pick a feature below. The team is listening.</p></div>
+<div class="say" data-say="Now, try it yourself."><div class="say-big" role="heading" aria-level="2" aria-label="Now, try it yourself."><span class="say-t"></span><span class="say-car"></span></div><p class="say-sub">Type a message, or pick a feature below. The team is listening.</p></div>
 <div class="play-wrap rv in">
   <div class="win" id="pl">
     <aside class="side">
@@ -107,7 +107,7 @@ export const MARKUP = `
 </div>
 
 <div class="sec">
-  <div class="say" data-say="And the little things? Done right."><div class="say-big" aria-label="And the little things? Done right."><span class="say-t"></span><span class="say-car"></span></div><p class="say-sub">Small details that make a team chat feel quick and friendly, all in the same window as your tasks and boards.</p></div>
+  <div class="say" data-say="And the little things? Done right."><div class="say-big" role="heading" aria-level="2" aria-label="And the little things? Done right."><span class="say-t"></span><span class="say-car"></span></div><p class="say-sub">Small details that make a team chat feel quick and friendly, all in the same window as your tasks and boards.</p></div>
   <div class="bento">
     <div class="bx w2 rv"><div class="sc"><div class="fmt" id="bx-fmt"></div></div><div class="tx"><b>Format as you type</b><span>Bold, italic and strikethrough, the way you already write them.</span></div></div>
     <div class="bx rv"><div class="sc"><div class="unreads" id="bx-unread">
@@ -131,7 +131,7 @@ export const MARKUP = `
 </div>
 
 <div class="sec">
-  <div class="say" data-say="Been away for an hour? We've got you."><div class="say-big" aria-label="Been away for an hour? We've got you."><span class="say-t"></span><span class="say-car"></span></div></div>
+  <div class="say" data-say="Been away for an hour? We've got you."><div class="say-big" role="heading" aria-level="2" aria-label="Been away for an hour? We've got you."><span class="say-t"></span><span class="say-car"></span></div></div>
   <div class="cmu rv">
     <div><h3>Catch up in<br>ten seconds.</h3><p>Forty new messages in #launch-squad. Bloom reads them and gives you the three things that matter, so you never scroll back through the whole thread.</p>
       <button class="cmu-btn" id="cmu-go"><span class="lines3"><i></i><i></i><i></i></span>Catch me up</button></div>
@@ -143,6 +143,6 @@ export const MARKUP = `
 </div>
 
 <div class="sec end">
-  <div class="say" data-say="That's chat in BloomBoard.<br>Right where your work is."><div class="say-big" aria-label="That's chat in BloomBoard. Right where your work is."><span class="say-t"></span><span class="say-car"></span></div></div>
+  <div class="say" data-say="That's chat in BloomBoard.<br>Right where your work is."><div class="say-big" role="heading" aria-level="2" aria-label="That's chat in BloomBoard. Right where your work is."><span class="say-t"></span><span class="say-car"></span></div></div>
 </div>
 `;

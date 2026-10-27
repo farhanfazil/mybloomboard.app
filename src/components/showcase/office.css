@@ -2,7 +2,7 @@
 
   .bbo{
     --bg:#000; --page:#101010; --panel:#161616; --tile:#1c1c1c; --tile-hi:#232323; --line:rgba(255,255,255,.08); --line-hi:rgba(255,255,255,.18);
-    --fg:#fff; --muted:rgba(255,255,255,.66); --dim:rgba(255,255,255,.42);
+    --fg:#fff; --muted:rgba(255,255,255,.66); --dim:rgba(255,255,255,.58);
     --green:#22c55e; --amber:#fbbf24; --violet:#a78bfa; --cyan:#9fdcff; --red:#ef4444;
   }
   .bbo *{box-sizing:border-box}
@@ -338,7 +338,7 @@
   .bbo .cnav .sp{margin-left:auto}
   .bbo .cnav .btn{padding:7px 12px;font-size:13px}
   .bbo .chap{scroll-margin-top:70px}
-  .bbo .chap-l .no{font-size:44px;font-weight:700;letter-spacing:-.03em;color:rgba(255,255,255,.14);line-height:1}
+  .bbo .chap-l .no{font-size:44px;font-weight:700;letter-spacing:-.03em;color:rgba(255,255,255,.38);line-height:1}
   .bbo .stile .row{display:flex;align-items:center;gap:12px}
   .bbo .pav{display:inline-block}
   .bbo .shared{position:absolute;left:10px;top:8px;font-size:10.5px;font-weight:600;color:#000;background:#fff;padding:2px 7px;border-radius:5px}
@@ -357,7 +357,7 @@
   .bbo .cctrl{display:flex;align-items:center;justify-content:center;gap:10px}
   .bbo .cb{height:44px;min-width:44px;border-radius:999px;background:var(--tile-hi);border:1px solid var(--line);display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:13.5px;font-weight:600}
   .bbo .cb svg{width:18px;height:18px}
-  .bbo .cb.end{background:var(--red);border-color:var(--red);padding:0 18px}
+  .bbo .cb.end{background:#dc2626;border-color:#dc2626;padding:0 18px}
   .bbo .cknock{position:absolute;right:18px;bottom:84px;width:300px;border-radius:14px;background:#1f1f1f;border:1px solid var(--line-hi);padding:14px;opacity:0;transform:translateY(10px);transition:all .35s;z-index:4}
   .bbo .cknock.on{opacity:1;transform:none}
   .bbo .cknock .who{display:flex;gap:10px;align-items:center;font-size:14px}

@@ -23,7 +23,7 @@ export default function GuidesIndex() {
             <Link key={g.slug} href={`/guides/${g.slug}`} className="group block border-b border-white/10 px-2 py-6 text-left">
               <h2 className="text-[18px] font-bold group-hover:underline" style={{ textWrap: "balance" }}>{g.h1}</h2>
               <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#c4c4cc]">{g.intro}</p>
-              <p className="mt-2 text-[12.5px] text-[#71717a]">{g.readMinutes} min read</p>
+              <p className="mt-2 text-[12.5px] text-[#8b8b94]">{g.readMinutes} min read</p>
             </Link>
           ))}
         </div>
