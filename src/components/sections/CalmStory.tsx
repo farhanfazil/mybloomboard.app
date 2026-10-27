@@ -55,15 +55,15 @@ type Bit = {
 /* where each bit floats at the start: hand-placed, uneven, never touching or off screen */
 const BITS: Bit[] = [
   { look: "bg-[#F4F5F7] text-[#2A2F38]", icon: "mail", kind: "Email", messy: <>Re: Re: FW: Q3 launch<br /><b className="font-semibold">Final deck by Thursday, anyone??</b></>, panel: 0, slot: 0, title: "Send the final deck", meta: <><i className="h-1.5 w-1.5 rounded-[2px] bg-[#E5484D]" /><span className={BLUE}>Thursday</span></>, who: "women-44", x: -470, y: -300, rot: -9, size: 1 },
-  { look: "bg-[#2A2F38] text-[#E6E8EC] !rounded-[14px_14px_14px_4px]", icon: "chat", kind: "Chat", messy: <>Leo: who&apos;s booking the venue for Friday??</>, panel: 1, slot: 0, title: "Who's booking the venue?", meta: <span>Leo · reply: <span className={GREEN}>I&apos;ll do it</span></span>, who: "men-32", x: 300, y: -270, rot: -4, size: 1 },
-  { look: "bg-[#1F2228] text-[#F0B4B4] ring-1 ring-[rgba(229,72,77,0.35)]", icon: "phone", kind: "Missed call", messy: <>Client · 2:14 pm<br />Call back about the contract</>, panel: 2, slot: 0, title: "Call back the client", meta: <span className={BLUE}>Today, 4 pm</span>, who: "women-12", x: -600, y: -40, rot: 6, size: 1 },
+  { look: "bg-[#3B414D] text-[#E6E8EC] !rounded-[14px_14px_14px_4px]", icon: "chat", kind: "Chat", messy: <>Leo: who&apos;s booking the venue for Friday??</>, panel: 1, slot: 0, title: "Who's booking the venue?", meta: <span>Leo · reply: <span className={GREEN}>I&apos;ll do it</span></span>, who: "men-32", x: 300, y: -270, rot: -4, size: 1 },
+  { look: "bg-[#1B1D22] text-[#F0B4B4] ring-1 ring-[rgba(229,72,77,0.45)]", icon: "phone", kind: "Missed call", messy: <>Client · 2:14 pm<br />Call back about the contract</>, panel: 2, slot: 0, title: "Call back the client", meta: <span className={BLUE}>Today, 4 pm</span>, who: "women-12", x: -600, y: -40, rot: 6, size: 1 },
   { look: "bg-[#E9EEF7] text-[#2A3A5C]", icon: "video", kind: "Video call", messy: <>Link for the 3 pm review? Anyone?</>, panel: 2, slot: 1, title: "Design review · video call", meta: <><span className={BLUE}>3:00 pm</span><span className={GREEN}>Join in the office</span></>, x: 565, y: 95, rot: -8, size: 1 },
   { look: "bg-[#E9F0FF] text-[#22335E]", icon: "cal", kind: "Meeting invite", messy: <>Weekly sync · Mon 10:00<br />Accept · Maybe · Decline</>, panel: 3, slot: 0, title: "Weekly sync", meta: <><span className={BLUE}>Monday, 10:00</span><span>6 going</span></>, x: 250, y: 210, rot: 4, size: 0.96 },
   { look: "bg-[#F7E27A] text-[#3D3510]", icon: "note", kind: "Note", messy: <>follow up with legal re: contract!!</>, panel: 4, slot: 0, title: "Follow up with legal", meta: <span>Launch notes</span>, who: "men-75", x: -80, y: 290, rot: -6, size: 1.05 },
   { look: "bg-[#ECEAF6] text-[#3A3366] font-mono text-[11.5px]", icon: "file", kind: "File", messy: <>brand_guidelines_FINAL(2).pdf</>, panel: 4, slot: 1, title: "Brand guidelines.pdf", meta: <span>Added to Launch notes</span>, x: -95, y: -350, rot: 5, size: 0.92 },
   { look: "bg-white text-[#1F6F43] font-mono text-[11.5px]", icon: "sheet", kind: "Sheet", messy: <>Q3_budget_v4.xlsx · Row 14<br />Pricing page | ? | TODO</>, panel: 5, slot: 0, title: "Pricing page", meta: <><span>Week 3</span><span className={BLUE}>Leo</span><span className={GREEN}>On track</span></>, x: 600, y: 300, rot: -5, size: 1 },
-  { look: "bg-[#2A2430] text-[#E9DDF2] !rounded-[14px_14px_14px_4px]", icon: "chat", kind: "Message", messy: <>any update on the launch?? where are we</>, panel: 6, slot: 0, title: "Launch: 9 of 12 done", meta: <><span className={GREEN}>75%</span><span>updated just now</span></>, x: -430, y: 205, rot: 10, size: 0.95 },
-  { look: "bg-[#203040] text-[#CFE3F5] !rounded-[14px_14px_4px_14px]", icon: "chat", kind: "Message", messy: <>is anyone free for a quick question?</>, panel: 7, slot: 0, title: "Maya is free", meta: <><span className={GREEN}>In the lounge</span><span className={BLUE}>Knock</span></>, who: "women-44", x: 590, y: -360, rot: 7, size: 0.94 },
+  { look: "bg-[#463A52] text-[#EFE4F7] !rounded-[14px_14px_14px_4px]", icon: "chat", kind: "Message", messy: <>any update on the launch?? where are we</>, panel: 6, slot: 0, title: "Launch: 9 of 12 done", meta: <><span className={GREEN}>75%</span><span>updated just now</span></>, x: -430, y: 205, rot: 10, size: 0.95 },
+  { look: "bg-[#2C4660] text-[#DCEBF8] !rounded-[14px_14px_4px_14px]", icon: "chat", kind: "Message", messy: <>is anyone free for a quick question?</>, panel: 7, slot: 0, title: "Maya is free", meta: <><span className={GREEN}>In the lounge</span><span className={BLUE}>Knock</span></>, who: "women-44", x: 590, y: -360, rot: 7, size: 0.94 },
 ];
 
 const clamp = (x: number) => Math.max(0, Math.min(1, x));
@@ -163,16 +163,16 @@ export default function CalmStory() {
     };
   }, []);
 
-  const big = { fontSize: "clamp(2.2rem, 4.2vw, 4rem)", lineHeight: 1.06, textShadow: "0 2px 30px #DFE0E4, 0 0 60px #DFE0E4" };
+  const big = { fontSize: "clamp(2.2rem, 4.2vw, 4rem)", lineHeight: 1.06, textShadow: "0 2px 30px #2A2B30, 0 0 60px #2A2B30" };
 
   return (
     <>
       {/* desktop and tablet: the scroll story */}
-      <section ref={storyRef} aria-labelledby="calm-title" className="relative hidden h-[560vh] bg-[#DFE0E4] md:block">
+      <section ref={storyRef} aria-labelledby="calm-title" className="relative hidden h-[560vh] bg-[#2A2B30] md:block">
         <div className="sticky top-0 h-screen overflow-hidden">
           <div ref={worldRef} className="absolute left-1/2 top-[55%] h-0 w-0" style={{ willChange: "transform" }}>
             {/* the BloomBoard window everything lands in */}
-            <div data-win aria-hidden style={{ willChange: "opacity, transform" }} className="absolute -left-[620px] -top-[262px] h-[524px] w-[1240px] rounded-[20px] bg-[#0E1014] opacity-0 shadow-[0_0_0_1px_rgba(10,15,26,0.1),0_50px_120px_-40px_rgba(16,24,40,0.5)]">
+            <div data-win aria-hidden style={{ willChange: "opacity, transform" }} className="absolute -left-[620px] -top-[262px] h-[524px] w-[1240px] rounded-[20px] bg-[#0E1014] opacity-0 shadow-[0_0_0_1px_rgba(255,255,255,0.09),0_50px_120px_-40px_rgba(0,0,0,0.7)]">
               <div className="absolute inset-x-0 top-0 flex h-[52px] items-center gap-2.5 border-b border-white/[0.06] px-[18px] text-[13.5px]">
                 <span className="mr-2 flex gap-[7px]">{[0, 1, 2].map((n) => <i key={n} className="h-[11px] w-[11px] rounded-full bg-[#2A2E36]" />)}</span>
                 <b className="font-semibold text-white">BloomBoard</b>
@@ -212,7 +212,7 @@ export default function CalmStory() {
 
             {BITS.map((b) => (
               <div key={b.title} data-bit aria-hidden className="absolute left-0 top-0 h-[66px] w-[250px]" style={{ willChange: "transform, opacity" }}>
-                <div className={`absolute inset-0 rounded-[11px] px-3 py-[9px] text-[12.5px] leading-[1.35] shadow-[0_0_0_1px_rgba(10,15,26,0.06),0_18px_40px_-16px_rgba(16,24,40,0.3)] ${b.look}`} style={{ willChange: "opacity" }}>
+                <div className={`absolute inset-0 rounded-[11px] px-3 py-[9px] text-[12.5px] leading-[1.35] shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_18px_40px_-16px_rgba(0,0,0,0.55)] ${b.look}`} style={{ willChange: "opacity" }}>
                   <div className="mb-1 flex items-center gap-1.5 font-sans text-[10.5px] font-semibold uppercase tracking-[0.04em] opacity-60">
                     <Ic n={b.icon} size={12} />{b.kind}
                   </div>
@@ -226,16 +226,16 @@ export default function CalmStory() {
           </div>
 
           <div data-intro className="pointer-events-none absolute inset-x-0 top-1/2 z-[5] -translate-y-1/2 text-center" style={{ willChange: "opacity, transform" }}>
-            <p className="font-semibold tracking-tight text-[#0A0F1A]" style={big}>Your work is everywhere.</p>
-            <p className="mt-2.5 font-semibold tracking-tight text-[#8A909C]" style={{ ...big, fontSize: "clamp(1.3rem, 2.2vw, 2rem)" }}>
+            <p className="font-semibold tracking-tight text-white" style={big}>Your work is everywhere.</p>
+            <p className="mt-2.5 font-semibold tracking-tight text-[#8E94A0]" style={{ ...big, fontSize: "clamp(1.3rem, 2.2vw, 2rem)" }}>
               Emails, chats, calls, meetings, notes and sheets.
             </p>
           </div>
           <div data-outro className="pointer-events-none absolute inset-x-0 top-[10vh] z-[5] px-6 text-center opacity-0" style={{ willChange: "opacity, transform" }}>
-            <h2 id="calm-title" className="font-semibold tracking-tight text-[#0A0F1A]" style={{ fontSize: "clamp(2.2rem, 4vw, 3.8rem)", lineHeight: 1.04 }}>
+            <h2 id="calm-title" className="font-semibold tracking-tight text-white" style={{ fontSize: "clamp(2.2rem, 4vw, 3.8rem)", lineHeight: 1.04 }}>
               All of it, in one place.
             </h2>
-            <p className="mx-auto mt-3.5 max-w-[600px] text-lg leading-relaxed text-[#5B6474]">
+            <p className="mx-auto mt-3.5 max-w-[600px] text-lg leading-relaxed text-white/65">
               Mail, chat, calls, meetings, notes, plans and tasks, with your whole team in the office. Everything falls into place, so nothing slips.
             </p>
           </div>
@@ -243,12 +243,12 @@ export default function CalmStory() {
       </section>
 
       {/* phones: the same idea, still */}
-      <section aria-labelledby="calm-title-phone" className="bg-[#DFE0E4] px-5 py-20 md:hidden">
-        <p className="text-center text-[15px] text-[#8A909C]">Your work is everywhere. Emails, chats, calls, meetings, notes and sheets.</p>
-        <h2 id="calm-title-phone" className="mt-3 text-center text-[2rem] font-semibold leading-tight tracking-tight text-[#0A0F1A]">
+      <section aria-labelledby="calm-title-phone" className="bg-[#2A2B30] px-5 py-20 md:hidden">
+        <p className="text-center text-[15px] text-[#8E94A0]">Your work is everywhere. Emails, chats, calls, meetings, notes and sheets.</p>
+        <h2 id="calm-title-phone" className="mt-3 text-center text-[2rem] font-semibold leading-tight tracking-tight text-white">
           All of it, in one place.
         </h2>
-        <p className="mx-auto mt-3 max-w-sm text-center text-base leading-relaxed text-[#5B6474]">
+        <p className="mx-auto mt-3 max-w-sm text-center text-base leading-relaxed text-white/65">
           Mail, chat, calls, meetings, notes, plans and tasks, with your whole team in the office. Everything falls into place, so nothing slips.
         </p>
         <div className="mx-auto mt-8 max-w-sm space-y-2.5">
