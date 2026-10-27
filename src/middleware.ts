@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 /**
- * /demo-insights is private: the browser asks for a password (any user name),
+ * /demo-insights and /quotes-review are private: the browser asks for a password (any user name),
  * checked against DEMO_INSIGHTS_PASSWORD. Without that variable the page is
  * only reachable in local development.
  */
@@ -26,4 +26,4 @@ export function middleware(request: NextRequest) {
   });
 }
 
-export const config = { matcher: ["/demo-insights"] };
+export const config = { matcher: ["/demo-insights", "/quotes-review"] };
