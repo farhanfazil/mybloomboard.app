@@ -4585,3 +4585,6 @@ html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #chat-overlay .chat-msg-row:
 html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) #bl-nav .bl-nav > span { display:block; width:100%; max-width:100%; box-sizing:border-box; padding:0 2px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .sc-un { background:var(--bl-bad); color:#fff; min-width:18px; height:18px; padding:0 5px; border-radius:9px; font:700 11px/18px var(--bl-ui); }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-list > .kb-board { padding-bottom:0 !important; }
+
+/* Columns keep an empty strip at the bottom to drop cards into */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #kb-board > .kb-col { padding-bottom:40px !important; }
