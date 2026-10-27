@@ -8,7 +8,7 @@ import { AlsoAvailable, DownloadButton } from "@/components/ui/DownloadButton";
 import { WEB_APP_URL } from "@/components/ui/header-2";
 
 /**
- * The opening scene, "Product stage": no picture, the product is the picture. A big
+ * The opening scene, "Product stage": charcoal with a faint dot grid, no picture; the product is the picture. A big
  * two-line headline where a blue "Re" arrives in front of "worked." (CSS only,
  * globals.css .bb-re), then the live demo lying back slightly; as you scroll the
  * window stands up. Script only sets transforms and opacity, once a frame,
@@ -56,17 +56,22 @@ export default function AppPreviewScroll() {
   }, []);
 
   return (
-    <section id="hero" className="relative overflow-hidden bg-black pb-12 sm:pb-14">
-      {/* two faint page lines framing the content, fading out before the demo */}
+    <section id="hero" className="relative -mt-16 overflow-hidden bg-[#0d0e11] pb-12 sm:pb-14">
+      {/* -mt-16 (and 64 px more top padding): the charcoal runs up under the header, no black strip */}
+      {/* a faint dot grid behind the headline, fading out before the demo */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 hidden justify-center md:flex"
-        style={{ WebkitMaskImage: "linear-gradient(180deg,#000 0,#000 40%,transparent 70%)", maskImage: "linear-gradient(180deg,#000 0,#000 40%,transparent 70%)" }}
-      >
-        <span className="h-full w-[1240px] max-w-[calc(100%-80px)] border-x border-white/[0.06]" />
-      </div>
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: "radial-gradient(rgba(255,255,255,.11) 1px, transparent 1.2px)",
+          backgroundSize: "26px 26px",
+          backgroundPosition: "center top",
+          WebkitMaskImage: "linear-gradient(180deg,#000 0,#000 45%,transparent 75%)",
+          maskImage: "linear-gradient(180deg,#000 0,#000 45%,transparent 75%)",
+        }}
+      />
 
-      <div ref={copyRef} className="relative flex flex-col items-center px-4 pb-2 pt-28 text-center sm:px-6 md:pt-32" style={{ willChange: "transform, opacity" }}>
+      <div ref={copyRef} className="relative flex flex-col items-center px-4 pb-2 pt-44 text-center sm:px-6 md:pt-48" style={{ willChange: "transform, opacity" }}>
         <h1 className="font-semibold text-white" style={{ fontSize: "clamp(2.8rem, 5.4vw, 5.2rem)", lineHeight: 0.96, letterSpacing: "-0.052em" }}>
           <span className="sr-only">Teamwork. Reworked.</span>
           <span aria-hidden>
