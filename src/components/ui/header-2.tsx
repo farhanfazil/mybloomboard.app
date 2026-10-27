@@ -108,6 +108,40 @@ function ProductMenu() {
   );
 }
 
+/** Signed in to the web app in this browser? The web app leaves a small "bb_who" cookie
+ *  on .mybloomboard.app with just a first name (DailyDashboardApp web/bb-web.js), and
+ *  removes it on sign out. Read after mount, and again when the tab comes back. */
+function useSignedIn() {
+  const [who, setWho] = React.useState<{ name: string } | null>(null);
+  React.useEffect(() => {
+    const read = () => {
+      const m = document.cookie.match(/(?:^|;\s*)bb_who=([^;]*)/);
+      if (!m || !m[1]) { setWho(null); return; }
+      let name = "";
+      try { name = decodeURIComponent(m[1]); } catch { name = ""; }
+      setWho({ name: name === "-" ? "" : name.slice(0, 24) });
+    };
+    read();
+    const onVis = () => { if (!document.hidden) read(); };
+    document.addEventListener("visibilitychange", onVis);
+    window.addEventListener("focus", read);
+    return () => { document.removeEventListener("visibilitychange", onVis); window.removeEventListener("focus", read); };
+  }, []);
+  return who;
+}
+
+/** The first letter of the name in a small blue circle, then the name. */
+function WhoBadge({ name }: { name: string }) {
+  return (
+    <a href={WEB_APP_URL} className="flex items-center gap-2.5 px-2 text-[15px] text-text-primary" title="Open BloomBoard">
+      <span aria-hidden className="flex size-7 items-center justify-center rounded-full bg-[#3B6FF5] text-[13px] font-semibold text-white">
+        {(name[0] || "B").toUpperCase()}
+      </span>
+      {name || "Signed in"}
+    </a>
+  );
+}
+
 export function Header({
   customLinks,
   logoHref,
@@ -117,6 +151,7 @@ export function Header({
 } = {}) {
   const [open, setOpen] = React.useState(false);
   const scrolled = useScroll(10);
+  const who = useSignedIn();
 
   const links: NavLink[] = customLinks ?? NAV_LINKS;
 
@@ -209,28 +244,43 @@ export function Header({
               {link.label}
             </a>
           ))}
-          {/* One main button (Try BloomBoard free). The two ways in for people who
-              already have an account or an invite are quiet links of equal weight. */}
-          <a
-            className={buttonVariants({ variant: "ghost", className: "px-3 text-[15px]" })}
-            href="/join"
-          >
-            Join your team
-          </a>
-          <a
-            className={buttonVariants({ variant: "ghost", className: "px-3 text-[15px]" })}
-            href={WEB_LOGIN_URL}
-          >
-            Log in
-          </a>
-          <Button
-            asChild
-            className="ml-4 h-10 shrink-0 rounded-[9px] border border-transparent bg-white px-4 text-[15px] font-semibold text-[#0a0f1c] hover:bg-white/90"
-          >
-            <a href="/start?plan=bloom">
-              Try BloomBoard free
-            </a>
-          </Button>
+          {who ? (
+            <>
+              {/* Signed in to the web app in this browser: straight back in */}
+              <WhoBadge name={who.name} />
+              <Button
+                asChild
+                className="ml-4 h-10 shrink-0 rounded-[9px] border border-transparent bg-white px-4 text-[15px] font-semibold text-[#0a0f1c] hover:bg-white/90"
+              >
+                <a href={WEB_APP_URL}>Open BloomBoard</a>
+              </Button>
+            </>
+          ) : (
+            <>
+              {/* One main button (Try BloomBoard free). The two ways in for people who
+                  already have an account or an invite are quiet links of equal weight. */}
+              <a
+                className={buttonVariants({ variant: "ghost", className: "px-3 text-[15px]" })}
+                href="/join"
+              >
+                Join your team
+              </a>
+              <a
+                className={buttonVariants({ variant: "ghost", className: "px-3 text-[15px]" })}
+                href={WEB_LOGIN_URL}
+              >
+                Log in
+              </a>
+              <Button
+                asChild
+                className="ml-4 h-10 shrink-0 rounded-[9px] border border-transparent bg-white px-4 text-[15px] font-semibold text-[#0a0f1c] hover:bg-white/90"
+              >
+                <a href="/start?plan=bloom">
+                  Try BloomBoard free
+                </a>
+              </Button>
+            </>
+          )}
         </div>
 
         <Button
@@ -298,6 +348,25 @@ export function Header({
         <div style={{ margin: "0 16px", borderTop: "1px solid rgba(255,255,255,0.08)" }} />
 
         {/* Action buttons */}
+        {who ? (
+        <div style={{ padding: "20px 16px 32px", display: "flex", flexDirection: "column", gap: "12px" }}>
+          <p style={{ textAlign: "center", fontSize: "14px", color: "rgba(245,245,247,0.75)", margin: 0 }}>
+            Signed in{who.name ? <> as <span style={{ color: "#f5f5f7", fontWeight: 600 }}>{who.name}</span></> : null}
+          </p>
+          <a
+            href={WEB_APP_URL}
+            onClick={() => setOpen(false)}
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "center",
+              borderRadius: "10px", padding: "12px 0", width: "100%", boxSizing: "border-box",
+              fontSize: "14px", fontWeight: 600, textDecoration: "none",
+              background: "#fff", color: "#0a0f1c",
+            }}
+          >
+            Open BloomBoard
+          </a>
+        </div>
+        ) : (
         <div style={{ padding: "20px 16px 32px", display: "flex", flexDirection: "column", gap: "12px" }}>
           <a
             href="/start?plan=bloom"
@@ -331,6 +400,7 @@ export function Header({
             Got an invite? <span style={{ color: "#f5f5f7", fontWeight: 600, textDecoration: "underline", textUnderlineOffset: "3px" }}>Join your team</span>
           </a>
         </div>
+        )}
       </div>
     )}
     </>
