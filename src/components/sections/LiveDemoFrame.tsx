@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import DemoIframe, { type DemoCommand, type DemoFocus, type DemoState } from "@/components/sections/DemoIframe";
 import DemoUsefulPoll from "@/components/sections/DemoUsefulPoll";
 import PhoneDemoPitch from "@/components/sections/PhoneDemoPitch";
+import PhoneClip from "@/components/sections/PhoneClip";
 import StickyPopouts from "@/components/sections/StickyPopouts";
 
 const APP_W = 1280;
@@ -96,21 +97,9 @@ export default function LiveDemoFrame({
   if (phone && !peek) {
     return (
       <div className={className}>
-        {/* A real recording of the demo (it types tasks, organises them and moves a
-            card), so phone visitors see the product, not just words about it. */}
-        <div className="mb-4 overflow-hidden rounded-2xl border border-white/[0.12] bg-[#171717]">
-          <video
-            src="/bloomboard-demo/phone-clip.mp4"
-            poster="/bloomboard-demo/phone-clip.jpg"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            aria-label="BloomBoard turning a few typed lines into tasks on a board"
-            className="block aspect-square w-full"
-          />
-        </div>
+        {/* A real recording of the demo, with a camera that follows the action, so phone
+            visitors see the product, not just words about it. */}
+        <PhoneClip />
         <PhoneDemoPitch />
       </div>
     );
