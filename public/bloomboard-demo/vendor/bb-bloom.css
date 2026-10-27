@@ -4586,3 +4586,5 @@ html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) #bl-nav .bl-nav > sp
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .sc-un { background:var(--bl-bad); color:#fff; min-width:18px; height:18px; padding:0 5px; border-radius:9px; font:700 11px/18px var(--bl-ui); }
 /* board columns stretch to the board's height (the board itself reaches the page bottom, see bb-bloom.js) */
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-list > .kb-board { align-items:stretch !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-list > .kb-board { padding-bottom:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-list > #kb-board { box-sizing:border-box; min-height:calc(var(--kb-colmax, 0px) + var(--kb-padt, 0px)); }
