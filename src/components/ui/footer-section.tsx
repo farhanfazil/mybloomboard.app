@@ -134,12 +134,13 @@ export function Footer() {
                 <h3 className="text-sm font-semibold text-white">
                   {section.label}
                 </h3>
-                <ul className="mt-4 space-y-2 text-sm text-white">
+                <ul className="mt-3 space-y-0.5 text-sm text-white sm:mt-4 sm:space-y-2">
                   {section.links.map((link) => (
                     <li key={link.title}>
+                      {/* phones: a taller row, so each link is easy to tap */}
                       <a
                         href={link.href}
-                        className="inline-flex items-center transition-opacity hover:opacity-70"
+                        className="inline-flex min-h-9 items-center transition-opacity hover:opacity-70 sm:min-h-0"
                       >
                         {link.title}
                       </a>

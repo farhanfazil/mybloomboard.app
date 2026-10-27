@@ -316,3 +316,6 @@
 .bbh .pass-from,.bbh .pass-to{position:relative;z-index:2}
 @media (max-width:900px){ .bbh .chap{gap:24px;padding-bottom:100px} }
 @media (max-width:600px){ .bbh .pass-paths{display:none} }
+
+/* phones and tablets: one card per row, and a card never pushes the page wider than the screen */
+@media (max-width:900px){ .bbh .clips{grid-template-columns:minmax(0,1fr)} .bbh .clips > .clip{grid-column:1 / -1;min-width:0} }

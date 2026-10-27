@@ -219,7 +219,7 @@ function MobileCell({ value, isBloom }: { value: string; isBloom: boolean }) {
         </>
       )}
       {rest.map((line) => (
-        <span key={line} className="text-[10px] leading-tight text-[#6e6e73]">
+        <span key={line} className="text-[11.5px] leading-tight text-[#86868b]">
           {line}
         </span>
       ))}

@@ -302,7 +302,7 @@ export default function StartFlow() {
   const lastBeforeDone = steps[steps.length - 2];
 
   return (
-    <div className="relative min-h-screen bg-black text-[#f5f5f7]">
+    <div className="relative min-h-screen overflow-x-clip bg-black text-[#f5f5f7]">
       <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-white/[0.08] bg-black/90 px-5 backdrop-blur md:px-12">
         <Link href="/" className="flex items-center gap-2.5">
           <Image src="/brand/mark-on-dark-tight.svg" alt="BloomBoard logo" width={27} height={32} unoptimized />
@@ -319,7 +319,7 @@ export default function StartFlow() {
           </div>
         )}
         {step === "account" ? (
-          <span className="text-sm text-[#a1a1aa]">
+          <span className="hidden text-sm text-[#a1a1aa] sm:inline">
             Already have an account? <span className="font-semibold text-[#f5f5f7]">Sign in inside the app</span>
           </span>
         ) : (
@@ -380,8 +380,8 @@ export default function StartFlow() {
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-bold">{PLANS[plan].name} includes</span>
                         <div className="flex rounded-lg bg-white/[0.06] p-0.5 text-xs font-semibold">
-                          <button type="button" onClick={() => setYearly(false)} className={`rounded-md px-2.5 py-1 ${!yearly ? "bg-white text-black" : "text-[#a1a1aa]"}`}>Monthly</button>
-                          <button type="button" onClick={() => setYearly(true)} className={`rounded-md px-2.5 py-1 ${yearly ? "bg-white text-black" : "text-[#a1a1aa]"}`}>Yearly</button>
+                          <button type="button" onClick={() => setYearly(false)} className={`rounded-md px-3 py-1.5 ${!yearly ? "bg-white text-black" : "text-[#a1a1aa]"}`}>Monthly</button>
+                          <button type="button" onClick={() => setYearly(true)} className={`rounded-md px-3 py-1.5 ${yearly ? "bg-white text-black" : "text-[#a1a1aa]"}`}>Yearly</button>
                         </div>
                       </div>
                       {PLANS[plan].perks.map((perk) => (
