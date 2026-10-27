@@ -163,12 +163,12 @@ export default function CalmStory() {
     };
   }, []);
 
-  const big = { fontSize: "clamp(2.2rem, 4.2vw, 4rem)", lineHeight: 1.06, textShadow: "0 2px 30px #F2F3F5, 0 0 60px #F2F3F5" };
+  const big = { fontSize: "clamp(2.2rem, 4.2vw, 4rem)", lineHeight: 1.06, textShadow: "0 2px 30px #DFE0E4, 0 0 60px #DFE0E4" };
 
   return (
     <>
       {/* desktop and tablet: the scroll story */}
-      <section ref={storyRef} aria-labelledby="calm-title" className="relative hidden h-[560vh] bg-[#F2F3F5] md:block">
+      <section ref={storyRef} aria-labelledby="calm-title" className="relative hidden h-[560vh] bg-[#DFE0E4] md:block">
         <div className="sticky top-0 h-screen overflow-hidden">
           <div ref={worldRef} className="absolute left-1/2 top-[55%] h-0 w-0" style={{ willChange: "transform" }}>
             {/* the BloomBoard window everything lands in */}
@@ -243,7 +243,7 @@ export default function CalmStory() {
       </section>
 
       {/* phones: the same idea, still */}
-      <section aria-labelledby="calm-title-phone" className="bg-[#F2F3F5] px-5 py-20 md:hidden">
+      <section aria-labelledby="calm-title-phone" className="bg-[#DFE0E4] px-5 py-20 md:hidden">
         <p className="text-center text-[15px] text-[#8A909C]">Your work is everywhere. Emails, chats, calls, meetings, notes and sheets.</p>
         <h2 id="calm-title-phone" className="mt-3 text-center text-[2rem] font-semibold leading-tight tracking-tight text-[#0A0F1A]">
           All of it, in one place.
