@@ -127,13 +127,13 @@ export default function ShortcutsSection() {
           </div>
           <div className={`absolute inset-x-0 bottom-0 top-[38px] bg-black/45 transition-opacity duration-200 ${open ? "opacity-100" : "opacity-0"}`} />
           {/* the window a key opens */}
-          <div className={`absolute left-1/2 top-[54%] w-[62%] -translate-x-1/2 -translate-y-1/2 rounded-xl border px-4 py-3.5 shadow-[0_20px_50px_rgba(0,0,0,.5)] transition-all duration-200 ${pop ? "scale-100 opacity-100" : "scale-[.97] opacity-0"} ${open === "note" ? "border-[#3d3720] bg-[#2a2618]" : "border-[#26282e] bg-[#141519]"}`}>
+          <div className={`absolute left-1/2 top-[54%] w-[62%] -translate-x-1/2 -translate-y-1/2 rounded-xl border px-4 py-3.5 bb-sh-pop transition-all duration-200 ${pop ? "scale-100 opacity-100" : "scale-[.97] opacity-0"} ${open === "note" ? "border-[#3d3720] bg-[#2a2618]" : "border-[#26282e] bg-[#141519]"}`}>
             {pop?.head ? <div className="mb-2 text-[11px] font-semibold text-white/50">{pop.head}</div> : null}
             <div className={`min-h-[22px] ${open === "note" ? "text-sm font-semibold text-[#f2e7c4]" : "text-base font-bold text-white"}`}>{pop ? typed : ""}<span className="ml-px inline-block h-[17px] w-0.5 animate-pulse bg-[#4d9fff] align-[-3px]" /></div>
             {pop && pop.chips.length ? <div className="mt-3 flex flex-wrap gap-1.5">{pop.chips.map(c => <span key={c} className="rounded-md border border-[#26282e] bg-[#1b1d22] px-2 py-1 text-[11px] text-white/80">{c}</span>)}</div> : null}
           </div>
           {/* ⌘K */}
-          <div className={`absolute left-1/2 top-[16%] w-[70%] -translate-x-1/2 overflow-hidden rounded-xl border border-[#26282e] bg-[#141519] shadow-[0_20px_50px_rgba(0,0,0,.5)] transition-opacity duration-200 ${open === "pal" ? "opacity-100" : "opacity-0"}`}>
+          <div className={`absolute left-1/2 top-[16%] w-[70%] -translate-x-1/2 overflow-hidden rounded-xl border border-[#26282e] bg-[#141519] bb-sh-pop transition-opacity duration-200 ${open === "pal" ? "opacity-100" : "opacity-0"}`}>
             <div className="border-b border-[#26282e] px-3.5 py-2.5 text-[13px] text-white">{open === "pal" ? typed : ""}<span className="ml-px inline-block h-[15px] w-0.5 animate-pulse bg-[#4d9fff] align-[-2px]" /></div>
             {[["New task", "T"], ["Book a meeting", "M"], ["Go to Boards", "G B"]].map(([l, k], i) => (
               <div key={l} className={`flex justify-between px-3.5 py-2 text-xs ${i === 0 ? "bg-[#202227] text-white" : "text-white/75"}`}>{l}<em className="not-italic text-white/40">{k}</em></div>

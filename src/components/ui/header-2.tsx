@@ -72,7 +72,7 @@ function ProductMenu() {
           open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0",
         )}
       >
-        <div className="rounded-xl border border-white/10 bg-[#141416] p-2 shadow-[0_16px_40px_rgba(0,0,0,0.45)]">
+        <div className="rounded-xl border border-white/10 bg-[#141416] p-2 bb-sh-pop">
           <div className="grid grid-cols-2 gap-1">
             {PRODUCT_ITEMS.map((it) => (
               <a

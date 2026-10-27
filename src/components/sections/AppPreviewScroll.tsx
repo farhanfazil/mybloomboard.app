@@ -76,7 +76,7 @@ export default function AppPreviewScroll() {
     };
   }, []);
 
-  const card = "absolute rounded-[14px] bg-[#121317] text-[13.5px] text-[#E8EAEE] shadow-[0_0_0_1px_rgba(255,255,255,0.09),0_24px_50px_-16px_rgba(0,0,0,0.8)]";
+  const card = "absolute rounded-[14px] bg-[#121317] text-[13.5px] text-[#E8EAEE] bb-sh-card";
 
   return (
     <section id="hero" className="relative overflow-hidden bg-black pb-12 sm:pb-14">

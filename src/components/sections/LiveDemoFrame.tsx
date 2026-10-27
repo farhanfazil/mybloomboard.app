@@ -125,11 +125,7 @@ export default function LiveDemoFrame({
       {!peek && <DemoControls demo={demo} pending={pending} send={send} />}
       <div className="relative">
       {/* A real object: a soft shadow under it, and the top edge catches the light. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-2xl"
-        style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.5), 0 24px 60px rgba(0,0,0,0.75)" }}
-      />
+      <div aria-hidden className="bb-sh-pop pointer-events-none absolute inset-0 rounded-2xl" />
       <div
         className="relative overflow-hidden rounded-2xl"
         style={{

@@ -172,7 +172,7 @@ export default function CalmStory() {
         <div className="sticky top-0 h-screen overflow-hidden">
           <div ref={worldRef} className="absolute left-1/2 top-[55%] h-0 w-0" style={{ willChange: "transform" }}>
             {/* the BloomBoard window everything lands in */}
-            <div data-win aria-hidden style={{ willChange: "opacity, transform" }} className="absolute -left-[620px] -top-[262px] h-[524px] w-[1240px] rounded-[20px] bg-[#0E1014] opacity-0 shadow-[0_0_0_1px_rgba(255,255,255,0.09),0_50px_120px_-40px_rgba(0,0,0,0.7)]">
+            <div data-win aria-hidden style={{ willChange: "opacity, transform" }} className="absolute -left-[620px] -top-[262px] h-[524px] w-[1240px] rounded-[20px] bg-[#0E1014] opacity-0 bb-sh-window">
               <div className="absolute inset-x-0 top-0 flex h-[52px] items-center gap-2.5 border-b border-white/[0.06] px-[18px] text-[13.5px]">
                 <span className="mr-2 flex gap-[7px]">{[0, 1, 2].map((n) => <i key={n} className="h-[11px] w-[11px] rounded-full bg-[#2A2E36]" />)}</span>
                 <b className="font-semibold text-white">BloomBoard</b>
@@ -212,7 +212,7 @@ export default function CalmStory() {
 
             {BITS.map((b) => (
               <div key={b.title} data-bit aria-hidden className="absolute left-0 top-0 h-[66px] w-[250px]" style={{ willChange: "transform, opacity" }}>
-                <div className={`absolute inset-0 rounded-[11px] px-3 py-[9px] text-[12.5px] leading-[1.35] shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_18px_40px_-16px_rgba(0,0,0,0.55)] ${b.look}`} style={{ willChange: "opacity" }}>
+                <div className={`absolute inset-0 rounded-[11px] px-3 py-[9px] text-[12.5px] leading-[1.35] bb-sh-card ${b.look}`} style={{ willChange: "opacity" }}>
                   <div className="mb-1 flex items-center gap-1.5 font-sans text-[10.5px] font-semibold uppercase tracking-[0.04em] opacity-60">
                     <Ic n={b.icon} size={12} />{b.kind}
                   </div>

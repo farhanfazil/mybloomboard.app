@@ -116,7 +116,7 @@ export default function StickyPopouts() {
   return (
     <>
       <style>{`
-        .bb-pop-note{position:fixed;z-index:70;width:${W}px;border-radius:6px;box-shadow:0 10px 28px rgba(0,0,0,.35);color:rgba(0,0,0,.82);
+        .bb-pop-note{position:fixed;z-index:70;width:${W}px;border-radius:6px;box-shadow:0 1px 2px rgba(0,0,0,.18),0 3px 6px rgba(0,0,0,.16),0 7px 14px rgba(0,0,0,.14),0 14px 28px rgba(0,0,0,.12),0 24px 48px rgba(0,0,0,.1);color:rgba(0,0,0,.82);
           transform-origin:0 0;transition:transform .28s cubic-bezier(.34,1.45,.64,1);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif}
         .bb-pop-note.held{transition:none;cursor:grabbing}
         .bb-pop-note .hd{display:flex;align-items:center;gap:6px;height:36px;padding:0 6px 0 8px;cursor:grab;user-select:none;touch-action:none}

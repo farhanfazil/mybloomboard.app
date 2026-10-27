@@ -180,11 +180,11 @@ export default function OfficeStory() {
               </div>
             ))}
 
-            <div data-knock className="absolute flex items-center gap-2.5 whitespace-nowrap rounded-[11px] bg-white px-3 py-[9px] text-[13px] text-[#0A0F1A] opacity-0 shadow-[0_12px_30px_-8px_rgba(0,0,0,0.6)]" style={{ left: 470, top: -6 }}>
+            <div data-knock className="absolute flex items-center gap-2.5 whitespace-nowrap rounded-[11px] bg-white px-3 py-[9px] text-[13px] text-[#0A0F1A] opacity-0 bb-sh-pop" style={{ left: 470, top: -6 }}>
               <b className="font-semibold">Maya</b> knocked
               <span className="inline-flex h-[26px] items-center rounded-[7px] bg-[#0A0F1A] px-2.5 text-xs font-semibold text-white">Come in</span>
             </div>
-            <div data-task className="absolute w-[190px] rounded-[10px] bg-white px-3 py-2.5 text-[12.5px] text-[#0A0F1A] opacity-0 shadow-[0_14px_30px_-10px_rgba(0,0,0,0.7)]" style={{ left: 500, top: 150 }}>
+            <div data-task className="absolute w-[190px] rounded-[10px] bg-white px-3 py-2.5 text-[12.5px] text-[#0A0F1A] opacity-0 bb-sh-pop" style={{ left: 500, top: 150 }}>
               <b className="font-semibold">Final pricing page</b>
               <div className="mt-1.5 flex items-center gap-1.5 text-[11.5px] text-[#6B7385]">
                 <i className="h-[7px] w-[7px] rounded-[2px] bg-[#E5484D]" />Today · from Leo
