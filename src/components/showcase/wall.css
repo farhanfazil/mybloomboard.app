@@ -385,3 +385,16 @@
   .bbw .big{border:1px solid var(--line-hi);border-radius:16px}
   .bbw .big + .t:not(.big), .bbw .t:not(.big){border:1px solid var(--line);border-radius:12px}
 }
+
+/* Phones: the features swipe sideways, a page at a time, with dots underneath (wall-run.js) */
+@media (max-width:760px){
+  .bbw .swipe{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .bbw .swipe::-webkit-scrollbar{display:none}
+  .bbw .swipe > .pg{flex:0 0 100%;scroll-snap-align:start;padding:0 2px;box-sizing:border-box}
+  .bbw .swipe-big > .pg > .big{height:270px;border:1px solid var(--line-hi);border-radius:16px}
+  .bbw .swipe-tiles > .pg{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:84px;gap:10px;align-content:start}
+  .bbw .swipe-tiles .t{border:1px solid var(--line);border-radius:12px}
+  .bbw .dots{display:flex;justify-content:center;gap:6px;margin:14px 0 22px}
+  .bbw .dots i{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.22);transition:width .25s,background .25s}
+  .bbw .dots i.on{width:18px;background:#fff}
+}

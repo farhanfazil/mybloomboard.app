@@ -129,6 +129,28 @@ order.forEach(o=>{
 });
 lucide.createIcons();
 
+/* Phones: instead of one long column, two rows you swipe sideways with dots under them:
+   the four big features one per page, then the small ones twelve to a page (4 rows of 3). */
+if (window.matchMedia('(max-width:760px)').matches) {
+  const swipe = (cls, items, per) => {
+    const box = document.createElement('div'); box.className = 'swipe ' + cls;
+    const dots = document.createElement('div'); dots.className = 'dots'; dots.setAttribute('aria-hidden', 'true');
+    for (let i = 0; i < items.length; i += per) {
+      const pg = document.createElement('div'); pg.className = 'pg';
+      items.slice(i, i + per).forEach((t) => pg.appendChild(t));
+      box.appendChild(pg); dots.appendChild(document.createElement('i'));
+    }
+    const mark = () => { const n = box.clientWidth ? Math.round(box.scrollLeft / box.clientWidth) : 0; [...dots.children].forEach((d, k) => d.classList.toggle('on', k === n)); };
+    box.addEventListener('scroll', () => requestAnimationFrame(mark), { passive: true });
+    mark();
+    return [box, dots];
+  };
+  const bigs = [...wall.querySelectorAll('.big')], smalls = [...wall.querySelectorAll('.t:not(.big):not(.edge)')];
+  const [b1, d1] = swipe('swipe-big', bigs, 1), [b2, d2] = swipe('swipe-tiles', smalls, 12);
+  wall.after(b1, d1, b2, d2);
+  wall.style.display = 'none';
+}
+
 /* ── connections ── */
 
 const CHAINS={
