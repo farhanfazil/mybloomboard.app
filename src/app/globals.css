@@ -401,25 +401,6 @@ body {
 .bb-hero-caret { animation: bb-hero-caret 1s steps(1) infinite; }
 @media (prefers-reduced-motion: reduce) { .bb-hero-caret { animation: none; } }
 
-
-/* Live demo spotlight (src/components/sections/DemoSpotlight.tsx): while the demo
-   has the stage, the page behind goes dark, the reactions above it disappear and
-   its own bar dims. (No zoom: scaling the live app forces it to redraw.) One class, CSS transitions. */
-.bb-demo-shade { transition: opacity .15s linear; will-change: opacity; }
-.bb-demo-reacts { transition: opacity .45s ease; }
-html.demo-focus .bb-demo-reacts { opacity: 0; pointer-events: none; }
-.bb-demo-controls { transition: opacity .45s ease; }
-html.demo-focus .bb-demo-controls { opacity: .4; }
-html.demo-focus .bb-demo-controls:hover, html.demo-focus .bb-demo-controls:focus-within { opacity: 1; }
-
-/* Hero scene (MountainRise): the sky and the hills fade in together once both are loaded. */
-.bb-scene .bb-scene-part { opacity: 0; transition: opacity .5s ease-out; }
-.bb-scene[data-scene="in"] .bb-scene-part { opacity: 1; }
-/* the blurred first-paint copies leave once the real pictures are in */
-.bb-scene .bb-scene-tiny { transition: opacity .5s ease-out .25s; }
-.bb-scene[data-scene="in"] .bb-scene-tiny { opacity: 0; }
-@media (prefers-reduced-motion: reduce) { .bb-scene .bb-scene-part { transition: none; } }
-
 /* Hero headline: "worked." waits in grey, then a blue "Re" arrives in front of it
    (src/components/sections/AppPreviewScroll.tsx). CSS only, so it plays even before
    the page's scripts run; with Reduce Motion it is simply the finished word. */
@@ -445,12 +426,3 @@ html.demo-focus .bb-demo-controls:hover, html.demo-focus .bb-demo-controls:focus
    redrawn at an angle every frame and shows steps; tight layers stay clean. */
 .bb-sh-chip { box-shadow: 0 0 0 1px rgba(255,255,255,0.07), 0 1px 1px rgba(0,0,0,0.22), 0 2px 4px rgba(0,0,0,0.2), 0 5px 10px rgba(0,0,0,0.16); backface-visibility: hidden; }
 
-/* Hero backdrop (src/components/sections/HeroBackdrop.tsx): thin lines, slow, transform only */
-.bb-bd-col { animation-name: bb-bd-rise; animation-timing-function: linear; animation-iteration-count: infinite; will-change: transform; }
-@keyframes bb-bd-rise { to { transform: translateY(-50%); } }
-.bb-bd-spin { animation: bb-bd-spin 240s linear infinite; }
-.bb-bd-spin-r { animation: bb-bd-spin 300s linear infinite reverse; }
-@keyframes bb-bd-spin { to { transform: rotate(360deg); } }
-.bb-bd-ripple { transform-origin: center; transform-box: fill-box; animation: bb-bd-ripple 21s linear infinite; }
-@keyframes bb-bd-ripple { 0% { transform: scale(0.08); opacity: 0; } 12% { opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .bb-bd-spin, .bb-bd-spin-r, .bb-bd-ripple, .bb-bd-col { animation: none; } }

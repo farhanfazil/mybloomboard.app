@@ -32,7 +32,7 @@ export default function Home() {
       {/* Chaos to calm: scattered work pulled onto one board, right after the demo. */}
       <CalmStory />
       {/* After the hero the page scrolls plainly up to the comparison, which lifts
-          away like a lid over Pricing (SnapPoints kept for later use). */}
+          away like a lid over Pricing. */}
       <FeatureWall />
       <Proof />
       {/* Hidden while the live demo carries the product story — restore by uncommenting.

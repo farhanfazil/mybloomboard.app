@@ -6,7 +6,3 @@
 /bloomboard-demo/*
   X-Robots-Tag: noindex
 
-# Hero pictures never change under the same name (new pictures get a new folder),
-# so browsers and the CDN can keep them for a year.
-/backgrounds/hero-v3/*
-  Cache-Control: public, max-age=31536000, immutable

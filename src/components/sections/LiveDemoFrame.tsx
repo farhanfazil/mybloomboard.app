@@ -120,7 +120,7 @@ export default function LiveDemoFrame({
     <div className={className}>
       {/* The "How does it feel?" emoji row (DemoReactionsBar) was retired 2026-10-19: one quiet
           question under the demo (DemoUsefulPoll) is enough. Its past votes stay on /demo-insights. */}
-      {/* the bar and the window together: the home page snaps to this (SnapPoints) */}
+      {/* the bar and the window together */}
       <div data-snap="demo">
       {!peek && <DemoControls demo={demo} pending={pending} send={send} />}
       <div className="relative">

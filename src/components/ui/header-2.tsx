@@ -137,19 +137,16 @@ export function Header({
         const r = el.getBoundingClientRect();
         return r.top <= probe && r.bottom > probe;
       });
-      /* the live demo has the stage (src/components/sections/DemoSpotlight.tsx) */
-      setOverLight(hit || document.documentElement.hasAttribute("data-demo-focus"));
+      setOverLight(hit);
     };
     /* at most once a frame */
     const onScroll = () => { if (!queued) { queued = true; requestAnimationFrame(check); } };
     check();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", check);
-    window.addEventListener("bb-demo-focus", check);
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", check);
-      window.removeEventListener("bb-demo-focus", check);
     };
   }, []);
   const hidden = overLight && !open;
