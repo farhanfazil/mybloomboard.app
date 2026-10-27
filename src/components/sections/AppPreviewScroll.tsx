@@ -73,12 +73,7 @@ export default function AppPreviewScroll() {
       </div>
 
       <div ref={copyRef} className="relative flex flex-col items-center px-4 pb-2 pt-28 text-center sm:px-6 sm:pt-32 md:pt-36 lg:pt-40" style={{ willChange: "transform, opacity" }}>
-        <Link href="/office" className="inline-flex items-center gap-2.5 text-sm text-white/65 transition-colors hover:text-white">
-          <b className="font-semibold text-[#7FA2FF]">New</b>
-          <i aria-hidden className="h-3.5 w-px bg-white/20" />
-          A live office for the whole team ›
-        </Link>
-        <h1 className="mt-6 font-semibold text-white" style={{ fontSize: "clamp(3.2rem, 7.6vw, 7.4rem)", lineHeight: 0.96, letterSpacing: "-0.052em" }}>
+        <h1 className="font-semibold text-white" style={{ fontSize: "clamp(3.2rem, 7.6vw, 7.4rem)", lineHeight: 0.96, letterSpacing: "-0.052em" }}>
           <span className="sr-only">Teamwork. Reworked.</span>
           <span aria-hidden>
             Teamwork.
