@@ -4477,3 +4477,37 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-sub-rv { flex:none; c
 html body.bloom:not(#_1):not(#_2):not(#_3) .tm-by { flex:none; display:inline-flex; margin:0 2px 0 4px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .tm-by-av { width:20px; height:20px; border-radius:50%; display:inline-grid; place-items:center; font:600 8px/1 var(--bl-ui); color:#fff; background-size:cover; background-position:center; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item > .tm-by { position:absolute; top:5px; left:5px; z-index:2; margin:0; border-radius:50%; box-shadow:0 0 0 2px var(--bl-raise); }
+
+/* ═══ 2026-10-27: Teams-level rail. Folded sidebar: 76px, 24px icons with a label under each, the open
+   page marked by an accent icon and a short bar (no grey box), and red counts for what needs you
+   (chat, handovers, email, urgent, bell, activity). The open-task count is not an alert, so it stays off. ═══ */
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) .sidebar { width:76px !important; min-width:76px !important; padding:12px 6px !important; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) :is(.boards-overlay,.chat-overlay,.bb-email-overlay,.overview-overlay,.bookmarks-overlay,.team-overlay,.fl-overlay) { left:76px !important; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) #bl-nav .bl-nav { flex-direction:column; justify-content:center; align-items:center; gap:3px; height:52px; padding:4px 0 !important; margin:0 0 2px; background:transparent !important; color:var(--bl-fg3) !important; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) #bl-nav .bl-nav:hover { color:var(--bl-fg) !important; background:var(--bl-hover) !important; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) #bl-nav .bl-nav > .bl-i { width:24px !important; height:24px !important; stroke-width:1.7; color:inherit !important; stroke:currentColor !important; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) #bl-nav .bl-nav > span { opacity:1 !important; transform:none !important; max-width:68px; overflow:hidden; text-overflow:ellipsis; font:500 10.5px/1.15 var(--bl-ui) !important; color:var(--bl-fg2) !important; pointer-events:none; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) #bl-nav .bl-nav.on { color:var(--bl-accent) !important; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) #bl-nav .bl-nav.on > span { color:var(--bl-fg) !important; font-weight:600 !important; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) #bl-nav .bl-nav.on::before { content:""; position:absolute; left:0; top:12px; bottom:12px; width:3px; border-radius:0 3px 3px 0; background:var(--bl-accent); }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) #bl-nav .bl-nav.bl-unread::after { content:none; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) #bl-nav .bl-nav :is(.bl-faces, .bl-chev) { display:none !important; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) #bl-nav .bl-nav .bl-badge { display:none; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) #bl-nav .bl-nav .bl-badge:is([data-badge=chat],[data-badge=handover],[data-badge=email],[data-badge=home]):not(:empty) { display:block; position:absolute; top:3px; left:calc(50% + 3px); margin:0; opacity:1 !important; transform:none !important; min-width:18px; height:18px; padding:0 5px; border-radius:9px; background:var(--bl-bad, #e5484d); color:#fff !important; font:700 11px/18px var(--bl-ui) !important; text-align:center; box-shadow:0 0 0 2px var(--bl-side); }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) #bl-nav .bl-nav .bl-badge.dot:not(:empty) { min-width:9px; width:9px; height:9px; padding:0; top:8px; left:calc(50% + 6px); }
+/* the office card on the rail matches the other items (its text and faces float out of the way, so the fold animation still works) */
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) .sidebar .sb-office-enter :is(.soe-txt, .soe-faces) { position:absolute !important; left:100%; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) .sidebar .sb-office-enter .soe-ic { color:var(--bl-fg3); }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) .sidebar .sb-office-enter:is(:hover, .bl-on) .soe-ic { color:inherit; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) .sidebar .sb-office-enter { height:54px !important; min-height:54px !important; padding:0 !important; justify-content:center; background:transparent !important; border-color:transparent !important; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) .sidebar .sb-office-enter .soe-ic, html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) .sidebar .sb-office-enter .soe-ic svg { width:24px !important; height:24px !important; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) .sidebar .sb-office-enter.bl-on { color:var(--bl-accent) !important; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) .sidebar .sb-office-enter.bl-on::before { content:""; position:absolute; left:0; top:12px; bottom:12px; width:3px; border-radius:0 3px 3px 0; background:var(--bl-accent); }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) .sidebar .sb-office-enter .bl-oe-n { left:calc(50% + 6px); top:6px; font-size:10.5px; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) .sidebar .sb-office-enter .bl-oe-n.msg { min-width:18px; height:18px; padding:0 5px; border-radius:9px; background:var(--bl-bad, #e5484d); color:#fff !important; font:700 11px/18px var(--bl-ui); text-align:center; box-shadow:0 0 0 2px var(--bl-side); top:3px; }
+/* open sidebar: the same alerts as red counts */
+html body.bloom:not(.bl-rail):not(#_1):not(#_2):not(#_3):not(#_4) #bl-nav .bl-badge:is([data-badge=chat],[data-badge=handover],[data-badge=email],[data-badge=home]):not(:empty):not(.dot) { min-width:18px; height:18px; padding:0 5px; border-radius:9px; background:var(--bl-bad, #e5484d); color:#fff !important; font:700 11px/18px var(--bl-ui) !important; text-align:center; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .bl-badge.dot { background:var(--bl-bad, #e5484d); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) :is(.sb-activity-badge, .sb-notif-badge) { background:var(--bl-bad, #e5484d) !important; color:#fff !important; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) #bl-nav .bl-nav > .bl-i * { stroke:currentColor !important; color:inherit !important; }
+html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3):not(#_4) .sidebar .sb-office-enter .soe-ic :is(svg, svg *) { color:inherit !important; stroke:currentColor !important; }
