@@ -163,7 +163,7 @@ export default function CalmStory() {
     };
   }, []);
 
-  const big = { fontSize: "clamp(2.2rem, 4.2vw, 4rem)", lineHeight: 1.06, textShadow: "0 2px 30px #2A2B30, 0 0 60px #2A2B30" };
+  const big = { fontSize: "clamp(2.2rem, 4.2vw, 4rem)", lineHeight: 1.06 };
 
   return (
     <>
