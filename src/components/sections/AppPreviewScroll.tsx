@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import LiveDemoFrame from "@/components/sections/LiveDemoFrame";
 import HeroVerb from "@/components/sections/HeroVerb";
+import HeroBackdrop from "@/components/sections/HeroBackdrop";
 import { useDevice } from "@/lib/downloads";
 import { AlsoAvailable, DownloadButton } from "@/components/ui/DownloadButton";
 import { WEB_APP_URL } from "@/components/ui/header-2";
@@ -22,6 +23,7 @@ export default function AppPreviewScroll() {
   // The download for the visitor's device: Mac, Windows or iPhone.
   const device = useDevice();
   const copyRef = useRef<HTMLDivElement>(null);
+  const backRef = useRef<HTMLDivElement>(null);
   const tiltRef = useRef<HTMLDivElement>(null);
   const satsRef = useRef<HTMLDivElement>(null);
   const tickRef = useRef<HTMLSpanElement>(null);
@@ -42,6 +44,8 @@ export default function AppPreviewScroll() {
       last = t;
       copy.style.transform = `translateY(${(-y * 0.18).toFixed(1)}px)`;
       copy.style.opacity = String(Math.max(0, 1 - t * 1.25));
+      /* the backdrop fades away as the demo comes up */
+      if (backRef.current) backRef.current.style.opacity = String(Math.max(0, 1 - t * 1.4));
       const e = reduce || phone() ? 1 : 1 - Math.pow(1 - Math.min(1, t * 1.2), 3);
       /* flat once it has stood up: no transform left on the demo at all */
       tilt.style.transform = e >= 1 ? "" : `perspective(2200px) rotateX(${(9 * (1 - e)).toFixed(2)}deg) scale(${(0.94 + 0.06 * e).toFixed(4)})`;
@@ -80,6 +84,7 @@ export default function AppPreviewScroll() {
 
   return (
     <section id="hero" className="relative overflow-hidden bg-black pb-12 sm:pb-14">
+      <HeroBackdrop ref={backRef} />
       {/* two faint page lines framing the content, fading out before the demo */}
       <div
         aria-hidden

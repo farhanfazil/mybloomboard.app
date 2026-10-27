@@ -452,3 +452,8 @@ html.demo-focus .bb-demo-controls:hover, html.demo-focus .bb-demo-controls:focus
 /* Cards that tilt and move (Chaos to calm): a short, crisp shadow. A wide soft one is
    redrawn at an angle every frame and shows steps; tight layers stay clean. */
 .bb-sh-chip { box-shadow: 0 0 0 1px rgba(255,255,255,0.07), 0 1px 1px rgba(0,0,0,0.22), 0 2px 4px rgba(0,0,0,0.2), 0 5px 10px rgba(0,0,0,0.16); backface-visibility: hidden; }
+
+/* Hero backdrop (src/components/sections/HeroBackdrop.tsx): cards rising slowly, transform only */
+.bb-bd-col { animation-name: bb-bd-rise; animation-timing-function: linear; animation-iteration-count: infinite; will-change: transform; }
+@keyframes bb-bd-rise { to { transform: translateY(-50%); } }
+@media (prefers-reduced-motion: reduce) { .bb-bd-col { animation: none; } }
