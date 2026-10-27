@@ -4474,3 +4474,7 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-sub-rv { flex:none; c
 .bb-rv-line { display:flex; align-items:center; gap:6px; margin-top:6px; color:var(--bl-high, #f0a830); font-size:12.5px; font-weight:600; }
 .bb-rv-line svg { width:13px; height:13px; flex:none; }
 .bb-rv-line small { color:var(--bl-fg3, #8d93a0); font-weight:500; font-size:12px; }
+/* Who added a link or file (2026-10-27): small round photo, name and time on hover */
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-by { flex:none; display:inline-flex; margin:0 2px 0 4px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .tm-by-av { width:20px; height:20px; border-radius:50%; display:inline-grid; place-items:center; font:600 8px/1 var(--bl-ui); color:#fff; background-size:cover; background-position:center; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-fl .ta-item > .tm-by { position:absolute; top:5px; left:5px; z-index:2; margin:0; border-radius:50%; box-shadow:0 0 0 2px var(--bl-raise); }
