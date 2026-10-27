@@ -6,9 +6,82 @@ import { forwardRef, useEffect, useRef, useState } from "react";
  * Behind the hero words, so the page doesn't open on flat black: abstract, thin lines
  * only (white at low strength, one line of brand blue), the middle kept calm. It fades
  * out as the demo comes up (AppPreviewScroll sets its opacity).
- * While we choose, ?bg=contours|waves|ripples picks one.
+ * "reveal": plain black, and a soft-edged circle that trails the cursor uncovers faint
+ * task cards rising underneath (mouse only; transform only, so it stays smooth).
+ * While we choose, ?bg=reveal|contours|waves|ripples picks one.
  */
-type Kind = "contours" | "waves" | "ripples";
+type Kind = "reveal" | "contours" | "waves" | "ripples";
+
+/* a column of faint task cards, rising slowly (globals.css .bb-bd-col) */
+function Column({ c }: { c: number }) {
+  return (
+    <div className="relative h-full w-[170px] flex-none">
+      <div className="bb-bd-col absolute inset-x-0 top-0" style={{ animationDuration: `${52 + (c % 3) * 9}s`, animationDelay: `${-c * 7}s` }}>
+        {[0, 1].map((rep) => (
+          <div key={rep} className="flex flex-col gap-5 pb-5">
+            {Array.from({ length: 9 }, (_, i) => (
+              <div
+                key={i}
+                className="rounded-xl border bg-white/[0.025]"
+                style={{ height: 56 + ((i * 7 + c * 3) % 4) * 14, borderColor: (i + c) % 7 === 0 ? "rgba(91,139,255,0.55)" : "rgba(255,255,255,0.2)" }}
+              >
+                <i className="ml-3 mt-3 block h-1.5 rounded bg-white/[0.14]" style={{ width: `${40 + ((i * 13 + c * 5) % 45)}%` }} />
+                <i className="ml-3 mt-2 block h-1.5 rounded bg-white/[0.08]" style={{ width: `${22 + ((i * 7 + c * 11) % 30)}%` }} />
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const LENS = 560; /* the circle's size; its edge is a long soft fade */
+
+/* The lens: a circle that moves (transform) with the field inside it moved the other
+   way, so the cards stay put and only the window onto them travels. */
+function Reveal() {
+  const wrap = useRef<HTMLDivElement>(null), lens = useRef<HTMLDivElement>(null), field = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const w = wrap.current, l = lens.current, f = field.current;
+    if (!w || !l || !f || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    let tx = 0, ty = 0, x = 0, y = 0, raf = 0, inside = false, started = false;
+    const place = () => {
+      l.style.transform = `translate(${(x - LENS / 2).toFixed(1)}px,${(y - LENS / 2).toFixed(1)}px)`;
+      f.style.transform = `translate(${(LENS / 2 - x).toFixed(1)}px,${(LENS / 2 - y).toFixed(1)}px)`;
+    };
+    /* it trails the pointer a little, which is what makes it feel smooth */
+    const step = () => {
+      x += (tx - x) * 0.12; y += (ty - y) * 0.12;
+      place();
+      raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.3 ? requestAnimationFrame(step) : 0;
+    };
+    const onMove = (e: PointerEvent) => {
+      const r = w.getBoundingClientRect();
+      tx = e.clientX - r.left; ty = e.clientY - r.top;
+      const now = ty > 0 && ty < r.height && tx > 0 && tx < r.width;
+      if (now && !started) { x = tx; y = ty; started = true; }
+      if (now !== inside) { inside = now; l.style.opacity = now ? "1" : "0"; }
+      if (!raf) raf = requestAnimationFrame(step);
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => { window.removeEventListener("pointermove", onMove); cancelAnimationFrame(raf); };
+  }, []);
+  const mask = "radial-gradient(circle closest-side, #000 0, rgba(0,0,0,0.75) 30%, rgba(0,0,0,0.3) 62%, transparent 100%)";
+  return (
+    <div ref={wrap} className="absolute inset-0">
+      <div
+        ref={lens}
+        className="absolute left-0 top-0 overflow-hidden rounded-full opacity-0 transition-opacity duration-700"
+        style={{ width: LENS, height: LENS, WebkitMaskImage: mask, maskImage: mask, willChange: "transform, opacity" }}
+      >
+        <div ref={field} className="absolute left-0 top-0 flex h-[112vh] w-screen justify-center gap-6" style={{ willChange: "transform" }}>
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((c) => <Column key={c} c={c} />)}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 /* one wobbly ring of a contour map */
 function ring(cx: number, cy: number, r: number, k: number) {
@@ -77,10 +150,10 @@ function Waves() {
 }
 
 const HeroBackdrop = forwardRef<HTMLDivElement>(function HeroBackdrop(_, ref) {
-  const [kind, setKind] = useState<Kind>("contours");
+  const [kind, setKind] = useState<Kind>("reveal");
   useEffect(() => {
     const k = new URLSearchParams(window.location.search).get("bg");
-    if (k === "contours" || k === "waves" || k === "ripples") setKind(k);
+    if (k === "reveal" || k === "contours" || k === "waves" || k === "ripples") setKind(k);
   }, []);
 
   return (
@@ -104,6 +177,7 @@ const HeroBackdrop = forwardRef<HTMLDivElement>(function HeroBackdrop(_, ref) {
         </>
       )}
 
+      {kind === "reveal" && <Reveal />}
       {kind === "waves" && <Waves />}
 
       {kind === "ripples" && (

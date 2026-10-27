@@ -446,9 +446,11 @@ html.demo-focus .bb-demo-controls:hover, html.demo-focus .bb-demo-controls:focus
 .bb-sh-chip { box-shadow: 0 0 0 1px rgba(255,255,255,0.07), 0 1px 1px rgba(0,0,0,0.22), 0 2px 4px rgba(0,0,0,0.2), 0 5px 10px rgba(0,0,0,0.16); backface-visibility: hidden; }
 
 /* Hero backdrop (src/components/sections/HeroBackdrop.tsx): thin lines, slow, transform only */
+.bb-bd-col { animation-name: bb-bd-rise; animation-timing-function: linear; animation-iteration-count: infinite; will-change: transform; }
+@keyframes bb-bd-rise { to { transform: translateY(-50%); } }
 .bb-bd-spin { animation: bb-bd-spin 240s linear infinite; }
 .bb-bd-spin-r { animation: bb-bd-spin 300s linear infinite reverse; }
 @keyframes bb-bd-spin { to { transform: rotate(360deg); } }
 .bb-bd-ripple { transform-origin: center; transform-box: fill-box; animation: bb-bd-ripple 21s linear infinite; }
 @keyframes bb-bd-ripple { 0% { transform: scale(0.08); opacity: 0; } 12% { opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .bb-bd-spin, .bb-bd-spin-r, .bb-bd-ripple { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .bb-bd-spin, .bb-bd-spin-r, .bb-bd-ripple, .bb-bd-col { animation: none; } }
