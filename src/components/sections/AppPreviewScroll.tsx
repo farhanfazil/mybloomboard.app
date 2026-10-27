@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import LiveDemoFrame from "@/components/sections/LiveDemoFrame";
-import HeroVerb from "@/components/sections/HeroVerb";
 import { useDevice } from "@/lib/downloads";
 import { AlsoAvailable, DownloadButton } from "@/components/ui/DownloadButton";
 import { WEB_APP_URL } from "@/components/ui/header-2";
@@ -18,9 +17,6 @@ import { WEB_APP_URL } from "@/components/ui/header-2";
 export default function AppPreviewScroll() {
   // The download for the visitor's device: Mac, Windows or iPhone.
   const device = useDevice();
-  /* mockup while we compare: ?hero=raised pulls the demo up into the first screen */
-  const [raised, setRaised] = useState(false);
-  useEffect(() => { setRaised(new URLSearchParams(window.location.search).get("hero") === "raised"); }, []);
   const copyRef = useRef<HTMLDivElement>(null);
   const tiltRef = useRef<HTMLDivElement>(null);
 
@@ -70,8 +66,8 @@ export default function AppPreviewScroll() {
         <span className="h-full w-[1240px] max-w-[calc(100%-80px)] border-x border-white/[0.06]" />
       </div>
 
-      <div ref={copyRef} className={`relative flex flex-col items-center px-4 pb-2 text-center sm:px-6 ${raised ? "pt-24 sm:pt-24 md:pt-28 lg:pt-28" : "pt-28 sm:pt-32 md:pt-36 lg:pt-40"}`} style={{ willChange: "transform, opacity" }}>
-        <h1 className="font-semibold text-white" style={{ fontSize: raised ? "clamp(3rem, 6vw, 5.8rem)" : "clamp(3.2rem, 7.6vw, 7.4rem)", lineHeight: 0.96, letterSpacing: "-0.052em" }}>
+      <div ref={copyRef} className="relative flex flex-col items-center px-4 pb-2 pt-28 text-center sm:px-6 md:pt-32" style={{ willChange: "transform, opacity" }}>
+        <h1 className="font-semibold text-white" style={{ fontSize: "clamp(2.8rem, 5.4vw, 5.2rem)", lineHeight: 0.96, letterSpacing: "-0.052em" }}>
           <span className="sr-only">Teamwork. Reworked.</span>
           <span aria-hidden>
             Teamwork.
@@ -80,20 +76,17 @@ export default function AppPreviewScroll() {
           </span>
         </h1>
 
-        <p className={`max-w-2xl text-lg leading-relaxed text-white/65 sm:text-xl ${raised ? "mt-5" : "mt-7"}`}>
-          <span className="block">Tasks, boards, chat, calls and a live office, in one app.</span>
-          {/* phones: a plain line (the typing word needs room a phone line doesn't have) */}
-          <span className="block sm:hidden">The productivity app that thinks with you.</span>
-          <span className="hidden sm:block">
-            <span className="sr-only">The productivity app that thinks with you.</span>
-            <span aria-hidden>The productivity app that <span className="text-white"><HeroVerb /></span> with you.</span>
-          </span>
+        {/* Two short lines, never wider than the headline. */}
+        <p className="mt-5 text-[17px] leading-relaxed text-white/65">
+          Tasks, boards, chat, calls and a live office.
+          <br />
+          One app that <span className="text-[#67e8f9]">thinks</span> with you.
         </p>
 
-        <div className={`flex flex-wrap items-center justify-center gap-3 ${raised ? "mt-7" : "mt-9"}`}>
+        <div className="mt-7 flex flex-wrap items-center justify-center gap-2.5">
           {/* Two compact buttons side by side: the download for the visitor's own system (solid),
               and the other way in (outlined). */}
-          <DownloadButton choice={device.primary} className="h-11 rounded-[10px] px-5 text-[15px]" />
+          <DownloadButton choice={device.primary} iconSize={14} className="h-[38px] rounded-[9px] px-[15px] text-[14px]" />
           {/* Computers can start right away in the browser (nothing to install, good for
               locked-down work laptops); phones get the demo instead. */}
           {device.os === "iphone" || device.os === "android" ? (
@@ -106,12 +99,12 @@ export default function AppPreviewScroll() {
             </a>
           )}
         </div>
-        {/* iPhone sits in the same line as the other platform, so the iPhone note isn't repeated. */}
-        <AlsoAvailable choice={device.alternate} note={device.os === "iphone" ? null : device.note} iphone className="mt-5" />
+        {/* One quiet grey line: the other platform and the iPhone app. */}
+        <AlsoAvailable choice={device.alternate} iphone quiet className="mt-3.5" />
       </div>
 
       {/* The live demo, on stage */}
-      <div className={`relative mx-auto w-full max-w-6xl px-4 sm:px-6 ${raised ? "mt-8 sm:mt-9" : "mt-14 sm:mt-16"}`}>
+      <div className="relative mx-auto mt-14 w-full max-w-6xl px-4 sm:px-6 sm:mt-16">
         <div ref={tiltRef} style={{ transformOrigin: "50% 0", willChange: "transform" }}>
           <div id="live-demo" data-hide-header className="relative z-10">
             <LiveDemoFrame eager className="mx-auto" />
@@ -123,11 +116,11 @@ export default function AppPreviewScroll() {
 }
 
 /* the outlined partner of the solid download button: same height and shape */
-const SECONDARY = "group inline-flex h-11 items-center gap-1.5 rounded-[10px] border border-white/20 px-5 text-[15px] font-semibold text-white transition-colors hover:border-white/35 hover:bg-white/[0.06]";
+const SECONDARY = "group inline-flex h-[38px] items-center gap-1.5 rounded-[9px] border border-white/[0.22] px-[15px] text-[14px] font-semibold text-white transition-colors hover:border-white/35 hover:bg-white/[0.06]";
 
 function Arrow() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="transition-transform group-hover:translate-x-[3px]">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="transition-transform group-hover:translate-x-[3px]">
       <path d="M5 12h14M13 6l6 6-6 6" />
     </svg>
   );

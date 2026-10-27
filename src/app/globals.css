@@ -396,11 +396,6 @@ body {
   }
 }
 
-/* Homepage headline: blinking caret after the retyping verb (HeroVerb). */
-@keyframes bb-hero-caret { 50% { opacity: 0; } }
-.bb-hero-caret { animation: bb-hero-caret 1s steps(1) infinite; }
-@media (prefers-reduced-motion: reduce) { .bb-hero-caret { animation: none; } }
-
 /* Hero headline: "worked." waits in grey, then a blue "Re" arrives in front of it
    (src/components/sections/AppPreviewScroll.tsx). CSS only, so it plays even before
    the page's scripts run; with Reduce Motion it is simply the finished word. */

@@ -23,14 +23,14 @@ function linkTarget(choice: DownloadChoice) {
 }
 
 /** The main download button: the visitor's own system. */
-export function DownloadButton({ choice, className = "" }: { choice: DownloadChoice; className?: string }) {
+export function DownloadButton({ choice, className = "", iconSize }: { choice: DownloadChoice; className?: string; iconSize?: number }) {
   return (
     <a
       href={choice.url}
       {...linkTarget(choice)}
       className={`inline-flex items-center justify-center gap-2 rounded-lg bg-white font-semibold text-black transition-colors hover:bg-white/90 ${className}`}
     >
-      <PlatformIcon icon={choice.icon} />
+      <PlatformIcon icon={choice.icon} size={iconSize} />
       {choice.label}
     </a>
   );
@@ -43,21 +43,35 @@ const ALSO_LINK =
  * "Also available for Windows · iPhone" under the buttons, plus an optional short note.
  * `iphone` adds the iPhone app in the same style: a link once IOS_APP_STORE_URL is set
  * (src/lib/downloads.ts), until then plain text marked "soon".
+ * `quiet` (the hero): one short grey line, no icons: "Also on Windows · iPhone coming soon".
  */
 export function AlsoAvailable({
   choice,
   note,
   iphone = false,
+  quiet = false,
   className = "",
 }: {
   choice: DownloadChoice | null;
   note?: string | null;
   iphone?: boolean;
+  quiet?: boolean;
   className?: string;
 }) {
   if (!choice && !note && !iphone) return null;
   const name = choice ? choice.label.replace(/^Download (for|on) (the )?/, "") : "";
   const showIphone = iphone && choice?.icon !== "appstore";
+  if (quiet) {
+    const link = "text-white/75 underline decoration-white/25 underline-offset-[3px] transition-colors hover:text-white hover:decoration-white/60";
+    return (
+      <p className={`text-[13px] text-white/50 ${className}`}>
+        {choice || showIphone ? "Also on " : null}
+        {choice ? <a href={choice.url} {...linkTarget(choice)} className={link}>{name}</a> : null}
+        {choice && showIphone ? " · " : null}
+        {showIphone ? (IOS_APP_STORE_URL ? <a href={IOS_APP_STORE_URL} target="_blank" rel="noopener noreferrer" className={link}>iPhone</a> : "iPhone coming soon") : null}
+      </p>
+    );
+  }
   return (
     <p className={`text-sm text-white/60 ${className}`}>
       {note ? <span>{note} </span> : null}
