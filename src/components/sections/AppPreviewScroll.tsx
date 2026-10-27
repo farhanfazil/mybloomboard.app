@@ -90,17 +90,18 @@ export default function AppPreviewScroll() {
           </span>
         </p>
 
-        <div className={`flex flex-wrap items-center justify-center gap-x-7 gap-y-3 ${raised ? "mt-7" : "mt-9"}`}>
-          {/* One main button for the visitor's own system; the other way in is a quiet link. */}
-          <DownloadButton choice={device.primary} className="h-[52px] rounded-xl px-6 text-[15.5px]" />
+        <div className={`flex flex-wrap items-center justify-center gap-3 ${raised ? "mt-7" : "mt-9"}`}>
+          {/* Two compact buttons side by side: the download for the visitor's own system (solid),
+              and the other way in (outlined). */}
+          <DownloadButton choice={device.primary} className="h-11 rounded-[10px] px-5 text-[15px]" />
           {/* Computers can start right away in the browser (nothing to install, good for
               locked-down work laptops); phones get the demo instead. */}
           {device.os === "iphone" || device.os === "android" ? (
-            <Link href="/demo" className="group inline-flex items-center gap-1.5 text-[15.5px] font-semibold text-white">
+            <Link href="/demo" className={SECONDARY}>
               Try live demo <Arrow />
             </Link>
           ) : (
-            <a href={WEB_APP_URL} className="group inline-flex items-center gap-1.5 text-[15.5px] font-semibold text-white">
+            <a href={WEB_APP_URL} className={SECONDARY}>
               Open web app <Arrow />
             </a>
           )}
@@ -120,6 +121,9 @@ export default function AppPreviewScroll() {
     </section>
   );
 }
+
+/* the outlined partner of the solid download button: same height and shape */
+const SECONDARY = "group inline-flex h-11 items-center gap-1.5 rounded-[10px] border border-white/20 px-5 text-[15px] font-semibold text-white transition-colors hover:border-white/35 hover:bg-white/[0.06]";
 
 function Arrow() {
   return (
