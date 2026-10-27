@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import LiveDemoFrame from "@/components/sections/LiveDemoFrame";
+import HeroVerb from "@/components/sections/HeroVerb";
 import { useDevice } from "@/lib/downloads";
 import { AlsoAvailable, DownloadButton } from "@/components/ui/DownloadButton";
 import { WEB_APP_URL } from "@/components/ui/header-2";
@@ -72,7 +73,7 @@ export default function AppPreviewScroll() {
       />
 
       <div ref={copyRef} className="relative flex flex-col items-center px-4 pb-2 pt-44 text-center sm:px-6 md:pt-48" style={{ willChange: "transform, opacity" }}>
-        <h1 className="font-semibold text-white" style={{ fontSize: "clamp(2.8rem, 5.4vw, 5.2rem)", lineHeight: 0.96, letterSpacing: "-0.052em" }}>
+        <h1 className="font-semibold text-white" style={{ fontSize: "clamp(3.2rem, 7vw, 6.8rem)", lineHeight: 0.96, letterSpacing: "-0.052em" }}>
           <span className="sr-only">Teamwork. Reworked.</span>
           <span aria-hidden>
             Teamwork.
@@ -85,7 +86,7 @@ export default function AppPreviewScroll() {
         <p className="mt-5 text-[17px] leading-relaxed text-white/65">
           Tasks, boards, chat, calls and a live office.
           <br />
-          One app that <span className="text-[#67e8f9]">thinks</span> with you.
+          One app that <HeroVerb /> with you.
         </p>
 
         <div className="mt-7 flex flex-wrap items-center justify-center gap-2.5">
