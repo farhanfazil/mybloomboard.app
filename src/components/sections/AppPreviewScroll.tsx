@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import LiveDemoFrame from "@/components/sections/LiveDemoFrame";
 import HeroVerb from "@/components/sections/HeroVerb";
 import { useDevice } from "@/lib/downloads";
@@ -18,6 +18,9 @@ import { WEB_APP_URL } from "@/components/ui/header-2";
 export default function AppPreviewScroll() {
   // The download for the visitor's device: Mac, Windows or iPhone.
   const device = useDevice();
+  /* mockup while we compare: ?hero=raised pulls the demo up into the first screen */
+  const [raised, setRaised] = useState(false);
+  useEffect(() => { setRaised(new URLSearchParams(window.location.search).get("hero") === "raised"); }, []);
   const copyRef = useRef<HTMLDivElement>(null);
   const tiltRef = useRef<HTMLDivElement>(null);
 
@@ -67,8 +70,8 @@ export default function AppPreviewScroll() {
         <span className="h-full w-[1240px] max-w-[calc(100%-80px)] border-x border-white/[0.06]" />
       </div>
 
-      <div ref={copyRef} className="relative flex flex-col items-center px-4 pb-2 pt-28 text-center sm:px-6 sm:pt-32 md:pt-36 lg:pt-40" style={{ willChange: "transform, opacity" }}>
-        <h1 className="font-semibold text-white" style={{ fontSize: "clamp(3.2rem, 7.6vw, 7.4rem)", lineHeight: 0.96, letterSpacing: "-0.052em" }}>
+      <div ref={copyRef} className={`relative flex flex-col items-center px-4 pb-2 text-center sm:px-6 ${raised ? "pt-24 sm:pt-24 md:pt-28 lg:pt-28" : "pt-28 sm:pt-32 md:pt-36 lg:pt-40"}`} style={{ willChange: "transform, opacity" }}>
+        <h1 className="font-semibold text-white" style={{ fontSize: raised ? "clamp(3rem, 6vw, 5.8rem)" : "clamp(3.2rem, 7.6vw, 7.4rem)", lineHeight: 0.96, letterSpacing: "-0.052em" }}>
           <span className="sr-only">Teamwork. Reworked.</span>
           <span aria-hidden>
             Teamwork.
@@ -77,7 +80,7 @@ export default function AppPreviewScroll() {
           </span>
         </h1>
 
-        <p className="mt-7 max-w-2xl text-lg leading-relaxed text-white/65 sm:text-xl">
+        <p className={`max-w-2xl text-lg leading-relaxed text-white/65 sm:text-xl ${raised ? "mt-5" : "mt-7"}`}>
           <span className="block">Tasks, boards, chat, calls and a live office, in one app.</span>
           {/* phones: a plain line (the typing word needs room a phone line doesn't have) */}
           <span className="block sm:hidden">The productivity app that thinks with you.</span>
@@ -87,7 +90,7 @@ export default function AppPreviewScroll() {
           </span>
         </p>
 
-        <div className="mt-9 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
+        <div className={`flex flex-wrap items-center justify-center gap-x-7 gap-y-3 ${raised ? "mt-7" : "mt-9"}`}>
           {/* One main button for the visitor's own system; the other way in is a quiet link. */}
           <DownloadButton choice={device.primary} className="h-[52px] rounded-xl px-6 text-[15.5px]" />
           {/* Computers can start right away in the browser (nothing to install, good for
@@ -107,7 +110,7 @@ export default function AppPreviewScroll() {
       </div>
 
       {/* The live demo, on stage */}
-      <div className="relative mx-auto mt-14 w-full max-w-6xl px-4 sm:mt-16 sm:px-6">
+      <div className={`relative mx-auto w-full max-w-6xl px-4 sm:px-6 ${raised ? "mt-8 sm:mt-9" : "mt-14 sm:mt-16"}`}>
         <div ref={tiltRef} style={{ transformOrigin: "50% 0", willChange: "transform" }}>
           <div id="live-demo" data-hide-header className="relative z-10">
             <LiveDemoFrame eager className="mx-auto" />
