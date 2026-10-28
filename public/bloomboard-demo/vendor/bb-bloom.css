@@ -4723,3 +4723,8 @@ html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm
 /* the quote is a button, and black mode empties buttons: keep it part of the bubble */
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-reply .tm-cm-quote { background:var(--bl-raise) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-mine.bb-reply .tm-cm-quote { background:var(--bl-accent-soft) !important; }
+/* Task window (2026-10-29): the main column's section names (Description, Subtasks, Files and links) and the
+   description text read a size up; the side column stays compact. */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal :is(.tm-main > .form-label, .tm-fl-t) { font:600 13.5px var(--bl-ui) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-main > .form-label .form-opt { font-weight:500 !important; font-size:12px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rt-ed { font-size:15.5px; line-height:1.6; }
