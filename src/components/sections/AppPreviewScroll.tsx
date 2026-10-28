@@ -121,6 +121,17 @@ export default function AppPreviewScroll() {
           </div>
         </div>
       </div>
+
+      {/* The live office is what sets BloomBoard apart; one quiet line says so right away
+          (the full story is further down, and on /office). */}
+      <p className="relative mx-auto mt-8 max-w-2xl px-4 text-center text-[15px] leading-relaxed text-white/65 sm:mt-10">
+        <span className="mr-1.5 inline-block h-2 w-2 rounded-full bg-[#34C77B] align-middle" aria-hidden />
+        <span className="font-semibold text-white">Your team gets an office too.</span>{" "}
+        See who&apos;s in, drop by a desk, start a call in one click.{" "}
+        <Link href="/office" className="group inline-flex items-center gap-1 whitespace-nowrap font-semibold text-white underline decoration-white/30 underline-offset-4 transition-colors hover:decoration-white/70">
+          Walk through the office <Arrow />
+        </Link>
+      </p>
     </section>
   );
 }
