@@ -4607,11 +4607,7 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .bl-md-quiet { display:flex; align-it
 html body.bloom:not(#_1):not(#_2):not(#_3) .bl-md-quiet button { border:0 !important; background:none !important; padding:2px 0; color:var(--bl-fg2) !important; font:inherit; cursor:pointer; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bl-md-quiet button:hover { color:var(--bl-fg) !important; text-decoration:underline; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .bl-md-quiet i { font-style:normal; color:var(--bl-fg3) !important; }
-/* ── Office: the Break room gets a proper spot, with the team's best flight today ── */
-html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .office-space.bl-break { grid-column:1 / -1; padding:16px; gap:14px; justify-content:flex-start; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .office-space.bl-break .bl-break-ic { width:34px; height:34px; color:var(--bl-accent); flex:none; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .office-space.bl-break .office-space-t b { font-size:15px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .office-space.bl-break .office-btn { margin-left:auto; }
+
 
 /* ══ Comments as a chat (2026-10-28): task and card threads. Bubbles (yours right, tinted), a person's
    messages grouped, day breaks, review moments as cards, "Seen by", "typing…", actions on hover. ══ */
@@ -4668,3 +4664,34 @@ html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #c
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) :is(.tm-cm, .cw-cm):has(.tm-cm-pick) .tm-cm-acts { pointer-events:auto; height:auto !important; margin:0 !important; }
 /* the thread spaces itself: 12px between people, 3px inside one person's group */
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#tm-comments-list, #cd-comments-list) { gap:0 !important; row-gap:0 !important; }
+
+/* ── Office: the Break room tile (the game's own world drawn in, today's top three) ── */
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-shared { align-items:start; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) .office-space.bl-break { display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; gap:0; padding:0; overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-space.bl-break { --brk-sky1:#1c2a45; --brk-sky2:#2a2350; --brk-desk:#2a2c33; --brk-lamp:#e8b04a; --brk-cord:rgba(255,255,255,.35); --brk-mug:#e0605e; --brk-steam:rgba(255,255,255,.4); --brk-b1:#5b93ff; --brk-b2:#3fae7a; --brk-paper:#f1efe8; --brk-crease:#b9b4a6; --brk-trail:rgba(241,239,232,.45); --brk-star:rgba(255,255,255,.55); }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .office-space.bl-break { --brk-sky1:#dce8ff; --brk-sky2:#ece4ff; --brk-desk:#cfd3db; --brk-lamp:#d4952a; --brk-cord:#8a8f99; --brk-mug:#d84b49; --brk-steam:rgba(63,69,80,.45); --brk-b1:#2f5fe0; --brk-b2:#23825a; --brk-paper:#ffffff; --brk-crease:#b9b4a6; --brk-trail:rgba(47,95,224,.35); --brk-star:rgba(47,95,224,.3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-brk-scene { height:118px; border-bottom:1px solid var(--bl-line); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-brk-scene svg { display:block; width:100%; height:100%; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-brk-in { padding:12px 14px 14px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-brk-t { display:flex; align-items:flex-start; gap:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .bl-brk-t .bl-brk-play { margin-left:auto; background:var(--bl-accent) !important; border-color:var(--bl-accent) !important; color:var(--bl-accent-fg) !important; font-weight:600; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-brk-lead { display:flex; flex-direction:column; gap:6px; margin-top:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-brk-lead > div { display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--bl-fg2); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-brk-lead em { font-style:normal; width:12px; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-brk-lead b { margin-left:auto; color:var(--bl-fg); font-weight:600; font-variant-numeric:tabular-nums; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-brk-av { width:20px; height:20px; border-radius:50%; display:grid; place-items:center; font:600 8.5px/1 var(--bl-ui); color:#fff; background-size:cover; background-position:center; flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-brk-none { margin-top:10px; font-size:12.5px; color:var(--bl-fg3); }
+/* ── Game mode: the app dims and blurs behind the Break room ── */
+#bb-pp-dim { position:fixed; inset:0; z-index:6000; background:rgba(5,6,8,.5); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); animation:bbPpDim .2s ease-out; }
+body.light-mode #bb-pp-dim { background:rgba(20,22,28,.3); }
+@keyframes bbPpDim { from { opacity:0; } to { opacity:1; } }
+html body:not(#_1):not(#_2) #bb-paper-plane.bbpp-center { width:min(820px, calc(100vw - 48px)); border-radius:16px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.45); }
+html body:not(#_1):not(#_2) #bb-paper-plane.bbpp-center canvas { height:min(400px, 52vh); }
+html body:not(#_1):not(#_2) #bb-paper-plane .bbpp-ft { display:flex; align-items:center; gap:12px; }
+html body:not(#_1):not(#_2) #bb-paper-plane .bbpp-ft b { color:var(--bl-fg2); font-weight:600; }
+html body:not(#_1):not(#_2) #bb-paper-plane .bbpp-top { margin-left:auto; white-space:nowrap; }
+html body:not(#_1):not(#_2) #bb-paper-plane .bbpp-top:empty { display:none; }
+/* black mode removes blur everywhere; game mode is the one place that asks for it */
+html body.black-mode #bb-pp-dim { -webkit-backdrop-filter:blur(8px) !important; backdrop-filter:blur(8px) !important; }
+/* nothing floats over the game in game mode (hints, tips) */
+body:has(#bb-pp-dim) :is(#bbd-hint, .bb-tip-float) { display:none !important; }
