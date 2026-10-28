@@ -568,3 +568,22 @@ html body:not(#_1):not(#_2):not(#_3) .pl-steps.col .pl-step > input { flex:1; wi
 html body:not(#_1):not(#_2):not(#_3) .pl-steps.col .pl-link { align-self:flex-start; }
 html body:not(#_1):not(#_2):not(#_3) .pl-sdone { display:inline-flex; align-items:center; gap:6px; font-size:12.5px; color:var(--bl-fg2) !important; white-space:nowrap; cursor:pointer; margin-left:6px; }
 html body:not(#_1):not(#_2):not(#_3) .pl-sdone input { width:15px; height:15px; margin:0; accent-color:var(--pl-done, var(--bl-accent)); cursor:pointer; }
+/* one summary row: progress + step counts left, search / by week / show finished right (wraps when narrow) */
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-sum.pl-one { display:flex; align-items:center; flex-wrap:wrap; gap:12px 18px; padding:16px 28px; border-bottom:0 !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-one .pl-bar { width:150px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-one .pl-tb { padding:0; min-height:0; border:0 !important; gap:10px; flex-wrap:nowrap; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-one .pl-search { width:190px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-one .pl-cnt { display:inline-flex; gap:0; flex-wrap:wrap; border:1px solid var(--bl-line) !important; border-radius:8px; overflow:hidden; background:var(--bl-win) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-one .pl-cnt:empty { display:none; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-one .pl-cnt button { border:0 !important; border-radius:0 !important; padding:6px 11px; height:32px; background:transparent !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-one .pl-cnt button + button { border-left:1px solid var(--bl-line) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-one .pl-cnt button:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-one .pl-cnt button.on { background:var(--bl-accent-soft) !important; color:var(--bl-fg) !important; box-shadow:inset 0 -2px 0 var(--bl-accent) !important; }
+/* search: an icon until you use it (click or ⌘F), so the summary fits on one line */
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-one .pl-search { width:34px; padding:0 9px; overflow:hidden; cursor:pointer; transition:width .18s ease; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-one .pl-search .pl-kbd { display:none; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-one .pl-search:focus-within, html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-one .pl-search:has(input:not(:placeholder-shown)) { width:200px; cursor:text; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-one .pl-search input { min-width:0; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-sum.pl-one { gap:10px 14px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-one .pl-bar { width:120px; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-one .pl-cnt button { padding:6px 10px; }
