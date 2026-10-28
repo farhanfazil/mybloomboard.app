@@ -4861,3 +4861,9 @@ html body.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .bookmarks-overlay .bm-
 /* Chat lists, names only (2026-10-29): rows centre on the name; the unread count sits in line with it. */
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-dm { align-items:center; padding:6px 8px !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-dmr { align-self:center; margin-top:0; }
+/* A link inside an editable description (task, board card): the "Dropbox · name" label, the address kept inside. */
+html body:not(#_1):not(#_2) .bb-dlink { display:inline-flex; align-items:center; gap:6px; max-width:100%; vertical-align:middle; margin:1px 0; padding:2px 9px 2px 7px; border-radius:7px; border:1px solid var(--bl-line, rgba(127,127,127,.25)); background:var(--bl-raise, rgba(127,127,127,.12)); color:var(--bl-fg, inherit) !important; text-decoration:none !important; font-size:.94em; line-height:1.35; cursor:pointer; user-select:none; overflow:hidden; }
+html body:not(#_1):not(#_2) .bb-dlink:hover { border-color:var(--bl-fg3, #8d93a0); }
+html body:not(#_1):not(#_2) .bb-dlink::before { content:''; width:14px; height:14px; flex:none; border-radius:3px; background:var(--fav) center / contain no-repeat; }
+html body:not(#_1):not(#_2) .bb-dlink::after { content:attr(data-label); min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body:not(#_1):not(#_2) .bb-dlink .u { font-size:0; line-height:0; }
