@@ -4591,3 +4591,24 @@ html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #kb-board > .kb-col { paddin
 /* To Do: "Add task" is the column's last line, no empty strip under it, so the space goes to cards
    (the other columns keep the strip to drop cards into) */
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #kb-board > .kb-col[data-colid="pending"] { padding-bottom:6px !important; }
+
+/* ── Home: My Day card (top of the right column) ── */
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-myday:empty { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-md { border:1px solid var(--bl-line) !important; border-radius:12px; background:var(--bl-raise) !important; padding:16px 16px 10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-md-top { display:flex; align-items:center; gap:7px; font:600 12px/1 var(--bl-ui); color:var(--bl-fg3) !important; margin-bottom:10px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-md-top svg { width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-md h4 { margin:0 0 4px; font:600 15.5px/1.3 var(--bl-ui); color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-md p { margin:0 0 14px; font-size:13px; line-height:1.45; color:var(--bl-fg2) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-md-stats { display:flex; gap:20px; margin:4px 0 14px; font-size:12.5px; color:var(--bl-fg2) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-md-stats b { display:block; font-size:16px; color:var(--bl-fg) !important; margin-bottom:1px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-md-go { width:100%; height:36px; border:0 !important; border-radius:8px; background:var(--bl-accent) !important; color:var(--bl-accent-fg, #fff) !important; font:600 13px/1 var(--bl-ui) !important; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-md-go:hover { filter:brightness(1.08); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-md-quiet { display:flex; align-items:center; gap:6px; margin-top:12px; padding-top:9px; border-top:1px solid var(--bl-line) !important; font-size:12.5px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-md-quiet button { border:0 !important; background:none !important; padding:2px 0; color:var(--bl-fg2) !important; font:inherit; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-md-quiet button:hover { color:var(--bl-fg) !important; text-decoration:underline; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .bl-md-quiet i { font-style:normal; color:var(--bl-fg3) !important; }
+/* ── Office: the Break room gets a proper spot, with the team's best flight today ── */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .office-space.bl-break { grid-column:1 / -1; padding:16px; gap:14px; justify-content:flex-start; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-space.bl-break .bl-break-ic { width:34px; height:34px; color:var(--bl-accent); flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-space.bl-break .office-space-t b { font-size:15px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .office-space.bl-break .office-btn { margin-left:auto; }
