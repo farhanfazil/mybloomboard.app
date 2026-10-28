@@ -77,6 +77,12 @@ export default function AppPreviewScroll() {
       <HeroSignals avoid={copyRef} />
 
       <div ref={copyRef} className="relative flex flex-col items-center px-4 pb-2 pt-44 text-center sm:px-6 md:pt-48" style={{ willChange: "transform, opacity" }}>
+        {/* First thing people read: the live office, what sets BloomBoard apart (full story on /office) */}
+        <Link href="/office" className="group mb-7 inline-flex items-center gap-2 text-[14px] text-white/70 transition-colors hover:text-white">
+          <span className="h-2 w-2 rounded-full bg-[#34C77B]" aria-hidden />
+          <span><span className="font-semibold text-white">Your team gets an office too.</span><span className="hidden sm:inline"> See who&apos;s in, talk in one click.</span></span>
+          <Arrow />
+        </Link>
         <h1 className="font-semibold text-white" style={{ fontSize: "clamp(3.2rem, 7vw, 6.8rem)", lineHeight: 0.96, letterSpacing: "-0.052em" }}>
           <span className="sr-only">Teamwork. Reworked.</span>
           <span aria-hidden>
@@ -122,16 +128,6 @@ export default function AppPreviewScroll() {
         </div>
       </div>
 
-      {/* The live office is what sets BloomBoard apart; one quiet line says so right away
-          (the full story is further down, and on /office). */}
-      <p className="relative mx-auto mt-8 max-w-2xl px-4 text-center text-[15px] leading-relaxed text-white/65 sm:mt-10">
-        <span className="mr-1.5 inline-block h-2 w-2 rounded-full bg-[#34C77B] align-middle" aria-hidden />
-        <span className="font-semibold text-white">Your team gets an office too.</span>{" "}
-        See who&apos;s in, drop by a desk, start a call in one click.{" "}
-        <Link href="/office" className="group inline-flex items-center gap-1 whitespace-nowrap font-semibold text-white underline decoration-white/30 underline-offset-4 transition-colors hover:decoration-white/70">
-          Walk through the office <Arrow />
-        </Link>
-      </p>
     </section>
   );
 }
