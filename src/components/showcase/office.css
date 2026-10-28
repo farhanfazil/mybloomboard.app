@@ -642,9 +642,9 @@
   opacity:0;transform:translateY(4px);transition:opacity .35s,transform .35s}
 .bbo .og-bub.on{opacity:1;transform:none}
 .bbo .og-bub .og-av{width:22px;height:22px;border:0}
-.bbo .og-you{position:absolute;left:585px;top:70px;width:150px;height:56px;border:1.5px dashed rgba(159,220,255,.45);border-radius:8px}
+.bbo .og-you{position:absolute;left:536px;top:100px;width:200px;height:52px;border:1.5px dashed rgba(159,220,255,.45);border-radius:9px}
 .bbo .og-you.here{border-style:solid}
-.bbo .og-you .og-p{left:75px;top:76px}
+.bbo .og-you .og-p{left:100px;top:71px}
 .bbo .og-fcx{position:absolute;left:200px;top:226px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px}
 .bbo .og-walker{position:absolute;left:0;top:0;z-index:5}
 /* you: walk in at the front door, past All hands, down the corridor and into the Design room */

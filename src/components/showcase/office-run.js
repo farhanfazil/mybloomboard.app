@@ -641,7 +641,8 @@ lucide.createIcons();
       /* Leo asks for coffee; Ethan gets up, walks down the corridor to the
          Lounge, and later walks back to his desk. */
       const w = $o("og-walker"), wp = $o("og-walker-p"), ethan = $o("og-ethan"), ethanT = $o("og-ethan-t");
-      const P = [[105, 496], [142, 410], [142, 320], [822, 320], [822, 262], [1110, 80]];
+      const ethanScr = (away) => { $o("og-ethan-scr").style.display = away ? "none" : ""; $o("og-ethan-away").style.display = away ? "" : "none"; };
+      const P = [[144, 521], [22, 521], [22, 392], [142, 392], [142, 320], [822, 320], [822, 262], [1110, 80]];
       let at = 0;
       w.style.transform = `translate(${P[0][0]}px,${P[0][1]}px)`;
       const stroll = (path, done) => {
@@ -663,14 +664,14 @@ lucide.createIcons();
           $o("og-lb").classList.add("on");
           setTimeout(() => {
             ethan.classList.add("away"); wp.classList.remove("away");
-            ethanT.innerHTML = "<b>Ethan</b> · Getting coffee";
+            ethanT.innerHTML = "<b>Ethan</b> · Getting coffee"; ethanScr(true);
             stroll(P, () => { $o("og-lb").classList.remove("on"); $o("og-lc").textContent = "4 chatting"; setTimeout(walk, 7000); });
           }, 1400);
         } else {
           $o("og-lc").textContent = "3 chatting";
           stroll(P.slice().reverse(), () => {
             wp.classList.add("away"); ethan.classList.remove("away");
-            ethanT.innerHTML = "<b>Ethan</b> · App Store copy";
+            ethanT.innerHTML = "<b>Ethan</b> · App Store copy"; ethanScr(false);
             setTimeout(walk, 6000);
           });
         }
