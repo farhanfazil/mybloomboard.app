@@ -561,3 +561,10 @@ html body:not(#_1):not(#_2):not(#_3) .pl-pk small { color:var(--bl-fg3) !importa
 html body:not(#_1):not(#_2):not(#_3) .pl-start .pl-empty-acts { margin-top:22px; }
 /* the summary row breathes a little more under the plan row */
 html body:not(#_1):not(#_2):not(#_3):not(#_4) .pl-sum { padding-top:20px; }
+/* steps modal: one step per line, each with its own "Counts as finished" box */
+html body:not(#_1):not(#_2):not(#_3) .pl-steps.col { display:flex; flex-direction:column; align-items:stretch; gap:6px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-steps.col .pl-step { width:100%; height:38px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-steps.col .pl-step > input { flex:1; width:auto; }
+html body:not(#_1):not(#_2):not(#_3) .pl-steps.col .pl-link { align-self:flex-start; }
+html body:not(#_1):not(#_2):not(#_3) .pl-sdone { display:inline-flex; align-items:center; gap:6px; font-size:12.5px; color:var(--bl-fg2) !important; white-space:nowrap; cursor:pointer; margin-left:6px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-sdone input { width:15px; height:15px; margin:0; accent-color:var(--pl-done, var(--bl-accent)); cursor:pointer; }
