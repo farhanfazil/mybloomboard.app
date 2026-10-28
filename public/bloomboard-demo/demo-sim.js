@@ -305,8 +305,11 @@
     ghost.style.transform = 'translate(' + x + 'px,' + y + 'px)';
   }
   /* Returns false (and does nothing) when the drag can't be shown right now. */
+  /* One hand on the board at a time: a card drag and a file drop never overlap. */
+  var handBusyUntil = 0;
+  const handBusy = () => Date.now() < handBusyUntil;
   function dragCard(id, toStatus, label, drop) {
-    if (hidden() || scripting || busyScreen() || Date.now() - lastInput < IDLE_MS) return false;
+    if (hidden() || scripting || handBusy() || busyScreen() || Date.now() - lastInput < IDLE_MS) return false;
     var card = boardCard(id), col = boardCol(toStatus);
     if (!card || !col || !onScreen(card)) return false;
     var r = card.getBoundingClientRect();
@@ -318,6 +321,7 @@
     if (ty + r.height > window.innerHeight - 10) ty = Math.max(cr.top + 56, window.innerHeight - 10 - r.height);
     if (ty < 70 || ty + r.height > window.innerHeight - 10) return false;
 
+    handBusyUntil = Date.now() + 3200;
     var g = ghostCursor(label);
     var gx = r.left + 36, gy = r.top + r.height / 2;
     placeGhost(gx + 140, gy + 90, true);
@@ -361,7 +365,7 @@
             card.style.opacity = ''; card.style.animation = '';
             clone.style.opacity = '0';
             later(220, function () { host.remove(); });
-            later(500, function () { g.style.opacity = '0'; });
+            later(500, function () { g.style.opacity = '0'; handBusyUntil = Date.now() + 400; });
           });
         });
       });
@@ -396,9 +400,10 @@
   }
   /* Returns false (and does nothing) when the drop can't be shown right now. */
   function dropFile(id, key, label) {
-    if (hidden() || scripting || busyScreen() || Date.now() - lastInput < IDLE_MS) return false;
+    if (hidden() || scripting || handBusy() || document.querySelector('.bbd-file') || busyScreen() || Date.now() - lastInput < IDLE_MS) return false;
     var card = boardCard(id);
     if (!card || !onScreen(card)) return false;
+    handBusyUntil = Date.now() + 2400;
     var r = card.getBoundingClientRect();
     var tx = r.left + r.width / 2 - 70, ty = r.top + Math.min(r.height / 2, 40) - 20;
     var sx = window.innerWidth + 20, sy = Math.max(90, ty - 120);
@@ -415,7 +420,14 @@
     chip.style.opacity = '1';
     chip.style.transform = 'translate(' + tx + 'px,' + ty + 'px) rotate(-3deg)';
     placeGhost(tx + 110, ty + 34);
-    later(700, function () { card.classList.add('kb-file-over'); });
+    later(700, function () {
+      card = boardCard(id) || card;
+      if (!document.body.contains(card) || !onScreen(card)) return;
+      var r2 = card.getBoundingClientRect();
+      var nx = r2.left + r2.width / 2 - 70, ny = r2.top + Math.min(r2.height / 2, 40) - 20;
+      if (Math.abs(nx - tx) > 2 || Math.abs(ny - ty) > 2) { tx = nx; ty = ny; chip.style.transform = 'translate(' + tx + 'px,' + ty + 'px) rotate(-3deg)'; placeGhost(tx + 110, ty + 34); }
+      card.classList.add('kb-file-over');
+    });
     later(1150, function () {
       card.classList.remove('kb-file-over');
       chip.style.transition = 'transform .2s ease-out,opacity .2s';
@@ -423,7 +435,7 @@
       chip.style.opacity = '0';
       if (document.body.contains(card)) attachFile(id, key);
       later(260, function () { chip.remove(); });
-      later(500, function () { g.style.opacity = '0'; });
+      later(500, function () { g.style.opacity = '0'; handBusyUntil = Date.now() + 400; });
     });
     return true;
   }
@@ -559,6 +571,7 @@
   /* Now and then an image is dropped on a card, but only while fewer than
      two cards on the board have one: never bare, never full of pictures. */
   function maybeDrop(done) {
+    if (storyRunning || touring) { done(); return; }
     var cards = [].slice.call(document.querySelectorAll('.kb-board .swipe-outer[data-taskid]')).filter(function (c) {
       var col = c.closest('.kb-col');
       return c.offsetParent && onScreen(c) && col && col.getAttribute('data-colid') !== 'done';
