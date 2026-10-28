@@ -4762,29 +4762,29 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .gr-live i { width:8px; height:8px; b
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .gr-hd .gr-play { display:inline-flex; align-items:center; gap:7px; height:34px; padding:0 16px; background:var(--bl-accent) !important; border-color:var(--bl-accent) !important; color:var(--bl-accent-fg, #0b1220) !important; font-weight:650; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .gr-hd .gr-live-slot:empty + .gr-play { margin-left:auto; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-play svg { width:13px; height:13px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .gr-track-slot { padding:0 18px 18px; flex:1; display:flex; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .gr-track { position:relative; flex:1; min-height:200px; border-radius:11px; overflow:hidden; background:linear-gradient(90deg, #8fbcff 0%, #5d8fe0 45%, #4a6fc2 75%, #9a7ba8 88%, #e98a62 100%); }
-html body.bloom:not(#_1):not(#_2):not(#_3) .gr-sun { position:absolute; right:3%; bottom:22px; width:46px; height:46px; margin-bottom:-18px; border-radius:50%; background:#ffd36b; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .gr-cloud { position:absolute; width:64px; height:16px; border-radius:10px; background:rgba(255,255,255,.75); }
-html body.bloom:not(#_1):not(#_2):not(#_3) .gr-cloud::after { content:''; position:absolute; left:14px; top:-8px; width:30px; height:18px; border-radius:50%; background:inherit; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .gr-floor { position:absolute; left:0; right:0; bottom:0; height:30px; display:grid; grid-template-columns:repeat(5, 18%) 10%; background:rgba(34,36,43,.92); }
-html body.bloom:not(#_1):not(#_2):not(#_3) .gr-floor span { padding:7px 0 0 10px; font:600 11.5px var(--bl-ui); color:#d6d9df; border-left:1px solid rgba(255,255,255,.14); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .gr-track-slot { padding:0 18px; display:flex; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .gr-track { position:relative; flex:1; height:120px; border-radius:10px; overflow:hidden; background:linear-gradient(90deg, #22324d 0%, #2a3d5e 58%, #3a3a57 84%, #5e4448 100%); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .gr-sun { position:absolute; right:3%; bottom:26px; width:28px; height:28px; margin-bottom:-12px; border-radius:50%; background:#e9b85a; opacity:.85; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .gr-cloud { position:absolute; width:44px; height:11px; border-radius:8px; background:rgba(255,255,255,.12); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .gr-cloud::after { content:''; position:absolute; left:10px; top:-6px; width:20px; height:12px; border-radius:50%; background:inherit; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .gr-floor { position:absolute; left:0; right:0; bottom:0; height:26px; display:grid; grid-template-columns:repeat(5, 18%) 10%; background:rgba(16,17,21,.55); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .gr-floor span { padding:6px 0 0 10px; font:600 11px var(--bl-ui); color:#b4b9c3; border-left:1px solid rgba(255,255,255,.1); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-floor span:first-child { border-left:0; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .gr-floor span.we { color:#ffd9a8; padding-left:6px; white-space:nowrap; overflow:hidden; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .gr-flag { position:absolute; bottom:30px; width:2px; height:calc(58px + var(--lift, 0) * 26px); background:#f7f5ef; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .gr-flag b { position:absolute; left:2px; top:0; padding:3px 12px 3px 7px; font:700 11.5px/1.2 var(--bl-ui); color:#fff; background:#0f766e; white-space:nowrap; clip-path:polygon(0 0, 100% 0, calc(100% - 7px) 50%, 100% 100%, 0 100%); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .gr-floor span.we { color:#e9c08a; padding-left:6px; white-space:nowrap; overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .gr-flag { position:absolute; bottom:26px; width:1.5px; height:calc(30px + var(--lift, 0) * 17px); background:rgba(247,245,239,.8); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .gr-flag b { position:absolute; left:2px; top:0; padding:2px 11px 2px 6px; font:650 11px/1.2 var(--bl-ui); color:#fff; background:#0f766e; white-space:nowrap; clip-path:polygon(0 0, 100% 0, calc(100% - 7px) 50%, 100% 100%, 0 100%); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-flag.me b { background:#2f5fe0; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .gr-plane { position:absolute; top:28%; display:flex; align-items:center; gap:4px; transform:translateX(-50%); transition:left 1.4s linear; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .gr-plane svg { width:34px; height:18px; transform:rotate(-8deg); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .gr-plane { position:absolute; top:16%; display:flex; align-items:center; gap:4px; transform:translateX(-50%); transition:left 1.4s linear; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .gr-plane svg { width:26px; height:14px; transform:rotate(-8deg); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-plane b { padding:2px 7px; border-radius:6px; background:#fff; color:#1b2433; font:700 11px var(--bl-ui); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-side { border-left:1px solid var(--bl-line); padding:14px 16px; display:flex; flex-direction:column; min-width:0; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-tabs { display:flex; gap:4px; margin-bottom:10px; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .gr-tabs button { height:30px; padding:0 12px; border-radius:8px; border:1px solid transparent; background:transparent; color:var(--bl-fg3); font:500 13px var(--bl-ui); cursor:pointer; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) .gr-tabs button.on { background:var(--bl-hover) !important; border-color:var(--bl-line); color:var(--bl-fg); font-weight:600; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .gr-row { display:flex; align-items:center; gap:10px; padding:7px 6px; border-radius:8px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .gr-row { display:flex; align-items:center; gap:10px; min-height:36px; padding:4px 6px; border-radius:8px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-row:first-child { background:var(--bl-hover); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-row em { font-style:normal; width:14px; font-size:12.5px; font-weight:600; color:var(--bl-fg3); }
-html body.bloom:not(#_1):not(#_2):not(#_3) .gr-av { width:28px; height:28px; border-radius:50%; flex:none; display:grid; place-items:center; font:600 10.5px/1 var(--bl-ui); color:#fff; background-size:cover; background-position:center; overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .gr-av { width:24px; height:24px; border-radius:50%; flex:none; display:grid; place-items:center; font:600 10.5px/1 var(--bl-ui); color:#fff; background-size:cover; background-position:center; overflow:hidden; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-av img { width:100%; height:100%; object-fit:cover; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-nm { flex:1; min-width:0; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-nm b { display:block; font:600 13px var(--bl-ui); color:var(--bl-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -4793,9 +4793,18 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .gr-sc { font:650 13px ui-monospace, 
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-sc.win { color:#7dd3a8; }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .gr-sc.win { color:#15803d; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-none { font-size:12.5px; color:var(--bl-fg3); padding:6px 2px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .gr-foot { margin-top:auto; padding-top:10px; border-top:1px solid var(--bl-line); display:flex; justify-content:space-between; font-size:12.5px; color:var(--bl-fg3); }
-html body.bloom:not(#_1):not(#_2):not(#_3) .gr-foot b { color:var(--bl-fg); font-weight:600; }
 @media (max-width: 860px) { html body.bloom:not(#_1):not(#_2):not(#_3) .gr-room { grid-template-columns:1fr; } html body.bloom:not(#_1):not(#_2):not(#_3) .gr-side { border-left:0; border-top:1px solid var(--bl-line); } }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-flag.end b { left:auto; right:2px; padding:3px 7px 3px 12px; clip-path:polygon(0 0, 100% 0, 100% 100%, 0 100%, 7px 50%); }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .gr-tabs button { color:#4b5160 !important; }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .gr-tabs button.on { color:#15171c !important; background:#eef0f3 !important; border-color:#d5d8de; }
+/* Game room, light: a soft pale sky close to the page, dark day labels. */
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .gr-track { background:linear-gradient(90deg, #e3ecfb 0%, #d6e2f6 58%, #e0d9ee 84%, #f1dccf 100%); }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .gr-cloud { background:rgba(255,255,255,.8); }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .gr-floor { background:rgba(255,255,255,.75); border-top:1px solid #d5d8de; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .gr-floor span { color:#3f4550; border-left-color:#d5d8de; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .gr-floor span.we { color:#b45309; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .gr-flag { background:#8d93a0; }
+html body:not(#_1):not(#_2):not(#_3) #ta-team-panel:not([data-co="home"]) #ta-game-group { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .gr-sum { display:flex; gap:22px; flex-wrap:wrap; padding:10px 18px 16px; font-size:12.5px; color:var(--bl-fg3); }
+html body.bloom:not(#_1):not(#_2):not(#_3) .gr-sum b { color:var(--bl-fg); font-weight:600; }
+html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .gr-plane svg path { stroke:#8d93a0; stroke-width:1.5; }
