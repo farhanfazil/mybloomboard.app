@@ -4588,3 +4588,6 @@ html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-list > .kb-board { pad
 
 /* Columns keep an empty strip at the bottom to drop cards into */
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #kb-board > .kb-col { padding-bottom:40px !important; }
+/* To Do: "Add task" is the column's last line, no empty strip under it, so the space goes to cards
+   (the other columns keep the strip to drop cards into) */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #kb-board > .kb-col[data-colid="pending"] { padding-bottom:6px !important; }
