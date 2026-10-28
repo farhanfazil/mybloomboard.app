@@ -2745,8 +2745,9 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .dk-typing i:first-of-type { margin-l
 html body.bloom:not(#_1):not(#_2):not(#_3) .bb-typing-tag { margin-left:8px; font:500 12px var(--bl-ui); }
 /* Typing never overlaps: the desk screen shows only "typing" while it is there, and the chat
    keeps a fixed slot for the typing line so a new message is never covered or cut off. */
-html body.bloom:not(#_1):not(#_2):not(#_3) .dk-scr:has(> .dk-typing) > :not(.dk-typing) { visibility:hidden !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3) .dk-scr:has(> .dk-typing) { position:relative; }
+/* (the card's bb-typing class, set with the typing line, does this; a :has() here cost ~35 ms on every keystroke anywhere) */
+html body.bloom:not(#_1):not(#_2):not(#_3) .station-card.bb-typing .dk-scr > :not(.dk-typing) { visibility:hidden !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .station-card.bb-typing .dk-scr { position:relative; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-typing-zone { flex:none; height:30px; display:flex; align-items:center; overflow:hidden; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-typing-zone .chat-typing-row { padding:0 20px 0 62px !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay .chat-msgs-area { padding-bottom:10px !important; }
@@ -4702,3 +4703,23 @@ html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side
 html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-acts > button:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
 html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-acts > button.del:hover { color:var(--bl-bad) !important; }
 html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-acts .bb-cm-ic svg { width:15px; height:15px; }
+
+/* ── one message, one bubble: a reply's quote sits inside its top, pictures inside its bottom ── */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm):is(.bb-reply, .bb-files) :is(.tm-cm-b, .cw-cb) { width:fit-content; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-reply .tm-cm-quote { align-self:stretch; position:relative; display:flex; flex-direction:column; gap:1px; max-width:none; margin:3px 0 0; padding:8px 12px 4px 22px; background:var(--bl-raise); border:1px solid var(--bl-line); border-bottom:0; border-radius:14px 14px 0 0; text-align:left; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-reply .tm-cm-quote::before { content:''; position:absolute; left:11px; top:9px; bottom:5px; width:3px; border-radius:2px; background:var(--bl-accent); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-reply .tm-cm-quote b { color:var(--bl-accent) !important; font-size:12.5px; font-weight:600; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-reply .tm-cm-quote span { color:var(--bl-fg2) !important; font-size:13px; opacity:1; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-reply .tm-cm-quote + :is(.tm-cm-t2, .cw-ct) { align-self:stretch; margin-top:0; border-top:0 !important; border-top-left-radius:0; border-top-right-radius:0; padding-top:4px; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-files :is(.tm-cm-t2, .cw-ct) { align-self:stretch; border-bottom:0 !important; border-bottom-left-radius:0 !important; border-bottom-right-radius:0 !important; padding-bottom:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-files .bb-cm-files { align-self:stretch; margin:0; padding:2px 6px 6px; background:var(--bl-raise); border:1px solid var(--bl-line); border-top:0; border-radius:0 0 14px 14px; }
+/* yours: the same pieces in your tint */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-mine:is(.bb-reply, .bb-files) :is(.tm-cm-quote, .bb-cm-files) { background:var(--bl-accent-soft); border-color:transparent; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-mine.bb-reply .tm-cm-quote span { color:var(--bl-fg2) !important; }
+/* comment words a little larger, like Trello */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm .tm-cm-t2, #card-detail-overlay .cw-cm .cw-ct) { font-size:14.5px !important; line-height:1.5 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-reply .tm-cm-quote { min-width:0; overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-reply .tm-cm-quote :is(b, span) { display:block; max-width:100%; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+/* the quote is a button, and black mode empties buttons: keep it part of the bubble */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-reply .tm-cm-quote { background:var(--bl-raise) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-mine.bb-reply .tm-cm-quote { background:var(--bl-accent-soft) !important; }
