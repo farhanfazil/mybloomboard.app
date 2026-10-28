@@ -4618,9 +4618,8 @@ html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm-b, #card-detail-overlay .cw-cb) { flex:0 1 auto; min-width:0; max-width:84%; display:flex; flex-direction:column; align-items:flex-start; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm .tm-cm-t2, #card-detail-overlay .cw-cm .cw-ct) { background:var(--bl-raise) !important; border:1px solid var(--bl-line) !important; border-radius:14px 14px 14px 5px; padding:8px 12px; margin-top:3px; color:var(--bl-fg) !important; box-shadow:none !important; max-width:100%; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-cont :is(.tm-cm-t2, .cw-ct) { border-radius:5px 14px 14px 5px; }
-/* yours: on the right, tinted, no face of your own */
+/* yours: on the right, tinted, with your face on the right */
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-mine:not(.tm-cm-sb) { flex-direction:row-reverse; }
-html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-mine:not(.tm-cm-sb) :is(.tm-cm-av, .cw-av) { display:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-mine:not(.tm-cm-sb) :is(.tm-cm-b, .cw-cb) { align-items:flex-end; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-mine:not(.tm-cm-sb) :is(.tm-cm-mh, .cw-mh) b { display:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #card-detail-overlay .cw-cm).bb-mine:not(.tm-cm-sb) :is(.tm-cm-t2, .cw-ct) { background:var(--bl-accent-soft) !important; border-color:transparent !important; border-radius:14px 14px 5px 14px; }
@@ -4695,3 +4694,11 @@ html body:not(#_1):not(#_2) #bb-paper-plane .bbpp-top:empty { display:none; }
 html body.black-mode #bb-pp-dim { -webkit-backdrop-filter:blur(8px) !important; backdrop-filter:blur(8px) !important; }
 /* nothing floats over the game in game mode (hints, tips) */
 body:has(#bb-pp-dim) :is(#bbd-hint, .bb-tip-float) { display:none !important; }
+
+/* the message toolbar: react, reply, edit, delete as icons with tooltips (no dots between) */
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-acts { gap:2px; padding:2px 4px !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-acts > button + button::before { content:none !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-acts > button { width:28px; height:26px !important; justify-content:center; border-radius:6px !important; color:var(--bl-fg2) !important; text-decoration:none !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-acts > button:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-acts > button.del:hover { color:var(--bl-bad) !important; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-acts .bb-cm-ic svg { width:15px; height:15px; }
