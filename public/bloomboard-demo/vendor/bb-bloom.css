@@ -4858,3 +4858,6 @@ html body.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .bm2-paste { border-col
 html body.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .bm2-paste .bm-search { color:#15171c !important; }
 html body.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .bm2-acts button { border-color:#d5d8de !important; background:#fff !important; color:#3f4550 !important; }
 html body.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .bookmarks-overlay .bm-cat-add { color:#3f4550 !important; border-color:#d5d8de !important; }
+/* Chat lists, names only (2026-10-29): rows centre on the name; the unread count sits in line with it. */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-dm { align-items:center; padding:6px 8px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-dmr { align-self:center; margin-top:0; }
