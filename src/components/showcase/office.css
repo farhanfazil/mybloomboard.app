@@ -610,10 +610,48 @@
 .bbo .og-room{position:absolute}
 .bbo .og-room>svg{position:absolute;left:0;top:0;overflow:visible}
 .bbo .og-design{left:0;top:0;width:470px;height:290px}
-.bbo .og-reception{left:490px;top:0;width:220px;height:290px}
-.bbo .og-lounge{left:730px;top:0;width:470px;height:290px}
-.bbo .og-desks{left:0;top:350px;width:780px;height:370px}
-.bbo .og-focus{left:800px;top:350px;width:400px;height:370px}
+.bbo .og-game{left:490px;top:0;width:710px;height:290px}
+.bbo .og-desks{left:0;top:310px;width:780px;height:370px}
+.bbo .og-focus{left:800px;top:310px;width:400px;height:370px}
+/* the way in: the gap between the Design room and the Game room */
+.bbo .og-entrance{position:absolute;left:470px;top:-22px;width:20px;height:22px}
+.bbo .og-entrance::before,.bbo .og-entrance::after{content:"";position:absolute;bottom:0;width:30px;height:3px;border-radius:1.5px;background:rgba(159,220,255,.6)}
+.bbo .og-entrance::before{right:22px}.bbo .og-entrance::after{left:22px}
+.bbo .og-entrance span{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);font-size:10.5px;font-weight:600;color:rgba(255,255,255,.55)}
+/* Game room, as in the app: the week track and this week's best */
+.bbo .og-gt b{display:block;font-size:14px;font-weight:650}
+.bbo .og-gt span{display:block;margin-top:2px;font-size:11.5px;font-weight:400;color:var(--muted)}
+.bbo .og-game .og-st{margin-top:6px}
+.bbo .og-gplay{position:absolute;left:342px;top:20px;display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 13px;border-radius:8px;background:#5b8bff;color:#0b1220;font-size:12.5px;font-weight:650}
+.bbo .og-gplay svg{width:11px;height:11px}
+.bbo .og-gtrack{position:absolute;left:18px;top:100px;width:410px;height:120px;border-radius:10px;overflow:hidden;background:linear-gradient(90deg,#22324d 0%,#2a3d5e 58%,#3a3a57 84%,#5e4448 100%)}
+.bbo .og-gsun{position:absolute;right:3%;bottom:26px;width:28px;height:28px;margin-bottom:-12px;border-radius:50%;background:#e9b85a;opacity:.85}
+.bbo .og-gcloud{position:absolute;width:44px;height:11px;border-radius:8px;background:rgba(255,255,255,.12)}
+.bbo .og-gcloud::after{content:"";position:absolute;left:10px;top:-6px;width:20px;height:12px;border-radius:50%;background:inherit}
+.bbo .og-gfloor{position:absolute;left:0;right:0;bottom:0;height:26px;display:grid;grid-template-columns:repeat(5,18%) 10%;background:rgba(16,17,21,.55)}
+.bbo .og-gfloor span{padding:6px 0 0 8px;font-size:10.5px;font-weight:600;color:#b4b9c3;border-left:1px solid rgba(255,255,255,.1)}
+.bbo .og-gfloor span:first-child{border-left:0}
+.bbo .og-gfloor span.we{color:#e9c08a;padding-left:5px;white-space:nowrap;overflow:hidden}
+.bbo .og-gflag{position:absolute;bottom:26px;width:1.5px;background:rgba(247,245,239,.8)}
+.bbo .og-gflag b{position:absolute;left:2px;top:0;padding:2px 10px 2px 6px;font-size:10.5px;font-weight:650;color:#fff;background:#0f766e;white-space:nowrap;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 50%,100% 100%,0 100%)}
+.bbo .og-gflag.me b{background:#2f5fe0}
+.bbo .og-gplane{position:absolute;top:16%;display:flex;align-items:center;gap:4px;transform:translateX(-50%)}
+.bbo .og-gplane svg{width:26px;height:14px;transform:rotate(-8deg)}
+.bbo .og-gplane b{padding:2px 7px;border-radius:6px;background:#fff;color:#1b2433;font-size:10.5px;font-weight:700}
+.bbo .og-gsum{position:absolute;left:18px;top:232px;display:flex;gap:18px;font-size:11.5px;color:var(--muted)}
+.bbo .og-gsum b{color:var(--fg);font-weight:600}
+.bbo .og-gside{position:absolute;right:0;top:0;bottom:0;width:250px;border-left:1px solid rgba(255,255,255,.08);padding:16px 14px}
+.bbo .og-gtabs{display:flex;gap:4px;margin-bottom:10px}
+.bbo .og-gtabs span{height:28px;padding:0 11px;border-radius:8px;display:inline-flex;align-items:center;font-size:12.5px;color:var(--muted);border:1px solid transparent}
+.bbo .og-gtabs span.on{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:var(--fg);font-weight:600}
+.bbo .og-grow{display:flex;align-items:center;gap:9px;min-height:36px;padding:4px 6px;border-radius:8px}
+.bbo .og-grow:first-of-type{background:rgba(255,255,255,.05)}
+.bbo .og-grow em{font-style:normal;width:12px;font-size:12px;font-weight:600;color:var(--muted)}
+.bbo .og-gav{width:24px;height:24px;border-radius:50%;background:#333 center/cover;flex:none}
+.bbo .og-gnm{flex:1;min-width:0}
+.bbo .og-gnm b{display:block;font-size:12.5px;font-weight:600}
+.bbo .og-gnm span{font-size:11px;color:var(--muted)}
+.bbo .og-gsc{font:650 12.5px ui-monospace,"SF Mono",Menlo,monospace;color:var(--fg)}
 .bbo .og-lbl{position:absolute;left:18px;top:16px;font-size:14px;font-weight:600;color:var(--fg)}
 .bbo .og-st{font-size:12px;font-weight:400;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:6px}
 .bbo .og-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
@@ -645,7 +683,7 @@
 .bbo .og-you{position:absolute;left:536px;top:100px;width:200px;height:52px;border:1.5px dashed rgba(159,220,255,.45);border-radius:9px}
 .bbo .og-you.here{border-style:solid}
 .bbo .og-you .og-p{left:100px;top:71px}
-.bbo .og-fcx{position:absolute;left:200px;top:226px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px}
+.bbo .og-fcx{position:absolute;left:200px;top:216px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px}
 .bbo .og-walker{position:absolute;left:0;top:0;z-index:5}
 /* you: walk in at the front door, past All hands, down the corridor and into the Design room */
 .bbo .og-mewalk{position:absolute;left:0;top:0;z-index:6;opacity:0;pointer-events:none}

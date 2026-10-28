@@ -384,7 +384,7 @@ document.querySelectorAll('.rv').forEach(e=>rio.observe(e));
 const links=[...document.querySelectorAll('.cnav a[data-ch]')];
 const cio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.dataset.ch===e.target.id))}),{rootMargin:'-40% 0px -55% 0px'});
 document.querySelectorAll('.chap').forEach(c=>cio.observe(c));
-const FEED=[['maya','<b>Maya</b> started a call in the Design room'],['ethan','<b>Ethan</b> waved at Nora'],['priya','<b>Priya</b> went into focus for 45 min'],['nora','<b>Nora</b> dropped into the Lounge'],['daniel','<b>Daniel</b> knocked on Maya'],['chloe','<b>Chloe</b> will be back at 2:30'],['sam','<b>Sam</b> joined the Design room']];
+const FEED=[['maya','<b>Maya</b> started a call in the Design room'],['ethan','<b>Ethan</b> waved at Nora'],['priya','<b>Priya</b> went into focus for 45 min'],['nora','<b>Nora</b> flew to Thursday in the Game room'],['daniel','<b>Daniel</b> knocked on Maya'],['chloe','<b>Chloe</b> will be back at 2:30'],['sam','<b>Sam</b> joined the Design room']];
 let fi=0;const tk=document.getElementById('tick');
 function nextTick(){const [k,t]=FEED[fi++%FEED.length];tk.className='tick go';tk.innerHTML=`<span class="a" style="background-image:url(${ppl[k]})"></span><span>${t}</span><span style="color:var(--dim)">· just now</span>`;tk.offsetWidth}
 nextTick();setInterval(()=>{tk.classList.remove('go');void tk.offsetWidth;nextTick()},3200);
@@ -494,7 +494,7 @@ lucide.createIcons();
         tag = $o("og-tag"), hint = $o("og-hint"), nora = $o("og-nora"), me = $o("og-mewalk"), film = $o("og-film"),
         design = $o("og-design"), wrap = plan.parentNode, stage = $o("og-stage"), morph = $o("og-morph");
       const roomBits = [...design.querySelectorAll(":scope > div, :scope > span, svg > :not(.og-shell)")];
-      const others = ["og-reception", "og-lounge", "og-desks", "og-focus"].map($o);
+      const others = ["og-game", "og-desks", "og-focus"].map($o);
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
       const seg = (p, a, b) => clamp((p - a) / (b - a), 0, 1);
@@ -508,9 +508,10 @@ lucide.createIcons();
         /* no frame for a while (first paint, or frames paused): draw straight away */
         if (!reduce && performance.now() - lastTick > 200) { cur = target; draw(cur); }
       };
-      /* Your path through the office, in plan coordinates: in at the front
-         door, past Nora, down the corridor, into the Design room, to a seat. */
-      const PATH = [[592, 20], [592, 236], [592, 320], [322, 320], [322, 262], [374, 236], [374, 106], [262, 100]];
+      /* Your path through the office, in plan coordinates: in at the entrance
+         (between the Design room and the Game room), along the gap between the
+         rows, into the Design room, to a seat. */
+      const PATH = [[480, -14], [480, 150], [480, 300], [322, 300], [322, 262], [374, 236], [374, 106], [262, 100]];
       const LEN = PATH.slice(1).reduce((n, q, i) => n + Math.hypot(q[0] - PATH[i][0], q[1] - PATH[i][1]), 0);
       /* how far along the path the Design room door is (PATH[4]) */
       const DOOR_T = PATH.slice(1, 5).reduce((n, q, i) => n + Math.hypot(q[0] - PATH[i][0], q[1] - PATH[i][1]), 0) / LEN;
@@ -638,11 +639,11 @@ lucide.createIcons();
       const mmss = (n) => `${Math.floor(n / 60)}:${String(n % 60).padStart(2, "0")}`;
       let ds = 12 * 60 + 27, fs = 23 * 60 + 47;
       setInterval(() => { ds++; $o("og-dtime").textContent = mmss(ds); fs = fs > 0 ? fs - 1 : 25 * 60; $o("og-ftime").textContent = mmss(fs); }, 1000);
-      /* Leo asks for coffee; Ethan gets up, walks down the corridor to the
-         Lounge, and later walks back to his desk. */
+      /* Ethan gets up, walks round his row and over to the Game room for a
+         flight with Jon, and later walks back to his desk. */
       const w = $o("og-walker"), wp = $o("og-walker-p"), ethan = $o("og-ethan"), ethanT = $o("og-ethan-t");
       const ethanScr = (away) => { $o("og-ethan-scr").style.display = away ? "none" : ""; $o("og-ethan-away").style.display = away ? "" : "none"; };
-      const P = [[144, 521], [22, 521], [22, 392], [142, 392], [142, 320], [822, 320], [822, 262], [1110, 80]];
+      const P = [[144, 481], [22, 481], [22, 352], [142, 352], [142, 300], [822, 300], [822, 262], [880, 262]];
       let at = 0;
       w.style.transform = `translate(${P[0][0]}px,${P[0][1]}px)`;
       const stroll = (path, done) => {
@@ -661,14 +662,13 @@ lucide.createIcons();
         if (!live) { setTimeout(walk, 1500); return; }
         at = 1 - at;
         if (at) {
-          $o("og-lb").classList.add("on");
           setTimeout(() => {
             ethan.classList.add("away"); wp.classList.remove("away");
-            ethanT.innerHTML = "<b>Ethan</b> · Getting coffee"; ethanScr(true);
-            stroll(P, () => { $o("og-lb").classList.remove("on"); $o("og-lc").textContent = "4 chatting"; setTimeout(walk, 7000); });
+            ethanT.innerHTML = "<b>Ethan</b> · In the Game room"; ethanScr(true);
+            stroll(P, () => { $o("og-lc").textContent = "Jon and Ethan are playing"; setTimeout(walk, 7000); });
           }, 1400);
         } else {
-          $o("og-lc").textContent = "3 chatting";
+          $o("og-lc").textContent = "Jon is playing · Wed 14:20";
           stroll(P.slice().reverse(), () => {
             wp.classList.add("away"); ethan.classList.remove("away");
             ethanT.innerHTML = "<b>Ethan</b> · App Store copy"; ethanScr(false);
