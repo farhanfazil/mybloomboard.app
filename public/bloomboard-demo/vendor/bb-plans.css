@@ -515,3 +515,14 @@ html body.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .pl-feed { box-shadow:-
 body.bl-sc-on .pl-feed { right:var(--bl-scw, 340px) !important; }
 @keyframes plFeedIn { from { transform:translateX(24px); opacity:0; } to { transform:none; opacity:1; } }
 @media (prefers-reduced-motion: reduce) { .pl-feed { animation:none !important; } }
+
+/* ── months row: when the plan is, in plain view under its name ── */
+html body:not(#_1):not(#_2):not(#_3) .pl-months { display:flex; align-items:stretch; gap:2px; padding:0 24px; border-bottom:1px solid var(--bl-line) !important; flex:none; overflow-x:auto; scrollbar-width:none; }
+html body:not(#_1):not(#_2):not(#_3) .pl-months[hidden] { display:none; }
+html body:not(#_1):not(#_2):not(#_3) .pl-mo { display:flex; align-items:baseline; gap:7px; padding:10px 12px 9px; margin-bottom:-1px; background:none !important; border:0; border-bottom:2px solid transparent !important; border-radius:0; color:var(--bl-fg2) !important; font:500 13px/1.2 var(--bl-ui) !important; white-space:nowrap; cursor:pointer; }
+html body:not(#_1):not(#_2):not(#_3) .pl-mo small { font-size:12px; color:var(--bl-fg3) !important; font-weight:500; }
+html body:not(#_1):not(#_2):not(#_3) .pl-mo:hover { color:var(--bl-fg) !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-mo.on { color:var(--bl-fg) !important; font-weight:600 !important; border-bottom-color:var(--bl-accent) !important; }
+html body:not(#_1):not(#_2):not(#_3) .pl-mo.add { color:var(--bl-fg3) !important; align-items:center; gap:5px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-mo.add svg { width:13px; height:13px; }
+html body:not(#_1):not(#_2):not(#_3) .pl-mo.add:hover { color:var(--bl-fg) !important; }
