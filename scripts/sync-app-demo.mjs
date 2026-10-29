@@ -12,7 +12,8 @@ import { minify as minifyJs } from 'terser';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
-const OUT = path.join(ROOT, 'public', 'bloomboard-demo');
+// BB_DEMO_OUT: a private copy for the app's robot tests (tests/robot in the app repo).
+const OUT = process.env.BB_DEMO_OUT || path.join(ROOT, 'public', 'bloomboard-demo');
 
 const DEFAULT_APP =
   '/Users/farhan_f/Desktop/Daily Dashboard/DailyDashboardApp';
@@ -315,8 +316,10 @@ async function main() {
 
   // The picture of the demo the home page shows while the live one loads.
   // Best effort: an old picture is only seen for a moment, so this never fails the sync.
-  const poster = spawnSync(process.execPath, [path.join(__dirname, 'demo-poster.mjs')], { stdio: 'inherit' });
-  if (poster.status !== 0) console.warn('Demo picture not updated: run npm run demo-poster');
+  if (!process.env.BB_DEMO_OUT) {
+    const poster = spawnSync(process.execPath, [path.join(__dirname, 'demo-poster.mjs')], { stdio: 'inherit' });
+    if (poster.status !== 0) console.warn('Demo picture not updated: run npm run demo-poster');
+  }
 
   console.log('Done. Demo bundle ready at public/bloomboard-demo/');
 }
