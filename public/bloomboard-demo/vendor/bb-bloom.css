@@ -4885,3 +4885,6 @@ html body .chat-msg-row.bb-ctx-on .chat-msg-toolbar { display:flex !important; }
 html body .bb-ctx-on > .sp-tools { opacity:1 !important; pointer-events:auto !important; transform:none !important; }
 html body #bl-sc .sc-msg.bb-ctx-on .sc-acts { display:flex !important; }
 html body .bb-ctx-on .tm-cm-acts { opacity:1 !important; }
+/* Send for review (the assignee's side of the review bar): a quiet accent button; the waiting state has no button */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rv-acts .tm-rv-btn.tm-rv-submit { background:var(--bl-accent) !important; border-color:var(--bl-accent) !important; color:var(--bl-accent-fg, #fff) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rv-acts .tm-rv-btn.tm-rv-submit:hover { filter:brightness(1.08); background:var(--bl-accent) !important; }
