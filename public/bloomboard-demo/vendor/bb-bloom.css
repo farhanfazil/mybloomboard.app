@@ -3756,8 +3756,9 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-side :is(#tm-status-s
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-asg { gap:2px 10px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-asg-p { height:28px; padding:0 2px 0 0; border:0; background:none; gap:6px; position:relative; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-asg-av { width:20px; height:20px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-asg-x { display:none; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-asg-p:hover .tm-asg-x { display:inline-grid; place-items:center; opacity:1; }
+/* the × keeps its space (only its opacity changes), so nothing shifts under the mouse and the + stays put */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-asg-x { display:inline-grid; place-items:center; opacity:0; pointer-events:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-asg-p:hover .tm-asg-x, html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-asg-x:focus-visible { opacity:1; pointer-events:auto; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-asg-add { height:26px; min-width:26px; padding:0 8px !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-card-colors { gap:6px !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rows .tm-card-color { width:17px !important; height:17px !important; flex-basis:17px !important; }
