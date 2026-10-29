@@ -4060,6 +4060,9 @@ html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-pics { di
 html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-pics[data-n="1"] { grid-template-columns:1fr; }
 html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-pics img { width:100%; aspect-ratio:4/3; object-fit:cover; display:block; cursor:zoom-in; background:var(--bl-raise, rgba(127,127,127,.08)); }
 html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-pics[data-n="1"] img { aspect-ratio:auto; max-height:240px; object-fit:contain; }
+/* feedback sent back with pictures: small thumbnails in a row, click to see full size */
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .tm-cm-sb .bb-cm-pics, html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .tm-cm-sb .bb-cm-pics[data-n="1"] { display:flex; flex-wrap:wrap; gap:6px; border-radius:0; overflow:visible; }
+html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .tm-cm-sb .bb-cm-pics img, html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .tm-cm-sb .bb-cm-pics[data-n="1"] img { width:88px; height:66px; max-height:none; aspect-ratio:auto; object-fit:cover; border-radius:8px; border:1px solid var(--bl-line, rgba(127,127,127,.25)); }
 html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-doc { display:flex !important; align-items:center; gap:8px; width:100%; height:auto !important; padding:8px 10px !important; border:1px solid var(--bl-line, rgba(127,127,127,.25)) !important; border-radius:8px !important; background:var(--bl-raise, rgba(127,127,127,.08)) !important; color:var(--bl-fg, #e8e9ec) !important; font:500 12.5px var(--bl-ui, system-ui) !important; text-align:left; cursor:pointer; box-shadow:none !important; }
 html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-doc:hover { border-color:var(--bl-fg3, #8b8f98) !important; }
 html body:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):not(#_6) .bb-cm-doc svg { width:16px; height:16px; flex:none; color:var(--bl-accent, #3b82f6); }
@@ -4886,5 +4889,11 @@ html body .bb-ctx-on > .sp-tools { opacity:1 !important; pointer-events:auto !im
 html body #bl-sc .sc-msg.bb-ctx-on .sc-acts { display:flex !important; }
 html body .bb-ctx-on .tm-cm-acts { opacity:1 !important; }
 /* Send for review (the assignee's side of the review bar): a quiet accent button; the waiting state has no button */
-html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rv-acts .tm-rv-btn.tm-rv-submit { background:var(--bl-accent) !important; border-color:var(--bl-accent) !important; color:var(--bl-accent-fg, #fff) !important; }
-html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rv-acts .tm-rv-btn.tm-rv-submit:hover { filter:brightness(1.08); background:var(--bl-accent) !important; }
+/* one compact line: "Done? Sami approves it next" and a small outlined button (2026-10-29) */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rv-bar.tm-rv-sub { flex-wrap:nowrap; gap:10px; padding:7px 8px 7px 12px; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rv-sub .tm-rv-t { display:flex; align-items:baseline; gap:6px; min-width:0; flex:1; font-size:13px; white-space:nowrap; overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rv-sub .tm-rv-t b { font-size:13px; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rv-sub .tm-rv-t span { font-size:12.5px; color:var(--bl-fg3); overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rv-sub .tm-rv-btn.tm-rv-submit { height:28px; padding:0 10px; gap:5px; font-size:12.5px !important; background:transparent !important; border-color:var(--bl-accent) !important; color:var(--bl-accent) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rv-sub .tm-rv-btn.tm-rv-submit:hover { background:color-mix(in srgb, var(--bl-accent) 12%, transparent) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-rv-sub .tm-rv-btn.tm-rv-submit svg { width:13px; height:13px; }
