@@ -7,13 +7,26 @@ SITE="$(cd "$(dirname "$0")/.." && pwd)"
 TMP="$SITE/../.cf-deploy-build"
 cd "$SITE"
 PREV=$(npx wrangler deployments list 2>/dev/null | grep -o '(100%) [0-9a-f-]*' | tail -1 | cut -d' ' -f2)
+# one deploy at a time (a release may be deploying the demo in the background)
+LOCK="$TMP.lock"; n=0
+until mkdir "$LOCK" 2>/dev/null; do n=$((n+1)); [ $n -gt 180 ] && { echo "❌ Another website deploy is still running"; exit 1; }; sleep 5; done
+trap 'rmdir "$LOCK" 2>/dev/null || true' EXIT
 git fetch -q origin main
-git worktree remove --force "$TMP" >/dev/null 2>&1 || rm -rf "$TMP"
-git worktree prune
-git worktree add -q --detach "$TMP" origin/main
-trap 'cd "$SITE"; git worktree remove --force "$TMP" >/dev/null 2>&1 || true' EXIT
+# The build copy is kept between deploys (with its packages and Next build cache) and reset to origin/main,
+# so a small change does not reinstall everything. Packages are reinstalled only when package-lock.json changed.
+if [ -f "$TMP/.git" ] && git -C "$TMP" checkout -q --detach --force origin/main 2>/dev/null; then
+  git -C "$TMP" clean -qfdx -e node_modules -e .next
+else
+  git worktree remove --force "$TMP" >/dev/null 2>&1 || rm -rf "$TMP"
+  git worktree prune
+  git worktree add -q --detach "$TMP" origin/main
+fi
 cd "$TMP"
-npm ci --no-audit --no-fund --loglevel=error >/dev/null
+LOCKHASH=$(shasum package-lock.json | cut -c1-40)
+if [ "$(cat node_modules/.bb-lockhash 2>/dev/null)" != "$LOCKHASH" ]; then
+  npm ci --no-audit --no-fund --loglevel=error >/dev/null
+  echo "$LOCKHASH" > node_modules/.bb-lockhash
+fi
 npx opennextjs-cloudflare build >/dev/null
 npx wrangler deploy >/dev/null 2>&1
 
