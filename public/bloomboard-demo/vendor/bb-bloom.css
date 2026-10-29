@@ -4868,3 +4868,20 @@ html body:not(#_1):not(#_2) .bb-dlink:hover { border-color:var(--bl-fg3, #8d93a0
 html body:not(#_1):not(#_2) .bb-dlink::before { content:''; width:14px; height:14px; flex:none; border-radius:3px; background:var(--fav) center / contain no-repeat; }
 html body:not(#_1):not(#_2) .bb-dlink::after { content:attr(data-label); min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 html body:not(#_1):not(#_2) .bb-dlink .u { font-size:0; line-height:0; }
+/* Right-click menu on messages and comments (2026-10-29): quick reactions, then actions; Delete in red, last */
+html body:not(#_1):not(#_2) .bb-ctx { position:fixed; z-index:10050; min-width:210px; padding:6px; border-radius:10px; background:var(--bl-win, #141519); border:1px solid var(--bl-line, #26282e); box-shadow:0 12px 32px rgba(0,0,0,.32); font:500 13px var(--bl-ui, system-ui); color:var(--bl-fg, #e8eaee); }
+html body:not(#_1):not(#_2) .bb-ctx-rx { display:flex; gap:2px; padding:2px; }
+html body:not(#_1):not(#_2) .bb-ctx-rx button { width:36px; height:34px; display:grid; place-items:center; padding:0; border:0; border-radius:7px; background:none; color:var(--bl-fg2, #b4b8c2) !important; cursor:pointer; font-size:19px; line-height:1; }
+html body:not(#_1):not(#_2) .bb-ctx-rx button svg { width:20px; height:20px; }
+html body:not(#_1):not(#_2) .bb-ctx-rx button:hover, html body:not(#_1):not(#_2) .bb-ctx-rx button:focus-visible { background:var(--bl-hover, #202227); outline:none; }
+html body:not(#_1):not(#_2) .bb-ctx-sep { height:1px; margin:5px 4px; background:var(--bl-line, #26282e); }
+html body:not(#_1):not(#_2) .bb-ctx-i { display:flex; align-items:center; gap:10px; width:100%; height:32px; padding:0 10px; border:0; border-radius:7px; background:none; color:var(--bl-fg, #e8eaee) !important; font:inherit; text-align:left; cursor:pointer; }
+html body:not(#_1):not(#_2) .bb-ctx-i svg { width:16px; height:16px; flex:none; color:var(--bl-fg2, #b4b8c2) !important; }
+html body:not(#_1):not(#_2) .bb-ctx-i:hover, html body:not(#_1):not(#_2) .bb-ctx-i:focus-visible { background:var(--bl-hover, #202227); outline:none; }
+html body:not(#_1):not(#_2) .bb-ctx-i.danger, html body:not(#_1):not(#_2) .bb-ctx-i.danger svg { color:var(--bl-bad, #e5484d) !important; }
+html body.light-mode:not(#_1):not(#_2) .bb-ctx { box-shadow:0 12px 32px rgba(20,24,32,.16); }
+/* while it is open, the message keeps its hover bar */
+html body .chat-msg-row.bb-ctx-on .chat-msg-toolbar { display:flex !important; }
+html body .bb-ctx-on > .sp-tools { opacity:1 !important; pointer-events:auto !important; transform:none !important; }
+html body #bl-sc .sc-msg.bb-ctx-on .sc-acts { display:flex !important; }
+html body .bb-ctx-on .tm-cm-acts { opacity:1 !important; }
