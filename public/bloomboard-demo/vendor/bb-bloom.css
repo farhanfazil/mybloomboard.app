@@ -4460,6 +4460,16 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-note .tm-rt { bord
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-note .tm-rt-tb { border-top:1px solid var(--bl-line); }
 /* the note grows with what you write, up to about 15 lines, then scrolls inside */
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-ed { min-height:84px !important; max-height:min(40vh, 340px) !important; height:auto !important; overflow-y:auto !important; padding:12px 14px !important; font-size:14px; line-height:1.55; outline:none; }
+/* the note always fits the window: only the text shrinks and scrolls, so the pictures and Send stay in view (2026-10-29) */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal #tm-review:has(.tm-rv-note) { display:flex; flex-direction:column; flex:0 1 auto; min-height:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-note { min-height:0; max-height:100%; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-note > * { flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-note > .tm-rt { display:flex; flex-direction:column; flex:0 1 auto; min-height:96px; overflow:hidden; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal #tm-comments-section:has(.tm-rv-note) .tm-cm-comp { display:none; }   /* you are writing in the note; Cancel brings the message box back */
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal #tm-comments-section:has(.tm-rv-note) .tm-cm-list { flex:1 1 0; min-height:0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-note > .tm-rt > .tm-rt-tb { flex:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-note .tm-rv-ed { flex:1 1 auto; min-height:56px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-note > .bb-cm-pendbox { margin:0; padding:8px 14px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-ed:empty::before { content:attr(data-placeholder); color:var(--bl-fg3); pointer-events:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-ft { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:10px 12px; border-top:1px solid var(--bl-line); }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-rv-subs { flex:1 1 100%; display:flex; align-items:center; gap:8px; color:var(--bl-fg2); font-size:13px; cursor:pointer; }
