@@ -15,6 +15,79 @@ import {
 } from "@/lib/constants";
 import { staggerContainer, fadeUp } from "@/lib/animations";
 
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://ytzhcvzhifdzfporuwri.supabase.co";
+const SUPABASE_ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+const BIZ_SIZES = ["50 to 100", "100 to 250", "250 to 500", "More than 500"];
+
+/** Business (50+ people): "Talk to us" opens a short form here, so it works without a mail app
+    (a mailto link opened Outlook or nothing). The message reaches hello@mybloomboard.app, reply goes to them. */
+function BusinessRow() {
+  const [open, setOpen] = useState(false);
+  const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [f, setF] = useState({ name: "", email: "", company: "", size: BIZ_SIZES[0], message: "", website: "" });
+  const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value });
+  const field = "h-10 w-full rounded-lg border border-white/15 bg-black/40 px-3 text-sm text-white placeholder:text-white/35 focus:border-white/40 focus:outline-none";
+  async function send(e: React.FormEvent) {
+    e.preventDefault();
+    setState("sending");
+    try {
+      const r = await fetch(`${SUPABASE_URL}/functions/v1/sales-contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", apikey: SUPABASE_ANON, Authorization: `Bearer ${SUPABASE_ANON}` },
+        body: JSON.stringify(f),
+      });
+      setState(r.ok ? "sent" : "error");
+    } catch { setState("error"); }
+  }
+  return (
+    <div className="rounded-2xl border border-white/[0.12] bg-white/[0.02] p-5 sm:p-6">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-8">
+        <div className="flex-1">
+          <div className="text-xs font-semibold uppercase tracking-[0.08em] text-white/50">For {TEAM_MAX_SEATS}+ people</div>
+          <h3 className="mt-1 text-lg font-semibold text-white">Business</h3>
+          <p className="mt-1 text-sm leading-relaxed text-white/60">
+            Everything in Team, with a volume price per person, help moving your company in, priority support and invoices on request.
+          </p>
+        </div>
+        <div className="flex flex-col items-start gap-2 lg:items-end">
+          <div className="text-2xl font-bold text-white">Custom</div>
+          {!open && (
+            <button type="button" onClick={() => setOpen(true)}
+              className="inline-flex h-10 items-center justify-center rounded-lg border border-white/20 px-5 text-sm font-semibold text-white hover:bg-white/[0.06]">
+              Talk to us
+            </button>
+          )}
+          <span className="text-xs text-white/45">Or write to hello@mybloomboard.app</span>
+        </div>
+      </div>
+      {open && (state === "sent" ? (
+        <p className="mt-5 border-t border-white/10 pt-5 text-sm text-white/80">
+          Thanks, {f.name.split(" ")[0]}. We will reply to {f.email} soon.
+        </p>
+      ) : (
+        <form onSubmit={send} className="mt-5 grid gap-3 border-t border-white/10 pt-5 sm:grid-cols-2">
+          <input required className={field} placeholder="Your name" value={f.name} onChange={set("name")} autoComplete="name" />
+          <input required type="email" className={field} placeholder="Work email" value={f.email} onChange={set("email")} autoComplete="email" />
+          <input required className={field} placeholder="Company" value={f.company} onChange={set("company")} autoComplete="organization" />
+          <select className={field} value={f.size} onChange={set("size")} aria-label="How many people">
+            {BIZ_SIZES.map((x) => <option key={x} value={x}>{x} people</option>)}
+          </select>
+          <textarea className={`${field} h-24 py-2 sm:col-span-2`} placeholder="Anything we should know? (optional)" value={f.message} onChange={set("message")} />
+          {/* people never see or fill this; bots do */}
+          <input tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" value={f.website} onChange={set("website")} />
+          <div className="flex items-center gap-3 sm:col-span-2">
+            <button type="submit" disabled={state === "sending"}
+              className="inline-flex h-10 items-center justify-center rounded-lg bg-white px-5 text-sm font-semibold text-black hover:bg-white/90 disabled:opacity-60">
+              {state === "sending" ? "Sending…" : "Send"}
+            </button>
+            {state === "error" && <span className="text-sm text-white/70">That didn&apos;t go through. Please write to hello@mybloomboard.app.</span>}
+          </div>
+        </form>
+      ))}
+    </div>
+  );
+}
+
 /** One accent (white) on neutral cards: the recommended plan is the brighter card, nothing is tinted. */
 const PLAN_STYLE: Record<PricingPlan["name"], { line?: string; tagClass?: string; border: string; button: string }> = {
   Free: {
@@ -331,28 +404,12 @@ export default function Pricing() {
 
         {/* Business: bigger companies talk to us (price per deal, help moving in), not a fourth self-serve plan */}
         <motion.div
-          className="mx-auto mt-6 flex max-w-xl flex-col gap-4 rounded-2xl border border-white/[0.12] bg-white/[0.02] p-5 sm:p-6 lg:max-w-none lg:flex-row lg:items-center lg:gap-8"
+          className="mx-auto mt-6 max-w-xl lg:max-w-none"
           initial={{ opacity: 0, y: 12 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.35, duration: 0.5 }}
         >
-          <div className="flex-1">
-            <div className="text-xs font-semibold uppercase tracking-[0.08em] text-white/50">For {TEAM_MAX_SEATS}+ people</div>
-            <h3 className="mt-1 text-lg font-semibold text-white">Business</h3>
-            <p className="mt-1 text-sm leading-relaxed text-white/60">
-              Everything in Team, with a volume price per person, help moving your company in, priority support and invoices on request.
-            </p>
-          </div>
-          <div className="flex flex-col items-start gap-2 lg:items-end">
-            <div className="text-2xl font-bold text-white">Custom</div>
-            <a
-              href="mailto:hello@mybloomboard.app?subject=BloomBoard%20for%20our%20company"
-              className="inline-flex h-10 items-center justify-center rounded-lg border border-white/20 px-5 text-sm font-semibold text-white hover:bg-white/[0.06]"
-            >
-              Talk to us
-            </a>
-            <span className="text-xs text-white/45">Or write to hello@mybloomboard.app</span>
-          </div>
+          <BusinessRow />
         </motion.div>
 
         {/* Add-on: Bloom AI Plus, an extra for Bloom or Team, not a fourth plan */}
