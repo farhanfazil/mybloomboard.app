@@ -4863,7 +4863,7 @@ html body:not(#_1):not(#_2):not(#_3):not(#_4) .bm2-none b { display:block; margi
 @media (max-width: 900px) { html body:not(#_1):not(#_2):not(#_3):not(#_4) .bm2-row { grid-template-columns:20px minmax(0, 1fr) 104px; } html body:not(#_1):not(#_2):not(#_3):not(#_4) :is(.bm2-nt, .bm2-wh) { display:none; } }
 html body.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .bm2-cat { color:#3f4550 !important; }
 html body.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .bm2-cat.on { color:#15171c !important; background:#eef0f3 !important; }
-html body.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .bm2-cat.empty { color:#8a909c !important; }
+html body.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) .bm2-cat.empty { color:#646b78 !important; }
 html body.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) :is(.bm2-row:hover, .bm2-row:focus-visible, .bm2-cat:hover) { background:#f3f4f6 !important; }
 html body.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) :is(.bm2-nm b, .bm2-none b, .bm2-save b) { color:#15171c; }
 html body.light-mode:not(#_1):not(#_2):not(#_3):not(#_4) :is(.bm2-nm span, .bm2-wh, .bm2-grp, .bm2-cat b, .bm2-fav, .bm2-paste, .bm2-none) { color:#5d6472; }
