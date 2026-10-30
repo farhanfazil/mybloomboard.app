@@ -37,7 +37,7 @@ const PRODUCTS: Record<Plan, { monthly: string; yearly: string }> = {
 };
 
 const MIN_SEATS = 3;
-const MAX_SEATS = 50;
+const MAX_SEATS = 500;   // the site's picker stops at 50 (bigger teams talk to us); the app can buy up to 500
 
 type Buyer = { email: string; reference: string };
 
