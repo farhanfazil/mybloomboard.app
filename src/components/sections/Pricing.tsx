@@ -366,7 +366,7 @@ export default function Pricing() {
             <div className="text-xs font-semibold uppercase tracking-[0.08em] text-white/50">Add-on</div>
             <h3 className="mt-1 text-lg font-semibold text-white">Bloom AI Plus</h3>
             <p className="mt-1 text-sm leading-relaxed text-white/60">
-              Smarter Bloom AI for writing, planning and Ask Bloom. Uses a more capable model for up to 2,000 requests a month. Add it to Bloom or Team, per person.
+              Smarter Bloom AI for writing, planning and Ask Bloom. Uses a more capable model for up to 750 requests a month. Add it to Bloom or Team, per person.
             </p>
           </div>
           <div className="flex flex-col items-start gap-2 lg:items-end">
