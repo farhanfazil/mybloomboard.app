@@ -398,26 +398,11 @@ export default function StartFlow() {
                     </div>
                   )}
                   {plan !== "free" && (
-                    <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2" role="radiogroup" aria-label="Card">
-                      {[
-                        { now: false, title: "No card now", sub: `Try it free for ${TRIAL_DAYS[plan]} days. Add a card later, if you keep it.` },
-                        { now: true, title: "Add card now", sub: `Still ${TRIAL_DAYS[plan]} days free. Charged only when the trial ends.` },
-                      ].map((o) => (
-                        <button
-                          key={o.title} type="button" role="radio" aria-checked={cardNow === o.now}
-                          onClick={() => setCardNow(o.now)}
-                          className={`flex items-start gap-3 rounded-[14px] px-4 py-3.5 text-left transition-colors ${cardNow === o.now ? "border-2 border-[#4d9fff] bg-[#0b1726]" : "border border-white/10 bg-[#0d0d0f] hover:border-white/25"}`}
-                        >
-                          <span aria-hidden className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 ${cardNow === o.now ? "border-[#4d9fff]" : "border-white/30"}`}>
-                            {cardNow === o.now && <span className="h-1.5 w-1.5 rounded-full bg-[#4d9fff]" />}
-                          </span>
-                          <span>
-                            <span className="block text-[15px] font-bold">{o.title}</span>
-                            <span className="mt-0.5 block text-[13px] leading-snug text-[#a1a1aa]">{o.sub}</span>
-                          </span>
-                        </button>
-                      ))}
-                    </div>
+                    /* No card is the way in; adding one now is a small option, not a choice everyone has to make. */
+                    <button type="button" onClick={() => setCardNow(!cardNow)}
+                      className="self-start text-[13px] text-[#a1a1aa] underline decoration-white/25 underline-offset-4 transition-colors hover:text-white">
+                      {cardNow ? "Add a card later instead" : "Rather add your card now? The trial stays free."}
+                    </button>
                   )}
                 </div>
 
