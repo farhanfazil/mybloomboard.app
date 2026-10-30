@@ -329,9 +329,35 @@ export default function Pricing() {
           ))}
         </motion.div>
 
-        {/* Add-on: Bloom AI Plus, an extra for Bloom or Team, not a fourth plan */}
+        {/* Business: bigger companies talk to us (price per deal, help moving in), not a fourth self-serve plan */}
         <motion.div
           className="mx-auto mt-6 flex max-w-xl flex-col gap-4 rounded-2xl border border-white/[0.12] bg-white/[0.02] p-5 sm:p-6 lg:max-w-none lg:flex-row lg:items-center lg:gap-8"
+          initial={{ opacity: 0, y: 12 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.35, duration: 0.5 }}
+        >
+          <div className="flex-1">
+            <div className="text-xs font-semibold uppercase tracking-[0.08em] text-white/50">For {TEAM_MAX_SEATS}+ people</div>
+            <h3 className="mt-1 text-lg font-semibold text-white">Business</h3>
+            <p className="mt-1 text-sm leading-relaxed text-white/60">
+              Everything in Team, with a volume price per person, help moving your company in, priority support and invoices on request.
+            </p>
+          </div>
+          <div className="flex flex-col items-start gap-2 lg:items-end">
+            <div className="text-2xl font-bold text-white">Custom</div>
+            <a
+              href="mailto:hello@mybloomboard.app?subject=BloomBoard%20for%20our%20company"
+              className="inline-flex h-10 items-center justify-center rounded-lg border border-white/20 px-5 text-sm font-semibold text-white hover:bg-white/[0.06]"
+            >
+              Talk to us
+            </a>
+            <span className="text-xs text-white/45">Or write to hello@mybloomboard.app</span>
+          </div>
+        </motion.div>
+
+        {/* Add-on: Bloom AI Plus, an extra for Bloom or Team, not a fourth plan */}
+        <motion.div
+          className="mx-auto mt-4 flex max-w-xl flex-col gap-4 rounded-2xl border border-white/[0.12] bg-white/[0.02] p-5 sm:p-6 lg:max-w-none lg:flex-row lg:items-center lg:gap-8"
           initial={{ opacity: 0, y: 12 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.4, duration: 0.5 }}
