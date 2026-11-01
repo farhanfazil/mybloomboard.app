@@ -2885,13 +2885,24 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay:not(.office-on) .chat-s
 html body.bloom:not(#_1):not(#_2):not(#_3) .ofr { --ofr-bg:var(--bl-side); }
 html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .ofr { --ofr-bg:var(--bl-raise); }
 
-/* Side chat (2026-10-18): the Chats page's warmer canvas and clearer bubbles, inside the side chat panel only */
-body.bloom #bl-sc { --bl-scbg:#1b1c20; --bl-bub:#2a2c32; --bl-bub-own:#25395f; }
-body.bloom:not(.light-mode):not(.black-mode) #bl-sc { --bl-scbg:var(--bl-panel); --bl-bub:var(--bl-raise); --bl-bub-own:var(--bl-mine); }
-body.bloom.light-mode #bl-sc { --bl-scbg:#f6f6f4; --bl-bub:#ffffff; --bl-bub-own:#d9e6fd; }
-body.bloom #bl-sc { --tl-ring:var(--bl-scbg); }   /* badge and status-dot cut-outs match the panel */
-html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #bl-sc .sc-mt:not(:empty) { border:1px solid #e6e8ec; }
-html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-own .sc-mt:not(:empty) { border-color:#c9daf9; }
+/* Side chat (2026-11-01): its own deep colour in every theme, so it never reads as part of the board.
+   Only the tokens change, so everything in the panel follows. Your messages are white, with their own dark tokens. */
+body.bloom #bl-sc {
+  --bl-scbg:#1d2c66; --bl-side:#121c45; --bl-win:#121c45; --bl-raise:#2f4185; --bl-hover:#2a3b7c; --bl-line:#34478c;
+  --bl-fg:#ffffff; --bl-fg2:#e4e9fa; --bl-fg3:#ccd6f6; --bl-accent:#ffffff; --bl-accent-fg:#14204a; --bl-accent-soft:#2a3b7c;
+  --bl-ok:#3cc283; --bl-bad:#f06464; --bl-urgent:#ff8f8f; --bl-high:#e8913c; --bl-medium:#d9b23a; --bl-low:#ccd6f6;
+  --bl-bub:#2f4185; --bl-bub-own:#ffffff; --tl-ring:var(--bl-scbg);   /* badge and status-dot cut-outs match the panel */
+}
+/* Glacier's board is already navy, so its side chat is a brighter indigo */
+body.bloom:not(.light-mode):not(.black-mode) #bl-sc {
+  --bl-scbg:#2c3a96; --bl-side:#1b2569; --bl-win:#1b2569; --bl-raise:#4252b3; --bl-hover:#3a49a8; --bl-line:#4757b5;
+  --bl-fg3:#d6dcf7; --bl-low:#d6dcf7; --bl-accent-fg:#14204a; --bl-accent-soft:#3a49a8; --bl-bub:#4252b3;
+}
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-msg.sc-own .sc-mt {
+  --bl-fg:#14204a; --bl-fg2:#14204a; --bl-fg3:#3f4a75; --bl-accent:#1d4ed8; --bl-line:#cdd3e6; --bl-side:#eef1fb; --bl-raise:#eef1fb;
+}
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-own .bb-ilink { background:#eef1fb; border-color:#cdd3e6; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc :is(input, textarea)::placeholder { color:var(--bl-fg3) !important; opacity:1 !important; }
 html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #bl-sc { background:var(--bl-scbg) !important; }
 
 /* ── Board card window fixes (2026-10-18) ── */
