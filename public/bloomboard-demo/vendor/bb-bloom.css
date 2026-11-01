@@ -2885,7 +2885,7 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #chat-overlay:not(.office-on) .chat-s
 html body.bloom:not(#_1):not(#_2):not(#_3) .ofr { --ofr-bg:var(--bl-side); }
 html body.bloom:not(.light-mode):not(.black-mode):not(#_1):not(#_2):not(#_3) #chat-overlay .ofr { --ofr-bg:var(--bl-raise); }
 
-/* Side chat (2026-11-01): its own colour, so it never reads as part of the board. Black and Light use the Glacier blue.
+/* Side chat (2026-11-01): its own colour, so it never reads as part of the board. Black uses the Glacier blue.
    Only the tokens change, so everything in the panel follows. Your messages are white, with their own dark tokens. */
 body.bloom #bl-sc {
   --bl-scbg:#1b3041; --bl-side:#152735; --bl-win:#152735; --bl-raise:#2e4d66; --bl-hover:#284258; --bl-line:#304e66;
@@ -2893,8 +2893,8 @@ body.bloom #bl-sc {
   --bl-ok:#3cc283; --bl-bad:#f06464; --bl-urgent:#ff8f8f; --bl-high:#e8913c; --bl-medium:#d9b23a; --bl-low:#bdcedb;
   --bl-bub:#2e4d66; --bl-bub-own:#ffffff; --tl-ring:var(--bl-scbg);   /* badge and status-dot cut-outs match the panel */
 }
-/* Glacier's board is that same blue, so its side chat is indigo */
-body.bloom:not(.light-mode):not(.black-mode) #bl-sc {
+/* Indigo on Glacier (its board is that same blue) and on Light (a bright panel holds its own next to white) */
+body.bloom:not(.black-mode) #bl-sc {
   --bl-scbg:#2c3a96; --bl-side:#1b2569; --bl-win:#1b2569; --bl-raise:#4252b3; --bl-hover:#3a49a8; --bl-line:#4757b5;
   --bl-fg2:#e4e9fa; --bl-fg3:#d6dcf7; --bl-low:#d6dcf7; --bl-accent-fg:#14204a; --bl-accent-soft:#3a49a8; --bl-bub:#4252b3;
 }
