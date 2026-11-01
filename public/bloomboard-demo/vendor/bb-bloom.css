@@ -309,7 +309,7 @@ body.bloom:not(#_1):not(#_2):not(#_3).bl-v-home #board-assignments-section,
 body.bloom:not(#_1):not(#_2):not(#_3).bl-v-home #main-calendar-panel,
 body.bloom:not(#_1):not(#_2):not(#_3).bl-v-home #main-boards-panel { display:none !important; }
 body.bloom:not(#_1):not(#_2):not(#_3):not(.bl-v-home) #bl-home { display:none !important; }
-body.bloom:not(#_1):not(#_2):not(#_3).bl-v-tasks #main-section-header { display:flex !important; justify-content:flex-end; border:0 !important; background:none !important; }
+body.bloom:not(#_1):not(#_2):not(#_3).bl-v-tasks #main-section-header { display:none !important; }   /* its tools moved up beside Type your tasks */
 
 /* ── Home ── */
 body.bloom:not(#_1):not(#_2):not(#_3) #bl-home { display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:28px; padding:26px 28px 40px; max-width:1240px; font-family:var(--bl-ui); color:var(--bl-fg); }
@@ -416,11 +416,10 @@ body.bloom:not(#_1):not(#_2):not(#_3) .bl-nav.on { background:var(--bl-hover) !i
 
 /* ── pass 3: Tasks page keeps Type your tasks, shortcuts and Team live on top ── */
 body.bloom:not(#_1):not(#_2):not(#_3) #bl-home { grid-template-columns:minmax(0,880px) !important; }
-body.bloom:not(#_1):not(#_2):not(#_3).bl-v-tasks .dash-duo { display:flex !important; align-items:flex-start; gap:20px; padding:18px 24px 0 !important; }
-body.bloom:not(#_1):not(#_2):not(#_3).bl-v-tasks .dash-duo .t2t-card { flex:1; max-width:640px; }
+body.bloom:not(#_1):not(#_2):not(#_3).bl-v-tasks .dash-duo { display:flex !important; align-items:center; gap:12px; padding:18px 24px 0 !important; position:relative; }
 body.bloom:not(#_1):not(#_2):not(#_3) .t2t-card-title { font:600 13px var(--bl-ui) !important; color:var(--bl-fg2) !important; letter-spacing:0 !important; text-transform:none !important; }
 body.bloom:not(#_1):not(#_2):not(#_3) .t2t-card-title-sub { font:400 12.5px var(--bl-ui) !important; color:var(--bl-fg3) !important; letter-spacing:0 !important; text-transform:none !important; }
-body.bloom:not(#_1):not(#_2):not(#_3) #bb-shortcuts { margin-left:auto; gap:4px !important; }
+body.bloom:not(#_1):not(#_2):not(#_3) #bb-shortcuts { margin:0 !important; gap:2px !important; display:flex !important; align-items:center; }
 body.bloom:not(#_1):not(#_2):not(#_3) #bb-shortcuts .bb-sc-btn { color:var(--bl-fg2) !important; background:none !important; border-radius:8px !important; font:500 12px var(--bl-ui) !important; letter-spacing:0 !important; }
 body.bloom:not(#_1):not(#_2):not(#_3) #bb-shortcuts .bb-sc-btn:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
 body.bloom:not(#_1):not(#_2):not(#_3).bl-v-tasks #tl-strip { margin:14px 24px 0 !important; border:0 !important; padding:0 !important; background:none !important; }
@@ -1305,10 +1304,9 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .dash-duo:has(.t2t-results.show) { po
 html body.bloom:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card .t2t-results.show { background:var(--bl-win) !important; border:1px solid color-mix(in srgb, var(--bl-fg) 18%, transparent) !important; box-shadow:0 16px 40px rgba(0,0,0,.35) !important; }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card .t2t-results.show { box-shadow:0 16px 40px rgba(15,23,42,.16) !important; }
 /* side chat open: the quick shortcuts (Email, Notes, Bookmarks, Sticky note, Chat) become compact icons; names stay in the tooltip */
-html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #bb-shortcuts { gap:2px !important; }
-html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #bb-shortcuts .bb-sc-btn { width:38px !important; min-width:0 !important; height:36px !important; padding:0 !important; justify-content:center !important; }
-html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #bb-shortcuts .bb-sc-btn > span { display:none !important; }
-html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) #bb-shortcuts .bb-sc-btn svg { width:18px !important; height:18px !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-shortcuts .bb-sc-btn { width:34px !important; min-width:0 !important; height:34px !important; padding:0 !important; justify-content:center !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-shortcuts .bb-sc-btn > span { display:none !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-shortcuts .bb-sc-btn svg { width:17px !important; height:17px !important; }
 /* "Found N tasks": priority as a dot and plain text, not a capsule */
 html body.bloom:not(#_1):not(#_2):not(#_3) #t2t-task-list .t2t-task-pri { display:inline-flex !important; align-items:center; gap:6px; background:none !important; border:0 !important; padding:0 !important; border-radius:0 !important; font:500 12px var(--bl-ui) !important; letter-spacing:0 !important; text-transform:capitalize !important; color:var(--bl-fg2) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #t2t-task-list .t2t-task-pri::before { content:""; width:7px; height:7px; border-radius:50%; background:var(--bl-fg3); flex:none; }
@@ -1587,10 +1585,26 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .kb-board .task-card.bl-inl .task-tag
 /* Tasks: Type your tasks, Team live and the board share one left (and right) edge */
 html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) .dash-duo, html body.bloom:not(#_1):not(#_2):not(#_3) .dash-duo { padding-left:0 !important; padding-right:0 !important; }
 html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) #tl-strip, html body.bloom:not(#_1):not(#_2):not(#_3) #tl-strip { margin-left:0 !important; margin-right:0 !important; }
-/* Type your tasks: a comfortable width, never stretched across the page */
-html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card, html body.bloom:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card { max-width:560px !important; width:100%; align-self:flex-start; }
-html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) .dash-duo { flex-wrap:wrap !important; row-gap:12px !important; }
-html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card { min-width:min(400px, 100%) !important; flex:1 1 400px !important; }
+/* Type your tasks and every task tool share one line (2026-11-01). Open, the box comes down over the top of the board, so the board stays put. */
+html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) .dash-duo { flex-wrap:wrap !important; row-gap:10px !important; }
+html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card { flex:1 1 280px !important; min-width:min(260px, 100%) !important; max-width:none !important; width:auto; margin:0 !important; order:1; min-height:46px; }
+html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card.collapsed { padding:0 !important; }
+html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card.collapsed .t2t-card-hd { height:44px; padding:0 14px; }
+html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card.collapsed #t2t-toggle { display:none !important; }
+html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card .t2t-card-title { min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card:not(.collapsed) { position:absolute !important; left:0; right:0; top:18px; z-index:40; background:var(--bl-raise) !important; box-shadow:0 14px 34px rgba(0,0,0,.28) !important; }
+html body.bloom.bl-v-tasks.light-mode:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card:not(.collapsed) { box-shadow:0 14px 34px rgba(15,23,42,.16) !important; }
+html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) .dash-duo:has(#t2t-dashboard-card:not(.collapsed)) { min-height:64px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .dash-duo > #task-header-actions { order:2; flex:none; margin:0 0 0 auto !important; display:flex; align-items:center; gap:6px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-header-actions .add-btn { height:34px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-header-actions .bb-more-btn { height:34px; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #task-header-actions .bb-view-switch { height:34px; }
+/* a knock or notice stays above the open box, so it is never missed */
+html body.bloom:not(#_1):not(#_2):not(#_3) #tl-strip.tl-alert { position:relative; z-index:41; }
+/* a thin line each side of the shortcuts groups the tools */
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-shortcuts::before, html body.bloom:not(#_1):not(#_2):not(#_3) #bb-shortcuts::after { content:''; width:1px; height:20px; background:var(--bl-line); margin:0 6px; flex:none; }
+/* Bookmarks stays under More; Team live opens from More too. Hidden, not removed. */
+html body.bloom:not(#_1):not(#_2):not(#_3) #bb-shortcuts :is([data-fn="openBookmarks"], #tl-open) { display:none !important; }
 
 /* Side chat composer: attach, mention, emoji. Quiet tools, send lights up only when there is something to send. */
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-comp { position:relative; border-radius:12px; transition:border-color .15s; }

@@ -1285,19 +1285,6 @@
   (document.head || document.documentElement).appendChild(st);
 })();
 
-/* "Type your tasks" opens folded in the app. In the demo it starts open, so
-   visitors see its examples typing themselves in (the app's own animation). */
-(function () {
-  'use strict';
-  function open() {
-    var card = document.getElementById('t2t-dashboard-card');
-    if (!card) return false;
-    card.classList.remove('collapsed');
-    return true;
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', open);
-  else open();
-})();
 
 /* No saved logins in the demo. The app's sign-in and licence windows have
    password fields, so browsers treat the page as a login page and fill the
