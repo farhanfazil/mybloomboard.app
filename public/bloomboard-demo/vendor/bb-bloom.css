@@ -1338,14 +1338,12 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #t2t-task-list .t2t-task-pri.low::bef
 html body.bloom:not(#_1):not(#_2):not(#_3) #t2t-task-list .t2t-task-pri.high::before { background:var(--bl-high) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #t2t-task-list .t2t-task-pri.urgent::before { background:var(--bl-urgent) !important; }
 
-/* ═══ Board / List switch ═══ */
-.bb-view-switch { display:inline-flex; align-items:center; gap:2px; padding:2px; border:1px solid var(--bl-line, rgba(255,255,255,.1)); border-radius:8px; }
-.bb-view-switch button { display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 10px; border:0; border-radius:6px; background:none; color:var(--bl-fg3, #8d93a0); font:500 12.5px var(--bl-ui, inherit); cursor:pointer; transition:background-color .12s, color .12s; }
-.bb-view-switch button svg { width:15px; height:15px; flex:none; }
-.bb-view-switch button:hover { color:var(--bl-fg, #fff); }
-.bb-view-switch button.on { background:var(--bl-hover, rgba(255,255,255,.08)); color:var(--bl-fg, #fff); }
-html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) .bb-view-switch button > span { display:none; }
-html body.bloom.bl-sc-on:not(#_1):not(#_2):not(#_3) .bb-view-switch button { padding:0 8px; }
+/* ═══ Board / List: one icon that shows the view you would switch to ═══ */
+.bb-view-switch { display:inline-flex; }
+.bb-view-switch button { display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; padding:0; border:0; border-radius:8px; background:none; color:var(--bl-fg2, #c4c8d0); cursor:pointer; transition:background-color .12s, color .12s; }
+.bb-view-switch button svg { width:17px; height:17px; flex:none; }
+.bb-view-switch button:hover { background:var(--bl-hover, rgba(255,255,255,.08)); color:var(--bl-fg, #fff); }
+.bb-view-switch button.on { display:none; }
 
 /* ═══ List view ═══ */
 .bb-tlist { --bb-tl-cols: minmax(0,1fr) 180px 100px 96px 56px; font-family:var(--bl-ui, inherit); color:var(--bl-fg); padding-bottom:24px; }
@@ -1585,9 +1583,9 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .kb-board .task-card.bl-inl .task-tag
 /* Tasks: Type your tasks, Team live and the board share one left (and right) edge */
 html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) .dash-duo, html body.bloom:not(#_1):not(#_2):not(#_3) .dash-duo { padding-left:0 !important; padding-right:0 !important; }
 html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) #tl-strip, html body.bloom:not(#_1):not(#_2):not(#_3) #tl-strip { margin-left:0 !important; margin-right:0 !important; }
-/* Type your tasks and every task tool share one line (2026-11-01). Open, the box comes down over the top of the board, so the board stays put. */
+/* Type your tasks and every task tool share one line (2026-11-01). Closed, it ends where the second board column ends (bbAlignT2T). Open, the box comes down over the top of the board, so the board stays put. */
 html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) .dash-duo { flex-wrap:wrap !important; row-gap:10px !important; }
-html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card { flex:1 1 280px !important; min-width:min(260px, 100%) !important; max-width:none !important; width:auto; margin:0 !important; order:1; min-height:46px; }
+html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card { flex:0 1 var(--t2t-w, 50%) !important; min-width:min(260px, 100%) !important; max-width:none !important; width:auto; margin:0 !important; order:1; min-height:46px; }
 html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card.collapsed { padding:0 !important; }
 html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card.collapsed .t2t-card-hd { height:44px; padding:0 14px; }
 html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) #t2t-dashboard-card.collapsed #t2t-toggle { display:none !important; }
@@ -1597,7 +1595,6 @@ html body.bloom.bl-v-tasks.light-mode:not(#_1):not(#_2):not(#_3) #t2t-dashboard-
 html body.bloom.bl-v-tasks:not(#_1):not(#_2):not(#_3) .dash-duo:has(#t2t-dashboard-card:not(.collapsed)) { min-height:64px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .dash-duo > #task-header-actions { order:2; flex:none; margin:0 0 0 auto !important; display:flex; align-items:center; gap:10px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #task-header-actions .add-btn { height:34px; }
-html body.bloom:not(#_1):not(#_2):not(#_3) #task-header-actions .bb-view-switch { height:34px; }
 /* a knock or notice stays above the open box, so it is never missed */
 html body.bloom:not(#_1):not(#_2):not(#_3) #tl-strip.tl-alert { position:relative; z-index:41; }
 /* Bookmarks, Team live and Projects open from More. Hidden here, not removed. */
