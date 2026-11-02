@@ -4993,3 +4993,19 @@ html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-picker { left:0; 
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-picker[hidden] { display:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-pk-list { flex:1; min-height:0; max-height:none; overflow:auto; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-dm time { font:500 11.5px var(--bl-ui); }
+
+/* Task and card comments (2026-11-02): a small Reply always under each comment, and a clear "Replying to". */
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-rpl { align-self:flex-start; margin:3px 2px 0; padding:1px 2px !important; border:0 !important; background:none !important; box-shadow:none !important; color:var(--bl-fg3) !important; font:500 12px var(--bl-ui) !important; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #cw-side .cw-cm).bb-mine:not(.tm-cm-sb) .tm-cm-rpl { align-self:flex-end; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-rpl:hover { color:var(--bl-accent) !important; text-decoration:underline; text-underline-offset:2px; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) :is(.tm-cm, .cw-cm):has(.bb-ip-edit) .tm-cm-rpl { display:none; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-replying { align-items:stretch; gap:0; margin-bottom:8px; padding:0; border:1px solid var(--bl-accent); border-left-width:4px; border-radius:8px; background:var(--bl-accent-soft); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-rshow { flex:1; min-width:0; display:flex; align-items:flex-start; gap:9px; padding:8px 4px 8px 10px !important; border:0 !important; background:none !important; box-shadow:none !important; text-align:left; cursor:pointer; color:var(--bl-accent) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-rshow svg { flex:none; width:16px; height:16px; margin-top:1px; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-replying .tm-cm-rshow > span { flex:1; min-width:0; white-space:normal; overflow:visible; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-rshow b { display:block; font:600 12.5px var(--bl-ui); color:var(--bl-accent); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-rshow em { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; margin-top:1px; overflow:hidden; overflow-wrap:anywhere; font:400 13px/1.35 var(--bl-ui); font-style:normal; color:var(--bl-fg); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-rcancel { flex:none; align-self:flex-start; width:28px; height:28px; margin:4px 4px 0 0; padding:0 !important; border:0 !important; border-radius:6px !important; background:none !important; box-shadow:none !important; color:var(--bl-fg2) !important; font-size:18px !important; line-height:1; cursor:pointer; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-rcancel:hover { background:var(--bl-hover) !important; color:var(--bl-fg) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #cw-side .cw-cm).tm-cm-target { border-radius:8px; background:var(--bl-accent-soft); box-shadow:inset 3px 0 0 var(--bl-accent); }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal .tm-cm, #cw-side .cw-cm).tm-cm-target { padding-top:5px; padding-bottom:5px; margin-top:-5px; margin-bottom:-5px; }
