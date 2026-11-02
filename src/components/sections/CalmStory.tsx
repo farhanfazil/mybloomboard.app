@@ -1,17 +1,19 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
+import { useSwipeSteps } from "@/lib/swipe-steps";
 
 /**
  * Home, right after the live demo: "Chaos to calm". Bits of work from everywhere
  * (an email, a chat, a missed call, a video call link, a meeting invite, a note, a
  * file, a sheet row, two messages), each labelled with its own icon, float around the
- * words "Your work is everywhere." As you scroll, a BloomBoard window appears and each
- * bit flies into its own home there (Mail, Chat, Calls, Calendar, Notes & files, Plans,
- * Tasks, Office) and becomes a clean item; it ends on "All of it, in one place." with
- * the whole window just under the words. The stage stays put (sticky) while the tall
- * section scrolls past; script only sets transforms and opacity, once a frame, and only
- * while the section is on screen. Phones get a short, still version.
+ * words "Your work is everywhere." One swipe: a BloomBoard window appears and each bit
+ * flies into its own home there (Mail, Chat, Calls, Calendar, Notes & files, Plans, Tasks,
+ * Office) and becomes a clean item. One more: "All of it, in one place." comes up with the
+ * whole window just under the words. Swiping back plays it in reverse. The stage stays put
+ * (sticky) while the section scrolls past (lib/swipe-steps.ts); each step plays on a timer,
+ * and script only sets transforms and opacity, once a frame, and only while it plays.
+ * Phones get a short, still version.
  */
 
 const P = (f: string) => `/bloomboard-demo/people/${f}.jpg`;
@@ -77,6 +79,10 @@ const clamp = (x: number) => Math.max(0, Math.min(1, x));
 const seg = (p: number, a: number, b: number) => clamp((p - a) / (b - a));
 const eio = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
 
+/* The three stops on the story's timeline: the words, everything in the window, the closing words */
+const STOPS = [0, 0.82, 1];
+const PLAY = 1700; // ms for the whole timeline; never under 750 for a step
+
 function Clean({ b }: { b: Bit }) {
   return (
     <>
@@ -92,7 +98,9 @@ function Clean({ b }: { b: Bit }) {
 
 export default function CalmStory() {
   const storyRef = useRef<HTMLElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
   const worldRef = useRef<HTMLDivElement>(null);
+  const stepTo = useRef<(step: number, instant: boolean) => void>(() => {});
 
   useEffect(() => {
     const story = storyRef.current, world = worldRef.current;
@@ -115,9 +123,10 @@ export default function CalmStory() {
       outro.style.transform = t;
     };
 
+    /* where the story is on its timeline: Reduce Motion just shows the end */
+    let p = reduce ? 1 : 0;
+
     const draw = () => {
-      const r = story.getBoundingClientRect();
-      const p = reduce ? 1 : clamp(-r.top / (story.offsetHeight - window.innerHeight));
       const vh = window.innerHeight, fit = Math.min(window.innerWidth / 1520, vh / 900, 1.15);
       /* at the end: the whole window, 32 px under the words */
       const settle = eio(seg(p, 0.82, 0.92));
@@ -150,33 +159,40 @@ export default function CalmStory() {
       outro.style.transform = `translateY(${((1 - o) * 20).toFixed(1)}px)`;
     };
 
-    /* only while it's on screen */
-    let on = false, queued = false;
-    const onScroll = () => {
-      if (!on || queued) return;
-      queued = true;
-      requestAnimationFrame(() => { queued = false; draw(); });
+    /* Each step plays through on its own, from wherever the story is right now */
+    let raf = 0;
+    stepTo.current = (step, instant) => {
+      cancelAnimationFrame(raf);
+      const from = p, to = STOPS[step];
+      if (instant) { p = to; draw(); return; }
+      const ms = Math.max(750, PLAY * Math.abs(to - from)), t0 = performance.now();
+      const tick = (now: number) => {
+        const x = clamp((now - t0) / ms);
+        p = from + (to - from) * (0.5 - Math.cos(Math.PI * x) / 2);
+        draw();
+        if (x < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
     };
+
     const onResize = () => { measure(); draw(); };
-    const io = new IntersectionObserver(([e]) => { on = !!e?.isIntersecting; if (on) { measure(); draw(); } });
-    io.observe(story);
-    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
+    document.fonts?.ready.then(onResize);
     onResize();
     return () => {
-      io.disconnect();
-      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
     };
   }, []);
+  useSwipeSteps(storyRef, pinRef, STOPS.length, (step, instant) => stepTo.current(step, instant));
 
   const big = { fontSize: "clamp(2.2rem, 4.2vw, 4rem)", lineHeight: 1.06 };
 
   return (
     <>
       {/* desktop and tablet: the scroll story */}
-      <section ref={storyRef} aria-labelledby="calm-title" className="relative hidden h-[560vh] bg-[#2A2B30] md:block">
-        <div className="sticky top-0 h-screen overflow-hidden">
+      <section ref={storyRef} aria-labelledby="calm-title" className="relative hidden h-[240vh] bg-[#2A2B30] motion-reduce:h-screen md:block">
+        <div ref={pinRef} className="sticky top-0 h-screen overflow-hidden">
           <div ref={worldRef} className="absolute left-1/2 top-[55%] h-0 w-0" style={{ willChange: "transform" }}>
             {/* the BloomBoard window everything lands in */}
             <div data-win aria-hidden style={{ willChange: "opacity, transform" }} className="absolute -left-[620px] -top-[262px] h-[524px] w-[1240px] rounded-[20px] bg-[#0E1014] opacity-0 bb-sh-window">

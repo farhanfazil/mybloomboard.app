@@ -19,6 +19,8 @@ type LiveDemoFrameProps = {
   eager?: boolean;
   /** Workspaces the demo offers, e.g. "personal,team" (home) or "freelance" (freelance page). */
   workspaces?: string;
+  /** Lay a cover over the window: swipes reach the page instead of the demo, a click calls this. */
+  cover?: () => void;
 };
 
 export default function LiveDemoFrame({
@@ -27,6 +29,7 @@ export default function LiveDemoFrame({
   className = "",
   eager = false,
   workspaces = "personal,team",
+  cover,
 }: LiveDemoFrameProps) {
   const frameRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0.72);
@@ -173,6 +176,7 @@ export default function LiveDemoFrame({
               }}
             />
           )}
+          {cover ? <div aria-hidden onClick={cover} className="absolute inset-0 z-10 cursor-pointer" /> : null}
         </div>
       </div>
       </div>

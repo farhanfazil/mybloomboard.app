@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import LiveDemoFrame from "@/components/sections/LiveDemoFrame";
-import HeroVerb from "@/components/sections/HeroVerb";
+import HeroWord, { HERO_WORDS } from "@/components/sections/HeroWord";
 import HeroSignals from "@/components/sections/HeroSignals";
 import { useDevice } from "@/lib/downloads";
+import { useSwipeSteps } from "@/lib/swipe-steps";
 import { AlsoAvailable, DownloadButton } from "@/components/ui/DownloadButton";
 import { WEB_APP_URL } from "@/components/ui/header-2";
 
@@ -13,15 +14,38 @@ import { WEB_APP_URL } from "@/components/ui/header-2";
  * The opening scene, "Product stage": charcoal with a faint dot grid (and Signals running along it,
  * HeroSignals.tsx), no picture; the product is the picture. A big
  * two-line headline where a blue "Re" arrives in front of "worked." (CSS only,
- * globals.css .bb-re), then the live demo lying back slightly; as you scroll the
- * window stands up. Script only sets transforms and opacity, once a frame,
- * and only near the top of the page.
+ * globals.css .bb-re), then the live demo lying back slightly. The hero stays put for
+ * one swipe per word (HeroWord.tsx, lib/swipe-steps.ts); after the last word the page
+ * moves on and the window stands up. Script only sets transforms and opacity, once a
+ * frame, and only near the top of the page.
  */
 export default function AppPreviewScroll() {
   // The download for the visitor's device: Mac, Windows or iPhone.
   const device = useDevice();
+  const zoneRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
   const copyRef = useRef<HTMLDivElement>(null);
   const tiltRef = useRef<HTMLDivElement>(null);
+  const [step, setStep] = useState(0);
+  useSwipeSteps(zoneRef, heroRef, HERO_WORDS.length, setStep);
+  const lastWord = step === HERO_WORDS.length - 1;
+
+  /* how far the page scrolls while the hero stays put */
+  const held = useCallback(() => (zoneRef.current?.offsetHeight ?? 0) - (heroRef.current?.offsetHeight ?? 0), []);
+
+  /* The demo sits inside the part that stays put, so a plain #live-demo link would stop short */
+  const toDemo = useCallback((behavior: ScrollBehavior) => {
+    const demo = document.getElementById("live-demo"), hero = heroRef.current, zone = zoneRef.current;
+    if (!demo || !hero || !zone) return;
+    const inHero = demo.getBoundingClientRect().top - hero.getBoundingClientRect().top;
+    window.scrollTo({ top: zone.getBoundingClientRect().top + window.scrollY + held() + inHero, behavior });
+  }, [held]);
+  useEffect(() => {
+    const onHash = () => { if (window.location.hash === "#live-demo") toDemo("auto"); };
+    onHash();
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, [toDemo]);
 
   useEffect(() => {
     const copy = copyRef.current, tilt = tiltRef.current;
@@ -31,7 +55,7 @@ export default function AppPreviewScroll() {
 
     let last = -1;
     const draw = () => {
-      const y = window.scrollY, vh = window.innerHeight;
+      const y = Math.max(0, window.scrollY - held()), vh = window.innerHeight;
       const t = Math.min(1, Math.max(0, y / (vh * 0.75)));
       if (t === last) return;
       last = t;
@@ -44,7 +68,7 @@ export default function AppPreviewScroll() {
 
     let queued = false;
     const onScroll = () => {
-      if (queued || (last === 1 && window.scrollY > window.innerHeight * 1.3)) return;
+      if (queued || (last === 1 && window.scrollY - held() > window.innerHeight * 1.3)) return;
       queued = true;
       requestAnimationFrame(() => { queued = false; draw(); });
     };
@@ -56,10 +80,11 @@ export default function AppPreviewScroll() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", draw);
     };
-  }, []);
+  }, [held]);
 
   return (
-    <section id="hero" className="relative -mt-16 overflow-hidden bg-[#0d0e11] pb-12 sm:pb-14">
+    <div ref={zoneRef} id="hero" className="relative -mt-16">
+    <section ref={heroRef} className="sticky top-0 overflow-hidden bg-[#0d0e11] pb-12 sm:pb-14">
       {/* -mt-16 (and 64 px more top padding): the charcoal runs up under the header, no black strip */}
       {/* a faint dot grid behind the headline, fading out before the demo */}
       <div
@@ -77,18 +102,12 @@ export default function AppPreviewScroll() {
       <HeroSignals avoid={copyRef} />
 
       <div ref={copyRef} className="relative flex flex-col items-center px-4 pb-2 pt-44 text-center sm:px-6 md:pt-48" style={{ willChange: "transform, opacity" }}>
-        {/* First thing people read: the live office, what sets BloomBoard apart (full story on /office) */}
-        <Link href="/office" className="group mb-7 inline-flex items-center gap-2 text-[14px] text-white/70 transition-colors hover:text-white">
-          <span className="h-2 w-2 rounded-full bg-[#34C77B]" aria-hidden />
-          <span><span className="font-semibold text-white">Your team gets an office too.</span><span className="hidden sm:inline"> See who&apos;s in, talk in one click.</span></span>
-          <Arrow />
-        </Link>
         <h1 className="font-semibold text-white" style={{ fontSize: "clamp(3.2rem, 7vw, 6.8rem)", lineHeight: 0.96, letterSpacing: "-0.052em" }}>
           <span className="sr-only">Teamwork. Reworked.</span>
           <span aria-hidden>
             Teamwork.
             <br />
-            <span className="bb-re"><span className="bb-re-re">Re</span><span className="bb-re-worked">worked.</span></span>
+            <span className="bb-re"><span className="bb-re-re">Re</span><span className="bb-re-worked"><HeroWord step={step} /></span></span>
           </span>
         </h1>
 
@@ -96,7 +115,7 @@ export default function AppPreviewScroll() {
         <p className="mt-5 text-[17px] leading-relaxed text-white/65">
           Tasks, boards, chat, calls and a live office.
           <br />
-          One app that <HeroVerb /> with you.
+          One app that <span className="font-semibold text-white">thinks</span> with you.
         </p>
 
         <div className="mt-7 flex flex-wrap items-center justify-center gap-2.5">
@@ -123,12 +142,15 @@ export default function AppPreviewScroll() {
       <div className="relative mx-auto mt-14 w-full max-w-6xl px-4 sm:px-6 sm:mt-16">
         <div ref={tiltRef} style={{ transformOrigin: "50% 0", willChange: "transform" }}>
           <div id="live-demo" data-hide-header className="relative z-10">
-            <LiveDemoFrame eager className="mx-auto" />
+            <LiveDemoFrame eager className="mx-auto" cover={lastWord ? undefined : () => toDemo("smooth")} />
           </div>
         </div>
       </div>
 
     </section>
+    {/* the swipes: one for each word after the first */}
+    <div aria-hidden className="motion-reduce:hidden" style={{ height: `${(HERO_WORDS.length - 1) * 60}vh` }} />
+    </div>
   );
 }
 
