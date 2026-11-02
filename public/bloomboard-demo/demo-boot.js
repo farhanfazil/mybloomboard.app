@@ -1132,6 +1132,7 @@
       'body.bb-has-ws-switcher .boards-overlay,' +
       'body.bb-has-ws-switcher #boards-overlay,' +
       'body.bb-has-ws-switcher .bookmarks-overlay,' +
+      'body.bb-has-ws-switcher .vx-ov,' +
       'body.bb-has-ws-switcher .overview-overlay,' +
       'body.bb-has-ws-switcher .bb-email-overlay{top:calc(var(--bb-demo-ws-total-offset,88px) + 52px)!important;left:0!important;right:0!important;bottom:0!important;height:auto!important}' +
       'body.bb-has-ws-switcher .chat-topbar,' +
