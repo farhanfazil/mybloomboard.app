@@ -2902,14 +2902,14 @@ body.bloom #bl-sc {
   --bl-scbg:#383b42; --bl-side:#2a2c32; --bl-win:#2a2c32; --bl-raise:#4a4e56; --bl-hover:#42454d; --bl-line:#50545c;
   --bl-fg:#ffffff; --bl-fg2:#eef0f3; --bl-fg3:#d3d6dc; --bl-accent:#ffffff; --bl-accent-fg:#15171c; --bl-accent-soft:#42454d;
   --bl-ok:#3cc283; --bl-bad:#ff9c9c; --bl-urgent:#ff9c9c; --bl-high:#e8913c; --bl-medium:#d9b23a; --bl-low:#d3d6dc;
-  --bl-bub:#4a4e56; --bl-bub-own:#eceef2; --sc-own-fg:#15171c; --sc-own-fg3:#4b505a; --tl-ring:var(--bl-scbg);   /* badge and status-dot cut-outs match the panel */
+  --bl-bub:#4a4e56; --bl-bub-own:#25395f; --sc-own-fg:#ffffff; --sc-own-fg3:#d3d6dc; --tl-ring:var(--bl-scbg);   /* badge and status-dot cut-outs match the panel */
 }
 /* Glacier: the board's blue, lifted. Status colours go paler to stay readable on it */
 body.bloom:not(.light-mode):not(.black-mode) #bl-sc {
   --bl-scbg:#34607f; --bl-side:#264560; --bl-win:#264560; --bl-raise:#44748f; --bl-hover:#3d6b8b; --bl-line:#4b7a9a;
   --bl-fg2:#e9f0f6; --bl-fg3:#dbe7ef; --bl-low:#dbe7ef; --bl-accent-fg:#0f2536; --bl-accent-soft:#3d6b8b;
   --bl-ok:#a8f0cb; --bl-bad:#ffc9c9; --bl-urgent:#ffc9c9; --bl-high:#ffd0a0; --bl-medium:#f2dc8a;
-  --bl-bub:#44748f; --bl-bub-own:#e9f0f6; --sc-own-fg:#0f2536; --sc-own-fg3:#44596a;
+  --bl-bub:#44748f; --bl-bub-own:#254c6f; --sc-own-fg:#ffffff; --sc-own-fg3:#dbe7ef;
 }
 /* Light: a white and blue mix. Ice blue panel, white messages and message box, your messages in the app blue */
 body.bloom.light-mode #bl-sc {
