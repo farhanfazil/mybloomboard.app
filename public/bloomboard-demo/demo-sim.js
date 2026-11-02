@@ -260,7 +260,8 @@
   /* Calm on purpose: no random chatter, knocks, waves or people coming and going.
      The story below sends one message at a time and a teammate answers it;
      only the "talking" dots in the Office rooms keep moving. */
-  if (LIVE_ROOMS.length) later(6000, speaking);
+  /* Start fresh is the visitor's own app: nothing plays. Teammates still answer when spoken to. */
+  if (LIVE_ROOMS.length && !window.__bbDemoFresh) later(6000, speaking);
 
   /* ── Drag and drop on the board ──
      A cursor picks a card up and drops it in the next column, so visitors see
@@ -916,7 +917,7 @@
       });
     });
   }
-  later(6000, answerPopups);
+  if (!window.__bbDemoFresh) later(6000, answerPopups);
 
   /* After the first drag: a note under Add Task inviting the visitor to try. */
   var hintDone = false;
@@ -1532,6 +1533,6 @@
   window.__bbDemoCycle = function () { cycle(); };
 
   if (STORY) watchStory();
-  else later(10000, firstMoves);
+  else if (!window.__bbDemoFresh) later(10000, firstMoves);
 
 })();

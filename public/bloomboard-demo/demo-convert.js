@@ -439,6 +439,8 @@
   ];
   function maybeAskInterest() {
     if (visit.interest || document.getElementById('bb-demo-interest')) return;
+    /* Personal and Start fresh stay silent */
+    if (window.__bbDemoFresh || window.getDemoWorkspaceMode() === 'personal') return;
     if (visit.seconds < 75 && visit.actions < 8) return;
     if (document.getElementById('bb-demo-welcome')) return;
     /* Not while the demo is showing its own story (demo-sim.js). */

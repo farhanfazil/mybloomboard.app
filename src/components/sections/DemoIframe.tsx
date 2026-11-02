@@ -77,11 +77,15 @@ export default function DemoIframe({ src, title, className = "", style, onState,
       if (id === null) return;
       if (e.data.type === "bb-demo-switch") {
         const newId = nextId.current++;
+        /* the new version starts with the whole window in view */
+        onFocusRef.current?.(null);
         setFrames((list) => [...list.filter((f) => f.shown), { id: newId, shown: false }]);
         window.setTimeout(() => reveal(newId), READY_TIMEOUT_MS);
       } else if (e.data.type === "bb-demo-ready") {
         reveal(id);
       } else if (e.data.type === "bb-demo-focus") {
+        /* only the newest frame moves the camera; the old one can still be playing while the new one loads */
+        if (id !== nextId.current - 1) return;
         const r = e.data.rect;
         const ok = r && [r.x, r.y, r.w, r.h].every((n: unknown) => typeof n === "number" && Number.isFinite(n)) && r.w > 0 && r.h > 0;
         onFocusRef.current?.(ok ? { x: r.x, y: r.y, w: r.w, h: r.h } : null);

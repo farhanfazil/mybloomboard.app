@@ -4,7 +4,8 @@
    transformed, so everything inside keeps working as it is. The moment the visitor touches anything,
    the camera lets go and stays out until they have left the demo alone for a while. */
 (function () {
-  if (window.parent === window) return;
+  /* only while the show can play: the Team sample, not Personal or Start fresh */
+  if (window.parent === window || window.__bbDemoFresh || !window.__bbDemo || !window.__bbDemo.signedIn()) return;
   var HOST = location.origin, IDLE_MS = 15000, HOLD_MS = 1600;
   var W = function () { return window.innerWidth || 1280; }, H = function () { return window.innerHeight || 920; };
   /* The part of the app a focus point belongs to, most specific first. A part bigger than most of the
