@@ -13,7 +13,7 @@ import { WEB_APP_URL } from "@/components/ui/header-2";
 /**
  * The opening scene, "Product stage": charcoal with a faint dot grid (and Signals running along it,
  * HeroSignals.tsx), no picture; the product is the picture. A big
- * two-line headline where a blue "Re" arrives in front of "worked." (CSS only,
+ * two-line headline where a blue "Re" arrives in front of "thought." (CSS only,
  * globals.css .bb-re), then the live demo lying back slightly. The hero stays put for
  * one swipe per word (HeroWord.tsx, lib/swipe-steps.ts); after the last word the page
  * moves on and the window stands up. Script only sets transforms and opacity, once a
@@ -103,7 +103,7 @@ export default function AppPreviewScroll() {
 
       <div ref={copyRef} className="relative flex flex-col items-center px-4 pb-2 pt-44 text-center sm:px-6 md:pt-48" style={{ willChange: "transform, opacity" }}>
         <h1 className="font-semibold text-white" style={{ fontSize: "clamp(3.2rem, 7vw, 6.8rem)", lineHeight: 0.96, letterSpacing: "-0.052em" }}>
-          <span className="sr-only">Teamwork. Reworked.</span>
+          <span className="sr-only">Teamwork. Rethought.</span>
           <span aria-hidden>
             Teamwork.
             <br />

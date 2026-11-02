@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 /* What comes after the blue "Re" in the headline, one per stop of the hero (AppPreviewScroll):
    the letters roll one after another, up and out as the next word rises in, and back down the
    same way when you scroll back. The box eases to each word's own width, so "Re" stays snug. */
-export const HERO_WORDS = ["worked.", "wired.", "thought."];
+export const HERO_WORDS = ["thought.", "designed.", "built."];
 
 export default function HeroWord({ step }: { step: number }) {
   const layers = useRef<(HTMLSpanElement | null)[]>([]);

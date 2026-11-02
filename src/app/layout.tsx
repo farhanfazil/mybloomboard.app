@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description:
     "Tasks, boards, chat, calls and a live office, in one app. The productivity app that thinks with you. Free to start on Mac, Windows and web.",
   openGraph: {
-    title: "BloomBoard: Teamwork. Reworked.",
+    title: "BloomBoard: Teamwork. Rethought.",
     description:
       "Tasks, boards, chat, calls and a live office, in one app. The productivity app that thinks with you. Free to start on Mac, Windows and web.",
     type: "website",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BloomBoard: Teamwork. Reworked.",
+    title: "BloomBoard: Teamwork. Rethought.",
     description:
       "Tasks, boards, chat, calls and a live office, in one app. The productivity app that thinks with you. Free to start on Mac, Windows and web.",
   },
