@@ -1380,9 +1380,9 @@
       if (window.bbSideChat && window.bbSideChat.toggle && !(window.bbSideChat.isOn && window.bbSideChat.isOn())) { try { window.bbSideChat.toggle(); } catch (e) {} }
       later(400, function () {
         shot(['#bl-sc']);
-        /* the team room tab (the Chats tab is a list with no message box) */
-        var rt = q('#bl-sc .sc-tab[data-sct="room"]');
-        if (rt && !rt.classList.contains('on')) { tap(rt, function () { rt.click(); later(500, write); }); return; }
+        /* the Team room row (the chat list has no message box) */
+        var rt = q('#bl-sc [data-sct="room"]');
+        if (rt) { tap(rt, function () { rt.click(); later(500, write); }); return; }
         write();
       });
       function write() {
