@@ -1255,9 +1255,7 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #bl-sc .sc-dm.un:hover { background:c
 .sc-st.busy { color:var(--bl-bad); }
 .sc-st.away { color:var(--bl-high); }
 .sc-dm.un b { color:var(--bl-fg) !important; font-weight:700 !important; }
-.sc-dm.un small { color:var(--bl-fg) !important; font-weight:500; }
 .sc-dmr { display:flex; flex-direction:column; align-items:flex-end; gap:5px; align-self:start; margin-top:2px; }
-.sc-dmr time { margin-top:0 !important; }
 .sc-un { min-width:20px; height:20px; padding:0 6px; border-radius:10px; background:var(--bl-accent); color:var(--bl-accent-fg); font:700 11px/20px var(--bl-ui); text-align:center; }
 .sc-tw { display:flex; flex-direction:column; align-items:flex-start; min-width:0; line-height:1.15; }
 .sc-sub { font-style:normal; font:500 11.5px var(--bl-ui); color:var(--bl-fg3); }
@@ -4988,11 +4986,9 @@ html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-hav[hidden] { dis
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-hback { flex:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-dm .sc-ri { display:grid; place-items:center; width:34px; height:34px; color:var(--bl-fg2); background:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-dm .sc-ri .bl-i { width:22px; height:22px; }
-html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-dm .sc-dmt small { font-size:12px; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-picker { left:0; right:0; top:56px; bottom:0; display:flex; flex-direction:column; border:0; border-radius:0 0 inherit inherit; background:var(--bl-scbg); box-shadow:none; animation:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-picker[hidden] { display:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-pk-list { flex:1; min-height:0; max-height:none; overflow:auto; }
-html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-dm time { font:500 11.5px var(--bl-ui); }
 
 /* Task and card comments (2026-11-02): a small Reply always under each comment, and a clear "Replying to". */
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) :is(#task-modal, #cw-side) .tm-cm-rpl { align-self:flex-start; margin:3px 2px 0; padding:1px 2px !important; border:0 !important; background:none !important; box-shadow:none !important; color:var(--bl-fg3) !important; font:500 12px var(--bl-ui) !important; cursor:pointer; }
