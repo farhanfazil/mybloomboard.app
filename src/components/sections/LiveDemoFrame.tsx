@@ -185,7 +185,7 @@ export default function LiveDemoFrame({
 
 const PLAN_LABEL: Record<string, string> = { personal: "Personal", team: "Team", freelance: "Freelance" };
 
-/** Above the window, like a toolbar: what this is, Start fresh, and the plan switch. */
+/** Above the window, like a toolbar: what this is, Try it yourself, and the plan switch. */
 function DemoControls({
   demo,
   pending,
@@ -200,7 +200,7 @@ function DemoControls({
   const options = demo?.options ?? [];
   return (
     <div className="bb-demo-controls mb-3 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
-      <p className="text-sm font-semibold text-white">{fresh ? "Fresh start" : "Live demo"}</p>
+      <p className="text-sm font-semibold text-white">{fresh ? "Try it yourself" : "Live demo"}</p>
       <div className={`flex items-center gap-2 transition-opacity ${demo ? "opacity-100" : "pointer-events-none opacity-0"}`}>
         <button
           type="button"
@@ -212,10 +212,10 @@ function DemoControls({
             {fresh ? (
               <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             ) : (
-              <path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M5 3l6.5 17 2.5-7 7-2.5z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             )}
           </svg>
-          {pending === "data" ? (fresh ? "Opening live demo" : "Starting fresh") : fresh ? "Back to live demo" : "Start fresh"}
+          {pending === "data" ? "Opening" : fresh ? "Watch the demo" : "Try it yourself"}
         </button>
         {options.length > 1 && (
           <div role="group" aria-label="Plan" className="flex h-9 items-center rounded-lg border border-white/15 p-[3px]">

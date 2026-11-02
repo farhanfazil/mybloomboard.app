@@ -113,7 +113,7 @@
     return inbox().concat(OLDER, SENT).filter(function (m) { return m.id === id; })[0] || null;
   }
 
-  /* "Start fresh" is a new download: no account connected yet (Connect shows the
+  /* "Try it yourself" is a new download: no account connected yet (Connect shows the
      Mac-app card). */
   api.bbGetOAuthState = function () {
     if (window.__bbDemoFresh) return Promise.resolve({ google: null, microsoft: null });

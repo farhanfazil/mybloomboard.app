@@ -117,7 +117,7 @@
     }
   }
 
-  /* "Sample data | Start fresh": the visitor can swap the sample workspace for an
+  /* "Live demo | Try it yourself": the visitor can swap the sample workspace for an
      empty one, like a new download. Kept for this tab (a refresh keeps the mode,
      the data still resets). ?data=fresh opens it directly. */
   var DEMO_DATA_KEY = 'bb-demo-data';
@@ -547,12 +547,12 @@
     try { sessionStorage.setItem(DEMO_DATA_KEY, value); } catch (e) {}
     try { if (window.bbTrack) window.bbTrack('data', value); } catch (e) {}
     var dataBtn = document.querySelector('.bb-demo-data-btn');
-    if (dataBtn) dataBtn.lastChild.textContent = value === 'fresh' ? 'Starting fresh' : 'Opening live demo';
+    if (dataBtn) dataBtn.lastChild.textContent = 'Opening';
     /* Drop ?data= so the choice just made is the one that loads. */
     var url = new URL(location.href);
     url.searchParams.delete('data');
     demoSwitchReload(function () { location.replace(url.toString()); },
-      value === 'fresh' ? 'Starting fresh' : 'Opening live demo');
+      'Opening');
   };
 
   function updateSwitcherActiveState() {
@@ -594,13 +594,13 @@
     var dataBtn = '<button type="button" class="bb-demo-data-btn" data-data="' + (fresh ? 'sample' : 'fresh') + '">' +
       (fresh
         ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-        : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') +
-      '<span>' + (fresh ? 'Back to live demo' : 'Start fresh') + '</span></button>';
+        : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l6.5 17 2.5-7 7-2.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') +
+      '<span>' + (fresh ? 'Watch the demo' : 'Try it yourself') + '</span></button>';
 
     el.innerHTML =
       '<div class="bb-demo-ws-switcher-inner">' +
       '<div class="bb-demo-ws-switcher-head">' +
-      '<span class="bb-demo-ws-title">' + (fresh ? 'Fresh start' : 'Live demo') + '</span>' +
+      '<span class="bb-demo-ws-title">' + (fresh ? 'Try it yourself' : 'Live demo') + '</span>' +
       '<span class="bb-demo-ws-hint">' + (fresh
         ? 'An empty app, just like a new download.'
         : (current === 'team' ? 'A sample team. Click anything, nothing you do is saved.' : 'A sample workspace. Click anything, nothing you do is saved.')) + '</span>' +
@@ -624,7 +624,7 @@
     return el;
   }
 
-  /* On the website the plan switch and Start fresh sit outside the window, in the
+  /* On the website the plan switch and Try it yourself sit outside the window, in the
      site's own bar (src/components/sections/LiveDemoFrame.tsx), so the demo looks
      like the app: its top bar is the first thing in the window. */
   var HOST_BAR = /[?&]embed=/.test(location.search) && window.parent !== window;
