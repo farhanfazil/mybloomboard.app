@@ -4992,3 +4992,4 @@ html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-dm .sc-dmt small 
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-picker { left:0; right:0; top:56px; bottom:0; display:flex; flex-direction:column; border:0; border-radius:0 0 inherit inherit; background:var(--bl-scbg); box-shadow:none; animation:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-picker[hidden] { display:none; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-pk-list { flex:1; min-height:0; max-height:none; overflow:auto; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #bl-sc .sc-dm time { font:500 11.5px var(--bl-ui); }
