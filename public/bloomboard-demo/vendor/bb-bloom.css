@@ -4943,6 +4943,7 @@ html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-sa-on svg { 
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-sa-on .tm-sa-more { flex:none; color:var(--bl-fg3) !important; font:600 12px var(--bl-ui); }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-sa-on .tm-sa-more:hover { color:var(--bl-fg) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-sub-clip.on { opacity:1; color:var(--bl-fg) !important; border-color:var(--bl-line) !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-sub-who.has { opacity:1; padding:0 2px !important; border-color:transparent !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-sub-item.tm-sa-open { border-color:var(--bl-line) !important; border-bottom-color:transparent !important; border-radius:10px 10px 0 0 !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-sub-item.tm-sa-drop { border-color:var(--bl-accent) !important; }
 html body.bloom:not(#_1):not(#_2):not(#_3):not(#_4) #task-modal .tm-sa-tray { margin-top:-4px; padding:2px 10px 10px 38px; background:var(--bb-field-bg); border:1px solid var(--bl-line); border-top:0; border-radius:0 0 10px 10px; }
