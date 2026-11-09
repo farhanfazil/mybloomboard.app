@@ -4790,6 +4790,7 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .gr-floor span.we { color:#e9c08a; pa
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-flag { position:absolute; bottom:26px; width:1.5px; height:calc(30px + var(--lift, 0) * 17px); background:rgba(247,245,239,.8); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-flag b { position:absolute; left:2px; top:0; padding:2px 11px 2px 6px; font:650 11px/1.2 var(--bl-ui); color:#fff; background:#0f766e; white-space:nowrap; clip-path:polygon(0 0, 100% 0, calc(100% - 7px) 50%, 100% 100%, 0 100%); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-flag.me b { background:#2f5fe0; }
+html body.bloom:not(#_1):not(#_2):not(#_3) .gr-flag.lead b { background:#b45309; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-plane { position:absolute; top:16%; display:flex; align-items:center; gap:4px; transform:translateX(-50%); transition:left 1.4s linear; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-plane svg { width:26px; height:14px; transform:rotate(-8deg); }
 html body.bloom:not(#_1):not(#_2):not(#_3) .gr-plane b { padding:2px 7px; border-radius:6px; background:#fff; color:#1b2433; font:700 11px var(--bl-ui); }
