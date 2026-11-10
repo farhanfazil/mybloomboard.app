@@ -135,6 +135,8 @@ html body:not(#_1):not(#_2):not(#_3) .pl-row.fin .pl-ck { background:var(--pl-do
 html body:not(#_1):not(#_2):not(#_3) .pl-row.fin .pl-ck svg { opacity:1; color:var(--bl-win) !important; }
 html body:not(#_1):not(#_2):not(#_3) .pl-row.fin .pl-tt { text-decoration:line-through; text-decoration-color:var(--bl-fg3); color:var(--bl-fg3) !important; font-weight:400; }
 html body:not(#_1):not(#_2):not(#_3) .pl-row.fin td, html body:not(#_1):not(#_2):not(#_3) .pl-row.fin .pl-note, html body:not(#_1):not(#_2):not(#_3) .pl-row.fin .pl-d { color:var(--bl-fg3) !important; }
+/* dropped rows: still in the list, quieter (no line through: not done, just taken out) */
+html body:not(#_1):not(#_2):not(#_3) .pl-row.out td, html body:not(#_1):not(#_2):not(#_3) .pl-row.out .pl-tt, html body:not(#_1):not(#_2):not(#_3) .pl-row.out .pl-note, html body:not(#_1):not(#_2):not(#_3) .pl-row.out .pl-d { color:var(--bl-fg3) !important; }
 html body:not(#_1):not(#_2):not(#_3) .pl-row.flash td { animation:plFlash 1s ease; }
 @keyframes plFlash { from { background:var(--bl-accent-soft); } }
 html body:not(#_1):not(#_2):not(#_3) .pl-st { display:inline-flex; align-items:center; gap:7px; border:0 !important; background:none !important; padding:3px 6px; margin:-3px -6px; border-radius:6px; cursor:pointer; font-weight:500; }

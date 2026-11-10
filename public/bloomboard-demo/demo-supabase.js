@@ -111,8 +111,8 @@ try {
     var pid = 'b1f0a0d0-0000-4000-8000-0000000000p1'.replace('p1', 'f1'), tab = 'tdemo1';
     DB.plans = [{ id: pid, team_id: IDS.team, created_by: IDS.me, deleted: false, name: 'Content calendar', description: 'Social posts for the spring launch',
       cols: [{ k: 'c0', label: 'Post', type: 'text' }, { k: 'c1', label: 'Publish date', type: 'date' }, { k: 'c2', label: 'Channel', type: 'text' }, { k: 'c3', label: 'Status', type: 'status' }, { k: 'c4', label: 'Owner', type: 'person' }, { k: 'c5', label: 'Notes', type: 'text', note: true }],
-      statuses: [{ k: 's0', label: 'Idea', c: 'not' }, { k: 's1', label: 'Writing', c: 'prog' }, { k: 's2', label: 'Waiting on design', c: 'miss' }, { k: 's3', label: 'Ready', c: 'done' }, { k: 's4', label: 'Posted', c: 'done' }],
-      final: 's3', reached: ['s3', 's4'], split: 'month', tabs: [{ id: tab, name: MF[m] + ' ' + y, y: y, m: m }],
+      statuses: [{ k: 's0', label: 'Idea', c: 'not' }, { k: 's1', label: 'Writing', c: 'prog' }, { k: 's2', label: 'Waiting on design', c: 'miss' }, { k: 's3', label: 'Ready', c: 'prog' }, { k: 's4', label: 'Posted', c: 'done' }],
+      final: 's4', reached: ['s4'], split: 'month', tabs: [{ id: tab, name: MF[m] + ' ' + y, y: y, m: m }],
       share: [{ t: 'dept', v: 'Marketing', r: 'edit' }], created_at: nowIso(), updated_at: nowIso() }];
     var posts = [['Launch teaser', 'Instagram', IDS.maya], ['Behind the scenes', 'TikTok', IDS.daniel], ['Customer story', 'LinkedIn', IDS.priya], ['Product tips #1', 'Instagram', IDS.maya],
       ['Team spotlight', 'LinkedIn', IDS.leo], ['Launch countdown', 'Instagram', IDS.maya], ['How it works video', 'YouTube', IDS.daniel], ['Product tips #2', 'Instagram', IDS.nora],
