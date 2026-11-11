@@ -3109,6 +3109,9 @@ html body.bloom:not(#_1):not(#_2):not(#_3) .ofv-seg button.on { color:var(--bl-f
 html body.bloom:not(#_1):not(#_2):not(#_3) .ofv-seg button:focus-visible { outline:2px solid var(--bl-accent); outline-offset:1px; }
 /* 2 per row: departments share the row in halves (still never under 300px, so narrow windows drop to one) */
 html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side.ofc-c2 { grid-template-columns:repeat(auto-fill, minmax(max(300px, calc((100% - var(--ofc-gap)) / 2)), 1fr)) !important; }
+/* No gaps: blocks pack up under shorter neighbours (officeMason sets --ofc-rows from each block's height) */
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side { grid-auto-rows:4px !important; row-gap:0 !important; }
+html body.bloom:not(#_1):not(#_2):not(#_3) #office-depts.ofc-side > :not(.office-dept-ghost) { grid-row-end:span var(--ofc-rows, 1) !important; }
 /* the chosen option reads clearly in every theme: accent text on the raised step */
 html body.bloom:not(#_1):not(#_2):not(#_3) .ofv-seg button.on { color:var(--bl-accent, #5b8def) !important; font-weight:700 !important; }
 html body.bloom.light-mode:not(#_1):not(#_2):not(#_3) .ofv-seg button.on { color:#2563d9 !important; background:#ffffff !important; }
