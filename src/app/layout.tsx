@@ -10,6 +10,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mybloomboard.app"),
+  itunes: { appId: "6816020016" },   /* Safari on iPhone shows the App Store banner */
   alternates: { canonical: "/" },
   title: "BloomBoard: Tasks, team chat and a live office in one app",
   description:

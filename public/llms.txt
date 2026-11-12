@@ -1,6 +1,6 @@
 # BloomBoard
 
-> BloomBoard is a calm productivity app for individuals and small teams: tasks, boards, calendar, notes, team chat, voice and video calls, a live virtual office, and an AI assistant (Bloom AI) that plans your day. Mac and Windows apps and a web app.
+> BloomBoard is a calm productivity app for individuals and small teams: tasks, boards, calendar, notes, team chat, voice and video calls, a live virtual office, and an AI assistant (Bloom AI) that plans your day. Mac and Windows apps, an iPhone app (App Store) and a web app.
 
 ## Plans
 - Free: for individuals, no time limit, no card needed. Tasks, boards, calendar, notes and reminders.

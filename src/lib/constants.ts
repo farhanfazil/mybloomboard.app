@@ -397,7 +397,7 @@ export const STATS = [
   { value: "100%", label: "Local storage" },
   { value: "None", label: "Cloud required" },
   { value: "Zero", label: "Accounts needed" },
-  { value: "Mac + Windows", label: "Platforms" },
+  { value: "Mac, Windows, iPhone", label: "Platforms" },
   { value: "Free", label: "To start" },
 ];
 
@@ -405,7 +405,7 @@ export const FAQS = [
   {
     question: "What is BloomBoard?",
     answer:
-      "BloomBoard is a productivity app for Mac and Windows. An iPhone app for Team members is coming soon. It brings tasks, reminders, milestones, streaks, hydration, boards, KPIs, reports, and AI planning into one focused dashboard.",
+      "BloomBoard is a productivity app for Mac and Windows, with an iPhone app for Team members on the App Store. It brings tasks, reminders, milestones, streaks, hydration, boards, KPIs, reports, and AI planning into one focused dashboard.",
   },
   {
     question: "Is BloomBoard free to start?",
@@ -460,7 +460,7 @@ export const FAQS = [
   {
     question: "Which devices are supported?",
     answer:
-      "BloomBoard runs on Mac (macOS 13 Ventura and later, Apple Silicon and Intel) and on Windows 10 and 11 through the Microsoft Store. An iPhone app for Team members is coming soon.",
+      "BloomBoard runs on Mac (macOS 13 Ventura and later, Apple Silicon and Intel) and on Windows 10 and 11 through the Microsoft Store. Team members can also use the iPhone app from the App Store (iOS 16.4 and later).",
   },
 ];
 

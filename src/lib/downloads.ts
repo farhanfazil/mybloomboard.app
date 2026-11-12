@@ -9,13 +9,13 @@ import { useEffect, useState } from "react";
 // click downloads "MyBloomBoard Installer.exe" straight away (no Store page); it installs
 // the Store version, so the right build for Intel/AMD or ARM, no security warning, and
 // the Store keeps it updated.
-// iPhone: the App Store page. Empty until the app is public; iPhone visitors then see
-// "coming soon" instead of an App Store button.
+// iPhone: the App Store page (live 2026-11-12). The link has no country in it, so Apple opens
+// each visitor's own store. Empty would bring back "coming soon".
 // Mac goes through our own address (src/app/download/mac/route.ts), which forwards to the
 // installer, so no page shows where the file is hosted.
 export const MAC_DOWNLOAD_URL = "/download/mac";
 export const WINDOWS_DOWNLOAD_URL = "https://get.microsoft.com/installer/download/9MX9BDKM26VP?cid=website_cta_psi";
-export const IOS_APP_STORE_URL = "";
+export const IOS_APP_STORE_URL = "https://apps.apple.com/app/id6816020016";
 
 export type DesktopOS = "mac" | "windows";
 export type DeviceOS = DesktopOS | "iphone" | "android";

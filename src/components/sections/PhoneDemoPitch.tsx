@@ -54,7 +54,7 @@ function script(os: string): { messages: string[]; replies: Reply[] } {
     messages: [
       hello,
       honest,
-      "The iPhone app is almost ready. Until then, send yourself the link and try the demo on your Mac or PC. No sign-up needed.",
+      "Send yourself the link and try the demo on your Mac or PC. It'll be waiting for you. No sign-up needed.",
     ],
     replies: [sendLink],
   };

@@ -16,7 +16,7 @@ import { useSearchParams } from "next/navigation";
 import { AnimatePresence, animate, motion, useMotionValue, useReducedMotion } from "framer-motion";
 import { createClient } from "@supabase/supabase-js";
 import { HolographicButterfly } from "@/components/sections/DeepDiveFlight";
-import { MAC_DOWNLOAD_URL, WINDOWS_DOWNLOAD_URL } from "@/lib/downloads";
+import { IOS_APP_STORE_URL, MAC_DOWNLOAD_URL, WINDOWS_DOWNLOAD_URL } from "@/lib/downloads";
 import { TEAM_SEAT_TIERS } from "@/lib/constants";
 
 type Plan = "free" | "bloom" | "team";
@@ -715,7 +715,7 @@ export default function StartFlow() {
                     )}
                     <a href={MAC_DOWNLOAD_URL} className="flex h-[50px] items-center justify-center rounded-xl bg-[#f5f5f7] text-[15px] font-bold text-black">Download for Mac</a>
                     <a href={WINDOWS_DOWNLOAD_URL} className="flex h-[50px] items-center justify-center rounded-xl border border-white/20 text-[15px] font-semibold">Download for Windows</a>
-                    <div className="text-center text-[13px] text-[#a1a1aa]">iPhone app coming soon</div>
+                    <a href={IOS_APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="text-center text-[13px] text-[#a1a1aa] underline-offset-4 hover:text-[#f5f5f7] hover:underline">Get the iPhone app on the App Store</a>
                   </div>
                 </div>
               </div>
