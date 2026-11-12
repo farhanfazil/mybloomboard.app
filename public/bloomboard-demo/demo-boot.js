@@ -347,7 +347,7 @@
     downloadChatImage: function (p) {
       var a = document.createElement('a');
       a.href = (p && p.src) || '';
-      a.download = ((p && p.suggestedName) || 'bloomboard-image') + '.png';
+      a.download = (p && p.fileName) || ((p && p.suggestedName) || 'bloomboard-image') + '.png';   /* a file keeps its own name */
       document.body.appendChild(a);
       a.click();
       a.remove();
