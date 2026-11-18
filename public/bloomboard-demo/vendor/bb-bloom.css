@@ -2292,6 +2292,8 @@ html body.bloom.bl-rail:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span { opac
 /* The icon sits above its label, so the label visibly slides in behind it and out from behind it. */
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > .bl-i { position:relative; z-index:1; }
 html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > span { position:relative; z-index:0; }
+/* Counts always sit on top of the icon. */
+html body.bloom:not(#_1):not(#_2):not(#_3) #bl-nav .bl-nav > .bl-badge { position:relative; z-index:2; }
 
 /* ── Calendar week: same split as the month ──
    Meetings (timed and all-day) are solid blocks with a coloured left edge, plus a camera when they
@@ -4493,6 +4495,26 @@ html body.bloom:not(#_1):not(#_2):not(#_3) #task-modal .tm-sub-rv { flex:none; c
 .bb-rv-line { display:flex; align-items:center; gap:6px; margin-top:6px; color:var(--bl-high, #f0a830); font-size:12.5px; font-weight:600; }
 .bb-rv-line svg { width:13px; height:13px; flex:none; }
 .bb-rv-line small { color:var(--bl-fg3, #8d93a0); font-weight:500; font-size:12px; }
+/* Clearing In Review (2026-11-18): how long it has waited, and the answer right there */
+.bb-rv-wait { display:flex; align-items:center; flex-wrap:wrap; gap:6px 8px; margin-top:8px; padding-top:8px; border-top:1px solid var(--bl-line, #26282e); color:var(--bl-fg2, #b4b9c3); font-size:12.5px; font-weight:500; }
+.bb-rv-wait > svg { width:13px; height:13px; flex:none; color:var(--bl-fg3, #8d93a0); }
+.bb-rv-wait > span:first-of-type { flex:1 0 auto; white-space:nowrap; }
+.bb-rv-wait em, .bl-rvw-w { font-style:normal; font-weight:600; }
+.bb-rv-wait em.old, .bl-rvw-w.old { color:var(--bl-high, #e8913c); }
+.bb-rv-wait em.late, .bl-rvw-w.late { color:var(--bl-urgent, #f06464); }
+.bb-rv-wait small { color:var(--bl-fg3, #8d93a0); font-size:12px; }
+.bb-rv-acts { display:inline-flex; gap:6px; flex:none; }
+.bb-nf-tx .bb-rv-acts { display:flex; margin-top:8px; }
+html body .bb-rv-b:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) { display:inline-flex; align-items:center; gap:5px; height:30px; padding:0 11px; border:1px solid var(--bl-line, #26282e) !important; border-radius:8px !important; background:var(--bl-raise, #1b1d22) !important; color:var(--bl-fg, #eceef2) !important; font:600 12.5px var(--bl-ui, system-ui); white-space:nowrap; cursor:pointer; box-shadow:none !important; }
+html body .bb-rv-b:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):hover { background:var(--bl-hover, #202227) !important; }
+html body .bb-rv-b.pri:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) { background:var(--bl-accent, #5b93ff) !important; border-color:var(--bl-accent, #5b93ff) !important; color:var(--bl-accent-fg, #0b0c0f) !important; }
+html body .bb-rv-b.pri:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5):hover { filter:brightness(1.08); }
+html body .bb-rv-acts.sm .bb-rv-b:not(#_1):not(#_2):not(#_3):not(#_4):not(#_5) { height:26px; padding:0 9px; font-size:12px; }
+.bb-rv-b svg { width:14px; height:14px; flex:none; }
+.bb-rv-acts.sm .bb-rv-b svg { width:13px; height:13px; }
+#bl-rvw .bl-sec-h .bl-rvw-sub { color:var(--bl-fg3); font-size:12.5px; }
+#bl-rvw .bl-rvw-row { align-items:center; gap:12px; }
+#bl-rvw .bl-rvw-row .t { flex:1; min-width:0; }
 /* Who added a link or file (2026-10-27): small round photo, name and time on hover */
 html body.bloom:not(#_1):not(#_2):not(#_3) .tm-by { flex:none; display:inline-flex; margin:0 2px 0 4px; }
 html body.bloom:not(#_1):not(#_2):not(#_3) .tm-by-av { width:20px; height:20px; border-radius:50%; display:inline-grid; place-items:center; font:600 8px/1 var(--bl-ui); color:#fff; background-size:cover; background-position:center; }
