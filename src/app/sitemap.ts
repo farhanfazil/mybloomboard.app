@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/work", priority: 0.7 },
     { path: "/refund", priority: 0.4 },
     { path: "/security", priority: 0.5 },
+    { path: "/claude", priority: 0.6 },
     { path: "/vs/trello", priority: 0.8 },
     { path: "/vs/clickup", priority: 0.8 },
     { path: "/vs/notion", priority: 0.8 },
