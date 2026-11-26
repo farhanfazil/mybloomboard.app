@@ -40,7 +40,7 @@ const SECTIONS: { title: string; body: string[] }[] = [
   },
   {
     title: "Contact",
-    body: ["MyBloomBoard, Dubai, United Arab Emirates.", "support@mybloomboard.app. We answer within two business days."],
+    body: ["Hatch Labs Technologies (BloomBoard), Dubai, United Arab Emirates.", "support@mybloomboard.app. We answer within two business days."],
   },
 ];
 
